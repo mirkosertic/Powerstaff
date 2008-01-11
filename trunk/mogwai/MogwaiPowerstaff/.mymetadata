@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="MogwaiPowerstaff"
+  id="myeclipse.1200083089929"
+  context-root="/powerstaff"
+  j2ee-spec="1.4"
+  archive="MogwaiPowerstaff.war">
+  <attributes>
+    <attribute name="webrootdir" value="/src/main/webapp" />
+  </attributes>
+</project-module>
+

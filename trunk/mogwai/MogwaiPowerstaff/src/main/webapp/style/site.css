@@ -1,0 +1,144 @@
+.lightgray {
+	background-color: #E9E9E9;
+}
+
+.darkgray {
+	background-color: #9F9F9F;
+}
+
+.green {
+	background-color: #6CB800;
+}
+
+.white {
+	background-color: #ffffff;
+}
+
+.whitetext {
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+.titleimage {
+	text-align: right;
+}
+
+.centered {
+	text-align: center;
+	vertical-align: middle;
+}
+
+.menu {
+	display: block;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #FFFFFF;
+	font-weight: bold;
+	line-height: 20px;
+	border: 1px solid #6CB800;
+}
+
+.menuitem {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	line-height: 20px;
+	text-decoration:none;
+}
+
+.menuitemSelected {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #ffffff;
+	font-weight: bold;
+	line-height: 20px;
+	text-decoration:none;
+}
+
+.menuitem2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	line-height: 20px;
+	text-decoration:none;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.link {
+	text-decoration:none;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #000000;
+}
+
+.menuitem:hover {
+	border: 1px solid #000000;
+}
+
+.menuitem2:hover {
+	border: 1px solid #000000;
+}
+
+.content {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	line-height: 16px;
+	color: #000000;
+	text-align: justify;
+	vertical-align: top;
+}
+
+.contentheader {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	line-height: 16px;
+	color: #9F9F9F;
+	text-align: justify;
+	vertical-align: top;
+	font-weight: bold;
+}
+
+.padding {
+	padding: 2px;
+}
+
+.title {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	font-weight:bold;
+	white-space: nowrap;
+}
+
+td {
+	text-align: left;
+	vertical-align: top;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	line-height: 20px;
+}
+
+.logintd {
+	text-align: right;
+	vertical-align: middle;
+}
+
+link {
+	color: #6CB800;
+}
+
+.contact {
+	color: black;
+	font-weight: bold;
+	text-decoration: none;	
+}
+
+.contact:hover {
+	color: black;
+	font-weight: bold;	
+	text-decoration: underline;
+}

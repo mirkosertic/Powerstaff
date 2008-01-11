@@ -1,0 +1,19 @@
+<f:subview id="contextmenu"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:b="http://mogwai.sourceforge.net/layout"
+    xmlns:a4j="http://richfaces.org/a4j">
+	<b:gridBagLayout rows="p,2,p,2,p" cols="100">
+		<b:cell x="1" y="1">
+			<b:commandLink action="#{partnerBackingBean.commandStammdaten}" immediate="true" styleClass="menuitem">
+				<h:outputText value="Stammdaten" />
+				<a4j:support event="onclick"/>
+			</b:commandLink>		
+		</b:cell>
+		
+		<b:cell x="1" y="3">
+			<h:outputText value="Kontakthistorie" styleClass="menuitemSelected" />
+		</b:cell>
+		
+	</b:gridBagLayout>
+</f:subview>

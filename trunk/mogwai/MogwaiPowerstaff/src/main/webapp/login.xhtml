@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<f:subview xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:b="http://mogwai.sourceforge.net/layout"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich">
+	<table width="100%" height="90%" cellspacing="0" cellpadding="0"
+		border="0">
+		<tr>
+			<td class="logintd">
+				<div align="center">
+					<b:gridBagLayout cols="300" rows="p">
+						<b:cell x="1" y="1">
+							<b:titledBox binding="#{loginBackingBean.data.viewRoot}"
+								label="Powerstaff Anmeldung">
+								<b:gridBagLayout cols="2,100,2,*,2" rows="2,p,2,p,2,p,20,p,2">
+
+									<b:cell x="2" y="2" width="3">
+										<a4j:status>
+											<f:facet name="start">
+												<b:image source="images/rotate2.gif" width="20" height="20" />
+											</f:facet>
+										</a4j:status>
+										<ui:include src="/include/messages.xhtml" />
+									</b:cell>
+
+									<b:cell x="2" y="4" valign="middle">
+										<b:label id="userid" label="Benutzername" />
+									</b:cell>
+
+									<b:cell x="4" y="4">
+										<b:inputfield required="true" labelComponentId="userid"
+											value="#{loginBackingBean.data.username}" />
+									</b:cell>
+
+									<b:cell x="2" y="6" valign="middle">
+										<b:label label="Kennwort" />
+									</b:cell>
+
+									<b:cell x="4" y="6">
+										<b:inputfield type="password"
+											value="#{loginBackingBean.data.password}" />
+									</b:cell>
+
+									<b:cell x="2" y="8" width="3" align="center">
+										<b:commandButton value="Anmelden"
+											action="#{loginBackingBean.commandLogin}">
+											<a4j:support event="onclick"
+												reRender="#{loginBackingBean.data.changedComponents}" />
+										</b:commandButton>
+									</b:cell>
+								</b:gridBagLayout>
+							</b:titledBox>
+						</b:cell>
+					</b:gridBagLayout>
+				</div>
+			</td>
+		</tr>
+	</table>
+</f:subview>

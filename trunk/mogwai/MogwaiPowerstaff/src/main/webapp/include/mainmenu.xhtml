@@ -1,0 +1,30 @@
+<f:subview id="mainmenu"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:b="http://mogwai.sourceforge.net/layout"
+    xmlns:a4j="http://richfaces.org/a4j">
+	<b:commandLink action="#{navigationBackingBean.commandFreelancer}" immediate="true" styleClass="menuitem2">
+		<h:outputText value="Freiberufler" />
+		<a4j:support event="onclick" id="click1" />
+	</b:commandLink>
+	<f:verbatim>|</f:verbatim>
+	<b:commandLink action="#{navigationBackingBean.commandProfile}" immediate="true" styleClass="menuitem2">
+		<h:outputText value="Profile" />
+		<a4j:support event="onclick" id="click2" />
+	</b:commandLink>
+	<f:verbatim>|</f:verbatim>
+	<b:commandLink action="#{navigationBackingBean.commandPartner}" immediate="true" styleClass="menuitem2">
+		<h:outputText value="Gesch&#228;ftspartner" />
+		<a4j:support event="onclick" id="click3" />
+	</b:commandLink>
+	<f:verbatim>|</f:verbatim>
+	<b:commandLink action="#{navigationBackingBean.commandCustomer}" immediate="true" styleClass="menuitem2">
+		<h:outputText value="Kunden" />
+		<a4j:support event="onclick" id="click4" />
+	</b:commandLink>
+	<f:verbatim>|</f:verbatim>
+	<b:commandLink action="#{navigationBackingBean.commandProjekte}" immediate="true" styleClass="menuitem2">
+		<h:outputText value="Projekte" />
+		<a4j:support event="onclick" id="click5" />
+	</b:commandLink>
+</f:subview>

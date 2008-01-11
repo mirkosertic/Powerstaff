@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="de.powerstaff.business.entity" default-lazy="false">
+  <class name="Customer" table="customer">
+
+		<id name="id" column="id">
+	        <generator class="increment"/>
+   		</id>
+	
+		<property column="creationDate" name="creationDate"/>
+		<property column="creationUser" name="creationUserID"/>
+		<property column="changedDate" name="lastModificationDate"/>
+		<property column="changedUser" name="lastModificationUserID"/>
+		
+		<property name="name1"/>
+		<property name="name2" />
+		<property name="company"/>
+		<property name="street"/>
+		<property name="country"/>
+		<property name="plz"/>
+		<property name="city"/>
+		<property name="comments" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+
+		<set name="contacts" cascade="all-delete-orphan" order-by="value">
+			<key column="customer_id"/>
+			<one-to-many class="CustomerContact"/>
+		</set>
+
+		<set name="history" cascade="all-delete-orphan" order-by="creationDate DESC">
+			<key column="customer_id"/>
+			<one-to-many class="CustomerHistory"/>
+		</set>
+
+  </class>
+</hibernate-mapping>

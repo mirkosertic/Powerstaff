@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:b="http://mogwai.sourceforge.net/layout"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:rich="http://richfaces.org/rich" template="/template/powerstaff.xhtml">
+	<ui:define name="mainmenu">
+		<ui:include src="/include/mainmenu.xhtml"/>
+	</ui:define>
+	<ui:define name="contextmenu">
+		<ui:include src="/include/freelancer/freelancermenu2.xhtml"/>
+	</ui:define>
+	<ui:define name="content">
+		<b:title title="Freiberufler - Kontakthistorie"/>	
+		<f:subview binding="#{freelancerBackingBean.data.viewRoot}">
+			<b:gridBagLayout rows="p,10" cols="200,p">
+				<b:cell y="1" x="1">
+					<h:outputText styleClass="title" value="Freiberufler Kontakthistorie"/>
+				</b:cell>
+				
+				<b:cell y="1" x="2">
+					<a4j:status>				
+						<f:facet name="start">
+							<b:image source="images/rotate2.gif" width="20" height="20"/>
+						</f:facet>
+					</a4j:status>
+				</b:cell>
+			</b:gridBagLayout>
+
+			<b:gridBagLayout cols="810" rows="10,p,1,p,p" id="menu">
+
+				<b:cell x="1" y="1">
+					<b:titledBox label="Neuen Eintrag erfassen">
+						<b:gridBagLayout cols="2,*,100,2"
+							rows="2,100,2,p,2">
+							<b:cell x="2" y="2" width="2">
+								<b:textarea id="input" required="true" value="#{freelancerBackingBean.data.newHistoryEntry}"/>
+							</b:cell>
+							<b:cell x="3" y="4">
+								<b:commandButton sizeToGridBag="true" value="Erfassen" action="#{freelancerBackingBean.commandAddNewHistoryEntry}">
+									<a4j:support event="onclick"
+										reRender="input,history" />
+								</b:commandButton>								
+							</b:cell>
+						</b:gridBagLayout>
+					</b:titledBox>
+				</b:cell>
+				
+				<b:cell x="1" y="4">
+					<ui:include src="/include/messages.xhtml"/>
+				</b:cell>
+
+				<b:cell x="1" y="5">
+					<b:table id="history" cols="20,790" var="row" value="#{freelancerBackingBean.data.history}">
+						<h:column>
+							<f:facet name="header">
+							</f:facet>
+							<b:commandLink title="Eintrag löschen" immediate="true" action="#{freelancerBackingBean.commandDeleteHistoryEntry}">
+								<b:image source="/images/delete.gif" />
+								<a4j:support event="onclick"
+									reRender="history" />
+							</b:commandLink>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Historie"/>
+							</f:facet>
+							<b:gridBagLayout cols="790" rows="p,2,p">
+
+								<b:cell x="1" y="1">
+									<h:outputText value="#{row}">
+										<f:converter converterId="auditInformationConverter"/>
+									</h:outputText>
+								</b:cell>
+
+								<b:cell x="1" y="3">
+									<h:outputText value="#{row.description}" escape="false">
+										<f:converter converterId="textConverter"/>
+									</h:outputText>
+								</b:cell>
+								
+							</b:gridBagLayout>
+						</h:column>
+					</b:table>
+				</b:cell>
+
+			</b:gridBagLayout>
+		</f:subview>
+	</ui:define>
+</ui:composition>	

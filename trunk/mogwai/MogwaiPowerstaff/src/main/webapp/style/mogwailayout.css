@@ -1,0 +1,371 @@
+.mogwaiTitledBoxHeaderCell {
+	border-top: 1px solid #000000;
+	border-left: 1px solid #000000;
+	border-right: 1px solid #000000;
+	background-color:#E9E9E9;
+}
+
+.mogwaiTitledBoxHeaderDiv {
+	color: #000000;
+	text-indent: 2px;
+    font-family:arial, helvetica, sans-serif;
+}
+
+.mogwaiTitledBoxContentCell {
+	background-color: #ffffff;
+	border: 1px solid #000000;
+	padding: 0px;
+    font-family:arial, helvetica, sans-serif;
+}
+
+.mogwaiInputfield {
+}
+
+.mogwaiInputfieldDisabled {
+	background-color: #f2f2f2;
+	border: 1px solid rgb(201,199,186);	
+	color: rgb(201,199,186);
+}
+
+.mogwaiEMailInputfield {
+}
+
+.mogwaiEMailInputfieldDisabled {
+	background-color: #f2f2f2;
+	border: 1px solid rgb(201,199,186);	
+	color: rgb(201,199,186);
+}
+
+.mogwaiNumberInputfield {
+}
+
+.mogwaiNumberInputfieldDisabled {
+	background-color: #f2f2f2;
+	border: 1px solid rgb(201,199,186);	
+	color: rgb(201,199,186);
+}
+
+.mogwaiDatePicker {
+}
+
+.mogwaiDatePickerDisabled {
+	background-color: #f2f2f2;
+	border: 1px solid rgb(201,199,186);	
+	color: rgb(201,199,186);
+}
+
+.mogwaiTextarea {
+	width: 100%;
+    font-family:arial, helvetica, sans-serif;	
+	font-size: 13px;    
+}
+
+.mogwaiTextareaDisabled {
+	background-color: #f2f2f2;
+	border: 1px solid rgb(201,199,186);	
+	color: rgb(201,199,186);
+	width: 100%;
+    font-family:arial, helvetica, sans-serif;
+	font-size: 13px;
+}
+
+.mogwaiCombobox {
+	width:100%;
+}
+
+.mogwaiComboboxDisabled {
+	width:100%;
+	background-color: #f2f2f2;
+}
+
+.mogwaiCheckbox {
+}
+
+.mogwaiCheckboxDisabled {
+}
+
+.mogwaiCheckboxText {
+	color: #000000;
+}
+
+.mogwaiRadiobutton {
+}
+
+.mogwaiRadiobuttonDisabled {
+}
+
+.mogwaiRadiobuttonText {
+	color: #000000;
+}
+
+.mogwaiLabel {
+	font-family:arial, helvetica, sans-serif;
+	font-size: 12px;	
+}
+
+.mogwaiGridBagLayout {
+}
+
+.mogwaiGridBagLayoutCell {
+	margin: 0px;
+	padding: 0px;	
+	font-family:arial, helvetica, sans-serif;
+	font-size: 12px;
+}
+
+.mogwaiGridBagLayoutCellContent {
+	color: #000000;
+	margin: 0px;
+	padding: 0px;		
+}
+
+.mogwaiTable {
+	empty-cells: show;
+	table-layout: fixed; 
+}
+
+.mogwaiTableGroupRow {
+	font-family:arial, helvetica, sans-serif;
+	font-size: 12px;	
+}
+
+.mogwaiTableGroupCell {
+	font-family:arial, helvetica, sans-serif;
+	font-size: 12px;	
+}
+
+.mogwaiTableHeaderRow {
+	background-color:#E9E9E9;
+	font-family:arial, helvetica, sans-serif;
+	font-size: 12px;	
+}
+
+.mogwaiTableHeaderCell {
+	border-top: 1px solid #000000;	
+	border-left: 1px solid #000000;		
+	border-bottom: 1px solid #000000;
+	font-family:arial, helvetica, sans-serif;
+	font-weight: bold;
+	color: #000000;
+	text-indent: 2px;	
+	empty-cells: show;	
+	padding-right: 2px;
+	text-align:left;
+}
+
+.mogwaiTableHeaderCellLast {
+	border: 1px solid #000000;
+	font-family:arial, helvetica, sans-serif;
+	font-weight: bold;
+	color: #000000;
+	text-indent: 2px;
+	empty-cells: show;			
+	padding-right: 2px;
+	text-align:left;
+}
+
+.mogwaiTableFooterRow {
+	background-color:rgb(236,244,255);
+	font-family:arial, helvetica, sans-serif;
+	font-size: 12px;	
+}
+
+.mogwaiTableFooterCell {
+	border-left: 1px solid #000000;		
+	border-bottom: 1px solid #000000;
+	font-family:arial, helvetica, sans-serif;
+	font-weight: bold;
+	color: #000000;
+	text-indent: 2px;	
+	empty-cells: show;	
+	padding-right: 2px;
+}
+
+.mogwaiTableFooterCellLast {
+	border-left: 1px solid #000000;	
+	border-right: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+	font-family:arial, helvetica, sans-serif;
+	font-weight: bold;
+	color: #000000;
+	text-indent: 2px;
+	empty-cells: show;			
+	padding-right: 2px;
+}
+
+.mogwaiTableRow {
+}
+
+.mogwaiTableCellEven {
+	background-color: #ffffff;		
+	border-left: 1px solid #000000;	
+	border-bottom: 1px solid #000000;
+	text-indent: 2px;			
+	font-family:arial, helvetica, sans-serif;
+	font-size: 12px;	
+	empty-cells: show;	
+	padding-right: 2px;	
+}
+
+.mogwaiTableCellEvenLast {
+	background-color: #ffffff;		
+	border-left: 1px solid #000000;	
+	border-right: 1px solid #000000;		
+	border-bottom: 1px solid #000000;
+	text-indent: 2px;			
+	font-family:arial, helvetica, sans-serif;
+	font-size: 12px;	
+	empty-cells: show;	
+	padding-right: 2px;	
+}
+
+.mogwaiTableCellOdd {
+	background-color: #EDFFD3;
+	border-left: 1px solid #000000;	
+	border-bottom: 1px solid #000000;
+	text-indent: 2px;			
+	font-family:arial, helvetica, sans-serif;
+	font-size: 12px;	
+	padding-right: 2px;	
+}
+
+.mogwaiTableCellOddLast {
+	background-color: #EDFFD3;
+	border-left: 1px solid #000000;	
+	border-right: 1px solid #000000;		
+	border-bottom: 1px solid #000000;
+	text-indent: 2px;			
+	font-family:arial, helvetica, sans-serif;
+	font-size: 12px;	
+	padding-right: 2px;	
+}
+
+.mogwaiNoDataCell {
+	background-color: #ffffff;			
+	border-left: 1px solid #000000;	
+	border-right: 1px solid #000000;		
+	border-bottom: 1px solid #000000;
+	text-indent: 2px;			
+	font-family:arial, helvetica, sans-serif;
+	font-size: 12px;	
+	padding-right: 2px;	
+}
+
+.mogwaiRequiredMarker {
+	font-size: 20px; 
+	font-weight: bold; 
+	color: #ff0000; 
+	position:absolute; 
+	top:0px; 
+	left:-8px;
+	height:20px;
+	width:5px;
+}
+
+.mogwaiInvalidMarker {
+	font-size: 20px; 
+	font-weight: bold; 
+	color: #ff0000; 
+	position:absolute; 
+	top:0px; 
+	left:-8px;
+	height:20px;
+	width:5px;
+}
+
+.mogwaiButton {
+}
+
+.mogwaiButtonDisabled {
+	background-color: #f2f2f2;
+	border: 1px solid rgb(201,199,186);	
+	color: rgb(201,199,186);
+}
+
+.mogwaiRadiolistValid {
+}
+
+.mogwaiRadiolistInvalid {
+	border: 1px solid red;
+}
+
+.mogwaiCheckboxlistValid {
+}
+
+.mogwaiCheckboxlistInvalid {
+	border: 1px solid red;
+}
+
+.mogwaiModalbackground {
+	opacity: 0.4;
+	filter: alpha(opacity=40);
+	background-color:transparent;
+	background-color: #333333;
+	background-image: url("images/maskbg.png");
+	background-image:none;
+	background-repeat: repeat;
+	text-align: center;
+}
+
+.mogwaiModalforeground {
+	z-index: 9100;
+	text-align: center;
+	width:100%;
+	height:100%;
+	position:absolute;
+}
+
+.mogwaiModalcontentcell {
+	background-color: green;
+ 	z-index: 10010;
+ 	vertical-align: middle;
+}
+
+.mogwaiScroll {
+	overflow: auto;
+}
+
+.mogwaiScrollPreserve {
+	overflow: auto;
+}
+
+.mogwaiGroupBoxBorderLeft {
+}
+
+.mogwaiGroupBoxBorderTop {
+}
+
+.mogwaiGroupBoxBorderBottom {
+}
+
+.mogwaiGroupBoxBorderRight {
+}
+
+.mogwaiGroupBoxAll {
+	position: relative;
+}
+
+.mogwaiGroupBox {
+	border: 1px solid #000000;		
+	display: block;
+}
+
+.mogwaiGroupBoxTitel {
+	white-space: nowrap;	
+	background-color: white;
+	padding-left: 5px;
+	padding-right: 5px;	
+	font-weight: bold;
+	position: absolute;
+	border : none;
+	top: -8px;
+	left: 10px;
+}
+
+body {
+  background-color:white; 
+  margin-left:0px; 
+  margin-right:0px; 
+  margin-top:0px; 
+  margin-bottom:0px;  
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="de.powerstaff.business.entity" default-lazy="false">
+  <class name="Freelancer" table="freelancer">
+
+		<id name="id" column="id">
+	        <generator class="increment"/>
+   		</id>
+	
+		<property column="creationDate" name="creationDate"/>
+		<property column="creationUser" name="creationUserID"/>
+		<property column="changedDate" name="lastModificationDate"/>
+		<property column="changedUser" name="lastModificationUserID"/>
+		
+		<property name="name1"/>
+		<property name="name2" />
+		<property name="company"/>
+		<property name="street"/>
+		<property name="country"/>
+		<property name="plz"/>
+		<property name="city"/>
+		<property name="comments" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+		<property name="contactforbidden"/>
+		<property name="workplace"/>
+		<property name="availability"/>
+		<property name="sallary"/>
+		<property name="code"/>
+		<property name="contactPerson"/>
+		<property name="contactType"/>
+		<property name="contactReason"/>
+		<property name="lastContact"/>
+		<property name="skills"  type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+		<property name="gulpID"/>
+		<property name="showAgain"/>
+
+		<set name="contacts" cascade="all-delete-orphan" order-by="value">
+			<key column="freelancer_id"/>
+			<one-to-many class="FreelancerContact"/>
+		</set>
+
+		<set name="history" cascade="all-delete-orphan" order-by="creationDate DESC">
+			<key column="freelancer_id"/>
+			<one-to-many class="FreelancerHistory"/>
+		</set>
+		
+		<property name="sallaryPerDay"/>
+		<property name="sallaryComment" type="org.springframework.orm.hibernate3.support.ClobStringType"/>		
+		<property name="status"/>
+
+		<many-to-one name="partner" class="Partner">
+			<column name="partner_id"/>
+		</many-to-one>  
+
+		<set name="projects" cascade="all-delete-orphan">
+			<key column="freelancer_id"/>
+			<one-to-many class="ProjectPosition" />
+		</set>
+		
+		<property name="sallaryPartner"/>
+		<property name="sallaryPartnerPerDay"/>
+		
+  </class>
+</hibernate-mapping>
