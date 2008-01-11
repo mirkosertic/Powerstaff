@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:b="http://mogwai.sourceforge.net/layout"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:rich="http://richfaces.org/rich" template="/template/powerstaff.xhtml">
+	<ui:define name="mainmenu">
+		<ui:include src="/include/mainmenu.xhtml"/>
+	</ui:define>
+	<ui:define name="contextmenu">
+		<ui:include src="/include/profile/profilemenu1.xhtml"/>
+	</ui:define>
+	<ui:define name="content">
+		<b:title title="Profilsuche"/>	
+		<f:subview binding="#{profileBackingBean.data.viewRoot}">
+			<b:gridBagLayout id="x" rows="p,10" cols="100,p">
+				<b:cell y="1" x="1">
+					<h:outputText styleClass="title" value="Profilsuche"/>
+				</b:cell>
+				
+				<b:cell y="1" x="2">
+					<a4j:status>				
+						<f:facet name="start">
+							<b:image source="images/rotate2.gif" width="20" height="20"/>
+						</f:facet>
+					</a4j:status>
+				</b:cell>
+			</b:gridBagLayout>
+
+			<b:gridBagLayout cols="400,10,400" rows="30,10,1,p" id="menu">
+				<b:cell x="1" y="1" width="3">
+					<b:titledBox label="Profilsuche">
+						<b:gridBagLayout cols="1,150,2,*,2,20,2"
+							rows="2,p,2">
+							<b:cell x="2" y="2">
+								<b:label id="labelsuche" label="Suche"/>
+							</b:cell>
+							<b:cell x="4" y="2">
+								<b:inputfield labelComponentId="labelsuche" id="input" value="#{profileBackingBean.data.searchString}" required="true"/>
+							</b:cell>
+							<b:cell x="6" y="2">
+								<b:commandLink title="Suchen" action="#{profileBackingBean.commandSearch}">
+									<b:image source="/images/search.gif" />
+									<a4j:support event="onclick"
+										reRender="input" />
+								</b:commandLink>
+							</b:cell>
+						</b:gridBagLayout>
+					</b:titledBox>
+				</b:cell>
+				
+				<b:cell x="1" y="3" width="3">
+					<ui:include src="/include/messages.xhtml"/>
+				</b:cell>
+
+				<b:cell x="1" y="4" width="3">
+					<a4j:outputPanel ajaxRendered="true">
+					<b:table rendered="#{profileBackingBean.data.searchResultSize > 0}" var="row" value="#{profileBackingBean.data.searchResult}" cols="20,150,150,130,100,260">
+						<h:column>
+							<f:facet name="header">
+							</f:facet>
+							<b:commandLink title="Springe zur Freiberufler - Ansicht" rendered="#{!empty row.freelancer.id}" action="#{profileBackingBean.commandSelectSearchResult}">
+								<b:image source="/images/select.gif" />
+								<a4j:support event="onclick"/>
+							</b:commandLink>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Name1"/>
+							</f:facet>
+							<h:outputText value="#{row.freelancer.name1}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Name2"/>
+							</f:facet>
+							<h:outputText value="#{row.freelancer.name2}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Verfügbarkeit"/>
+							</f:facet>
+							<h:outputText value="#{row.freelancer.availability}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Code"/>
+							</f:facet>
+							<h:outputText value="#{row.code}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Skills"/>
+							</f:facet>
+							<h:outputText value="#{row.highlightResult}" escape="false"/>
+						</h:column>
+					</b:table>
+					</a4j:outputPanel>
+				</b:cell>
+		
+			</b:gridBagLayout>
+			
+		</f:subview>			
+	</ui:define>
+</ui:composition>	

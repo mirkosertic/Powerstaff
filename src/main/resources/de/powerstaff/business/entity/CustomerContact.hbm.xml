@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="de.powerstaff.business.entity" default-lazy="false">
+  <class name="CustomerContact" table="customer_contact">
+
+		<id name="id" column="id">
+	        <generator class="increment"/>
+		</id>
+
+		<property column="creationDate" name="creationDate"/>
+		<property column="creationUser" name="creationUserID"/>
+		<property column="changedDate" name="lastModificationDate"/>
+		<property column="changedUser" name="lastModificationUserID"/>
+		
+		<property name="value"/>
+
+		<many-to-one name="type" class="ContactType">
+			<column name="type_id"/>
+		</many-to-one>
+  </class>
+</hibernate-mapping>

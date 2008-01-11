@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="configurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<bean
+				class="org.springframework.core.io.ClassPathResource">
+				<constructor-arg>
+					<value>configuration.properties</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="datasource"
+		class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:/powerstaffdb" />
+	</bean>
+
+	<bean id="txManager"
+		class="org.springframework.transaction.jta.JtaTransactionManager">
+		<property name="userTransactionName" value="UserTransaction" />
+		<property name="transactionManagerName"
+			value="java:/TransactionManager" />
+	</bean>
+
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="get*" propagation="REQUIRED"
+				read-only="true" />
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="businessServiceInterfacePointcut"
+			expression="execution(public * de.powerstaff.business.service.impl.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice"
+			pointcut-ref="businessServiceInterfacePointcut" />
+	</aop:config>
+
+
+	<bean id="auditInterceptor"
+		class="de.mogwai.common.dao.hibernate.AuditInterceptor">
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="datasource" />
+		<property name="entityInterceptor" ref="auditInterceptor" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.show_sql">
+					${kias.hibernate.showsql}
+				</prop>
+				<prop key="hibernate.dialect">
+					${kias.database.dialect}
+				</prop>
+				<prop key="hibernate.jdbc.use_streams_for_binary">
+					true
+				</prop>
+				<prop key="transaction.factory_class">
+					org.hibernate.transaction.JTATransactionFactory
+				</prop>
+				<prop key="jta.UserTransaction">
+					java:comp/UserTransaction
+				</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+		<property name="lobHandler">
+			<bean
+				class="org.springframework.jdbc.support.lob.DefaultLobHandler">
+			</bean>
+		</property>
+		<property name="mappingLocations">
+			<list>
+				<value>
+					classpath:/de/powerstaff/business/entity/Freelancer.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/FreelancerContact.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/FreelancerHistory.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/ContactType.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/Partner.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/PartnerContact.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/PartnerHistory.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/Customer.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/CustomerContact.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/CustomerHistory.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/Project.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/ProjectHistory.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/ProjectPosition.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/User.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/JobInfo.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/SystemParameter.hbm.xml
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="hibernateTemplate"
+		class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- 
+		Definition der DAOs
+	 -->
+	<bean id="projectDAO" class="de.powerstaff.business.dao.hibernate.ProjectDAOHibernateImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+
+	<bean id="partnerDAO" class="de.powerstaff.business.dao.hibernate.PartnerDAOHibernateImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+
+	<bean id="customerDAO" class="de.powerstaff.business.dao.hibernate.CustomerDAOHibernateImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+	
+	<bean id="freelancerDAO" class="de.powerstaff.business.dao.hibernate.FreelancerDAOHibernateImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+
+	<bean id="systemParameterDAO" class="de.mogwai.common.dao.hibernate.SystemParameterDaoHibernateImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+	
+	<bean id="additionalDataDAO" class="de.powerstaff.business.dao.hibernate.AdditionalDataDAOHibernateImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+
+	<bean id="authenticationDAO" class="de.powerstaff.business.dao.hibernate.AuthenticationDAOHibernateImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+
+	<bean id="serviceLoggerDAO" class="de.powerstaff.business.dao.hibernate.ServiceLoggerDAOHibernateImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+	
+	<!-- 
+		Definition der Services
+	 -->
+	<bean id="additinalDataService" class="de.powerstaff.business.service.impl.AdditionalDataServiceImpl">
+		<property name="additionalDataDAO" ref="additionalDataDAO"/>
+	</bean>
+	 
+	<bean id="projectService" class="de.powerstaff.business.service.impl.ProjectServiceImpl">
+		<property name="projectDAO" ref="projectDAO"/>
+	</bean>
+	
+	<bean id="customerService" class="de.powerstaff.business.service.impl.CustomerServiceImpl">
+		<property name="customerDAO" ref="customerDAO"/>
+	</bean>
+
+	<bean id="partnerService" class="de.powerstaff.business.service.impl.PartnerServiceImpl">
+		<property name="partnerDAO" ref="partnerDAO"/>
+	</bean>
+
+	<bean id="freelancerService" class="de.powerstaff.business.service.impl.FreelancerServiceImpl">
+		<property name="freelancerDAO" ref="freelancerDAO"/>
+	</bean>
+	
+	<bean id="systemParameterService"
+		class="de.powerstaff.business.service.impl.PowerstaffSystemParameterServiceImpl">
+		<property name="systemParameterDao" ref="systemParameterDAO"/>
+	</bean>
+
+	<bean id="websiteDAO"
+		class="de.powerstaff.business.dao.generic.WebsiteURLDAOImpl">
+		<property name="systemParameterService"
+			ref="systemParameterService" />
+	</bean>
+
+	<bean id="authenticationService"
+		class="de.powerstaff.business.service.impl.AuthenticationServiceImpl">
+		<property name="authenticationDAO" ref="authenticationDAO" />
+	</bean>
+
+	<bean id="profileSearchService"
+		class="de.powerstaff.business.service.impl.ProfileSearchServiceImpl">
+		<property name="freelancerService" ref="freelancerService" />
+		<property name="systemParameterService"
+			ref="systemParameterService" />
+	</bean>
+
+	<bean id="serviceLoggerService"
+		class="de.powerstaff.business.service.impl.ServiceLoggerServiceImpl">
+		<property name="serviceLoggerDAO" ref="serviceLoggerDAO" />
+	</bean>
+
+	<bean id="profileIndexerService"
+		class="de.powerstaff.business.service.impl.ProfileIndexerServiceImpl">
+		<property name="serviceLogger" ref="serviceLoggerService" />
+		<property name="systemParameterService"	ref="systemParameterService" />
+	</bean>
+
+	<bean id="webSyncService"
+		class="de.powerstaff.business.service.impl.WebSyncServiceImpl">
+		<property name="serviceLogger" ref="serviceLoggerService" />
+		<property name="projectDAO" ref="projectDAO" />
+		<property name="websiteDAO" ref="websiteDAO" />
+		<property name="systemParameterService" ref="systemParameterService"/>
+	</bean>
+
+	<bean id="newsletterService"
+		class="de.powerstaff.business.service.impl.NewsletterServiceImpl">
+		<property name="serviceLogger" ref="serviceLoggerService" />
+		<property name="websiteDAO" ref="websiteDAO" />
+		<property name="systemParameterService"
+			ref="systemParameterService" />
+	</bean>
+
+	<bean id="indexerJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="profileIndexerService" />
+		<property name="targetMethod">
+			<value>runIndexer</value>
+		</property>
+	</bean>
+
+	<bean id="perMinuteCronTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="indexerJobDetail" />
+		<property name="cronExpression">
+			<value>0 0,5,10,15,20,25,30,35,40,45,50,55 * * * ?</value>
+		</property>
+	</bean>
+
+	<bean id="webSyncJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="webSyncService" />
+		<property name="targetMethod">
+			<value>sync</value>
+		</property>
+	</bean>
+
+	<bean id="webSyncPerMinuteCronTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="webSyncJobDetail" />
+		<property name="cronExpression">
+			<value>0 0,5,10,15,20,25,30,35,40,45,50,55 * * * ?</value>
+		</property>
+	</bean>
+
+
+	<bean id="newsletterJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="newsletterService" />
+		<property name="targetMethod">
+			<value>sendNewsletter</value>
+		</property>
+	</bean>
+
+	<bean id="newsletterPerMinuteCronTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="newsletterJobDetail" />
+		<property name="cronExpression">
+			<value>0 0 18 ? * 3,5</value>
+		</property>
+	</bean>
+
+	<bean
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="perMinuteCronTrigger" />
+				<ref bean="webSyncPerMinuteCronTrigger"/>
+				<ref bean="newsletterPerMinuteCronTrigger"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.jmx.export.MBeanExporter">
+		<property name="server">
+			<bean class="org.jboss.mx.util.MBeanServerLocator"
+				factory-method="locateJBoss" />
+		</property>
+		<property name="beans">
+			<map>
+				<entry key="powerstaff:name=HibernateStatistics">
+					<bean class="org.hibernate.jmx.StatisticsService">
+						<property name="sessionFactory"
+							ref="sessionFactory" />
+						<property name="statisticsEnabled">
+							<value>true</value>
+						</property>
+					</bean>
+				</entry>
+				<entry key="powerstaff:name=Log4JConfiguration">
+					<bean
+						class="org.apache.log4j.jmx.HierarchyDynamicMBean" />
+				</entry>
+				<entry key="powerstaff:name=SystemParameter"
+					value-ref="systemParameterService" />
+				<entry key="powerstaff:name=Newsletter"
+					value-ref="newsletterService" />
+				<entry key="powerstaff:name=ProfileIndexer"
+					value-ref="profileIndexerService" />
+				<entry key="powerstaff:name=WebSync"
+					value-ref="webSyncService" />
+			</map>
+		</property>
+		<property name="assembler">
+			<bean
+				class="org.springframework.jmx.export.assembler.InterfaceBasedMBeanInfoAssembler">
+				<property name="managedInterfaces">
+					<value>
+						de.powerstaff.business.service.PowerstaffSystemParameterService,
+						de.powerstaff.business.service.NewsletterServicePublicInterface,
+						de.powerstaff.business.service.ProfileIndexerServicePublicInterface,
+						de.powerstaff.business.service.WebSyncServicePublicInterface						
+					</value>
+				</property>
+			</bean>
+		</property>
+	</bean>
+</beans>
