@@ -10,7 +10,7 @@ import de.mogwai.common.web.component.ComponentUtils;
 
 public abstract class NavigatingBackingBeanDataModel<T extends Entity> extends EntityEditorBackingBeanDataModel<T> {
 
-	private UIComponent viewRoot;
+	private transient UIComponent viewRoot;
 
 	protected NavigatingBackingBeanDataModel() {
 	}
@@ -23,7 +23,7 @@ public abstract class NavigatingBackingBeanDataModel<T extends Entity> extends E
 	 * @return the viewRoot
 	 */
 	public UIComponent getViewRoot() {
-		return null;
+		return viewRoot;
 	}
 
 	/**

@@ -1,5 +1,10 @@
 package de.powerstaff.web.backingbean.profile;
 
+import java.util.ArrayList;
+
+import javax.faces.component.StateHolder;
+import javax.faces.context.FacesContext;
+
 import de.mogwai.common.command.EditEntityCommand;
 import de.mogwai.common.logging.Logger;
 import de.mogwai.common.web.backingbean.WrappingBackingBean;
@@ -12,7 +17,7 @@ import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 
 public class ProfileBackingBean extends
 		WrappingBackingBean<ProfileBackingBeanDataModel> implements
-		MessageConstants {
+		MessageConstants , StateHolder {
 
 	private final static Logger LOGGER = new Logger(ProfileBackingBean.class);
 
@@ -74,4 +79,22 @@ public class ProfileBackingBean extends
 								.getRowData()).getFreelancer()));
 		return "FREELANCER_STAMMDATEN";
 	}
+	
+	public boolean isTransient() {
+		return false;
+	}
+
+	public void setTransient(boolean aValue) {
+	}
+
+	public void restoreState(FacesContext aContext, Object aValue) {
+		Object[] theData = (Object[]) aValue;
+		setData((ProfileBackingBeanDataModel)theData[0]);
+	}
+
+	public Object saveState(FacesContext aContext) {
+		ArrayList theData = new ArrayList();
+		theData.add(getData());
+		return theData.toArray();
+	}	
 }

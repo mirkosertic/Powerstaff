@@ -12,7 +12,7 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 
 	private String searchString;
 
-	private UIComponent viewRoot;
+	private transient UIComponent viewRoot;
 	
 	private CollectionDataModel<ProfileSearchResult> searchResult = new CollectionDataModel<ProfileSearchResult>(new Vector<ProfileSearchResult>());
 	

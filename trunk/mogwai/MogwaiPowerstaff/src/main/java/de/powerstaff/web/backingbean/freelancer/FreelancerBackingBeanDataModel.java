@@ -64,6 +64,8 @@ public class FreelancerBackingBeanDataModel extends
 	}
 
 	public CollectionDataModel<FreelancerContact> getContacts() {
+		if (contacts == null) {
+		}
 		return contacts;
 	}
 	
