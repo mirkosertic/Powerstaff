@@ -12,6 +12,7 @@
 		<ui:include src="/include/project/projectmenu1.xhtml"/>
 	</ui:define>
 	<ui:define name="content">
+		<b:saveState value="#{projectBackingBean}"/>
 		<b:title title="Projekt - Stammdaten"/>	
 		<f:subview binding="#{projectBackingBean.data.viewRoot}">
 			<b:gridBagLayout id="x" rows="p,10" cols="100,p">

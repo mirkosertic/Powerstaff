@@ -48,7 +48,7 @@
 		<managed-bean-class>
 			de.powerstaff.web.backingbean.navigation.NavigationBackingBean
 		</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 
 	<managed-bean>
@@ -56,7 +56,7 @@
 		<managed-bean-class>
 			de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean
 		</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>request</managed-bean-scope>
 		<managed-property>
 			<property-name>entityService</property-name>
 			<value>#{freelancerService}</value>
@@ -80,7 +80,7 @@
 		<managed-bean-class>
 			de.powerstaff.web.backingbean.customer.CustomerBackingBean
 		</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>request</managed-bean-scope>
 		<managed-property>
 			<property-name>entityService</property-name>
 			<value>#{customerService}</value>
@@ -96,7 +96,7 @@
 		<managed-bean-class>
 			de.powerstaff.web.backingbean.partner.PartnerBackingBean
 		</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>request</managed-bean-scope>
 		<managed-property>
 			<property-name>entityService</property-name>
 			<value>#{partnerService}</value>
@@ -112,7 +112,7 @@
 		<managed-bean-class>
 			de.powerstaff.web.backingbean.project.ProjectBackingBean
 		</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>request</managed-bean-scope>
 		<managed-property>
 			<property-name>entityService</property-name>
 			<value>#{projectService}</value>
@@ -124,7 +124,7 @@
 		<managed-bean-class>
 			de.powerstaff.web.backingbean.profile.ProfileBackingBean
 		</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>request</managed-bean-scope>
 		<managed-property>
 			<property-name>profileSearchService</property-name>
 			<value>#{profileSearchService}</value>
@@ -136,7 +136,7 @@
 		<managed-bean-class>
 			de.powerstaff.web.backingbean.login.LoginBackingBean
 		</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>request</managed-bean-scope>
 		<managed-property>
 			<property-name>authenticationService</property-name>
 			<value>#{authenticationService}</value>

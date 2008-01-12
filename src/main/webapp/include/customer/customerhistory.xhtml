@@ -12,8 +12,9 @@
 		<ui:include src="/include/customer/customermenu2.xhtml"/>
 	</ui:define>
 	<ui:define name="content">
+		<b:saveState value="#{customerBackingBean}"/>
 		<b:title title="Kunden - Kontakthistorie"/>	
-		<f:subview binding="#{customerBackingBean.data.viewRoot}">
+		<f:subview>
 			<b:gridBagLayout rows="p,10" cols="200,p">
 				<b:cell y="1" x="1">
 					<h:outputText styleClass="title" value="Kunden Kontakthistorie"/>

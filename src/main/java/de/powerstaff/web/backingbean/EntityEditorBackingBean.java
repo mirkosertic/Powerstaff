@@ -1,10 +1,15 @@
 package de.powerstaff.web.backingbean;
 
+import java.util.ArrayList;
+
+import javax.faces.component.StateHolder;
+import javax.faces.context.FacesContext;
+
 import de.mogwai.common.command.ResetNavigationInfo;
 import de.mogwai.common.web.backingbean.WrappingBackingBean;
 
 public abstract class EntityEditorBackingBean<T extends EntityEditorBackingBeanDataModel>
-		extends WrappingBackingBean<T> implements MessageConstants {
+		extends WrappingBackingBean<T> implements MessageConstants , StateHolder {
 
 	@Override
 	public void init() {
@@ -16,5 +21,23 @@ public abstract class EntityEditorBackingBean<T extends EntityEditorBackingBeanD
 	public void resetNavigation(ResetNavigationInfo aInfo) {
 		super.resetNavigation(aInfo);
 		init();
+	}
+	
+	public boolean isTransient() {
+		return false;
+	}
+
+	public void setTransient(boolean aValue) {
+	}
+
+	public void restoreState(FacesContext aContext, Object aValue) {
+		Object[] theData = (Object[]) aValue;
+		setData((T)theData[0]);
+	}
+
+	public Object saveState(FacesContext aContext) {
+		ArrayList theData = new ArrayList();
+		theData.add(getData());
+		return theData.toArray();
 	}
 }

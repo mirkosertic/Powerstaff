@@ -4,6 +4,7 @@
     xmlns:b="http://mogwai.sourceforge.net/layout"
     xmlns:a4j="http://richfaces.org/a4j"
     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:t="http://myfaces.apache.org/tomahawk"    
     xmlns:rich="http://richfaces.org/rich" template="/template/powerstaff.xhtml">
 	<ui:define name="mainmenu">
 		<ui:include src="/include/mainmenu.xhtml"/>
@@ -12,6 +13,7 @@
 		<ui:include src="/include/freelancer/freelancermenu1.xhtml"/>
 	</ui:define>
 	<ui:define name="content">
+		<b:saveState value="#{freelancerBackingBean}"/>	
 		<b:title title="Freiberufler - Stammdaten"/>
 		<f:subview binding="#{freelancerBackingBean.data.viewRoot}">
 			<b:gridBagLayout id="x" rows="p,10" cols="100,p">
