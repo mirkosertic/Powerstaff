@@ -293,7 +293,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="newsletterJobDetail" />
 		<property name="cronExpression">
-			<value>0 0 18 ? * 3,5</value>
+			<value>0 0 18 ? * 4</value>
 		</property>
 	</bean>
 
