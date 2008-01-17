@@ -24,7 +24,7 @@ import de.powerstaff.business.entity.FreelancerProfile;
 
 public interface ProfileSearchService extends Service {
 
-	public List<ProfileSearchResult> searchDocument(String aSearchString) throws Exception;
+    List<ProfileSearchResult> searchDocument(String aSearchString) throws Exception;
 
-	public List<FreelancerProfile> findProfiles(String aCode) throws Exception;
+    List<FreelancerProfile> findProfiles(String aCode) throws Exception;
 }

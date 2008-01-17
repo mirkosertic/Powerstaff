@@ -20,7 +20,6 @@ package de.powerstaff.business.dao.hibernate;
 import java.sql.SQLException;
 import java.util.Iterator;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
@@ -31,21 +30,21 @@ import de.powerstaff.business.entity.User;
 
 public class AuthenticationDAOHibernateImpl extends GenericDaoHibernateImpl implements AuthenticationDAO {
 
-	public User findUserByName(final String aPrincipal) {
-		return (User) getHibernateTemplate().execute(new HibernateCallback() {
+    public User findUserByName(final String aPrincipal) {
+        return (User) getHibernateTemplate().execute(new HibernateCallback() {
 
-			public Object doInHibernate(Session aSession) throws HibernateException, SQLException {
-				Query theQuery = aSession.createQuery("from User item where item.name = :name");
-				theQuery.setString("name", aPrincipal);
-				Iterator theIterator = theQuery.list().iterator();
-				if (theIterator.hasNext()) {
-					return theIterator.next();
-				}
-				
-				return null;
-			}
-			
-		});
-	}
+            public Object doInHibernate(Session aSession) throws SQLException {
+                Query theQuery = aSession.createQuery("from User item where item.name = :name");
+                theQuery.setString("name", aPrincipal);
+                Iterator theIterator = theQuery.list().iterator();
+                if (theIterator.hasNext()) {
+                    return theIterator.next();
+                }
+
+                return null;
+            }
+
+        });
+    }
 
 }

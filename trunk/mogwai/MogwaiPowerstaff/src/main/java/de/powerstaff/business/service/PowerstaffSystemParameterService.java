@@ -4,85 +4,84 @@ import de.mogwai.common.business.service.Service;
 
 public interface PowerstaffSystemParameterService extends Service {
 
-	String getIndexerNetworkDir();
+    String getIndexerNetworkDir();
 
-	void setIndexerNetworkDir(String aValue);
+    void setIndexerNetworkDir(String aValue);
 
-	String getIndexerPath();
+    String getIndexerPath();
 
-	void setIndexerPath(String aValue);
+    void setIndexerPath(String aValue);
 
-	String getIndexerSourcePath();
+    String getIndexerSourcePath();
 
-	void setIndexerSourcePath(String aValue);
+    void setIndexerSourcePath(String aValue);
 
-	int getNewsletterBatchCount();
+    int getNewsletterBatchCount();
 
-	void setNewsletterBatchCount(int aValue);
+    void setNewsletterBatchCount(int aValue);
 
-	int getNewsletterMaxThreadCount();
+    int getNewsletterMaxThreadCount();
 
-	void setNewsletterMaxThreadCount(int aValue);
+    void setNewsletterMaxThreadCount(int aValue);
 
-	boolean isNewsletterSendDelta();
+    boolean isNewsletterSendDelta();
 
-	void setNewsletterSendDelta(boolean aValue);
+    void setNewsletterSendDelta(boolean aValue);
 
-	String getNewsletterSender();
+    String getNewsletterSender();
 
-	void setNewsletterSender(String aValue);
+    void setNewsletterSender(String aValue);
 
-	int getNewsletterSleepIntervall();
+    int getNewsletterSleepIntervall();
 
-	void setNewsletterSleepIntervall(int aValue);
+    void setNewsletterSleepIntervall(int aValue);
 
-	String getNewsletterSubject();
+    String getNewsletterSubject();
 
-	void setNewsletterSubject(String aValue);
+    void setNewsletterSubject(String aValue);
 
-	String getNewsletterTemplate();
+    String getNewsletterTemplate();
 
-	void setNewsletterTemplate(String aValue);
+    void setNewsletterTemplate(String aValue);
 
-	String getRemoteWebUrl();
+    String getRemoteWebUrl();
 
-	void setRemoteWebUrl(String aValue);
+    void setRemoteWebUrl(String aValue);
 
-	String getSmtpHost();
+    String getSmtpHost();
 
-	void setSmtpHost(String aValue);
+    void setSmtpHost(String aValue);
 
-	int getSmtpPort();
+    int getSmtpPort();
 
-	void setSmtpPort(int aValue);
+    void setSmtpPort(int aValue);
 
-	String getSmtpPwd();
+    String getSmtpPwd();
 
-	void setSmtpPwd(String aValue);
+    void setSmtpPwd(String aValue);
 
-	String getSmtpUser();
+    String getSmtpUser();
 
-	void setSmtpUser(String aValue);
-	
-	boolean isNewsletterEnabled();
-	
-	void setNewsletterEnabled(boolean aValue);
-	
-	boolean isWebSyncEnabled();
-	
-	void setWebSyncEnabled(boolean aValue);
-	
-	boolean isIndexingEnabled();
-	
-	void setIndexingEnabled(boolean aValue);
+    void setSmtpUser(String aValue);
 
-	boolean isDeletedDocumentRemovalEnabled();
-	
-	void setDeletedDocumentRemovalEnabled(boolean aValue);
-	
-	int getProfileMaxSearchResult();
+    boolean isNewsletterEnabled();
 
-	void setProfileMaxSearchResult(int aValue);
-	
+    void setNewsletterEnabled(boolean aValue);
+
+    boolean isWebSyncEnabled();
+
+    void setWebSyncEnabled(boolean aValue);
+
+    boolean isIndexingEnabled();
+
+    void setIndexingEnabled(boolean aValue);
+
+    boolean isDeletedDocumentRemovalEnabled();
+
+    void setDeletedDocumentRemovalEnabled(boolean aValue);
+
+    int getProfileMaxSearchResult();
+
+    void setProfileMaxSearchResult(int aValue);
 
 }

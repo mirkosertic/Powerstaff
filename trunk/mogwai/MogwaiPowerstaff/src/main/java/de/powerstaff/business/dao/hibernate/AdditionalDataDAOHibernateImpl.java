@@ -21,7 +21,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
@@ -31,16 +30,16 @@ import de.powerstaff.business.entity.ContactType;
 
 public class AdditionalDataDAOHibernateImpl extends GenericDaoHibernateImpl implements AdditionalDataDAO {
 
-	public List<ContactType> getContactTypes() {
-		return (List<ContactType>) getHibernateTemplate().execute(new HibernateCallback() {
+    public List<ContactType> getContactTypes() {
+        return (List<ContactType>) getHibernateTemplate().execute(new HibernateCallback() {
 
-			public Object doInHibernate(Session aSession) throws HibernateException, SQLException {
-				List<ContactType> theResult = new Vector<ContactType>();
-				theResult.addAll(aSession.createQuery("from ContactType item order by item.description").list());
-				return theResult;
-			}
-			
-		});
-	}
+            public Object doInHibernate(Session aSession) throws SQLException {
+                List<ContactType> theResult = new Vector<ContactType>();
+                theResult.addAll(aSession.createQuery("from ContactType item order by item.description").list());
+                return theResult;
+            }
+
+        });
+    }
 
 }

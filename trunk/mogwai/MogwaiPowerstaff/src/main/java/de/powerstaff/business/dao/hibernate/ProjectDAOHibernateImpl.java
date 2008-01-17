@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.Vector;
 
 import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Expression;
 import org.springframework.orm.hibernate3.HibernateCallback;
@@ -33,42 +31,44 @@ import de.powerstaff.business.entity.Project;
 
 public class ProjectDAOHibernateImpl extends NavigatingDAOHibernateImpl<Project> implements ProjectDAO {
 
-	@Override
-	protected Project createNew() {
-		return new Project();
-	}
+    @Override
+    protected Project createNew() {
+        return new Project();
+    }
 
-	@Override
-	protected Class getEntityClass() {
-		return Project.class;
-	}
+    @Override
+    protected Class getEntityClass() {
+        return Project.class;
+    }
 
-	public List<Project> performQBESearch(Project aObject) {
-		
-		String[] theSearchProperties = new String[] { "date", "projectNumber", "workplace", "start", "duration", "descriptionShort", "descriptionLong" };
+    public List<Project> performQBESearch(Project aObject) {
 
-		String[] theOrderByProperties = new String[] { "projectNumber" };
-		
-		return performQBESearch(aObject, theSearchProperties, theOrderByProperties, MATCH_LIKE);
-	}
+        String[] theSearchProperties = new String[] { "date", "projectNumber", "workplace", "start", "duration",
+                "descriptionShort", "descriptionLong" };
 
-	public Project findByPrimaryKey(Long aProjectID) {
-		return (Project)getHibernateTemplate().get(Project.class, aProjectID);
-	}
+        String[] theOrderByProperties = new String[] { "projectNumber" };
 
-	public List<Project> getActiveProjects() {
-		return (List<Project>) getHibernateTemplate().execute(new HibernateCallback() {
+        return performQBESearch(aObject, theSearchProperties, theOrderByProperties, MATCH_LIKE);
+    }
 
-			public Object doInHibernate(Session aSession) throws HibernateException, SQLException {
-				
-				List<Project> theResult = new Vector<Project>();
-				
-				Criteria theCriteria = aSession.createCriteria(Project.class);
-				theCriteria.add(Expression.eq("visibleOnWebSite", Boolean.TRUE));
-				theResult.addAll(theCriteria.list());
-				
-				return theResult;
-			}
-			
-		});	}
+    public Project findByPrimaryKey(Long aProjectID) {
+        return (Project) getHibernateTemplate().get(Project.class, aProjectID);
+    }
+
+    public List<Project> getActiveProjects() {
+        return (List<Project>) getHibernateTemplate().execute(new HibernateCallback() {
+
+            public Object doInHibernate(Session aSession) throws SQLException {
+
+                List<Project> theResult = new Vector<Project>();
+
+                Criteria theCriteria = aSession.createCriteria(Project.class);
+                theCriteria.add(Expression.eq("visibleOnWebSite", Boolean.TRUE));
+                theResult.addAll(theCriteria.list());
+
+                return theResult;
+            }
+
+        });
+    }
 }

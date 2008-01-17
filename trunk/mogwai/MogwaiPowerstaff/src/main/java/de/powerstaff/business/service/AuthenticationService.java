@@ -22,5 +22,5 @@ import de.powerstaff.business.entity.User;
 
 public interface AuthenticationService extends Service {
 
-	User login(String principal, String credentials);
+    User login(String principal, String credentials);
 }

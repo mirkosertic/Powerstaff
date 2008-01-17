@@ -17,9 +17,8 @@
  */
 package de.powerstaff.business.entity;
 
-
 public class Customer extends Person<CustomerContact, CustomerHistory> {
 
-	public Customer() {
-	}
+    public Customer() {
+    }
 }

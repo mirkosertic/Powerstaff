@@ -17,7 +17,6 @@
  */
 package de.powerstaff.business.service.impl;
 
-
 import java.util.Collection;
 import java.util.List;
 
@@ -30,63 +29,64 @@ import de.powerstaff.business.service.RecordInfo;
 
 public class FreelancerServiceImpl extends LogableService implements FreelancerService {
 
-	private FreelancerDAO freelancerDAO;
+    private FreelancerDAO freelancerDAO;
 
-	/**
-	 * @return the freelancerDAO
-	 */
-	public FreelancerDAO getFreelancerDAO() {
-		return freelancerDAO;
-	}
+    /**
+     * @return the freelancerDAO
+     */
+    public FreelancerDAO getFreelancerDAO() {
+        return freelancerDAO;
+    }
 
-	/**
-	 * @param freelancerDAO the freelancerDAO to set
-	 */
-	public void setFreelancerDAO(FreelancerDAO freelancerDAO) {
-		this.freelancerDAO = freelancerDAO;
-	}
+    /**
+     * @param freelancerDAO
+     *            the freelancerDAO to set
+     */
+    public void setFreelancerDAO(FreelancerDAO freelancerDAO) {
+        this.freelancerDAO = freelancerDAO;
+    }
 
-	public ProfileSearchInfoDetail findFreelancerByCode(String code) {
-		return freelancerDAO.findByCode(code);
-	}
+    public ProfileSearchInfoDetail findFreelancerByCode(String code) {
+        return freelancerDAO.findByCode(code);
+    }
 
-	public void delete(Freelancer aEntity) {
-		freelancerDAO.delete(aEntity);
-	}
+    public void delete(Freelancer aEntity) {
+        freelancerDAO.delete(aEntity);
+    }
 
-	public Freelancer findByPrimaryKey(Long aId) {
-		return freelancerDAO.findById(aId);
-	}
+    public Freelancer findByPrimaryKey(Long aId) {
+        return freelancerDAO.findById(aId);
+    }
 
-	public Freelancer findFirst() {
-		return freelancerDAO.findFirst();
-	}
+    public Freelancer findFirst() {
+        return freelancerDAO.findFirst();
+    }
 
-	public Freelancer findLast() {
-		return freelancerDAO.findLast();
-	}
+    public Freelancer findLast() {
+        return freelancerDAO.findLast();
+    }
 
-	public Freelancer findNext(Freelancer aObject) {
-		return freelancerDAO.findNext(aObject);
-	}
+    public Freelancer findNext(Freelancer aObject) {
+        return freelancerDAO.findNext(aObject);
+    }
 
-	public Freelancer findPrior(Freelancer aObject) {
-		return freelancerDAO.findPrior(aObject);
-	}
+    public Freelancer findPrior(Freelancer aObject) {
+        return freelancerDAO.findPrior(aObject);
+    }
 
-	public RecordInfo getRecordInfo(Freelancer aObject) {
-		return freelancerDAO.getRecordInfo(aObject);
-	}
+    public RecordInfo getRecordInfo(Freelancer aObject) {
+        return freelancerDAO.getRecordInfo(aObject);
+    }
 
-	public Collection<Freelancer> performQBESearch(Freelancer aObject) {
-		return freelancerDAO.performQBESearch(aObject);
-	}
+    public Collection<Freelancer> performQBESearch(Freelancer aObject) {
+        return freelancerDAO.performQBESearch(aObject);
+    }
 
-	public void save(Freelancer aObject) {
-		freelancerDAO.save(aObject);
-	}
+    public void save(Freelancer aObject) {
+        freelancerDAO.save(aObject);
+    }
 
-	public List<String> getCodeSuggestions(String aSuggest) {
-		return freelancerDAO.getCodeSuggestions(aSuggest);
-	}
+    public List<String> getCodeSuggestions(String aSuggest) {
+        return freelancerDAO.getCodeSuggestions(aSuggest);
+    }
 }

@@ -21,28 +21,28 @@ import java.util.Vector;
 
 /**
  * Result vector from webservice.
- *
+ * 
  * @author Mirko Sertic <mail@mirkosertic.de>
  */
 public class ResultVector<T> extends Vector<T> {
 
-	private String statement;
+    private String statement;
 
-	private String error;
+    private String error;
 
-	public String getError() {
-		return error;
-	}
+    public String getError() {
+        return error;
+    }
 
-	public void setError(String error) {
-		this.error = error;
-	}
+    public void setError(String error) {
+        this.error = error;
+    }
 
-	public String getStatement() {
-		return statement;
-	}
+    public String getStatement() {
+        return statement;
+    }
 
-	public void setStatement(String statement) {
-		this.statement = statement;
-	}
+    public void setStatement(String statement) {
+        this.statement = statement;
+    }
 }

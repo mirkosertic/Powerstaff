@@ -24,5 +24,5 @@ import de.powerstaff.business.entity.ContactType;
 
 public interface AdditionalDataDAO extends DAO {
 
-	List<ContactType> getContactTypes();
+    List<ContactType> getContactTypes();
 }

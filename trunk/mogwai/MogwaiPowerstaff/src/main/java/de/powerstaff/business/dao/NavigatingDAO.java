@@ -23,15 +23,15 @@ import de.powerstaff.business.service.RecordInfo;
 
 public interface NavigatingDAO<T extends Entity> extends DAO {
 
-	T findFirst();
+    T findFirst();
 
-	T findLast();
+    T findLast();
 
-	T findNext(T object);
+    T findNext(T object);
 
-	T findPrior(T object);
+    T findPrior(T object);
 
-	RecordInfo getRecordInfo(T object);
+    RecordInfo getRecordInfo(T object);
 
-	T findById(Long id);
+    T findById(Long id);
 }

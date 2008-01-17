@@ -21,10 +21,10 @@ import de.powerstaff.business.entity.JobInfo;
 
 public interface ServiceLoggerDAO {
 
-	JobInfo findByServiceID(String serviceID);
+    JobInfo findByServiceID(String serviceID);
 
-	void save(JobInfo theInfo);
+    void save(JobInfo theInfo);
 
-	void update(JobInfo theInfo);
+    void update(JobInfo theInfo);
 
 }

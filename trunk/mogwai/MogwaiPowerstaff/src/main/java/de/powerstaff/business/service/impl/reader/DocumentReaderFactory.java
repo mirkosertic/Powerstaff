@@ -26,41 +26,42 @@ import de.powerstaff.business.service.impl.reader.word.WordDocumentReader;
  * 
  * @author sertic
  */
-public class DocumentReaderFactory {
+public final class DocumentReaderFactory {
 
-	private static DocumentReaderFactory me;
+    private static DocumentReaderFactory me;
 
-	/**
-	 * This is a singleton.
-	 */
-	private DocumentReaderFactory() {
-	}
+    /**
+     * This is a singleton.
+     */
+    private DocumentReaderFactory() {
+    }
 
-	public static DocumentReaderFactory getInstance() {
+    public static DocumentReaderFactory getInstance() {
 
-		// Is the singleton already created ?
-		if (me == null) {
+        // Is the singleton already created ?
+        if (me == null) {
 
-			// No, create the single and unique instance !
-			me = new DocumentReaderFactory();
+            // No, create the single and unique instance !
+            me = new DocumentReaderFactory();
 
-		}
+        }
 
-		return me;
-	}
+        return me;
+    }
 
-	/**
-	 * Get the document reader instance for a document.
-	 * 
-	 * @param fileName
-	 *            the source file
-	 * @return the reader that can read the source file or null if none is
-	 *         available
-	 */
-	public DocumentReader getDocumentReaderForFile(File fileName) {
-		if (fileName.getName().toUpperCase().endsWith(".DOC"))
-			return new WordDocumentReader();
-		return null;
-	}
+    /**
+     * Get the document reader instance for a document.
+     * 
+     * @param fileName
+     *            the source file
+     * @return the reader that can read the source file or null if none is
+     *         available
+     */
+    public DocumentReader getDocumentReaderForFile(File fileName) {
+        if (fileName.getName().toUpperCase().endsWith(".DOC")) {
+            return new WordDocumentReader();
+        }
+        return null;
+    }
 
 }

@@ -23,16 +23,16 @@ import de.powerstaff.business.entity.JobInfo;
 
 public class ServiceLoggerDAOHibernateImpl extends GenericDaoHibernateImpl implements ServiceLoggerDAO {
 
-	public JobInfo findByServiceID(String aServiceID) {
-		return (JobInfo)getHibernateTemplate().get(JobInfo.class, aServiceID);
-	}
+    public JobInfo findByServiceID(String aServiceID) {
+        return (JobInfo) getHibernateTemplate().get(JobInfo.class, aServiceID);
+    }
 
-	public void save(JobInfo aInfo) {
-		getHibernateTemplate().save(aInfo);
-	}
+    public void save(JobInfo aInfo) {
+        getHibernateTemplate().save(aInfo);
+    }
 
-	public void update(JobInfo aInfo) {
-		getHibernateTemplate().update(aInfo);
-	}
+    public void update(JobInfo aInfo) {
+        getHibernateTemplate().update(aInfo);
+    }
 
 }

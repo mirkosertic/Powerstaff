@@ -33,42 +33,43 @@ import de.powerstaff.business.service.impl.reader.ReadResult;
  */
 public class WordDocumentReader implements DocumentReader {
 
-	public ReadResult getContent(File inputFile) throws Exception {
+    public ReadResult getContent(File inputFile) throws Exception {
 
-		File tempFile = File.createTempFile("EXTRACT_", ",txt");
-		String command = "cmd /c c:\\antiword\\antiword  \"" + inputFile + "\" > \"" + tempFile + "\"";
+        File tempFile = File.createTempFile("EXTRACT_", ",txt");
+        String command = "cmd /c c:\\antiword\\antiword  \"" + inputFile + "\" > \"" + tempFile + "\"";
 
-		Process process = Runtime.getRuntime().exec(command);
-		process.waitFor();
+        Process process = Runtime.getRuntime().exec(command);
+        process.waitFor();
 
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
 
-		BufferedReader br = new BufferedReader(new FileReader(tempFile));
-		while (br.ready()) {
+        BufferedReader br = new BufferedReader(new FileReader(tempFile));
+        while (br.ready()) {
 
-			String line = br.readLine();
-			if (line != null)
-				line = line.trim();
-			if (line != null) {
+            String line = br.readLine();
+            if (line != null) {
+                line = line.trim();
+            }
+            if (line != null) {
 
-				pw.print(line.replace('|', ' ') + " ");
-			}
+                pw.print(line.replace('|', ' ') + " ");
+            }
 
-		}
-		br.close();
-		pw.flush();
-		pw.close();
+        }
+        br.close();
+        pw.flush();
+        pw.close();
 
-		tempFile.delete();
+        tempFile.delete();
 
-		try {
-			process.destroy();
-		} catch (Exception e) {
+        try {
+            process.destroy();
+        } catch (Exception e) {
+            // Nothing will happen here            
+        }
 
-		}
-
-		return new ReadResult(sw.toString());
-	}
+        return new ReadResult(sw.toString());
+    }
 
 }

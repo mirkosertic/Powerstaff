@@ -17,7 +17,6 @@
  */
 package de.powerstaff.business.service.impl;
 
-
 import java.util.List;
 
 import de.mogwai.common.business.service.impl.LogableService;
@@ -27,23 +26,24 @@ import de.powerstaff.business.service.AdditionalDataService;
 
 public class AdditionalDataServiceImpl extends LogableService implements AdditionalDataService {
 
-	private AdditionalDataDAO additionalDataDAO;
-	
-	/**
-	 * @return the additionalDataDAO
-	 */
-	public AdditionalDataDAO getAdditionalDataDAO() {
-		return additionalDataDAO;
-	}
+    private AdditionalDataDAO additionalDataDAO;
 
-	/**
-	 * @param additionalDataDAO the additionalDataDAO to set
-	 */
-	public void setAdditionalDataDAO(AdditionalDataDAO additionalDataDAO) {
-		this.additionalDataDAO = additionalDataDAO;
-	}
+    /**
+     * @return the additionalDataDAO
+     */
+    public AdditionalDataDAO getAdditionalDataDAO() {
+        return additionalDataDAO;
+    }
 
-	public List<ContactType> getContactTypes() {
-		return additionalDataDAO.getContactTypes();
-	}
+    /**
+     * @param additionalDataDAO
+     *            the additionalDataDAO to set
+     */
+    public void setAdditionalDataDAO(AdditionalDataDAO additionalDataDAO) {
+        this.additionalDataDAO = additionalDataDAO;
+    }
+
+    public List<ContactType> getContactTypes() {
+        return additionalDataDAO.getContactTypes();
+    }
 }

@@ -3,7 +3,6 @@ package de.powerstaff.web.converter;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.ConverterException;
 
 import org.apache.commons.lang.NotImplementedException;
 
@@ -12,42 +11,37 @@ import de.powerstaff.business.entity.ContactType;
 
 public class ContactConverter implements Converter {
 
-	public Object getAsObject(FacesContext aContext, UIComponent aComponent,
-			String aValue) throws ConverterException {
-		throw new NotImplementedException();
-	}
+    public Object getAsObject(FacesContext aContext, UIComponent aComponent, String aValue) {
+        throw new NotImplementedException();
+    }
 
-	public String getAsString(FacesContext aContext, UIComponent aComponent,
-			Object aValue) throws ConverterException {
-		Contact theContact = (Contact) aValue;
-		ContactType theType = theContact.getType();
-		
-		String theDisplayValue = theContact.getValue();
-		if (theDisplayValue.length() > 35) {
-			theDisplayValue = theDisplayValue.substring(0, 25);
-			theDisplayValue += "...";
-		}
+    public String getAsString(FacesContext aContext, UIComponent aComponent, Object aValue) {
+        Contact theContact = (Contact) aValue;
+        ContactType theType = theContact.getType();
 
-		if (theType != null) {
-			if (theType.isWeb()) {
+        String theDisplayValue = theContact.getValue();
+        if (theDisplayValue.length() > 35) {
+            theDisplayValue = theDisplayValue.substring(0, 25);
+            theDisplayValue += "...";
+        }
 
-				String theValue = theContact.getValue();
-				if (!theValue.startsWith("http://")) {
-					theValue = "http://" + theValue;
-				}
+        if (theType != null) {
+            if (theType.isWeb()) {
 
-				return "<a class=\"contact\"  target=\"_blank\" href=\""
-						+ theValue + "\">" + theDisplayValue + "</a>";
-			}
+                String theValue = theContact.getValue();
+                if (!theValue.startsWith("http://")) {
+                    theValue = "http://" + theValue;
+                }
 
-			if (theType.isEmail()) {
-				return "<a class=\"contact\" href=\"mailto:"
-						+ theContact.getValue() + "\">" + theDisplayValue
-						+ "</a>";
-			}
-		}
+                return "<a class=\"contact\"  target=\"_blank\" href=\"" + theValue + "\">" + theDisplayValue + "</a>";
+            }
 
-		return theDisplayValue;
-	}
+            if (theType.isEmail()) {
+                return "<a class=\"contact\" href=\"mailto:" + theContact.getValue() + "\">" + theDisplayValue + "</a>";
+            }
+        }
+
+        return theDisplayValue;
+    }
 
 }

@@ -24,15 +24,15 @@ import de.powerstaff.business.entity.WebProject;
 
 public interface WebsiteDAO {
 
-	Collection<WebProject> getCurrentProjects();
+    Collection<WebProject> getCurrentProjects();
 
-	Collection<NewsletterMail> getConfirmedMails();
-	
-	void delete(WebProject aProject);
-	
-	WebProject findByOriginId(Long aId);
-	
-	void saveOrUpdate(WebProject aProject);
-	
-	void saveOrUpdate(NewsletterMail aMail);	
+    Collection<NewsletterMail> getConfirmedMails();
+
+    void delete(WebProject aProject);
+
+    WebProject findByOriginId(Long aId);
+
+    void saveOrUpdate(WebProject aProject);
+
+    void saveOrUpdate(NewsletterMail aMail);
 }

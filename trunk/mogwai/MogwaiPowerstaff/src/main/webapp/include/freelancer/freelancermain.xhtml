@@ -14,6 +14,7 @@
 	</ui:define>
 	<ui:define name="content">
 		<b:saveState value="#{freelancerBackingBean}"/>	
+		<b:saveState value="#{profileBackingBean}"/>
 		<b:title title="Freiberufler - Stammdaten"/>
 		<f:subview binding="#{freelancerBackingBean.data.viewRoot}">
 			<b:gridBagLayout id="x" rows="p,10" cols="100,p">

@@ -23,61 +23,61 @@ import de.mogwai.common.business.entity.AuditableEntity;
 
 public class NewsletterMail extends AuditableEntity {
 
-	private String mail;
+    private String mail;
 
-	private Timestamp registeredTimestamp;
+    private Timestamp registeredTimestamp;
 
-	private Timestamp confirmedTimestamp;
+    private Timestamp confirmedTimestamp;
 
-	private Boolean confirmed;
-	
-	private int errorcounter;
+    private Boolean confirmed;
 
-	public Boolean isConfirmed() {
-		return confirmed;
-	}
+    private int errorcounter;
 
-	public Boolean getConfirmed() {
-		return confirmed;
-	}
+    public Boolean isConfirmed() {
+        return confirmed;
+    }
 
-	public void setConfirmed(Boolean confirmed) {
-		this.confirmed = confirmed;
-	}
+    public Boolean getConfirmed() {
+        return confirmed;
+    }
 
-	public Timestamp getConfirmedTimestamp() {
-		return confirmedTimestamp;
-	}
+    public void setConfirmed(Boolean confirmed) {
+        this.confirmed = confirmed;
+    }
 
-	public void setConfirmedTimestamp(Timestamp confirmedTimestamp) {
-		this.confirmedTimestamp = confirmedTimestamp;
-	}
+    public Timestamp getConfirmedTimestamp() {
+        return confirmedTimestamp;
+    }
 
-	public String getMail() {
-		return mail;
-	}
+    public void setConfirmedTimestamp(Timestamp confirmedTimestamp) {
+        this.confirmedTimestamp = confirmedTimestamp;
+    }
 
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
+    public String getMail() {
+        return mail;
+    }
 
-	public Timestamp getRegisteredTimestamp() {
-		return registeredTimestamp;
-	}
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 
-	public void setRegisteredTimestamp(Timestamp registeredTimestamp) {
-		this.registeredTimestamp = registeredTimestamp;
-	}
+    public Timestamp getRegisteredTimestamp() {
+        return registeredTimestamp;
+    }
 
-	public int getErrorcounter() {
-		return errorcounter;
-	}
+    public void setRegisteredTimestamp(Timestamp registeredTimestamp) {
+        this.registeredTimestamp = registeredTimestamp;
+    }
 
-	public void setErrorcounter(int errorcounter) {
-		this.errorcounter = errorcounter;
-	}
+    public int getErrorcounter() {
+        return errorcounter;
+    }
 
-	public void setConfirmed(String aValue) {
-		setConfirmed("1".equals(aValue));
-	}
+    public void setErrorcounter(int errorcounter) {
+        this.errorcounter = errorcounter;
+    }
+
+    public void setConfirmed(String aValue) {
+        setConfirmed("1".equals(aValue));
+    }
 }

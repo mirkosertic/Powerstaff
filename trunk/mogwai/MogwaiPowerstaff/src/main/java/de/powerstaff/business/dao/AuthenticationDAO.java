@@ -21,6 +21,6 @@ import de.powerstaff.business.entity.User;
 
 public interface AuthenticationDAO {
 
-	User findUserByName(String aPrincipal);
+    User findUserByName(String aPrincipal);
 
 }

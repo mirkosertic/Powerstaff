@@ -21,7 +21,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
@@ -30,36 +29,36 @@ import de.powerstaff.business.entity.Partner;
 
 public class PartnerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Partner> implements PartnerDAO {
 
-	@Override
-	protected Partner createNew() {
-		return new Partner();
-	}
+    @Override
+    protected Partner createNew() {
+        return new Partner();
+    }
 
-	@Override
-	protected Class getEntityClass() {
-		return Partner.class;
-	}
+    @Override
+    protected Class getEntityClass() {
+        return Partner.class;
+    }
 
-	public List<Partner> performQBESearch(Partner aObject) {
-		
-		String[] theSearchProperties = new String[] { "name1", "name2", "company", "street", "country", "plz", "city", "comments", 
-		};
+    public List<Partner> performQBESearch(Partner aObject) {
 
-		String[] theOrderByProperties = new String[] { "name1", "name2" };
-		
-		return performQBESearch(aObject, theSearchProperties, theOrderByProperties, MATCH_LIKE);
-	}
+        String[] theSearchProperties = new String[] { "name1", "name2", "company", "street", "country", "plz", "city",
+                "comments", };
 
-	public List<Partner> findAll() {
-		return (List<Partner>) getHibernateTemplate().execute(new HibernateCallback() {
+        String[] theOrderByProperties = new String[] { "name1", "name2" };
 
-			public Object doInHibernate(Session aSession) throws HibernateException, SQLException {
-				List<Partner> theResult = new Vector<Partner>();
-				theResult.addAll(aSession.createQuery("from Partner item order by item.name1, item.name2").list());
-				return theResult;
-			}
-			
-		});
+        return performQBESearch(aObject, theSearchProperties, theOrderByProperties, MATCH_LIKE);
+    }
 
-	}
+    public List<Partner> findAll() {
+        return (List<Partner>) getHibernateTemplate().execute(new HibernateCallback() {
+
+            public Object doInHibernate(Session aSession) throws SQLException {
+                List<Partner> theResult = new Vector<Partner>();
+                theResult.addAll(aSession.createQuery("from Partner item order by item.name1, item.name2").list());
+                return theResult;
+            }
+
+        });
+
+    }
 }

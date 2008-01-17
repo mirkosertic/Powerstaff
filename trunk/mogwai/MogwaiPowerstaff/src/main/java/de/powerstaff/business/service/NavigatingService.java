@@ -6,22 +6,22 @@ import de.mogwai.common.business.entity.Entity;
 import de.mogwai.common.business.service.Service;
 
 public interface NavigatingService<T extends Entity> extends Service {
-	
-	T findByPrimaryKey(Long id);
-	
-	void save(T aBo);
 
-	void delete(T aBo);
+    T findByPrimaryKey(Long id);
 
-	T findFirst();
+    void save(T aBo);
 
-	T findLast();
+    void delete(T aBo);
 
-	T findPrior(T aObject);
+    T findFirst();
 
-	T findNext(T aObject);
+    T findLast();
 
-	RecordInfo getRecordInfo(T aObject);
-	
-	Collection<T> performQBESearch(T aObject);
+    T findPrior(T aObject);
+
+    T findNext(T aObject);
+
+    RecordInfo getRecordInfo(T aObject);
+
+    Collection<T> performQBESearch(T aObject);
 }

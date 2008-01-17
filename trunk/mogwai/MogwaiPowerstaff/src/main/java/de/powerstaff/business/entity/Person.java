@@ -26,123 +26,123 @@ import de.mogwai.common.business.entity.AuditableEntity;
 
 public class Person<T extends Contact, H extends HistoryEntity> extends AuditableEntity {
 
-	private String name1;
+    private String name1;
 
-	private String name2;
+    private String name2;
 
-	private String company;
+    private String company;
 
-	private String street;
+    private String street;
 
-	private String country;
+    private String country;
 
-	private String plz;
+    private String plz;
 
-	private String city;
+    private String city;
 
-	private String comments;
+    private String comments;
 
-	private boolean contactforbidden;
+    private boolean contactforbidden;
 
-	private Set<T> contacts = new HashSet<T>();
+    private Set<T> contacts = new HashSet<T>();
 
-	private Set<H> history = new HashSet<H>();
+    private Set<H> history = new HashSet<H>();
 
-	public Person() {
-	}
+    public Person() {
+    }
 
-	@Column(length=255)
-	public String getCity() {
-		return city;
-	}
+    @Column(length = 255)
+    public String getCity() {
+        return city;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public String getComments() {
-		return comments;
-	}
+    public String getComments() {
+        return comments;
+    }
 
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
 
-	@Column(length=255)
-	public String getCompany() {
-		return company;
-	}
+    @Column(length = 255)
+    public String getCompany() {
+        return company;
+    }
 
-	public void setCompany(String company) {
-		this.company = company;
-	}
+    public void setCompany(String company) {
+        this.company = company;
+    }
 
-	public boolean isContactforbidden() {
-		return contactforbidden;
-	}
+    public boolean isContactforbidden() {
+        return contactforbidden;
+    }
 
-	public void setContactforbidden(boolean contactforbidden) {
-		this.contactforbidden = contactforbidden;
-	}
+    public void setContactforbidden(boolean contactforbidden) {
+        this.contactforbidden = contactforbidden;
+    }
 
-	@Column(length=255)
-	public String getCountry() {
-		return country;
-	}
+    @Column(length = 255)
+    public String getCountry() {
+        return country;
+    }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
-	public Set<T> getContacts() {
-		return contacts;
-	}
+    public Set<T> getContacts() {
+        return contacts;
+    }
 
-	public void setContacts(Set<T> kontakte) {
-		this.contacts = kontakte;
-	}
+    public void setContacts(Set<T> kontakte) {
+        this.contacts = kontakte;
+    }
 
-	@Column(length=255)
-	public String getName1() {
-		return name1;
-	}
+    @Column(length = 255)
+    public String getName1() {
+        return name1;
+    }
 
-	public void setName1(String name1) {
-		this.name1 = name1;
-	}
+    public void setName1(String name1) {
+        this.name1 = name1;
+    }
 
-	@Column(length=255)
-	public String getName2() {
-		return name2;
-	}
+    @Column(length = 255)
+    public String getName2() {
+        return name2;
+    }
 
-	public void setName2(String name2) {
-		this.name2 = name2;
-	}
-	
-	@Column(length=255)
-	public String getPlz() {
-		return plz;
-	}
+    public void setName2(String name2) {
+        this.name2 = name2;
+    }
 
-	public void setPlz(String plz) {
-		this.plz = plz;
-	}
+    @Column(length = 255)
+    public String getPlz() {
+        return plz;
+    }
 
-	@Column(length=255)
-	public String getStreet() {
-		return street;
-	}
+    public void setPlz(String plz) {
+        this.plz = plz;
+    }
 
-	public void setStreet(String street) {
-		this.street = street;
-	}
+    @Column(length = 255)
+    public String getStreet() {
+        return street;
+    }
 
-	public Set<H> getHistory() {
-		return history;
-	}
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
-	public void setHistory(Set<H> history) {
-		this.history = history;
-	}
+    public Set<H> getHistory() {
+        return history;
+    }
+
+    public void setHistory(Set<H> history) {
+        this.history = history;
+    }
 }

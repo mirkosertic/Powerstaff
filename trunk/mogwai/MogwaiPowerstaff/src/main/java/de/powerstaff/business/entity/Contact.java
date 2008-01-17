@@ -21,24 +21,24 @@ import de.mogwai.common.business.entity.AuditableEntity;
 
 public abstract class Contact extends AuditableEntity {
 
-	private String value;
+    private String value;
 
-	private ContactType type;
+    private ContactType type;
 
-	public String getValue() {
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+    public void setValue(String value) {
+        this.value = value;
+    }
 
-	public ContactType getType() {
-		return type;
-	}
+    public ContactType getType() {
+        return type;
+    }
 
-	public void setType(ContactType type) {
-		this.type = type;
-	}
+    public void setType(ContactType type) {
+        this.type = type;
+    }
 
 }
