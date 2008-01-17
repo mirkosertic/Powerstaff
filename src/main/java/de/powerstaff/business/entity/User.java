@@ -22,42 +22,42 @@ import de.mogwai.common.usercontext.Authenticatable;
 
 public class User extends AuditableEntity implements Authenticatable {
 
-	private String name;
+    private String name;
 
-	private String password;
+    private String password;
 
-	private boolean active;
+    private boolean active;
 
-	public boolean isActive() {
-		return active;
-	}
+    public boolean isActive() {
+        return active;
+    }
 
-	public void setActive(boolean aActive) {
-		active = aActive;
-	}
+    public void setActive(boolean aActive) {
+        active = aActive;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	@Override
-	public String toString() {
-		return name;
-	}
+    @Override
+    public String toString() {
+        return name;
+    }
 
-	public String getUserId() {
-		return getName();
-	}
+    public String getUserId() {
+        return getName();
+    }
 }

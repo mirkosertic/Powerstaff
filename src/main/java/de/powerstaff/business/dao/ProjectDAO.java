@@ -23,9 +23,9 @@ import de.powerstaff.business.entity.Project;
 
 public interface ProjectDAO extends NavigatingDAO<Project> {
 
-	List<Project> performQBESearch(Project aObject);
+    List<Project> performQBESearch(Project aObject);
 
-	Project findByPrimaryKey(Long aProjectID);
+    Project findByPrimaryKey(Long aProjectID);
 
-	List<Project> getActiveProjects();
+    List<Project> getActiveProjects();
 }

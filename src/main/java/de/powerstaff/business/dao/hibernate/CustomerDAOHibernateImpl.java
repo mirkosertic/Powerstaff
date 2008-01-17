@@ -24,23 +24,23 @@ import de.powerstaff.business.entity.Customer;
 
 public class CustomerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Customer> implements CustomerDAO {
 
-	@Override
-	protected Customer createNew() {
-		return new Customer();
-	}
+    @Override
+    protected Customer createNew() {
+        return new Customer();
+    }
 
-	@Override
-	protected Class getEntityClass() {
-		return Customer.class;
-	}
+    @Override
+    protected Class getEntityClass() {
+        return Customer.class;
+    }
 
-	public List<Customer> performQBESearch(Customer aObject) {
-		
-		String[] theSearchProperties = new String[] { "name1", "name2", "company", "street", "country", "plz", "city", "comments", 
-		};
+    public List<Customer> performQBESearch(Customer aObject) {
 
-		String[] theOrderByProperties = new String[] { "name1", "name2" };
-		
-		return performQBESearch(aObject, theSearchProperties, theOrderByProperties, MATCH_LIKE);
-	}
+        String[] theSearchProperties = new String[] { "name1", "name2", "company", "street", "country", "plz", "city",
+                "comments", };
+
+        String[] theOrderByProperties = new String[] { "name1", "name2" };
+
+        return performQBESearch(aObject, theSearchProperties, theOrderByProperties, MATCH_LIKE);
+    }
 }

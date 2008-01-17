@@ -48,281 +48,268 @@ import de.powerstaff.business.service.ServiceLoggerService;
 
 public class NewsletterServiceImpl extends LogableService implements NewsletterService {
 
-	private final static String SERVICE_ID = "Newsletter";
-
-	private ServiceLoggerService serviceLogger;
-
-	private WebsiteDAO websiteDAO;
-
-	private PowerstaffSystemParameterService systemParameterService;
-	
-	public ServiceLoggerService getServiceLogger() {
-		return serviceLogger;
-	}
-
-	public void setServiceLogger(ServiceLoggerService serviceLogger) {
-		this.serviceLogger = serviceLogger;
-	}
-
-	public WebsiteDAO getWebsiteDAO() {
-		return websiteDAO;
-	}
-
-	public void setWebsiteDAO(WebsiteDAO websiteDAO) {
-		this.websiteDAO = websiteDAO;
-	}
-
-	/**
-	 * @return the systemParameterService
-	 */
-	public PowerstaffSystemParameterService getSystemParameterService() {
-		return systemParameterService;
-	}
-
-	/**
-	 * @param systemParameterService the systemParameterService to set
-	 */
-	public void setSystemParameterService(
-			PowerstaffSystemParameterService systemParameterService) {
-		this.systemParameterService = systemParameterService;
-	}
-	
-	public void sendNewsletter() {
-		sendNewsletter(false, null);
-	}
-	
-	public void sendTestNewsletterTo(String aDebugAdress) {
-		sendNewsletter(true, aDebugAdress);
-	}
-
-	public void sendNewsletter(boolean aDebugMode, String aDebugAdress) {
-
-		if (!systemParameterService.isNewsletterEnabled() && !aDebugMode) {
-			logger.logInfo("Newsletter wurde deaktiviert");
-			return;
-		}
-		
-		logger.logDebug("Sending newsletter");
-		
-		Properties theMailProperties = new Properties();
-		theMailProperties.put("mail.smtp.debug", Boolean.TRUE);
-		
-		final JavaMailSenderImpl theMailSender = new JavaMailSenderImpl();
-		theMailSender.setHost(systemParameterService.getSmtpHost());
-		theMailSender.setPort(systemParameterService.getSmtpPort());
-		theMailSender.setUsername(systemParameterService.getSmtpUser());
-		theMailSender.setPassword(systemParameterService.getSmtpPwd());
-		theMailSender.setJavaMailProperties(theMailProperties);
-
-		serviceLogger.logStart(SERVICE_ID, "");
-
-		Vector theProjects = new Vector();
-
-		logger.logDebug("Retrieving projects");
-
-		for (WebProject theWebProject : websiteDAO.getCurrentProjects()) {
-
-			if (!theWebProject.isNotifiedForNewsletter()) {
-				theProjects.add(theWebProject);
-
-				if (systemParameterService.isNewsletterSendDelta()) {
-					theWebProject.setNotifiedForNewsletter(true);
-					websiteDAO.saveOrUpdate(theWebProject);
-				} else {
-					theWebProject.setNotifiedForNewsletter(false);
-					websiteDAO.saveOrUpdate(theWebProject);
-				}
-			} else {
-				if (!systemParameterService.isNewsletterSendDelta()) {
-					theWebProject.setNotifiedForNewsletter(false);
-					websiteDAO.saveOrUpdate(theWebProject);
-				}
-			}
-			
-			if (aDebugMode && !theProjects.contains(theWebProject)) {
-				theProjects.add(theWebProject);
-			}
-		}
-
-		logger.logDebug("Retrieving emails");
-
-		Collection<NewsletterMail> theReceiver = websiteDAO.getConfirmedMails();
-
-		logger.logDebug("Sending mails for " + theReceiver.size() + " receiver");
-
-		final Vector<NewsletterMail> theErrors = new Vector<NewsletterMail>();
-
-		// Initialize velocity
-		Properties theProperties = new Properties();
-		theProperties.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
-				"org.apache.velocity.runtime.log.SimpleLog4JLogSystem");
-		theProperties.setProperty("runtime.log.logsystem.log4j.category",
-				"velocity");
-		theProperties.setProperty("resource.loader", "class,newsletter");
-		theProperties.setProperty("newsletter.resource.loader.class",
-				"de.mogwai.common.velocity.FileResourceLoader");
-		theProperties.setProperty("newsletter.resource.loader.description",
-				"Newsletter resource loader");
-
-		VelocityEngine theEngine = new VelocityEngine();
-		try {
-			theEngine.init(theProperties);
-		} catch (Exception e2) {
-			logger.logError("Error initializing velocity", e2);
-			return;
-		}
+    private static final String SERVICE_ID = "Newsletter";
 
-		File theTemplateFileName = new File(systemParameterService.getNewsletterTemplate());
-		File theTemplateDir = theTemplateFileName.getParentFile();
-
-		Template theTemplate = null;
-		try {
-			theTemplate = theEngine.getTemplate(systemParameterService.getNewsletterTemplate());
-		} catch (Exception e2) {
-			logger.logError("Error retrieving mail template", e2);
-			return;
-		}
-
-		// Nur für Debug - Zwecke !!!
-		if (aDebugMode) {
-			theReceiver.clear();
-			NewsletterMail theTempMail = new NewsletterMail();
-			theTempMail.setConfirmed(true);
-			theTempMail.setMail(aDebugAdress);
-			theReceiver.add(theTempMail);
-		}
-		
-		WorkerQueue theQueue = new WorkerQueue(systemParameterService.getNewsletterMaxThreadCount());
-
-		if ((theProjects.size() > 0) && (theReceiver.size() > 0)) {
+    private ServiceLoggerService serviceLogger;
 
-			int theCounter = 0;
+    private WebsiteDAO websiteDAO;
 
-			for (NewsletterMail theMail : theReceiver) {
+    private PowerstaffSystemParameterService systemParameterService;
 
-				theCounter++;
+    public ServiceLoggerService getServiceLogger() {
+        return serviceLogger;
+    }
 
-				logger.logDebug("Processing mail " + theMail.getMail());
+    public void setServiceLogger(ServiceLoggerService serviceLogger) {
+        this.serviceLogger = serviceLogger;
+    }
 
-				if (theCounter % 10 == 0) {
-					logger.logDebug(theCounter + " mails sent");
-				}
+    public WebsiteDAO getWebsiteDAO() {
+        return websiteDAO;
+    }
+
+    public void setWebsiteDAO(WebsiteDAO websiteDAO) {
+        this.websiteDAO = websiteDAO;
+    }
+
+    /**
+     * @return the systemParameterService
+     */
+    public PowerstaffSystemParameterService getSystemParameterService() {
+        return systemParameterService;
+    }
+
+    /**
+     * @param systemParameterService
+     *            the systemParameterService to set
+     */
+    public void setSystemParameterService(PowerstaffSystemParameterService systemParameterService) {
+        this.systemParameterService = systemParameterService;
+    }
+
+    public void sendNewsletter() {
+        sendNewsletter(false, null);
+    }
+
+    public void sendTestNewsletterTo(String aDebugAdress) {
+        sendNewsletter(true, aDebugAdress);
+    }
+
+    public void sendNewsletter(boolean aDebugMode, String aDebugAdress) {
+
+        if (!systemParameterService.isNewsletterEnabled() && !aDebugMode) {
+            logger.logInfo("Newsletter wurde deaktiviert");
+            return;
+        }
 
-				try {
+        logger.logDebug("Sending newsletter");
 
-					VelocityContext theContext = new VelocityContext();
-					theContext.put("receiver", theMail);
-					theContext.put("projects", theProjects);
+        Properties theMailProperties = new Properties();
+        theMailProperties.put("mail.smtp.debug", Boolean.TRUE);
 
-					final MimeMessage theMessage = theMailSender
-							.createMimeMessage();
-					theMessage.setFrom(new InternetAddress(systemParameterService.getNewsletterSender()));
-					theMessage.setRecipients(RecipientType.TO, theMail
-							.getMail());
-					theMessage.setSubject(systemParameterService.getNewsletterSubject());
+        final JavaMailSenderImpl theMailSender = new JavaMailSenderImpl();
+        theMailSender.setHost(systemParameterService.getSmtpHost());
+        theMailSender.setPort(systemParameterService.getSmtpPort());
+        theMailSender.setUsername(systemParameterService.getSmtpUser());
+        theMailSender.setPassword(systemParameterService.getSmtpPwd());
+        theMailSender.setJavaMailProperties(theMailProperties);
 
-					MimeMultipart theMultipart = new MimeMultipart();
-					theMultipart.setSubType("related");
+        serviceLogger.logStart(SERVICE_ID, "");
 
-					StringWriter theWriter = new StringWriter();
-					theTemplate.merge(theContext, theWriter);
+        Vector theProjects = new Vector();
 
-					MimeBodyPart theBodyPart = new MimeBodyPart();
-					theBodyPart.setContent(theWriter.toString(), "text/html");
+        logger.logDebug("Retrieving projects");
 
-					theMultipart.addBodyPart(theBodyPart);
+        for (WebProject theWebProject : websiteDAO.getCurrentProjects()) {
 
-					// Add the content to the mail
-					File[] theFiles = theTemplateDir.listFiles();
-					for (int i = 0; i < theFiles.length; i++) {
-						File theFile = theFiles[i];
-						if ((!theFile.getName().endsWith(".html"))
-								&& (!theFile.isDirectory())) {
+            if (!theWebProject.isNotifiedForNewsletter()) {
+                theProjects.add(theWebProject);
 
-							theBodyPart = new MimeBodyPart();
-							theBodyPart.setFileName(theFile.getName());
-							theBodyPart.setDataHandler(new DataHandler(
-									new FileDataSource(theFile)));
-							theBodyPart.setHeader("Content-ID", theFile
-									.getName());
+                if (systemParameterService.isNewsletterSendDelta()) {
+                    theWebProject.setNotifiedForNewsletter(true);
+                    websiteDAO.saveOrUpdate(theWebProject);
+                } else {
+                    theWebProject.setNotifiedForNewsletter(false);
+                    websiteDAO.saveOrUpdate(theWebProject);
+                }
+            } else {
+                if (!systemParameterService.isNewsletterSendDelta()) {
+                    theWebProject.setNotifiedForNewsletter(false);
+                    websiteDAO.saveOrUpdate(theWebProject);
+                }
+            }
 
-							theMultipart.addBodyPart(theBodyPart);
-						}
-					}
+            if (aDebugMode && !theProjects.contains(theWebProject)) {
+                theProjects.add(theWebProject);
+            }
+        }
 
-					theMessage.setContent(theMultipart);
+        logger.logDebug("Retrieving emails");
 
-					final NewsletterMail theFinalMail = theMail;
+        Collection<NewsletterMail> theReceiver = websiteDAO.getConfirmedMails();
 
-					theQueue.execute(new Runnable() {
-						public void run() {
+        logger.logDebug("Sending mails for " + theReceiver.size() + " receiver");
 
-							try {
-								theMailSender.send(theMessage);
+        final Vector<NewsletterMail> theErrors = new Vector<NewsletterMail>();
 
-								logger.logDebug("Mail to "
-										+ theFinalMail.getMail()
-										+ " successfully sent");
+        // Initialize velocity
+        Properties theProperties = new Properties();
+        theProperties.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
+                "org.apache.velocity.runtime.log.SimpleLog4JLogSystem");
+        theProperties.setProperty("runtime.log.logsystem.log4j.category", "velocity");
+        theProperties.setProperty("resource.loader", "class,newsletter");
+        theProperties.setProperty("newsletter.resource.loader.class", "de.mogwai.common.velocity.FileResourceLoader");
+        theProperties.setProperty("newsletter.resource.loader.description", "Newsletter resource loader");
 
-							} catch (Exception e) {
+        VelocityEngine theEngine = new VelocityEngine();
+        try {
+            theEngine.init(theProperties);
+        } catch (Exception e2) {
+            logger.logError("Error initializing velocity", e2);
+            return;
+        }
 
-								logger.logError("Error sending mail", e);
+        File theTemplateFileName = new File(systemParameterService.getNewsletterTemplate());
+        File theTemplateDir = theTemplateFileName.getParentFile();
 
-								theErrors.add(theFinalMail);
+        Template theTemplate = null;
+        try {
+            theTemplate = theEngine.getTemplate(systemParameterService.getNewsletterTemplate());
+        } catch (Exception e2) {
+            logger.logError("Error retrieving mail template", e2);
+            return;
+        }
 
-								theFinalMail.setErrorcounter(theFinalMail
-										.getErrorcounter() + 1);
-								try {
-									websiteDAO.saveOrUpdate(theFinalMail);
-								} catch (Exception e1) {
-								}
+        // Nur für Debug - Zwecke !!!
+        if (aDebugMode) {
+            theReceiver.clear();
+            NewsletterMail theTempMail = new NewsletterMail();
+            theTempMail.setConfirmed(true);
+            theTempMail.setMail(aDebugAdress);
+            theReceiver.add(theTempMail);
+        }
 
-							}
-						}
-					});
+        WorkerQueue theQueue = new WorkerQueue(systemParameterService.getNewsletterMaxThreadCount());
 
-					if (theCounter % systemParameterService.getNewsletterBatchCount() == 0) {
+        if ((theProjects.size() > 0) && (theReceiver.size() > 0)) {
 
-						int theSleepInterval = systemParameterService.getNewsletterSleepIntervall();
-						
-						logger.logDebug("Going to sleep for " + theSleepInterval
-								+ "ms");
+            int theCounter = 0;
 
-						try {
-							Thread.sleep(theSleepInterval);
-						} catch (Exception e) {
-						}
+            for (NewsletterMail theMail : theReceiver) {
 
-					}
+                theCounter++;
 
-				} catch (Exception e) {
+                logger.logDebug("Processing mail " + theMail.getMail());
 
-					logger
-							.logDebug("Error sending mail to " + theMail.getMail(),
-									e);
+                if (theCounter % 10 == 0) {
+                    logger.logDebug(theCounter + " mails sent");
+                }
 
-				}
-			}
+                try {
 
-		}
+                    VelocityContext theContext = new VelocityContext();
+                    theContext.put("receiver", theMail);
+                    theContext.put("projects", theProjects);
 
-		while (theQueue.isRunning()) {
+                    final MimeMessage theMessage = theMailSender.createMimeMessage();
+                    theMessage.setFrom(new InternetAddress(systemParameterService.getNewsletterSender()));
+                    theMessage.setRecipients(RecipientType.TO, theMail.getMail());
+                    theMessage.setSubject(systemParameterService.getNewsletterSubject());
 
-			logger.logDebug("Waiting for queue to finish. " + theQueue.size()
-					+ " entries left");
+                    MimeMultipart theMultipart = new MimeMultipart();
+                    theMultipart.setSubType("related");
 
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-			}
-		}
+                    StringWriter theWriter = new StringWriter();
+                    theTemplate.merge(theContext, theWriter);
 
-		theQueue.shutdown();
+                    MimeBodyPart theBodyPart = new MimeBodyPart();
+                    theBodyPart.setContent(theWriter.toString(), "text/html");
 
-		serviceLogger.logEnd(SERVICE_ID, "" + theProjects.size()
-				+ " projects, " + theReceiver.size() + " receiver, errors "
-				+ theErrors.size());
+                    theMultipart.addBodyPart(theBodyPart);
 
-		logger.logDebug("Completed");
-	}
+                    // Add the content to the mail
+                    File[] theFiles = theTemplateDir.listFiles();
+                    for (int i = 0; i < theFiles.length; i++) {
+                        File theFile = theFiles[i];
+                        if ((!theFile.getName().endsWith(".html")) && (!theFile.isDirectory())) {
+
+                            theBodyPart = new MimeBodyPart();
+                            theBodyPart.setFileName(theFile.getName());
+                            theBodyPart.setDataHandler(new DataHandler(new FileDataSource(theFile)));
+                            theBodyPart.setHeader("Content-ID", theFile.getName());
+
+                            theMultipart.addBodyPart(theBodyPart);
+                        }
+                    }
+
+                    theMessage.setContent(theMultipart);
+
+                    final NewsletterMail theFinalMail = theMail;
+
+                    theQueue.execute(new Runnable() {
+                        public void run() {
+
+                            try {
+                                theMailSender.send(theMessage);
+
+                                logger.logDebug("Mail to " + theFinalMail.getMail() + " successfully sent");
+
+                            } catch (Exception e) {
+
+                                logger.logError("Error sending mail", e);
+
+                                theErrors.add(theFinalMail);
+
+                                theFinalMail.setErrorcounter(theFinalMail.getErrorcounter() + 1);
+                                try {
+                                    websiteDAO.saveOrUpdate(theFinalMail);
+                                } catch (Exception e1) {
+                                    // Nothing will happen here
+                                }
+
+                            }
+                        }
+                    });
+
+                    if (theCounter % systemParameterService.getNewsletterBatchCount() == 0) {
+
+                        int theSleepInterval = systemParameterService.getNewsletterSleepIntervall();
+
+                        logger.logDebug("Going to sleep for " + theSleepInterval + "ms");
+
+                        try {
+                            Thread.sleep(theSleepInterval);
+                        } catch (Exception e) {
+                            // Nothing will happen here                            
+                        }
+
+                    }
+
+                } catch (Exception e) {
+
+                    logger.logDebug("Error sending mail to " + theMail.getMail(), e);
+
+                }
+            }
+
+        }
+
+        while (theQueue.isRunning()) {
+
+            logger.logDebug("Waiting for queue to finish. " + theQueue.size() + " entries left");
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // Nothing will happen here                
+            }
+        }
+
+        theQueue.shutdown();
+
+        serviceLogger.logEnd(SERVICE_ID, "" + theProjects.size() + " projects, " + theReceiver.size()
+                + " receiver, errors " + theErrors.size());
+
+        logger.logDebug("Completed");
+    }
 }

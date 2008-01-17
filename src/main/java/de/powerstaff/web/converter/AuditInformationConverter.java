@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.convert.ConverterException;
 
 import org.apache.commons.lang.NotImplementedException;
 
@@ -14,32 +13,31 @@ import de.mogwai.common.web.ResourceBundleManager;
 
 public class AuditInformationConverter implements Converter {
 
-	public Object getAsObject(FacesContext aContext, UIComponent aComponent,
-			String aValue) throws ConverterException {
-		throw new NotImplementedException();
-	}
+    public Object getAsObject(FacesContext aContext, UIComponent aComponent, String aValue) {
+        throw new NotImplementedException();
+    }
 
-	public String getAsString(FacesContext aContext, UIComponent aComponent,
-			Object aValue) throws ConverterException {
+    public String getAsString(FacesContext aContext, UIComponent aComponent, Object aValue) {
 
-		SimpleDateFormat theFormat = new SimpleDateFormat(ResourceBundleManager.getBundle().getString("global.timestampformat"));
-		
-		AuditableEntity theEntity = (AuditableEntity) aValue;
-		StringBuffer theResult = new StringBuffer();
-		
-		if (theEntity.getCreationDate()!=null) {
-			theResult.append("Erstellt ");
-			theResult.append(theFormat.format(theEntity.getCreationDate()));
-			theResult.append("("+theEntity.getCreationUserID()+")");
-		}
+        SimpleDateFormat theFormat = new SimpleDateFormat(ResourceBundleManager.getBundle().getString(
+                "global.timestampformat"));
 
-		if (theEntity.getLastModificationDate()!=null) {
-			theResult.append(" Zuletzt bearbeitet ");
-			theResult.append(theFormat.format(theEntity.getLastModificationDate()));
-			theResult.append("("+theEntity.getLastModificationUserID()+")");
-		}
+        AuditableEntity theEntity = (AuditableEntity) aValue;
+        StringBuffer theResult = new StringBuffer();
 
-		return theResult.toString();
-	}
+        if (theEntity.getCreationDate() != null) {
+            theResult.append("Erstellt ");
+            theResult.append(theFormat.format(theEntity.getCreationDate()));
+            theResult.append("(" + theEntity.getCreationUserID() + ")");
+        }
+
+        if (theEntity.getLastModificationDate() != null) {
+            theResult.append(" Zuletzt bearbeitet ");
+            theResult.append(theFormat.format(theEntity.getLastModificationDate()));
+            theResult.append("(" + theEntity.getLastModificationUserID() + ")");
+        }
+
+        return theResult.toString();
+    }
 
 }

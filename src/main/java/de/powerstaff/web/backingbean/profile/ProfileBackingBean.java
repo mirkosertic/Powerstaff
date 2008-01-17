@@ -15,86 +15,80 @@ import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.web.backingbean.MessageConstants;
 import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 
-public class ProfileBackingBean extends
-		WrappingBackingBean<ProfileBackingBeanDataModel> implements
-		MessageConstants , StateHolder {
+public class ProfileBackingBean extends WrappingBackingBean<ProfileBackingBeanDataModel> implements MessageConstants,
+        StateHolder {
 
-	private final static Logger LOGGER = new Logger(ProfileBackingBean.class);
+    private static final Logger LOGGER = new Logger(ProfileBackingBean.class);
 
-	private ProfileSearchService profileSearchService;
+    private ProfileSearchService profileSearchService;
 
-	@Override
-	protected ProfileBackingBeanDataModel createDataModel() {
-		return new ProfileBackingBeanDataModel();
-	}
+    @Override
+    protected ProfileBackingBeanDataModel createDataModel() {
+        return new ProfileBackingBeanDataModel();
+    }
 
-	@Override
-	public void init() {
-		super.init();
-		if (getData() != null) {
-			getData().setViewRoot(null);
-		} else {
-			setData(createDataModel());
-		}
-	}
+    @Override
+    public void init() {
+        super.init();
+        if (getData() != null) {
+            getData().setViewRoot(null);
+        } else {
+            setData(createDataModel());
+        }
+    }
 
-	/**
-	 * @return the profileSearchService
-	 */
-	public ProfileSearchService getProfileSearchService() {
-		return profileSearchService;
-	}
+    /**
+     * @return the profileSearchService
+     */
+    public ProfileSearchService getProfileSearchService() {
+        return profileSearchService;
+    }
 
-	/**
-	 * @param profileSearchService
-	 *            the profileSearchService to set
-	 */
-	public void setProfileSearchService(
-			ProfileSearchService profileSearchService) {
-		this.profileSearchService = profileSearchService;
-	}
+    /**
+     * @param profileSearchService
+     *            the profileSearchService to set
+     */
+    public void setProfileSearchService(ProfileSearchService profileSearchService) {
+        this.profileSearchService = profileSearchService;
+    }
 
-	public void commandSearch() {
-		try {
-			getData().getSearchResult().setWrappedData(
-					profileSearchService.searchDocument(getData()
-							.getSearchString()));
+    public void commandSearch() {
+        try {
+            getData().getSearchResult()
+                    .setWrappedData(profileSearchService.searchDocument(getData().getSearchString()));
 
-			if (getData().getSearchResult().size() == 0) {
-				JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEPROFILEGEFUNDEN);
-			} else {
-				JSFMessageUtils.addGlobalInfoMessage(MSG_PROFILEGEFUNDEN, "" + getData().getSearchResult().size());
-			}
-		} catch (Exception e) {
-			JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE,
-					e.getMessage());
-			LOGGER.logError("Fehler bei Profilsuche", e);
-		}
-	}
+            if (getData().getSearchResult().size() == 0) {
+                JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEPROFILEGEFUNDEN);
+            } else {
+                JSFMessageUtils.addGlobalInfoMessage(MSG_PROFILEGEFUNDEN, "" + getData().getSearchResult().size());
+            }
+        } catch (Exception e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE, e.getMessage());
+            LOGGER.logError("Fehler bei Profilsuche", e);
+        }
+    }
 
-	public String commandSelectSearchResult() {
-		forceUpdateOfBean(FreelancerBackingBean.class,
-				new EditEntityCommand<ProfileSearchInfoDetail>(
-						((ProfileSearchResult) getData().getSearchResult()
-								.getRowData()).getFreelancer()));
-		return "FREELANCER_STAMMDATEN";
-	}
-	
-	public boolean isTransient() {
-		return false;
-	}
+    public String commandSelectSearchResult() {
+        forceUpdateOfBean(FreelancerBackingBean.class, new EditEntityCommand<ProfileSearchInfoDetail>(
+                ((ProfileSearchResult) getData().getSearchResult().getRowData()).getFreelancer()));
+        return "FREELANCER_STAMMDATEN";
+    }
 
-	public void setTransient(boolean aValue) {
-	}
+    public boolean isTransient() {
+        return false;
+    }
 
-	public void restoreState(FacesContext aContext, Object aValue) {
-		Object[] theData = (Object[]) aValue;
-		setData((ProfileBackingBeanDataModel)theData[0]);
-	}
+    public void setTransient(boolean aValue) {
+    }
 
-	public Object saveState(FacesContext aContext) {
-		ArrayList theData = new ArrayList();
-		theData.add(getData());
-		return theData.toArray();
-	}	
+    public void restoreState(FacesContext aContext, Object aValue) {
+        Object[] theData = (Object[]) aValue;
+        setData((ProfileBackingBeanDataModel) theData[0]);
+    }
+
+    public Object saveState(FacesContext aContext) {
+        ArrayList theData = new ArrayList();
+        theData.add(getData());
+        return theData.toArray();
+    }
 }

@@ -10,48 +10,51 @@ import de.powerstaff.business.service.ProfileSearchResult;
 
 public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 
-	private String searchString;
+    private String searchString;
 
-	private transient UIComponent viewRoot;
-	
-	private CollectionDataModel<ProfileSearchResult> searchResult = new CollectionDataModel<ProfileSearchResult>(new Vector<ProfileSearchResult>());
-	
-	/**
-	 * @return the searchString
-	 */
-	public String getSearchString() {
-		return searchString;
-	}
+    private transient UIComponent viewRoot;
 
-	/**
-	 * @param searchString the searchString to set
-	 */
-	public void setSearchString(String searchString) {
-		this.searchString = searchString;
-	}
+    private CollectionDataModel<ProfileSearchResult> searchResult = new CollectionDataModel<ProfileSearchResult>(
+            new Vector<ProfileSearchResult>());
 
-	/**
-	 * @return the viewRoot
-	 */
-	public UIComponent getViewRoot() {
-		return viewRoot;
-	}
+    /**
+     * @return the searchString
+     */
+    public String getSearchString() {
+        return searchString;
+    }
 
-	/**
-	 * @param viewRoot the viewRoot to set
-	 */
-	public void setViewRoot(UIComponent viewRoot) {
-		this.viewRoot = viewRoot;
-	}
+    /**
+     * @param searchString
+     *            the searchString to set
+     */
+    public void setSearchString(String searchString) {
+        this.searchString = searchString;
+    }
 
-	/**
-	 * @return the searchResult
-	 */
-	public CollectionDataModel<ProfileSearchResult> getSearchResult() {
-		return searchResult;
-	}
-	
-	public int getSearchResultSize() {
-		return searchResult.size();
-	}
+    /**
+     * @return the viewRoot
+     */
+    public UIComponent getViewRoot() {
+        return viewRoot;
+    }
+
+    /**
+     * @param viewRoot
+     *            the viewRoot to set
+     */
+    public void setViewRoot(UIComponent viewRoot) {
+        this.viewRoot = viewRoot;
+    }
+
+    /**
+     * @return the searchResult
+     */
+    public CollectionDataModel<ProfileSearchResult> getSearchResult() {
+        return searchResult;
+    }
+
+    public int getSearchResultSize() {
+        return searchResult.size();
+    }
 }

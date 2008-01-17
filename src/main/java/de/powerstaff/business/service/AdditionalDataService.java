@@ -7,5 +7,5 @@ import de.powerstaff.business.entity.ContactType;
 
 public interface AdditionalDataService extends Service {
 
-	List<ContactType> getContactTypes();
+    List<ContactType> getContactTypes();
 }

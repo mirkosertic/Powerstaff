@@ -17,7 +17,6 @@
  */
 package de.powerstaff.business.service.impl;
 
-
 import java.util.Collection;
 import java.util.List;
 
@@ -30,63 +29,64 @@ import de.powerstaff.business.service.RecordInfo;
 
 public class PartnerServiceImpl extends LogableService implements PartnerService {
 
-	private PartnerDAO partnerDAO;
+    private PartnerDAO partnerDAO;
 
-	/**
-	 * @return the partnerDAO
-	 */
-	public PartnerDAO getPartnerDAO() {
-		return partnerDAO;
-	}
+    /**
+     * @return the partnerDAO
+     */
+    public PartnerDAO getPartnerDAO() {
+        return partnerDAO;
+    }
 
-	/**
-	 * @param partnerDAO the partnerDAO to set
-	 */
-	public void setPartnerDAO(PartnerDAO partnerDAO) {
-		this.partnerDAO = partnerDAO;
-	}
+    /**
+     * @param partnerDAO
+     *            the partnerDAO to set
+     */
+    public void setPartnerDAO(PartnerDAO partnerDAO) {
+        this.partnerDAO = partnerDAO;
+    }
 
-	public void delete(Freelancer aEntity) {
-		partnerDAO.delete(aEntity);
-	}
+    public void delete(Freelancer aEntity) {
+        partnerDAO.delete(aEntity);
+    }
 
-	public Partner findByPrimaryKey(Long aId) {
-		return partnerDAO.findById(aId);
-	}
+    public Partner findByPrimaryKey(Long aId) {
+        return partnerDAO.findById(aId);
+    }
 
-	public Partner findFirst() {
-		return partnerDAO.findFirst();
-	}
+    public Partner findFirst() {
+        return partnerDAO.findFirst();
+    }
 
-	public Partner findLast() {
-		return partnerDAO.findLast();
-	}
+    public Partner findLast() {
+        return partnerDAO.findLast();
+    }
 
-	public Partner findNext(Partner aObject) {
-		return partnerDAO.findNext(aObject);
-	}
+    public Partner findNext(Partner aObject) {
+        return partnerDAO.findNext(aObject);
+    }
 
-	public Partner findPrior(Partner aObject) {
-		return partnerDAO.findPrior(aObject);
-	}
+    public Partner findPrior(Partner aObject) {
+        return partnerDAO.findPrior(aObject);
+    }
 
-	public RecordInfo getRecordInfo(Partner aObject) {
-		return partnerDAO.getRecordInfo(aObject);
-	}
+    public RecordInfo getRecordInfo(Partner aObject) {
+        return partnerDAO.getRecordInfo(aObject);
+    }
 
-	public Collection<Partner> performQBESearch(Partner aObject) {
-		return partnerDAO.performQBESearch(aObject);
-	}
+    public Collection<Partner> performQBESearch(Partner aObject) {
+        return partnerDAO.performQBESearch(aObject);
+    }
 
-	public void save(Partner aObject) {
-		partnerDAO.save(aObject);
-	}
+    public void save(Partner aObject) {
+        partnerDAO.save(aObject);
+    }
 
-	public List<Partner> findAll() {
-		return partnerDAO.findAll();
-	}
+    public List<Partner> findAll() {
+        return partnerDAO.findAll();
+    }
 
-	public void delete(Partner aObject) {
-		partnerDAO.delete(aObject);
-	}
+    public void delete(Partner aObject) {
+        partnerDAO.delete(aObject);
+    }
 }

@@ -25,49 +25,51 @@ import de.powerstaff.business.service.AuthenticationService;
 
 public class AuthenticationServiceImpl extends LogableService implements AuthenticationService {
 
-	private AuthenticationDAO authenticationDAO;
+    private AuthenticationDAO authenticationDAO;
 
-	/**
-	 * @return the authenticationDAO
-	 */
-	public AuthenticationDAO getAuthenticationDAO() {
-		return authenticationDAO;
-	}
+    /**
+     * @return the authenticationDAO
+     */
+    public AuthenticationDAO getAuthenticationDAO() {
+        return authenticationDAO;
+    }
 
-	/**
-	 * @param authenticationDAO the authenticationDAO to set
-	 */
-	public void setAuthenticationDAO(AuthenticationDAO authenticationDAO) {
-		this.authenticationDAO = authenticationDAO;
-	}
+    /**
+     * @param authenticationDAO
+     *            the authenticationDAO to set
+     */
+    public void setAuthenticationDAO(AuthenticationDAO authenticationDAO) {
+        this.authenticationDAO = authenticationDAO;
+    }
 
-	public User login(String aPrincipal, String aCredentials) {
+    public User login(String aPrincipal, String aCredentials) {
 
-		User theUser = null;
+        User theUser = null;
 
-		if ("admin".equals(aPrincipal) && ("secret".equals(aCredentials))) {
-			theUser = new User();
-			theUser.setName(aPrincipal);
+        if ("admin".equals(aPrincipal) && ("secret".equals(aCredentials))) {
+            theUser = new User();
+            theUser.setName(aPrincipal);
 
-			UserContextHolder.initContextWithAuthenticatable(theUser);
-			return theUser;
-		}
+            UserContextHolder.initContextWithAuthenticatable(theUser);
+            return theUser;
+        }
 
-		theUser = authenticationDAO.findUserByName(aPrincipal);
-		if (theUser != null) {
-			if (!theUser.isActive())
-				theUser = null;
-		}
-		
-		if (theUser != null) {
-			if (theUser.getPassword().equals(aCredentials)) {
-				UserContextHolder.initContextWithAuthenticatable(theUser);
-			} else {
-				theUser = null;
-			}
-		}
-		
-		return theUser;
-	}
+        theUser = authenticationDAO.findUserByName(aPrincipal);
+        if (theUser != null) {
+            if (!theUser.isActive()) {
+                theUser = null;
+            }
+        }
+
+        if (theUser != null) {
+            if (theUser.getPassword().equals(aCredentials)) {
+                UserContextHolder.initContextWithAuthenticatable(theUser);
+            } else {
+                theUser = null;
+            }
+        }
+
+        return theUser;
+    }
 
 }

@@ -24,9 +24,9 @@ import de.powerstaff.business.service.ProfileSearchInfoDetail;
 
 public interface FreelancerDAO extends NavigatingDAO<Freelancer> {
 
-	ProfileSearchInfoDetail findByCode(String aCode);
-	
-	List<Freelancer> performQBESearch(Freelancer object);
+    ProfileSearchInfoDetail findByCode(String aCode);
 
-	List<String> getCodeSuggestions(String aSuggest);
+    List<Freelancer> performQBESearch(Freelancer object);
+
+    List<String> getCodeSuggestions(String aSuggest);
 }

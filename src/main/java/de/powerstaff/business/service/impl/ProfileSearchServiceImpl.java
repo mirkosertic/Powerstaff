@@ -49,159 +49,147 @@ import de.powerstaff.business.service.ProfileSearchService;
 /**
  * @author Mirko Sertic
  */
-public class ProfileSearchServiceImpl extends LogableService implements
-		ProfileSearchService {
+public class ProfileSearchServiceImpl extends LogableService implements ProfileSearchService {
 
-	private FreelancerService freelancerService;
+    private FreelancerService freelancerService;
 
-	private PowerstaffSystemParameterService systemParameterService;
+    private PowerstaffSystemParameterService systemParameterService;
 
-	/**
-	 * @return the systemParameterService
-	 */
-	public PowerstaffSystemParameterService getSystemParameterService() {
-		return systemParameterService;
-	}
+    /**
+     * @return the systemParameterService
+     */
+    public PowerstaffSystemParameterService getSystemParameterService() {
+        return systemParameterService;
+    }
 
-	/**
-	 * @param systemParameterService
-	 *            the systemParameterService to set
-	 */
-	public void setSystemParameterService(
-			PowerstaffSystemParameterService systemParameterService) {
-		this.systemParameterService = systemParameterService;
-	}
+    /**
+     * @param systemParameterService
+     *            the systemParameterService to set
+     */
+    public void setSystemParameterService(PowerstaffSystemParameterService systemParameterService) {
+        this.systemParameterService = systemParameterService;
+    }
 
-	public FreelancerService getFreelancerService() {
-		return freelancerService;
-	}
+    public FreelancerService getFreelancerService() {
+        return freelancerService;
+    }
 
-	public void setFreelancerService(FreelancerService freelancerService) {
-		this.freelancerService = freelancerService;
-	}
+    public void setFreelancerService(FreelancerService freelancerService) {
+        this.freelancerService = freelancerService;
+    }
 
-	public Vector<ProfileSearchResult> searchDocument(String aSearchString) throws Exception {
-		
-		int theMaxSearchResult = systemParameterService.getProfileMaxSearchResult();
-		
-		Vector<ProfileSearchResult> theResult = new Vector<ProfileSearchResult>();
+    public Vector<ProfileSearchResult> searchDocument(String aSearchString) throws Exception {
 
-		StringBuilder theRealQuery = new StringBuilder();
-		StringTokenizer st = new StringTokenizer(aSearchString, " ");
-		while (st.hasMoreElements()) {
-			if (theRealQuery.length() > 0)
-				theRealQuery.append(" AND ");
-			theRealQuery.append("\"");
-			theRealQuery.append(st.nextToken().toLowerCase());
-			theRealQuery.append("\"");
-		}
+        int theMaxSearchResult = systemParameterService.getProfileMaxSearchResult();
 
-		logger.logDebug("Search query is " + theRealQuery);
-		
-		long theStartTime = System.currentTimeMillis();
+        Vector<ProfileSearchResult> theResult = new Vector<ProfileSearchResult>();
 
-		Searcher theSearcher = new IndexSearcher(systemParameterService
-				.getIndexerPath());
-		Analyzer theAnalyzer = new StandardAnalyzer();
-		QueryParser theParser = new QueryParser(ProfileIndexerService.CONTENT,
-				theAnalyzer);
-		Query theQuery = theParser.parse(theRealQuery.toString());
-		Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(
-				1, "#000000", "#0000FF", null, null), new QueryScorer(theQuery));
+        StringBuilder theRealQuery = new StringBuilder();
+        StringTokenizer st = new StringTokenizer(aSearchString, " ");
+        while (st.hasMoreElements()) {
+            if (theRealQuery.length() > 0) {
+                theRealQuery.append(" AND ");
+            }
+            theRealQuery.append("\"");
+            theRealQuery.append(st.nextToken().toLowerCase());
+            theRealQuery.append("\"");
+        }
 
-		Hits theHits = theSearcher.search(theQuery);
-		
-		long theDuration = System.currentTimeMillis() - theStartTime;
-		
-		logger.logDebug("Size of search result is " + theHits.length()+" duration = "+theDuration);;
+        logger.logDebug("Search query is " + theRealQuery);
 
-		for (int i = 0; i < theHits.length(); i++) {
+        long theStartTime = System.currentTimeMillis();
 
-			Document theDocument = theHits.doc(i);
+        Searcher theSearcher = new IndexSearcher(systemParameterService.getIndexerPath());
+        Analyzer theAnalyzer = new StandardAnalyzer();
+        QueryParser theParser = new QueryParser(ProfileIndexerService.CONTENT, theAnalyzer);
+        Query theQuery = theParser.parse(theRealQuery.toString());
+        Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(1, "#000000", "#0000FF", null, null),
+                new QueryScorer(theQuery));
 
-			ProfileSearchResult theSearchResult = new ProfileSearchResult();
-			theSearchResult
-					.setCode(theDocument.get(ProfileIndexerService.CODE));
+        Hits theHits = theSearcher.search(theQuery);
 
-			ProfileSearchInfoDetail theFreelancer = freelancerService
-					.findFreelancerByCode(theSearchResult.getCode());
-			if (theFreelancer != null)
-				theSearchResult.setFreelancer(theFreelancer);
+        long theDuration = System.currentTimeMillis() - theStartTime;
 
-			String theContent = theDocument
-					.get(ProfileIndexerService.ORIG_CONTENT);
-			TokenStream tokenStream = theAnalyzer
-					.tokenStream(ProfileIndexerService.CONTENT,
-							new StringReader(theContent));
+        logger.logDebug("Size of search result is " + theHits.length() + " duration = " + theDuration);
 
-			String theHighlight = theHighlighter.getBestFragments(tokenStream,
-					theContent, 5, "&nbsp;...&nbsp;");
-			theSearchResult.setHighlightResult(theHighlight);
+        for (int i = 0; i < theHits.length(); i++) {
 
-			theResult.add(theSearchResult);
+            Document theDocument = theHits.doc(i);
 
-			if (theResult.size() >= theMaxSearchResult) {
-				
-				theDuration = System.currentTimeMillis() - theStartTime;
-				logger.logDebug("Reached max result count, duration = "+theDuration);
-				
-				return theResult;
-			}
-		}
+            ProfileSearchResult theSearchResult = new ProfileSearchResult();
+            theSearchResult.setCode(theDocument.get(ProfileIndexerService.CODE));
 
-		theDuration = System.currentTimeMillis() - theStartTime;
-		logger.logDebug("Finished, duration = "+theDuration);
-		
-		return theResult;
-	}
+            ProfileSearchInfoDetail theFreelancer = freelancerService.findFreelancerByCode(theSearchResult.getCode());
+            if (theFreelancer != null) {
+                theSearchResult.setFreelancer(theFreelancer);
+            }
 
-	public Vector<FreelancerProfile> findProfiles(String aCode)
-			throws Exception {
+            String theContent = theDocument.get(ProfileIndexerService.ORIG_CONTENT);
+            TokenStream tokenStream = theAnalyzer.tokenStream(ProfileIndexerService.CONTENT, new StringReader(
+                    theContent));
 
-		Vector<FreelancerProfile> theResult = new Vector<FreelancerProfile>();
-		if (!StringUtils.isEmpty(aCode)) {
+            String theHighlight = theHighlighter.getBestFragments(tokenStream, theContent, 5, "&nbsp;...&nbsp;");
+            theSearchResult.setHighlightResult(theHighlight);
 
-			String theRealQuery = "\"" + aCode + "\"";
+            theResult.add(theSearchResult);
 
-			logger.logDebug("Search query is " + theRealQuery);
+            if (theResult.size() >= theMaxSearchResult) {
 
-			Searcher theSearcher = new IndexSearcher(systemParameterService
-					.getIndexerPath());
-			Analyzer theAnalyzer = new KeywordAnalyzer();
-			QueryParser theParser = new QueryParser(ProfileIndexerService.CODE,
-					theAnalyzer);
-			Query theQuery = theParser.parse(theRealQuery.toString());
-			Hits theHits = theSearcher.search(theQuery);
+                theDuration = System.currentTimeMillis() - theStartTime;
+                logger.logDebug("Reached max result count, duration = " + theDuration);
 
-			logger.logDebug("Size of search result is " + theHits.length());
+                return theResult;
+            }
+        }
 
-			for (int i = 0; i < theHits.length(); i++) {
+        theDuration = System.currentTimeMillis() - theStartTime;
+        logger.logDebug("Finished, duration = " + theDuration);
 
-				Document theDocument = theHits.doc(i);
+        return theResult;
+    }
 
-				FreelancerProfile theSearchResult = new FreelancerProfile();
+    public Vector<FreelancerProfile> findProfiles(String aCode) throws Exception {
 
-				String theFileName = theDocument
-						.get(ProfileIndexerService.PATH);
-				int p = theFileName.lastIndexOf(File.separator);
-				if (p >= 0)
-					theFileName = theFileName.substring(p + 1);
+        Vector<FreelancerProfile> theResult = new Vector<FreelancerProfile>();
+        if (!StringUtils.isEmpty(aCode)) {
 
-				String theBaseDir = systemParameterService
-						.getIndexerNetworkDir();
-				if (!theBaseDir.endsWith("\\")) {
-					theBaseDir += "\\";
-				}
+            String theRealQuery = "\"" + aCode + "\"";
 
-				theSearchResult.setName(theFileName);
-				theSearchResult.setFileName(theBaseDir
-						+ theDocument.get(ProfileIndexerService.STRIPPEDPATH));
+            logger.logDebug("Search query is " + theRealQuery);
 
-				theResult.add(theSearchResult);
-			}
+            Searcher theSearcher = new IndexSearcher(systemParameterService.getIndexerPath());
+            Analyzer theAnalyzer = new KeywordAnalyzer();
+            QueryParser theParser = new QueryParser(ProfileIndexerService.CODE, theAnalyzer);
+            Query theQuery = theParser.parse(theRealQuery.toString());
+            Hits theHits = theSearcher.search(theQuery);
 
-		}
+            logger.logDebug("Size of search result is " + theHits.length());
 
-		return theResult;
-	}
+            for (int i = 0; i < theHits.length(); i++) {
+
+                Document theDocument = theHits.doc(i);
+
+                FreelancerProfile theSearchResult = new FreelancerProfile();
+
+                String theFileName = theDocument.get(ProfileIndexerService.PATH);
+                int p = theFileName.lastIndexOf(File.separator);
+                if (p >= 0) {
+                    theFileName = theFileName.substring(p + 1);
+                }
+
+                String theBaseDir = systemParameterService.getIndexerNetworkDir();
+                if (!theBaseDir.endsWith("\\")) {
+                    theBaseDir += "\\";
+                }
+
+                theSearchResult.setName(theFileName);
+                theSearchResult.setFileName(theBaseDir + theDocument.get(ProfileIndexerService.STRIPPEDPATH));
+
+                theResult.add(theSearchResult);
+            }
+
+        }
+
+        return theResult;
+    }
 }

@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
@@ -33,72 +32,72 @@ import de.powerstaff.business.service.ProfileSearchInfoDetail;
 
 public class FreelancerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Freelancer> implements FreelancerDAO {
 
-	@Override
-	protected Freelancer createNew() {
-		return new Freelancer();
-	}
+    @Override
+    protected Freelancer createNew() {
+        return new Freelancer();
+    }
 
-	@Override
-	protected Class getEntityClass() {
-		return Freelancer.class;
-	}
+    @Override
+    protected Class getEntityClass() {
+        return Freelancer.class;
+    }
 
-	public ProfileSearchInfoDetail findByCode(final String aCode) {
-		return (ProfileSearchInfoDetail) getHibernateTemplate().execute(new HibernateCallback() {
+    public ProfileSearchInfoDetail findByCode(final String aCode) {
+        return (ProfileSearchInfoDetail) getHibernateTemplate().execute(new HibernateCallback() {
 
-			public Object doInHibernate(Session aSession) throws HibernateException, SQLException {
-				Query theQuery = aSession.createQuery("select item.name1, item.name2, item.availability, item.id from Freelancer item where item.code = :code");
-				theQuery.setString("code", aCode);
-				Iterator theIterator = theQuery.list().iterator();
-				if (theIterator.hasNext()) {
-					Object[] theRow = (Object[]) theIterator.next();
-					
-					ProfileSearchInfoDetail theDetail = new ProfileSearchInfoDetail();
-					theDetail.setName1((String) theRow[0]);
-					theDetail.setName2((String) theRow[1]);
-					theDetail.setAvailability((String) theRow[2]);
-					theDetail.setId((Long) theRow[3]);
-					
-					return theDetail;
-				}
-				
-				return null;
-			}
-			
-		});
-	}
+            public Object doInHibernate(Session aSession) throws SQLException {
+                Query theQuery = aSession
+                        .createQuery("select item.name1, item.name2, item.availability, item.id from Freelancer item where item.code = :code");
+                theQuery.setString("code", aCode);
+                Iterator theIterator = theQuery.list().iterator();
+                if (theIterator.hasNext()) {
+                    Object[] theRow = (Object[]) theIterator.next();
 
-	public List<Freelancer> performQBESearch(Freelancer aObject) {
-		
-		String[] theSearchProperties = new String[] { "name1", "name2",
-				"company", "street", "country", "plz", "city", "comments",
-				"workplace", "availability", "sallary", "code",
-				"contactPerson", "contactType", "contactReason", "lastContact",
-				"skills", "gulpID" };
+                    ProfileSearchInfoDetail theDetail = new ProfileSearchInfoDetail();
+                    theDetail.setName1((String) theRow[0]);
+                    theDetail.setName2((String) theRow[1]);
+                    theDetail.setAvailability((String) theRow[2]);
+                    theDetail.setId((Long) theRow[3]);
 
-		String[] theOrderByProperties = new String[] { "name1", "name2" };
-		
-		return performQBESearch(aObject, theSearchProperties, theOrderByProperties, MATCH_LIKE);
-	}
+                    return theDetail;
+                }
 
-	public List<String> getCodeSuggestions(final String aSuggest) {
-		return (List<String>) getHibernateTemplate().execute(new HibernateCallback() {
+                return null;
+            }
 
-			public Object doInHibernate(Session aSession) throws HibernateException, SQLException {
-				List<String> theResult = new Vector<String>();
+        });
+    }
 
-				Query theQuery = aSession.createQuery("select item.code from Freelancer item where item.code like '"+aSuggest.trim()+"%') order by item.code");
-				for(Iterator theIterator =theQuery.iterate();theIterator.hasNext();) {
-					String theCode = (String)theIterator.next();
-					if (!theResult.contains(theCode)) {
-						theResult.add(theCode);
-					}
-				}
-				
-				return theResult;
-			}
-			
-		});
-	}
+    public List<Freelancer> performQBESearch(Freelancer aObject) {
+
+        String[] theSearchProperties = new String[] { "name1", "name2", "company", "street", "country", "plz", "city",
+                "comments", "workplace", "availability", "sallary", "code", "contactPerson", "contactType",
+                "contactReason", "lastContact", "skills", "gulpID" };
+
+        String[] theOrderByProperties = new String[] { "name1", "name2" };
+
+        return performQBESearch(aObject, theSearchProperties, theOrderByProperties, MATCH_LIKE);
+    }
+
+    public List<String> getCodeSuggestions(final String aSuggest) {
+        return (List<String>) getHibernateTemplate().execute(new HibernateCallback() {
+
+            public Object doInHibernate(Session aSession) throws SQLException {
+                List<String> theResult = new Vector<String>();
+
+                Query theQuery = aSession.createQuery("select item.code from Freelancer item where item.code like '"
+                        + aSuggest.trim() + "%') order by item.code");
+                for (Iterator theIterator = theQuery.iterate(); theIterator.hasNext();) {
+                    String theCode = (String) theIterator.next();
+                    if (!theResult.contains(theCode)) {
+                        theResult.add(theCode);
+                    }
+                }
+
+                return theResult;
+            }
+
+        });
+    }
 
 }

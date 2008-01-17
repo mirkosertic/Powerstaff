@@ -1,6 +1,5 @@
 package de.powerstaff.web.backingbean.freelancer;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -14,158 +13,158 @@ import de.powerstaff.business.entity.FreelancerProfile;
 import de.powerstaff.web.backingbean.NavigatingBackingBeanDataModel;
 import de.powerstaff.web.utils.Comparators;
 
-public class FreelancerBackingBeanDataModel extends
-		NavigatingBackingBeanDataModel<Freelancer> {
+public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataModel<Freelancer> {
 
-	private ContactType newContactType;
+    private ContactType newContactType;
 
-	private String newContactValue;
-	
-	private String newHistoryEntry;
-	
-	private CollectionDataModel<FreelancerContact> contacts;
+    private String newContactValue;
 
-	private CollectionDataModel<FreelancerHistory> history;
-	
-	private CollectionDataModel<Freelancer> searchResult = new CollectionDataModel<Freelancer>();
-	
-	private CollectionDataModel<FreelancerProfile> profiles = new CollectionDataModel<FreelancerProfile>();
-	
-	private List<ContactType> contactTypes;
-	
-	private List partnerList;
-	
-	private List status = new Vector();
-	
-	public FreelancerBackingBeanDataModel() {
-		status.add(new KeyValuePair<Integer, String>(1,"Angestellter"));
-		status.add(new KeyValuePair<Integer, String>(2,"Freiberufler"));
-		status.add(new KeyValuePair<Integer, String>(null,"Undefiniert"));		
-	}
+    private String newHistoryEntry;
 
-	public FreelancerBackingBeanDataModel(Freelancer aFreelancer) {
-		super(aFreelancer);
-	}
+    private CollectionDataModel<FreelancerContact> contacts;
 
-	@Override
-	protected void initialize() {
-		setEntity(new Freelancer());
-	}
-	
-	@Override
-	public void setEntity(Freelancer aValue) {
-		super.setEntity(aValue);
-		contacts = new CollectionDataModel<FreelancerContact>(aValue.getContacts());
-		contacts.sort(Comparators.CONTACTCOMPARATOR);		
-		
-		history = new CollectionDataModel<FreelancerHistory>(aValue.getHistory());
-		newContactType = null;
-		newContactValue = null;
-	}
+    private CollectionDataModel<FreelancerHistory> history;
 
-	public CollectionDataModel<FreelancerContact> getContacts() {
-		if (contacts == null) {
-		}
-		return contacts;
-	}
-	
-	/**
-	 * @return the newContactType
-	 */
-	public ContactType getNewContactType() {
-		return newContactType;
-	}
+    private CollectionDataModel<Freelancer> searchResult = new CollectionDataModel<Freelancer>();
 
-	/**
-	 * @param newContactType
-	 *            the newContactType to set
-	 */
-	public void setNewContactType(ContactType newContactType) {
-		this.newContactType = newContactType;
-	}
+    private CollectionDataModel<FreelancerProfile> profiles = new CollectionDataModel<FreelancerProfile>();
 
-	/**
-	 * @return the newContactValue
-	 */
-	public String getNewContactValue() {
-		return newContactValue;
-	}
+    private List<ContactType> contactTypes;
 
-	/**
-	 * @param newContactValue
-	 *            the newContactValue to set
-	 */
-	public void setNewContactValue(String newContactValue) {
-		this.newContactValue = newContactValue;
-	}
+    private List partnerList;
 
-	/**
-	 * @return the contactTypes
-	 */
-	public List<ContactType> getContactTypes() {
-		return contactTypes;
-	}
+    private List status = new Vector();
 
-	/**
-	 * @param contactTypes the contactTypes to set
-	 */
-	public void setContactTypes(List<ContactType> contactTypes) {
-		this.contactTypes = contactTypes;
-	}
+    public FreelancerBackingBeanDataModel() {
+        status.add(new KeyValuePair<Integer, String>(1, "Angestellter"));
+        status.add(new KeyValuePair<Integer, String>(2, "Freiberufler"));
+        status.add(new KeyValuePair<Integer, String>(null, "Undefiniert"));
+    }
 
-	/**
-	 * @return the history
-	 */
-	public CollectionDataModel<FreelancerHistory> getHistory() {
-		return history;
-	}
+    public FreelancerBackingBeanDataModel(Freelancer aFreelancer) {
+        super(aFreelancer);
+    }
 
-	/**
-	 * @return the searchResult
-	 */
-	public CollectionDataModel<Freelancer> getSearchResult() {
-		return searchResult;
-	}
+    @Override
+    protected void initialize() {
+        setEntity(new Freelancer());
+    }
 
-	/**
-	 * @return the newHistoryEntry
-	 */
-	public String getNewHistoryEntry() {
-		return newHistoryEntry;
-	}
+    @Override
+    public void setEntity(Freelancer aValue) {
+        super.setEntity(aValue);
+        contacts = new CollectionDataModel<FreelancerContact>(aValue.getContacts());
+        contacts.sort(Comparators.CONTACTCOMPARATOR);
 
-	/**
-	 * @param newHistoryEntry the newHistoryEntry to set
-	 */
-	public void setNewHistoryEntry(String newHistoryEntry) {
-		this.newHistoryEntry = newHistoryEntry;
-	}
+        history = new CollectionDataModel<FreelancerHistory>(aValue.getHistory());
+        newContactType = null;
+        newContactValue = null;
+    }
 
-	/**
-	 * @return the partnerList
-	 */
-	public List getPartnerList() {
-		return partnerList;
-	}
+    public CollectionDataModel<FreelancerContact> getContacts() {
+        return contacts;
+    }
 
-	/**
-	 * @param partnerList the partnerList to set
-	 */
-	public void setPartnerList(List partnerList) {
-		this.partnerList = partnerList;
-	}
+    /**
+     * @return the newContactType
+     */
+    public ContactType getNewContactType() {
+        return newContactType;
+    }
 
-	/**
-	 * @return the profiles
-	 */
-	public CollectionDataModel<FreelancerProfile> getProfiles() {
-		return profiles;
-	}
+    /**
+     * @param newContactType
+     *            the newContactType to set
+     */
+    public void setNewContactType(ContactType newContactType) {
+        this.newContactType = newContactType;
+    }
 
-	/**
-	 * @return the status
-	 */
-	public List getStatus() {
-		return status;
-	}
+    /**
+     * @return the newContactValue
+     */
+    public String getNewContactValue() {
+        return newContactValue;
+    }
+
+    /**
+     * @param newContactValue
+     *            the newContactValue to set
+     */
+    public void setNewContactValue(String newContactValue) {
+        this.newContactValue = newContactValue;
+    }
+
+    /**
+     * @return the contactTypes
+     */
+    public List<ContactType> getContactTypes() {
+        return contactTypes;
+    }
+
+    /**
+     * @param contactTypes
+     *            the contactTypes to set
+     */
+    public void setContactTypes(List<ContactType> contactTypes) {
+        this.contactTypes = contactTypes;
+    }
+
+    /**
+     * @return the history
+     */
+    public CollectionDataModel<FreelancerHistory> getHistory() {
+        return history;
+    }
+
+    /**
+     * @return the searchResult
+     */
+    public CollectionDataModel<Freelancer> getSearchResult() {
+        return searchResult;
+    }
+
+    /**
+     * @return the newHistoryEntry
+     */
+    public String getNewHistoryEntry() {
+        return newHistoryEntry;
+    }
+
+    /**
+     * @param newHistoryEntry
+     *            the newHistoryEntry to set
+     */
+    public void setNewHistoryEntry(String newHistoryEntry) {
+        this.newHistoryEntry = newHistoryEntry;
+    }
+
+    /**
+     * @return the partnerList
+     */
+    public List getPartnerList() {
+        return partnerList;
+    }
+
+    /**
+     * @param partnerList
+     *            the partnerList to set
+     */
+    public void setPartnerList(List partnerList) {
+        this.partnerList = partnerList;
+    }
+
+    /**
+     * @return the profiles
+     */
+    public CollectionDataModel<FreelancerProfile> getProfiles() {
+        return profiles;
+    }
+
+    /**
+     * @return the status
+     */
+    public List getStatus() {
+        return status;
+    }
 }

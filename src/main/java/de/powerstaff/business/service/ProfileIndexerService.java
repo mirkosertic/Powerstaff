@@ -19,21 +19,21 @@ package de.powerstaff.business.service;
 
 import de.mogwai.common.business.service.Service;
 
-public interface ProfileIndexerService extends Service , ProfileIndexerServicePublicInterface {
+public interface ProfileIndexerService extends Service, ProfileIndexerServicePublicInterface {
 
-	String PATH = "PATH";
+    String PATH = "PATH";
 
-	String STRIPPEDPATH = "STRIPPEDPATH";
+    String STRIPPEDPATH = "STRIPPEDPATH";
 
-	String MODIFIED = "MODIFIED";
+    String MODIFIED = "MODIFIED";
 
-	String CONTENT = "CONTENT";
+    String CONTENT = "CONTENT";
 
-	String ORIG_CONTENT = "ORIG_CONTENT";
+    String ORIG_CONTENT = "ORIG_CONTENT";
 
-	String CODE = "CODE";
+    String CODE = "CODE";
 
-	String INDEXINGTIME = "INDEXINGTIME";
+    String INDEXINGTIME = "INDEXINGTIME";
 
-	public void runIndexer();
+    void runIndexer();
 }

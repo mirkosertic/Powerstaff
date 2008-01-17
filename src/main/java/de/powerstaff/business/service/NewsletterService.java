@@ -19,7 +19,7 @@ package de.powerstaff.business.service;
 
 import de.mogwai.common.business.service.Service;
 
-public interface NewsletterService extends Service , NewsletterServicePublicInterface {
+public interface NewsletterService extends Service, NewsletterServicePublicInterface {
 
-	void sendNewsletter();
+    void sendNewsletter();
 }

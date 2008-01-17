@@ -26,54 +26,53 @@ import de.powerstaff.business.service.ServiceLoggerService;
 
 public class ServiceLoggerServiceImpl extends LogableService implements ServiceLoggerService {
 
-	private ServiceLoggerDAO serviceLoggerDAO;
-	
-	/**
-	 * @return the serviceLoggerDAO
-	 */
-	public ServiceLoggerDAO getServiceLoggerDAO() {
-		return serviceLoggerDAO;
-	}
+    private ServiceLoggerDAO serviceLoggerDAO;
 
-	/**
-	 * @param serviceLoggerDAO the serviceLoggerDAO to set
-	 */
-	public void setServiceLoggerDAO(ServiceLoggerDAO serviceLoggerDAO) {
-		this.serviceLoggerDAO = serviceLoggerDAO;
-	}
+    /**
+     * @return the serviceLoggerDAO
+     */
+    public ServiceLoggerDAO getServiceLoggerDAO() {
+        return serviceLoggerDAO;
+    }
 
-	protected JobInfo getJobInfo(String aServiceID) {
-		JobInfo theInfo=serviceLoggerDAO.findByServiceID(aServiceID);
-		if (theInfo==null) {
-			theInfo=new JobInfo();
-			theInfo.setId(aServiceID);
-			
-			serviceLoggerDAO.save(theInfo);
-		}
-		
-		return theInfo;
-	}
+    /**
+     * @param serviceLoggerDAO
+     *            the serviceLoggerDAO to set
+     */
+    public void setServiceLoggerDAO(ServiceLoggerDAO serviceLoggerDAO) {
+        this.serviceLoggerDAO = serviceLoggerDAO;
+    }
 
-	public void logEnd(String aServiceID, String aDescription) {
+    protected JobInfo getJobInfo(String aServiceID) {
+        JobInfo theInfo = serviceLoggerDAO.findByServiceID(aServiceID);
+        if (theInfo == null) {
+            theInfo = new JobInfo();
+            theInfo.setId(aServiceID);
 
-		JobInfo theInfo=getJobInfo(aServiceID);
-		theInfo.setEndDate(new Timestamp(System.currentTimeMillis()));
-		theInfo.setDescription(aDescription);
-		
-		serviceLoggerDAO.update(theInfo);
-		
-		
-	}
+            serviceLoggerDAO.save(theInfo);
+        }
 
-	public void logStart(String aServiceID, String aDescription) {
+        return theInfo;
+    }
 
-		JobInfo theInfo=getJobInfo(aServiceID);
-		theInfo.setStartDate(new Timestamp(System.currentTimeMillis()));
-		theInfo.setEndDate(null);
-		theInfo.setDescription(aDescription);
-		
-		serviceLoggerDAO.update(theInfo);
-	}
-	
-	
+    public void logEnd(String aServiceID, String aDescription) {
+
+        JobInfo theInfo = getJobInfo(aServiceID);
+        theInfo.setEndDate(new Timestamp(System.currentTimeMillis()));
+        theInfo.setDescription(aDescription);
+
+        serviceLoggerDAO.update(theInfo);
+
+    }
+
+    public void logStart(String aServiceID, String aDescription) {
+
+        JobInfo theInfo = getJobInfo(aServiceID);
+        theInfo.setStartDate(new Timestamp(System.currentTimeMillis()));
+        theInfo.setEndDate(null);
+        theInfo.setDescription(aDescription);
+
+        serviceLoggerDAO.update(theInfo);
+    }
+
 }

@@ -28,148 +28,138 @@ import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ServiceLoggerService;
 import de.powerstaff.business.service.WebSyncService;
 
-public class WebSyncServiceImpl extends LogableService implements
-		WebSyncService {
+public class WebSyncServiceImpl extends LogableService implements WebSyncService {
 
-	private final static String SERVICE_ID = "WebProjectSync";
+    private static final String SERVICE_ID = "WebProjectSync";
 
-	private WebsiteDAO websiteDAO;
+    private WebsiteDAO websiteDAO;
 
-	private ServiceLoggerService serviceLogger;
+    private ServiceLoggerService serviceLogger;
 
-	private PowerstaffSystemParameterService systemParameterService;
+    private PowerstaffSystemParameterService systemParameterService;
 
-	private ProjectDAO projectDAO;
+    private ProjectDAO projectDAO;
 
-	/**
-	 * @return the projectDAO
-	 */
-	public ProjectDAO getProjectDAO() {
-		return projectDAO;
-	}
+    /**
+     * @return the projectDAO
+     */
+    public ProjectDAO getProjectDAO() {
+        return projectDAO;
+    }
 
-	/**
-	 * @param projectDAO
-	 *            the projectDAO to set
-	 */
-	public void setProjectDAO(ProjectDAO projectDAO) {
-		this.projectDAO = projectDAO;
-	}
+    /**
+     * @param projectDAO
+     *            the projectDAO to set
+     */
+    public void setProjectDAO(ProjectDAO projectDAO) {
+        this.projectDAO = projectDAO;
+    }
 
-	public WebsiteDAO getWebsiteDAO() {
-		return websiteDAO;
-	}
+    public WebsiteDAO getWebsiteDAO() {
+        return websiteDAO;
+    }
 
-	public void setWebsiteDAO(WebsiteDAO websiteDAO) {
-		this.websiteDAO = websiteDAO;
-	}
+    public void setWebsiteDAO(WebsiteDAO websiteDAO) {
+        this.websiteDAO = websiteDAO;
+    }
 
-	/**
-	 * @return the systemParameterService
-	 */
-	public PowerstaffSystemParameterService getSystemParameterService() {
-		return systemParameterService;
-	}
+    /**
+     * @return the systemParameterService
+     */
+    public PowerstaffSystemParameterService getSystemParameterService() {
+        return systemParameterService;
+    }
 
-	/**
-	 * @param systemParameterService
-	 *            the systemParameterService to set
-	 */
-	public void setSystemParameterService(
-			PowerstaffSystemParameterService systemParameterService) {
-		this.systemParameterService = systemParameterService;
-	}
+    /**
+     * @param systemParameterService
+     *            the systemParameterService to set
+     */
+    public void setSystemParameterService(PowerstaffSystemParameterService systemParameterService) {
+        this.systemParameterService = systemParameterService;
+    }
 
-	public void sync() {
-		sync(false);
-	}
+    public void sync() {
+        sync(false);
+    }
 
-	public void forceSync() {
-		sync(true);
-	}
+    public void forceSync() {
+        sync(true);
+    }
 
-	public void sync(boolean aForce) {
+    public void sync(boolean aForce) {
 
-		if (!aForce) {
-			if (!systemParameterService.isWebSyncEnabled()) {
-				logger.logInfo("WebSync wurde deaktiviert");
-				return;
-			}
-		}
+        if (!aForce) {
+            if (!systemParameterService.isWebSyncEnabled()) {
+                logger.logInfo("WebSync wurde deaktiviert");
+                return;
+            }
+        }
 
-		serviceLogger.logStart(SERVICE_ID, "");
+        serviceLogger.logStart(SERVICE_ID, "");
 
-		try {
+        try {
 
-			logger.logDebug("Starting synchronize with web");
+            logger.logDebug("Starting synchronize with web");
 
-			logger.logDebug("Deleting inaktive projects from web");
+            logger.logDebug("Deleting inaktive projects from web");
 
-			Collection<WebProject> theWebProjects = websiteDAO
-					.getCurrentProjects();
-			for (WebProject theWebProject : theWebProjects) {
+            Collection<WebProject> theWebProjects = websiteDAO.getCurrentProjects();
+            for (WebProject theWebProject : theWebProjects) {
 
-				Project theProject = (Project) projectDAO
-						.findByPrimaryKey(theWebProject.getOriginId());
-				if ((theProject == null) || (!theProject.isVisibleOnWebSite())) {
+                Project theProject = (Project) projectDAO.findByPrimaryKey(theWebProject.getOriginId());
+                if ((theProject == null) || (!theProject.isVisibleOnWebSite())) {
 
-					websiteDAO.delete(theWebProject);
+                    websiteDAO.delete(theWebProject);
 
-					logger.logDebug("Deleting project " + theWebProject.getId()
-							+ " from web as it is no longer active");
-				}
-			}
+                    logger
+                            .logDebug("Deleting project " + theWebProject.getId()
+                                    + " from web as it is no longer active");
+                }
+            }
 
-			Collection theLocalProjects = (Collection) projectDAO
-					.getActiveProjects();
-			for (Object theObject : theLocalProjects) {
+            Collection theLocalProjects = (Collection) projectDAO.getActiveProjects();
+            for (Object theObject : theLocalProjects) {
 
-				Project theProject = (Project) theObject;
+                Project theProject = (Project) theObject;
 
-				WebProject theWebProject = (WebProject) websiteDAO
-						.findByOriginId(theProject.getId());
-				if (theWebProject == null) {
-					theWebProject = new WebProject();
-				}
+                WebProject theWebProject = (WebProject) websiteDAO.findByOriginId(theProject.getId());
+                if (theWebProject == null) {
+                    theWebProject = new WebProject();
+                }
 
-				theWebProject.setCreationDate(theProject.getCreationDate());
-				theWebProject.setCreationUserID(theProject.getCreationUserID());
-				theWebProject.setLastModificationDate(theProject
-						.getLastModificationDate());
-				theWebProject.setLastModificationUserID(theProject
-						.getLastModificationUserID());
-				theWebProject.setDate(theProject.getDate());
-				theWebProject.setProjectNumber(theProject.getProjectNumber());
-				theWebProject.setWorkplace(theProject.getWorkplace());
-				theWebProject.setStart(theProject.getStart());
-				theWebProject.setDuration(theProject.getDuration());
-				theWebProject.setDescriptionShort(theProject
-						.getDescriptionShort());
-				theWebProject.setDescriptionLong(theProject
-						.getDescriptionLong());
-				theWebProject.setOriginId(theProject.getId());
+                theWebProject.setCreationDate(theProject.getCreationDate());
+                theWebProject.setCreationUserID(theProject.getCreationUserID());
+                theWebProject.setLastModificationDate(theProject.getLastModificationDate());
+                theWebProject.setLastModificationUserID(theProject.getLastModificationUserID());
+                theWebProject.setDate(theProject.getDate());
+                theWebProject.setProjectNumber(theProject.getProjectNumber());
+                theWebProject.setWorkplace(theProject.getWorkplace());
+                theWebProject.setStart(theProject.getStart());
+                theWebProject.setDuration(theProject.getDuration());
+                theWebProject.setDescriptionShort(theProject.getDescriptionShort());
+                theWebProject.setDescriptionLong(theProject.getDescriptionLong());
+                theWebProject.setOriginId(theProject.getId());
 
-				websiteDAO.saveOrUpdate(theWebProject);
-			}
+                websiteDAO.saveOrUpdate(theWebProject);
+            }
 
-			serviceLogger.logEnd(SERVICE_ID, "");
+            serviceLogger.logEnd(SERVICE_ID, "");
 
-		} catch (Exception e) {
+        } catch (Exception e) {
 
-			serviceLogger.logEnd(SERVICE_ID, "Failed with error "
-					+ e.getMessage());
+            serviceLogger.logEnd(SERVICE_ID, "Failed with error " + e.getMessage());
 
-			logger.logError("Failed", e);
-		}
+            logger.logError("Failed", e);
+        }
 
-		logger.logDebug("Finished");
-	}
+        logger.logDebug("Finished");
+    }
 
-	public ServiceLoggerService getServiceLogger() {
-		return serviceLogger;
-	}
+    public ServiceLoggerService getServiceLogger() {
+        return serviceLogger;
+    }
 
-	public void setServiceLogger(ServiceLoggerService serviceLogger) {
-		this.serviceLogger = serviceLogger;
-	}
+    public void setServiceLogger(ServiceLoggerService serviceLogger) {
+        this.serviceLogger = serviceLogger;
+    }
 }

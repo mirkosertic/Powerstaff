@@ -29,15 +29,15 @@ import java.io.File;
  */
 public interface DocumentReader {
 
-	/**
-	 * Get the content reader for a given file.
-	 * 
-	 * @param inputFile
-	 *            the input file
-	 * @return the file content.
-	 * 
-	 * @throws Exception
-	 */
-	ReadResult getContent(File inputFile) throws Exception;
+    /**
+     * Get the content reader for a given file.
+     * 
+     * @param inputFile
+     *            the input file
+     * @return the file content.
+     * 
+     * @throws Exception
+     */
+    ReadResult getContent(File inputFile) throws Exception;
 
 }

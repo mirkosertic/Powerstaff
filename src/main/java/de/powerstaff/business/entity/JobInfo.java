@@ -21,44 +21,44 @@ import java.sql.Timestamp;
 
 public class JobInfo {
 
-	private String id;
+    private String id;
 
-	private Timestamp startDate;
+    private Timestamp startDate;
 
-	private Timestamp endDate;
+    private Timestamp endDate;
 
-	private String description;
+    private String description;
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Timestamp getEndDate() {
-		return endDate;
-	}
+    public Timestamp getEndDate() {
+        return endDate;
+    }
 
-	public void setEndDate(Timestamp endDate) {
-		this.endDate = endDate;
-	}
+    public void setEndDate(Timestamp endDate) {
+        this.endDate = endDate;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public Timestamp getStartDate() {
-		return startDate;
-	}
+    public Timestamp getStartDate() {
+        return startDate;
+    }
 
-	public void setStartDate(Timestamp startDate) {
-		this.startDate = startDate;
-	}
+    public void setStartDate(Timestamp startDate) {
+        this.startDate = startDate;
+    }
 
 }

@@ -17,7 +17,6 @@
  */
 package de.powerstaff.business.service.impl;
 
-
 import java.util.Collection;
 
 import de.mogwai.common.business.service.impl.LogableService;
@@ -28,55 +27,56 @@ import de.powerstaff.business.service.RecordInfo;
 
 public class ProjectServiceImpl extends LogableService implements ProjectService {
 
-	private ProjectDAO projectDAO;
-	
-	/**
-	 * @return the projectDAO
-	 */
-	public ProjectDAO getProjectDAO() {
-		return projectDAO;
-	}
+    private ProjectDAO projectDAO;
 
-	/**
-	 * @param projectDAO the projectDAO to set
-	 */
-	public void setProjectDAO(ProjectDAO projectDAO) {
-		this.projectDAO = projectDAO;
-	}
+    /**
+     * @return the projectDAO
+     */
+    public ProjectDAO getProjectDAO() {
+        return projectDAO;
+    }
 
-	public void delete(Project aEntity) {
-		projectDAO.delete(aEntity);
-	}
+    /**
+     * @param projectDAO
+     *            the projectDAO to set
+     */
+    public void setProjectDAO(ProjectDAO projectDAO) {
+        this.projectDAO = projectDAO;
+    }
 
-	public Project findByPrimaryKey(Long aId) {
-		return projectDAO.findById(aId);
-	}
+    public void delete(Project aEntity) {
+        projectDAO.delete(aEntity);
+    }
 
-	public Project findFirst() {
-		return projectDAO.findFirst();
-	}
+    public Project findByPrimaryKey(Long aId) {
+        return projectDAO.findById(aId);
+    }
 
-	public Project findLast() {
-		return projectDAO.findLast();
-	}
+    public Project findFirst() {
+        return projectDAO.findFirst();
+    }
 
-	public Project findNext(Project aObject) {
-		return projectDAO.findNext(aObject);
-	}
+    public Project findLast() {
+        return projectDAO.findLast();
+    }
 
-	public Project findPrior(Project aObject) {
-		return projectDAO.findPrior(aObject);
-	}
+    public Project findNext(Project aObject) {
+        return projectDAO.findNext(aObject);
+    }
 
-	public RecordInfo getRecordInfo(Project aObject) {
-		return projectDAO.getRecordInfo(aObject);
-	}
+    public Project findPrior(Project aObject) {
+        return projectDAO.findPrior(aObject);
+    }
 
-	public Collection<Project> performQBESearch(Project aObject) {
-		return projectDAO.performQBESearch(aObject);
-	}
+    public RecordInfo getRecordInfo(Project aObject) {
+        return projectDAO.getRecordInfo(aObject);
+    }
 
-	public void save(Project aObject) {
-		projectDAO.save(aObject);
-	}
+    public Collection<Project> performQBESearch(Project aObject) {
+        return projectDAO.performQBESearch(aObject);
+    }
+
+    public void save(Project aObject) {
+        projectDAO.save(aObject);
+    }
 }

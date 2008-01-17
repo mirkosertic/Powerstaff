@@ -28,119 +28,119 @@ import de.mogwai.common.business.entity.AuditableEntity;
 
 public class Project extends AuditableEntity {
 
-	private String date;
+    private String date;
 
-	private String projectNumber;
+    private String projectNumber;
 
-	private String workplace;
+    private String workplace;
 
-	private String start;
+    private String start;
 
-	private String duration;
+    private String duration;
 
-	private String descriptionShort;
+    private String descriptionShort;
 
-	private String descriptionLong;
+    private String descriptionLong;
 
-	private boolean visibleOnWebSite;
+    private boolean visibleOnWebSite;
 
-	private Customer customer;
+    private Customer customer;
 
-	private Set<ProjectPosition> positions = new HashSet<ProjectPosition>();
+    private Set<ProjectPosition> positions = new HashSet<ProjectPosition>();
 
-	private List<ProjectHistory> history = new Vector<ProjectHistory>();
+    private List<ProjectHistory> history = new Vector<ProjectHistory>();
 
-	@Column(length=255)
-	public String getDate() {
-		return date;
-	}
+    @Column(length = 255)
+    public String getDate() {
+        return date;
+    }
 
-	public void setDate(String date) {
-		this.date = date;
-	}
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-	public String getDescriptionLong() {
-		return descriptionLong;
-	}
+    public String getDescriptionLong() {
+        return descriptionLong;
+    }
 
-	public void setDescriptionLong(String descriptionLong) {
-		this.descriptionLong = descriptionLong;
-	}
+    public void setDescriptionLong(String descriptionLong) {
+        this.descriptionLong = descriptionLong;
+    }
 
-	@Column(length=255)
-	public String getDescriptionShort() {
-		return descriptionShort;
-	}
+    @Column(length = 255)
+    public String getDescriptionShort() {
+        return descriptionShort;
+    }
 
-	public void setDescriptionShort(String descriptionShort) {
-		this.descriptionShort = descriptionShort;
-	}
+    public void setDescriptionShort(String descriptionShort) {
+        this.descriptionShort = descriptionShort;
+    }
 
-	@Column(length=255)
-	public String getDuration() {
-		return duration;
-	}
+    @Column(length = 255)
+    public String getDuration() {
+        return duration;
+    }
 
-	public void setDuration(String duration) {
-		this.duration = duration;
-	}
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
 
-	public Set<ProjectPosition> getPositions() {
-		return positions;
-	}
+    public Set<ProjectPosition> getPositions() {
+        return positions;
+    }
 
-	public void setPositions(Set<ProjectPosition> positions) {
-		this.positions = positions;
-	}
+    public void setPositions(Set<ProjectPosition> positions) {
+        this.positions = positions;
+    }
 
-	@Column(length=255)
-	public String getProjectNumber() {
-		return projectNumber;
-	}
+    @Column(length = 255)
+    public String getProjectNumber() {
+        return projectNumber;
+    }
 
-	public void setProjectNumber(String projectNumber) {
-		this.projectNumber = projectNumber;
-	}
+    public void setProjectNumber(String projectNumber) {
+        this.projectNumber = projectNumber;
+    }
 
-	@Column(length=255)
-	public String getStart() {
-		return start;
-	}
+    @Column(length = 255)
+    public String getStart() {
+        return start;
+    }
 
-	public void setStart(String start) {
-		this.start = start;
-	}
+    public void setStart(String start) {
+        this.start = start;
+    }
 
-	@Column(length=255)
-	public String getWorkplace() {
-		return workplace;
-	}
+    @Column(length = 255)
+    public String getWorkplace() {
+        return workplace;
+    }
 
-	public void setWorkplace(String workplace) {
-		this.workplace = workplace;
-	}
+    public void setWorkplace(String workplace) {
+        this.workplace = workplace;
+    }
 
-	public boolean isVisibleOnWebSite() {
-		return visibleOnWebSite;
-	}
+    public boolean isVisibleOnWebSite() {
+        return visibleOnWebSite;
+    }
 
-	public void setVisibleOnWebSite(boolean visibleOnWebSite) {
-		this.visibleOnWebSite = visibleOnWebSite;
-	}
+    public void setVisibleOnWebSite(boolean visibleOnWebSite) {
+        this.visibleOnWebSite = visibleOnWebSite;
+    }
 
-	public Customer getCustomer() {
-		return customer;
-	}
+    public Customer getCustomer() {
+        return customer;
+    }
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
-	public List<ProjectHistory> getHistory() {
-		return history;
-	}
+    public List<ProjectHistory> getHistory() {
+        return history;
+    }
 
-	public void setHistory(List<ProjectHistory> history) {
-		this.history = history;
-	}
+    public void setHistory(List<ProjectHistory> history) {
+        this.history = history;
+    }
 }

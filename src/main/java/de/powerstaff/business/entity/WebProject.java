@@ -19,100 +19,99 @@ package de.powerstaff.business.entity;
 
 import de.mogwai.common.business.entity.AuditableEntity;
 
-
 public class WebProject extends AuditableEntity {
 
-	private String date;
+    private String date;
 
-	private String projectNumber;
+    private String projectNumber;
 
-	private String workplace;
+    private String workplace;
 
-	private String start;
+    private String start;
 
-	private String duration;
+    private String duration;
 
-	private String descriptionShort;
+    private String descriptionShort;
 
-	private String descriptionLong;
+    private String descriptionLong;
 
-	private Long originId;
-	
-	private boolean notifiedForNewsletter;
+    private Long originId;
 
-	public String getDate() {
-		return date;
-	}
+    private boolean notifiedForNewsletter;
 
-	public void setDate(String date) {
-		this.date = date;
-	}
+    public String getDate() {
+        return date;
+    }
 
-	public String getDescriptionLong() {
-		return descriptionLong;
-	}
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-	public void setDescriptionLong(String descriptionLong) {
-		this.descriptionLong = descriptionLong;
-	}
+    public String getDescriptionLong() {
+        return descriptionLong;
+    }
 
-	public String getDescriptionShort() {
-		return descriptionShort;
-	}
+    public void setDescriptionLong(String descriptionLong) {
+        this.descriptionLong = descriptionLong;
+    }
 
-	public void setDescriptionShort(String descriptionShort) {
-		this.descriptionShort = descriptionShort;
-	}
+    public String getDescriptionShort() {
+        return descriptionShort;
+    }
 
-	public String getDuration() {
-		return duration;
-	}
+    public void setDescriptionShort(String descriptionShort) {
+        this.descriptionShort = descriptionShort;
+    }
 
-	public void setDuration(String duration) {
-		this.duration = duration;
-	}
+    public String getDuration() {
+        return duration;
+    }
 
-	public boolean isNotifiedForNewsletter() {
-		return notifiedForNewsletter;
-	}
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
 
-	public void setNotifiedForNewsletter(boolean notifiedForNewsletter) {
-		this.notifiedForNewsletter = notifiedForNewsletter;
-	}
+    public boolean isNotifiedForNewsletter() {
+        return notifiedForNewsletter;
+    }
 
-	public Long getOriginId() {
-		return originId;
-	}
+    public void setNotifiedForNewsletter(boolean notifiedForNewsletter) {
+        this.notifiedForNewsletter = notifiedForNewsletter;
+    }
 
-	public void setOriginId(Long originId) {
-		this.originId = originId;
-	}
+    public Long getOriginId() {
+        return originId;
+    }
 
-	public String getProjectNumber() {
-		return projectNumber;
-	}
+    public void setOriginId(Long originId) {
+        this.originId = originId;
+    }
 
-	public void setProjectNumber(String projectNumber) {
-		this.projectNumber = projectNumber;
-	}
+    public String getProjectNumber() {
+        return projectNumber;
+    }
 
-	public String getStart() {
-		return start;
-	}
+    public void setProjectNumber(String projectNumber) {
+        this.projectNumber = projectNumber;
+    }
 
-	public void setStart(String start) {
-		this.start = start;
-	}
+    public String getStart() {
+        return start;
+    }
 
-	public String getWorkplace() {
-		return workplace;
-	}
+    public void setStart(String start) {
+        this.start = start;
+    }
 
-	public void setWorkplace(String workplace) {
-		this.workplace = workplace;
-	}
-	
-	public void setNotified(String aValue) {
-		setNotifiedForNewsletter("1".equals(aValue));
-	}
+    public String getWorkplace() {
+        return workplace;
+    }
+
+    public void setWorkplace(String workplace) {
+        this.workplace = workplace;
+    }
+
+    public void setNotified(String aValue) {
+        setNotifiedForNewsletter("1".equals(aValue));
+    }
 }

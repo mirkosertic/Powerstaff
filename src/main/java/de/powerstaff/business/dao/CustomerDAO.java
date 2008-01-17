@@ -23,5 +23,5 @@ import de.powerstaff.business.entity.Customer;
 
 public interface CustomerDAO extends NavigatingDAO<Customer> {
 
-	List<Customer> performQBESearch(Customer aObject);
+    List<Customer> performQBESearch(Customer aObject);
 }

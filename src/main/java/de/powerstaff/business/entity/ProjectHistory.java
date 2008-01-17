@@ -21,14 +21,14 @@ import de.mogwai.common.business.entity.AuditableEntity;
 
 public class ProjectHistory extends AuditableEntity {
 
-	private String description;
+    private String description;
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
 }

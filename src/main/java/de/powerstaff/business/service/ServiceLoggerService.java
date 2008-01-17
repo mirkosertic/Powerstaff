@@ -21,7 +21,7 @@ import de.mogwai.common.business.service.Service;
 
 public interface ServiceLoggerService extends Service {
 
-	public void logStart(String aServiceID,String aDescription);
-	
-	public void logEnd(String aServiceID,String aDescription);
+    void logStart(String aServiceID, String aDescription);
+
+    void logEnd(String aServiceID, String aDescription);
 }

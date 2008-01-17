@@ -22,57 +22,57 @@ import de.mogwai.common.utils.StringPresentationProvider;
 
 public class ContactType extends AuditableEntity implements StringPresentationProvider {
 
-	private String description;
+    private String description;
 
-	private boolean phone;
+    private boolean phone;
 
-	private boolean fax;
+    private boolean fax;
 
-	private boolean email;
+    private boolean email;
 
-	private boolean web;
+    private boolean web;
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public boolean isEmail() {
-		return email;
-	}
+    public boolean isEmail() {
+        return email;
+    }
 
-	public void setEmail(boolean email) {
-		this.email = email;
-	}
+    public void setEmail(boolean email) {
+        this.email = email;
+    }
 
-	public boolean isFax() {
-		return fax;
-	}
+    public boolean isFax() {
+        return fax;
+    }
 
-	public void setFax(boolean fax) {
-		this.fax = fax;
-	}
+    public void setFax(boolean fax) {
+        this.fax = fax;
+    }
 
-	public boolean isPhone() {
-		return phone;
-	}
+    public boolean isPhone() {
+        return phone;
+    }
 
-	public void setPhone(boolean phone) {
-		this.phone = phone;
-	}
+    public void setPhone(boolean phone) {
+        this.phone = phone;
+    }
 
-	public boolean isWeb() {
-		return web;
-	}
+    public boolean isWeb() {
+        return web;
+    }
 
-	public void setWeb(boolean web) {
-		this.web = web;
-	}
+    public void setWeb(boolean web) {
+        this.web = web;
+    }
 
-	public String getStringPresentation() {
-		return description;
-	}
+    public String getStringPresentation() {
+        return description;
+    }
 }

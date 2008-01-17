@@ -17,7 +17,6 @@
  */
 package de.powerstaff.business.service.impl;
 
-
 import java.util.Collection;
 
 import de.mogwai.common.business.service.impl.LogableService;
@@ -28,55 +27,56 @@ import de.powerstaff.business.service.RecordInfo;
 
 public class CustomerServiceImpl extends LogableService implements CustomerService {
 
-	private CustomerDAO customerDAO;
+    private CustomerDAO customerDAO;
 
-	/**
-	 * @return the customerDAO
-	 */
-	public CustomerDAO getCustomerDAO() {
-		return customerDAO;
-	}
+    /**
+     * @return the customerDAO
+     */
+    public CustomerDAO getCustomerDAO() {
+        return customerDAO;
+    }
 
-	/**
-	 * @param customerDAO the customerDAO to set
-	 */
-	public void setCustomerDAO(CustomerDAO customerDAO) {
-		this.customerDAO = customerDAO;
-	}
+    /**
+     * @param customerDAO
+     *            the customerDAO to set
+     */
+    public void setCustomerDAO(CustomerDAO customerDAO) {
+        this.customerDAO = customerDAO;
+    }
 
-	public void delete(Customer aEntity) {
-		customerDAO.delete(aEntity);
-	}
+    public void delete(Customer aEntity) {
+        customerDAO.delete(aEntity);
+    }
 
-	public Customer findByPrimaryKey(Long aId) {
-		return customerDAO.findById(aId);
-	}
+    public Customer findByPrimaryKey(Long aId) {
+        return customerDAO.findById(aId);
+    }
 
-	public Customer findFirst() {
-		return customerDAO.findFirst();
-	}
+    public Customer findFirst() {
+        return customerDAO.findFirst();
+    }
 
-	public Customer findLast() {
-		return customerDAO.findLast();
-	}
+    public Customer findLast() {
+        return customerDAO.findLast();
+    }
 
-	public Customer findNext(Customer aObject) {
-		return customerDAO.findNext(aObject);
-	}
+    public Customer findNext(Customer aObject) {
+        return customerDAO.findNext(aObject);
+    }
 
-	public Customer findPrior(Customer aObject) {
-		return customerDAO.findPrior(aObject);
-	}
+    public Customer findPrior(Customer aObject) {
+        return customerDAO.findPrior(aObject);
+    }
 
-	public RecordInfo getRecordInfo(Customer aObject) {
-		return customerDAO.getRecordInfo(aObject);
-	}
+    public RecordInfo getRecordInfo(Customer aObject) {
+        return customerDAO.getRecordInfo(aObject);
+    }
 
-	public Collection<Customer> performQBESearch(Customer aObject) {
-		return customerDAO.performQBESearch(aObject);
-	}
+    public Collection<Customer> performQBESearch(Customer aObject) {
+        return customerDAO.performQBESearch(aObject);
+    }
 
-	public void save(Customer aObject) {
-		customerDAO.save(aObject);
-	}
+    public void save(Customer aObject) {
+        customerDAO.save(aObject);
+    }
 }

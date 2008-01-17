@@ -23,104 +23,104 @@ import de.mogwai.common.business.entity.AuditableEntity;
 
 public class ProjectPosition extends AuditableEntity {
 
-	private Project project;
+    private Project project;
 
-	private Freelancer freelancer;
+    private Freelancer freelancer;
 
-	private boolean informed;
+    private boolean informed;
 
-	private Timestamp informedDate;
+    private Timestamp informedDate;
 
-	private boolean presented;
+    private boolean presented;
 
-	private Timestamp presentedDate;
+    private Timestamp presentedDate;
 
-	private boolean ordered;
+    private boolean ordered;
 
-	private Timestamp canceledDate;
+    private Timestamp canceledDate;
 
-	private boolean canceled;
+    private boolean canceled;
 
-	private String comment;
+    private String comment;
 
-	public boolean isCanceled() {
-		return canceled;
-	}
+    public boolean isCanceled() {
+        return canceled;
+    }
 
-	public void setCanceled(boolean canceled) {
-		this.canceled = canceled;
-	}
+    public void setCanceled(boolean canceled) {
+        this.canceled = canceled;
+    }
 
-	public Timestamp getCanceledDate() {
-		return canceledDate;
-	}
+    public Timestamp getCanceledDate() {
+        return canceledDate;
+    }
 
-	public void setCanceledDate(Timestamp canceledDate) {
-		this.canceledDate = canceledDate;
-	}
+    public void setCanceledDate(Timestamp canceledDate) {
+        this.canceledDate = canceledDate;
+    }
 
-	public String getComment() {
-		return comment;
-	}
+    public String getComment() {
+        return comment;
+    }
 
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
-	public Freelancer getFreelancer() {
-		return freelancer;
-	}
+    public Freelancer getFreelancer() {
+        return freelancer;
+    }
 
-	public void setFreelancer(Freelancer freelancer) {
-		this.freelancer = freelancer;
-	}
+    public void setFreelancer(Freelancer freelancer) {
+        this.freelancer = freelancer;
+    }
 
-	public boolean isInformed() {
-		return informed;
-	}
+    public boolean isInformed() {
+        return informed;
+    }
 
-	public void setInformed(boolean informed) {
-		this.informed = informed;
-	}
+    public void setInformed(boolean informed) {
+        this.informed = informed;
+    }
 
-	public Timestamp getInformedDate() {
-		return informedDate;
-	}
+    public Timestamp getInformedDate() {
+        return informedDate;
+    }
 
-	public void setInformedDate(Timestamp informedDate) {
-		this.informedDate = informedDate;
-	}
+    public void setInformedDate(Timestamp informedDate) {
+        this.informedDate = informedDate;
+    }
 
-	public boolean isOrdered() {
-		return ordered;
-	}
+    public boolean isOrdered() {
+        return ordered;
+    }
 
-	public void setOrdered(boolean ordered) {
-		this.ordered = ordered;
-	}
+    public void setOrdered(boolean ordered) {
+        this.ordered = ordered;
+    }
 
-	public boolean isPresented() {
-		return presented;
-	}
+    public boolean isPresented() {
+        return presented;
+    }
 
-	public void setPresented(boolean presented) {
-		this.presented = presented;
-	}
+    public void setPresented(boolean presented) {
+        this.presented = presented;
+    }
 
-	public Timestamp getPresentedDate() {
-		return presentedDate;
-	}
+    public Timestamp getPresentedDate() {
+        return presentedDate;
+    }
 
-	public void setPresentedDate(Timestamp presentedDate) {
-		this.presentedDate = presentedDate;
-	}
+    public void setPresentedDate(Timestamp presentedDate) {
+        this.presentedDate = presentedDate;
+    }
 
-	public Project getProject() {
-		return project;
-	}
+    public Project getProject() {
+        return project;
+    }
 
-	public void setProject(Project project) {
-		this.project = project;
-	}
+    public void setProject(Project project) {
+        this.project = project;
+    }
 
 }

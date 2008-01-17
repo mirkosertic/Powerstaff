@@ -19,13 +19,13 @@ package de.powerstaff.business.service.impl.reader;
 
 public class ReadResult {
 
-	private String content;
+    private String content;
 
-	public ReadResult(String content) {
-		this.content = content;
-	}
+    public ReadResult(String content) {
+        this.content = content;
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public String getContent() {
+        return content;
+    }
 }

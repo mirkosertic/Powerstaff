@@ -17,6 +17,5 @@
  */
 package de.powerstaff.business.entity;
 
-
 public class FreelancerHistory extends HistoryEntity {
 }

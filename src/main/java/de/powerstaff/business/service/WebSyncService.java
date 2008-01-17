@@ -19,7 +19,7 @@ package de.powerstaff.business.service;
 
 import de.mogwai.common.business.service.Service;
 
-public interface WebSyncService extends Service , WebSyncServicePublicInterface{
+public interface WebSyncService extends Service, WebSyncServicePublicInterface {
 
-	void sync();	
+    void sync();
 }

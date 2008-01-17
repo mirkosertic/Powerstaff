@@ -19,24 +19,24 @@ package de.powerstaff.business.service;
 
 public class RecordInfo {
 
-	private long number;
+    private long number;
 
-	private long count;
+    private long count;
 
-	public long getCount() {
-		return count;
-	}
+    public long getCount() {
+        return count;
+    }
 
-	public void setCount(long count) {
-		this.count = count;
-	}
+    public void setCount(long count) {
+        this.count = count;
+    }
 
-	public long getNumber() {
-		return number;
-	}
+    public long getNumber() {
+        return number;
+    }
 
-	public void setNumber(long number) {
-		this.number = number;
-	}
+    public void setNumber(long number) {
+        this.number = number;
+    }
 
 }

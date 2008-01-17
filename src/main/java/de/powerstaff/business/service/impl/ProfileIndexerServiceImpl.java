@@ -47,303 +47,276 @@ import de.powerstaff.business.service.impl.reader.ReadResult;
 /**
  * @author Mirko Sertic
  */
-public class ProfileIndexerServiceImpl extends LogableService implements
-		ProfileIndexerService {
+public class ProfileIndexerServiceImpl extends LogableService implements ProfileIndexerService {
 
-	private final static String SERVICE_ID = "ProfileIndexer";
+    private static final String SERVICE_ID = "ProfileIndexer";
 
-	private DocumentReaderFactory readerFactory;
+    private DocumentReaderFactory readerFactory;
 
-	private ServiceLoggerService serviceLogger;
+    private ServiceLoggerService serviceLogger;
 
-	private PowerstaffSystemParameterService systemParameterService;
+    private PowerstaffSystemParameterService systemParameterService;
 
-	private boolean running;
+    private boolean running;
 
-	public ProfileIndexerServiceImpl() {
-		this.readerFactory = DocumentReaderFactory.getInstance();
-	}
+    public ProfileIndexerServiceImpl() {
+        this.readerFactory = DocumentReaderFactory.getInstance();
+    }
 
-	/**
-	 * @return the systemParameterService
-	 */
-	public PowerstaffSystemParameterService getSystemParameterService() {
-		return systemParameterService;
-	}
+    /**
+     * @return the systemParameterService
+     */
+    public PowerstaffSystemParameterService getSystemParameterService() {
+        return systemParameterService;
+    }
 
-	/**
-	 * @param systemParameterService
-	 *            the systemParameterService to set
-	 */
-	public void setSystemParameterService(
-			PowerstaffSystemParameterService systemParameterService) {
-		this.systemParameterService = systemParameterService;
-	}
+    /**
+     * @param systemParameterService
+     *            the systemParameterService to set
+     */
+    public void setSystemParameterService(PowerstaffSystemParameterService systemParameterService) {
+        this.systemParameterService = systemParameterService;
+    }
 
-	private void processDeletedOrUpdatedFiles() {
+    private void processDeletedOrUpdatedFiles() {
 
-		logger.logDebug("Processing deleted or updated files");
+        logger.logDebug("Processing deleted or updated files");
 
-		try {
+        try {
 
-			Directory directory = FSDirectory.getDirectory(
-					systemParameterService.getIndexerPath(), false);
-			IndexReader reader = IndexReader.open(directory);
+            Directory directory = FSDirectory.getDirectory(systemParameterService.getIndexerPath(), false);
+            IndexReader reader = IndexReader.open(directory);
 
-			for (int i = 0; i < reader.maxDoc(); i++) {
+            for (int i = 0; i < reader.maxDoc(); i++) {
 
-				Document document = reader.document(i);
-				File file = new File(document.get(PATH));
-				if (!file.exists()
-						|| !("" + file.lastModified()).equals(document
-								.get(MODIFIED))) {
+                Document document = reader.document(i);
+                File file = new File(document.get(PATH));
+                if (!file.exists() || !("" + file.lastModified()).equals(document.get(MODIFIED))) {
 
-					logger.logDebug("Deleting file " + file.toString()
-							+ " from index");
+                    logger.logDebug("Deleting file " + file.toString() + " from index");
 
-					reader.deleteDocument(i);
-				}
-			}
+                    reader.deleteDocument(i);
+                }
+            }
 
-			reader.close();
-			directory.close();
+            reader.close();
+            directory.close();
 
-		} catch (Exception e) {
+        } catch (Exception e) {
 
-			logger.logError("Error on execution", e);
+            logger.logError("Error on execution", e);
 
-		}
+        }
 
-		logger.logDebug("Done with deleted or updated files");
-	}
+        logger.logDebug("Done with deleted or updated files");
+    }
 
-	/**
-	 * Run the indexer.
-	 */
-	public void runIndexer() {
+    /**
+     * Run the indexer.
+     */
+    public void runIndexer() {
 
-		// Läuft der indexer bereits ?
-		if (this.running)
-			return;
+        // Läuft der indexer bereits ?
+        if (this.running) {
+            return;
+        }
 
-		if (!systemParameterService.isIndexingEnabled()) {
-			logger.logInfo("Indexing disabled");
-			return;
-		}
-		
-		serviceLogger.logStart(SERVICE_ID, "");
+        if (!systemParameterService.isIndexingEnabled()) {
+            logger.logInfo("Indexing disabled");
+            return;
+        }
 
-		// Jetzt läuft er
-		this.running = true;
+        serviceLogger.logStart(SERVICE_ID, "");
 
-		long theStartTime = System.currentTimeMillis();
+        // Jetzt läuft er
+        this.running = true;
 
-		logger.logDebug("Running indexing");
+        long theStartTime = System.currentTimeMillis();
 
-		try {
+        logger.logDebug("Running indexing");
 
-			if (systemParameterService.isDeletedDocumentRemovalEnabled()) {
-				processDeletedOrUpdatedFiles();
-			} else {
-				logger.logInfo("Deleted document removal is disabled");
-			}
+        try {
 
-			File sourcePath = new File(systemParameterService
-					.getIndexerSourcePath());
-			if ((sourcePath.exists()) && (sourcePath.isDirectory())) {
+            if (systemParameterService.isDeletedDocumentRemovalEnabled()) {
+                processDeletedOrUpdatedFiles();
+            } else {
+                logger.logInfo("Deleted document removal is disabled");
+            }
 
-				IndexWriter writer = null;
-				try {
+            File sourcePath = new File(systemParameterService.getIndexerSourcePath());
+            if ((sourcePath.exists()) && (sourcePath.isDirectory())) {
 
-					// Try to append
-					writer = new IndexWriter(systemParameterService
-							.getIndexerPath(), new StandardAnalyzer(), false);
+                IndexWriter writer = null;
+                try {
 
-				} catch (Exception ex) {
+                    // Try to append
+                    writer = new IndexWriter(systemParameterService.getIndexerPath(), new StandardAnalyzer(), false);
 
-					// Create a new index
-					writer = new IndexWriter(systemParameterService
-							.getIndexerPath(), new StandardAnalyzer(), true);
-				}
-				indexDocs(writer, sourcePath, sourcePath.toString());
+                } catch (Exception ex) {
 
-				writer.optimize();
+                    // Create a new index
+                    writer = new IndexWriter(systemParameterService.getIndexerPath(), new StandardAnalyzer(), true);
+                }
+                indexDocs(writer, sourcePath, sourcePath.toString());
 
-				writer.close();
-			} else {
-				logger.logDebug("Source path " + sourcePath
-						+ " does not exists");
-			}
-		} catch (Exception ex) {
+                writer.optimize();
 
-			logger.logError("Error on indexing", ex);
+                writer.close();
+            } else {
+                logger.logDebug("Source path " + sourcePath + " does not exists");
+            }
+        } catch (Exception ex) {
 
-		} finally {
+            logger.logError("Error on indexing", ex);
 
-			theStartTime = System.currentTimeMillis() - theStartTime;
+        } finally {
 
-			logger.logDebug("Indexing finished");
+            theStartTime = System.currentTimeMillis() - theStartTime;
 
-			serviceLogger.logEnd(SERVICE_ID, "Dauer = " + theStartTime + "ms");
+            logger.logDebug("Indexing finished");
 
-			this.running = false;
-		}
-	}
+            serviceLogger.logEnd(SERVICE_ID, "Dauer = " + theStartTime + "ms");
 
-	private void processFile(IndexWriter aWriter, File aFile,
-			String aBaseFileName) {
+            this.running = false;
+        }
+    }
 
-		try {
+    private void processFile(IndexWriter aWriter, File aFile, String aBaseFileName) {
 
-			// First, try to detect if the file exists
-			Searcher theSearcher = new IndexSearcher(systemParameterService
-					.getIndexerPath());
-			Analyzer theAnalyzer = new KeywordAnalyzer();
-			QueryParser theParser = new QueryParser(PATH, theAnalyzer);
+        try {
 
-			Query theQuery = theParser.parse("\""
-					+ aFile.toString().replace("\\", "\\\\") + "\"");
-			Hits theHits = theSearcher.search(theQuery);
-			if (theHits.length() > 0) {
+            // First, try to detect if the file exists
+            Searcher theSearcher = new IndexSearcher(systemParameterService.getIndexerPath());
+            Analyzer theAnalyzer = new KeywordAnalyzer();
+            QueryParser theParser = new QueryParser(PATH, theAnalyzer);
 
-				logger.logDebug("Ignoring file " + aFile
-						+ " as it seems to be duplicate");
+            Query theQuery = theParser.parse("\"" + aFile.toString().replace("\\", "\\\\") + "\"");
+            Hits theHits = theSearcher.search(theQuery);
+            if (theHits.length() > 0) {
 
-				return;
-			}
+                logger.logDebug("Ignoring file " + aFile + " as it seems to be duplicate");
 
-			DocumentReader theDocumentReader = this.readerFactory
-					.getDocumentReaderForFile(aFile);
-			if (theDocumentReader != null) {
+                return;
+            }
 
-				// Try to get the coding
-				String theCode = aFile.getName().substring("Profil ".length())
-						.trim();
-				int p = theCode.lastIndexOf(".");
-				if (p > 0)
-					theCode = theCode.substring(0, p);
+            DocumentReader theDocumentReader = this.readerFactory.getDocumentReaderForFile(aFile);
+            if (theDocumentReader != null) {
 
-				String theStrippedPath = aFile.toString().substring(
-						aBaseFileName.length() + 1);
+                // Try to get the coding
+                String theCode = aFile.getName().substring("Profil ".length()).trim();
+                int p = theCode.lastIndexOf(".");
+                if (p > 0) {
+                    theCode = theCode.substring(0, p);
+                }
 
-				theCode = theCode.trim();
+                String theStrippedPath = aFile.toString().substring(aBaseFileName.length() + 1);
 
-				try {
+                theCode = theCode.trim();
 
-					logger.logDebug("Adding file " + aFile + " to index");
+                try {
 
-					Document doc = new Document();
-					ReadResult theResult = theDocumentReader.getContent(aFile);
+                    logger.logDebug("Adding file " + aFile + " to index");
 
-					doc.add(new Field(PATH, aFile.getPath(), Field.Store.YES,
-							Field.Index.UN_TOKENIZED));
-					doc.add(new Field(CODE, theCode, Field.Store.YES,
-							Field.Index.UN_TOKENIZED));
-					doc.add(new Field(STRIPPEDPATH, theStrippedPath,
-							Field.Store.YES, Field.Index.UN_TOKENIZED));
-					doc.add(new Field(MODIFIED, "" + aFile.lastModified(),
-							Field.Store.YES, Field.Index.NO));
-					doc.add(new Field(INDEXINGTIME, ""
-							+ System.currentTimeMillis(), Field.Store.YES,
-							Field.Index.NO));
-					doc.add(new Field(ORIG_CONTENT, theResult.getContent(),
-							Field.Store.YES, Field.Index.UN_TOKENIZED));
-					doc.add(new Field(CONTENT, new StringReader(theResult
-							.getContent())));
+                    Document doc = new Document();
+                    ReadResult theResult = theDocumentReader.getContent(aFile);
 
-					aWriter.addDocument(doc);
+                    doc.add(new Field(PATH, aFile.getPath(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+                    doc.add(new Field(CODE, theCode, Field.Store.YES, Field.Index.UN_TOKENIZED));
+                    doc.add(new Field(STRIPPEDPATH, theStrippedPath, Field.Store.YES, Field.Index.UN_TOKENIZED));
+                    doc.add(new Field(MODIFIED, "" + aFile.lastModified(), Field.Store.YES, Field.Index.NO));
+                    doc.add(new Field(INDEXINGTIME, "" + System.currentTimeMillis(), Field.Store.YES, Field.Index.NO));
+                    doc.add(new Field(ORIG_CONTENT, theResult.getContent(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+                    doc.add(new Field(CONTENT, new StringReader(theResult.getContent())));
 
-				} catch (Exception ex) {
+                    aWriter.addDocument(doc);
 
-					logger.logDebug("Error on indexing", ex);
-				}
-			} else {
+                } catch (Exception ex) {
 
-				logger.logWarning("Cannot index file " + aFile
-						+ " as there is no DocumentReader.");
+                    logger.logDebug("Error on indexing", ex);
+                }
+            } else {
 
-			}
+                logger.logWarning("Cannot index file " + aFile + " as there is no DocumentReader.");
 
-		} catch (Exception e) {
-			logger.logError("Error on inxeding", e);
-		}
+            }
 
-	}
+        } catch (Exception e) {
+            logger.logError("Error on inxeding", e);
+        }
 
-	private void indexDocs(IndexWriter aWriter, File aFile, String aBaseFile)
-			throws IOException {
+    }
 
-		// do not try to index files that cannot be read
-		if (aFile.canRead()) {
+    private void indexDocs(IndexWriter aWriter, File aFile, String aBaseFile) throws IOException {
 
-			logger.logDebug("Scanning directory " + aFile);
+        // do not try to index files that cannot be read
+        if (aFile.canRead()) {
 
-			if (aFile.isDirectory()) {
+            logger.logDebug("Scanning directory " + aFile);
 
-				String[] files = aFile.list();
-				// an IO error could occur
-				if (files != null) {
-					for (int i = 0; i < files.length; i++) {
-						indexDocs(aWriter, new File(aFile, files[i]), aBaseFile);
-					}
-				}
-			} else {
+            if (aFile.isDirectory()) {
 
-				// Ok, here we go
+                String[] files = aFile.list();
+                // an IO error could occur
+                if (files != null) {
+                    for (int i = 0; i < files.length; i++) {
+                        indexDocs(aWriter, new File(aFile, files[i]), aBaseFile);
+                    }
+                }
+            } else {
 
-				// Only try to index filex with a given valid profile name !!
-				String fileName = aFile.toString();
-				logger.logDebug("Found file " + fileName);
+                // Ok, here we go
 
-				int p = fileName.lastIndexOf(File.separator);
-				if (p >= 0) {
-					fileName = fileName.substring(p + 1);
-				}
+                // Only try to index filex with a given valid profile name !!
+                String fileName = aFile.toString();
+                logger.logDebug("Found file " + fileName);
 
-				// Is it valid ?
-				if (fileName.startsWith("Profil ")) {
+                int p = fileName.lastIndexOf(File.separator);
+                if (p >= 0) {
+                    fileName = fileName.substring(p + 1);
+                }
 
-					// Ok, the profile is valid
-					// It can be indexed
-					processFile(aWriter, aFile, aBaseFile);
+                // Is it valid ?
+                if (fileName.startsWith("Profil ")) {
 
-				} else {
+                    // Ok, the profile is valid
+                    // It can be indexed
+                    processFile(aWriter, aFile, aBaseFile);
 
-					// it is not a valid file
-					// Log this information
+                } else {
 
-					logger.logDebug("File is not a valid profile");
-				}
+                    // it is not a valid file
+                    // Log this information
 
-			}
-		}
-	}
+                    logger.logDebug("File is not a valid profile");
+                }
 
-	public ServiceLoggerService getServiceLogger() {
-		return serviceLogger;
-	}
+            }
+        }
+    }
 
-	public void setServiceLogger(ServiceLoggerService serviceLogger) {
-		this.serviceLogger = serviceLogger;
-	}
+    public ServiceLoggerService getServiceLogger() {
+        return serviceLogger;
+    }
 
-	public void rebuildIndex() {
-		File sourcePath = new File(systemParameterService
-				.getIndexerSourcePath());
-		if ((sourcePath.exists()) && (sourcePath.isDirectory())) {
+    public void setServiceLogger(ServiceLoggerService serviceLogger) {
+        this.serviceLogger = serviceLogger;
+    }
 
-			IndexWriter theWriter = null;
-			try {
+    public void rebuildIndex() {
+        File sourcePath = new File(systemParameterService.getIndexerSourcePath());
+        if ((sourcePath.exists()) && (sourcePath.isDirectory())) {
 
-				// Try to append
-				theWriter = new IndexWriter(systemParameterService
-						.getIndexerPath(), new StandardAnalyzer(), true);
-				theWriter.close();
+            IndexWriter theWriter = null;
+            try {
 
-			} catch (Exception e) {
-				logger.logError("Unable to rebuild index");
-			}
-		}
-	}
+                // Try to append
+                theWriter = new IndexWriter(systemParameterService.getIndexerPath(), new StandardAnalyzer(), true);
+                theWriter.close();
+
+            } catch (Exception e) {
+                logger.logError("Unable to rebuild index");
+            }
+        }
+    }
 
 }

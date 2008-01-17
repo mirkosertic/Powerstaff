@@ -23,5 +23,5 @@ import de.powerstaff.business.entity.Partner;
 
 public interface PartnerService extends NavigatingService<Partner> {
 
-	List<Partner> findAll();
+    List<Partner> findAll();
 }

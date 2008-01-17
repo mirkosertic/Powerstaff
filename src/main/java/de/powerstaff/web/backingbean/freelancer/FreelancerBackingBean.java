@@ -24,243 +24,232 @@ import de.powerstaff.web.backingbean.partner.PartnerBackingBean;
 import de.powerstaff.web.utils.Comparators;
 
 public class FreelancerBackingBean extends
-		NavigatingBackingBean<Freelancer, FreelancerBackingBeanDataModel, FreelancerService> {
+        NavigatingBackingBean<Freelancer, FreelancerBackingBeanDataModel, FreelancerService> {
 
-	private final static Logger LOGGER = new Logger(FreelancerBackingBean.class);
-	
-	private ProfileSearchService profileSearchService;
+    private static final Logger LOGGER = new Logger(FreelancerBackingBean.class);
 
-	private PartnerService partnerService;
-	
-	private AdditionalDataService additinalDataService;
-	
-	/**
-	 * @return the partnerService
-	 */
-	public PartnerService getPartnerService() {
-		return partnerService;
-	}
+    private ProfileSearchService profileSearchService;
 
-	/**
-	 * @param partnerService the partnerService to set
-	 */
-	public void setPartnerService(PartnerService partnerService) {
-		this.partnerService = partnerService;
-	}
+    private PartnerService partnerService;
 
-	@Override
-	protected FreelancerBackingBeanDataModel createDataModel() {
-		return new FreelancerBackingBeanDataModel();
-	}
+    private AdditionalDataService additinalDataService;
 
-	/**
-	 * @return the profileSearchService
-	 */
-	public ProfileSearchService getProfileSearchService() {
-		return profileSearchService;
-	}
-	
-	/**
-	 * @return the additinalDataService
-	 */
-	public AdditionalDataService getAdditinalDataService() {
-		return additinalDataService;
-	}
+    /**
+     * @return the partnerService
+     */
+    public PartnerService getPartnerService() {
+        return partnerService;
+    }
 
-	/**
-	 * @param additinalDataService the additinalDataService to set
-	 */
-	public void setAdditinalDataService(AdditionalDataService additinalDataService) {
-		this.additinalDataService = additinalDataService;
-	}
+    /**
+     * @param partnerService
+     *            the partnerService to set
+     */
+    public void setPartnerService(PartnerService partnerService) {
+        this.partnerService = partnerService;
+    }
 
-	/**
-	 * @param profileSearchService
-	 *            the profileSearchService to set
-	 */
-	public void setProfileSearchService(
-			ProfileSearchService profileSearchService) {
-		this.profileSearchService = profileSearchService;
-	}
+    @Override
+    protected FreelancerBackingBeanDataModel createDataModel() {
+        return new FreelancerBackingBeanDataModel();
+    }
 
-	public String commandSearch() {
+    /**
+     * @return the profileSearchService
+     */
+    public ProfileSearchService getProfileSearchService() {
+        return profileSearchService;
+    }
 
-		Collection theResult = entityService.performQBESearch(getData()
-				.getEntity());
+    /**
+     * @return the additinalDataService
+     */
+    public AdditionalDataService getAdditinalDataService() {
+        return additinalDataService;
+    }
 
-		if (theResult.size() < 1) {
-			JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);
-			return null;
-		}
+    /**
+     * @param additinalDataService
+     *            the additinalDataService to set
+     */
+    public void setAdditinalDataService(AdditionalDataService additinalDataService) {
+        this.additinalDataService = additinalDataService;
+    }
 
-		if (theResult.size() == 1) {
-			getData().setEntity((Freelancer) theResult.iterator().next());
-			afterNavigation();
-			return null;
-		}
+    /**
+     * @param profileSearchService
+     *            the profileSearchService to set
+     */
+    public void setProfileSearchService(ProfileSearchService profileSearchService) {
+        this.profileSearchService = profileSearchService;
+    }
 
-		getData().getSearchResult().setWrappedData(theResult);
-		return "FREELANCER_SEARCHRESULT";
-	}
+    public String commandSearch() {
 
-	public void commandAddContact() {
-		
-		if ((getData().getNewContactValue() == null) ||
-			("".equals(getData().getNewContactValue()))) {
-			
-			JSFMessageUtils.addGlobalErrorMessage(MSG_KEINE_KONTAKTINFOS);
-			
-			return;
-		}
+        Collection theResult = entityService.performQBESearch(getData().getEntity());
 
-		FreelancerBackingBeanDataModel theModel = getData();
+        if (theResult.size() < 1) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);
+            return null;
+        }
 
-		Freelancer theFreelancer = theModel.getEntity();
+        if (theResult.size() == 1) {
+            getData().setEntity((Freelancer) theResult.iterator().next());
+            afterNavigation();
+            return null;
+        }
 
-		FreelancerContact theContact = new FreelancerContact();
-		theContact.setType(theModel.getNewContactType());
-		theContact.setValue(theModel.getNewContactValue());
+        getData().getSearchResult().setWrappedData(theResult);
+        return "FREELANCER_SEARCHRESULT";
+    }
 
-		theFreelancer.getContacts().add(theContact);
-		theModel.setEntity(theFreelancer);
-	}
+    public void commandAddContact() {
 
-	public void commandDeleteContact() {
+        if ((getData().getNewContactValue() == null) || ("".equals(getData().getNewContactValue()))) {
 
-		FreelancerBackingBeanDataModel theModel = getData();
+            JSFMessageUtils.addGlobalErrorMessage(MSG_KEINE_KONTAKTINFOS);
 
-		Freelancer theFreelancer = theModel.getEntity();
+            return;
+        }
 
-		FreelancerContact theContact = (FreelancerContact) theModel
-				.getContacts().getRowData();
-		theFreelancer.getContacts().remove(theContact);
+        FreelancerBackingBeanDataModel theModel = getData();
 
-		theModel.setEntity(theFreelancer);
-	}
+        Freelancer theFreelancer = theModel.getEntity();
 
-	@Override
-	public void init() {
-		super.init();
+        FreelancerContact theContact = new FreelancerContact();
+        theContact.setType(theModel.getNewContactType());
+        theContact.setValue(theModel.getNewContactValue());
 
-		getData().setContactTypes(
-				(List<ContactType>) additinalDataService.getContactTypes());
+        theFreelancer.getContacts().add(theContact);
+        theModel.setEntity(theFreelancer);
+    }
 
-		List thePartner = (List) partnerService.findAll();
-		getData().setPartnerList(thePartner);
+    public void commandDeleteContact() {
 
-		commandFirst();
-	}
+        FreelancerBackingBeanDataModel theModel = getData();
 
-	public List<String> getCodeSuggestion(Object aSuggest) {
-		return entityService.getCodeSuggestions((String)aSuggest);
-	}
-	
-	@Override
-	protected void afterNavigation() {
-		super.afterNavigation();
-		
-		String theCode = getData().getEntity().getCode();
-		if ((theCode != null) && (theCode.length() > 0)) {
-			try {
-				getData().getProfiles().setWrappedData(
-						profileSearchService.findProfiles(theCode));
-			} catch (Exception e) {
-				JSFMessageUtils.addGlobalErrorMessage(
-						MSG_KEINEDATENGEFUNDEN, e.getMessage());
-				LOGGER.logError(
-						"Konnte Profilliste nicht laden für " + theCode, e);
-			}
-		} else {
-			getData().getProfiles().setWrappedData(new Vector());
-		}
-	}
+        Freelancer theFreelancer = theModel.getEntity();
 
-	@Override
-	protected Freelancer createNew() {
-		return new Freelancer();
-	}
+        FreelancerContact theContact = (FreelancerContact) theModel.getContacts().getRowData();
+        theFreelancer.getContacts().remove(theContact);
 
-	public String commandBack() {
-		return "FREELANCER_STAMMDATEN";
-	}
+        theModel.setEntity(theFreelancer);
+    }
 
-	public String commandStammdaten() {
-		return "FREELANCER_STAMMDATEN";
-	}
+    @Override
+    public void init() {
+        super.init();
 
-	public String commandHistorie() {
-		return "FREELANCER_HISTORIE";
-	}
+        getData().setContactTypes((List<ContactType>) additinalDataService.getContactTypes());
 
-	public void commandAddNewHistoryEntry() {
-		FreelancerHistory theHistory = new FreelancerHistory();
-		theHistory.setDescription(getData().getNewHistoryEntry());
+        List thePartner = (List) partnerService.findAll();
+        getData().setPartnerList(thePartner);
 
-		getData().setNewHistoryEntry(null);
+        commandFirst();
+    }
 
-		Freelancer theFreelancer = getData().getEntity();
-		getData().getHistory().add(theHistory);
+    public List<String> getCodeSuggestion(Object aSuggest) {
+        return entityService.getCodeSuggestions((String) aSuggest);
+    }
 
-		getData().getHistory().sort(Comparators.INVERSECREATIONDATECOMPARATOR);
-		
-		entityService.save(theFreelancer);
+    @Override
+    protected void afterNavigation() {
+        super.afterNavigation();
 
-		getData().setNewHistoryEntry(null);
+        String theCode = getData().getEntity().getCode();
+        if ((theCode != null) && (theCode.length() > 0)) {
+            try {
+                getData().getProfiles().setWrappedData(profileSearchService.findProfiles(theCode));
+            } catch (Exception e) {
+                JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN, e.getMessage());
+                LOGGER.logError("Konnte Profilliste nicht laden für " + theCode, e);
+            }
+        } else {
+            getData().getProfiles().setWrappedData(new Vector());
+        }
+    }
 
-		JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
-	}
+    @Override
+    protected Freelancer createNew() {
+        return new Freelancer();
+    }
 
-	public String commandSelectSearchResult() {
+    public String commandBack() {
+        return "FREELANCER_STAMMDATEN";
+    }
 
-		getData().setEntity(
-				(Freelancer) getData().getSearchResult().getRowData());
-		return "FREELANCER_STAMMDATEN";
-	}
+    public String commandStammdaten() {
+        return "FREELANCER_STAMMDATEN";
+    }
 
-	public void commandDeleteHistoryEntry() {
+    public String commandHistorie() {
+        return "FREELANCER_HISTORIE";
+    }
 
-		FreelancerHistory theHistory = (FreelancerHistory) getData()
-				.getHistory().getRowData();
-		getData().getHistory().remove(theHistory);
+    public void commandAddNewHistoryEntry() {
+        FreelancerHistory theHistory = new FreelancerHistory();
+        theHistory.setDescription(getData().getNewHistoryEntry());
 
-		Freelancer theFreelancer = getData().getEntity();
-		entityService.save(theFreelancer);
+        getData().setNewHistoryEntry(null);
 
-		getData().setEntity(theFreelancer);
-		getData().getHistory().sort(Comparators.INVERSECREATIONDATECOMPARATOR);
+        Freelancer theFreelancer = getData().getEntity();
+        getData().getHistory().add(theHistory);
 
-		JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
-	}
-	
-	public String commandShowPartner() {
-		Partner thePartner = getData().getEntity().getPartner();
-		if (thePartner != null) {
-			forceUpdateOfBean(PartnerBackingBean.class,
-					new EditEntityCommand<Partner>(thePartner));
-			return "PARTNER_STAMMDATEN";
-		}
-		return null;
-	}
+        getData().getHistory().sort(Comparators.INVERSECREATIONDATECOMPARATOR);
 
-	@Override
-	public void updateModel(UpdateModelInfo aInfo) {
-		super.updateModel(aInfo);
-		if (aInfo.getCommand() instanceof EditEntityCommand) {
-			EditEntityCommand<ProfileSearchInfoDetail> theCommand = (EditEntityCommand<ProfileSearchInfoDetail>) aInfo
-					.getCommand();
+        entityService.save(theFreelancer);
 
-			init();
+        getData().setNewHistoryEntry(null);
 
-			Freelancer thePartner = (Freelancer) entityService
-					.findByPrimaryKey(theCommand.getValue()
-							.getId());
-			getData().setEntity(thePartner);
-			afterNavigation();
-		}
-	}
+        JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
+    }
 
-	public String getProfileOpenCommand() {
-		FreelancerProfile theProfile = (FreelancerProfile)getData().getProfiles().getRowData();
-		return "return openWordFile('"+theProfile.getFileName().replace("\\", "\\\\")+"')";
-	}
+    public String commandSelectSearchResult() {
+
+        getData().setEntity((Freelancer) getData().getSearchResult().getRowData());
+        return "FREELANCER_STAMMDATEN";
+    }
+
+    public void commandDeleteHistoryEntry() {
+
+        FreelancerHistory theHistory = (FreelancerHistory) getData().getHistory().getRowData();
+        getData().getHistory().remove(theHistory);
+
+        Freelancer theFreelancer = getData().getEntity();
+        entityService.save(theFreelancer);
+
+        getData().setEntity(theFreelancer);
+        getData().getHistory().sort(Comparators.INVERSECREATIONDATECOMPARATOR);
+
+        JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
+    }
+
+    public String commandShowPartner() {
+        Partner thePartner = getData().getEntity().getPartner();
+        if (thePartner != null) {
+            forceUpdateOfBean(PartnerBackingBean.class, new EditEntityCommand<Partner>(thePartner));
+            return "PARTNER_STAMMDATEN";
+        }
+        return null;
+    }
+
+    @Override
+    public void updateModel(UpdateModelInfo aInfo) {
+        super.updateModel(aInfo);
+        if (aInfo.getCommand() instanceof EditEntityCommand) {
+            EditEntityCommand<ProfileSearchInfoDetail> theCommand = (EditEntityCommand<ProfileSearchInfoDetail>) aInfo
+                    .getCommand();
+
+            init();
+
+            Freelancer thePartner = (Freelancer) entityService.findByPrimaryKey(theCommand.getValue().getId());
+            getData().setEntity(thePartner);
+            afterNavigation();
+        }
+    }
+
+    public String getProfileOpenCommand() {
+        FreelancerProfile theProfile = (FreelancerProfile) getData().getProfiles().getRowData();
+        return "return openWordFile('" + theProfile.getFileName().replace("\\", "\\\\") + "')";
+    }
 }

@@ -20,18 +20,18 @@ package de.powerstaff.business.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Partner extends Person<PartnerContact, PartnerHistory>  {
+public class Partner extends Person<PartnerContact, PartnerHistory> {
 
-	private Set<Freelancer> freelancer = new HashSet<Freelancer>();
+    private Set<Freelancer> freelancer = new HashSet<Freelancer>();
 
-	public Partner() {
-	}
+    public Partner() {
+    }
 
-	public Set<Freelancer> getFreelancer() {
-		return freelancer;
-	}
+    public Set<Freelancer> getFreelancer() {
+        return freelancer;
+    }
 
-	public void setFreelancer(Set<Freelancer> freelancer) {
-		this.freelancer = freelancer;
-	}
+    public void setFreelancer(Set<Freelancer> freelancer) {
+        this.freelancer = freelancer;
+    }
 }

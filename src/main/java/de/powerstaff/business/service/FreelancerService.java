@@ -23,7 +23,7 @@ import de.powerstaff.business.entity.Freelancer;
 
 public interface FreelancerService extends NavigatingService<Freelancer> {
 
-	ProfileSearchInfoDetail findFreelancerByCode(String code);
+    ProfileSearchInfoDetail findFreelancerByCode(String code);
 
-	List<String> getCodeSuggestions(String aSuggest);
+    List<String> getCodeSuggestions(String aSuggest);
 }
