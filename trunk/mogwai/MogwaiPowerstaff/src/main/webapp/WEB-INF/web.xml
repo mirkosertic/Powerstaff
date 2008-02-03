@@ -67,6 +67,9 @@
 		<servlet-name>FacesServlet</servlet-name>
 		<url-pattern>*.faces</url-pattern>
 	</servlet-mapping>
+	<session-config>
+      <session-timeout>1000</session-timeout> 
+    </session-config>	
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
