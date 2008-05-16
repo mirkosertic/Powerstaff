@@ -42,6 +42,8 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>com.genuitec.eclipse.jsf.faceletsnature</nature>
+		<nature>com.genuitec.eclipse.jsf.jsfnature</nature>
 		<nature>com.genuitec.eclipse.ast.deploy.core.deploymentnature</nature>
 		<nature>com.genuitec.eclipse.j2eedt.core.webnature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
