@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file-systems model-entity="FileSystems" workspace-home="./src/main/webapp/WEB-INF">
+ <file-system NAME="MogwaiPowerstaff" location="%eclipse.project%" model-entity="FileSystemFolder"/>
+ <file-system NAME="src" location="%workspace.home%/../../java" model-entity="FileSystemFolder"/>
+ <file-system NAME="src-1" location="%workspace.home%/../../resources" model-entity="FileSystemFolder"/>
+ <web model-entity="JstWeb"/>
+</file-systems>
