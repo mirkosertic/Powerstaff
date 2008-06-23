@@ -39,7 +39,7 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
     @Override
     public void init() {
         super.init();
-        commandFirst();
+        commandNew();
     }
 
     @Override

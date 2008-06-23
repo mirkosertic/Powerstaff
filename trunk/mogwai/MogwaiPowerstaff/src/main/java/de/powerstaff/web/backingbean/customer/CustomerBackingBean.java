@@ -98,7 +98,7 @@ public class CustomerBackingBean extends NavigatingBackingBean<Customer, Custome
         super.init();
 
         getData().setContactTypes(additinalDataService.getContactTypes());
-        commandFirst();
+        commandNew();
     }
 
     public String commandBack() {

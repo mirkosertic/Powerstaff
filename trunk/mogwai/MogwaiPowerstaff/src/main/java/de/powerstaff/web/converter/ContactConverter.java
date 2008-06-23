@@ -29,7 +29,7 @@ public class ContactConverter implements Converter {
             if (theType.isWeb()) {
 
                 String theValue = theContact.getValue();
-                if (!theValue.startsWith("http://")) {
+                if ((!theValue.toLowerCase().startsWith("http://")) && (!theValue.toLowerCase().startsWith("https://"))) {
                     theValue = "http://" + theValue;
                 }
 

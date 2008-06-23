@@ -95,7 +95,7 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
 
         getData().setContactTypes(additinalDataService.getContactTypes());
 
-        commandFirst();
+        commandNew();
     }
 
     public String commandBack() {

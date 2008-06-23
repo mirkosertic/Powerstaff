@@ -145,7 +145,7 @@ public class FreelancerBackingBean extends
         List thePartner = (List) partnerService.findAll();
         getData().setPartnerList(thePartner);
 
-        commandFirst();
+        commandNew();
     }
 
     public List<String> getCodeSuggestion(Object aSuggest) {
