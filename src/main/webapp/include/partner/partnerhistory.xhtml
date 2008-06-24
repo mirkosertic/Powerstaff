@@ -70,7 +70,7 @@
 							<b:gridBagLayout cols="790" rows="p,2,p">
 
 								<b:cell x="1" y="1">
-									<h:outputText value="#{row}">
+									<h:outputText rendered="#{partnerBackingBean.data.history.rowIndex == 0}" value="#{partnerBackingBean.data.entity}">								
 										<f:converter converterId="auditInformationConverter"/>
 									</h:outputText>
 								</b:cell>
