@@ -352,4 +352,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 			</bean>
 		</property>
 	</bean>
+	
+	<import resource="applicationContext-security.xml"/>
 </beans>
