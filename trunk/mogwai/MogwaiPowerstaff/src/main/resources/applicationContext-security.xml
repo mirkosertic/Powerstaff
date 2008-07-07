@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:security="http://www.springframework.org/schema/security"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.2.xsd">
+
+	<security:authentication-manager alias="_authenticationManager" />
+
+	<security:authentication-provider>
+		<security:user-service>
+			<security:user name="w2k admin" password=""
+				authorities="ROLE_USER" />
+		</security:user-service>
+	</security:authentication-provider>
+
+	<bean id="ntlmEntryPoint"
+		class="org.springframework.security.ui.ntlm.NtlmProcessingFilterEntryPoint">
+		<property name="authenticationFailureUrl"
+			value="/access_denied.jsp" />
+	</bean>
+
+	<bean id="ntlmFilter"
+		class="org.springframework.security.ui.ntlm.NtlmProcessingFilter">
+		<security:custom-filter position="NTLM_FILTER" />
+		<property name="stripDomain" value="true" />
+		<property name="defaultDomain" value="NB" />
+		<property name="domainController" value="192.168.0.138" />
+		<property name="authenticationManager"
+			ref="_authenticationManager" />
+	</bean>
+
+	<security:http access-decision-manager-ref="accessDecisionManager"
+		entry-point-ref="ntlmEntryPoint"
+		create-session="never">
+		<security:intercept-url pattern="/access_denied.jsp"
+			filters="none" />
+		<security:intercept-url pattern="/images/**" filters="none" />
+		<security:intercept-url pattern="/script/**" filters="none" />
+		<security:intercept-url pattern="/style/**" filters="none" />
+		<security:intercept-url pattern="/**" access="ROLE_USER" />
+	</security:http>
+
+	<bean id="accessDecisionManager"
+		class="org.springframework.security.vote.UnanimousBased">
+		<property name="allowIfAllAbstainDecisions" value="false" />
+		<property name="decisionVoters">
+			<list>
+				<bean id="roleVoter"
+					class="org.springframework.security.vote.RoleVoter" />
+			</list>
+		</property>
+	</bean>
+</beans>
