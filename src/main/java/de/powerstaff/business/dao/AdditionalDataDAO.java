@@ -19,10 +19,10 @@ package de.powerstaff.business.dao;
 
 import java.util.List;
 
-import de.mogwai.common.dao.DAO;
+import de.mogwai.common.dao.Dao;
 import de.powerstaff.business.entity.ContactType;
 
-public interface AdditionalDataDAO extends DAO {
+public interface AdditionalDataDAO extends Dao {
 
     List<ContactType> getContactTypes();
 }

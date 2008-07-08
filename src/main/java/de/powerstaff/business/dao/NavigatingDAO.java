@@ -18,10 +18,10 @@
 package de.powerstaff.business.dao;
 
 import de.mogwai.common.business.entity.Entity;
-import de.mogwai.common.dao.DAO;
+import de.mogwai.common.dao.Dao;
 import de.powerstaff.business.service.RecordInfo;
 
-public interface NavigatingDAO<T extends Entity> extends DAO {
+public interface NavigatingDAO<T extends Entity> extends Dao {
 
     T findFirst();
 

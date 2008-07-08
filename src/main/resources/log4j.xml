@@ -8,10 +8,6 @@
 		</layout>
 	</appender>
 
-	<logger name="org.springframework.security">
-		<level value="DEBUG" />
-	</logger>
-	
 	<root>
 		<priority value="INFO"/>
 		<appender-ref ref="stdout" />
