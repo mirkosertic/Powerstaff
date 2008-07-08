@@ -161,7 +161,7 @@ public class FreelancerBackingBean extends
             try {
                 getData().getProfiles().setWrappedData(profileSearchService.findProfiles(theCode));
             } catch (Exception e) {
-                JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN, e.getMessage());
+                JSFMessageUtils.addErrorInfoMessage(MSG_KEINEDATENGEFUNDEN, e.getMessage());
                 LOGGER.logError("Konnte Profilliste nicht laden für " + theCode, e);
             }
         } else {

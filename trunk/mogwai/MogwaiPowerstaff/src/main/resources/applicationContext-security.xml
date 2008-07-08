@@ -7,12 +7,15 @@
 
 	<security:authentication-manager alias="_authenticationManager" />
 
-	<security:authentication-provider>
-		<security:user-service>
-			<security:user name="w2k admin" password=""
-				authorities="ROLE_USER" />
-		</security:user-service>
-	</security:authentication-provider>
+	<bean id="userDetailsService" class="de.powerstaff.business.service.impl.PowerstaffUserDetailsServiceImpl">
+		<property name="authorities">
+			<list>
+				<value>ROLE_USER</value>
+			</list>
+		</property>
+	</bean>
+
+	<security:authentication-provider user-service-ref="userDetailsService"/>
 
 	<bean id="ntlmEntryPoint"
 		class="org.springframework.security.ui.ntlm.NtlmProcessingFilterEntryPoint">
@@ -28,6 +31,12 @@
 		<property name="domainController" value="192.168.0.138" />
 		<property name="authenticationManager"
 			ref="_authenticationManager" />
+	</bean>
+
+	<bean id="startPageFilter"
+		class="de.powerstaff.web.filter.RedirectToStartPageFilter">
+		<security:custom-filter before="SWITCH_USER_FILTER" />
+		<property name="startPage" value="/welcome.faces" />
 	</bean>
 
 	<security:http access-decision-manager-ref="accessDecisionManager"

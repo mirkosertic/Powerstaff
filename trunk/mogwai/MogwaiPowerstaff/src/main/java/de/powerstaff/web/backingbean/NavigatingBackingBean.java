@@ -91,7 +91,7 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
             afterNavigation();
             JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
         } catch (Exception e) {
-            JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMSPEICHERN, e.getMessage());
+            JSFMessageUtils.addErrorInfoMessage(MSG_FEHLERBEIMSPEICHERN, e.getMessage());
         }
     }
 

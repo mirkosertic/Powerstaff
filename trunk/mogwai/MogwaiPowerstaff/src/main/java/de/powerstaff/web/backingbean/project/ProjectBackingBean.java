@@ -51,7 +51,7 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
                 JSFMessageUtils.addGlobalErrorMessage(MSG_KEINKUNDE);
             }
         } catch (Exception e) {
-            JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMSPEICHERN, e.getMessage());
+            JSFMessageUtils.addErrorInfoMessage(MSG_FEHLERBEIMSPEICHERN, e.getMessage());
         }
     }
 

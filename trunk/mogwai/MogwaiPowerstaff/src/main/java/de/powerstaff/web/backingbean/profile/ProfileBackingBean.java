@@ -63,7 +63,7 @@ public class ProfileBackingBean extends WrappingBackingBean<ProfileBackingBeanDa
                 JSFMessageUtils.addGlobalInfoMessage(MSG_PROFILEGEFUNDEN, "" + getData().getSearchResult().size());
             }
         } catch (Exception e) {
-            JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE, e.getMessage());
+            JSFMessageUtils.addErrorInfoMessage(MSG_FEHLERBEIDERPROFILSUCHE, e.getMessage());
             LOGGER.logError("Fehler bei Profilsuche", e);
         }
     }
