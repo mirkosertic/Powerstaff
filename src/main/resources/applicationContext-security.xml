@@ -7,7 +7,8 @@
 
 	<security:authentication-manager alias="_authenticationManager" />
 
-	<bean id="userDetailsService" class="de.powerstaff.business.service.impl.PowerstaffUserDetailsServiceImpl">
+	<bean id="userDetailsService"
+		class="de.powerstaff.business.service.impl.PowerstaffUserDetailsServiceImpl">
 		<property name="authorities">
 			<list>
 				<value>ROLE_USER</value>
@@ -15,7 +16,8 @@
 		</property>
 	</bean>
 
-	<security:authentication-provider user-service-ref="userDetailsService"/>
+	<security:authentication-provider
+		user-service-ref="userDetailsService" />
 
 	<bean id="ntlmEntryPoint"
 		class="org.springframework.security.ui.ntlm.NtlmProcessingFilterEntryPoint">
@@ -33,15 +35,31 @@
 			ref="_authenticationManager" />
 	</bean>
 
+	<bean id="disableProxyFilter"
+		class="de.mogwai.common.web.filter.DisableProxyFilter">
+		<security:custom-filter
+			before="AUTHENTICATION_PROCESSING_FILTER" />
+	</bean>
+
+	<bean id="securityContextToUserContextFilter"
+		class="de.mogwai.common.web.filter.SecurityContextToUserContextFilter">
+		<security:custom-filter
+			after="AUTHENTICATION_PROCESSING_FILTER" />
+	</bean>
+
 	<bean id="startPageFilter"
 		class="de.powerstaff.web.filter.RedirectToStartPageFilter">
 		<security:custom-filter before="SWITCH_USER_FILTER" />
 		<property name="startPage" value="/welcome.faces" />
 	</bean>
 
+	<bean id="promoteUserIDToLog4JNDCFilter"
+		class="de.mogwai.common.web.filter.PromoteUserIDToLog4JNDCFilter">
+		<security:custom-filter after="SWITCH_USER_FILTER" />
+	</bean>
+
 	<security:http access-decision-manager-ref="accessDecisionManager"
-		entry-point-ref="ntlmEntryPoint"
-		create-session="never">
+		entry-point-ref="ntlmEntryPoint" >
 		<security:intercept-url pattern="/access_denied.jsp"
 			filters="none" />
 		<security:intercept-url pattern="/images/**" filters="none" />
