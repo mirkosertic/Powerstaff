@@ -19,7 +19,7 @@
 		<param-value>false</param-value>
 	</context-param>
 	<context-param>
-		<param-name>mogwaicomponents.disable_guid_check</param-name>
+		<param-name>MOGWAI.DISABLEGUIDCHECK</param-name>
 		<param-value>true</param-value>
 	</context-param>
 	<context-param>

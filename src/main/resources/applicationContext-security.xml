@@ -59,7 +59,8 @@
 	</bean>
 
 	<security:http access-decision-manager-ref="accessDecisionManager"
-		entry-point-ref="ntlmEntryPoint" >
+		entry-point-ref="ntlmEntryPoint" 
+		servlet-api-provision="false">
 		<security:intercept-url pattern="/access_denied.jsp"
 			filters="none" />
 		<security:intercept-url pattern="/images/**" filters="none" />
