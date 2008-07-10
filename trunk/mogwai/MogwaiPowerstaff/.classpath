@@ -30,9 +30,6 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/myfaces-api-1.1.5.jar" sourcepath="C:/sourcen/myfaces-core-1.1.5/src"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/myfaces-impl-1.1.5.jar" sourcepath="C:/sourcen/myfaces-core-1.1.5/src"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/quartz-all-1.6.0.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/richfaces-api-3.1.2.GA.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/richfaces-impl-3.1.2.GA.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/richfaces-ui-3.1.2.GA.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/spring.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomahawk-1.1.6.jar" sourcepath="C:/sourcen/tomahawk-1.1.6/src"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/trove.jar"/>
@@ -43,5 +40,8 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/spring-security-ntlm-2.0.3.jar" sourcepath="C:/Dokumente und Einstellungen/w2k admin/Desktop/spring-security-2.0.3/spring-security-2.0.3/dist/spring-security-ntlm-2.0.3-sources.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mogwai-common-2.0.jar" sourcepath="/MogwaiCommon"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mogwai-web-2.0.jar" sourcepath="/MogwaiWeb"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/richfaces-api-3.1.6.GA.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/richfaces-impl-3.1.6.GA.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/richfaces-ui-3.1.6.GA.jar"/>
 	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
 </classpath>

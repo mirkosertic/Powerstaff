@@ -30,7 +30,7 @@
 		<security:custom-filter position="NTLM_FILTER" />
 		<property name="stripDomain" value="true" />
 		<property name="defaultDomain" value="NB" />
-		<property name="domainController" value="192.168.0.138" />
+		<property name="domainController" value="192.168.0.155" />
 		<property name="authenticationManager"
 			ref="_authenticationManager" />
 	</bean>
