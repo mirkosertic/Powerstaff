@@ -25,7 +25,7 @@ public class LoginBackingBeanDataModel extends BackingBeanDataModel {
 
     /**
      * @param password
-     *            the password to set
+     *                the password to set
      */
     public void setPassword(String password) {
         this.password = password;
@@ -41,7 +41,7 @@ public class LoginBackingBeanDataModel extends BackingBeanDataModel {
 
     /**
      * @param username
-     *            the username to set
+     *                the username to set
      */
     public void setUsername(String username) {
         this.username = username;
@@ -56,7 +56,7 @@ public class LoginBackingBeanDataModel extends BackingBeanDataModel {
 
     /**
      * @param viewRoot
-     *            the viewRoot to set
+     *                the viewRoot to set
      */
     public void setViewRoot(UIComponent viewRoot) {
         this.viewRoot = viewRoot;

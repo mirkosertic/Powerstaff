@@ -43,7 +43,7 @@ public class FreelancerBackingBean extends
 
     /**
      * @param partnerService
-     *            the partnerService to set
+     *                the partnerService to set
      */
     public void setPartnerService(PartnerService partnerService) {
         this.partnerService = partnerService;
@@ -70,7 +70,7 @@ public class FreelancerBackingBean extends
 
     /**
      * @param additinalDataService
-     *            the additinalDataService to set
+     *                the additinalDataService to set
      */
     public void setAdditinalDataService(AdditionalDataService additinalDataService) {
         this.additinalDataService = additinalDataService;
@@ -78,7 +78,7 @@ public class FreelancerBackingBean extends
 
     /**
      * @param profileSearchService
-     *            the profileSearchService to set
+     *                the profileSearchService to set
      */
     public void setProfileSearchService(ProfileSearchService profileSearchService) {
         this.profileSearchService = profileSearchService;
@@ -161,7 +161,7 @@ public class FreelancerBackingBean extends
             try {
                 getData().getProfiles().setWrappedData(profileSearchService.findProfiles(theCode));
             } catch (Exception e) {
-                JSFMessageUtils.addErrorInfoMessage(MSG_KEINEDATENGEFUNDEN, e.getMessage());
+                JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN, e.getMessage());
                 LOGGER.logError("Konnte Profilliste nicht laden für " + theCode, e);
             }
         } else {

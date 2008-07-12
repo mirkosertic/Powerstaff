@@ -38,7 +38,7 @@ public class CustomerServiceImpl extends LogableService implements CustomerServi
 
     /**
      * @param customerDAO
-     *            the customerDAO to set
+     *                the customerDAO to set
      */
     public void setCustomerDAO(CustomerDAO customerDAO) {
         this.customerDAO = customerDAO;

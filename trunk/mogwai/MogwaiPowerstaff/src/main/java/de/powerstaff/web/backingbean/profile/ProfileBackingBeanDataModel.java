@@ -26,7 +26,7 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 
     /**
      * @param searchString
-     *            the searchString to set
+     *                the searchString to set
      */
     public void setSearchString(String searchString) {
         this.searchString = searchString;
@@ -41,7 +41,7 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 
     /**
      * @param viewRoot
-     *            the viewRoot to set
+     *                the viewRoot to set
      */
     public void setViewRoot(UIComponent viewRoot) {
         this.viewRoot = viewRoot;

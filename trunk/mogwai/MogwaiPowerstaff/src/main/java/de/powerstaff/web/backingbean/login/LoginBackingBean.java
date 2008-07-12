@@ -18,7 +18,7 @@ public class LoginBackingBean extends WrappingBackingBean<LoginBackingBeanDataMo
 
     /**
      * @param authenticationService
-     *            the authenticationService to set
+     *                the authenticationService to set
      */
     public void setAuthenticationService(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;

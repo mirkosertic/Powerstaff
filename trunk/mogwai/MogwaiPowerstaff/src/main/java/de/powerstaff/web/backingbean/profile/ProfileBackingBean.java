@@ -46,7 +46,7 @@ public class ProfileBackingBean extends WrappingBackingBean<ProfileBackingBeanDa
 
     /**
      * @param profileSearchService
-     *            the profileSearchService to set
+     *                the profileSearchService to set
      */
     public void setProfileSearchService(ProfileSearchService profileSearchService) {
         this.profileSearchService = profileSearchService;
@@ -63,7 +63,7 @@ public class ProfileBackingBean extends WrappingBackingBean<ProfileBackingBeanDa
                 JSFMessageUtils.addGlobalInfoMessage(MSG_PROFILEGEFUNDEN, "" + getData().getSearchResult().size());
             }
         } catch (Exception e) {
-            JSFMessageUtils.addErrorInfoMessage(MSG_FEHLERBEIDERPROFILSUCHE, e.getMessage());
+            JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE, e.getMessage());
             LOGGER.logError("Fehler bei Profilsuche", e);
         }
     }

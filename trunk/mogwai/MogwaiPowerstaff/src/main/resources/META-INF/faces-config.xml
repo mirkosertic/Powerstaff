@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE faces-config PUBLIC
+  "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
+  "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+<faces-config xmlns="http://java.sun.com/JSF/Configuration">
+ 
+	<render-kit>
+	
+		<renderer>
+			<component-family>MogwaiLayoutFamily</component-family>
+			<renderer-type>MessagesRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.layout.MessagesRenderer</renderer-class>
+		</renderer>
+	
+		<renderer>
+			<component-family>GridbagLayoutFamily</component-family>
+			<renderer-type>GridbagLayoutRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.layout.GridbagLayoutRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>GridbagLayoutFamily</component-family>
+			<renderer-type>GridbagLayoutCellRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.layout.GridbagLayoutCellRenderer</renderer-class>
+		</renderer>
+		
+		<renderer>
+			<component-family>MogwaiGroupingFamily</component-family>
+			<renderer-type>ModalRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.layout.ModalRenderer</renderer-class>
+		</renderer>
+		
+		<renderer>
+			<component-family>MogwaiGroupingFamily</component-family>
+			<renderer-type>IncludeRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.layout.IncludeRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiGroupingFamily</component-family>
+			<renderer-type>LinkRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.common.LinkRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiGroupingFamily</component-family>
+			<renderer-type>ScriptRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.common.ScriptRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiGroupingFamily</component-family>
+			<renderer-type>TitledBoxRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.layout.TitledBoxRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiGroupingFamily</component-family>
+			<renderer-type>TitleRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.layout.TitleRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiGroupingFamily</component-family>
+			<renderer-type>TableRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.common.TableRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiGroupingFamily</component-family>
+			<renderer-type>ScrollRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.layout.ScrollRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiGroupingFamily</component-family>
+			<renderer-type>DumpResourceRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.common.DumpResourceRenderer</renderer-class>
+		</renderer>
+		
+		<renderer>
+			<component-family>MogwaiInputFamily</component-family>
+			<renderer-type>LabelRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.common.LabelRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiGroupingFamily</component-family>
+			<renderer-type>ImageRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.common.ImageRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiGroupingFamily</component-family>
+			<renderer-type>VelocityTemplateRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.common.VelocityTemplateRenderer</renderer-class>
+		</renderer>
+		
+		<renderer>
+			<component-family>MogwaiGroupingFamily</component-family>
+			<renderer-type>ProcessTrainRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.common.ProcessTrainRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiInputFamily</component-family>
+			<renderer-type>CheckboxRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.input.CheckboxRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiInputFamily</component-family>
+			<renderer-type>RadiobuttonRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.input.RadiobuttonRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiInputFamily</component-family>
+			<renderer-type>InputfieldRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.input.InputfieldRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiInputFamily</component-family>
+			<renderer-type>EMailInputfieldRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.input.EMailInputfieldRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiInputFamily</component-family>
+			<renderer-type>NumberInputfieldRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.input.NumberInputfieldRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiInputFamily</component-family>
+			<renderer-type>TextareaRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.input.TextareaRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiInputFamily</component-family>
+			<renderer-type>DatepickerRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.input.DatepickerRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiInputFamily</component-family>
+			<renderer-type>ComboboxRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.input.ComboboxRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiInputFamily</component-family>
+			<renderer-type>RadioListRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.input.RadioListRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiInputFamily</component-family>
+			<renderer-type>CheckboxListRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.input.CheckboxListRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiActionFamily</component-family>
+			<renderer-type>CommandButtonRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.action.CommandButtonRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiActionFamily</component-family>
+			<renderer-type>CommandLinkRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.action.CommandLinkRenderer</renderer-class>
+		</renderer>
+
+		<renderer>
+			<component-family>MogwaiActionFamily</component-family>
+			<renderer-type>PageRefreshRenderer</renderer-type>
+			<renderer-class>de.mogwai.common.web.component.renderkit.html.action.PageRefreshRenderer</renderer-class>
+		</renderer>
+		
+	</render-kit>
+	
+	<component>
+		<component-type>MessagesComponent</component-type>
+		<component-class>de.mogwai.common.web.component.layout.MessagesComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>GridbagLayoutComponent</component-type>
+		<component-class>de.mogwai.common.web.component.layout.GridbagLayoutComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>GridbagLayoutCellComponent</component-type>
+		<component-class>de.mogwai.common.web.component.layout.GridbagLayoutCellComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>ModalComponent</component-type>
+		<component-class>de.mogwai.common.web.component.layout.ModalComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>ScrollComponent</component-type>
+		<component-class>de.mogwai.common.web.component.layout.ScrollComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>TitledBoxComponent</component-type>
+		<component-class>de.mogwai.common.web.component.layout.TitledBoxComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>TitleComponent</component-type>
+		<component-class>de.mogwai.common.web.component.layout.TitleComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>IncludeComponent</component-type>
+		<component-class>de.mogwai.common.web.component.layout.IncludeComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>VelocityTemplateComponent</component-type>
+		<component-class>de.mogwai.common.web.component.common.VelocityTemplateComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>LinkComponent</component-type>
+		<component-class>de.mogwai.common.web.component.common.LinkComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>ScriptComponent</component-type>
+		<component-class>de.mogwai.common.web.component.common.ScriptComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>TableComponent</component-type>
+		<component-class>de.mogwai.common.web.component.common.TableComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>DumpResourceComponent</component-type>
+		<component-class>de.mogwai.common.web.component.common.DumpResourceComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>LabelComponent</component-type>
+		<component-class>de.mogwai.common.web.component.common.LabelComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>ImageComponent</component-type>
+		<component-class>de.mogwai.common.web.component.common.ImageComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>ProcessTrainComponent</component-type>
+		<component-class>de.mogwai.common.web.component.common.ProcessTrainComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>FacetComponent</component-type>
+		<component-class>de.mogwai.common.web.component.common.FacetComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>CheckboxComponent</component-type>
+		<component-class>de.mogwai.common.web.component.input.CheckboxComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>RadiobuttonComponent</component-type>
+		<component-class>de.mogwai.common.web.component.input.RadiobuttonComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>InputfieldComponent</component-type>
+		<component-class>de.mogwai.common.web.component.input.InputfieldComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>EMailInputfieldComponent</component-type>
+		<component-class>de.mogwai.common.web.component.input.EMailInputfieldComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>NumberInputfieldComponent</component-type>
+		<component-class>de.mogwai.common.web.component.input.NumberInputfieldComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>TextareaComponent</component-type>
+		<component-class>de.mogwai.common.web.component.input.TextareaComponent</component-class>
+	</component>
+	
+	<component>
+		<component-type>DatepickerComponent</component-type>
+		<component-class>de.mogwai.common.web.component.input.DatepickerComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>ComboboxComponent</component-type>
+		<component-class>de.mogwai.common.web.component.input.ComboboxComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>RadioListComponent</component-type>
+		<component-class>de.mogwai.common.web.component.input.RadioListComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>CheckboxListComponent</component-type>
+		<component-class>de.mogwai.common.web.component.input.CheckboxListComponent</component-class>
+	</component>
+	
+	<component>
+		<component-type>CommandButtonComponent</component-type>
+		<component-class>de.mogwai.common.web.component.action.CommandButtonComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>CommandLinkComponent</component-type>
+		<component-class>de.mogwai.common.web.component.action.CommandLinkComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>PageRefreshComponent</component-type>
+		<component-class>de.mogwai.common.web.component.action.PageRefreshComponent</component-class>
+	</component>
+
+	<component>
+		<component-type>SaveStateComponent</component-type>
+		<component-class>de.mogwai.common.web.component.common.SaveStateComponent</component-class>
+	</component>
+	
+	<factory>
+		<application-factory>de.mogwai.common.web.MogwaiApplicationFactory</application-factory>
+	</factory>
+	
+	<lifecycle>
+		<phase-listener>
+			de.mogwai.common.web.phaselistener.TrackerPhaseListener
+		</phase-listener>
+	</lifecycle>
+	
+</faces-config>

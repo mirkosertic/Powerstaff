@@ -21,7 +21,7 @@ public class ProfileSearchInfoDetail implements Serializable {
 
     /**
      * @param availability
-     *            the availability to set
+     *                the availability to set
      */
     public void setAvailability(String availability) {
         this.availability = availability;
@@ -36,7 +36,7 @@ public class ProfileSearchInfoDetail implements Serializable {
 
     /**
      * @param name1
-     *            the name1 to set
+     *                the name1 to set
      */
     public void setName1(String name1) {
         this.name1 = name1;
@@ -51,7 +51,7 @@ public class ProfileSearchInfoDetail implements Serializable {
 
     /**
      * @param name2
-     *            the name2 to set
+     *                the name2 to set
      */
     public void setName2(String name2) {
         this.name2 = name2;
@@ -66,7 +66,7 @@ public class ProfileSearchInfoDetail implements Serializable {
 
     /**
      * @param id
-     *            the id to set
+     *                the id to set
      */
     public void setId(Long id) {
         this.id = id;

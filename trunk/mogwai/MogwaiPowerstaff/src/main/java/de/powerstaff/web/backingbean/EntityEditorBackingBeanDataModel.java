@@ -25,7 +25,7 @@ public abstract class EntityEditorBackingBeanDataModel<T extends Object> extends
 
     /**
      * @param entity
-     *            the entity to set
+     *                the entity to set
      */
     public void setEntity(T entity) {
         this.entity = entity;

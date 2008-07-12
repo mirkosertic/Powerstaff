@@ -1,11 +1,9 @@
 package de.powerstaff.business.service.impl;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
-import org.springframework.security.userdetails.UsernameNotFoundException;
 
 public class PowerstaffUserDetailsServiceImpl implements UserDetailsService {
 
@@ -52,7 +50,7 @@ public class PowerstaffUserDetailsServiceImpl implements UserDetailsService {
         }
     }
 
-    public UserDetails loadUserByUsername(String aUserName) throws UsernameNotFoundException, DataAccessException {
+    public UserDetails loadUserByUsername(String aUserName) {
         return new PowerstaffUserDetails(aUserName);
     }
 

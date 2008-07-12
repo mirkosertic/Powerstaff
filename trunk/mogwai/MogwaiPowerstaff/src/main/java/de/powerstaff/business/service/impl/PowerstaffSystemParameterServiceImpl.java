@@ -1,48 +1,11 @@
 package de.powerstaff.business.service.impl;
 
-import de.mogwai.common.business.enums.BaseEnumItemEnum;
 import de.mogwai.common.business.service.impl.SystemParameterServiceImpl;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.enums.SystemParameterEnum;
 
 public class PowerstaffSystemParameterServiceImpl extends SystemParameterServiceImpl implements
         PowerstaffSystemParameterService {
-
-    protected String getString(BaseEnumItemEnum aEnum, String aDefault) {
-        String theValue = getSystemParameterDao().getString(aEnum);
-        if (theValue == null) {
-            return aDefault;
-        }
-        return theValue;
-    }
-
-    protected void setString(BaseEnumItemEnum aEnum, String aValue) {
-        getSystemParameterDao().setString(aEnum, aEnum.toString(), aValue);
-    }
-
-    protected int getInt(BaseEnumItemEnum aEnum, int aDefault) {
-        Integer theValue = getSystemParameterDao().getInt(aEnum);
-        if (theValue == null) {
-            return aDefault;
-        }
-        return theValue;
-    }
-
-    protected void setInt(BaseEnumItemEnum aEnum, int aValue) {
-        getSystemParameterDao().setInt(aEnum, aEnum.toString(), aValue);
-    }
-
-    protected boolean getBoolean(BaseEnumItemEnum aEnum, boolean aDefault) {
-        Boolean theValue = getSystemParameterDao().getBoolean(aEnum);
-        if (theValue == null) {
-            return aDefault;
-        }
-        return theValue;
-    }
-
-    protected void setBoolean(BaseEnumItemEnum aEnum, boolean aValue) {
-        getSystemParameterDao().setBoolean(aEnum, aEnum.toString(), aValue);
-    }
 
     public String getIndexerNetworkDir() {
         return getString(SystemParameterEnum.INDEXER_NETWORK_DIR, null);

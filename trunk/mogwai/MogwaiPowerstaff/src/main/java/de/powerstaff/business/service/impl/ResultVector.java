@@ -22,7 +22,8 @@ import java.util.Vector;
 /**
  * Result vector from webservice.
  * 
- * @author Mirko Sertic <mail@mirkosertic.de>
+ * @author Mirko Sertic mail@mirkosertic.de
+ * @param <T> the type
  */
 public class ResultVector<T> extends Vector<T> {
 

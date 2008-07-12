@@ -37,7 +37,7 @@ public class AdditionalDataServiceImpl extends LogableService implements Additio
 
     /**
      * @param additionalDataDAO
-     *            the additionalDataDAO to set
+     *                the additionalDataDAO to set
      */
     public void setAdditionalDataDAO(AdditionalDataDAO additionalDataDAO) {
         this.additionalDataDAO = additionalDataDAO;

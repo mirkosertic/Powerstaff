@@ -62,7 +62,7 @@ public class CustomerBackingBeanDataModel extends NavigatingBackingBeanDataModel
 
     /**
      * @param newContactType
-     *            the newContactType to set
+     *                the newContactType to set
      */
     public void setNewContactType(ContactType newContactType) {
         this.newContactType = newContactType;
@@ -77,7 +77,7 @@ public class CustomerBackingBeanDataModel extends NavigatingBackingBeanDataModel
 
     /**
      * @param newContactValue
-     *            the newContactValue to set
+     *                the newContactValue to set
      */
     public void setNewContactValue(String newContactValue) {
         this.newContactValue = newContactValue;
@@ -92,7 +92,7 @@ public class CustomerBackingBeanDataModel extends NavigatingBackingBeanDataModel
 
     /**
      * @param contactTypes
-     *            the contactTypes to set
+     *                the contactTypes to set
      */
     public void setContactTypes(List<ContactType> contactTypes) {
         this.contactTypes = contactTypes;
@@ -121,7 +121,7 @@ public class CustomerBackingBeanDataModel extends NavigatingBackingBeanDataModel
 
     /**
      * @param newHistoryEntry
-     *            the newHistoryEntry to set
+     *                the newHistoryEntry to set
      */
     public void setNewHistoryEntry(String newHistoryEntry) {
         this.newHistoryEntry = newHistoryEntry;
