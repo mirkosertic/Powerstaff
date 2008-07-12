@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="de.mogwai.common.business.entity">
+	<class name="EnumItemCategory" table="T_ENUM_ITEM_CATEGORY">
+		<id name="id" type="long" column="ID" unsaved-value="null">
+			<generator class="increment"/>
+		</id>
+		<property name="name" type="string" length="50" column="NAME"
+			not-null="true" />
+		<property name="isAlphabeticalOrder" type="boolean"
+			column="IS_ALPHABETICAL_ORDER" not-null="true" />
+
+		<property name="system" type="boolean"
+			column="IS_SYSTEM" not-null="true" />
+			
+		<many-to-one name="defaultItem" class="EnumItem" lazy="false">
+			<column name="DEFAULT_ENUM_ITEM_ID"/>
+		</many-to-one>			
+			
+		<set name="enumItems" lazy="false"
+			cascade="all-delete-orphan">
+			<key column="ENUM_ITEM_CATEGORY_ID" not-null="true" />
+			<one-to-many class="EnumItem" />
+		</set>
+		<map name="labels" table="T_ENUM_ITEM_CATEGORY_LABEL"
+			lazy="false" fetch="join">
+			<key column="ENUM_ITEM_CATEGORY_ID" />
+			<map-key type="string" length="2" column="LANGUAGE_CODE" />
+			<element type="string" length="200" column="TEXT" />
+		</map>
+	</class>
+</hibernate-mapping>

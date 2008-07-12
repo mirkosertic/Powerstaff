@@ -31,7 +31,7 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
 
     /**
      * @param additinalDataService
-     *            the additinalDataService to set
+     *                the additinalDataService to set
      */
     public void setAdditinalDataService(AdditionalDataService additinalDataService) {
         this.additinalDataService = additinalDataService;

@@ -40,7 +40,7 @@ public class FreelancerServiceImpl extends LogableService implements FreelancerS
 
     /**
      * @param freelancerDAO
-     *            the freelancerDAO to set
+     *                the freelancerDAO to set
      */
     public void setFreelancerDAO(FreelancerDAO freelancerDAO) {
         this.freelancerDAO = freelancerDAO;

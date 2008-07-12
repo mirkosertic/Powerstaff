@@ -11,7 +11,6 @@ import de.powerstaff.business.entity.FreelancerContact;
 import de.powerstaff.business.entity.FreelancerHistory;
 import de.powerstaff.business.entity.FreelancerProfile;
 import de.powerstaff.web.backingbean.NavigatingBackingBeanDataModel;
-import de.powerstaff.web.utils.Comparators;
 
 public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataModel<Freelancer> {
 
@@ -21,9 +20,9 @@ public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataMod
 
     private String newHistoryEntry;
 
-    private CollectionDataModel<FreelancerContact> contacts;
+    private transient CollectionDataModel<FreelancerContact> contacts;
 
-    private CollectionDataModel<FreelancerHistory> history;
+    private transient CollectionDataModel<FreelancerHistory> history;
 
     private CollectionDataModel<Freelancer> searchResult = new CollectionDataModel<Freelancer>();
 
@@ -53,15 +52,16 @@ public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataMod
     @Override
     public void setEntity(Freelancer aValue) {
         super.setEntity(aValue);
-        contacts = new CollectionDataModel<FreelancerContact>(aValue.getContacts());
-        contacts.sort(Comparators.CONTACTCOMPARATOR);
-
-        history = new CollectionDataModel<FreelancerHistory>(aValue.getHistory());
         newContactType = null;
         newContactValue = null;
+        contacts = null;
+        history = null;
     }
 
     public CollectionDataModel<FreelancerContact> getContacts() {
+        if (contacts == null) {
+            contacts = new CollectionDataModel<FreelancerContact>(getEntity().getContacts());
+        }
         return contacts;
     }
 
@@ -74,7 +74,7 @@ public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataMod
 
     /**
      * @param newContactType
-     *            the newContactType to set
+     *                the newContactType to set
      */
     public void setNewContactType(ContactType newContactType) {
         this.newContactType = newContactType;
@@ -89,7 +89,7 @@ public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataMod
 
     /**
      * @param newContactValue
-     *            the newContactValue to set
+     *                the newContactValue to set
      */
     public void setNewContactValue(String newContactValue) {
         this.newContactValue = newContactValue;
@@ -104,7 +104,7 @@ public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataMod
 
     /**
      * @param contactTypes
-     *            the contactTypes to set
+     *                the contactTypes to set
      */
     public void setContactTypes(List<ContactType> contactTypes) {
         this.contactTypes = contactTypes;
@@ -114,6 +114,9 @@ public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataMod
      * @return the history
      */
     public CollectionDataModel<FreelancerHistory> getHistory() {
+        if (history == null) {
+            history = new CollectionDataModel<FreelancerHistory>(getEntity().getHistory());
+        }
         return history;
     }
 
@@ -133,7 +136,7 @@ public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataMod
 
     /**
      * @param newHistoryEntry
-     *            the newHistoryEntry to set
+     *                the newHistoryEntry to set
      */
     public void setNewHistoryEntry(String newHistoryEntry) {
         this.newHistoryEntry = newHistoryEntry;
@@ -148,7 +151,7 @@ public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataMod
 
     /**
      * @param partnerList
-     *            the partnerList to set
+     *                the partnerList to set
      */
     public void setPartnerList(List partnerList) {
         this.partnerList = partnerList;

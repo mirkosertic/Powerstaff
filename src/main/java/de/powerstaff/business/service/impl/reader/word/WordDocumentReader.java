@@ -66,7 +66,7 @@ public class WordDocumentReader implements DocumentReader {
         try {
             process.destroy();
         } catch (Exception e) {
-            // Nothing will happen here            
+            // Nothing will happen here
         }
 
         return new ReadResult(sw.toString());

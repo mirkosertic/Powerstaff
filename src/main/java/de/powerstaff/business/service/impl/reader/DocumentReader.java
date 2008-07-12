@@ -33,7 +33,7 @@ public interface DocumentReader {
      * Get the content reader for a given file.
      * 
      * @param inputFile
-     *            the input file
+     *                the input file
      * @return the file content.
      * 
      * @throws Exception

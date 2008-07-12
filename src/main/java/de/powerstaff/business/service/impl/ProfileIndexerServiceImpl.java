@@ -72,7 +72,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
 
     /**
      * @param systemParameterService
-     *            the systemParameterService to set
+     *                the systemParameterService to set
      */
     public void setSystemParameterService(PowerstaffSystemParameterService systemParameterService) {
         this.systemParameterService = systemParameterService;

@@ -36,7 +36,7 @@ public class AuthenticationServiceImpl extends LogableService implements Authent
 
     /**
      * @param authenticationDAO
-     *            the authenticationDAO to set
+     *                the authenticationDAO to set
      */
     public void setAuthenticationDAO(AuthenticationDAO authenticationDAO) {
         this.authenticationDAO = authenticationDAO;

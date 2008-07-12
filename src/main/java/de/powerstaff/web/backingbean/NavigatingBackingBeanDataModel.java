@@ -29,7 +29,7 @@ public abstract class NavigatingBackingBeanDataModel<T extends Entity> extends E
 
     /**
      * @param viewRoot
-     *            the viewRoot to set
+     *                the viewRoot to set
      */
     public void setViewRoot(UIComponent viewRoot) {
         this.viewRoot = viewRoot;

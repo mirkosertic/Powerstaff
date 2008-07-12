@@ -32,7 +32,7 @@ public class CustomerBackingBean extends NavigatingBackingBean<Customer, Custome
 
     /**
      * @param additinalDataService
-     *            the additinalDataService to set
+     *                the additinalDataService to set
      */
     public void setAdditinalDataService(AdditionalDataService additinalDataService) {
         this.additinalDataService = additinalDataService;

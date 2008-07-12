@@ -81,7 +81,7 @@ public class NewsletterServiceImpl extends LogableService implements NewsletterS
 
     /**
      * @param systemParameterService
-     *            the systemParameterService to set
+     *                the systemParameterService to set
      */
     public void setSystemParameterService(PowerstaffSystemParameterService systemParameterService) {
         this.systemParameterService = systemParameterService;
@@ -280,7 +280,7 @@ public class NewsletterServiceImpl extends LogableService implements NewsletterS
                         try {
                             Thread.sleep(theSleepInterval);
                         } catch (Exception e) {
-                            // Nothing will happen here                            
+                            // Nothing will happen here
                         }
 
                     }
@@ -301,7 +301,7 @@ public class NewsletterServiceImpl extends LogableService implements NewsletterS
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                // Nothing will happen here                
+                // Nothing will happen here
             }
         }
 

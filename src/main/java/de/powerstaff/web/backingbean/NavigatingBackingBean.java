@@ -22,7 +22,7 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
 
     /**
      * @param entityService
-     *            the entityService to set
+     *                the entityService to set
      */
     public void setEntityService(S entityService) {
         this.entityService = entityService;
@@ -91,7 +91,7 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
             afterNavigation();
             JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
         } catch (Exception e) {
-            JSFMessageUtils.addErrorInfoMessage(MSG_FEHLERBEIMSPEICHERN, e.getMessage());
+            JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMSPEICHERN, e.getMessage());
         }
     }
 

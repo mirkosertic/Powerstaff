@@ -38,7 +38,7 @@ public class ProjectServiceImpl extends LogableService implements ProjectService
 
     /**
      * @param projectDAO
-     *            the projectDAO to set
+     *                the projectDAO to set
      */
     public void setProjectDAO(ProjectDAO projectDAO) {
         this.projectDAO = projectDAO;

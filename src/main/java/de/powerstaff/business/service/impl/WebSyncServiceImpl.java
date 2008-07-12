@@ -49,7 +49,7 @@ public class WebSyncServiceImpl extends LogableService implements WebSyncService
 
     /**
      * @param projectDAO
-     *            the projectDAO to set
+     *                the projectDAO to set
      */
     public void setProjectDAO(ProjectDAO projectDAO) {
         this.projectDAO = projectDAO;
@@ -72,7 +72,7 @@ public class WebSyncServiceImpl extends LogableService implements WebSyncService
 
     /**
      * @param systemParameterService
-     *            the systemParameterService to set
+     *                the systemParameterService to set
      */
     public void setSystemParameterService(PowerstaffSystemParameterService systemParameterService) {
         this.systemParameterService = systemParameterService;

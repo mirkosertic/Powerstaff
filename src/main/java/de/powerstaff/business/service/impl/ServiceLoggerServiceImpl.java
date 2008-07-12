@@ -37,7 +37,7 @@ public class ServiceLoggerServiceImpl extends LogableService implements ServiceL
 
     /**
      * @param serviceLoggerDAO
-     *            the serviceLoggerDAO to set
+     *                the serviceLoggerDAO to set
      */
     public void setServiceLoggerDAO(ServiceLoggerDAO serviceLoggerDAO) {
         this.serviceLoggerDAO = serviceLoggerDAO;

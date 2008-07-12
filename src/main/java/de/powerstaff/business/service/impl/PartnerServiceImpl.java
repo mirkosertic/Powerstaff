@@ -40,7 +40,7 @@ public class PartnerServiceImpl extends LogableService implements PartnerService
 
     /**
      * @param partnerDAO
-     *            the partnerDAO to set
+     *                the partnerDAO to set
      */
     public void setPartnerDAO(PartnerDAO partnerDAO) {
         this.partnerDAO = partnerDAO;
