@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:security="http://www.springframework.org/schema/security"
 	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.2.xsd">
+              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.2.xsd
+              http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 	<security:authentication-manager alias="_authenticationManager" />
 
@@ -28,9 +30,15 @@
 	<bean id="ntlmFilter"
 		class="org.springframework.security.ui.ntlm.NtlmProcessingFilter">
 		<security:custom-filter position="NTLM_FILTER" />
-		<property name="stripDomain" value="true" />
-		<property name="defaultDomain" value="NB" />
-		<property name="domainController" value="192.168.0.155" />
+		<property name="stripDomain">
+			<util:property-path path="systemParameterService.ntlmStripDomain"/>
+		</property>
+		<property name="defaultDomain">
+			<util:property-path path="systemParameterService.ntlmDefaultDomain"/>
+		</property>
+		<property name="domainController">
+			<util:property-path path="systemParameterService.ntlmDomainController"/>
+		</property>
 		<property name="authenticationManager"
 			ref="_authenticationManager" />
 	</bean>

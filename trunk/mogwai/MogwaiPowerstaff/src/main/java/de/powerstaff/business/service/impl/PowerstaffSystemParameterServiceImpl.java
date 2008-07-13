@@ -166,4 +166,28 @@ public class PowerstaffSystemParameterServiceImpl extends SystemParameterService
     public void setProfileMaxSearchResult(int aValue) {
         setInt(SystemParameterEnum.PROFILE_MAX_SEARCH_RESULT, aValue);
     }
+
+    public String getNtlmDefaultDomain() {
+        return getString(SystemParameterEnum.NTLM_DEFAULT_DOMAIN, "");
+    }
+
+    public String getNtlmDomainController() {
+        return getString(SystemParameterEnum.NTLM_DOMAINCONTROLLER, "");
+    }
+
+    public boolean getNtlmStripDomain() {
+        return getBoolean(SystemParameterEnum.NTLM_STRIP_DOMAIN, true);
+    }
+
+    public void setNtlmDefaultDomain(String aValue) {
+        setString(SystemParameterEnum.NTLM_DEFAULT_DOMAIN, aValue);
+    }
+
+    public void setNtlmDomainController(String aValue) {
+        setString(SystemParameterEnum.NTLM_DOMAINCONTROLLER, aValue);
+    }
+
+    public void setNtlmStripDomain(boolean aValue) {
+        setBoolean(SystemParameterEnum.NTLM_STRIP_DOMAIN, aValue);
+    }
 }

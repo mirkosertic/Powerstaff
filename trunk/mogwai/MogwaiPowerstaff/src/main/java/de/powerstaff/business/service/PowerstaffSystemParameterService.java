@@ -83,5 +83,17 @@ public interface PowerstaffSystemParameterService extends Service {
     int getProfileMaxSearchResult();
 
     void setProfileMaxSearchResult(int aValue);
+    
+    void setNtlmDefaultDomain(String aValue);
+    
+    String getNtlmDefaultDomain();
+    
+    void setNtlmStripDomain(boolean aValue);
+    
+    boolean getNtlmStripDomain();
+    
+    void setNtlmDomainController(String aValue);
+    
+    String getNtlmDomainController();
 
 }
