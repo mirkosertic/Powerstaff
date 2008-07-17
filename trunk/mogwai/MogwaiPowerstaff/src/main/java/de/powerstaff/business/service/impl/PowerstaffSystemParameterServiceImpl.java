@@ -190,4 +190,20 @@ public class PowerstaffSystemParameterServiceImpl extends SystemParameterService
     public void setNtlmStripDomain(boolean aValue) {
         setBoolean(SystemParameterEnum.NTLM_STRIP_DOMAIN, aValue);
     }
+
+    public String getNtlmAuthPwd() {
+        return getString(SystemParameterEnum.NTLM_AUTH_PWD, null);
+    }
+
+    public String getNtlmAuthUser() {
+        return getString(SystemParameterEnum.NTLM_AUTH_USER, null);
+    }
+
+    public void setNtlmAuthPwd(String aValue) {
+        setString(SystemParameterEnum.NTLM_AUTH_PWD, aValue);
+    }
+
+    public void setNtlmAuthUser(String aValue) {
+        setString(SystemParameterEnum.NTLM_AUTH_USER, aValue);
+    }
 }
