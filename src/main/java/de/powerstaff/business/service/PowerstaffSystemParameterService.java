@@ -96,4 +96,11 @@ public interface PowerstaffSystemParameterService extends Service {
     
     String getNtlmDomainController();
 
+    void setNtlmAuthUser(String aValue);
+    
+    String getNtlmAuthUser();
+
+    void setNtlmAuthPwd(String aValue);
+    
+    String getNtlmAuthPwd();
 }

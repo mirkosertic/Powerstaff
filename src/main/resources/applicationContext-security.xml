@@ -36,9 +36,15 @@
 		<property name="defaultDomain">
 			<util:property-path path="systemParameterService.ntlmDefaultDomain"/>
 		</property>
-		<property name="domainController">
+		<property name="domainController" >
 			<util:property-path path="systemParameterService.ntlmDomainController"/>
 		</property>
+		<!-- <property name="smbClientUsername">
+			<util:property-path path="systemParameterService.ntlmAuthUser"/>
+		</property>
+		<property name="smbClientPassword">
+			<util:property-path path="systemParameterService.ntlmAuthPwd"/>
+		</property>  -->
 		<property name="authenticationManager"
 			ref="_authenticationManager" />
 	</bean>
