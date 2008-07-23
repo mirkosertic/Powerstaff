@@ -114,15 +114,13 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
         PartnerHistory theHistory = new PartnerHistory();
         theHistory.setDescription(getData().getNewHistoryEntry());
 
-        getData().setNewHistoryEntry(null);
-
-        Partner theFreelancer = getData().getEntity();
-        getData().getHistory().add(theHistory);
-        getData().getHistory().sort(Comparators.INVERSECREATIONDATECOMPARATOR);
-
-        entityService.save(theFreelancer);
+        Partner thePartner = getData().getEntity();
+        thePartner.getHistory().add(theHistory);
+        
+        entityService.save(thePartner);
 
         getData().setNewHistoryEntry(null);
+        getData().setEntity(thePartner);
 
         JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
     }
@@ -142,7 +140,6 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
         entityService.save(theFreelancer);
 
         getData().setEntity(theFreelancer);
-        getData().getHistory().sort(Comparators.INVERSECREATIONDATECOMPARATOR);
 
         JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
     }

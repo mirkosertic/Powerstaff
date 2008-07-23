@@ -117,15 +117,13 @@ public class CustomerBackingBean extends NavigatingBackingBean<Customer, Custome
         CustomerHistory theHistory = new CustomerHistory();
         theHistory.setDescription(getData().getNewHistoryEntry());
 
-        getData().setNewHistoryEntry(null);
+        Customer theCustomer = getData().getEntity();
+        theCustomer.getHistory().add(theHistory);
 
-        Customer theFreelancer = getData().getEntity();
-        getData().getHistory().add(theHistory);
-        getData().getHistory().sort(Comparators.INVERSECREATIONDATECOMPARATOR);
-
-        entityService.save(theFreelancer);
+        entityService.save(theCustomer);
 
         getData().setNewHistoryEntry(null);
+        getData().setEntity(theCustomer);
 
         JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
     }

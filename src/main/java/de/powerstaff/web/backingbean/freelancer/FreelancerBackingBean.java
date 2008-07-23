@@ -190,16 +190,13 @@ public class FreelancerBackingBean extends
         FreelancerHistory theHistory = new FreelancerHistory();
         theHistory.setDescription(getData().getNewHistoryEntry());
 
-        getData().setNewHistoryEntry(null);
-
         Freelancer theFreelancer = getData().getEntity();
-        getData().getHistory().add(theHistory);
-
-        getData().getHistory().sort(Comparators.INVERSECREATIONDATECOMPARATOR);
+        theFreelancer.getHistory().add(theHistory);
 
         entityService.save(theFreelancer);
 
         getData().setNewHistoryEntry(null);
+        getData().setEntity(theFreelancer);
 
         JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
     }
