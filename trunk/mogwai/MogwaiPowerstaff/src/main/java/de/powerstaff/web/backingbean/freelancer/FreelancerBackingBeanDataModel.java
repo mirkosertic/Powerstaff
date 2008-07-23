@@ -11,6 +11,7 @@ import de.powerstaff.business.entity.FreelancerContact;
 import de.powerstaff.business.entity.FreelancerHistory;
 import de.powerstaff.business.entity.FreelancerProfile;
 import de.powerstaff.web.backingbean.NavigatingBackingBeanDataModel;
+import de.powerstaff.web.utils.Comparators;
 
 public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataModel<Freelancer> {
 
@@ -20,9 +21,9 @@ public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataMod
 
     private String newHistoryEntry;
 
-    private transient CollectionDataModel<FreelancerContact> contacts;
+    private CollectionDataModel<FreelancerContact> contacts;
 
-    private transient CollectionDataModel<FreelancerHistory> history;
+    private CollectionDataModel<FreelancerHistory> history;
 
     private CollectionDataModel<Freelancer> searchResult = new CollectionDataModel<Freelancer>();
 
@@ -54,14 +55,13 @@ public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataMod
         super.setEntity(aValue);
         newContactType = null;
         newContactValue = null;
-        contacts = null;
-        history = null;
+        contacts = new CollectionDataModel<FreelancerContact>(getEntity().getContacts());
+        contacts.sort(Comparators.CONTACTCOMPARATOR);
+        history = new CollectionDataModel<FreelancerHistory>(getEntity().getHistory());
+        history.sort(Comparators.INVERSECREATIONDATECOMPARATOR);
     }
 
     public CollectionDataModel<FreelancerContact> getContacts() {
-        if (contacts == null) {
-            contacts = new CollectionDataModel<FreelancerContact>(getEntity().getContacts());
-        }
         return contacts;
     }
 
@@ -114,9 +114,6 @@ public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataMod
      * @return the history
      */
     public CollectionDataModel<FreelancerHistory> getHistory() {
-        if (history == null) {
-            history = new CollectionDataModel<FreelancerHistory>(getEntity().getHistory());
-        }
         return history;
     }
 

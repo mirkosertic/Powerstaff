@@ -45,6 +45,7 @@ public class CustomerBackingBeanDataModel extends NavigatingBackingBeanDataModel
         contacts = new CollectionDataModel<CustomerContact>(aValue.getContacts());
         contacts.sort(Comparators.CONTACTCOMPARATOR);
         history = new CollectionDataModel<CustomerHistory>(aValue.getHistory());
+        history.sort(Comparators.INVERSECREATIONDATECOMPARATOR);
         newContactType = null;
         newContactValue = null;
     }
