@@ -39,12 +39,9 @@
 		<property name="domainController" >
 			<util:property-path path="systemParameterService.ntlmDomainController"/>
 		</property>
-		<!-- <property name="smbClientUsername">
-			<util:property-path path="systemParameterService.ntlmAuthUser"/>
+		<property name="smbClientSSNLimit">
+			<value>1</value>
 		</property>
-		<property name="smbClientPassword">
-			<util:property-path path="systemParameterService.ntlmAuthPwd"/>
-		</property>  -->
 		<property name="authenticationManager"
 			ref="_authenticationManager" />
 	</bean>
