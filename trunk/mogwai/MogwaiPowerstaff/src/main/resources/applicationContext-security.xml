@@ -7,43 +7,23 @@
               http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.2.xsd
               http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-	<security:authentication-manager alias="_authenticationManager" />
+	<security:authentication-manager alias="authenticationManager" />
+
+	<security:authentication-provider
+		user-service-ref="userDetailsService">
+		<security:password-encoder hash="plaintext" />
+	</security:authentication-provider>
 
 	<bean id="userDetailsService"
 		class="de.powerstaff.business.service.impl.PowerstaffUserDetailsServiceImpl">
-		<property name="authorities">
-			<list>
-				<value>ROLE_USER</value>
-			</list>
-		</property>
+		<property name="authenticationDAO"
+			ref="authenticationDAO" />
 	</bean>
-
-	<security:authentication-provider
-		user-service-ref="userDetailsService" />
-
-	<bean id="ntlmEntryPoint"
-		class="org.springframework.security.ui.ntlm.NtlmProcessingFilterEntryPoint">
-		<property name="authenticationFailureUrl"
-			value="/access_denied.jsp" />
-	</bean>
-
-	<bean id="ntlmFilter"
-		class="org.springframework.security.ui.ntlm.NtlmProcessingFilter">
-		<security:custom-filter position="NTLM_FILTER" />
-		<property name="stripDomain">
-			<util:property-path path="systemParameterService.ntlmStripDomain"/>
-		</property>
-		<property name="defaultDomain">
-			<util:property-path path="systemParameterService.ntlmDefaultDomain"/>
-		</property>
-		<property name="domainController" >
-			<util:property-path path="systemParameterService.ntlmDomainController"/>
-		</property>
-		<property name="smbClientSSNLimit">
-			<value>1</value>
-		</property>
-		<property name="authenticationManager"
-			ref="_authenticationManager" />
+	
+	<bean id="startPageFilter"
+		class="de.powerstaff.web.filter.RedirectToStartPageFilter">
+		<security:custom-filter before="SWITCH_USER_FILTER" />
+		<property name="startPage" value="/index.faces" />
 	</bean>
 
 	<bean id="disableProxyFilter"
@@ -58,36 +38,39 @@
 			after="AUTHENTICATION_PROCESSING_FILTER" />
 	</bean>
 
-	<bean id="startPageFilter"
-		class="de.powerstaff.web.filter.RedirectToStartPageFilter">
-		<security:custom-filter before="SWITCH_USER_FILTER" />
-		<property name="startPage" value="/welcome.faces" />
-	</bean>
-
 	<bean id="promoteUserIDToLog4JNDCFilter"
 		class="de.mogwai.common.web.filter.PromoteUserIDToLog4JNDCFilter">
 		<security:custom-filter after="SWITCH_USER_FILTER" />
 	</bean>
 
-	<security:http access-decision-manager-ref="accessDecisionManager"
-		entry-point-ref="ntlmEntryPoint" 
-		servlet-api-provision="false">
-		<security:intercept-url pattern="/access_denied.jsp"
-			filters="none" />
+	<bean id="loginService"
+		class="de.mogwai.common.business.service.impl.LoginServiceImpl">
+		<property name="authenticationManager"
+			ref="authenticationManager" />
+	</bean>
+
+	<bean id="authenticationListener"
+		class="de.powerstaff.business.service.impl.AuthenticationListenerImpl">
+	</bean>
+
+	<bean id="authenticationApplicationListener"
+		class="de.mogwai.common.security.AuthenticationApplicationListener">
+		<property name="authenticationListener"
+			ref="authenticationListener" />
+	</bean>
+
+	<security:http>
+		<security:intercept-url pattern="/resource/**" filters="none" />	
 		<security:intercept-url pattern="/images/**" filters="none" />
 		<security:intercept-url pattern="/script/**" filters="none" />
 		<security:intercept-url pattern="/style/**" filters="none" />
-		<security:intercept-url pattern="/**" access="ROLE_USER" />
+		<security:intercept-url pattern="/include/**" access="ROLE_USER" />
+		<security:intercept-url pattern="/index.faces" access="ROLE_ANONYMOUS" />
+		<security:intercept-url pattern="/**" access="ROLE_ANONYMOUS" />
+		<security:form-login login-page="/index.faces" />
+		<security:anonymous />
+		<security:logout />
+		<security:remember-me />
 	</security:http>
 
-	<bean id="accessDecisionManager"
-		class="org.springframework.security.vote.UnanimousBased">
-		<property name="allowIfAllAbstainDecisions" value="false" />
-		<property name="decisionVoters">
-			<list>
-				<bean id="roleVoter"
-					class="org.springframework.security.vote.RoleVoter" />
-			</list>
-		</property>
-	</bean>
 </beans>

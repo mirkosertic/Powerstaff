@@ -14,13 +14,13 @@
   <JSFFlowResource path="/include/project/projectmain.xhtml" location="330,430" dimension="209,36" />
   <JSFFlowResource path="/include/project/projectsearchresult.xhtml" location="30,530" dimension="246,36" />
   <JSFFlowResource path="/include/profile/profilemain.xhtml" location="330,530" dimension="201,36" />
-  <JSFFlowNavigationCase id="*,/include/freelancer/freelancermain.xhtml,FREELANCER_STAMMDATEN,null" routingType="0">
+  <JSFFlowNavigationCase id="*,/include/freelancer/freelancermain.xhtml,FREELANCER_STAMMDATEN,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
       <AbsolutePoint location="80,33" />
       <AbsolutePoint location="180,33" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
-  <JSFFlowNavigationCase id="*,/include/freelancer/freelancerhistory.xhtml,FREELANCER_HISTORIE,null" routingType="0">
+  <JSFFlowNavigationCase id="*,/include/freelancer/freelancerhistory.xhtml,FREELANCER_HISTORIE,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
       <AbsolutePoint location="55,66" />
       <AbsolutePoint location="55,103" />
@@ -28,13 +28,13 @@
       <AbsolutePoint location="605,66" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
-  <JSFFlowNavigationCase id="*,/include/freelancer/freelancersearchresult.xhtml,FREELANCER_SEARCHRESULT,null" routingType="0">
+  <JSFFlowNavigationCase id="*,/include/freelancer/freelancersearchresult.xhtml,FREELANCER_SEARCHRESULT,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
       <AbsolutePoint location="40,66" />
       <AbsolutePoint location="40,130" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
-  <JSFFlowNavigationCase id="*,/include/customer/customermain.xhtml,CUSTOMER_STAMMDATEN,null" routingType="0">
+  <JSFFlowNavigationCase id="*,/include/customer/customermain.xhtml,CUSTOMER_STAMMDATEN,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
       <AbsolutePoint location="70,66" />
       <AbsolutePoint location="70,73" />
@@ -42,7 +42,7 @@
       <AbsolutePoint location="590,130" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
-  <JSFFlowNavigationCase id="*,/include/customer/customerhistory.xhtml,CUSTOMER_HISTORIE,null" routingType="0">
+  <JSFFlowNavigationCase id="*,/include/customer/customerhistory.xhtml,CUSTOMER_HISTORIE,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
       <AbsolutePoint location="30,33" />
       <AbsolutePoint location="-7,33" />
@@ -50,7 +50,7 @@
       <AbsolutePoint location="30,248" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
-  <JSFFlowNavigationCase id="*,/include/customer/customersearchresult.xhtml,CUSTOMER_SEARCHRESULT,null" routingType="0">
+  <JSFFlowNavigationCase id="*,/include/customer/customersearchresult.xhtml,CUSTOMER_SEARCHRESULT,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
       <AbsolutePoint location="70,30" />
       <AbsolutePoint location="70,-7" />
@@ -58,7 +58,7 @@
       <AbsolutePoint location="463,230" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
-  <JSFFlowNavigationCase id="*,/include/partner/partnermain.xhtml,PARTNER_STAMMDATEN,null" routingType="0">
+  <JSFFlowNavigationCase id="*,/include/partner/partnermain.xhtml,PARTNER_STAMMDATEN,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
       <AbsolutePoint location="30,48" />
       <AbsolutePoint location="7,48" />
@@ -66,7 +66,7 @@
       <AbsolutePoint location="30,348" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
-  <JSFFlowNavigationCase id="*,/include/partner/partnerhistory.xhtml,PARTNER_HISTORIE,null" routingType="0">
+  <JSFFlowNavigationCase id="*,/include/partner/partnerhistory.xhtml,PARTNER_HISTORIE,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
       <AbsolutePoint location="55,30" />
       <AbsolutePoint location="55,-37" />
@@ -75,7 +75,7 @@
       <AbsolutePoint location="554,348" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
-  <JSFFlowNavigationCase id="*,/include/partner/partnersearchresult.xhtml,PARTNER_SEARCHRESULT,null" routingType="0">
+  <JSFFlowNavigationCase id="*,/include/partner/partnersearchresult.xhtml,PARTNER_SEARCHRESULT,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
       <AbsolutePoint location="40,30" />
       <AbsolutePoint location="40,-7" />
@@ -84,7 +84,7 @@
       <AbsolutePoint location="30,448" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
-  <JSFFlowNavigationCase id="*,/include/project/projectmain.xhtml,PROJEKT_STAMMDATEN,null" routingType="0">
+  <JSFFlowNavigationCase id="*,/include/project/projectmain.xhtml,PROJEKT_STAMMDATEN,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
       <AbsolutePoint location="80,48" />
       <AbsolutePoint location="132,48" />
@@ -94,7 +94,7 @@
       <AbsolutePoint location="330,448" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
-  <JSFFlowNavigationCase id="*,/include/project/projectsearchresult.xhtml,PROJEKT_SEARCHRESULT,null" routingType="0">
+  <JSFFlowNavigationCase id="*,/include/project/projectsearchresult.xhtml,PROJEKT_SEARCHRESULT,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
       <AbsolutePoint location="30,58" />
       <AbsolutePoint location="24,58" />
@@ -102,7 +102,7 @@
       <AbsolutePoint location="30,548" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
-  <JSFFlowNavigationCase id="*,/include/profile/profilemain.xhtml,PROFILE_STAMMDATEN,null" routingType="0">
+  <JSFFlowNavigationCase id="*,/include/profile/profilemain.xhtml,PROFILE_STAMMDATEN,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
       <AbsolutePoint location="80,58" />
       <AbsolutePoint location="101,58" />
@@ -112,7 +112,7 @@
       <AbsolutePoint location="330,548" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
-  <JSFFlowNavigationCase id="*,/include/freelancer/freelancermain.xhtml,INDEX,null" routingType="0">
+  <JSFFlowNavigationCase id="*,/include/freelancer/freelancermain.xhtml,INDEX,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
       <AbsolutePoint location="55,48" />
       <AbsolutePoint location="299,48" />
