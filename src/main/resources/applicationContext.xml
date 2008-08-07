@@ -209,11 +209,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 			ref="systemParameterService" />
 	</bean>
 
-	<bean id="authenticationService"
-		class="de.powerstaff.business.service.impl.AuthenticationServiceImpl">
-		<property name="authenticationDAO" ref="authenticationDAO" />
-	</bean>
-
 	<bean id="profileSearchService"
 		class="de.powerstaff.business.service.impl.ProfileSearchServiceImpl">
 		<property name="freelancerService" ref="freelancerService" />

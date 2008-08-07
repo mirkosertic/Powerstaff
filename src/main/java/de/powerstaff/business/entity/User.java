@@ -17,10 +17,14 @@
  */
 package de.powerstaff.business.entity;
 
+import org.springframework.security.GrantedAuthority;
+import org.springframework.security.GrantedAuthorityImpl;
+import org.springframework.security.userdetails.UserDetails;
+
 import de.mogwai.common.business.entity.AuditableEntity;
 import de.mogwai.common.usercontext.Authenticatable;
 
-public class User extends AuditableEntity implements Authenticatable {
+public class User extends AuditableEntity implements Authenticatable , UserDetails {
 
     private String name;
 
@@ -59,5 +63,29 @@ public class User extends AuditableEntity implements Authenticatable {
 
     public String getUserId() {
         return getName();
+    }
+
+    public GrantedAuthority[] getAuthorities() {
+        return new GrantedAuthority[] {new GrantedAuthorityImpl("ROLE_USER")};
+    }
+
+    public String getUsername() {
+        return getName();
+    }
+
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    public boolean isEnabled() {
+        return isActive();
     }
 }

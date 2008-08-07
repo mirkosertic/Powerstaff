@@ -138,8 +138,8 @@
 		</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 		<managed-property>
-			<property-name>authenticationService</property-name>
-			<value>#{authenticationService}</value>
+			<property-name>loginService</property-name>
+			<value>#{loginService}</value>
 		</managed-property>
 	</managed-bean>
 
