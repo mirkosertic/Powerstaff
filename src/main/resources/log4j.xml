@@ -7,6 +7,10 @@
 				value="%d{ABSOLUTE} %5p %c{1}:%L - %m%n" />
 		</layout>
 	</appender>
+	
+	<logger name="org.springframework.security">
+		<level value="debug"/>
+	</logger>
 
 	<root>
 		<priority value="INFO"/>

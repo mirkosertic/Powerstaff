@@ -1,9 +1,7 @@
 package de.powerstaff.business.service.impl;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
-import org.springframework.security.userdetails.UsernameNotFoundException;
 
 import de.powerstaff.business.dao.AuthenticationDAO;
 
@@ -19,7 +17,7 @@ public class PowerstaffUserDetailsServiceImpl implements UserDetailsService {
         this.authenticationDAO = authenticationDAO;
     }
 
-    public UserDetails loadUserByUsername(String aUserName) throws UsernameNotFoundException, DataAccessException {
+    public UserDetails loadUserByUsername(String aUserName) {
         return authenticationDAO.findUserByName(aUserName);
     }
 }
