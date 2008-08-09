@@ -65,8 +65,7 @@
 		<security:intercept-url pattern="/script/**" filters="none" />
 		<security:intercept-url pattern="/style/**" filters="none" />
 		<security:intercept-url pattern="/include/**" access="ROLE_USER" />
-		<security:intercept-url pattern="/index.faces" access="ROLE_ANONYMOUS" />
-		<security:intercept-url pattern="/**" access="ROLE_ANONYMOUS" />
+		<security:intercept-url pattern="/**" access="ROLE_USER, ROLE_ANONYMOUS" />
 		<security:form-login login-page="/index.faces" />
 		<security:anonymous />
 		<security:logout />

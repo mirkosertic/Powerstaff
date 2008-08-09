@@ -11,7 +11,6 @@ import de.powerstaff.business.entity.PartnerHistory;
 import de.powerstaff.business.service.AdditionalDataService;
 import de.powerstaff.business.service.PartnerService;
 import de.powerstaff.web.backingbean.NavigatingBackingBean;
-import de.powerstaff.web.utils.Comparators;
 
 public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBackingBeanDataModel, PartnerService> {
 
