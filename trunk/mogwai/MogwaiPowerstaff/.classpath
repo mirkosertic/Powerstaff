@@ -36,7 +36,7 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/velocity-1.5.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/tomahawk-facelets-taglib.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jcifs-1.2.22.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/spring-security-core-2.0.3.jar" sourcepath="C:/sourcen/spring-security-2.0.3/spring-security-2.0.3/dist/spring-security-core-2.0.3-sources.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/spring-security-core-2.0.3.jar" sourcepath="C:/source/sourcen/spring-security-2.0.3/spring-security-2.0.3/dist/spring-security-core-2.0.3-sources.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/spring-security-ntlm-2.0.3.jar" sourcepath="C:/source/sourcen/spring-security-2.0.3/spring-security-2.0.3/dist/spring-security-ntlm-2.0.3-sources.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/richfaces-api-3.1.6.GA.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/richfaces-impl-3.1.6.GA.jar"/>

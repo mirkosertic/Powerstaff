@@ -34,4 +34,6 @@ public interface NavigatingDAO<T extends Entity> extends DAO {
     RecordInfo getRecordInfo(T object);
 
     T findById(Long id);
+    
+    T findByRecordNumber(Long aNumber);
 }

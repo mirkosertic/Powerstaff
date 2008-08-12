@@ -79,4 +79,8 @@ public class ProjectServiceImpl extends LogableService implements ProjectService
     public void save(Project aObject) {
         projectDAO.save(aObject);
     }
+
+    public Project findByRecordNumber(Long aNumber) {
+        return projectDAO.findByRecordNumber(aNumber);
+    }
 }

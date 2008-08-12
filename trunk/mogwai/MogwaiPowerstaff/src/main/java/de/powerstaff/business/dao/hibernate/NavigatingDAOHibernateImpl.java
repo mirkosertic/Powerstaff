@@ -233,4 +233,24 @@ public abstract class NavigatingDAOHibernateImpl<T extends Entity> extends Gener
         });
     }
 
+    public T findByRecordNumber(final Long aNumber) {
+        if (aNumber == null) {
+            return findFirst();
+        }
+
+        return (T) getHibernateTemplate().execute(new HibernateCallback() {
+
+            public Object doInHibernate(Session aSession) {
+                Query theQuery = aSession.createQuery("from " + getEntityClass().getName());
+                theQuery.setFirstResult(aNumber.intValue() - 1);
+                theQuery.setMaxResults(1);
+                Iterator theIt = theQuery.iterate();
+                if (theIt.hasNext()) {
+                    return theIt.next();
+                }
+                return findFirst();
+            }
+
+        });
+    }
 }

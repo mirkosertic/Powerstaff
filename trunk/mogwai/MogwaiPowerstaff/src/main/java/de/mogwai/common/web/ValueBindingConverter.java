@@ -19,9 +19,14 @@ package de.mogwai.common.web;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
+import org.apache.commons.lang.StringUtils;
+
 public final class ValueBindingConverter {
 
     public static ValueBinding convertTo(FacesContext aContext, ValueBinding aBinding) {
+        if (StringUtils.isEmpty(aBinding.getExpressionString())) {
+            return aBinding;
+        }
         return aContext.getApplication().createValueBinding(aBinding.getExpressionString());
     }
 }

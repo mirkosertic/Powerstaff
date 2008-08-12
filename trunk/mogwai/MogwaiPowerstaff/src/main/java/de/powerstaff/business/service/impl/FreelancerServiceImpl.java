@@ -89,4 +89,8 @@ public class FreelancerServiceImpl extends LogableService implements FreelancerS
     public List<String> getCodeSuggestions(String aSuggest) {
         return freelancerDAO.getCodeSuggestions(aSuggest);
     }
+
+    public Freelancer findByRecordNumber(Long aNumber) {
+        return freelancerDAO.findByRecordNumber(aNumber);
+    }
 }
