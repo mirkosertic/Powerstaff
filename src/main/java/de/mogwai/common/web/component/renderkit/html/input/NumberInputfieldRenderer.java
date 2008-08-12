@@ -37,7 +37,7 @@ import de.mogwai.common.web.component.input.NumberInputfieldComponent;
  * Renderer for number input fields.
  * 
  * @author $Author: mirkosertic $
- * @version $Date: 2008-07-12 14:11:58 $
+ * @version $Date: 2008-08-12 18:38:00 $
  */
 public class NumberInputfieldRenderer extends BaseInputRenderer {
 
@@ -66,11 +66,11 @@ public class NumberInputfieldRenderer extends BaseInputRenderer {
         }
 
         Map theParamMap = aContext.getExternalContext().getRequestParameterMap();
-        String clientId = aComponent.getClientId(aContext);
+        String theInputClientId = theBaseComponent.getInputComponent().getClientId(aContext);
 
-        if (theParamMap.containsKey(clientId)) {
+        if (theParamMap.containsKey(theInputClientId)) {
 
-            theBaseComponent.setSubmittedValue(theParamMap.get(clientId));
+            theBaseComponent.setSubmittedValue(theParamMap.get(theInputClientId));
 
         }
 

@@ -7,6 +7,7 @@ import org.springframework.security.ui.WebAuthenticationDetails;
 
 import de.mogwai.common.business.service.LoginException;
 import de.mogwai.common.business.service.LoginService;
+import de.mogwai.common.logging.Logger;
 import de.mogwai.common.web.backingbean.WrappingBackingBean;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.web.backingbean.MessageConstants;
@@ -15,11 +16,13 @@ public class LoginBackingBean extends WrappingBackingBean<LoginBackingBeanDataMo
 
     private LoginService loginService;
 
+    private static final Logger LOGGER = new Logger(LoginBackingBean.class);
+
     @Override
     protected LoginBackingBeanDataModel createDataModel() {
         return new LoginBackingBeanDataModel();
     }
-    
+
     public LoginService getLoginService() {
         return loginService;
     }
@@ -30,10 +33,13 @@ public class LoginBackingBean extends WrappingBackingBean<LoginBackingBeanDataMo
 
     public String commandLogin() {
         try {
-            HttpServletRequest theRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            loginService.login(getData().getUsername(), getData().getPassword(), new WebAuthenticationDetails(theRequest));
+            HttpServletRequest theRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
+                    .getRequest();
+            loginService.login(getData().getUsername(), getData().getPassword(), new WebAuthenticationDetails(
+                    theRequest));
             return "INDEX";
         } catch (LoginException e) {
+            LOGGER.logError("Fehler beim Login", e);
             JSFMessageUtils.addGlobalErrorMessage(MSG_FALSCHESLOGIN);
             return null;
         }

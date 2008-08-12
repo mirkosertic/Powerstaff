@@ -68,20 +68,20 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
     }
 
     protected void afterNavigation() {
-
+        getData().setRecordNumber(null);
     }
 
     public void commandDelete() {
 
         try {
             entityService.delete((T) getData().getEntity());
-            commandFirst();
+            commandNext();
             JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
 
         } catch (Exception e) {
 
-            LOGGER.logError("Fehler beim Speichern", e);
-            JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMSPEICHERN);
+            LOGGER.logError("Fehler beim Löschen", e);
+            JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMLOESCHEN);
         }
     }
 
@@ -93,6 +93,13 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
         } catch (Exception e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMSPEICHERN, e.getMessage());
         }
+    }
+
+    public void commandJumpToRecord() {
+
+        T theEntity = entityService.findByRecordNumber(getData().getRecordNumber());
+        getData().setEntity(theEntity);
+        afterNavigation();
     }
 
     public String getRecordInfo() {

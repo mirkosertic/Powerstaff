@@ -79,4 +79,8 @@ public class CustomerServiceImpl extends LogableService implements CustomerServi
     public void save(Customer aObject) {
         customerDAO.save(aObject);
     }
+
+    public Customer findByRecordNumber(Long aNumber) {
+        return customerDAO.findByRecordNumber(aNumber);
+    }
 }

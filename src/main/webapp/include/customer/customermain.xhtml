@@ -32,7 +32,7 @@
 			<b:gridBagLayout cols="400,10,400" rows="30,10,1,p" id="menu">
 				<b:cell x="1" y="1" width="3">
 					<b:titledBox label="Menu">
-						<b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,20,20,right:*"
+						<b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,20,20,80,50,20,right:*"
 							rows="20,2,20">
 							<b:cell x="1" y="1">
 								<b:commandLink title="Erster Datensatz" action="#{customerBackingBean.commandFirst}">
@@ -95,14 +95,26 @@
 										reRender="#{customerBackingBean.data.changedComponents}" />
 								</b:commandLink>
 							</b:cell>
-							<b:cell x="14" y="1" align="right">
+							<b:cell x="14" y="1" valign="middle" align="right">
+								<b:label id="gehezu" label="Gehe zu #"/>
+							</b:cell>
+							<b:cell x="15" y="1" >
+								<b:numberinputfield id="recordnumber" labelComponentId="gehezu" value="#{customerBackingBean.data.recordNumber}"/>
+							</b:cell>
+							<b:cell x="16" y="1">
+								<b:commandLink title="Springe zu Datensatz" action="#{customerBackingBean.commandJumpToRecord}">
+									<b:image source="/images/search.gif" />
+									<a4j:support event="onclick"
+										reRender="#{customerBackingBean.data.changedComponents}" />
+								</b:commandLink>
+							</b:cell>
+							<b:cell x="17" y="1" align="right">
 								<a4j:outputPanel ajaxRendered="true">
 									<h:outputText value="#{customerBackingBean.recordInfo}"/>
 								</a4j:outputPanel>
 							</b:cell>
 							
-
-							<b:cell x="14" y="3" align="right">
+							<b:cell x="14" y="3" align="right" width="4">
 								<a4j:outputPanel ajaxRendered="true">
 									<h:outputText value="#{customerBackingBean.data.entity}">
 										<f:converter converterId="auditInformationConverter" />

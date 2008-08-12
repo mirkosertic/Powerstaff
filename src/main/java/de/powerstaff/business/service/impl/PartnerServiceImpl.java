@@ -89,4 +89,8 @@ public class PartnerServiceImpl extends LogableService implements PartnerService
     public void delete(Partner aObject) {
         partnerDAO.delete(aObject);
     }
+
+    public Partner findByRecordNumber(Long aNumber) {
+        return partnerDAO.findByRecordNumber(aNumber);
+    }
 }

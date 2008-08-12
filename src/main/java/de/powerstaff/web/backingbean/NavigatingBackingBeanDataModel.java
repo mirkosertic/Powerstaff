@@ -12,6 +12,8 @@ import de.mogwai.common.web.component.ComponentUtils;
 public abstract class NavigatingBackingBeanDataModel<T extends Entity> extends EntityEditorBackingBeanDataModel<T> {
 
     private transient UIComponent viewRoot;
+    
+    private Long recordNumber;
 
     protected NavigatingBackingBeanDataModel() {
     }
@@ -42,5 +44,13 @@ public abstract class NavigatingBackingBeanDataModel<T extends Entity> extends E
         List<String> theResult = ComponentUtils.getDynamicContentComponentIDs(viewRoot);
         ComponentUtils.addModalComponentIDs(theResult, FacesContext.getCurrentInstance().getViewRoot());
         return theResult;
+    }
+
+    public Long getRecordNumber() {
+        return recordNumber;
+    }
+
+    public void setRecordNumber(Long recordNumber) {
+        this.recordNumber = recordNumber;
     }
 }
