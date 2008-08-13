@@ -25,7 +25,7 @@ import de.mogwai.common.logging.Logger;
 
 public class TrackerPhaseListener implements PhaseListener {
 
-    private final static Logger LOGGER = new Logger(TrackerPhaseListener.class);
+    private static final Logger LOGGER = new Logger(TrackerPhaseListener.class);
 
     private ThreadLocal<Long> start = new ThreadLocal<Long>();
 

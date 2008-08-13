@@ -23,7 +23,7 @@ import de.mogwai.common.logging.Logger;
 
 public class MogwaiApplicationFactory extends ApplicationFactory {
 
-    private final static Logger LOGGER = new Logger(MogwaiApplicationFactory.class);
+    private static final Logger LOGGER = new Logger(MogwaiApplicationFactory.class);
 
     private Application application;
 

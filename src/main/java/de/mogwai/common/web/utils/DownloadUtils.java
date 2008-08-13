@@ -31,13 +31,13 @@ import de.mogwai.common.utils.MimeTypeGuesser;
  * Utility - Klasse für den Umgang mit Downloads.
  * 
  * @author $Author: mirkosertic $
- * @version $Date: 2008-07-12 14:09:52 $
+ * @version $Date: 2008-08-13 17:33:50 $
  */
 public final class DownloadUtils {
 
     private static DownloadUtils me;
 
-    private final static Logger LOGGER = new Logger(DownloadUtils.class);
+    private static final Logger LOGGER = new Logger(DownloadUtils.class);
 
     /**
      * Ermittlung der Singleton - Instanz der DownloadUtils.

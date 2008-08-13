@@ -47,11 +47,11 @@ import de.mogwai.common.web.utils.JSFJavaScriptUtilities;
  * Microsoft - What evil shall we do today?
  * 
  * @author $Author: mirkosertic $
- * @version $Date: 2008-07-12 14:11:57 $
+ * @version $Date: 2008-08-13 17:33:49 $
  */
 public class ComboboxRenderer extends BaseInputRenderer {
 
-    private final static Logger LOGGER = new Logger(ComboboxRenderer.class);
+    private static final Logger LOGGER = new Logger(ComboboxRenderer.class);
 
     public static final String ENABLED_CLASS = "mogwaiCombobox";
 

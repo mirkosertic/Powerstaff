@@ -31,11 +31,11 @@ import de.mogwai.common.web.utils.JSFJavaScriptUtilities;
  * Command button renderer.
  * 
  * @author $Author: mirkosertic $
- * @version $Date: 2008-07-12 14:11:59 $
+ * @version $Date: 2008-08-13 17:33:45 $
  */
 public class PageRefreshRenderer extends BaseCommandRenderer {
 
-    private final static Logger LOGGER = new Logger(PageRefreshRenderer.class);
+    private static final Logger LOGGER = new Logger(PageRefreshRenderer.class);
 
     @Override
     public void encodeBegin(FacesContext aContext, UIComponent aComponent) throws IOException {

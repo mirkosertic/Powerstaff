@@ -34,13 +34,13 @@ import de.mogwai.common.web.component.input.BaseInputComponent;
  * Validator für Email-Adresse.
  * 
  * @author $Author: mirkosertic $
- * @version $Date: 2008-07-12 14:12:00 $
+ * @version $Date: 2008-08-13 17:33:47 $
  */
 public class MailValidator implements Validator {
 
     private static final String VALIDATION_ERROR = "validator.invalidemail";
 
-    private final static Logger LOGGER = new Logger(MailValidator.class);
+    private static final Logger LOGGER = new Logger(MailValidator.class);
 
     public void validate(FacesContext context, UIComponent component, Object checkValue) {
 

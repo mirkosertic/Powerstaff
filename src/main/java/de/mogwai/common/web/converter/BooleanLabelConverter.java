@@ -31,12 +31,12 @@ import de.mogwai.common.web.ResourceBundleManager;
  * Konvertiert die Booleanaustruecke der Benutzertabelle um.
  * 
  * @author $Author: mirkosertic $
- * @version $Date: 2008-07-12 14:12:10 $
+ * @version $Date: 2008-08-13 17:33:49 $
  */
 
 public class BooleanLabelConverter implements Converter {
 
-    private final static Logger LOGGER = new Logger(BooleanLabelConverter.class);
+    private static final Logger LOGGER = new Logger(BooleanLabelConverter.class);
 
     /**
      * {@inheritDoc}

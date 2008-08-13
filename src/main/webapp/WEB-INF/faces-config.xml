@@ -30,6 +30,13 @@
 	</converter>
 
 	<converter>
+		<converter-id>creationAuditInformationConverter</converter-id>
+		<converter-class>
+			de.powerstaff.web.converter.CreationAuditInformationConverter
+		</converter-class>
+	</converter>
+
+	<converter>
 		<converter-id>personConverter</converter-id>
 		<converter-class>
 			de.powerstaff.web.converter.PersonConverter

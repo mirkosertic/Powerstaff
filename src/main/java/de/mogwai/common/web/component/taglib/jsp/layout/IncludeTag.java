@@ -31,11 +31,11 @@ import de.mogwai.common.web.utils.ServletResponseWrapperInclude;
  * Label tag.
  * 
  * @author $Author: mirkosertic $
- * @version $Date: 2008-07-12 14:09:46 $
+ * @version $Date: 2008-08-13 17:33:45 $
  */
 public class IncludeTag extends IncludeTagBase {
 
-    private final static Logger LOGGER = new Logger(IncludeTag.class);
+    private static final Logger LOGGER = new Logger(IncludeTag.class);
 
     @Override
     public int doStartTag() throws JspException {
