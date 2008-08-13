@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.mogwai.common.web.utils.CollectionDataModel;
 import de.powerstaff.business.entity.ContactType;
+import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.Partner;
 import de.powerstaff.business.entity.PartnerContact;
 import de.powerstaff.business.entity.PartnerHistory;
@@ -25,6 +26,8 @@ public class PartnerBackingBeanDataModel extends NavigatingBackingBeanDataModel<
     private CollectionDataModel<Partner> searchResult = new CollectionDataModel<Partner>();
 
     private List<ContactType> contactTypes;
+    
+    private Freelancer originalFreelancer;
 
     public PartnerBackingBeanDataModel() {
 
@@ -126,5 +129,13 @@ public class PartnerBackingBeanDataModel extends NavigatingBackingBeanDataModel<
      */
     public void setNewHistoryEntry(String newHistoryEntry) {
         this.newHistoryEntry = newHistoryEntry;
+    }
+
+    public Freelancer getOriginalFreelancer() {
+        return originalFreelancer;
+    }
+
+    public void setOriginalFreelancer(Freelancer originalFreelancer) {
+        this.originalFreelancer = originalFreelancer;
     }
 }

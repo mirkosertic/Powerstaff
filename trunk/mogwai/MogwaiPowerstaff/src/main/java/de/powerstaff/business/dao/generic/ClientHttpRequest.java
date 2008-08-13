@@ -372,18 +372,18 @@ public class ClientHttpRequest {
      * that were added before (if any), and with cookies and parameters that are
      * passed in the arguments.
      * 
-     * @param cookies
+     * @param aCookies
      *                request cookies
-     * @param parameters
+     * @param aParameters
      *                request parameters
      * @return input stream with the server response
      * @throws IOException
      * @see setParameters
      * @see setCookies
      */
-    public InputStream post(Map cookies, Map parameters) throws IOException {
-        setCookies(cookies);
-        setParameters(parameters);
+    public InputStream post(Map aCookies, Map aParameters) throws IOException {
+        setCookies(aCookies);
+        setParameters(aParameters);
         return post();
     }
 
@@ -392,18 +392,18 @@ public class ClientHttpRequest {
      * that were added before (if any), and with cookies and parameters that are
      * passed in the arguments.
      * 
-     * @param cookies
+     * @param aCookies
      *                request cookies
-     * @param parameters
+     * @param aParameters
      *                request parameters
      * @return input stream with the server response
      * @throws IOException
      * @see setParameters
      * @see setCookies
      */
-    public InputStream post(String[] cookies, Object[] parameters) throws IOException {
-        setCookies(cookies);
-        setParameters(parameters);
+    public InputStream post(String[] aCookies, Object[] aParameters) throws IOException {
+        setCookies(aCookies);
+        setParameters(aParameters);
         return post();
     }
 

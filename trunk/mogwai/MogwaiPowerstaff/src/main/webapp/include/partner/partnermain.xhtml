@@ -32,7 +32,7 @@
 			<b:gridBagLayout cols="400,10,400" rows="30,10,1,p" id="menu">
 				<b:cell x="1" y="1" width="3">
 					<b:titledBox label="Menu">
-						<b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,80,50,20,right:*"
+						<b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,80,50,20,10,20,right:*"
 							rows="20,2,20">
 							<b:cell x="1" y="1">
 								<b:commandLink title="Erster Datensatz" action="#{partnerBackingBean.commandFirst}">
@@ -101,13 +101,22 @@
 										reRender="#{partnerBackingBean.data.changedComponents}" />
 								</b:commandLink>
 							</b:cell>
-							<b:cell x="15" y="1" align="right">
+							<b:cell x="16" y="1">
+								<a4j:outputPanel ajaxRendered="true">
+									<b:commandLink rendered="#{!empty partnerBackingBean.data.originalFreelancer}" title="Zurück zum Freelancer" action="#{partnerBackingBean.commandJumpToFreelancer}" immediate="true">
+										<b:image source="/images/back.gif" />
+										<a4j:support event="onclick"/>
+									</b:commandLink>
+								</a4j:outputPanel>
+							</b:cell>
+							
+							<b:cell x="17" y="1" align="right">
 								<a4j:outputPanel ajaxRendered="true">
 									<h:outputText value="#{partnerBackingBean.recordInfo}"/>
 								</a4j:outputPanel>
 							</b:cell>
 							
-							<b:cell x="12" y="3" align="right" width="4">
+							<b:cell x="12" y="3" align="right" width="6">
 								<a4j:outputPanel ajaxRendered="true">
 									<h:outputText value="#{partnerBackingBean.data.entity}">
 										<f:converter converterId="auditInformationConverter" />
