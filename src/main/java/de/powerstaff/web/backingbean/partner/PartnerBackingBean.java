@@ -5,12 +5,14 @@ import java.util.Collection;
 import de.mogwai.common.command.EditEntityCommand;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.mogwai.common.web.utils.UpdateModelInfo;
+import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.Partner;
 import de.powerstaff.business.entity.PartnerContact;
 import de.powerstaff.business.entity.PartnerHistory;
 import de.powerstaff.business.service.AdditionalDataService;
 import de.powerstaff.business.service.PartnerService;
 import de.powerstaff.web.backingbean.NavigatingBackingBean;
+import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 
 public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBackingBeanDataModel, PartnerService> {
 
@@ -147,13 +149,16 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
     public void updateModel(UpdateModelInfo aInfo) {
         super.updateModel(aInfo);
         if (aInfo.getCommand() instanceof EditEntityCommand) {
-            EditEntityCommand<Partner> theCommand = (EditEntityCommand<Partner>) aInfo.getCommand();
-
+            EditEntityCommand<Freelancer> theCommand = (EditEntityCommand<Freelancer>) aInfo.getCommand();
+            
+            Partner theOldPartner = theCommand.getValue().getPartner();
             init();
-
-            Partner thePartner = (Partner) entityService.findByPrimaryKey(theCommand.getValue().getId());
+            
+            Partner thePartner = (Partner) entityService.findByPrimaryKey(theOldPartner.getId());
             getData().setEntity(thePartner);
             afterNavigation();
+            
+            getData().setOriginalFreelancer(theCommand.getValue());            
         }
     }
 
@@ -161,4 +166,40 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
     protected Partner createNew() {
         return new Partner();
     }
+
+    @Override
+    public void commandFirst() {
+        super.commandFirst();
+        getData().setOriginalFreelancer(null);
+    }
+
+    @Override
+    public void commandLast() {
+        super.commandLast();
+        getData().setOriginalFreelancer(null);        
+    }
+
+    @Override
+    public void commandNew() {
+        super.commandNew();
+        getData().setOriginalFreelancer(null);        
+    }
+
+    @Override
+    public void commandNext() {
+        super.commandNext();
+        getData().setOriginalFreelancer(null);        
+    }
+
+    @Override
+    public void commandPrior() {
+        super.commandPrior();
+        getData().setOriginalFreelancer(null);        
+    }
+
+    public String commandJumpToFreelancer() {
+        forceUpdateOfBean(FreelancerBackingBean.class, new EditEntityCommand<Freelancer>(getData().getOriginalFreelancer()));
+        return "FREELANCER_STAMMDATEN";
+    }
+    
 }

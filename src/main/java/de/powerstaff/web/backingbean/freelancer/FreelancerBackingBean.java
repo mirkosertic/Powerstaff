@@ -224,7 +224,7 @@ public class FreelancerBackingBean extends
     public String commandShowPartner() {
         Partner thePartner = getData().getEntity().getPartner();
         if (thePartner != null) {
-            forceUpdateOfBean(PartnerBackingBean.class, new EditEntityCommand<Partner>(thePartner));
+            forceUpdateOfBean(PartnerBackingBean.class, new EditEntityCommand<Freelancer>(getData().getEntity()));
             return "PARTNER_STAMMDATEN";
         }
         return null;
@@ -234,13 +234,23 @@ public class FreelancerBackingBean extends
     public void updateModel(UpdateModelInfo aInfo) {
         super.updateModel(aInfo);
         if (aInfo.getCommand() instanceof EditEntityCommand) {
-            EditEntityCommand<ProfileSearchInfoDetail> theCommand = (EditEntityCommand<ProfileSearchInfoDetail>) aInfo
+            EditEntityCommand theCommand = (EditEntityCommand) aInfo
                     .getCommand();
 
             init();
+            if (theCommand.getValue() instanceof ProfileSearchInfoDetail) {
 
-            Freelancer thePartner = (Freelancer) entityService.findByPrimaryKey(theCommand.getValue().getId());
-            getData().setEntity(thePartner);
+                ProfileSearchInfoDetail theDetails = (ProfileSearchInfoDetail) theCommand.getValue();
+                Freelancer theFreelancer = (Freelancer) entityService.findByPrimaryKey(theDetails.getId());
+                getData().setEntity(theFreelancer);
+            }
+            
+            if (theCommand.getValue() instanceof Freelancer) {
+                Freelancer theDetails = (Freelancer) theCommand.getValue();
+                Freelancer theFreelancer = (Freelancer) entityService.findByPrimaryKey(theDetails.getId());
+                getData().setEntity(theFreelancer);
+            }
+            
             afterNavigation();
         }
     }
