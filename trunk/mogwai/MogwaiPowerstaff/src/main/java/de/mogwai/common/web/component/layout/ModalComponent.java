@@ -29,11 +29,11 @@ import de.mogwai.common.web.component.input.ModalComponentUtils;
  * Modal component.
  * 
  * @author $Author: mirkosertic $
- * @version $Date: 2008-07-12 14:11:35 $
+ * @version $Date: 2008-08-13 17:33:48 $
  */
 public class ModalComponent extends ModalComponentBase {
 
-    private final static Logger LOGGER = new Logger(ModalComponent.class);
+    private static final Logger LOGGER = new Logger(ModalComponent.class);
 
     private boolean switched = false;
 

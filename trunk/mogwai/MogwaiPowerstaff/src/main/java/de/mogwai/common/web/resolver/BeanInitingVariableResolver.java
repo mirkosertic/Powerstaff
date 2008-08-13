@@ -32,11 +32,11 @@ import de.mogwai.common.utils.Initable;
  * Anwendung "missbraucht".
  * 
  * @author $Author: mirkosertic $
- * @version $Date: 2008-07-12 14:12:01 $
+ * @version $Date: 2008-08-13 17:33:48 $
  */
 public class BeanInitingVariableResolver extends DelegatingVariableResolver {
 
-    private final static Logger LOGGER = new Logger(BeanInitingVariableResolver.class);
+    private static final Logger LOGGER = new Logger(BeanInitingVariableResolver.class);
 
     public BeanInitingVariableResolver(VariableResolver aResolver) {
         super(aResolver);

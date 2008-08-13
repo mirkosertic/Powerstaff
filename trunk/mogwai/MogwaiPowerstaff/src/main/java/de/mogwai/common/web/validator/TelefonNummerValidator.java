@@ -33,12 +33,12 @@ import de.mogwai.common.web.ResourceBundleManager;
  * als gültig akzeptiert.
  * 
  * @author $Author: mirkosertic $
- * @version $Date: 2008-07-12 14:12:00 $
+ * @version $Date: 2008-08-13 17:33:47 $
  */
 public class TelefonNummerValidator implements Validator {
     private static final String VALIDATION_ERROR = "validator.invalidphonenumber";
 
-    private final static Logger LOGGER = new Logger(TelefonNummerValidator.class);
+    private static final Logger LOGGER = new Logger(TelefonNummerValidator.class);
 
     public void validate(FacesContext context, UIComponent component, Object checkValue) {
 

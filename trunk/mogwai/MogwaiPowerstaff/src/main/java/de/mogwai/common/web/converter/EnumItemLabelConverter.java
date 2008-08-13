@@ -30,11 +30,11 @@ import de.mogwai.common.logging.Logger;
  * JSF Converter für EnumItem Labels.
  * 
  * @author $Author: mirkosertic $
- * @version $Date: 2008-07-12 14:12:10 $
+ * @version $Date: 2008-08-13 17:33:49 $
  */
 public class EnumItemLabelConverter implements Converter {
 
-    private final static Logger LOGGER = new Logger(EnumItemLabelConverter.class);
+    private static final Logger LOGGER = new Logger(EnumItemLabelConverter.class);
 
     /**
      * {@inheritDoc}

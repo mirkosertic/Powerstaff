@@ -30,11 +30,11 @@ import de.mogwai.common.logging.Logger;
  * Renderer that supports velocity templates.
  * 
  * @author $Author: mirkosertic $
- * @version $Date: 2008-07-12 14:11:54 $
+ * @version $Date: 2008-08-13 17:33:46 $
  */
 public class VelocityRenderer extends BaseRenderer {
 
-    private final static Logger LOGGER = new Logger(VelocityRenderer.class);
+    private static final Logger LOGGER = new Logger(VelocityRenderer.class);
 
     private VelocityEngine theEngine = new VelocityEngine();
 

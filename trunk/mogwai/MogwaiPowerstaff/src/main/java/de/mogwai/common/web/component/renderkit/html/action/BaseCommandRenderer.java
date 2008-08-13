@@ -33,11 +33,11 @@ import de.mogwai.common.web.utils.JSFJavaScriptUtilities;
  * Base class for action renderer.
  * 
  * @author $Author: mirkosertic $
- * @version $Date: 2008-07-12 14:11:58 $
+ * @version $Date: 2008-08-13 17:33:45 $
  */
 public abstract class BaseCommandRenderer extends BaseRenderer {
 
-    private final static Logger LOGGER = new Logger(BaseCommandRenderer.class);
+    private static final Logger LOGGER = new Logger(BaseCommandRenderer.class);
 
     protected BaseCommandRenderer() {
     }

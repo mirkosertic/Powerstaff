@@ -24,7 +24,7 @@ import de.mogwai.common.logging.Logger;
 
 public class MogwaiValueBindingImpl extends ValueBindingImpl implements FieldInformationProvider {
 
-    private final static Logger LOGGER = new Logger(MogwaiValueBindingImpl.class);
+    private static final Logger LOGGER = new Logger(MogwaiValueBindingImpl.class);
 
     public MogwaiValueBindingImpl(MogwaiApplicationImpl aApplication, String aExpression) {
         super(aApplication, aExpression);

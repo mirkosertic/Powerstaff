@@ -20,7 +20,7 @@ import javax.faces.context.FacesContext;
 
 public class Configuration {
 
-    private final static String DISABLE_GUID_CHECK = "mogwaicomponents.disable_guid_check";
+    private static final String DISABLE_GUID_CHECK = "mogwaicomponents.disable_guid_check";
 
     public static boolean isGUIDCheckDisabled() {
         FacesContext theContext = FacesContext.getCurrentInstance();

@@ -43,11 +43,11 @@ import de.mogwai.common.web.utils.Validatable;
  * Methodenaufruf unterstützt.
  * 
  * @author $Author: mirkosertic $
- * @version $Date: 2008-07-12 14:12:09 $
+ * @version $Date: 2008-08-13 17:33:49 $
  */
 public class ValidatingActionListener extends ActionListenerImpl {
 
-    private final static Logger LOGGER = new Logger(ValidatingActionListener.class);
+    private static final Logger LOGGER = new Logger(ValidatingActionListener.class);
 
     private class ValueBindingWrapper extends ValueBindingImpl {
         public ValueBindingWrapper(FacesContext aContext, String aExpression) {

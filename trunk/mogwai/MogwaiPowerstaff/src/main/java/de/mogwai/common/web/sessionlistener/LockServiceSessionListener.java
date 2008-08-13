@@ -34,11 +34,11 @@ import de.mogwai.common.usercontext.UserContext;
  * HttpSession generiert wurdem, entfernt.
  * 
  * @author $Author: mirkosertic $
- * @version $Date: 2008-07-12 14:12:00 $
+ * @version $Date: 2008-08-13 17:33:47 $
  */
 public class LockServiceSessionListener implements HttpSessionListener, UserContextWebConstants {
 
-    private final static Logger LOGGER = new Logger(LockServiceSessionListener.class);
+    private static final Logger LOGGER = new Logger(LockServiceSessionListener.class);
 
     public void sessionCreated(HttpSessionEvent theEvent) {
 

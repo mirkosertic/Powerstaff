@@ -30,7 +30,7 @@ import de.mogwai.common.web.FieldInformationResolver;
 
 public class JPAAnnotationFieldInformationResolver implements FieldInformationResolver {
 
-    private final static Logger LOGGER = new Logger(JPAAnnotationFieldInformationResolver.class);
+    private static final Logger LOGGER = new Logger(JPAAnnotationFieldInformationResolver.class);
 
     public Integer getMaxLengthInformationProvided(Application aApplication, FacesContext aContext, Object aBase,
             String aProperty) {

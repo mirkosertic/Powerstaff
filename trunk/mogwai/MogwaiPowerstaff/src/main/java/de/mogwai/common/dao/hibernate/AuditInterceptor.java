@@ -56,11 +56,11 @@ import de.mogwai.common.usercontext.UserContextHolder;
  * Diese "Hist" Klassen müssen unterklassen von "HistoryEntity" sein.
  * 
  * @author $Author: mirkosertic $
- * @version $Date: 2008-07-12 14:11:24 $
+ * @version $Date: 2008-08-13 17:33:47 $
  */
 public class AuditInterceptor extends EmptyInterceptor implements BeanFactoryAware {
 
-    private final static Logger LOGGER = new Logger(AuditInterceptor.class);
+    private static final Logger LOGGER = new Logger(AuditInterceptor.class);
 
     private BeanFactory beanFactory;
 

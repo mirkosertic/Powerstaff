@@ -28,7 +28,7 @@ import de.mogwai.common.web.fieldinformationresolver.jpa.JPAAnnotationFieldInfor
 
 public class MogwaiApplicationImpl extends ApplicationImpl {
 
-    private final static Logger LOGGER = new Logger(MogwaiApplicationImpl.class);
+    private static final Logger LOGGER = new Logger(MogwaiApplicationImpl.class);
 
     private FieldInformationResolver fieldInformationResolver;
 
