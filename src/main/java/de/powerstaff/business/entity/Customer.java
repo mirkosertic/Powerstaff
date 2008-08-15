@@ -17,8 +17,21 @@
  */
 package de.powerstaff.business.entity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Customer extends Person<CustomerContact, CustomerHistory> {
 
+    private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
+    
     public Customer() {
+    }
+
+    public Map<String, UserDefinedField> getUdf() {
+        return udf;
+    }
+
+    public void setUdf(Map<String, UserDefinedField> udf) {
+        this.udf = udf;
     }
 }

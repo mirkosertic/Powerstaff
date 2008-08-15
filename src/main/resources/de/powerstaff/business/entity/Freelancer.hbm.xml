@@ -61,5 +61,18 @@
 		<property name="sallaryPartner"/>
 		<property name="sallaryPartnerPerDay"/>
 		
+		<map name="udf" table="freelancer_udf">
+			<key column="freelancer_id" foreign-key="freelancer_udf_fk1"/>
+			<map-key type="string" length="20" column="name"/>
+			<composite-element class="UserDefinedField">
+				<property name="booleanValue" column="booleanvalue"/>
+				<property name="dateValue" column="datevalue"/>
+				<property name="intValue" column="intvalue"/>
+				<property name="longValue" column="longvalue"/>
+				<property name="stringValue" column="stringValue" length="255"/>
+				<property name="longStringValue" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+			</composite-element>
+		</map>
+		
   </class>
 </hibernate-mapping>

@@ -17,7 +17,9 @@
  */
 package de.powerstaff.business.entity;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -25,6 +27,8 @@ import javax.persistence.Column;
 
 public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
 
+    private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
+    
     private String workplace;
 
     private String availability;
@@ -231,4 +235,11 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
         this.status = status;
     }
 
+    public Map<String, UserDefinedField> getUdf() {
+        return udf;
+    }
+
+    public void setUdf(Map<String, UserDefinedField> udf) {
+        this.udf = udf;
+    }
 }

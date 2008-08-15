@@ -17,12 +17,16 @@
  */
 package de.powerstaff.business.entity;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class Partner extends Person<PartnerContact, PartnerHistory> {
 
     private Set<Freelancer> freelancer = new HashSet<Freelancer>();
+    
+    private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
 
     public Partner() {
     }
@@ -33,5 +37,13 @@ public class Partner extends Person<PartnerContact, PartnerHistory> {
 
     public void setFreelancer(Set<Freelancer> freelancer) {
         this.freelancer = freelancer;
+    }
+
+    public Map<String, UserDefinedField> getUdf() {
+        return udf;
+    }
+
+    public void setUdf(Map<String, UserDefinedField> udf) {
+        this.udf = udf;
     }
 }
