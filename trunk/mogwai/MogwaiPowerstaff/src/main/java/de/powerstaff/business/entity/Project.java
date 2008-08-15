@@ -17,8 +17,10 @@
  */
 package de.powerstaff.business.entity;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -49,6 +51,8 @@ public class Project extends AuditableEntity {
     private Set<ProjectPosition> positions = new HashSet<ProjectPosition>();
 
     private List<ProjectHistory> history = new Vector<ProjectHistory>();
+    
+    private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
 
     @Column(length = 255)
     public String getDate() {
@@ -142,5 +146,13 @@ public class Project extends AuditableEntity {
 
     public void setHistory(List<ProjectHistory> history) {
         this.history = history;
+    }
+
+    public Map<String, UserDefinedField> getUdf() {
+        return udf;
+    }
+
+    public void setUdf(Map<String, UserDefinedField> udf) {
+        this.udf = udf;
     }
 }
