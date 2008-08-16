@@ -32,6 +32,9 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import de.mogwai.common.logging.Logger;
 import de.powerstaff.business.entity.ContactType;
+import de.powerstaff.business.entity.Customer;
+import de.powerstaff.business.entity.CustomerContact;
+import de.powerstaff.business.entity.CustomerHistory;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerContact;
 import de.powerstaff.business.entity.FreelancerHistory;
@@ -75,7 +78,9 @@ public class Datenuebernahme {
         PlatformTransactionManager theManager = (PlatformTransactionManager) theContext.getBean("txManager");
 
         File theCVPath = new File("c:\\Temp\\CVPath");
-        importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
+
+        // importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
+        importKunden(theFactory, theManager, theConnection);
 
         theConnection.close();
 
@@ -353,4 +358,209 @@ public class Datenuebernahme {
         theAdresse.close();
 
     }
+
+    private static void importKunden(final SessionFactory aFactory, final PlatformTransactionManager aManager,
+            Connection aConnection) throws SQLException, IOException {
+
+        LOGGER.logInfo("Import Kunden");
+
+        Map<String, String> thePersonalMap = new HashMap<String, String>();
+        Statement theFindPersonalStatenebt = aConnection.createStatement();
+        ResultSet thePersonalResult = theFindPersonalStatenebt.executeQuery("select * from personal");
+        while (thePersonalResult.next()) {
+            thePersonalMap.put(thePersonalResult.getString("ID"), thePersonalResult.getString("loginName"));
+        }
+        thePersonalResult.close();
+        theFindPersonalStatenebt.close();
+
+        Map<Integer, String> theLandMap = new HashMap<Integer, String>();
+        Statement theFindLandStatenebt = aConnection.createStatement();
+        ResultSet theFindLandResult = theFindLandStatenebt.executeQuery("select * from land");
+        while (theFindLandResult.next()) {
+            theLandMap.put(theFindLandResult.getInt("ID"), theFindLandResult.getString("landKuerzel"));
+        }
+        theFindLandResult.close();
+        theFindLandStatenebt.close();
+
+        Statement theKundenSelect = aConnection.createStatement();
+        Statement theAdresse = aConnection.createStatement();
+        Statement theHistoryStatement = aConnection.createStatement();
+        Statement theReadAgainStatement = aConnection.createStatement();
+
+        ContactType theTelContactType = new ContactType();
+        theTelContactType.setId(CT_PHONE);
+        ContactType theFaxContactType = new ContactType();
+        theFaxContactType.setId(CT_FAX);
+        ContactType theMobileContactType = new ContactType();
+        theMobileContactType.setId(CT_MOBIL);
+        ContactType theMailContactType = new ContactType();
+        theMailContactType.setId(CT_MAIL);
+        ContactType theWebContactType = new ContactType();
+        theWebContactType.setId(CT_WEB);
+
+        ResultSet theKundenResult = theKundenSelect.executeQuery("select * from kunde");
+        long theCounter = 0;
+        while (theKundenResult.next()) {
+            theCounter++;
+
+            Customer theRootCustomer = new Customer();
+            resultSetToUDF(theKundenResult, theRootCustomer);
+
+            String theKundenId = theRootCustomer.getUdf().get("kunde").getStringValue();
+
+            LOGGER.logInfo("Verarbeite " + theCounter + "-> " + theKundenId);
+
+            ResultSet theKontakte = theAdresse.executeQuery("select * from ansprechpartner where kunde = '"
+                    + theKundenId + "'");
+            while (theKontakte.next()) {
+
+                long theId = theKontakte.getLong("ID");
+                Customer theCustomer = new Customer();
+
+                // Wurzeldaten kopieren
+                theCustomer.setCompany(theRootCustomer.getUdf().get("firma").getStringValue());
+                theCustomer.setStreet(theRootCustomer.getUdf().get("strasse").getStringValue());
+                theCustomer.setPlz(theRootCustomer.getUdf().get("plz").getStringValue());
+                theCustomer.setCity(theRootCustomer.getUdf().get("ort").getStringValue());
+
+                UserDefinedField theLandField = theRootCustomer.getUdf().get("landID");
+                if (theLandField != null) {
+                    theCustomer.setCountry(theLandMap.get(theLandField.getIntValue()));
+                }
+
+                String theValue = theRootCustomer.getUdf().get("tel1").getStringValue();
+                if (!(theValue == null)) {
+                    CustomerContact theContact = new CustomerContact();
+                    theContact.setType(theTelContactType);
+                    theContact.setValue(theValue);
+                    theCustomer.getContacts().add(theContact);
+                }
+                theValue = theRootCustomer.getUdf().get("tel2").getStringValue();
+                if (!(theValue == null)) {
+                    CustomerContact theContact = new CustomerContact();
+                    theContact.setType(theTelContactType);
+                    theContact.setValue(theValue);
+                    theCustomer.getContacts().add(theContact);
+                }
+                theValue = theRootCustomer.getUdf().get("fax").getStringValue();
+                if (!(theValue == null)) {
+                    CustomerContact theContact = new CustomerContact();
+                    theContact.setType(theFaxContactType);
+                    theContact.setValue(theValue);
+                    theCustomer.getContacts().add(theContact);
+                }
+                theValue = theRootCustomer.getUdf().get("email").getStringValue();
+                if (!(theValue == null)) {
+                    CustomerContact theContact = new CustomerContact();
+                    theContact.setType(theMailContactType);
+                    theContact.setValue(theValue);
+                    theCustomer.getContacts().add(theContact);
+                }
+                theValue = theRootCustomer.getUdf().get("url").getStringValue();
+                if (!(theValue == null)) {
+                    CustomerContact theContact = new CustomerContact();
+                    theContact.setType(theWebContactType);
+                    theContact.setValue(theValue);
+                    theCustomer.getContacts().add(theContact);
+                }
+
+                theCustomer.setName1(getString(theKontakte, "name"));
+                theCustomer.setName2(getString(theKontakte, "vorname"));
+
+                theValue = getString(theKontakte, "tel1");
+                if (!(theValue == null)) {
+                    CustomerContact theContact = new CustomerContact();
+                    theContact.setType(theTelContactType);
+                    theContact.setValue(theValue);
+                    theCustomer.getContacts().add(theContact);
+                }
+                theValue = getString(theKontakte, "tel2");
+                if (!(theValue == null)) {
+                    CustomerContact theContact = new CustomerContact();
+                    theContact.setType(theTelContactType);
+                    theContact.setValue(theValue);
+                    theCustomer.getContacts().add(theContact);
+                }
+                theValue = getString(theKontakte, "mobiltel");
+                if (!(theValue == null)) {
+                    CustomerContact theContact = new CustomerContact();
+                    theContact.setType(theMobileContactType);
+                    theContact.setValue(theValue);
+                    theCustomer.getContacts().add(theContact);
+                }
+                theValue = getString(theKontakte, "fax");
+                if (!(theValue == null)) {
+                    CustomerContact theContact = new CustomerContact();
+                    theContact.setType(theFaxContactType);
+                    theContact.setValue(theValue);
+                    theCustomer.getContacts().add(theContact);
+                }
+                theValue = getString(theKontakte, "email1");
+                if (!(theValue == null)) {
+                    CustomerContact theContact = new CustomerContact();
+                    theContact.setType(theMailContactType);
+                    theContact.setValue(theValue);
+                    theCustomer.getContacts().add(theContact);
+                }
+                theValue = getString(theKontakte, "email2");
+                if (!(theValue == null)) {
+                    CustomerContact theContact = new CustomerContact();
+                    theContact.setType(theMailContactType);
+                    theContact.setValue(theValue);
+                    theCustomer.getContacts().add(theContact);
+                }
+
+                theCustomer.setCreationDate(getTimestamp(theKontakte, "erstdatum"));
+                theCustomer.setCreationUserID(thePersonalMap.get(getString(theKontakte, "erstPersID")));
+                theCustomer.setLastModificationDate(getTimestamp(theKontakte, "modifdatum"));
+                theCustomer.setLastModificationUserID(thePersonalMap.get(getString(theKontakte, "modifPersID")));
+
+                ResultSet theReadAgain = theReadAgainStatement.executeQuery("select * from ansprechpartner where ID = "
+                        + theId);
+                theReadAgain.next();
+                resultSetToUDF(theReadAgain, theCustomer);
+                theReadAgain.close();
+
+                ResultSet theHistoryResult = theHistoryStatement.executeQuery("select * from ansp_kontakte where anspID = "
+                        + theId);
+                while (theHistoryResult.next()) {
+
+                    String theID = getString(theHistoryResult, "ID");
+                    LOGGER.logInfo("Verarbeitung " + theID);
+
+                    CustomerHistory theHistory = new CustomerHistory();
+
+                    theHistory.setCreationDate(getTimestamp(theHistoryResult, "datum"));
+                    theHistory.setCreationUserID(getString(theHistoryResult, "person"));
+                    theHistory.setDescription(getString(theHistoryResult, "typ") + "\n"
+                            + getString(theHistoryResult, "notiz"));
+
+                    theCustomer.getHistory().add(theHistory);
+                }
+                theHistoryResult.close();
+
+                DefaultTransactionDefinition theDefinition = new DefaultTransactionDefinition();
+                theDefinition.setName("atx");
+                theDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+                TransactionStatus theTransaction = aManager.getTransaction(theDefinition);
+                Session theSession = aFactory.openSession();
+                try {
+                    theSession.save(theCustomer);
+                    theSession.flush();
+                    theSession.close();
+                    aManager.commit(theTransaction);
+                } catch (Exception e) {
+                    LOGGER.logError("Fehler beim Import", e);
+                    theTransaction.setRollbackOnly();
+                    aManager.rollback(theTransaction);
+                }
+            }
+        }
+        theKundenResult.close();
+
+        theKundenSelect.close();
+        theAdresse.close();
+
+    }
+
 }
