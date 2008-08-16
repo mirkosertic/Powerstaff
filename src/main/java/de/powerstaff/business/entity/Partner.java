@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Partner extends Person<PartnerContact, PartnerHistory> {
+public class Partner extends Person<PartnerContact, PartnerHistory> implements UDFSupport {
 
     private Set<Freelancer> freelancer = new HashSet<Freelancer>();
     

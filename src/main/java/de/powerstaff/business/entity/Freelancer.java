@@ -25,7 +25,7 @@ import java.util.Vector;
 
 import javax.persistence.Column;
 
-public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
+public class Freelancer extends Person<FreelancerContact, FreelancerHistory> implements UDFSupport {
 
     private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
     

@@ -4,6 +4,8 @@
 	<classpathentry kind="src" path="src/common/resources"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry kind="src" path="src/datenuebernahmemobile/java"/>
+	<classpathentry kind="src" path="src/datenuebernahmemobile/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.genuitec.eclipse.j2eedt.core.J2EE14_CONTAINER"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/aspectjrt.jar"/>
@@ -43,5 +45,7 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/richfaces-api-3.1.6.GA.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/richfaces-impl-3.1.6.GA.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/richfaces-ui-3.1.6.GA.jar"/>
+	<classpathentry kind="lib" path="C:/jboss-4.2.2.GA/server/default/lib/mysql-connector-java-5.1.5-bin.jar"/>
+	<classpathentry kind="lib" path="C:/jboss-4.2.2.GA/server/default/lib/commons-logging.jar"/>
 	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
 </classpath>

@@ -49,10 +49,17 @@
 			<param name="AcceptOnMatch" value="true" />
 		</filter>
 	</appender>
+	
+	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%t] %c%n%-5p: [%x] %m%n"/>
+		</layout>
+	</appender>
 
 	<root>
 		<priority value="INFO" />
 		<appender-ref ref="file_debug" />
 		<appender-ref ref="file_error" />
+		<appender-ref ref="stdout" />  
 	</root>
 </log4j:configuration>

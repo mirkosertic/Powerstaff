@@ -61,7 +61,7 @@
 		<property name="sallaryPartner"/>
 		<property name="sallaryPartnerPerDay"/>
 		
-		<map name="udf" table="freelancer_udf">
+		<map name="udf" table="freelancer_udf" cascade="all-delete-orphan">
 			<key column="freelancer_id" foreign-key="freelancer_udf_fk1"/>
 			<map-key type="string" length="20" column="name"/>
 			<composite-element class="UserDefinedField">

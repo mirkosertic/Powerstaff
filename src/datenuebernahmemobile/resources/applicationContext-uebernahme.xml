@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="configurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<bean
+				class="org.springframework.core.io.ClassPathResource">
+				<constructor-arg>
+					<value>configuration.properties</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://localhost/mobile</value>
+		</property>
+		<property name="username">
+			<value>mobile</value>
+		</property>
+		<property name="password">
+			<value>mobile</value>
+		</property>
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.show_sql">
+					${kias.hibernate.showsql}
+				</prop>
+				<prop key="hibernate.dialect">
+					${kias.database.dialect}
+				</prop>
+				<prop key="hibernate.jdbc.use_streams_for_binary">
+					true
+				</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+		<property name="lobHandler">
+			<bean
+				class="org.springframework.jdbc.support.lob.DefaultLobHandler">
+			</bean>
+		</property>
+		<property name="mappingLocations">
+			<list>
+				<value>
+					classpath:/de/powerstaff/business/entity/Freelancer.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/FreelancerContact.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/FreelancerHistory.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/ContactType.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/Partner.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/PartnerContact.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/PartnerHistory.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/Customer.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/CustomerContact.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/CustomerHistory.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/Project.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/ProjectHistory.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/ProjectPosition.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/User.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/JobInfo.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/SystemParameter.hbm.xml
+				</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+  		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>	
+
+	<bean id="txTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+  		<property name="transactionManager" ref="txManager"/>
+	</bean>	
+
+</beans>
