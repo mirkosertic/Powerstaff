@@ -28,7 +28,7 @@ import javax.persistence.Column;
 
 import de.mogwai.common.business.entity.AuditableEntity;
 
-public class Project extends AuditableEntity {
+public class Project extends AuditableEntity implements UDFSupport {
 
     private String date;
 

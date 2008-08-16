@@ -38,7 +38,7 @@
 			<one-to-many class="ProjectHistory"/>
 		</list>
 		
-		<map name="udf" table="project_udf">
+		<map name="udf" table="project_udf" cascade="all-delete-orphan">
 			<key column="project_id" foreign-key="project_udf_fk1"/>
 			<map-key type="string" length="20" column="name"/>
 			<composite-element class="UserDefinedField">

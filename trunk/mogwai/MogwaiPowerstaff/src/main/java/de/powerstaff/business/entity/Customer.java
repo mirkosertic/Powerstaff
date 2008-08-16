@@ -20,7 +20,7 @@ package de.powerstaff.business.entity;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Customer extends Person<CustomerContact, CustomerHistory> {
+public class Customer extends Person<CustomerContact, CustomerHistory> implements UDFSupport {
 
     private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
     

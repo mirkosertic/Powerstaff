@@ -33,7 +33,7 @@
 			<one-to-many class="CustomerHistory"/>
 		</set>
 		
-		<map name="udf" table="customer_udf">
+		<map name="udf" table="customer_udf" cascade="all-delete-orphan">
 			<key column="customer_id" foreign-key="customer_udf_fk1"/>
 			<map-key type="string" length="20" column="name"/>
 			<composite-element class="UserDefinedField">
