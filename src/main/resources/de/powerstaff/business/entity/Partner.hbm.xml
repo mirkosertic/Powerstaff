@@ -40,7 +40,7 @@
 		
 		<map name="udf" table="partner_udf" cascade="all-delete-orphan">
 			<key column="partner_id" foreign-key="partner_udf_fk1"/>
-			<map-key type="string" length="20" column="name"/>
+			<map-key type="string" length="255" column="name"/>
 			<composite-element class="UserDefinedField">
 				<property name="booleanValue" column="booleanvalue"/>
 				<property name="dateValue" column="datevalue"/>

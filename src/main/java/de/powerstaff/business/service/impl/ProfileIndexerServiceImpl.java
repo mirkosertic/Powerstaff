@@ -80,7 +80,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
 
     private void processDeletedOrUpdatedFiles() {
 
-        logger.logDebug("Processing deleted or updated files");
+        logger.logInfo("Processing deleted or updated files");
 
         try {
 
@@ -133,7 +133,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
 
         long theStartTime = System.currentTimeMillis();
 
-        logger.logDebug("Running indexing");
+        logger.logInfo("Running indexing");
 
         try {
 
@@ -157,7 +157,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
                     // Create a new index
                     writer = new IndexWriter(systemParameterService.getIndexerPath(), new StandardAnalyzer(), true);
                 }
-                indexDocs(writer, sourcePath, sourcePath.toString());
+                indexDocs(writer, sourcePath, sourcePath.toString(), 0);
 
                 writer.optimize();
 
@@ -173,7 +173,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
 
             theStartTime = System.currentTimeMillis() - theStartTime;
 
-            logger.logDebug("Indexing finished");
+            logger.logInfo("Indexing finished");
 
             serviceLogger.logEnd(SERVICE_ID, "Dauer = " + theStartTime + "ms");
 
@@ -194,7 +194,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
             Hits theHits = theSearcher.search(theQuery);
             if (theHits.length() > 0) {
 
-                logger.logDebug("Ignoring file " + aFile + " as it seems to be duplicate");
+                logger.logInfo("Ignoring file " + aFile + " as it seems to be duplicate");
 
                 return;
             }
@@ -232,7 +232,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
 
                 } catch (Exception ex) {
 
-                    logger.logDebug("Error on indexing", ex);
+                    logger.logError("Error on indexing", ex);
                 }
             } else {
 
@@ -246,7 +246,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
 
     }
 
-    private void indexDocs(IndexWriter aWriter, File aFile, String aBaseFile) throws IOException {
+    private int indexDocs(IndexWriter aWriter, File aFile, String aBaseFile, int aCounter) throws IOException {
 
         // do not try to index files that cannot be read
         if (aFile.canRead()) {
@@ -259,7 +259,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
                 // an IO error could occur
                 if (files != null) {
                     for (int i = 0; i < files.length; i++) {
-                        indexDocs(aWriter, new File(aFile, files[i]), aBaseFile);
+                        aCounter += indexDocs(aWriter, new File(aFile, files[i]), aBaseFile, 0);
                     }
                 }
             } else {
@@ -278,6 +278,10 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
                 // Is it valid ?
                 if (fileName.startsWith("Profil ")) {
 
+                    if (aCounter % 100 == 0) {
+                        logger.logInfo(aCounter + " files indexed");
+                    }
+
                     // Ok, the profile is valid
                     // It can be indexed
                     processFile(aWriter, aFile, aBaseFile);
@@ -292,6 +296,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
 
             }
         }
+        return aCounter;
     }
 
     public ServiceLoggerService getServiceLogger() {

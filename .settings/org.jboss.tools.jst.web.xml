@@ -7,5 +7,9 @@
   location="%workspace.home%/../../../common.java" model-entity="FileSystemFolder"/>
  <file-system NAME="src-3"
   location="%workspace.home%/../../../common/resources" model-entity="FileSystemFolder"/>
+ <file-system NAME="src-4"
+  location="%workspace.home%/../../../datenuebernahmemobile/resources" model-entity="FileSystemFolder"/>
+ <file-system NAME="src-5"
+  location="%workspace.home%/../../../datenuebernahmemobile/java" model-entity="FileSystemFolder"/>
  <web model-entity="JstWeb"/>
 </file-systems>
