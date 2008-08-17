@@ -35,5 +35,4 @@ public interface ProfileIndexerService extends Service, ProfileIndexerServicePub
 
     String INDEXINGTIME = "INDEXINGTIME";
 
-    void runIndexer();
 }

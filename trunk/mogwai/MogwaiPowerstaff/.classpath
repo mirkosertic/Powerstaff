@@ -47,5 +47,6 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/richfaces-ui-3.1.6.GA.jar"/>
 	<classpathentry kind="lib" path="C:/jboss-4.2.2.GA/server/default/lib/mysql-connector-java-5.1.5-bin.jar"/>
 	<classpathentry kind="lib" path="C:/jboss-4.2.2.GA/server/default/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="C:/jboss-4.2.2.GA/server/default/lib/antlr.jar"/>
 	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
 </classpath>

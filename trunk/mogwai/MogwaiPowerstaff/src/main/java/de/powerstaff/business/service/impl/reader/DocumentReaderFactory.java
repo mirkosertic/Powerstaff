@@ -19,6 +19,7 @@ package de.powerstaff.business.service.impl.reader;
 
 import java.io.File;
 
+import de.powerstaff.business.service.impl.reader.txt.TextDocumentReader;
 import de.powerstaff.business.service.impl.reader.word.WordDocumentReader;
 
 /**
@@ -60,6 +61,9 @@ public final class DocumentReaderFactory {
     public DocumentReader getDocumentReaderForFile(File fileName) {
         if (fileName.getName().toUpperCase().endsWith(".DOC")) {
             return new WordDocumentReader();
+        }
+        if (fileName.getName().toUpperCase().endsWith(".TXT")) {
+            return new TextDocumentReader();
         }
         return null;
     }

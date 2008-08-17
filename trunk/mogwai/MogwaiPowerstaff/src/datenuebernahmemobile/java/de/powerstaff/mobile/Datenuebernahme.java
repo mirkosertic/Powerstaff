@@ -21,6 +21,7 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationContext;
@@ -38,6 +39,7 @@ import de.powerstaff.business.entity.CustomerHistory;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerContact;
 import de.powerstaff.business.entity.FreelancerHistory;
+import de.powerstaff.business.entity.Project;
 import de.powerstaff.business.entity.UDFSupport;
 import de.powerstaff.business.entity.UserDefinedField;
 
@@ -79,8 +81,9 @@ public class Datenuebernahme {
 
         File theCVPath = new File("c:\\Temp\\CVPath");
 
-        // importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
-        importKunden(theFactory, theManager, theConnection);
+        //importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
+        //importKunden(theFactory, theManager, theConnection);
+        importProjekte(theFactory, theManager, theConnection);
 
         theConnection.close();
 
@@ -521,8 +524,8 @@ public class Datenuebernahme {
                 resultSetToUDF(theReadAgain, theCustomer);
                 theReadAgain.close();
 
-                ResultSet theHistoryResult = theHistoryStatement.executeQuery("select * from ansp_kontakte where anspID = "
-                        + theId);
+                ResultSet theHistoryResult = theHistoryStatement
+                        .executeQuery("select * from ansp_kontakte where anspID = " + theId);
                 while (theHistoryResult.next()) {
 
                     String theID = getString(theHistoryResult, "ID");
@@ -561,6 +564,94 @@ public class Datenuebernahme {
         theKundenSelect.close();
         theAdresse.close();
 
+    }
+
+    private static void importProjekte(final SessionFactory aFactory, final PlatformTransactionManager aManager,
+            Connection aConnection) throws SQLException, IOException {
+
+        LOGGER.logInfo("Import Projekte");
+
+        Map<String, String> thePersonalMap = new HashMap<String, String>();
+        Statement theFindPersonalStatenebt = aConnection.createStatement();
+        ResultSet thePersonalResult = theFindPersonalStatenebt.executeQuery("select * from personal");
+        while (thePersonalResult.next()) {
+            thePersonalMap.put(thePersonalResult.getString("ID"), thePersonalResult.getString("loginName"));
+        }
+        thePersonalResult.close();
+        theFindPersonalStatenebt.close();
+
+        Statement theProjectStatement = aConnection.createStatement();
+        Statement theReadAgainStatement = aConnection.createStatement();
+        ResultSet theProjectResult = theProjectStatement.executeQuery("select * from projekt");
+        long theCounter = 0;
+        while (theProjectResult.next()) {
+            theCounter++;
+
+            long theProjectId = theProjectResult.getLong("ID");
+
+            LOGGER.logInfo("Verarbeite " + theCounter + "-> " + theProjectId);
+
+            Project theProject = new Project();
+            theProject.setDate(getString(theProjectResult, "eingDatum"));
+            theProject.setProjectNumber(getString(theProjectResult, "prNr"));
+            theProject.setWorkplace(getConcatenatedString(theProjectResult, "land", "plz", "ort"));
+            theProject.setStart(getString(theProjectResult, "startDatum"));
+            theProject.setDuration(getConcatenatedString(theProjectResult, "dauer", "dauerEinheit"));
+            theProject.setDescriptionShort(getString(theProjectResult, "prTitel"));
+            theProject.setDescriptionLong(getString(theProjectResult, "aufgabe"));
+
+            theProject.setCreationDate(getTimestamp(theProjectResult, "erstdatum"));
+            theProject.setCreationUserID(thePersonalMap.get(getString(theProjectResult, "erstPersID")));
+            theProject.setLastModificationDate(getTimestamp(theProjectResult, "modifdatum"));
+            theProject.setLastModificationUserID(thePersonalMap.get(getString(theProjectResult, "modifPersID")));
+
+            String thePLID = getString(theProjectResult, "anspLeitID");
+            if (thePLID == null) {
+                thePLID = getString(theProjectResult, "ansEinkID");
+            }
+            if (thePLID == null) {
+                // Kein PL und kein Einkauf -> Projekt wird ignoriert
+                continue;
+            }
+
+            ResultSet theReadAgain = theReadAgainStatement.executeQuery("select * from projekt where ID = "
+                    + theProjectId);
+            theReadAgain.next();
+            resultSetToUDF(theReadAgain, theProject);
+            theReadAgain.close();
+
+            DefaultTransactionDefinition theDefinition = new DefaultTransactionDefinition();
+            theDefinition.setName("atx");
+            theDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+            TransactionStatus theTransaction = aManager.getTransaction(theDefinition);
+            Session theSession = aFactory.openSession();
+            try {
+                // Kunden suchen
+                Query theQuery = theSession.createQuery("from Customer item join item.udf u where u.intValue = :id");
+                int theID = Integer.parseInt(thePLID);
+                theQuery.setInteger("id", theID);
+                for (Object theObject : theQuery.list()) {
+                    Customer theCustomer = (Customer) theObject;
+                    if (theCustomer.getUdf().get("ID").getIntValue() == theID) {
+                        theProject.setCustomer(theCustomer);
+                    }
+                }
+                
+                if (theProject.getCustomer() != null) {
+                    theSession.save(theProject);
+                    theSession.flush();
+                    theSession.close();
+                    aManager.commit(theTransaction);
+                }
+            } catch (Exception e) {
+                LOGGER.logError("Fehler beim Import", e);
+                theTransaction.setRollbackOnly();
+                aManager.rollback(theTransaction);
+            }
+        }
+        theProjectResult.close();
+
+        theProjectStatement.close();
     }
 
 }
