@@ -15,3 +15,13 @@ function openWordFile(aFileName) {
 	}
 }
 
+function openTextFile(aFileName) {
+	var myApp;
+	if (document.all) {
+		myApp = new ActiveXObject("WScript.shell");
+	} else {
+		myApp = new GeckoActiveXObject("WScript.shell");
+	}
+	
+	myApp.run("NOTEPAD.EXE " + aFileName,5);
+}

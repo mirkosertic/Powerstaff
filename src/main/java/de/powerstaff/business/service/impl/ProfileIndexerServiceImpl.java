@@ -278,14 +278,12 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
                 // Is it valid ?
                 if (fileName.startsWith("Profil ")) {
 
-                    if (aCounter % 100 == 0) {
-                        logger.logInfo(aCounter + " files indexed");
-                    }
-
+                    aCounter = aCounter + 1;
+                    
                     // Ok, the profile is valid
                     // It can be indexed
                     processFile(aWriter, aFile, aBaseFile);
-
+                    
                 } else {
 
                     // it is not a valid file

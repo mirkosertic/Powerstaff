@@ -21,8 +21,6 @@ public class FreelancerProfile {
 
     private String name;
 
-    private String type;
-
     private String fileName;
 
     public String getFileName() {
@@ -48,12 +46,11 @@ public class FreelancerProfile {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public boolean isWordProfile() {
+        return fileName.toLowerCase().endsWith(".doc");
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public boolean isTextProfile() {
+        return fileName.toLowerCase().endsWith(".txt");
     }
-
 }

@@ -257,6 +257,9 @@ public class FreelancerBackingBean extends
 
     public String getProfileOpenCommand() {
         FreelancerProfile theProfile = (FreelancerProfile) getData().getProfiles().getRowData();
-        return "return openWordFile('" + theProfile.getFileName().replace("\\", "\\\\") + "')";
+        if (theProfile.isWordProfile()) {
+            return "return openWordFile('" + theProfile.getFileName().replace("\\", "\\\\") + "')";
+        }
+        return "return openTextFile('" + theProfile.getFileName().replace("\\", "\\\\") + "')";        
     }
 }

@@ -411,7 +411,8 @@
 										<b:gridBagLayout cols="220,160,220" rows="20,p,p">
 											<b:cell x="2" y="2" align="center">
 												<h:commandLink title="Profil öffnen" onclick="#{freelancerBackingBean.profileOpenCommand}">
-													<b:image source="/images/word.gif"/>
+													<b:image source="/images/word.gif" rendered="#{row.wordProfile}"/>
+													<b:image source="/images/textfile.png" rendered="#{row.textProfile}"/>
 												</h:commandLink>
 											</b:cell>
 											<b:cell x="2" y="3" align="center">
