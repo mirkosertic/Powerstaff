@@ -5,6 +5,7 @@ import java.util.Collection;
 import de.mogwai.common.command.EditEntityCommand;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.mogwai.common.web.utils.UpdateModelInfo;
+import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.Customer;
 import de.powerstaff.business.entity.CustomerContact;
 import de.powerstaff.business.entity.CustomerHistory;
@@ -48,7 +49,10 @@ public class CustomerBackingBean extends NavigatingBackingBean<Customer, Custome
         }
 
         if (theResult.size() == 1) {
-            getData().setEntity((Customer) theResult.iterator().next());
+            GenericSearchResult theResult2 = (GenericSearchResult) theResult.iterator().next();
+            getData().setEntity(entityService.findByPrimaryKey((Long) theResult2.get(GenericSearchResult.OBJECT_ID_KEY)));
+
+            afterNavigation();
             return null;
         }
 
@@ -130,7 +134,11 @@ public class CustomerBackingBean extends NavigatingBackingBean<Customer, Custome
 
     public String commandSelectSearchResult() {
 
-        getData().setEntity((Customer) getData().getSearchResult().getRowData());
+        GenericSearchResult theResult = (GenericSearchResult) getData().getSearchResult().getRowData();
+        Customer theEntity = entityService.findByPrimaryKey((Long) theResult.get(GenericSearchResult.OBJECT_ID_KEY));
+        getData().setEntity(theEntity);
+
+        afterNavigation();
         return "CUSTOMER_STAMMDATEN";
     }
 

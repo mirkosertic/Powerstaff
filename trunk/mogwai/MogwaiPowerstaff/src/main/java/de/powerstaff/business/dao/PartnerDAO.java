@@ -23,7 +23,7 @@ import de.powerstaff.business.entity.Partner;
 
 public interface PartnerDAO extends NavigatingDAO<Partner> {
 
-    List<Partner> performQBESearch(Partner aObject);
+    List<GenericSearchResult> performQBESearch(Partner aObject, int aMaxSearchResult);
 
     List<Partner> findAll();
 }

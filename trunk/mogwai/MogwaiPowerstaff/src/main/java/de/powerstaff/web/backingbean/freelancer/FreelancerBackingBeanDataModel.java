@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import de.mogwai.common.utils.KeyValuePair;
 import de.mogwai.common.web.utils.CollectionDataModel;
+import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerContact;
@@ -25,7 +26,7 @@ public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataMod
 
     private CollectionDataModel<FreelancerHistory> history;
 
-    private CollectionDataModel<Freelancer> searchResult = new CollectionDataModel<Freelancer>();
+    private CollectionDataModel<GenericSearchResult> searchResult = new CollectionDataModel<GenericSearchResult>();
 
     private CollectionDataModel<FreelancerProfile> profiles = new CollectionDataModel<FreelancerProfile>();
 
@@ -120,7 +121,7 @@ public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataMod
     /**
      * @return the searchResult
      */
-    public CollectionDataModel<Freelancer> getSearchResult() {
+    public CollectionDataModel<GenericSearchResult> getSearchResult() {
         return searchResult;
     }
 

@@ -3,6 +3,7 @@ package de.powerstaff.web.backingbean.customer;
 import java.util.List;
 
 import de.mogwai.common.web.utils.CollectionDataModel;
+import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Customer;
 import de.powerstaff.business.entity.CustomerContact;
@@ -22,7 +23,7 @@ public class CustomerBackingBeanDataModel extends NavigatingBackingBeanDataModel
 
     private CollectionDataModel<CustomerHistory> history;
 
-    private CollectionDataModel<Customer> searchResult = new CollectionDataModel<Customer>();
+    private CollectionDataModel<GenericSearchResult> searchResult = new CollectionDataModel<GenericSearchResult>();
 
     private List<ContactType> contactTypes;
 
@@ -109,7 +110,7 @@ public class CustomerBackingBeanDataModel extends NavigatingBackingBeanDataModel
     /**
      * @return the searchResult
      */
-    public CollectionDataModel<Customer> getSearchResult() {
+    public CollectionDataModel<GenericSearchResult> getSearchResult() {
         return searchResult;
     }
 

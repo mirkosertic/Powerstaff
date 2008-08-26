@@ -21,6 +21,7 @@ import java.util.Collection;
 
 import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.CustomerDAO;
+import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.Customer;
 import de.powerstaff.business.service.CustomerService;
 import de.powerstaff.business.service.RecordInfo;
@@ -72,8 +73,8 @@ public class CustomerServiceImpl extends LogableService implements CustomerServi
         return customerDAO.getRecordInfo(aObject);
     }
 
-    public Collection<Customer> performQBESearch(Customer aObject) {
-        return customerDAO.performQBESearch(aObject);
+    public Collection<GenericSearchResult> performQBESearch(Customer aObject) {
+        return customerDAO.performQBESearch(aObject, 100);
     }
 
     public void save(Customer aObject) {

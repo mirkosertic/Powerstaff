@@ -5,6 +5,7 @@ import java.util.Collection;
 import de.mogwai.common.command.EditEntityCommand;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.mogwai.common.web.utils.UpdateModelInfo;
+import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.Customer;
 import de.powerstaff.business.entity.Project;
 import de.powerstaff.business.service.ProjectService;
@@ -28,7 +29,10 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
         }
 
         if (theResult.size() == 1) {
-            getData().setEntity((Project) theResult.iterator().next());
+            GenericSearchResult theResult2 = (GenericSearchResult) theResult.iterator().next();
+            getData().setEntity(entityService.findByPrimaryKey((Long) theResult2.get(GenericSearchResult.OBJECT_ID_KEY)));
+
+            afterNavigation();
             return null;
         }
 
@@ -65,7 +69,11 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
 
     public String commandSelectSearchResult() {
 
-        getData().setEntity((Project) getData().getSearchResult().getRowData());
+        GenericSearchResult theResult = (GenericSearchResult) getData().getSearchResult().getRowData();
+        Project theEntity = entityService.findByPrimaryKey((Long) theResult.get(GenericSearchResult.OBJECT_ID_KEY));
+        getData().setEntity(theEntity);
+
+        afterNavigation();
         return "PROJEKT_STAMMDATEN";
     }
 

@@ -20,6 +20,7 @@ package de.powerstaff.business.service.impl;
 import java.util.Collection;
 
 import de.mogwai.common.business.service.impl.LogableService;
+import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dao.ProjectDAO;
 import de.powerstaff.business.entity.Project;
 import de.powerstaff.business.service.ProjectService;
@@ -72,8 +73,8 @@ public class ProjectServiceImpl extends LogableService implements ProjectService
         return projectDAO.getRecordInfo(aObject);
     }
 
-    public Collection<Project> performQBESearch(Project aObject) {
-        return projectDAO.performQBESearch(aObject);
+    public Collection<GenericSearchResult> performQBESearch(Project aObject) {
+        return projectDAO.performQBESearch(aObject, 100);
     }
 
     public void save(Project aObject) {

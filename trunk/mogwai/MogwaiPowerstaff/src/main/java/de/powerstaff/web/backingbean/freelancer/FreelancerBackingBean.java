@@ -8,6 +8,7 @@ import de.mogwai.common.command.EditEntityCommand;
 import de.mogwai.common.logging.Logger;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.mogwai.common.web.utils.UpdateModelInfo;
+import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerContact;
@@ -94,7 +95,10 @@ public class FreelancerBackingBean extends
         }
 
         if (theResult.size() == 1) {
-            getData().setEntity((Freelancer) theResult.iterator().next());
+
+            GenericSearchResult theResult2 = (GenericSearchResult) theResult.iterator().next();
+            getData().setEntity(entityService.findByPrimaryKey((Long) theResult2.get(GenericSearchResult.OBJECT_ID_KEY)));
+            
             afterNavigation();
             return null;
         }
@@ -203,7 +207,10 @@ public class FreelancerBackingBean extends
 
     public String commandSelectSearchResult() {
 
-        getData().setEntity((Freelancer) getData().getSearchResult().getRowData());
+        GenericSearchResult theResult = (GenericSearchResult) getData().getSearchResult().getRowData();
+        Freelancer theEntity = entityService.findByPrimaryKey((Long) theResult.get(GenericSearchResult.OBJECT_ID_KEY));
+        getData().setEntity(theEntity);
+        afterNavigation();
         return "FREELANCER_STAMMDATEN";
     }
 
