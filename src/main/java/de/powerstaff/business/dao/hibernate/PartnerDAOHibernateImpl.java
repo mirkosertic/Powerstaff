@@ -24,6 +24,7 @@ import java.util.Vector;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
+import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dao.PartnerDAO;
 import de.powerstaff.business.entity.Partner;
 
@@ -39,14 +40,17 @@ public class PartnerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Partner>
         return Partner.class;
     }
 
-    public List<Partner> performQBESearch(Partner aObject) {
+    public List<GenericSearchResult> performQBESearch(Partner aObject, int aMaxSearchResult) {
+
+        String[] theProperties = new String[] { "name1", "name2", "company", "city", "comments" };
 
         String[] theSearchProperties = new String[] { "name1", "name2", "company", "street", "country", "plz", "city",
                 "comments", };
 
         String[] theOrderByProperties = new String[] { "name1", "name2" };
 
-        return performQBESearch(aObject, theSearchProperties, theOrderByProperties, MATCH_LIKE);
+        return performQBESearch(aObject, theProperties, theSearchProperties, theOrderByProperties, MATCH_LIKE,
+                aMaxSearchResult);
     }
 
     public List<Partner> findAll() {

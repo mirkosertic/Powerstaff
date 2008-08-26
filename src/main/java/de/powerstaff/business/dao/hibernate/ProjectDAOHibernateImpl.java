@@ -26,6 +26,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Expression;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
+import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dao.ProjectDAO;
 import de.powerstaff.business.entity.Project;
 
@@ -41,14 +42,17 @@ public class ProjectDAOHibernateImpl extends NavigatingDAOHibernateImpl<Project>
         return Project.class;
     }
 
-    public List<Project> performQBESearch(Project aObject) {
+    public List<GenericSearchResult> performQBESearch(Project aObject, int aMaxSearchResult) {
+
+        String[] theProperties = new String[] { "projectNumber", "start", "duration", "customer", "descriptionShort" };
 
         String[] theSearchProperties = new String[] { "date", "projectNumber", "workplace", "start", "duration",
                 "descriptionShort", "descriptionLong" };
 
         String[] theOrderByProperties = new String[] { "projectNumber" };
 
-        return performQBESearch(aObject, theSearchProperties, theOrderByProperties, MATCH_LIKE);
+        return performQBESearch(aObject, theProperties, theSearchProperties, theOrderByProperties, MATCH_LIKE,
+                aMaxSearchResult);
     }
 
     public Project findByPrimaryKey(Long aProjectID) {

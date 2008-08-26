@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import de.mogwai.common.business.service.impl.LogableService;
+import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dao.PartnerDAO;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.Partner;
@@ -74,8 +75,8 @@ public class PartnerServiceImpl extends LogableService implements PartnerService
         return partnerDAO.getRecordInfo(aObject);
     }
 
-    public Collection<Partner> performQBESearch(Partner aObject) {
-        return partnerDAO.performQBESearch(aObject);
+    public Collection<GenericSearchResult> performQBESearch(Partner aObject) {
+        return partnerDAO.performQBESearch(aObject, 100);
     }
 
     public void save(Partner aObject) {

@@ -22,6 +22,7 @@ import java.util.List;
 
 import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.FreelancerDAO;
+import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.ProfileSearchInfoDetail;
@@ -78,8 +79,8 @@ public class FreelancerServiceImpl extends LogableService implements FreelancerS
         return freelancerDAO.getRecordInfo(aObject);
     }
 
-    public Collection<Freelancer> performQBESearch(Freelancer aObject) {
-        return freelancerDAO.performQBESearch(aObject);
+    public Collection<GenericSearchResult> performQBESearch(Freelancer aObject) {
+        return freelancerDAO.performQBESearch(aObject, 100);
     }
 
     public void save(Freelancer aObject) {

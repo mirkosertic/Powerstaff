@@ -18,10 +18,10 @@
 package de.powerstaff.business.dao.hibernate;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.hibernate.Query;
@@ -30,6 +30,7 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 
 import de.mogwai.common.business.entity.Entity;
 import de.mogwai.common.dao.hibernate.GenericDaoHibernateImpl;
+import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dao.NavigatingDAO;
 import de.powerstaff.business.service.RecordInfo;
 
@@ -44,17 +45,22 @@ public abstract class NavigatingDAOHibernateImpl<T extends Entity> extends Gener
 
     protected abstract Class getEntityClass();
 
-    public List performQBESearch(final Entity aObject, final String[] aSearchProperties,
-            final String[] aOrderByProperties, final int aMatchMode) {
+    public List<GenericSearchResult> performQBESearch(final Entity aObject, final String[] aProperties,
+            final String[] aSearchProperties, final String[] aOrderByProperties, final int aMatchMode,
+            final int aMaxSearchResult) {
 
         final Class aType = aObject.getClass();
         return (List) getHibernateTemplate().execute(new HibernateCallback() {
 
             public Object doInHibernate(Session aSession) throws SQLException {
 
-                Vector theResult = new Vector();
+                List<GenericSearchResult> theResult = new ArrayList<GenericSearchResult>();
 
-                String theQueryString = "from " + aType.getName() + " item ";
+                String theQueryString = "select item.id";
+                for (String aProperty : aProperties) {
+                    theQueryString += " ,item." + aProperty;
+                }
+                theQueryString += " from " + aType.getName() + " item ";
                 HashMap<String, Object> theParams = new HashMap<String, Object>();
 
                 boolean theFirst = true;
@@ -109,8 +115,15 @@ public abstract class NavigatingDAOHibernateImpl<T extends Entity> extends Gener
                     Object theValue = theParams.get(theKey);
                     theQuery.setParameter(theKey, theValue);
                 }
+                theQuery.setMaxResults(aMaxSearchResult);
                 for (Iterator it = theQuery.list().iterator(); it.hasNext();) {
-                    theResult.add(it.next());
+                    Object[] theRow = (Object[]) it.next();
+                    GenericSearchResult theRowObject = new GenericSearchResult();
+                    theRowObject.put(GenericSearchResult.OBJECT_ID_KEY, theRow[0]);
+                    for (int i = 0; i < aProperties.length; i++) {
+                        theRowObject.put(aProperties[i], theRow[i + 1]);
+                    }
+                    theResult.add(theRowObject);
                 }
 
                 return theResult;

@@ -1,12 +1,13 @@
 package de.powerstaff.web.backingbean.project;
 
 import de.mogwai.common.web.utils.CollectionDataModel;
+import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.Project;
 import de.powerstaff.web.backingbean.NavigatingBackingBeanDataModel;
 
 public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<Project> {
 
-    private CollectionDataModel<Project> searchResult = new CollectionDataModel<Project>();
+    private CollectionDataModel<GenericSearchResult> searchResult = new CollectionDataModel<GenericSearchResult>();
 
     public ProjectBackingBeanDataModel() {
     }
@@ -28,7 +29,7 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
     /**
      * @return the searchResult
      */
-    public CollectionDataModel<Project> getSearchResult() {
+    public CollectionDataModel<GenericSearchResult> getSearchResult() {
         return searchResult;
     }
 

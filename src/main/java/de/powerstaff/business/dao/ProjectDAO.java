@@ -23,7 +23,7 @@ import de.powerstaff.business.entity.Project;
 
 public interface ProjectDAO extends NavigatingDAO<Project> {
 
-    List<Project> performQBESearch(Project aObject);
+    List<GenericSearchResult> performQBESearch(Project aObject, int aMaxSearchResult);
 
     Project findByPrimaryKey(Long aProjectID);
 

@@ -194,7 +194,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
             Hits theHits = theSearcher.search(theQuery);
             if (theHits.length() > 0) {
 
-                logger.logInfo("Ignoring file " + aFile + " as it seems to be duplicate");
+                logger.logDebug("Ignoring file " + aFile + " as it seems to be duplicate");
 
                 return;
             }

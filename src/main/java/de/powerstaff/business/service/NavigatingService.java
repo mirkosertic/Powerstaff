@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import de.mogwai.common.business.entity.Entity;
 import de.mogwai.common.business.service.Service;
+import de.powerstaff.business.dao.GenericSearchResult;
 
 public interface NavigatingService<T extends Entity> extends Service {
 
@@ -23,7 +24,7 @@ public interface NavigatingService<T extends Entity> extends Service {
 
     RecordInfo getRecordInfo(T aObject);
 
-    Collection<T> performQBESearch(T aObject);
+    Collection<GenericSearchResult> performQBESearch(T aObject);
     
     T findByRecordNumber(Long aNumber);
 }

@@ -26,7 +26,7 @@ public interface FreelancerDAO extends NavigatingDAO<Freelancer> {
 
     ProfileSearchInfoDetail findByCode(String aCode);
 
-    List<Freelancer> performQBESearch(Freelancer object);
+    List<GenericSearchResult> performQBESearch(Freelancer object , int aMaxSearchResult);
 
     List<String> getCodeSuggestions(String aSuggest);
 }

@@ -20,6 +20,7 @@ package de.powerstaff.business.dao.hibernate;
 import java.util.List;
 
 import de.powerstaff.business.dao.CustomerDAO;
+import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.Customer;
 
 public class CustomerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Customer> implements CustomerDAO {
@@ -34,13 +35,16 @@ public class CustomerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Custome
         return Customer.class;
     }
 
-    public List<Customer> performQBESearch(Customer aObject) {
+    public List<GenericSearchResult> performQBESearch(Customer aObject, int aMaxSearchResult) {
+
+        String[] theProperties = new String[] { "name1", "name2", "company", "city", "comments" };
 
         String[] theSearchProperties = new String[] { "name1", "name2", "company", "street", "country", "plz", "city",
                 "comments", };
 
         String[] theOrderByProperties = new String[] { "name1", "name2" };
 
-        return performQBESearch(aObject, theSearchProperties, theOrderByProperties, MATCH_LIKE);
+        return performQBESearch(aObject, theProperties, theSearchProperties, theOrderByProperties, MATCH_LIKE,
+                aMaxSearchResult);
     }
 }

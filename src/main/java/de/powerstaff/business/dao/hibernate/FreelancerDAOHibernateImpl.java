@@ -27,6 +27,7 @@ import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
 import de.powerstaff.business.dao.FreelancerDAO;
+import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.service.ProfileSearchInfoDetail;
 
@@ -68,7 +69,9 @@ public class FreelancerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Freel
         });
     }
 
-    public List<Freelancer> performQBESearch(Freelancer aObject) {
+    public List<GenericSearchResult> performQBESearch(Freelancer aObject, int aMaxSearchResult) {
+
+        String[] theDisplayProperties = new String[] { "name1", "name2", "availability", "sallary", "skills" };
 
         String[] theSearchProperties = new String[] { "name1", "name2", "company", "street", "country", "plz", "city",
                 "comments", "workplace", "availability", "sallary", "code", "contactPerson", "contactType",
@@ -76,7 +79,8 @@ public class FreelancerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Freel
 
         String[] theOrderByProperties = new String[] { "name1", "name2" };
 
-        return performQBESearch(aObject, theSearchProperties, theOrderByProperties, MATCH_LIKE);
+        return performQBESearch(aObject, theDisplayProperties, theSearchProperties, theOrderByProperties, MATCH_LIKE,
+                aMaxSearchResult);
     }
 
     public List<String> getCodeSuggestions(final String aSuggest) {
