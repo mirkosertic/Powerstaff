@@ -24,7 +24,7 @@ public interface NavigatingService<T extends Entity> extends Service {
 
     RecordInfo getRecordInfo(T aObject);
 
-    Collection<GenericSearchResult> performQBESearch(T aObject);
+    Collection<GenericSearchResult> performQBESearch(T aObject) throws TooManySearchResults;
     
     T findByRecordNumber(Long aNumber);
 }

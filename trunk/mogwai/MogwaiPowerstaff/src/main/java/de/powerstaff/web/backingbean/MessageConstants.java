@@ -23,4 +23,6 @@ public interface MessageConstants {
     String MSG_FALSCHESLOGIN = "message.falscheslogin";
 
     String MSG_KEINE_KONTAKTINFOS = "message.keinekontaktinfosangegeben";
+    
+    String MSG_ZUVIELESUCHERGEBNISSE = "message.zuvielesuchergebnisse";
 }

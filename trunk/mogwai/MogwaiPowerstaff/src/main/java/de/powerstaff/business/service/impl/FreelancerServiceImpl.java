@@ -25,12 +25,16 @@ import de.powerstaff.business.dao.FreelancerDAO;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.service.FreelancerService;
+import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ProfileSearchInfoDetail;
 import de.powerstaff.business.service.RecordInfo;
+import de.powerstaff.business.service.TooManySearchResults;
 
 public class FreelancerServiceImpl extends LogableService implements FreelancerService {
 
     private FreelancerDAO freelancerDAO;
+    
+    private PowerstaffSystemParameterService systemParameterService;
 
     /**
      * @return the freelancerDAO
@@ -45,6 +49,20 @@ public class FreelancerServiceImpl extends LogableService implements FreelancerS
      */
     public void setFreelancerDAO(FreelancerDAO freelancerDAO) {
         this.freelancerDAO = freelancerDAO;
+    }
+
+    /**
+     * @return the systemParameterService
+     */
+    public PowerstaffSystemParameterService getSystemParameterService() {
+        return systemParameterService;
+    }
+
+    /**
+     * @param systemParameterService the systemParameterService to set
+     */
+    public void setSystemParameterService(PowerstaffSystemParameterService systemParameterService) {
+        this.systemParameterService = systemParameterService;
     }
 
     public ProfileSearchInfoDetail findFreelancerByCode(String code) {
@@ -79,8 +97,13 @@ public class FreelancerServiceImpl extends LogableService implements FreelancerS
         return freelancerDAO.getRecordInfo(aObject);
     }
 
-    public Collection<GenericSearchResult> performQBESearch(Freelancer aObject) {
-        return freelancerDAO.performQBESearch(aObject, 100);
+    public Collection<GenericSearchResult> performQBESearch(Freelancer aObject) throws TooManySearchResults {
+        int aMax = systemParameterService.getMaxSearchResult();
+        Collection<GenericSearchResult> theResult = freelancerDAO.performQBESearch(aObject, aMax);
+        if (theResult.size() == aMax) {
+            throw new TooManySearchResults(theResult);
+        }
+        return theResult;
     }
 
     public void save(Freelancer aObject) {

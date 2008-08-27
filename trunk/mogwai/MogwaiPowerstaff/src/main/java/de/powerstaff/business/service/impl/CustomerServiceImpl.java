@@ -24,12 +24,16 @@ import de.powerstaff.business.dao.CustomerDAO;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.Customer;
 import de.powerstaff.business.service.CustomerService;
+import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.RecordInfo;
+import de.powerstaff.business.service.TooManySearchResults;
 
 public class CustomerServiceImpl extends LogableService implements CustomerService {
 
     private CustomerDAO customerDAO;
-
+    
+    private PowerstaffSystemParameterService systemParameterService;
+    
     /**
      * @return the customerDAO
      */
@@ -43,6 +47,20 @@ public class CustomerServiceImpl extends LogableService implements CustomerServi
      */
     public void setCustomerDAO(CustomerDAO customerDAO) {
         this.customerDAO = customerDAO;
+    }
+    
+    /**
+     * @return the systemParameterService
+     */
+    public PowerstaffSystemParameterService getSystemParameterService() {
+        return systemParameterService;
+    }
+
+    /**
+     * @param systemParameterService the systemParameterService to set
+     */
+    public void setSystemParameterService(PowerstaffSystemParameterService systemParameterService) {
+        this.systemParameterService = systemParameterService;
     }
 
     public void delete(Customer aEntity) {
@@ -73,8 +91,13 @@ public class CustomerServiceImpl extends LogableService implements CustomerServi
         return customerDAO.getRecordInfo(aObject);
     }
 
-    public Collection<GenericSearchResult> performQBESearch(Customer aObject) {
-        return customerDAO.performQBESearch(aObject, 100);
+    public Collection<GenericSearchResult> performQBESearch(Customer aObject) throws TooManySearchResults {
+        int aMax = systemParameterService.getMaxSearchResult();
+        Collection<GenericSearchResult> theResult = customerDAO.performQBESearch(aObject, aMax);
+        if (theResult.size() == aMax) {
+            throw new TooManySearchResults(theResult);
+        }
+        return theResult;
     }
 
     public void save(Customer aObject) {

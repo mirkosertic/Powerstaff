@@ -26,11 +26,15 @@ import de.powerstaff.business.dao.PartnerDAO;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.Partner;
 import de.powerstaff.business.service.PartnerService;
+import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.RecordInfo;
+import de.powerstaff.business.service.TooManySearchResults;
 
 public class PartnerServiceImpl extends LogableService implements PartnerService {
 
     private PartnerDAO partnerDAO;
+    
+    private PowerstaffSystemParameterService systemParameterService;
 
     /**
      * @return the partnerDAO
@@ -45,6 +49,20 @@ public class PartnerServiceImpl extends LogableService implements PartnerService
      */
     public void setPartnerDAO(PartnerDAO partnerDAO) {
         this.partnerDAO = partnerDAO;
+    }
+
+    /**
+     * @return the systemParameterService
+     */
+    public PowerstaffSystemParameterService getSystemParameterService() {
+        return systemParameterService;
+    }
+
+    /**
+     * @param systemParameterService the systemParameterService to set
+     */
+    public void setSystemParameterService(PowerstaffSystemParameterService systemParameterService) {
+        this.systemParameterService = systemParameterService;
     }
 
     public void delete(Freelancer aEntity) {
@@ -75,8 +93,13 @@ public class PartnerServiceImpl extends LogableService implements PartnerService
         return partnerDAO.getRecordInfo(aObject);
     }
 
-    public Collection<GenericSearchResult> performQBESearch(Partner aObject) {
-        return partnerDAO.performQBESearch(aObject, 100);
+    public Collection<GenericSearchResult> performQBESearch(Partner aObject) throws TooManySearchResults {
+        int aMax = systemParameterService.getMaxSearchResult();
+        Collection<GenericSearchResult> theResult = partnerDAO.performQBESearch(aObject, aMax);
+        if (theResult.size() == aMax) {
+            throw new TooManySearchResults(theResult);
+        }
+        return theResult;
     }
 
     public void save(Partner aObject) {
