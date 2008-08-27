@@ -184,18 +184,22 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 	 
 	<bean id="projectService" class="de.powerstaff.business.service.impl.ProjectServiceImpl">
 		<property name="projectDAO" ref="projectDAO"/>
+		<property name="systemParameterService" ref="systemParameterService"/>
 	</bean>
 	
 	<bean id="customerService" class="de.powerstaff.business.service.impl.CustomerServiceImpl">
 		<property name="customerDAO" ref="customerDAO"/>
+		<property name="systemParameterService" ref="systemParameterService"/>		
 	</bean>
 
 	<bean id="partnerService" class="de.powerstaff.business.service.impl.PartnerServiceImpl">
 		<property name="partnerDAO" ref="partnerDAO"/>
+		<property name="systemParameterService" ref="systemParameterService"/>		
 	</bean>
 
 	<bean id="freelancerService" class="de.powerstaff.business.service.impl.FreelancerServiceImpl">
 		<property name="freelancerDAO" ref="freelancerDAO"/>
+		<property name="systemParameterService" ref="systemParameterService"/>		
 	</bean>
 	
 	<bean id="systemParameterService"

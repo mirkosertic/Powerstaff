@@ -166,4 +166,12 @@ public class PowerstaffSystemParameterServiceImpl extends SystemParameterService
     public void setProfileMaxSearchResult(int aValue) {
         setInt(SystemParameterEnum.PROFILE_MAX_SEARCH_RESULT, aValue);
     }
+
+    public int getMaxSearchResult() {
+        return getInt(SystemParameterEnum.MAX_SEARCH_RESULT, 100);
+    }
+
+    public void setMaxSearchResult(int aValue) {
+        setInt(SystemParameterEnum.MAX_SEARCH_RESULT, aValue);
+    }
 }

@@ -9,6 +9,7 @@ import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.Customer;
 import de.powerstaff.business.entity.Project;
 import de.powerstaff.business.service.ProjectService;
+import de.powerstaff.business.service.TooManySearchResults;
 import de.powerstaff.web.backingbean.NavigatingBackingBean;
 import de.powerstaff.web.backingbean.customer.CustomerBackingBean;
 
@@ -21,7 +22,13 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
 
     public String commandSearch() {
 
-        Collection theResult = entityService.performQBESearch(getData().getEntity());
+        Collection<GenericSearchResult> theResult = null;
+        try {
+            theResult = entityService.performQBESearch(getData().getEntity());
+        } catch (TooManySearchResults e) {
+            theResult = e.getResult();
+            JSFMessageUtils.addGlobalErrorMessage(MSG_ZUVIELESUCHERGEBNISSE);            
+        }
 
         if (theResult.size() < 1) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);

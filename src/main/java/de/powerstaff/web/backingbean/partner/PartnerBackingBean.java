@@ -12,6 +12,7 @@ import de.powerstaff.business.entity.PartnerContact;
 import de.powerstaff.business.entity.PartnerHistory;
 import de.powerstaff.business.service.AdditionalDataService;
 import de.powerstaff.business.service.PartnerService;
+import de.powerstaff.business.service.TooManySearchResults;
 import de.powerstaff.web.backingbean.NavigatingBackingBean;
 import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 
@@ -41,7 +42,13 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
 
     public String commandSearch() {
 
-        Collection theResult = entityService.performQBESearch(getData().getEntity());
+        Collection<GenericSearchResult> theResult = null;
+        try {
+            theResult = entityService.performQBESearch(getData().getEntity());
+        } catch (TooManySearchResults e) {
+            theResult = e.getResult();
+            JSFMessageUtils.addGlobalErrorMessage(MSG_ZUVIELESUCHERGEBNISSE);            
+        }
 
         if (theResult.size() < 1) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);

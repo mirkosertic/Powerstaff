@@ -11,6 +11,7 @@ import de.powerstaff.business.entity.CustomerContact;
 import de.powerstaff.business.entity.CustomerHistory;
 import de.powerstaff.business.service.AdditionalDataService;
 import de.powerstaff.business.service.CustomerService;
+import de.powerstaff.business.service.TooManySearchResults;
 import de.powerstaff.web.backingbean.NavigatingBackingBean;
 import de.powerstaff.web.backingbean.project.ProjectBackingBean;
 import de.powerstaff.web.utils.Comparators;
@@ -41,7 +42,13 @@ public class CustomerBackingBean extends NavigatingBackingBean<Customer, Custome
 
     public String commandSearch() {
 
-        Collection theResult = entityService.performQBESearch(getData().getEntity());
+        Collection<GenericSearchResult> theResult = null;
+        try {
+            theResult = entityService.performQBESearch(getData().getEntity());
+        } catch (TooManySearchResults e) {
+            theResult = e.getResult();
+            JSFMessageUtils.addGlobalErrorMessage(MSG_ZUVIELESUCHERGEBNISSE);            
+        }
 
         if (theResult.size() < 1) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);

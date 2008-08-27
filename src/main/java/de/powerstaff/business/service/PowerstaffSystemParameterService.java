@@ -83,4 +83,8 @@ public interface PowerstaffSystemParameterService extends Service {
     int getProfileMaxSearchResult();
 
     void setProfileMaxSearchResult(int aValue);
+    
+    int getMaxSearchResult();
+
+    void setMaxSearchResult(int aValue);
 }
