@@ -232,7 +232,7 @@ public class Datenuebernahme {
             theFreelancer.setSallary(getConcatenatedString(theMitarbeiterResult, "satz", "satzInfo"));
             theFreelancer.setCode(getString(theMitarbeiterResult, "cvNr"));
             theFreelancer.setSkills(getString(theMitarbeiterResult, "kurzskill"));
-            theFreelancer.setSallary(getConcatenatedString(theMitarbeiterResult, "gulpId", "gulpName"));
+            theFreelancer.setGulpID(getConcatenatedString(theMitarbeiterResult, "gulpId", "gulpName"));
 
             ResultSet theAdresseResult = theAdresse.executeQuery("select * from mitarbeiter_adresse where mitArbID = "
                     + theMitarbeiterID);
