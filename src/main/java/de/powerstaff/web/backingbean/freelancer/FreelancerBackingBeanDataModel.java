@@ -39,6 +39,11 @@ public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataMod
     public FreelancerBackingBeanDataModel() {
         status.add(new KeyValuePair<Integer, String>(1, "Angestellter"));
         status.add(new KeyValuePair<Integer, String>(2, "Freiberufler"));
+        status.add(new KeyValuePair<Integer, String>(3, "Freiberufler + Festanstellung"));
+        status.add(new KeyValuePair<Integer, String>(4, "ANÜ"));
+        status.add(new KeyValuePair<Integer, String>(5, "Angestellter + ANÜ"));
+        status.add(new KeyValuePair<Integer, String>(6, "Freiberufler + ANÜ"));
+        status.add(new KeyValuePair<Integer, String>(7, "Freiberufler + Festanstellung + ANÜ"));
         status.add(new KeyValuePair<Integer, String>(null, "Undefiniert"));
     }
 
