@@ -1,7 +1,6 @@
 package de.powerstaff.mobile;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -45,15 +44,29 @@ import de.powerstaff.business.entity.UserDefinedField;
 
 public class Datenuebernahme {
 
-    private static final Long CT_PHONE = 1L;
+    private static final Long CT_PHONE_GES = 1L;
 
-    private static final Long CT_FAX = 2L;
+    private static final Long CT_FAX_GES = 2L;
 
-    private static final Long CT_MOBIL = 3L;
+    private static final Long CT_MOBIL_GES = 3L;
 
-    private static final Long CT_MAIL = 4L;
+    private static final Long CT_MAIL_GES = 4L;
 
-    private static final Long CT_WEB = 5L;
+    private static final Long CT_WEB_GES = 5L;
+
+    private static final Long CT_PHONE_PRIV = 6L;
+
+    private static final Long CT_FAX_PRIV = 7L;
+
+    private static final Long CT_MOBIL_PRIV = 8L;
+
+    private static final Long CT_MAIL_PRIV = 9L;
+
+    private static final Long CT_WEB_PRIV = 10L;
+    
+    private static final Long CT_GULPID = 11L;
+    
+    private static final Long CT_GULPNAME = 12L;
 
     private static final Logger LOGGER = new Logger(Datenuebernahme.class);
 
@@ -81,9 +94,9 @@ public class Datenuebernahme {
 
         File theCVPath = new File("c:\\Temp\\CVPath");
 
-        //importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
-        //importKunden(theFactory, theManager, theConnection);
-        importProjekte(theFactory, theManager, theConnection);
+        importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
+        // importKunden(theFactory, theManager, theConnection);
+        // importProjekte(theFactory, theManager, theConnection);
 
         theConnection.close();
 
@@ -99,6 +112,17 @@ public class Datenuebernahme {
 
     private static Timestamp getTimestamp(ResultSet aResultSet, String aFieldName) throws SQLException {
         return aResultSet.getTimestamp(aFieldName);
+    }
+
+    private static String getLongString(ResultSet aResultSet, String aFieldName) throws SQLException {
+        Long theValue = aResultSet.getLong(aFieldName);
+        if (theValue == null) {
+            return null;
+        }
+        if (theValue.longValue() == 0) {
+            return null;
+        }
+        return theValue.toString();
     }
 
     private static String getString(ResultSet aResultSet, String aFieldName) throws SQLException {
@@ -195,16 +219,33 @@ public class Datenuebernahme {
         Statement theAdresse = aConnection.createStatement();
         Statement theReadAgainStatement = aConnection.createStatement();
 
-        ContactType theTelContactType = new ContactType();
-        theTelContactType.setId(CT_PHONE);
-        ContactType theFaxContactType = new ContactType();
-        theFaxContactType.setId(CT_FAX);
-        ContactType theMobileContactType = new ContactType();
-        theMobileContactType.setId(CT_MOBIL);
-        ContactType theMailContactType = new ContactType();
-        theMailContactType.setId(CT_MAIL);
-        ContactType theWebContactType = new ContactType();
-        theWebContactType.setId(CT_WEB);
+        // Geschäftlich
+        ContactType theTelGesContactType = new ContactType();
+        theTelGesContactType.setId(CT_PHONE_GES);
+        ContactType theFaxGesContactType = new ContactType();
+        theFaxGesContactType.setId(CT_FAX_GES);
+        ContactType theMobileGesContactType = new ContactType();
+        theMobileGesContactType.setId(CT_MOBIL_GES);
+        ContactType theMailGesContactType = new ContactType();
+        theMailGesContactType.setId(CT_MAIL_GES);
+        ContactType theWebGesContactType = new ContactType();
+        theWebGesContactType.setId(CT_WEB_GES);
+
+        ContactType theTelPrivatContactType = new ContactType();
+        theTelPrivatContactType.setId(CT_PHONE_PRIV);
+        ContactType theFaxPrivatContactType = new ContactType();
+        theFaxPrivatContactType.setId(CT_FAX_PRIV);
+        ContactType theMobilePrivatContactType = new ContactType();
+        theMobilePrivatContactType.setId(CT_MOBIL_PRIV);
+        ContactType theMailPrivatContactType = new ContactType();
+        theMailPrivatContactType.setId(CT_MAIL_PRIV);
+        ContactType theWebPrivatContactType = new ContactType();
+        theWebPrivatContactType.setId(CT_WEB_PRIV);
+
+        ContactType theGulpIDContactType = new ContactType();
+        theGulpIDContactType.setId(CT_GULPID);
+        ContactType theGulpNameContactType = new ContactType();
+        theGulpNameContactType.setId(CT_GULPNAME);
 
         ResultSet theMitarbeiterResult = theSelectAdresse.executeQuery("select * from mitarbeiter");
         long theCounter = 0;
@@ -217,7 +258,7 @@ public class Datenuebernahme {
 
             // Freiberufler
             final Freelancer theFreelancer = new Freelancer();
-            theFreelancer.setCreationDate(getTimestamp(theMitarbeiterResult, "erstdatum"));
+            theFreelancer.setCreationDate(getTimestamp(theMitarbeiterResult, "cvEing"));
             theFreelancer.setCreationUserID(thePersonalMap.get(getString(theMitarbeiterResult, "erstPersID")));
             theFreelancer.setLastModificationDate(getTimestamp(theMitarbeiterResult, "modifdatum"));
             theFreelancer.setLastModificationUserID(thePersonalMap.get(getString(theMitarbeiterResult, "modifPersID")));
@@ -229,10 +270,25 @@ public class Datenuebernahme {
 
             theFreelancer.setWorkplace(getConcatenatedString(theMitarbeiterResult, "wunschort", "wunschlandPLZ"));
             theFreelancer.setAvailability(getString(theMitarbeiterResult, "verfvon"));
-            theFreelancer.setSallary(getConcatenatedString(theMitarbeiterResult, "satz", "satzInfo"));
+            theFreelancer.setSallary(getLongString(theMitarbeiterResult, "satz"));
             theFreelancer.setCode(getString(theMitarbeiterResult, "cvNr"));
             theFreelancer.setSkills(getString(theMitarbeiterResult, "kurzskill"));
-            theFreelancer.setGulpID(getConcatenatedString(theMitarbeiterResult, "gulpId", "gulpName"));
+            theFreelancer.setGulpID(getLongString(theMitarbeiterResult, "gulpId"));
+            theFreelancer.setGeburtsdatum(getString(theMitarbeiterResult, "gebDatum"));
+            
+            int theStatus = 0;
+            if (getBoolean(theMitarbeiterResult, "freimit")) {
+                theStatus += 2;
+            }
+            if (getBoolean(theMitarbeiterResult, "festmit")) {
+                theStatus += 1;
+            }
+            if (getBoolean(theMitarbeiterResult, "anu")) {
+                theStatus += 4;
+            }
+            if (theStatus > 0) {
+                theFreelancer.setStatus(new Integer(theStatus));
+            }
 
             ResultSet theAdresseResult = theAdresse.executeQuery("select * from mitarbeiter_adresse where mitArbID = "
                     + theMitarbeiterID);
@@ -250,55 +306,63 @@ public class Datenuebernahme {
                 String theValue = getString(theAdresseResult, "tel1");
                 if (!(theValue == null)) {
                     FreelancerContact theContact = new FreelancerContact();
-                    theContact.setType(theTelContactType);
+                    theContact.setType(theMaster ? theTelGesContactType : theTelPrivatContactType);
                     theContact.setValue(theValue);
                     theFreelancer.getContacts().add(theContact);
                 }
                 theValue = getString(theAdresseResult, "tel2");
                 if (!(theValue == null)) {
                     FreelancerContact theContact = new FreelancerContact();
-                    theContact.setType(theTelContactType);
+                    theContact.setType(theMaster ? theTelGesContactType : theTelPrivatContactType);
                     theContact.setValue(theValue);
                     theFreelancer.getContacts().add(theContact);
                 }
                 theValue = getString(theAdresseResult, "mobiltel");
                 if (!(theValue == null)) {
                     FreelancerContact theContact = new FreelancerContact();
-                    theContact.setType(theMobileContactType);
+                    theContact.setType(theMaster ? theMobileGesContactType : theMobilePrivatContactType);
                     theContact.setValue(theValue);
                     theFreelancer.getContacts().add(theContact);
                 }
                 theValue = getString(theAdresseResult, "fax");
                 if (!(theValue == null)) {
                     FreelancerContact theContact = new FreelancerContact();
-                    theContact.setType(theFaxContactType);
+                    theContact.setType(theMaster ? theFaxGesContactType : theFaxPrivatContactType);
                     theContact.setValue(theValue);
                     theFreelancer.getContacts().add(theContact);
                 }
                 theValue = getString(theAdresseResult, "email1");
                 if (!(theValue == null)) {
                     FreelancerContact theContact = new FreelancerContact();
-                    theContact.setType(theMailContactType);
+                    theContact.setType(theMaster ? theMailGesContactType : theMailPrivatContactType);
                     theContact.setValue(theValue);
                     theFreelancer.getContacts().add(theContact);
                 }
                 theValue = getString(theAdresseResult, "email2");
                 if (!(theValue == null)) {
                     FreelancerContact theContact = new FreelancerContact();
-                    theContact.setType(theMailContactType);
+                    theContact.setType(theMaster ? theMailGesContactType : theMailPrivatContactType);
                     theContact.setValue(theValue);
                     theFreelancer.getContacts().add(theContact);
                 }
                 theValue = getString(theAdresseResult, "web");
                 if (!(theValue == null)) {
                     FreelancerContact theContact = new FreelancerContact();
-                    theContact.setType(theWebContactType);
+                    theContact.setType(theMaster ? theWebGesContactType : theMailPrivatContactType);
                     theContact.setValue(theValue);
                     theFreelancer.getContacts().add(theContact);
                 }
 
             }
             theAdresseResult.close();
+            
+            String theGulpId = theFreelancer.getGulpID();
+            if (!StringUtils.isEmpty(theGulpId)) {
+                FreelancerContact theContact = new FreelancerContact();
+                theContact.setType(theGulpIDContactType);
+                theContact.setValue(theGulpId);
+                theFreelancer.getContacts().add(theContact);
+            }
 
             ResultSet theHistoryResult = theAdresse.executeQuery("select * from mitarbeiter_kontakte where mitArbID = "
                     + theMitarbeiterID);
@@ -323,20 +387,29 @@ public class Datenuebernahme {
             ResultSet theReadAgain = theReadAgainStatement.executeQuery("select * from mitarbeiter where ID = "
                     + theMitarbeiterID);
             theReadAgain.next();
+            
+            String theGulpName = getString(theReadAgain, "gulpName");
+            if (!StringUtils.isEmpty(theGulpName)) {
+                FreelancerContact theContact = new FreelancerContact();
+                theContact.setType(theGulpNameContactType);
+                theContact.setValue(theGulpName);
+                theFreelancer.getContacts().add(theContact);
+            }
+
             resultSetToUDF(theReadAgain, theFreelancer);
             theReadAgain.close();
 
             // CV Generieren
             UserDefinedField theField = theFreelancer.getUdf().get("projekt");
-            if (!StringUtils.isEmpty(theFreelancer.getCode())) {
-                if (!StringUtils.isEmpty(theField.getLongStringValue())) {
-                    File theCV = new File(aCVPath, "Profil " + theFreelancer.getCode() + ".txt");
-                    FileWriter theWriter = new FileWriter(theCV);
-
-                    theWriter.write(theField.getLongStringValue());
-                    theWriter.close();
-                }
-            }
+            /*
+             * if (!StringUtils.isEmpty(theFreelancer.getCode())) { if
+             * (!StringUtils.isEmpty(theField.getLongStringValue())) { File
+             * theCV = new File(aCVPath, "Profil " + theFreelancer.getCode() +
+             * ".txt"); FileWriter theWriter = new FileWriter(theCV);
+             * 
+             * theWriter.write(theField.getLongStringValue());
+             * theWriter.close(); } }
+             */
             theFreelancer.getUdf().remove("projekt");
 
             DefaultTransactionDefinition theDefinition = new DefaultTransactionDefinition();
@@ -391,15 +464,15 @@ public class Datenuebernahme {
         Statement theReadAgainStatement = aConnection.createStatement();
 
         ContactType theTelContactType = new ContactType();
-        theTelContactType.setId(CT_PHONE);
+        theTelContactType.setId(CT_PHONE_GES);
         ContactType theFaxContactType = new ContactType();
-        theFaxContactType.setId(CT_FAX);
+        theFaxContactType.setId(CT_FAX_GES);
         ContactType theMobileContactType = new ContactType();
-        theMobileContactType.setId(CT_MOBIL);
+        theMobileContactType.setId(CT_MOBIL_GES);
         ContactType theMailContactType = new ContactType();
-        theMailContactType.setId(CT_MAIL);
+        theMailContactType.setId(CT_MAIL_GES);
         ContactType theWebContactType = new ContactType();
-        theWebContactType.setId(CT_WEB);
+        theWebContactType.setId(CT_WEB_GES);
 
         ResultSet theKundenResult = theKundenSelect.executeQuery("select * from kunde");
         long theCounter = 0;
@@ -636,7 +709,7 @@ public class Datenuebernahme {
                         theProject.setCustomer(theCustomer);
                     }
                 }
-                
+
                 if (theProject.getCustomer() != null) {
                     theSession.save(theProject);
                     theSession.flush();
