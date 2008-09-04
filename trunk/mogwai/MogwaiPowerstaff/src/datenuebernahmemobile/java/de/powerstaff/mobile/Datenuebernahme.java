@@ -1,6 +1,7 @@
 package de.powerstaff.mobile;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,9 +68,9 @@ public class Datenuebernahme {
     private static final Long CT_MAIL_PRIV = 9L;
 
     private static final Long CT_WEB_PRIV = 10L;
-    
+
     private static final Long CT_GULPID = 11L;
-    
+
     private static final Long CT_GULPNAME = 12L;
 
     private static final Logger LOGGER = new Logger(Datenuebernahme.class);
@@ -95,12 +97,12 @@ public class Datenuebernahme {
 
         PlatformTransactionManager theManager = (PlatformTransactionManager) theContext.getBean("txManager");
 
-        File theCVPath = new File("c:\\Temp\\CVPath");
+        File theCVPath = new File("C:\\Daten\\Arbeit\\Projekte\\MobileConsulting\\CVPath");
 
-        //importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
-        // importKunden(theFactory, theManager, theConnection);
-        //importProjekte(theFactory, theManager, theConnection);
+        importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
+        importKunden(theFactory, theManager, theConnection);
         importPartner(theFactory, theManager, theConnection);
+        importProjekte(theFactory, theManager, theConnection);
 
         theConnection.close();
 
@@ -116,6 +118,18 @@ public class Datenuebernahme {
 
     private static Timestamp getTimestamp(ResultSet aResultSet, String aFieldName) throws SQLException {
         return aResultSet.getTimestamp(aFieldName);
+    }
+
+    private static Date getDate(ResultSet aResultSet, String aFieldName) throws SQLException {
+        return aResultSet.getDate(aFieldName);
+    }
+
+    private static Long getLong(ResultSet aResultSet, String aFieldName) throws SQLException {
+        long theValue = aResultSet.getLong(aFieldName);
+        if (theValue == 0) {
+            return null;
+        }
+        return new Long(theValue);
     }
 
     private static String getLongString(ResultSet aResultSet, String aFieldName) throws SQLException {
@@ -273,13 +287,13 @@ public class Datenuebernahme {
             theFreelancer.setComments(getConcatenatedString(theMitarbeiterResult, "notiz", "notiz2"));
 
             theFreelancer.setWorkplace(getConcatenatedString(theMitarbeiterResult, "wunschort", "wunschlandPLZ"));
-            theFreelancer.setAvailability(getString(theMitarbeiterResult, "verfvon"));
-            theFreelancer.setSallary(getLongString(theMitarbeiterResult, "satz"));
+            theFreelancer.setAvailabilityAsDate(getDate(theMitarbeiterResult, "verfvon"));
+            theFreelancer.setSallaryLong(getLong(theMitarbeiterResult, "satz"));
             theFreelancer.setCode(getString(theMitarbeiterResult, "cvNr"));
             theFreelancer.setSkills(getString(theMitarbeiterResult, "kurzskill"));
             theFreelancer.setGulpID(getLongString(theMitarbeiterResult, "gulpId"));
             theFreelancer.setGeburtsdatum(getString(theMitarbeiterResult, "gebDatum"));
-            
+
             int theStatus = 0;
             if (getBoolean(theMitarbeiterResult, "freimit")) {
                 theStatus += 2;
@@ -359,7 +373,7 @@ public class Datenuebernahme {
 
             }
             theAdresseResult.close();
-            
+
             String theGulpId = theFreelancer.getGulpID();
             if (!StringUtils.isEmpty(theGulpId)) {
                 FreelancerContact theContact = new FreelancerContact();
@@ -391,7 +405,7 @@ public class Datenuebernahme {
             ResultSet theReadAgain = theReadAgainStatement.executeQuery("select * from mitarbeiter where ID = "
                     + theMitarbeiterID);
             theReadAgain.next();
-            
+
             String theGulpName = getString(theReadAgain, "gulpName");
             if (!StringUtils.isEmpty(theGulpName)) {
                 FreelancerContact theContact = new FreelancerContact();
@@ -405,15 +419,17 @@ public class Datenuebernahme {
 
             // CV Generieren
             UserDefinedField theField = theFreelancer.getUdf().get("projekt");
-            /*
-             * if (!StringUtils.isEmpty(theFreelancer.getCode())) { if
-             * (!StringUtils.isEmpty(theField.getLongStringValue())) { File
-             * theCV = new File(aCVPath, "Profil " + theFreelancer.getCode() +
-             * ".txt"); FileWriter theWriter = new FileWriter(theCV);
-             * 
-             * theWriter.write(theField.getLongStringValue());
-             * theWriter.close(); } }
-             */
+
+            if (!StringUtils.isEmpty(theFreelancer.getCode())) {
+                if (!StringUtils.isEmpty(theField.getLongStringValue())) {
+                    File theCV = new File(aCVPath, "Profil " + theFreelancer.getCode() + ".txt");
+                    FileWriter theWriter = new FileWriter(theCV);
+
+                    theWriter.write(theField.getLongStringValue());
+                    theWriter.close();
+                }
+            }
+
             theFreelancer.getUdf().remove("projekt");
 
             DefaultTransactionDefinition theDefinition = new DefaultTransactionDefinition();
@@ -642,7 +658,7 @@ public class Datenuebernahme {
         theAdresse.close();
 
     }
-    
+
     private static void importPartner(final SessionFactory aFactory, final PlatformTransactionManager aManager,
             Connection aConnection) throws SQLException, IOException {
 
@@ -714,7 +730,8 @@ public class Datenuebernahme {
 
                 String theValue = theRootCustomer.getUdf().get("tel1").getStringValue();
                 if (!(theValue == null)) {
-                    PartnerContact theContact = new PartnerContact();                    theContact.setType(theTelContactType);
+                    PartnerContact theContact = new PartnerContact();
+                    theContact.setType(theTelContactType);
                     theContact.setValue(theValue);
                     thePartner.getContacts().add(theContact);
                 }
@@ -844,7 +861,8 @@ public class Datenuebernahme {
         theKundenSelect.close();
         theAdresse.close();
 
-    }    
+    }
+
     private static void importProjekte(final SessionFactory aFactory, final PlatformTransactionManager aManager,
             Connection aConnection) throws SQLException, IOException {
 
@@ -861,7 +879,8 @@ public class Datenuebernahme {
 
         Statement theProjectStatement = aConnection.createStatement();
         Statement theReadAgainStatement = aConnection.createStatement();
-        ResultSet theProjectResult = theProjectStatement.executeQuery("select * from projekt where prNr like 'MS%' or prNr like 'TD%'");
+        ResultSet theProjectResult = theProjectStatement
+                .executeQuery("select * from projekt where prNr like 'MS%' or prNr like 'TD%'");
         long theCounter = 0;
         while (theProjectResult.next()) {
             theCounter++;
@@ -892,7 +911,7 @@ public class Datenuebernahme {
                 // Kein PL und kein Einkauf -> Projekt wird ignoriert
                 continue;
             }
-            
+
             ResultSet theReadAgain = theReadAgainStatement.executeQuery("select * from projekt where ID = "
                     + theProjectId);
             theReadAgain.next();
