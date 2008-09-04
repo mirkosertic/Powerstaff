@@ -1,0 +1,14 @@
+delete from freelancer_udf;
+delete from freelancer_contact;
+delete from freelancer_history;
+delete from freelancer;
+delete from partner_udf;
+delete from partner_contact;
+delete from partner_history;
+delete from partner;
+delete from project_udf;
+delete from project;
+delete from customer_udf;
+delete from customer_contact;
+delete from customer_history;
+delete from customer;

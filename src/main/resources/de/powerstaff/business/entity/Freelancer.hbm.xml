@@ -25,6 +25,7 @@
 		<property name="contactforbidden"/>
 		<property name="workplace"/>
 		<property name="availability"/>
+		<property name="availabilityAsDate"/>
 		<property name="sallary"/>
 		<property name="code"/>
 		<property name="contactPerson"/>
@@ -35,6 +36,10 @@
 		<property name="gulpID"/>
 		<property name="showAgain"/>
 		<property name="geburtsdatum"/>
+		<property name="sallaryPartnerLong"/>
+		<property name="sallaryPartnerPerDayLong"/>
+		<property name="sallaryPerDayLong"/>
+		<property name="sallaryLong"/>
 
 		<set name="contacts" cascade="all-delete-orphan" order-by="value">
 			<key column="freelancer_id"/>

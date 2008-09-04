@@ -17,6 +17,7 @@
  */
 package de.powerstaff.business.entity;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -32,8 +33,12 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> imp
     private String workplace;
 
     private String availability;
+    
+    private Date availabilityAsDate;
 
     private String sallary;
+    
+    private Long sallaryLong;
 
     private String code;
 
@@ -54,6 +59,8 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> imp
     private Vector<FreelancerProfile> profile = new Vector<FreelancerProfile>();
 
     private String sallaryPerDay;
+    
+    private Long sallaryPerDayLong;
 
     private String sallaryComment;
 
@@ -62,8 +69,12 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> imp
     private Partner partner;
 
     private String sallaryPartner;
+    
+    private Long sallaryPartnerLong;
 
     private String sallaryPartnerPerDay;
+    
+    private Long sallaryPartnerPerDayLong;
 
     private Set<ProjectPosition> projects = new HashSet<ProjectPosition>();
     
@@ -258,5 +269,75 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> imp
      */
     public void setGeburtsdatum(String geburtsdatum) {
         this.geburtsdatum = geburtsdatum;
+    }
+
+    /**
+     * @return the availabilityAsDate
+     */
+    public Date getAvailabilityAsDate() {
+        return availabilityAsDate;
+    }
+
+    /**
+     * @param availabilityAsDate the availabilityAsDate to set
+     */
+    public void setAvailabilityAsDate(Date availabilityAsDate) {
+        this.availabilityAsDate = availabilityAsDate;
+    }
+
+    /**
+     * @return the sallaryPerDayLong
+     */
+    public Long getSallaryPerDayLong() {
+        return sallaryPerDayLong;
+    }
+
+    /**
+     * @param sallaryPerDayLong the sallaryPerDayLong to set
+     */
+    public void setSallaryPerDayLong(Long sallaryPerDayLong) {
+        this.sallaryPerDayLong = sallaryPerDayLong;
+    }
+
+    /**
+     * @return the sallaryPartnerLong
+     */
+    public Long getSallaryPartnerLong() {
+        return sallaryPartnerLong;
+    }
+
+    /**
+     * @param sallaryPartnerLong the sallaryPartnerLong to set
+     */
+    public void setSallaryPartnerLong(Long sallaryPartnerLong) {
+        this.sallaryPartnerLong = sallaryPartnerLong;
+    }
+
+    /**
+     * @return the sallaryPartnerPerDayLong
+     */
+    public Long getSallaryPartnerPerDayLong() {
+        return sallaryPartnerPerDayLong;
+    }
+
+    /**
+     * @param sallaryPartnerPerDayLong the sallaryPartnerPerDayLong to set
+     */
+    public void setSallaryPartnerPerDayLong(Long sallaryPartnerPerDayLong) {
+        this.sallaryPartnerPerDayLong = sallaryPartnerPerDayLong;
+    }
+
+    /**
+     * @return the sallaryLong
+     */
+    public Long getSallaryLong() {
+        return sallaryLong;
+    }
+
+    /**
+     * @param sallaryLong the sallaryLong to set
+     */
+    public void setSallaryLong(Long sallaryLong) {
+        this.sallaryLong = sallaryLong;
     }
 }
