@@ -1,6 +1,5 @@
 package de.powerstaff.web.backingbean.freelancer;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
@@ -18,7 +17,6 @@ import de.powerstaff.business.entity.FreelancerProfile;
 import de.powerstaff.business.entity.Partner;
 import de.powerstaff.business.service.AdditionalDataService;
 import de.powerstaff.business.service.FreelancerService;
-import de.powerstaff.business.service.PartnerService;
 import de.powerstaff.business.service.ProfileSearchInfoDetail;
 import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.business.service.TooManySearchResults;
@@ -33,24 +31,7 @@ public class FreelancerBackingBean extends
 
     private ProfileSearchService profileSearchService;
 
-    private PartnerService partnerService;
-
     private AdditionalDataService additinalDataService;
-
-    /**
-     * @return the partnerService
-     */
-    public PartnerService getPartnerService() {
-        return partnerService;
-    }
-
-    /**
-     * @param partnerService
-     *                the partnerService to set
-     */
-    public void setPartnerService(PartnerService partnerService) {
-        this.partnerService = partnerService;
-    }
 
     @Override
     protected FreelancerBackingBeanDataModel createDataModel() {
@@ -153,10 +134,6 @@ public class FreelancerBackingBean extends
         super.init();
 
         getData().setContactTypes((List<ContactType>) additinalDataService.getContactTypes());
-
-        //List thePartner = (List) partnerService.findAll();
-        List thePartner = new ArrayList();
-        getData().setPartnerList(thePartner);
 
         commandNew();
     }

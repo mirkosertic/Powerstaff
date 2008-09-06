@@ -99,9 +99,9 @@ public class Datenuebernahme {
 
         File theCVPath = new File("C:\\Daten\\Arbeit\\Projekte\\MobileConsulting\\CVPath");
 
-        importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
-        importKunden(theFactory, theManager, theConnection);
-        importPartner(theFactory, theManager, theConnection);
+        // importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
+        // importKunden(theFactory, theManager, theConnection);
+        // importPartner(theFactory, theManager, theConnection);
         importProjekte(theFactory, theManager, theConnection);
 
         theConnection.close();
@@ -494,7 +494,7 @@ public class Datenuebernahme {
         ContactType theWebContactType = new ContactType();
         theWebContactType.setId(CT_WEB_GES);
 
-        ResultSet theKundenResult = theKundenSelect.executeQuery("select * from kunde where agentur = 0");
+        ResultSet theKundenResult = theKundenSelect.executeQuery("select * from kunde");
         long theCounter = 0;
         while (theKundenResult.next()) {
             theCounter++;
@@ -880,7 +880,7 @@ public class Datenuebernahme {
         Statement theProjectStatement = aConnection.createStatement();
         Statement theReadAgainStatement = aConnection.createStatement();
         ResultSet theProjectResult = theProjectStatement
-                .executeQuery("select * from projekt where prNr like 'MS%' or prNr like 'TD%'");
+                .executeQuery("select * from projekt where (prNr like 'MS%') or ((prNr like 'TD%'))");
         long theCounter = 0;
         while (theProjectResult.next()) {
             theCounter++;
@@ -890,13 +890,43 @@ public class Datenuebernahme {
             LOGGER.logInfo("Verarbeite " + theCounter + "-> " + theProjectId);
 
             Project theProject = new Project();
-            theProject.setDate(getString(theProjectResult, "eingDatum"));
+            theProject.setEntryDate(getDate(theProjectResult, "eingDatum"));
             theProject.setProjectNumber(getString(theProjectResult, "prNr"));
             theProject.setWorkplace(getConcatenatedString(theProjectResult, "land", "plz", "ort"));
-            theProject.setStart(getString(theProjectResult, "startDatum"));
+            theProject.setStartDate(getDate(theProjectResult, "startDatum"));
             theProject.setDuration(getConcatenatedString(theProjectResult, "dauer", "dauerEinheit"));
             theProject.setDescriptionShort(getString(theProjectResult, "prTitel"));
             theProject.setDescriptionLong(getString(theProjectResult, "aufgabe"));
+            theProject.setStundensatzVK(getLong(theProjectResult, "satz"));
+
+            String theSkills = getString(theProjectResult, "sonst_must");
+            String theSkills2 = getString(theProjectResult, "sonst_nice");
+            if (!StringUtils.isEmpty(theSkills2)) {
+                if (StringUtils.isEmpty(theSkills)) {
+                    theSkills = theSkills2;
+                } else {
+                    theSkills += "\n" + theSkills2;
+                }
+            }
+            theProject.setSkills(theSkills);
+
+            String theStatus = getString(theProjectResult, "status");
+            theProject.setStatus(2);
+            if ("1".equals(theStatus)) {
+                theProject.setStatus(1);
+            }
+            if ("2".equals(theStatus)) {
+                theProject.setStatus(4);
+            }
+            if ("3".equals(theStatus)) {
+                theProject.setStatus(3);
+            }
+            if ("4".equals(theStatus)) {
+                theProject.setStatus(2);
+            }
+            if ("988965646".equals(theStatus)) {
+                theProject.setStatus(5);
+            }
 
             theProject.setCreationDate(getTimestamp(theProjectResult, "erstdatum"));
             theProject.setCreationUserID(thePersonalMap.get(getString(theProjectResult, "erstPersID")));

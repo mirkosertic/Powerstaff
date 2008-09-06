@@ -69,10 +69,6 @@
 			<value>#{freelancerService}</value>
 		</managed-property>
 		<managed-property>
-			<property-name>partnerService</property-name>
-			<value>#{partnerService}</value>
-		</managed-property>
-		<managed-property>
 			<property-name>additinalDataService</property-name>
 			<value>#{additinalDataService}</value>
 		</managed-property>

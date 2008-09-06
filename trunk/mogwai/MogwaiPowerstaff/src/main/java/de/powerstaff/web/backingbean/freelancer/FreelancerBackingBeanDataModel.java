@@ -32,8 +32,6 @@ public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataMod
 
     private List<ContactType> contactTypes;
 
-    private List partnerList;
-
     private List status = new Vector();
 
     public FreelancerBackingBeanDataModel() {
@@ -143,21 +141,6 @@ public class FreelancerBackingBeanDataModel extends NavigatingBackingBeanDataMod
      */
     public void setNewHistoryEntry(String newHistoryEntry) {
         this.newHistoryEntry = newHistoryEntry;
-    }
-
-    /**
-     * @return the partnerList
-     */
-    public List getPartnerList() {
-        return partnerList;
-    }
-
-    /**
-     * @param partnerList
-     *                the partnerList to set
-     */
-    public void setPartnerList(List partnerList) {
-        this.partnerList = partnerList;
     }
 
     /**
