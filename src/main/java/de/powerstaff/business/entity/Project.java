@@ -17,6 +17,7 @@
  */
 package de.powerstaff.business.entity;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -31,20 +32,30 @@ import de.mogwai.common.business.entity.AuditableEntity;
 public class Project extends AuditableEntity implements UDFSupport {
 
     private String date;
+    
+    private Date entryDate;
 
     private String projectNumber;
 
     private String workplace;
 
     private String start;
+    
+    private Date startDate;
 
     private String duration;
 
     private String descriptionShort;
 
     private String descriptionLong;
-
+    
+    private String skills;
+    
     private boolean visibleOnWebSite;
+    
+    private int status = 1;
+    
+    private Long stundensatzVK;
 
     private Customer customer;
 
@@ -154,5 +165,75 @@ public class Project extends AuditableEntity implements UDFSupport {
 
     public void setUdf(Map<String, UserDefinedField> udf) {
         this.udf = udf;
+    }
+
+    /**
+     * @return the entryDate
+     */
+    public Date getEntryDate() {
+        return entryDate;
+    }
+
+    /**
+     * @param entryDate the entryDate to set
+     */
+    public void setEntryDate(Date entryDate) {
+        this.entryDate = entryDate;
+    }
+
+    /**
+     * @return the startDate
+     */
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    /**
+     * @param startDate the startDate to set
+     */
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    /**
+     * @return the status
+     */
+    public int getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    /**
+     * @return the stundensatzVK
+     */
+    public Long getStundensatzVK() {
+        return stundensatzVK;
+    }
+
+    /**
+     * @param stundensatzVK the stundensatzVK to set
+     */
+    public void setStundensatzVK(Long stundensatzVK) {
+        this.stundensatzVK = stundensatzVK;
+    }
+
+    /**
+     * @return the skills
+     */
+    public String getSkills() {
+        return skills;
+    }
+
+    /**
+     * @param skills the skills to set
+     */
+    public void setSkills(String skills) {
+        this.skills = skills;
     }
 }

@@ -21,7 +21,13 @@
 		<property name="duration"/>
 		<property name="descriptionShort"/>
 		<property name="descriptionLong" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+		<property name="skills" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
 		<property name="visibleOnWebSite"/>
+		<property name="status">
+			<column name="status" default="1"></column>
+		</property>
+		<property name="entryDate"/>
+		<property name="startDate"/>
 		
 		<set name="positions" cascade="all-delete-orphan" inverse="true">
 			<key column="project_id"/>

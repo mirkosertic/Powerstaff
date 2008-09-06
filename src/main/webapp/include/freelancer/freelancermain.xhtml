@@ -315,13 +315,9 @@
 										<b:label id="partner_label" label="Ges.P." />
 									</b:cell>
 									<b:cell x="4" y="10">
-										<b:combobox
-											value="#{freelancerBackingBean.data.entity.partner}"
-											values="#{freelancerBackingBean.data.partnerList}"
-											nullable="true"
-											id="partner">
+										<h:outputText value="#{freelancerBackingBean.data.entity.partner}">
 											<f:converter converterId="personConverter"/>
-										</b:combobox>
+										</h:outputText>
 									</b:cell>
 									<b:cell x="6" y="10">
 										<b:commandLink title="Springe zur Partner - Ansicht" action="#{freelancerBackingBean.commandShowPartner}">
