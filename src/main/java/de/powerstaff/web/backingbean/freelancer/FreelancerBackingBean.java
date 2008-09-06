@@ -1,5 +1,6 @@
 package de.powerstaff.web.backingbean.freelancer;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
@@ -153,7 +154,8 @@ public class FreelancerBackingBean extends
 
         getData().setContactTypes((List<ContactType>) additinalDataService.getContactTypes());
 
-        List thePartner = (List) partnerService.findAll();
+        //List thePartner = (List) partnerService.findAll();
+        List thePartner = new ArrayList();
         getData().setPartnerList(thePartner);
 
         commandNew();
