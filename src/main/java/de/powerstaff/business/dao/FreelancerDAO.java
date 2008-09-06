@@ -19,8 +19,8 @@ package de.powerstaff.business.dao;
 
 import java.util.List;
 
+import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.entity.Freelancer;
-import de.powerstaff.business.service.ProfileSearchInfoDetail;
 
 public interface FreelancerDAO extends NavigatingDAO<Freelancer> {
 

@@ -4,13 +4,15 @@ import java.util.ArrayList;
 
 import javax.faces.component.StateHolder;
 import javax.faces.context.FacesContext;
+import javax.naming.directory.SearchResult;
 
 import de.mogwai.common.command.EditEntityCommand;
 import de.mogwai.common.logging.Logger;
 import de.mogwai.common.web.backingbean.WrappingBackingBean;
 import de.mogwai.common.web.utils.JSFMessageUtils;
-import de.powerstaff.business.service.ProfileSearchInfoDetail;
-import de.powerstaff.business.service.ProfileSearchResult;
+import de.powerstaff.business.dto.ProfileSearchEntry;
+import de.powerstaff.business.dto.ProfileSearchInfoDetail;
+import de.powerstaff.business.dto.ProfileSearchResult;
 import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.web.backingbean.MessageConstants;
 import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
@@ -54,14 +56,15 @@ public class ProfileBackingBean extends WrappingBackingBean<ProfileBackingBeanDa
 
     public void commandSearch() {
         try {
-            getData().getSearchResult()
-                    .setWrappedData(profileSearchService.searchDocument(getData().getSearchString()));
+            ProfileSearchResult theResult = profileSearchService.searchDocument(getData().getSearchRequest()); 
+            getData().getSearchResult().setWrappedData(theResult.getEnties());
 
-            if (getData().getSearchResult().size() == 0) {
+            if (theResult.getEnties().size() == 0) {
                 JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEPROFILEGEFUNDEN);
             } else {
-                JSFMessageUtils.addGlobalInfoMessage(MSG_PROFILEGEFUNDEN, "" + getData().getSearchResult().size());
+                JSFMessageUtils.addGlobalInfoMessage(MSG_PROFILEGEFUNDEN, "" + theResult.getEnties().size(), "" + theResult.getTotalFound());
             }
+            
         } catch (Exception e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE, e.getMessage());
             LOGGER.logError("Fehler bei Profilsuche", e);
@@ -70,7 +73,7 @@ public class ProfileBackingBean extends WrappingBackingBean<ProfileBackingBeanDa
 
     public String commandSelectSearchResult() {
         forceUpdateOfBean(FreelancerBackingBean.class, new EditEntityCommand<ProfileSearchInfoDetail>(
-                ((ProfileSearchResult) getData().getSearchResult().getRowData()).getFreelancer()));
+                ((ProfileSearchEntry) getData().getSearchResult().getRowData()).getFreelancer()));
         return "FREELANCER_STAMMDATEN";
     }
 

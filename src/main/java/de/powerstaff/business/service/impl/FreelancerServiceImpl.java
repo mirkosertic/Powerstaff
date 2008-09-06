@@ -23,10 +23,10 @@ import java.util.List;
 import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.FreelancerDAO;
 import de.powerstaff.business.dao.GenericSearchResult;
+import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
-import de.powerstaff.business.service.ProfileSearchInfoDetail;
 import de.powerstaff.business.service.RecordInfo;
 import de.powerstaff.business.service.TooManySearchResults;
 

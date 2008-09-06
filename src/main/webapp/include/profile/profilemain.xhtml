@@ -35,10 +35,10 @@
 						<b:gridBagLayout cols="1,150,2,*,2,20,2"
 							rows="2,p,2">
 							<b:cell x="2" y="2">
-								<b:label id="labelsuche" label="Suche"/>
+								<b:label id="labelsuche" label="Profilinhalt"/>
 							</b:cell>
 							<b:cell x="4" y="2">
-								<b:inputfield labelComponentId="labelsuche" id="input" value="#{profileBackingBean.data.searchString}" required="true"/>
+								<b:inputfield labelComponentId="labelsuche" id="input" value="#{profileBackingBean.data.searchRequest.profileContent}" required="true"/>
 							</b:cell>
 							<b:cell x="6" y="2">
 								<b:commandLink title="Suchen" action="#{profileBackingBean.commandSearch}">
@@ -57,7 +57,7 @@
 
 				<b:cell x="1" y="4" width="3">
 					<a4j:outputPanel ajaxRendered="true">
-					<b:table rendered="#{profileBackingBean.data.searchResultSize > 0}" var="row" value="#{profileBackingBean.data.searchResult}" cols="20,150,150,130,100,260">
+					<b:table rendered="#{profileBackingBean.data.searchResultSize > 0}" var="row" value="#{profileBackingBean.data.searchResult}" cols="20,100,100,60,60,80,60,330">
 						<h:column>
 							<f:facet name="header">
 							</f:facet>
@@ -80,7 +80,19 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">
-								<h:outputText value="Verfügbarkeit"/>
+								<h:outputText value="Plz"/>
+							</f:facet>
+							<h:outputText value="#{row.freelancer.plz}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Std.Satz"/>
+							</f:facet>
+							<h:outputText value="#{row.freelancer.stundensatz}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Verf."/>
 							</f:facet>
 							<h:outputText value="#{row.freelancer.availability}"/>
 						</h:column>

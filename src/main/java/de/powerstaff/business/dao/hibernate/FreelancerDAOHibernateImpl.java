@@ -18,18 +18,21 @@
 package de.powerstaff.business.dao.hibernate;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
 import de.powerstaff.business.dao.FreelancerDAO;
 import de.powerstaff.business.dao.GenericSearchResult;
+import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.entity.Freelancer;
-import de.powerstaff.business.service.ProfileSearchInfoDetail;
 
 public class FreelancerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Freelancer> implements FreelancerDAO {
 
@@ -47,8 +50,10 @@ public class FreelancerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Freel
         return (ProfileSearchInfoDetail) getHibernateTemplate().execute(new HibernateCallback() {
 
             public Object doInHibernate(Session aSession) throws SQLException {
+                
+                SimpleDateFormat theFormat = new SimpleDateFormat("dd.MM.yyyy");
                 Query theQuery = aSession
-                        .createQuery("select item.name1, item.name2, item.availability, item.id from Freelancer item where item.code = :code");
+                        .createQuery("select item.name1, item.name2, item.availabilityAsDate, item.id , item.sallaryLong, item.country, item.plz from Freelancer item where item.code = :code");
                 theQuery.setString("code", aCode);
                 Iterator theIterator = theQuery.list().iterator();
                 if (theIterator.hasNext()) {
@@ -57,8 +62,23 @@ public class FreelancerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Freel
                     ProfileSearchInfoDetail theDetail = new ProfileSearchInfoDetail();
                     theDetail.setName1((String) theRow[0]);
                     theDetail.setName2((String) theRow[1]);
-                    theDetail.setAvailability((String) theRow[2]);
+                    
+                    Date theAvailable = (Date) theRow[2];
+                    if (theAvailable != null) {
+                        theDetail.setAvailability(theFormat.format(theAvailable));
+                    }
                     theDetail.setId((Long) theRow[3]);
+                    theDetail.setStundensatz((Long) theRow[4]);
+
+                    String theCountry = (String) theRow[5];
+                    String thePlz = (String) theRow[6];
+                    if (!StringUtils.isEmpty(thePlz)) {
+                        if (StringUtils.isEmpty(theCountry)) {
+                            theDetail.setPlz(thePlz);
+                        } else {
+                            theDetail.setPlz(theCountry + "-" + thePlz);
+                        }
+                    }
 
                     return theDetail;
                 }

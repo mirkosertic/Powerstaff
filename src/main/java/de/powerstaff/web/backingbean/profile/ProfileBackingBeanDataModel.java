@@ -6,30 +6,31 @@ import javax.faces.component.UIComponent;
 
 import de.mogwai.common.web.backingbean.BackingBeanDataModel;
 import de.mogwai.common.web.utils.CollectionDataModel;
-import de.powerstaff.business.service.ProfileSearchResult;
+import de.powerstaff.business.dto.ProfileSearchEntry;
+import de.powerstaff.business.dto.ProfileSearchRequest;
+import de.powerstaff.business.dto.ProfileSearchResult;
 
 public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 
-    private String searchString;
+    private ProfileSearchRequest searchRequest = new ProfileSearchRequest();
 
     private transient UIComponent viewRoot;
 
-    private CollectionDataModel<ProfileSearchResult> searchResult = new CollectionDataModel<ProfileSearchResult>(
-            new Vector<ProfileSearchResult>());
+    private CollectionDataModel<ProfileSearchEntry> searchResult = new CollectionDataModel<ProfileSearchEntry>(
+            new Vector<ProfileSearchEntry>());
 
     /**
-     * @return the searchString
+     * @return the searchRequest
      */
-    public String getSearchString() {
-        return searchString;
+    public ProfileSearchRequest getSearchRequest() {
+        return searchRequest;
     }
 
     /**
-     * @param searchString
-     *                the searchString to set
+     * @param searchRequest the searchRequest to set
      */
-    public void setSearchString(String searchString) {
-        this.searchString = searchString;
+    public void setSearchRequest(ProfileSearchRequest searchRequest) {
+        this.searchRequest = searchRequest;
     }
 
     /**
@@ -50,7 +51,7 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
     /**
      * @return the searchResult
      */
-    public CollectionDataModel<ProfileSearchResult> getSearchResult() {
+    public CollectionDataModel<ProfileSearchEntry> getSearchResult() {
         return searchResult;
     }
 
