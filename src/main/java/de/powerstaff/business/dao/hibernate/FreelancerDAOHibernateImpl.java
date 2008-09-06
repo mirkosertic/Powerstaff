@@ -32,6 +32,7 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import de.powerstaff.business.dao.FreelancerDAO;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dto.ProfileSearchInfoDetail;
+import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.entity.Freelancer;
 
 public class FreelancerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Freelancer> implements FreelancerDAO {
@@ -46,14 +47,31 @@ public class FreelancerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Freel
         return Freelancer.class;
     }
 
-    public ProfileSearchInfoDetail findByCode(final String aCode) {
+    public ProfileSearchInfoDetail findByCode(final String aCode, final ProfileSearchRequest request) {
         return (ProfileSearchInfoDetail) getHibernateTemplate().execute(new HibernateCallback() {
 
             public Object doInHibernate(Session aSession) throws SQLException {
-                
+
                 SimpleDateFormat theFormat = new SimpleDateFormat("dd.MM.yyyy");
-                Query theQuery = aSession
-                        .createQuery("select item.name1, item.name2, item.availabilityAsDate, item.id , item.sallaryLong, item.country, item.plz from Freelancer item where item.code = :code");
+                String theQueryString = "select item.name1, item.name2, item.availabilityAsDate, item.id , item.sallaryLong, item.country, item.plz from Freelancer item where item.code = :code ";
+                if (request != null) {
+                    Long theSallaryStart = request.getStundensatzVon();
+                    if (theSallaryStart != null) {
+                        theQueryString += "and item.sallaryLong >= " + theSallaryStart;
+                    }
+
+                    Long theSallaryEnd = request.getStundensatzBis();
+                    if (theSallaryEnd != null) {
+                        theQueryString += "and item.sallaryLong <= " + theSallaryEnd;
+                    }
+
+                    String thePlz = request.getPlz();
+                    if (!StringUtils.isEmpty(thePlz)) {
+                        theQueryString += "and item.plz like '" + thePlz + "'";
+                    }
+
+                }
+                Query theQuery = aSession.createQuery(theQueryString);
                 theQuery.setString("code", aCode);
                 Iterator theIterator = theQuery.list().iterator();
                 if (theIterator.hasNext()) {
@@ -62,23 +80,13 @@ public class FreelancerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Freel
                     ProfileSearchInfoDetail theDetail = new ProfileSearchInfoDetail();
                     theDetail.setName1((String) theRow[0]);
                     theDetail.setName2((String) theRow[1]);
-                    
-                    Date theAvailable = (Date) theRow[2];
-                    if (theAvailable != null) {
-                        theDetail.setAvailability(theFormat.format(theAvailable));
-                    }
+
+                    theDetail.setAvailability((Date) theRow[2]);
                     theDetail.setId((Long) theRow[3]);
                     theDetail.setStundensatz((Long) theRow[4]);
 
-                    String theCountry = (String) theRow[5];
                     String thePlz = (String) theRow[6];
-                    if (!StringUtils.isEmpty(thePlz)) {
-                        if (StringUtils.isEmpty(theCountry)) {
-                            theDetail.setPlz(thePlz);
-                        } else {
-                            theDetail.setPlz(theCountry + "-" + thePlz);
-                        }
-                    }
+                    theDetail.setPlz(thePlz);
 
                     return theDetail;
                 }
@@ -91,10 +99,10 @@ public class FreelancerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Freel
 
     public List<GenericSearchResult> performQBESearch(Freelancer aObject, int aMaxSearchResult) {
 
-        String[] theDisplayProperties = new String[] { "name1", "name2", "availability", "sallary", "skills" };
+        String[] theDisplayProperties = new String[] { "name1", "name2", "availabilityAsDate", "sallaryLong", "skills" };
 
         String[] theSearchProperties = new String[] { "name1", "name2", "company", "street", "country", "plz", "city",
-                "comments", "workplace", "availability", "sallary", "code", "contactPerson", "contactType",
+                "comments", "workplace", "sallaryLong", "code", "contactPerson", "contactType",
                 "contactReason", "lastContact", "skills", "gulpID" };
 
         String[] theOrderByProperties = new String[] { "name1", "name2" };
@@ -123,5 +131,4 @@ public class FreelancerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Freel
 
         });
     }
-
 }

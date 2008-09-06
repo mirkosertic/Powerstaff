@@ -20,11 +20,12 @@ package de.powerstaff.business.dao;
 import java.util.List;
 
 import de.powerstaff.business.dto.ProfileSearchInfoDetail;
+import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.entity.Freelancer;
 
 public interface FreelancerDAO extends NavigatingDAO<Freelancer> {
 
-    ProfileSearchInfoDetail findByCode(String aCode);
+    ProfileSearchInfoDetail findByCode(String aCode, ProfileSearchRequest request);
 
     List<GenericSearchResult> performQBESearch(Freelancer object , int aMaxSearchResult);
 

@@ -20,6 +20,7 @@ package de.powerstaff.business.service;
 import java.util.List;
 
 import de.powerstaff.business.dto.ProfileSearchInfoDetail;
+import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.entity.Freelancer;
 
 public interface FreelancerService extends NavigatingService<Freelancer> {
@@ -27,4 +28,6 @@ public interface FreelancerService extends NavigatingService<Freelancer> {
     ProfileSearchInfoDetail findFreelancerByCode(String code);
 
     List<String> getCodeSuggestions(String aSuggest);
+
+    ProfileSearchInfoDetail findFreelancerByCodeExtended(String code, ProfileSearchRequest request);
 }

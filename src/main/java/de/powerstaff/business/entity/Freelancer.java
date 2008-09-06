@@ -32,12 +32,8 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> imp
     
     private String workplace;
 
-    private String availability;
-    
     private Date availabilityAsDate;
 
-    private String sallary;
-    
     private Long sallaryLong;
 
     private String code;
@@ -58,8 +54,6 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> imp
 
     private Vector<FreelancerProfile> profile = new Vector<FreelancerProfile>();
 
-    private String sallaryPerDay;
-    
     private Long sallaryPerDayLong;
 
     private String sallaryComment;
@@ -68,12 +62,8 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> imp
 
     private Partner partner;
 
-    private String sallaryPartner;
-    
     private Long sallaryPartnerLong;
 
-    private String sallaryPartnerPerDay;
-    
     private Long sallaryPartnerPerDayLong;
 
     private Set<ProjectPosition> projects = new HashSet<ProjectPosition>();
@@ -97,15 +87,6 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> imp
 
     public void setProfile(Vector<FreelancerProfile> profile) {
         this.profile = profile;
-    }
-
-    @Column(length = 255)
-    public String getAvailability() {
-        return availability;
-    }
-
-    public void setAvailability(String availability) {
-        this.availability = availability;
     }
 
     @Column(length = 255)
@@ -162,15 +143,6 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> imp
         this.lastContact = lastContact;
     }
 
-    @Column(length = 255)
-    public String getSallary() {
-        return sallary;
-    }
-
-    public void setSallary(String sallary) {
-        this.sallary = sallary;
-    }
-
     public boolean isShowAgain() {
         return showAgain;
     }
@@ -211,33 +183,6 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> imp
 
     public void setSallaryComment(String sallaryComment) {
         this.sallaryComment = sallaryComment;
-    }
-
-    @Column(length = 255)
-    public String getSallaryPartner() {
-        return sallaryPartner;
-    }
-
-    public void setSallaryPartner(String sallaryPartner) {
-        this.sallaryPartner = sallaryPartner;
-    }
-
-    @Column(length = 255)
-    public String getSallaryPartnerPerDay() {
-        return sallaryPartnerPerDay;
-    }
-
-    public void setSallaryPartnerPerDay(String sallaryPartnerPerDay) {
-        this.sallaryPartnerPerDay = sallaryPartnerPerDay;
-    }
-
-    @Column(length = 255)
-    public String getSallaryPerDay() {
-        return sallaryPerDay;
-    }
-
-    public void setSallaryPerDay(String sallaryPerDay) {
-        this.sallaryPerDay = sallaryPerDay;
     }
 
     public Integer getStatus() {

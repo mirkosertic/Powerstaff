@@ -48,6 +48,28 @@
 								</b:commandLink>
 							</b:cell>
 						</b:gridBagLayout>
+						<b:gridBagLayout cols="1,148,2,50,30,50,2" rows="10,p,2,p">
+							<b:cell x="2" y="2">
+								<b:label id="labelStundensatz" label="Stundensatz"/>
+							</b:cell>
+							<b:cell x="4" y="2">
+								<b:numberinputfield labelComponentId="labelStundensatz" value="#{profileBackingBean.data.searchRequest.stundensatzVon}"/>
+							</b:cell>
+							<b:cell x="5" y="2" align="center">
+								<b:label label="bis" addColon="false"/>
+							</b:cell>
+							<b:cell x="6" y="2">
+								<b:numberinputfield labelComponentId="labelStundensatz" value="#{profileBackingBean.data.searchRequest.stundensatzBis}"/>
+							</b:cell>
+
+							<b:cell x="2" y="4">
+								<b:label id="labelPlz" label="Plz"/>
+							</b:cell>
+							<b:cell x="4" y="4">
+								<b:inputfield labelComponentId="labelStundensatz" value="#{profileBackingBean.data.searchRequest.plz}"/>
+							</b:cell>
+							
+						</b:gridBagLayout>
 					</b:titledBox>
 				</b:cell>
 				

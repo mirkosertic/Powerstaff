@@ -24,6 +24,7 @@ import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.FreelancerDAO;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dto.ProfileSearchInfoDetail;
+import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
@@ -66,7 +67,7 @@ public class FreelancerServiceImpl extends LogableService implements FreelancerS
     }
 
     public ProfileSearchInfoDetail findFreelancerByCode(String code) {
-        return freelancerDAO.findByCode(code);
+        return freelancerDAO.findByCode(code, null);
     }
 
     public void delete(Freelancer aEntity) {
@@ -116,5 +117,9 @@ public class FreelancerServiceImpl extends LogableService implements FreelancerS
 
     public Freelancer findByRecordNumber(Long aNumber) {
         return freelancerDAO.findByRecordNumber(aNumber);
+    }
+
+    public ProfileSearchInfoDetail findFreelancerByCodeExtended(String code, ProfileSearchRequest request) {
+        return freelancerDAO.findByCode(code, request);
     }
 }

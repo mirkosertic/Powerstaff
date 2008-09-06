@@ -31,16 +31,12 @@ import de.mogwai.common.business.entity.AuditableEntity;
 
 public class Project extends AuditableEntity implements UDFSupport {
 
-    private String date;
-    
     private Date entryDate;
 
     private String projectNumber;
 
     private String workplace;
 
-    private String start;
-    
     private Date startDate;
 
     private String duration;
@@ -64,15 +60,6 @@ public class Project extends AuditableEntity implements UDFSupport {
     private List<ProjectHistory> history = new Vector<ProjectHistory>();
     
     private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
-
-    @Column(length = 255)
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
 
     public String getDescriptionLong() {
         return descriptionLong;
@@ -115,15 +102,6 @@ public class Project extends AuditableEntity implements UDFSupport {
 
     public void setProjectNumber(String projectNumber) {
         this.projectNumber = projectNumber;
-    }
-
-    @Column(length = 255)
-    public String getStart() {
-        return start;
-    }
-
-    public void setStart(String start) {
-        this.start = start;
     }
 
     @Column(length = 255)

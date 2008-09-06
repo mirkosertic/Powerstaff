@@ -17,6 +17,8 @@
  */
 package de.powerstaff.business.dto;
 
+import java.util.Date;
+
 import de.mogwai.common.business.dto.DataTransferObject;
 
 public class ProfileSearchInfoDetail extends DataTransferObject {
@@ -27,7 +29,7 @@ public class ProfileSearchInfoDetail extends DataTransferObject {
 
     private String name2;
 
-    private String availability;
+    private Date availability;
     
     private String plz;
     
@@ -36,7 +38,7 @@ public class ProfileSearchInfoDetail extends DataTransferObject {
     /**
      * @return the availability
      */
-    public String getAvailability() {
+    public Date getAvailability() {
         return availability;
     }
 
@@ -44,7 +46,7 @@ public class ProfileSearchInfoDetail extends DataTransferObject {
      * @param availability
      *                the availability to set
      */
-    public void setAvailability(String availability) {
+    public void setAvailability(Date availability) {
         this.availability = availability;
     }
 
