@@ -7,7 +7,6 @@ import de.mogwai.common.utils.KeyValuePair;
 import de.mogwai.common.web.utils.CollectionDataModel;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.CustomerContact;
-import de.powerstaff.business.entity.FreelancerContact;
 import de.powerstaff.business.entity.Project;
 import de.powerstaff.web.backingbean.NavigatingBackingBeanDataModel;
 

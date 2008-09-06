@@ -1,7 +1,6 @@
 package de.powerstaff.mobile;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -99,9 +98,9 @@ public class Datenuebernahme {
 
         File theCVPath = new File("C:\\Daten\\Arbeit\\Projekte\\MobileConsulting\\CVPath");
 
-        // importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
-        // importKunden(theFactory, theManager, theConnection);
-        // importPartner(theFactory, theManager, theConnection);
+        importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
+        importKunden(theFactory, theManager, theConnection);
+        importPartner(theFactory, theManager, theConnection);
         importProjekte(theFactory, theManager, theConnection);
 
         theConnection.close();
@@ -284,7 +283,7 @@ public class Datenuebernahme {
             theFreelancer.setName1(getString(theMitarbeiterResult, "name"));
             theFreelancer.setName2(getString(theMitarbeiterResult, "vorname"));
             theFreelancer.setContactforbidden(getBoolean(theMitarbeiterResult, "passiv"));
-            theFreelancer.setComments(getConcatenatedString(theMitarbeiterResult, "notiz", "notiz2"));
+            theFreelancer.setComments(getConcatenatedString(theMitarbeiterResult, "notiz", "notiz2", "bewertung"));
 
             theFreelancer.setWorkplace(getConcatenatedString(theMitarbeiterResult, "wunschort", "wunschlandPLZ"));
             theFreelancer.setAvailabilityAsDate(getDate(theMitarbeiterResult, "verfvon"));
@@ -420,15 +419,15 @@ public class Datenuebernahme {
             // CV Generieren
             UserDefinedField theField = theFreelancer.getUdf().get("projekt");
 
-            if (!StringUtils.isEmpty(theFreelancer.getCode())) {
-                if (!StringUtils.isEmpty(theField.getLongStringValue())) {
-                    File theCV = new File(aCVPath, "Profil " + theFreelancer.getCode() + ".txt");
-                    FileWriter theWriter = new FileWriter(theCV);
-
-                    theWriter.write(theField.getLongStringValue());
-                    theWriter.close();
-                }
-            }
+            /*
+             * if (!StringUtils.isEmpty(theFreelancer.getCode())) { if
+             * (!StringUtils.isEmpty(theField.getLongStringValue())) { File
+             * theCV = new File(aCVPath, "Profil " + theFreelancer.getCode() +
+             * ".txt"); FileWriter theWriter = new FileWriter(theCV);
+             * 
+             * theWriter.write(theField.getLongStringValue());
+             * theWriter.close(); } }
+             */
 
             theFreelancer.getUdf().remove("projekt");
 

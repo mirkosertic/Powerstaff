@@ -26,7 +26,6 @@ import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 
 import org.ajax4jsf.component.AjaxComponent;
-import org.richfaces.component.UISuggestionBox;
 
 import de.mogwai.common.web.component.input.ModalComponentUtils;
 import de.mogwai.common.web.component.layout.ModalComponent;
@@ -35,7 +34,7 @@ import de.mogwai.common.web.component.layout.ModalComponent;
  * Hilfsklasse mit div. Funktionen zum Umgang mit Komponenten.
  * 
  * @author $Author: mirkosertic $
- * @version $Date: 2008-09-06 07:43:17 $
+ * @version $Date: 2008-09-06 17:05:20 $
  */
 public final class ComponentUtils {
 

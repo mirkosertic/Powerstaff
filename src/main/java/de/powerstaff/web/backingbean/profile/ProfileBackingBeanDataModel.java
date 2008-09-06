@@ -8,7 +8,6 @@ import de.mogwai.common.web.backingbean.BackingBeanDataModel;
 import de.mogwai.common.web.utils.CollectionDataModel;
 import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.dto.ProfileSearchRequest;
-import de.powerstaff.business.dto.ProfileSearchResult;
 
 public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 

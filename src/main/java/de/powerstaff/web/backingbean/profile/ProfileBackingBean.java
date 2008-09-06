@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import javax.faces.component.StateHolder;
 import javax.faces.context.FacesContext;
-import javax.naming.directory.SearchResult;
 
 import de.mogwai.common.command.EditEntityCommand;
 import de.mogwai.common.logging.Logger;
