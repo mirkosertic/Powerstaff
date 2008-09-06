@@ -85,7 +85,15 @@ public class FreelancerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Freel
                     theDetail.setId((Long) theRow[3]);
                     theDetail.setStundensatz((Long) theRow[4]);
 
+                    String theCountry = (String) theRow[5];
                     String thePlz = (String) theRow[6];
+                    if (!StringUtils.isEmpty(theCountry)) {
+                        if (StringUtils.isEmpty(thePlz)) {
+                            thePlz = theCountry;
+                        } else {
+                            thePlz = theCountry + thePlz;
+                        }
+                    }
                     theDetail.setPlz(thePlz);
 
                     return theDetail;

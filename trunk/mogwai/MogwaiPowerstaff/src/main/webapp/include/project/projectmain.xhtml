@@ -266,13 +266,13 @@
 						<b:cell x="1" y="1">
 							<b:titledBox label="Adresse Ansprechpartner">
 
-								<b:gridBagLayout cols="2,100,2,50,2,*,2"
+								<b:gridBagLayout cols="2,100,2,30,2,50,2,*,2"
 									rows="2,p,2,p,2,p,2,p,2,p,2">
 
 									<b:cell x="2" y="2">
 										<b:label id="vornamelabel" label="Name" />
 									</b:cell>
-									<b:cell x="4" y="2" width="3">
+									<b:cell x="4" y="2" width="5">
 										<b:inputfield
 											value="#{projectBackingBean.data.entity.customer.name1}"
 											id="vorname" labelComponentId="vornamelabel" 
@@ -282,7 +282,7 @@
 									<b:cell x="2" y="4">
 										<b:label id="nachname_label" label="Vorname" />
 									</b:cell>
-									<b:cell x="4" y="4" width="3">
+									<b:cell x="4" y="4" width="5">
 										<b:inputfield
 											value="#{projectBackingBean.data.entity.customer.name2}"
 											id="nachname" labelComponentId="nachname_label" 
@@ -292,7 +292,7 @@
 									<b:cell x="2" y="6">
 										<b:label id="firma_label" label="Firma" />
 									</b:cell>
-									<b:cell x="4" y="6" width="3">
+									<b:cell x="4" y="6" width="5">
 										<b:inputfield
 											value="#{projectBackingBean.data.entity.customer.company}"
 											id="firma" labelComponentId="firma_label" 
@@ -302,7 +302,7 @@
 									<b:cell x="2" y="8">
 										<b:label id="strasse_label" label="Strasse" />
 									</b:cell>
-									<b:cell x="4" y="8" width="3">
+									<b:cell x="4" y="8" width="5">
 										<b:inputfield
 											value="#{projectBackingBean.data.entity.customer.street}"
 											id="strasse" labelComponentId="strasse_label" 
@@ -310,16 +310,22 @@
 									</b:cell>
 
 									<b:cell x="2" y="10">
-										<b:label id="plzort_label" label="Plz/Ort" />
+										<b:label id="plzort_label" label="Land Plz/Ort" />
 									</b:cell>
 
 									<b:cell x="4" y="10">
+										<b:inputfield value="#{projectBackingBean.data.entity.customer.country}"
+											id="country" labelComponentId="plzort_label" 
+											disabled="true"/>
+									</b:cell>
+
+									<b:cell x="6" y="10">
 										<b:inputfield value="#{projectBackingBean.data.entity.customer.plz}"
 											id="plz" labelComponentId="plzort_label" 
 											disabled="true"/>
 									</b:cell>
 
-									<b:cell x="6" y="10">
+									<b:cell x="8" y="10">
 										<b:inputfield
 											value="#{projectBackingBean.data.entity.customer.city}" id="ort"
 											labelComponentId="plz_ort_label" 
