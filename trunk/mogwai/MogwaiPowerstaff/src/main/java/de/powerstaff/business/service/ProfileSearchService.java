@@ -20,11 +20,13 @@ package de.powerstaff.business.service;
 import java.util.List;
 
 import de.mogwai.common.business.service.Service;
+import de.powerstaff.business.dto.ProfileSearchRequest;
+import de.powerstaff.business.dto.ProfileSearchResult;
 import de.powerstaff.business.entity.FreelancerProfile;
 
 public interface ProfileSearchService extends Service {
 
-    List<ProfileSearchResult> searchDocument(String aSearchString) throws Exception;
+    ProfileSearchResult searchDocument(ProfileSearchRequest aSearchRequest) throws Exception;
 
     List<FreelancerProfile> findProfiles(String aCode) throws Exception;
 }

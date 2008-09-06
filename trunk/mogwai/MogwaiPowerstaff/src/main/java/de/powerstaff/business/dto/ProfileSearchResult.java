@@ -15,38 +15,44 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
-package de.powerstaff.business.service;
+package de.powerstaff.business.dto;
 
-public class ProfileSearchResult {
+import java.util.ArrayList;
+import java.util.List;
 
-    private String code;
+import de.mogwai.common.business.dto.DataTransferObject;
 
-    private ProfileSearchInfoDetail freelancer;
+public class ProfileSearchResult extends DataTransferObject {
 
-    private String highlightResult;
+    private List<ProfileSearchEntry> enties = new ArrayList<ProfileSearchEntry>();
+    
+    private int totalFound;
 
-    public String getCode() {
-        return code;
+    /**
+     * @return the enties
+     */
+    public List<ProfileSearchEntry> getEnties() {
+        return enties;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    /**
+     * @param enties the enties to set
+     */
+    public void setEnties(List<ProfileSearchEntry> enties) {
+        this.enties = enties;
     }
 
-    public ProfileSearchInfoDetail getFreelancer() {
-        return freelancer;
+    /**
+     * @return the totalFound
+     */
+    public int getTotalFound() {
+        return totalFound;
     }
 
-    public void setFreelancer(ProfileSearchInfoDetail freelancer) {
-        this.freelancer = freelancer;
+    /**
+     * @param totalFound the totalFound to set
+     */
+    public void setTotalFound(int totalFound) {
+        this.totalFound = totalFound;
     }
-
-    public String getHighlightResult() {
-        return highlightResult;
-    }
-
-    public void setHighlightResult(String highlightResult) {
-        this.highlightResult = highlightResult;
-    }
-
 }

@@ -15,16 +15,41 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
-package de.powerstaff.business.service;
+package de.powerstaff.business.dto;
 
-import java.util.List;
+import de.mogwai.common.business.dto.DataTransferObject;
 
-import de.powerstaff.business.dto.ProfileSearchInfoDetail;
-import de.powerstaff.business.entity.Freelancer;
 
-public interface FreelancerService extends NavigatingService<Freelancer> {
+public class ProfileSearchEntry extends DataTransferObject {
 
-    ProfileSearchInfoDetail findFreelancerByCode(String code);
+    private String code;
 
-    List<String> getCodeSuggestions(String aSuggest);
+    private ProfileSearchInfoDetail freelancer;
+
+    private String highlightResult;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public ProfileSearchInfoDetail getFreelancer() {
+        return freelancer;
+    }
+
+    public void setFreelancer(ProfileSearchInfoDetail freelancer) {
+        this.freelancer = freelancer;
+    }
+
+    public String getHighlightResult() {
+        return highlightResult;
+    }
+
+    public void setHighlightResult(String highlightResult) {
+        this.highlightResult = highlightResult;
+    }
+
 }

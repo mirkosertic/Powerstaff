@@ -38,12 +38,14 @@ import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SpanGradientFormatter;
 
 import de.mogwai.common.business.service.impl.LogableService;
+import de.powerstaff.business.dto.ProfileSearchEntry;
+import de.powerstaff.business.dto.ProfileSearchInfoDetail;
+import de.powerstaff.business.dto.ProfileSearchRequest;
+import de.powerstaff.business.dto.ProfileSearchResult;
 import de.powerstaff.business.entity.FreelancerProfile;
 import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ProfileIndexerService;
-import de.powerstaff.business.service.ProfileSearchInfoDetail;
-import de.powerstaff.business.service.ProfileSearchResult;
 import de.powerstaff.business.service.ProfileSearchService;
 
 /**
@@ -78,14 +80,14 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
         this.freelancerService = freelancerService;
     }
 
-    public Vector<ProfileSearchResult> searchDocument(String aSearchString) throws Exception {
+    public ProfileSearchResult searchDocument(ProfileSearchRequest aRequest) throws Exception {
 
         int theMaxSearchResult = systemParameterService.getProfileMaxSearchResult();
 
-        Vector<ProfileSearchResult> theResult = new Vector<ProfileSearchResult>();
+        ProfileSearchResult theResult = new ProfileSearchResult();
 
         StringBuilder theRealQuery = new StringBuilder();
-        StringTokenizer st = new StringTokenizer(aSearchString, " ");
+        StringTokenizer st = new StringTokenizer(aRequest.getProfileContent(), " ");
         while (st.hasMoreElements()) {
             if (theRealQuery.length() > 0) {
                 theRealQuery.append(" AND ");
@@ -112,16 +114,18 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
 
         logger.logDebug("Size of search result is " + theHits.length() + " duration = " + theDuration);
 
+        theResult.setTotalFound(theHits.length());
+        
         for (int i = 0; i < theHits.length(); i++) {
 
             Document theDocument = theHits.doc(i);
 
-            ProfileSearchResult theSearchResult = new ProfileSearchResult();
-            theSearchResult.setCode(theDocument.get(ProfileIndexerService.CODE));
+            ProfileSearchEntry theEntry = new ProfileSearchEntry();
+            theEntry.setCode(theDocument.get(ProfileIndexerService.CODE));
 
-            ProfileSearchInfoDetail theFreelancer = freelancerService.findFreelancerByCode(theSearchResult.getCode());
+            ProfileSearchInfoDetail theFreelancer = freelancerService.findFreelancerByCode(theEntry.getCode());
             if (theFreelancer != null) {
-                theSearchResult.setFreelancer(theFreelancer);
+                theEntry.setFreelancer(theFreelancer);
             }
 
             String theContent = theDocument.get(ProfileIndexerService.ORIG_CONTENT);
@@ -129,11 +133,11 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
                     theContent));
 
             String theHighlight = theHighlighter.getBestFragments(tokenStream, theContent, 5, "&nbsp;...&nbsp;");
-            theSearchResult.setHighlightResult(theHighlight);
+            theEntry.setHighlightResult(theHighlight);
 
-            theResult.add(theSearchResult);
+            theResult.getEnties().add(theEntry);
 
-            if (theResult.size() >= theMaxSearchResult) {
+            if (theResult.getEnties().size() >= theMaxSearchResult) {
 
                 theDuration = System.currentTimeMillis() - theStartTime;
                 logger.logDebug("Reached max result count, duration = " + theDuration);
