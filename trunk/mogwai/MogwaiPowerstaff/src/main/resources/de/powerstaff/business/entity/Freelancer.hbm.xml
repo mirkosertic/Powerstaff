@@ -6,7 +6,7 @@
   <class name="Freelancer" table="freelancer">
 
 		<id name="id" column="id">
-	        <generator class="increment"/>
+	        <generator class="identity"/>
    		</id>
 	
 		<property column="creationDate" name="creationDate"/>
@@ -24,9 +24,7 @@
 		<property name="comments" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
 		<property name="contactforbidden"/>
 		<property name="workplace"/>
-		<property name="availability"/>
 		<property name="availabilityAsDate"/>
-		<property name="sallary"/>
 		<property name="code"/>
 		<property name="contactPerson"/>
 		<property name="contactType"/>
@@ -40,6 +38,8 @@
 		<property name="sallaryPartnerPerDayLong"/>
 		<property name="sallaryPerDayLong"/>
 		<property name="sallaryLong"/>
+		<property name="sallaryComment" type="org.springframework.orm.hibernate3.support.ClobStringType"/>		
+		<property name="status"/>
 
 		<set name="contacts" cascade="all-delete-orphan" order-by="value">
 			<key column="freelancer_id"/>
@@ -51,10 +51,6 @@
 			<one-to-many class="FreelancerHistory"/>
 		</set>
 		
-		<property name="sallaryPerDay"/>
-		<property name="sallaryComment" type="org.springframework.orm.hibernate3.support.ClobStringType"/>		
-		<property name="status"/>
-
 		<many-to-one name="partner" class="Partner">
 			<column name="partner_id"/>
 		</many-to-one>  
@@ -63,9 +59,6 @@
 			<key column="freelancer_id"/>
 			<one-to-many class="ProjectPosition" />
 		</set>
-		
-		<property name="sallaryPartner"/>
-		<property name="sallaryPartnerPerDay"/>
 		
 		<map name="udf" table="freelancer_udf" cascade="all-delete-orphan">
 			<key column="freelancer_id" foreign-key="freelancer_udf_fk1"/>

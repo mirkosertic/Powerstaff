@@ -46,7 +46,6 @@ public class MogwaiValueBindingImpl extends ValueBindingImpl implements FieldInf
         try {
             theValue = resolveToBaseAndProperty(getFacesContext());
         } catch (Exception e) {
-            LOGGER.logError("Cannot resolve " + getExpressionString(), e);
             return null;
         }
 

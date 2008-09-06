@@ -115,7 +115,8 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
         logger.logDebug("Size of search result is " + theHits.length() + " duration = " + theDuration);
 
         theResult.setTotalFound(theHits.length());
-        
+        boolean isExtendedSearch = aRequest.isExtendedSearch();
+
         for (int i = 0; i < theHits.length(); i++) {
 
             Document theDocument = theHits.doc(i);
@@ -123,7 +124,13 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
             ProfileSearchEntry theEntry = new ProfileSearchEntry();
             theEntry.setCode(theDocument.get(ProfileIndexerService.CODE));
 
-            ProfileSearchInfoDetail theFreelancer = freelancerService.findFreelancerByCode(theEntry.getCode());
+            ProfileSearchInfoDetail theFreelancer;
+            if (isExtendedSearch) {
+                theFreelancer = freelancerService.findFreelancerByCodeExtended(theEntry.getCode(), aRequest);
+            } else {
+                theFreelancer = freelancerService.findFreelancerByCode(theEntry.getCode());
+            }
+            
             if (theFreelancer != null) {
                 theEntry.setFreelancer(theFreelancer);
             }
@@ -135,7 +142,13 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
             String theHighlight = theHighlighter.getBestFragments(tokenStream, theContent, 5, "&nbsp;...&nbsp;");
             theEntry.setHighlightResult(theHighlight);
 
-            theResult.getEnties().add(theEntry);
+            if (isExtendedSearch) {
+                if (theFreelancer != null) {
+                    theResult.getEnties().add(theEntry);
+                }
+            } else {
+                theResult.getEnties().add(theEntry);
+            }
 
             if (theResult.getEnties().size() >= theMaxSearchResult) {
 
@@ -144,6 +157,10 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
 
                 return theResult;
             }
+        }
+        
+        if (isExtendedSearch) {
+            theResult.setTotalFound(theResult.getEnties().size());
         }
 
         theDuration = System.currentTimeMillis() - theStartTime;

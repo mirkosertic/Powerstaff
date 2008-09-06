@@ -17,6 +17,7 @@
  */
 package de.powerstaff.business.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 
 import de.mogwai.common.business.service.impl.LogableService;
@@ -95,6 +96,8 @@ public class WebSyncServiceImpl extends LogableService implements WebSyncService
             }
         }
 
+        SimpleDateFormat theFormat = new SimpleDateFormat("dd.MM.yyyy");
+
         serviceLogger.logStart(SERVICE_ID, "");
 
         try {
@@ -131,10 +134,18 @@ public class WebSyncServiceImpl extends LogableService implements WebSyncService
                 theWebProject.setCreationUserID(theProject.getCreationUserID());
                 theWebProject.setLastModificationDate(theProject.getLastModificationDate());
                 theWebProject.setLastModificationUserID(theProject.getLastModificationUserID());
-                theWebProject.setDate(theProject.getDate());
+                if (theProject.getEntryDate() != null) {
+                    theWebProject.setDate(theFormat.format(theProject.getEntryDate()));
+                } else {
+                    theWebProject.setDate("");
+                }
                 theWebProject.setProjectNumber(theProject.getProjectNumber());
                 theWebProject.setWorkplace(theProject.getWorkplace());
-                theWebProject.setStart(theProject.getStart());
+                if (theProject.getStartDate() != null) {
+                    theWebProject.setStart(theFormat.format(theProject.getStartDate()));
+                } else {
+                    theWebProject.setStart("");
+                }
                 theWebProject.setDuration(theProject.getDuration());
                 theWebProject.setDescriptionShort(theProject.getDescriptionShort());
                 theWebProject.setDescriptionLong(theProject.getDescriptionLong());

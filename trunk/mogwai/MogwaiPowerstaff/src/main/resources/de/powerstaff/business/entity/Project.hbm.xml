@@ -6,7 +6,7 @@
   <class name="Project" table="project">
 
 		<id name="id" column="id">
-	        <generator class="increment"/>
+	        <generator class="identity"/>
 		</id>
 
 		<property column="creationDate" name="creationDate"/>
@@ -14,10 +14,8 @@
 		<property column="changedDate" name="lastModificationDate"/>
 		<property column="changedUser" name="lastModificationUserID"/>
 		
-		<property name="date"/>
 		<property name="projectNumber"/>
 		<property name="workplace"/>
-		<property name="start"/>
 		<property name="duration"/>
 		<property name="descriptionShort"/>
 		<property name="descriptionLong" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
