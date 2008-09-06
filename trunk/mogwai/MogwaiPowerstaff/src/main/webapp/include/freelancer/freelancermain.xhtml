@@ -286,17 +286,19 @@
 										<b:label id="verfuegbarkeit_label" label="Verfügbarkeit" />
 									</b:cell>
 									<b:cell x="4" y="4" width="3">
-										<b:inputfield
-											value="#{freelancerBackingBean.data.entity.availability}"
-											id="verfuegbarkeit" labelComponentId="verfuegbarkeit_label" />
+										<rich:calendar value="#{freelancerBackingBean.data.entity.availabilityAsDate}"
+													   datePattern="dd.MM.yyyy"
+													   inputStyle="width:270px;"
+													   cellWidth="34px">
+										</rich:calendar>
 									</b:cell>
 
 									<b:cell x="2" y="6">
 										<b:label id="stundensatz_label" label="Stundensatz" />
 									</b:cell>
 									<b:cell x="4" y="6" width="3">
-										<b:inputfield
-											value="#{freelancerBackingBean.data.entity.sallary}"
+										<b:numberinputfield
+											value="#{freelancerBackingBean.data.entity.sallaryLong}"
 											id="stundensatz" labelComponentId="stundensatz_label" />
 									</b:cell>
 
@@ -304,8 +306,8 @@
 										<b:label id="tagessatz_label" label="Tagessatz" />
 									</b:cell>
 									<b:cell x="4" y="8" width="3">
-										<b:inputfield
-											value="#{freelancerBackingBean.data.entity.sallaryPerDay}"
+										<b:numberinputfield
+											value="#{freelancerBackingBean.data.entity.sallaryPerDayLong}"
 											id="tagessatz" labelComponentId="tagessatz_label" />
 									</b:cell>
 
@@ -334,8 +336,8 @@
 										<b:label id="stdsatz_p_label" label="Stds. Partner" />
 									</b:cell>
 									<b:cell x="4" y="12" width="3">
-										<b:inputfield
-											value="#{freelancerBackingBean.data.entity.sallaryPartner}"
+										<b:numberinputfield
+											value="#{freelancerBackingBean.data.entity.sallaryPartnerLong}"
 											id="stdsatz_p" labelComponentId="stdsatz_p_label" />
 									</b:cell>
 
@@ -343,8 +345,8 @@
 										<b:label id="tgssatz_p_label" label="Tgs. Partner" />
 									</b:cell>
 									<b:cell x="4" y="14" width="3">
-										<b:inputfield
-											value="#{freelancerBackingBean.data.entity.sallaryPartnerPerDay}"
+										<b:numberinputfield
+											value="#{freelancerBackingBean.data.entity.sallaryPartnerPerDayLong}"
 											id="tgssatz_p" labelComponentId="tgssatz_p_label" />
 									</b:cell>
 
@@ -426,7 +428,7 @@
 						<b:cell x="1" y="7">
 							<b:titledBox label="Zusatzinformationen">
 
-								<b:gridBagLayout cols="2,100,2,*,2" rows="2,p,2,p,2,p,2,p,2,p,2">
+								<b:gridBagLayout cols="2,100,2,*,2" rows="2,p,2,p,2,p,2,p,2,p,2,p,2">
 
 									<b:cell x="2" y="2">
 										<b:label id="kontaktperson_label" label="Kontaktperson" />
@@ -468,6 +470,15 @@
 										<b:checkbox
 											value="#{freelancerBackingBean.data.entity.showAgain}"
 											id="wiedervorlage" label="Wiedervorlage" />
+									</b:cell>
+
+									<b:cell x="2" y="12">
+										<b:label id="geburtsdatum_label" label="Geburtsdatum" />
+									</b:cell>
+									<b:cell x="4" y="12">
+										<b:inputfield
+											value="#{freelancerBackingBean.data.entity.geburtsdatum}"
+											id="geburtsdatum" labelComponentId="geburtsdatum_label" />
 									</b:cell>
 
 								</b:gridBagLayout>
