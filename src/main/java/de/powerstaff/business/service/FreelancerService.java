@@ -30,4 +30,6 @@ public interface FreelancerService extends NavigatingService<Freelancer> {
     List<String> getCodeSuggestions(String aSuggest);
 
     ProfileSearchInfoDetail findFreelancerByCodeExtended(String code, ProfileSearchRequest request);
+
+    Freelancer findRealFreelancerByCode(String aCode);
 }

@@ -122,4 +122,8 @@ public class FreelancerServiceImpl extends LogableService implements FreelancerS
     public ProfileSearchInfoDetail findFreelancerByCodeExtended(String code, ProfileSearchRequest request) {
         return freelancerDAO.findByCode(code, request);
     }
+
+    public Freelancer findRealFreelancerByCode(String aCode) {
+        return freelancerDAO.findByCodeReal(aCode);
+    }
 }

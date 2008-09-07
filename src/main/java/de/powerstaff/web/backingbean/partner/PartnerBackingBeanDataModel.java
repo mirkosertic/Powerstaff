@@ -23,12 +23,16 @@ public class PartnerBackingBeanDataModel extends NavigatingBackingBeanDataModel<
     private CollectionDataModel<PartnerContact> contacts;
 
     private CollectionDataModel<PartnerHistory> history;
+    
+    private CollectionDataModel<Freelancer> freelancer;
 
     private CollectionDataModel<GenericSearchResult> searchResult = new CollectionDataModel<GenericSearchResult>();
 
     private List<ContactType> contactTypes;
     
     private Freelancer originalFreelancer;
+    
+    private String codeToAdd;
 
     public PartnerBackingBeanDataModel() {
 
@@ -50,6 +54,7 @@ public class PartnerBackingBeanDataModel extends NavigatingBackingBeanDataModel<
         contacts.sort(Comparators.CONTACTCOMPARATOR);
         history = new CollectionDataModel<PartnerHistory>(aValue.getHistory());
         history.sort(Comparators.INVERSECREATIONDATECOMPARATOR);
+        freelancer = new CollectionDataModel<Freelancer>(aValue.getFreelancer());
         newContactType = null;
         newContactValue = null;
     }
@@ -138,5 +143,54 @@ public class PartnerBackingBeanDataModel extends NavigatingBackingBeanDataModel<
 
     public void setOriginalFreelancer(Freelancer originalFreelancer) {
         this.originalFreelancer = originalFreelancer;
+    }
+
+    /**
+     * @return the freelancer
+     */
+    public CollectionDataModel<Freelancer> getFreelancer() {
+        return freelancer;
+    }
+
+    /**
+     * @param freelancer the freelancer to set
+     */
+    public void setFreelancer(CollectionDataModel<Freelancer> freelancer) {
+        this.freelancer = freelancer;
+    }
+
+    /**
+     * @param contacts the contacts to set
+     */
+    public void setContacts(CollectionDataModel<PartnerContact> contacts) {
+        this.contacts = contacts;
+    }
+
+    /**
+     * @param history the history to set
+     */
+    public void setHistory(CollectionDataModel<PartnerHistory> history) {
+        this.history = history;
+    }
+
+    /**
+     * @param searchResult the searchResult to set
+     */
+    public void setSearchResult(CollectionDataModel<GenericSearchResult> searchResult) {
+        this.searchResult = searchResult;
+    }
+
+    /**
+     * @return the codeToAdd
+     */
+    public String getCodeToAdd() {
+        return codeToAdd;
+    }
+
+    /**
+     * @param codeToAdd the codeToAdd to set
+     */
+    public void setCodeToAdd(String codeToAdd) {
+        this.codeToAdd = codeToAdd;
     }
 }

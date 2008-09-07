@@ -105,6 +105,10 @@
 			<value>#{partnerService}</value>
 		</managed-property>
 		<managed-property>
+			<property-name>freelancerService</property-name>
+			<value>#{freelancerService}</value>
+		</managed-property>
+		<managed-property>
 			<property-name>additinalDataService</property-name>
 			<value>#{additinalDataService}</value>
 		</managed-property>
@@ -187,6 +191,10 @@
 		<navigation-case>
 			<from-outcome>PARTNER_STAMMDATEN</from-outcome>
 			<to-view-id>/include/partner/partnermain.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>PARTNER_FREIBERUFLER</from-outcome>
+			<to-view-id>/include/partner/partnerfreelancer.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>PARTNER_HISTORIE</from-outcome>
