@@ -13,7 +13,6 @@
 	</ui:define>
 	<ui:define name="content">
 		<b:saveState value="#{freelancerBackingBean}"/>	
-		<b:saveState value="#{profileBackingBean}"/>
 		<b:title title="Freiberufler - Suchergebnisse"/>	
 		<f:subview>
 			<b:gridBagLayout id="x" rows="p,10" cols="100,p">
@@ -76,13 +75,13 @@
 							<f:facet name="header">
 								<h:outputText value="Verfügbarkeit"/>
 							</f:facet>
-							<h:outputText value="#{row.availability}"/>
+							<h:outputText value="#{row.availabilityAsDate}"/>
 						</h:column>
 						<h:column>
 							<f:facet name="header">
 								<h:outputText value="Stundensatz"/>
 							</f:facet>
-							<h:outputText value="#{row.sallary}"/>
+							<h:outputText value="#{row.sallaryLong}"/>
 						</h:column>
 						<h:column>
 							<f:facet name="header">

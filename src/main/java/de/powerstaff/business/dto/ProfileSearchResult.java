@@ -27,6 +27,8 @@ public class ProfileSearchResult extends DataTransferObject {
     private List<ProfileSearchEntry> enties = new ArrayList<ProfileSearchEntry>();
     
     private int totalFound;
+    
+    private ProfileSearchRequest searchRequest;
 
     /**
      * @return the enties
@@ -54,5 +56,19 @@ public class ProfileSearchResult extends DataTransferObject {
      */
     public void setTotalFound(int totalFound) {
         this.totalFound = totalFound;
+    }
+
+    /**
+     * @return the searchRequest
+     */
+    public ProfileSearchRequest getSearchRequest() {
+        return searchRequest;
+    }
+
+    /**
+     * @param searchRequest the searchRequest to set
+     */
+    public void setSearchRequest(ProfileSearchRequest searchRequest) {
+        this.searchRequest = searchRequest;
     }
 }

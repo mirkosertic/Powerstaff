@@ -15,14 +15,23 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
-package de.powerstaff.business.dto;
+package de.powerstaff.business.entity;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.ArrayList;
+import java.util.List;
 
-import de.mogwai.common.business.dto.DataTransferObject;
+import de.mogwai.common.business.entity.AuditableEntity;
+import de.powerstaff.business.dto.SearchRequestSupport;
 
-public class ProfileSearchRequest extends DataTransferObject implements SearchRequestSupport {
-
+/**
+ * Eine gespeicherte Profilsuche.
+ * 
+ * @author msertic
+ */
+public class SavedProfileSearch extends AuditableEntity implements SearchRequestSupport {
+    
+    private User user;
+    
     private String profileContent;
     
     private String plz;
@@ -30,6 +39,22 @@ public class ProfileSearchRequest extends DataTransferObject implements SearchRe
     private Long stundensatzVon;
     
     private Long stundensatzBis;
+
+    private List<SavedProfileSearchEntry> entries = new ArrayList<SavedProfileSearchEntry>();
+
+    /**
+     * @return the user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     /**
      * @return the profileContent
@@ -43,10 +68,6 @@ public class ProfileSearchRequest extends DataTransferObject implements SearchRe
      */
     public void setProfileContent(String profileContent) {
         this.profileContent = profileContent;
-    }
-    
-    public boolean isExtendedSearch() {
-        return (!StringUtils.isEmpty(plz)) || (stundensatzVon != null) || (stundensatzBis != null);
     }
 
     /**
@@ -89,5 +110,19 @@ public class ProfileSearchRequest extends DataTransferObject implements SearchRe
      */
     public void setStundensatzBis(Long stundensatzBis) {
         this.stundensatzBis = stundensatzBis;
+    }
+
+    /**
+     * @return the entries
+     */
+    public List<SavedProfileSearchEntry> getEntries() {
+        return entries;
+    }
+
+    /**
+     * @param entries the entries to set
+     */
+    public void setEntries(List<SavedProfileSearchEntry> entries) {
+        this.entries = entries;
     }
 }

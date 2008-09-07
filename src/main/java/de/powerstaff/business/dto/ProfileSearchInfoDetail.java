@@ -34,7 +34,7 @@ public class ProfileSearchInfoDetail extends DataTransferObject {
     private String plz;
     
     private Long stundensatz;
-
+    
     /**
      * @return the availability
      */

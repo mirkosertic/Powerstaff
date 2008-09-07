@@ -45,7 +45,9 @@
 
 									<b:cell x="2" y="8" width="3" align="center">
 										<b:commandButton value="Anmelden"
-											action="#{loginBackingBean.commandLogin}">
+											action="#{loginBackingBean.commandLogin}"
+											actionKey="13"
+											keySensitive="true">
 											<a4j:support event="onclick"
 												reRender="#{loginBackingBean.data.changedComponents}" />
 										</b:commandButton>

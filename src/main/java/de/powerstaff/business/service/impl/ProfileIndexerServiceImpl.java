@@ -20,6 +20,7 @@ package de.powerstaff.business.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.UUID;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.KeywordAnalyzer;
@@ -222,6 +223,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
 
                     doc.add(new Field(PATH, aFile.getPath(), Field.Store.YES, Field.Index.UN_TOKENIZED));
                     doc.add(new Field(CODE, theCode, Field.Store.YES, Field.Index.UN_TOKENIZED));
+                    doc.add(new Field(UNIQUE_ID, UUID.randomUUID().toString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
                     doc.add(new Field(STRIPPEDPATH, theStrippedPath, Field.Store.YES, Field.Index.UN_TOKENIZED));
                     doc.add(new Field(MODIFIED, "" + aFile.lastModified(), Field.Store.YES, Field.Index.NO));
                     doc.add(new Field(INDEXINGTIME, "" + System.currentTimeMillis(), Field.Store.YES, Field.Index.NO));

@@ -131,6 +131,12 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 				<value>
 					classpath:/de/powerstaff/business/entity/SystemParameter.hbm.xml
 				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/SavedProfileSearch.hbm.xml
+				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/SavedProfileSearchEntry.hbm.xml
+				</value>
 			</list>
 		</property>
 	</bean>
@@ -172,6 +178,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 	</bean>
 
 	<bean id="serviceLoggerDAO" class="de.powerstaff.business.dao.hibernate.ServiceLoggerDAOHibernateImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+
+	<bean id="profileSearchDAO" class="de.powerstaff.business.dao.hibernate.ProfileSearchDAOHibernateImpl">
 		<property name="hibernateTemplate" ref="hibernateTemplate"/>
 	</bean>
 	
@@ -218,6 +228,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		<property name="freelancerService" ref="freelancerService" />
 		<property name="systemParameterService"
 			ref="systemParameterService" />
+		<property name="profileSearchDAO"
+			ref="profileSearchDAO" />
 	</bean>
 
 	<bean id="serviceLoggerService"

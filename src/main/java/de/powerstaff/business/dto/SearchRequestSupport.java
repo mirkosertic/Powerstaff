@@ -15,25 +15,19 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
-package de.powerstaff.business.service;
+package de.powerstaff.business.dto;
 
-import de.mogwai.common.business.service.Service;
+public interface SearchRequestSupport {
 
-public interface ProfileIndexerService extends Service, ProfileIndexerServicePublicInterface {
-
-    String PATH = "PATH";
-
-    String STRIPPEDPATH = "STRIPPEDPATH";
-
-    String MODIFIED = "MODIFIED";
-
-    String CONTENT = "CONTENT";
-
-    String ORIG_CONTENT = "ORIG_CONTENT";
-
-    String CODE = "CODE";
-
-    String INDEXINGTIME = "INDEXINGTIME";
+    String getProfileContent();
+    void setProfileContent(String aContent);
     
-    String UNIQUE_ID = "UNIQUEID";
+    String getPlz();
+    void setPlz(String plz);
+
+    Long getStundensatzVon();
+    void setStundensatzVon(Long stundensatzVon);
+
+    Long getStundensatzBis();
+    void setStundensatzBis(Long stundensatzBis);
 }

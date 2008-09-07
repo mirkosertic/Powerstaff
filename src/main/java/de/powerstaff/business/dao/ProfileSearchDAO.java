@@ -15,25 +15,15 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
-package de.powerstaff.business.service;
+package de.powerstaff.business.dao;
 
-import de.mogwai.common.business.service.Service;
+import de.mogwai.common.dao.DAO;
+import de.powerstaff.business.entity.SavedProfileSearch;
+import de.powerstaff.business.entity.User;
 
-public interface ProfileIndexerService extends Service, ProfileIndexerServicePublicInterface {
+public interface ProfileSearchDAO extends DAO {
 
-    String PATH = "PATH";
+    void deleteSavedSearchesFor(User theUser);
 
-    String STRIPPEDPATH = "STRIPPEDPATH";
-
-    String MODIFIED = "MODIFIED";
-
-    String CONTENT = "CONTENT";
-
-    String ORIG_CONTENT = "ORIG_CONTENT";
-
-    String CODE = "CODE";
-
-    String INDEXINGTIME = "INDEXINGTIME";
-    
-    String UNIQUE_ID = "UNIQUEID";
+    SavedProfileSearch getSavedSearchFor(User theUser);
 }

@@ -17,56 +17,42 @@
  */
 package de.powerstaff.business.entity;
 
-public class FreelancerProfile {
+import de.mogwai.common.business.entity.Entity;
 
-    private String name;
+/**
+ * @author msertic
+ */
+public class SavedProfileSearchEntry extends Entity {
 
-    private String fileName;
+    private Long freelancerId;
     
-    private String infotext;
+    private String uniqueDocumentId;
 
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public FreelancerProfile() {
-    }
-
-    public FreelancerProfile(String aName) {
-        name = aName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isWordProfile() {
-        return fileName.toLowerCase().endsWith(".doc");
-    }
-
-    public boolean isTextProfile() {
-        return fileName.toLowerCase().endsWith(".txt");
+    /**
+     * @return the freelancerId
+     */
+    public Long getFreelancerId() {
+        return freelancerId;
     }
 
     /**
-     * @return the infotext
+     * @param freelancerId the freelancerId to set
      */
-    public String getInfotext() {
-        return infotext;
+    public void setFreelancerId(Long freelancerId) {
+        this.freelancerId = freelancerId;
     }
 
     /**
-     * @param infotext the infotext to set
+     * @return the uniqueDocumentId
      */
-    public void setInfotext(String infotext) {
-        this.infotext = infotext;
+    public String getUniqueDocumentId() {
+        return uniqueDocumentId;
+    }
+
+    /**
+     * @param uniqueDocumentId the uniqueDocumentId to set
+     */
+    public void setUniqueDocumentId(String uniqueDocumentId) {
+        this.uniqueDocumentId = uniqueDocumentId;
     }
 }

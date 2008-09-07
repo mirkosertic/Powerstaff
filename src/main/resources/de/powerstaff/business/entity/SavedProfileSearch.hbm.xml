@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="de.powerstaff.business.entity" default-lazy="false">
+  <class name="SavedProfileSearch" table="savedprofilesearch">
+
+		<id name="id" column="id">
+	        <generator class="identity"/>
+		</id>
+	
+		<property column="creationDate" name="creationDate"/>
+		<property column="creationUser" name="creationUserID"/>
+		<property column="changedDate" name="lastModificationDate"/>
+		<property column="changedUser" name="lastModificationUserID"/>
+		
+		<many-to-one name="user" class="User">
+			<column name="user_id" not-null="true"/>
+		</many-to-one>  
+		
+		<property name="profileContent"/>
+		<property name="plz" />
+		<property name="stundensatzVon"/>
+		<property name="stundensatzBis"/>
+
+		<list name="entries" cascade="all-delete-orphan">
+			<key column="savedprofilesearch_id"/>
+			<list-index column="listindex"/>			
+			<one-to-many class="SavedProfileSearchEntry"/>
+		</list>
+  </class>
+</hibernate-mapping>

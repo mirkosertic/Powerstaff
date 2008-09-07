@@ -18,6 +18,7 @@
 package de.powerstaff.business.dto;
 
 import de.mogwai.common.business.dto.DataTransferObject;
+import de.powerstaff.business.entity.SavedProfileSearchEntry;
 
 
 public class ProfileSearchEntry extends DataTransferObject {
@@ -27,6 +28,8 @@ public class ProfileSearchEntry extends DataTransferObject {
     private ProfileSearchInfoDetail freelancer;
 
     private String highlightResult;
+    
+    private SavedProfileSearchEntry savedSearchEntry;
 
     public String getCode() {
         return code;
@@ -52,4 +55,17 @@ public class ProfileSearchEntry extends DataTransferObject {
         this.highlightResult = highlightResult;
     }
 
+    /**
+     * @return the savedSearchEntry
+     */
+    public SavedProfileSearchEntry getSavedSearchEntry() {
+        return savedSearchEntry;
+    }
+
+    /**
+     * @param savedSearchEntry the savedSearchEntry to set
+     */
+    public void setSavedSearchEntry(SavedProfileSearchEntry savedSearchEntry) {
+        this.savedSearchEntry = savedSearchEntry;
+    }
 }
