@@ -6,6 +6,7 @@ import javax.faces.component.StateHolder;
 import javax.faces.context.FacesContext;
 
 import de.mogwai.common.command.EditEntityCommand;
+import de.mogwai.common.command.ResetNavigationInfo;
 import de.mogwai.common.logging.Logger;
 import de.mogwai.common.web.backingbean.WrappingBackingBean;
 import de.mogwai.common.web.utils.JSFMessageUtils;
@@ -53,17 +54,41 @@ public class ProfileBackingBean extends WrappingBackingBean<ProfileBackingBeanDa
         this.profileSearchService = profileSearchService;
     }
 
+    @Override
+    public void resetNavigation(ResetNavigationInfo aInfo) {
+        super.resetNavigation(aInfo);
+
+        try {
+            ProfileSearchResult theResult = profileSearchService.getLastSearchResult();
+            if (theResult != null) {
+                getData().setSearchRequest(theResult.getSearchRequest());
+                getData().getSearchResult().setWrappedData(theResult.getEnties());
+
+                if (theResult.getEnties().size() == 0) {
+                    JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEPROFILEGEFUNDEN);
+                } else {
+                    JSFMessageUtils.addGlobalInfoMessage(MSG_PROFILEGEFUNDEN, "" + theResult.getEnties().size(), ""
+                            + theResult.getTotalFound());
+                }
+            }
+        } catch (Exception e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE, e.getMessage());
+            LOGGER.logError("Fehler bei Profilsuche", e);
+        }
+    }
+
     public void commandSearch() {
         try {
-            ProfileSearchResult theResult = profileSearchService.searchDocument(getData().getSearchRequest()); 
+            ProfileSearchResult theResult = profileSearchService.searchDocument(getData().getSearchRequest());
             getData().getSearchResult().setWrappedData(theResult.getEnties());
 
             if (theResult.getEnties().size() == 0) {
                 JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEPROFILEGEFUNDEN);
             } else {
-                JSFMessageUtils.addGlobalInfoMessage(MSG_PROFILEGEFUNDEN, "" + theResult.getEnties().size(), "" + theResult.getTotalFound());
+                JSFMessageUtils.addGlobalInfoMessage(MSG_PROFILEGEFUNDEN, "" + theResult.getEnties().size(), ""
+                        + theResult.getTotalFound());
             }
-            
+
         } catch (Exception e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE, e.getMessage());
             LOGGER.logError("Fehler bei Profilsuche", e);
@@ -74,6 +99,15 @@ public class ProfileBackingBean extends WrappingBackingBean<ProfileBackingBeanDa
         forceUpdateOfBean(FreelancerBackingBean.class, new EditEntityCommand<ProfileSearchInfoDetail>(
                 ((ProfileSearchEntry) getData().getSearchResult().getRowData()).getFreelancer()));
         return "FREELANCER_STAMMDATEN";
+    }
+    
+    public void commandDeleteSearchEntry() {
+        ProfileSearchEntry theEntry = (ProfileSearchEntry) getData().getSearchResult().getRowData();
+        getData().getSearchResult().remove(theEntry);
+        
+        profileSearchService.removeSavedSearchEntry(theEntry.getSavedSearchEntry());
+        
+        JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
     }
 
     public boolean isTransient() {

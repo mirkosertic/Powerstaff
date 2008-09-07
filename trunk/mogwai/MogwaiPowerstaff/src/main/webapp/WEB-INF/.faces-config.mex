@@ -112,7 +112,7 @@
       <AbsolutePoint location="330,548" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
-  <JSFFlowNavigationCase id="*,/include/freelancer/freelancermain.xhtml,INDEX,&lt;empty&gt;" routingType="0">
+  <JSFFlowNavigationCase id="*,/include/freelancer/freelancermain.xhtml,INDEX,&lt;empty&gt;" routingType="1">
     <AutomaticBendpoints>
       <AbsolutePoint location="55,48" />
       <AbsolutePoint location="299,48" />

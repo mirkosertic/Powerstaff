@@ -41,7 +41,9 @@
 								<b:inputfield labelComponentId="labelsuche" id="input" value="#{profileBackingBean.data.searchRequest.profileContent}" required="true"/>
 							</b:cell>
 							<b:cell x="6" y="2">
-								<b:commandLink title="Suchen" action="#{profileBackingBean.commandSearch}">
+								<b:commandLink title="Suchen" action="#{profileBackingBean.commandSearch}"
+									actionKey="13"
+									keySensitive="true">
 									<b:image source="/images/search.gif" />
 									<a4j:support event="onclick"
 										reRender="input" />
@@ -79,7 +81,7 @@
 
 				<b:cell x="1" y="4" width="3">
 					<a4j:outputPanel ajaxRendered="true">
-					<b:table rendered="#{profileBackingBean.data.searchResultSize > 0}" var="row" value="#{profileBackingBean.data.searchResult}" cols="20,100,100,60,60,80,60,330">
+					<b:table rendered="#{profileBackingBean.data.searchResultSize > 0}" var="row" value="#{profileBackingBean.data.searchResult}" cols="20,100,100,60,60,80,60,310,20">
 						<h:column>
 							<f:facet name="header">
 							</f:facet>
@@ -129,6 +131,11 @@
 								<h:outputText value="Skills"/>
 							</f:facet>
 							<h:outputText value="#{row.highlightResult}" escape="false"/>
+						</h:column>
+						<h:column>
+							<a4j:commandLink title="Eintrag aus Suche löschen" action="#{profileBackingBean.commandDeleteSearchEntry}">
+								<b:image source="/images/delete.gif" />
+							</a4j:commandLink>
 						</h:column>
 					</b:table>
 					</a4j:outputPanel>

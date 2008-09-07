@@ -72,7 +72,7 @@ function mogwaiFormKeyListener(aEvt) {
 			if (theElement) {	
 				fireEvent("click",theElementID);		
 			} else {
-				alert("Element "+theElementID+" nicht gefunden!");
+				// alert("Element "+theElementID+" nicht gefunden!");
 			}
 		
 			return false;

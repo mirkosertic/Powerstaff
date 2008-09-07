@@ -23,10 +23,15 @@ import de.mogwai.common.business.service.Service;
 import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.dto.ProfileSearchResult;
 import de.powerstaff.business.entity.FreelancerProfile;
+import de.powerstaff.business.entity.SavedProfileSearchEntry;
 
 public interface ProfileSearchService extends Service {
 
     ProfileSearchResult searchDocument(ProfileSearchRequest aSearchRequest) throws Exception;
 
     List<FreelancerProfile> findProfiles(String aCode) throws Exception;
+
+    ProfileSearchResult getLastSearchResult() throws Exception;
+
+    void removeSavedSearchEntry(SavedProfileSearchEntry savedSearchEntry);
 }
