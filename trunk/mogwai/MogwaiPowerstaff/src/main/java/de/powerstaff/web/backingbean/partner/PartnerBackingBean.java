@@ -11,6 +11,7 @@ import de.powerstaff.business.entity.Partner;
 import de.powerstaff.business.entity.PartnerContact;
 import de.powerstaff.business.entity.PartnerHistory;
 import de.powerstaff.business.service.AdditionalDataService;
+import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.PartnerService;
 import de.powerstaff.business.service.TooManySearchResults;
 import de.powerstaff.web.backingbean.NavigatingBackingBean;
@@ -19,6 +20,8 @@ import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBackingBeanDataModel, PartnerService> {
 
     private AdditionalDataService additinalDataService;
+    
+    private FreelancerService freelancerService;
 
     @Override
     protected PartnerBackingBeanDataModel createDataModel() {
@@ -38,6 +41,20 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
      */
     public void setAdditinalDataService(AdditionalDataService additinalDataService) {
         this.additinalDataService = additinalDataService;
+    }
+    
+    /**
+     * @return the freelancerService
+     */
+    public FreelancerService getFreelancerService() {
+        return freelancerService;
+    }
+
+    /**
+     * @param freelancerService the freelancerService to set
+     */
+    public void setFreelancerService(FreelancerService freelancerService) {
+        this.freelancerService = freelancerService;
     }
 
     public String commandSearch() {
@@ -123,6 +140,10 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
         return "PARTNER_HISTORIE";
     }
 
+    public String commandFreiberufler() {
+        return "PARTNER_FREIBERUFLER";
+    }
+    
     public void commandAddNewHistoryEntry() {
         PartnerHistory theHistory = new PartnerHistory();
         theHistory.setDescription(getData().getNewHistoryEntry());
@@ -136,6 +157,13 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
         getData().setEntity(thePartner);
 
         JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
+    }
+    
+    public String commandSelectFreelancer() {
+        
+        Freelancer theFreelancer = (Freelancer) getData().getFreelancer().getRowData();
+        forceUpdateOfBean(FreelancerBackingBean.class, new EditEntityCommand<Freelancer>(theFreelancer));
+        return "FREELANCER_STAMMDATEN";
     }
 
     public String commandSelectSearchResult() {
@@ -218,4 +246,22 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
         return "FREELANCER_STAMMDATEN";
     }
     
+    public void addFreelancer() {
+        
+        Freelancer theFreelancer = freelancerService.findRealFreelancerByCode(getData().getCodeToAdd());
+        if (theFreelancer != null) {
+
+            Partner thePartner = getData().getEntity();
+
+            theFreelancer.setPartner(thePartner);
+            freelancerService.save(theFreelancer);
+            
+            thePartner = entityService.findByPrimaryKey(thePartner.getId());
+            getData().setEntity(thePartner);
+            
+            JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);                        
+        } else {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);
+        }
+    }
 }

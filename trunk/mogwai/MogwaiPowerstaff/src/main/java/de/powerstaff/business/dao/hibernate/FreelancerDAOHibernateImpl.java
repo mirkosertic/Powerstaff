@@ -139,4 +139,19 @@ public class FreelancerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Freel
 
         });
     }
+
+    public Freelancer findByCodeReal(final String aCode) {
+        return (Freelancer) getHibernateTemplate().execute(new HibernateCallback() {
+
+            public Object doInHibernate(Session aSession) {
+                Query theQuery = aSession.createQuery("from Freelancer item where item.code = :code");
+                theQuery.setString("code", aCode);
+                for (Iterator theIt = theQuery.iterate(); theIt.hasNext();) {
+                    return theIt.next();
+                }
+                return null;
+            }
+            
+        });
+    }
 }

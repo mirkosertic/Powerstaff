@@ -5,7 +5,10 @@
     xmlns:a4j="http://richfaces.org/a4j">
 	<b:gridBagLayout rows="p,2,p,2,p" cols="100">
 		<b:cell x="1" y="1">
-			<h:outputText value="Stammdaten" styleClass="menuitemSelected"/>
+			<b:commandLink action="#{partnerBackingBean.commandStammdaten}" immediate="true" styleClass="menuitem">
+				<h:outputText value="Stammdaten" />
+				<a4j:support event="onclick"/>
+			</b:commandLink>		
 		</b:cell>
 		
 		<b:cell x="1" y="3">
@@ -14,13 +17,10 @@
 				<a4j:support event="onclick"/>				
 			</b:commandLink>		
 		</b:cell>
-
-		<b:cell x="1" y="5">
-			<b:commandLink action="#{partnerBackingBean.commandFreiberufler}" immediate="true" styleClass="menuitem">
-				<h:outputText value="Freiberufler" />
-				<a4j:support event="onclick"/>				
-			</b:commandLink>		
-		</b:cell>
 		
+		<b:cell x="1" y="5">
+			<h:outputText value="Freiberufler" styleClass="menuitemSelected"/>
+		</b:cell>
+				
 	</b:gridBagLayout>
 </f:subview>

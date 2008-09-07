@@ -1,6 +1,7 @@
 package de.powerstaff.mobile;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -99,9 +100,9 @@ public class Datenuebernahme {
         File theCVPath = new File("C:\\Daten\\Arbeit\\Projekte\\MobileConsulting\\CVPath");
 
         importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
-        importKunden(theFactory, theManager, theConnection);
-        importPartner(theFactory, theManager, theConnection);
-        importProjekte(theFactory, theManager, theConnection);
+        // importKunden(theFactory, theManager, theConnection);
+        // importPartner(theFactory, theManager, theConnection);
+        // importProjekte(theFactory, theManager, theConnection);
 
         theConnection.close();
 
@@ -419,19 +420,23 @@ public class Datenuebernahme {
             // CV Generieren
             UserDefinedField theField = theFreelancer.getUdf().get("projekt");
 
-            /*
-             * if (!StringUtils.isEmpty(theFreelancer.getCode())) { if
-             * (!StringUtils.isEmpty(theField.getLongStringValue())) { File
-             * theCV = new File(aCVPath, "Profil " + theFreelancer.getCode() +
-             * ".txt"); FileWriter theWriter = new FileWriter(theCV);
-             * 
-             * theWriter.write(theField.getLongStringValue());
-             * theWriter.close(); } }
-             */
+            if (!StringUtils.isEmpty(theFreelancer.getCode())) {
+                if (!StringUtils.isEmpty(theField.getLongStringValue())) {
+                    File theCV = new File(aCVPath, "Profil " + theFreelancer.getCode() + ".txt");
+                    FileWriter theWriter = new FileWriter(theCV);
+
+                    theWriter.write(theField.getLongStringValue());
+                    theWriter.close();
+                    
+                    if (theFreelancer.getCreationDate() != null) {
+                        theCV.setLastModified(theFreelancer.getCreationDate().getTime());
+                    }
+                }
+            }
 
             theFreelancer.getUdf().remove("projekt");
 
-            DefaultTransactionDefinition theDefinition = new DefaultTransactionDefinition();
+            /*DefaultTransactionDefinition theDefinition = new DefaultTransactionDefinition();
             theDefinition.setName("atx");
             theDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
             TransactionStatus theTransaction = aManager.getTransaction(theDefinition);
@@ -445,7 +450,7 @@ public class Datenuebernahme {
                 LOGGER.logError("Fehler beim Import", e);
                 theTransaction.setRollbackOnly();
                 aManager.rollback(theTransaction);
-            }
+            }*/
         }
         theMitarbeiterResult.close();
 
