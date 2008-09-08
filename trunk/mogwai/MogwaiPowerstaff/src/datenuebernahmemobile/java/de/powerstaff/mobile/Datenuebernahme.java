@@ -99,10 +99,10 @@ public class Datenuebernahme {
 
         File theCVPath = new File("C:\\Daten\\Arbeit\\Projekte\\MobileConsulting\\CVPath");
 
-        importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
-        // importKunden(theFactory, theManager, theConnection);
+        //importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
+        importKunden(theFactory, theManager, theConnection);
         // importPartner(theFactory, theManager, theConnection);
-        // importProjekte(theFactory, theManager, theConnection);
+        importProjekte(theFactory, theManager, theConnection);
 
         theConnection.close();
 
@@ -427,7 +427,7 @@ public class Datenuebernahme {
 
                     theWriter.write(theField.getLongStringValue());
                     theWriter.close();
-                    
+
                     if (theFreelancer.getCreationDate() != null) {
                         theCV.setLastModified(theFreelancer.getCreationDate().getTime());
                     }
@@ -436,21 +436,19 @@ public class Datenuebernahme {
 
             theFreelancer.getUdf().remove("projekt");
 
-            /*DefaultTransactionDefinition theDefinition = new DefaultTransactionDefinition();
-            theDefinition.setName("atx");
-            theDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-            TransactionStatus theTransaction = aManager.getTransaction(theDefinition);
-            Session theSession = aFactory.openSession();
-            try {
-                theSession.save(theFreelancer);
-                theSession.flush();
-                theSession.close();
-                aManager.commit(theTransaction);
-            } catch (Exception e) {
-                LOGGER.logError("Fehler beim Import", e);
-                theTransaction.setRollbackOnly();
-                aManager.rollback(theTransaction);
-            }*/
+            /*
+             * DefaultTransactionDefinition theDefinition = new
+             * DefaultTransactionDefinition(); theDefinition.setName("atx");
+             * theDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+             * TransactionStatus theTransaction =
+             * aManager.getTransaction(theDefinition); Session theSession =
+             * aFactory.openSession(); try { theSession.save(theFreelancer);
+             * theSession.flush(); theSession.close();
+             * aManager.commit(theTransaction); } catch (Exception e) {
+             * LOGGER.logError("Fehler beim Import", e);
+             * theTransaction.setRollbackOnly();
+             * aManager.rollback(theTransaction); }
+             */
         }
         theMitarbeiterResult.close();
 
@@ -872,6 +870,15 @@ public class Datenuebernahme {
 
         LOGGER.logInfo("Import Projekte");
 
+        Map<Integer, String> theLandMap = new HashMap<Integer, String>();
+        Statement theFindLandStatenebt = aConnection.createStatement();
+        ResultSet theFindLandResult = theFindLandStatenebt.executeQuery("select * from land");
+        while (theFindLandResult.next()) {
+            theLandMap.put(theFindLandResult.getInt("ID"), theFindLandResult.getString("landKuerzel"));
+        }
+        theFindLandResult.close();
+        theFindLandStatenebt.close();
+
         Map<String, String> thePersonalMap = new HashMap<String, String>();
         Statement theFindPersonalStatenebt = aConnection.createStatement();
         ResultSet thePersonalResult = theFindPersonalStatenebt.executeQuery("select * from personal");
@@ -881,11 +888,26 @@ public class Datenuebernahme {
         thePersonalResult.close();
         theFindPersonalStatenebt.close();
 
+        ContactType theTelContactType = new ContactType();
+        theTelContactType.setId(CT_PHONE_GES);
+        ContactType theFaxContactType = new ContactType();
+        theFaxContactType.setId(CT_FAX_GES);
+        ContactType theMobileContactType = new ContactType();
+        theMobileContactType.setId(CT_MOBIL_GES);
+        ContactType theMailContactType = new ContactType();
+        theMailContactType.setId(CT_MAIL_GES);
+        ContactType theWebContactType = new ContactType();
+        theWebContactType.setId(CT_WEB_GES);
+
         Statement theProjectStatement = aConnection.createStatement();
         Statement theReadAgainStatement = aConnection.createStatement();
         ResultSet theProjectResult = theProjectStatement
                 .executeQuery("select * from projekt where (prNr like 'MS%') or ((prNr like 'TD%'))");
+        
         long theCounter = 0;
+
+        Map<String, Customer> theDummies = new HashMap<String, Customer>();
+
         while (theProjectResult.next()) {
             theCounter++;
 
@@ -937,20 +959,16 @@ public class Datenuebernahme {
             theProject.setLastModificationDate(getTimestamp(theProjectResult, "modifdatum"));
             theProject.setLastModificationUserID(thePersonalMap.get(getString(theProjectResult, "modifPersID")));
 
-            String thePLID = getString(theProjectResult, "anspLeitID");
-            if (thePLID == null) {
-                thePLID = getString(theProjectResult, "ansEinkID");
-            }
-            if (thePLID == null) {
-                // Kein PL und kein Einkauf -> Projekt wird ignoriert
-                continue;
-            }
-
             ResultSet theReadAgain = theReadAgainStatement.executeQuery("select * from projekt where ID = "
                     + theProjectId);
             theReadAgain.next();
             resultSetToUDF(theReadAgain, theProject);
             theReadAgain.close();
+
+            String thePLID = getString(theProjectResult, "anspLeitID");
+            if (thePLID == null) {
+                thePLID = getString(theProjectResult, "ansEinkID");
+            }
 
             DefaultTransactionDefinition theDefinition = new DefaultTransactionDefinition();
             theDefinition.setName("atx");
@@ -958,15 +976,82 @@ public class Datenuebernahme {
             TransactionStatus theTransaction = aManager.getTransaction(theDefinition);
             Session theSession = aFactory.openSession();
             try {
-                // Kunden suchen
-                Query theQuery = theSession.createQuery("from Customer item join item.udf u where u.intValue = :id");
-                int theID = Integer.parseInt(thePLID);
-                theQuery.setInteger("id", theID);
-                for (Object theObject : theQuery.list()) {
-                    Customer theCustomer = (Customer) theObject;
-                    if (theCustomer.getUdf().get("ID").getIntValue() == theID) {
-                        theProject.setCustomer(theCustomer);
+                if (thePLID != null) {
+                    // Kunden suchen
+                    Query theQuery = theSession
+                            .createQuery("from Customer item join item.udf u where u.intValue = :id");
+                    int theID = Integer.parseInt(thePLID);
+                    theQuery.setInteger("id", theID);
+                    for (Object theObject : theQuery.list()) {
+                        Customer theCustomer = (Customer) theObject;
+                        if (theCustomer.getUdf().get("ID").getIntValue() == theID) {
+                            theProject.setCustomer(theCustomer);
+                        }
                     }
+                } else {
+                    String theKunde = theProject.getUdf().get("kunde").getStringValue();
+                    Customer theDummyCustomer = theDummies.get(theKunde);
+                    if (theDummyCustomer == null) {
+
+                        Statement theCustomerStatement = aConnection.createStatement();
+                        ResultSet theCustomerResult = theCustomerStatement
+                                .executeQuery("select * from kunde where kunde = '" + theKunde + "'");
+                        while (theCustomerResult.next()) {
+
+                            theDummyCustomer = new Customer();
+
+                            theDummyCustomer.setName1("Unbekannt");
+                            theDummyCustomer.setName2("Unbekannt");
+                            theDummyCustomer.setCompany(getString(theCustomerResult, "firma"));
+                            theDummyCustomer.setStreet(getString(theCustomerResult, "strasse"));
+                            theDummyCustomer.setPlz(getString(theCustomerResult, "plz"));
+                            theDummyCustomer.setCity(getString(theCustomerResult, "ort"));
+
+                            String theLandField = getString(theCustomerResult, "landID");
+                            if (theLandField != null) {
+                                theDummyCustomer.setCountry(theLandMap.get(Integer.parseInt(theLandField)));
+                            }
+
+                            String theValue = getString(theCustomerResult, "tel1");
+                            if (!(theValue == null)) {
+                                CustomerContact theContact = new CustomerContact();
+                                theContact.setType(theTelContactType);
+                                theContact.setValue(theValue);
+                                theDummyCustomer.getContacts().add(theContact);
+                            }
+                            theValue = getString(theCustomerResult, "tel2");
+                            if (!(theValue == null)) {
+                                CustomerContact theContact = new CustomerContact();
+                                theContact.setType(theTelContactType);
+                                theContact.setValue(theValue);
+                                theDummyCustomer.getContacts().add(theContact);
+                            }
+                            theValue = getString(theCustomerResult, "fax");
+                            if (!(theValue == null)) {
+                                CustomerContact theContact = new CustomerContact();
+                                theContact.setType(theFaxContactType);
+                                theContact.setValue(theValue);
+                                theDummyCustomer.getContacts().add(theContact);
+                            }
+                            theValue = getString(theCustomerResult, "email");
+                            if (!(theValue == null)) {
+                                CustomerContact theContact = new CustomerContact();
+                                theContact.setType(theMailContactType);
+                                theContact.setValue(theValue);
+                                theDummyCustomer.getContacts().add(theContact);
+                            }
+                            theValue = getString(theCustomerResult, "url");
+                            if (!(theValue == null)) {
+                                CustomerContact theContact = new CustomerContact();
+                                theContact.setType(theWebContactType);
+                                theContact.setValue(theValue);
+                                theDummyCustomer.getContacts().add(theContact);
+                            }
+                        }
+                        theDummies.put(theKunde, theDummyCustomer);
+                        theSession.save(theDummyCustomer);
+                    }
+                    theProject.setCustomer(theDummyCustomer);
                 }
 
                 if (theProject.getCustomer() != null) {
