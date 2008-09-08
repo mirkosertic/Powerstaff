@@ -44,7 +44,7 @@
 							<b:inputfield labelComponentId="labelcode" value="#{partnerBackingBean.data.codeToAdd}" required="true"/>
 						</b:cell>
 						<b:cell x="5" y="1">
-							<b:commandButton value="Zuordnen" sizeToGridBag="true" action="#{partnerBackingBean.addFreelancer}">
+							<b:commandButton value="Zuordnen" sizeToGridBag="true" action="#{partnerBackingBean.commandAddFreelancer}">
 								<a4j:support event="onclick" reRender="partnerliste" />
 							</b:commandButton>
 						</b:cell>
@@ -52,11 +52,11 @@
 				</b:cell>				
 
 				<b:cell x="1" y="5">
-					<b:table id="partnerliste" var="row" value="#{partnerBackingBean.data.freelancer}" cols="20,150,150,130,100,260">
+					<b:table id="partnerliste" var="row" value="#{partnerBackingBean.data.freelancer}" cols="20,150,150,130,100,240,20">
 						<h:column>
 							<f:facet name="header">
 							</f:facet>
-							<b:commandLink title="Datensatz anzeigen" action="#{partnerBackingBean.commandSelectFreelancer}">
+							<b:commandLink title="Datensatz anzeigen" action="#{partnerBackingBean.commandSelectFreelancer}" immediate="true">
 								<b:image source="/images/select.gif" />
 								<a4j:support event="onclick"/>
 							</b:commandLink>
@@ -91,6 +91,15 @@
 							</f:facet>
 							<h:outputText value="#{row.skills}"/>
 						</h:column>
+						<h:column>
+							<f:facet name="header">
+							</f:facet>
+							<b:commandLink title="Zuordnung löschen" action="#{partnerBackingBean.commandRemoveFreelancer}" immediate="true">
+								<b:image source="/images/delete.gif" />
+								<a4j:support event="onclick" reRender="partnerliste"/>
+							</b:commandLink>
+						</h:column>
+						
 					</b:table>
 				</b:cell>
 			</b:gridBagLayout>

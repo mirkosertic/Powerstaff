@@ -20,7 +20,7 @@ import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBackingBeanDataModel, PartnerService> {
 
     private AdditionalDataService additinalDataService;
-    
+
     private FreelancerService freelancerService;
 
     @Override
@@ -42,7 +42,7 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
     public void setAdditinalDataService(AdditionalDataService additinalDataService) {
         this.additinalDataService = additinalDataService;
     }
-    
+
     /**
      * @return the freelancerService
      */
@@ -51,7 +51,8 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
     }
 
     /**
-     * @param freelancerService the freelancerService to set
+     * @param freelancerService
+     *                the freelancerService to set
      */
     public void setFreelancerService(FreelancerService freelancerService) {
         this.freelancerService = freelancerService;
@@ -64,7 +65,7 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
             theResult = entityService.performQBESearch(getData().getEntity());
         } catch (TooManySearchResults e) {
             theResult = e.getResult();
-            JSFMessageUtils.addGlobalErrorMessage(MSG_ZUVIELESUCHERGEBNISSE);            
+            JSFMessageUtils.addGlobalErrorMessage(MSG_ZUVIELESUCHERGEBNISSE);
         }
 
         if (theResult.size() < 1) {
@@ -73,10 +74,11 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
         }
 
         if (theResult.size() == 1) {
-        
+
             GenericSearchResult theResult2 = (GenericSearchResult) theResult.iterator().next();
-            getData().setEntity(entityService.findByPrimaryKey((Long) theResult2.get(GenericSearchResult.OBJECT_ID_KEY)));
-            
+            getData().setEntity(
+                    entityService.findByPrimaryKey((Long) theResult2.get(GenericSearchResult.OBJECT_ID_KEY)));
+
             afterNavigation();
             return null;
         }
@@ -143,14 +145,14 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
     public String commandFreiberufler() {
         return "PARTNER_FREIBERUFLER";
     }
-    
+
     public void commandAddNewHistoryEntry() {
         PartnerHistory theHistory = new PartnerHistory();
         theHistory.setDescription(getData().getNewHistoryEntry());
 
         Partner thePartner = getData().getEntity();
         thePartner.getHistory().add(theHistory);
-        
+
         entityService.save(thePartner);
 
         getData().setNewHistoryEntry(null);
@@ -158,9 +160,9 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
 
         JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
     }
-    
+
     public String commandSelectFreelancer() {
-        
+
         Freelancer theFreelancer = (Freelancer) getData().getFreelancer().getRowData();
         forceUpdateOfBean(FreelancerBackingBean.class, new EditEntityCommand<Freelancer>(theFreelancer));
         return "FREELANCER_STAMMDATEN";
@@ -194,15 +196,15 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
         super.updateModel(aInfo);
         if (aInfo.getCommand() instanceof EditEntityCommand) {
             EditEntityCommand<Freelancer> theCommand = (EditEntityCommand<Freelancer>) aInfo.getCommand();
-            
+
             Partner theOldPartner = theCommand.getValue().getPartner();
             init();
-            
+
             Partner thePartner = (Partner) entityService.findByPrimaryKey(theOldPartner.getId());
             getData().setEntity(thePartner);
             afterNavigation();
-            
-            getData().setOriginalFreelancer(theCommand.getValue());            
+
+            getData().setOriginalFreelancer(theCommand.getValue());
         }
     }
 
@@ -220,34 +222,35 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
     @Override
     public void commandLast() {
         super.commandLast();
-        getData().setOriginalFreelancer(null);        
+        getData().setOriginalFreelancer(null);
     }
 
     @Override
     public void commandNew() {
         super.commandNew();
-        getData().setOriginalFreelancer(null);        
+        getData().setOriginalFreelancer(null);
     }
 
     @Override
     public void commandNext() {
         super.commandNext();
-        getData().setOriginalFreelancer(null);        
+        getData().setOriginalFreelancer(null);
     }
 
     @Override
     public void commandPrior() {
         super.commandPrior();
-        getData().setOriginalFreelancer(null);        
+        getData().setOriginalFreelancer(null);
     }
 
     public String commandJumpToFreelancer() {
-        forceUpdateOfBean(FreelancerBackingBean.class, new EditEntityCommand<Freelancer>(getData().getOriginalFreelancer()));
+        forceUpdateOfBean(FreelancerBackingBean.class, new EditEntityCommand<Freelancer>(getData()
+                .getOriginalFreelancer()));
         return "FREELANCER_STAMMDATEN";
     }
-    
-    public void addFreelancer() {
-        
+
+    public void commandAddFreelancer() {
+
         Freelancer theFreelancer = freelancerService.findRealFreelancerByCode(getData().getCodeToAdd());
         if (theFreelancer != null) {
 
@@ -255,13 +258,28 @@ public class PartnerBackingBean extends NavigatingBackingBean<Partner, PartnerBa
 
             theFreelancer.setPartner(thePartner);
             freelancerService.save(theFreelancer);
-            
+
             thePartner = entityService.findByPrimaryKey(thePartner.getId());
             getData().setEntity(thePartner);
-            
-            JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);                        
+
+            JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
         } else {
             JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);
         }
+    }
+
+    public void commandRemoveFreelancer() {
+
+        Freelancer theFreelancer = (Freelancer) getData().getFreelancer().getRowData();
+
+        Partner thePartner = getData().getEntity();
+
+        theFreelancer.setPartner(null);
+        freelancerService.save(theFreelancer);
+
+        thePartner = entityService.findByPrimaryKey(thePartner.getId());
+        getData().setEntity(thePartner);
+
+        JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
     }
 }

@@ -33,7 +33,7 @@
 			<one-to-many class="PartnerHistory"/>
 		</set>
   
-		<set name="freelancer" cascade="all-delete-orphan" inverse="true">
+		<set name="freelancer" cascade="none">
 			<key column="partner_id"/>
 			<one-to-many class="Freelancer"/>
 		</set>
