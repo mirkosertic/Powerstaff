@@ -319,9 +319,11 @@
 										<b:label id="partner_label" label="Ges.P." />
 									</b:cell>
 									<b:cell x="4" y="10">
-										<h:outputText value="#{freelancerBackingBean.data.entity.partner}">
-											<f:converter converterId="personConverter"/>
-										</h:outputText>
+										<a4j:outputPanel ajaxRendered="true">
+											<h:outputText value="#{freelancerBackingBean.data.entity.partner}">
+												<f:converter converterId="personConverter"/>
+											</h:outputText>
+										</a4j:outputPanel>
 									</b:cell>
 									<b:cell x="6" y="10">
 										<b:commandLink title="Springe zur Partner - Ansicht" action="#{freelancerBackingBean.commandShowPartner}">
