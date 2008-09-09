@@ -99,9 +99,9 @@ public class Datenuebernahme {
 
         File theCVPath = new File("C:\\Daten\\Arbeit\\Projekte\\MobileConsulting\\CVPath");
 
-        //importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
+        // importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
+        // importPartner(theFactory, theManager, theConnection);        
         importKunden(theFactory, theManager, theConnection);
-        // importPartner(theFactory, theManager, theConnection);
         importProjekte(theFactory, theManager, theConnection);
 
         theConnection.close();
