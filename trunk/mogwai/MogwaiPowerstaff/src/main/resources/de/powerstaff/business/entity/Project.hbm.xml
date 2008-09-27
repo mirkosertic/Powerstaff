@@ -26,6 +26,7 @@
 		</property>
 		<property name="entryDate"/>
 		<property name="startDate"/>
+		<property name="stundensatzVK"/>
 		
 		<set name="positions" cascade="all-delete-orphan" inverse="true">
 			<key column="project_id"/>
