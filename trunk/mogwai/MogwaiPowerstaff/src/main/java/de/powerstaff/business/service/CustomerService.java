@@ -19,5 +19,5 @@ package de.powerstaff.business.service;
 
 import de.powerstaff.business.entity.Customer;
 
-public interface CustomerService extends NavigatingService<Customer> {
+public interface CustomerService extends PersonService<Customer> {
 }

@@ -17,8 +17,15 @@
  */
 package de.powerstaff.business.dao;
 
-import de.powerstaff.business.entity.Partner;
+import java.util.Collection;
+import java.util.List;
 
-public interface PartnerDAO extends PersonDAO<Partner> {
+import de.powerstaff.business.entity.ContactType;
+import de.powerstaff.business.entity.Person;
 
+public interface PersonDAO<T extends Person> extends NavigatingDAO<T> {
+
+    List<GenericSearchResult> performQBESearch(T aObject, int aMaxSearchResult);
+
+    Collection<GenericSearchResult> performSearchByContact(String aContact, ContactType aContactType, int aMax);
 }

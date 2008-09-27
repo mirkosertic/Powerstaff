@@ -15,10 +15,15 @@
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
-package de.powerstaff.business.dao;
+package de.powerstaff.business.service;
 
-import de.powerstaff.business.entity.Partner;
+import java.util.Collection;
 
-public interface PartnerDAO extends PersonDAO<Partner> {
+import de.powerstaff.business.dao.GenericSearchResult;
+import de.powerstaff.business.entity.ContactType;
+import de.powerstaff.business.entity.Person;
 
+public interface PersonService<T extends Person> extends NavigatingService<T> {
+
+    Collection<GenericSearchResult> performSearchByContact(String aContact, ContactType aContactType) throws TooManySearchResults;    
 }

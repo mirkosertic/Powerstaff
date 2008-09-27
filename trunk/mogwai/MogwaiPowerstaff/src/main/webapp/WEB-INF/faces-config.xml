@@ -154,59 +154,15 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>FREELANCER_STAMMDATEN</from-outcome>
-			<to-view-id>
-				/include/freelancer/freelancermain.xhtml
-			</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>FREELANCER_HISTORIE</from-outcome>
-			<to-view-id>
-				/include/freelancer/freelancerhistory.xhtml
-			</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>FREELANCER_SEARCHRESULT</from-outcome>
-			<to-view-id>
-				/include/freelancer/freelancersearchresult.xhtml
-			</to-view-id>
+			<to-view-id>/include/freelancer/freelancermain.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>CUSTOMER_STAMMDATEN</from-outcome>
-			<to-view-id>
-				/include/customer/customermain.xhtml
-			</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>CUSTOMER_HISTORIE</from-outcome>
-			<to-view-id>
-				/include/customer/customerhistory.xhtml
-			</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>CUSTOMER_SEARCHRESULT</from-outcome>
-			<to-view-id>
-				/include/customer/customersearchresult.xhtml
-			</to-view-id>
+			<to-view-id>/include/customer/customermain.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>PARTNER_STAMMDATEN</from-outcome>
 			<to-view-id>/include/partner/partnermain.xhtml</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>PARTNER_FREIBERUFLER</from-outcome>
-			<to-view-id>/include/partner/partnerfreelancer.xhtml</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>PARTNER_HISTORIE</from-outcome>
-			<to-view-id>
-				/include/partner/partnerhistory.xhtml
-			</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>PARTNER_SEARCHRESULT</from-outcome>
-			<to-view-id>
-				/include/partner/partnersearchresult.xhtml
-			</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>PROJEKT_STAMMDATEN</from-outcome>
@@ -214,9 +170,7 @@
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>PROJEKT_SEARCHRESULT</from-outcome>
-			<to-view-id>
-				/include/project/projectsearchresult.xhtml
-			</to-view-id>
+			<to-view-id>/include/project/projectsearchresult.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>PROFILE_STAMMDATEN</from-outcome>
@@ -224,11 +178,80 @@
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>INDEX</from-outcome>
+			<to-view-id>/include/freelancer/freelancermain.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/include/freelancer/*</from-view-id>
+		<navigation-case>
+			<from-outcome>STAMMDATEN</from-outcome>
 			<to-view-id>
 				/include/freelancer/freelancermain.xhtml
 			</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>HISTORIE</from-outcome>
+			<to-view-id>
+				/include/freelancer/freelancerhistory.xhtml
+			</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>SEARCHRESULT</from-outcome>
+			<to-view-id>
+				/include/freelancer/freelancersearchresult.xhtml
+			</to-view-id>
+		</navigation-case>
 	</navigation-rule>
-
+	
+	<navigation-rule>
+		<from-view-id>/include/customer/*</from-view-id>
+		<navigation-case>
+			<from-outcome>STAMMDATEN</from-outcome>
+			<to-view-id>
+				/include/customer/customermain.xhtml
+			</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>HISTORIE</from-outcome>
+			<to-view-id>
+				/include/customer/customerhistory.xhtml
+			</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>SEARCHRESULT</from-outcome>
+			<to-view-id>
+				/include/customer/customersearchresult.xhtml
+			</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/include/partner/*</from-view-id>
+		<navigation-case>
+			<from-outcome>STAMMDATEN</from-outcome>
+			<to-view-id>
+				/include/partner/partnermain.xhtml
+			</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>HISTORIE</from-outcome>
+			<to-view-id>
+				/include/partner/partnerhistory.xhtml
+			</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>SEARCHRESULT</from-outcome>
+			<to-view-id>
+				/include/partner/partnersearchresult.xhtml
+			</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>FREIBERUFLER</from-outcome>
+			<to-view-id>
+				/include/partner/partnerfreelancer.xhtml
+			</to-view-id>
+		</navigation-case>
+	</navigation-rule>	
 </faces-config>
 

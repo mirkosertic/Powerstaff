@@ -17,18 +17,22 @@
  */
 package de.powerstaff.business.dao.hibernate;
 
-import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
-import java.util.Vector;
-
-import org.hibernate.Session;
-import org.springframework.orm.hibernate3.HibernateCallback;
 
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dao.PartnerDAO;
+import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Partner;
 
-public class PartnerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Partner> implements PartnerDAO {
+public class PartnerDAOHibernateImpl extends PersonDAOHibernateImpl<Partner> implements PartnerDAO {
+
+    private static final String[] DISPLAYPROPERTIES = new String[] { "name1", "name2", "company", "city", "comments" };
+
+    private static final String[] SEARCHPROPERTIES = new String[] { "name1", "name2", "company", "street", "country", "plz", "city",
+            "comments", };
+
+    private static final String[] ORDERBYPROPERTIES = new String[] { "name1", "name2" };
 
     @Override
     protected Partner createNew() {
@@ -41,28 +45,11 @@ public class PartnerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Partner>
     }
 
     public List<GenericSearchResult> performQBESearch(Partner aObject, int aMaxSearchResult) {
-
-        String[] theProperties = new String[] { "name1", "name2", "company", "city", "comments" };
-
-        String[] theSearchProperties = new String[] { "name1", "name2", "company", "street", "country", "plz", "city",
-                "comments", };
-
-        String[] theOrderByProperties = new String[] { "name1", "name2" };
-
-        return performQBESearch(aObject, theProperties, theSearchProperties, theOrderByProperties, MATCH_LIKE,
+        return performQBESearch(aObject, DISPLAYPROPERTIES, SEARCHPROPERTIES, ORDERBYPROPERTIES, MATCH_LIKE,
                 aMaxSearchResult);
     }
 
-    public List<Partner> findAll() {
-        return (List<Partner>) getHibernateTemplate().execute(new HibernateCallback() {
-
-            public Object doInHibernate(Session aSession) throws SQLException {
-                List<Partner> theResult = new Vector<Partner>();
-                theResult.addAll(aSession.createQuery("from Partner item order by item.name1, item.name2").list());
-                return theResult;
-            }
-
-        });
-
+    public Collection<GenericSearchResult> performSearchByContact(String aContact, ContactType aContactType, int aMax) {
+        return performSearchByContact(aContact, aContactType, DISPLAYPROPERTIES, ORDERBYPROPERTIES, aMax);
     }
 }

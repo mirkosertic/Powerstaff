@@ -22,6 +22,7 @@ import java.util.Collection;
 import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.CustomerDAO;
 import de.powerstaff.business.dao.GenericSearchResult;
+import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Customer;
 import de.powerstaff.business.service.CustomerService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
@@ -106,5 +107,15 @@ public class CustomerServiceImpl extends LogableService implements CustomerServi
 
     public Customer findByRecordNumber(Long aNumber) {
         return customerDAO.findByRecordNumber(aNumber);
+    }
+
+    public Collection<GenericSearchResult> performSearchByContact(String aContact, ContactType aContactType)
+            throws TooManySearchResults {
+        int aMax = systemParameterService.getMaxSearchResult();
+        Collection<GenericSearchResult> theResult = customerDAO.performSearchByContact(aContact, aContactType, aMax);
+        if (theResult.size() == aMax) {
+            throw new TooManySearchResults(theResult);
+        }
+        return theResult;
     }
 }

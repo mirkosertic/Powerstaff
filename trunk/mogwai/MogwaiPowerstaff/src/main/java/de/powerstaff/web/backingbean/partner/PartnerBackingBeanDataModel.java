@@ -1,35 +1,31 @@
+/**
+ * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ * 
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
 package de.powerstaff.web.backingbean.partner;
 
-import java.util.List;
-
 import de.mogwai.common.web.utils.CollectionDataModel;
-import de.powerstaff.business.dao.GenericSearchResult;
-import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.Partner;
-import de.powerstaff.business.entity.PartnerContact;
-import de.powerstaff.business.entity.PartnerHistory;
-import de.powerstaff.web.backingbean.NavigatingBackingBeanDataModel;
-import de.powerstaff.web.utils.Comparators;
+import de.powerstaff.web.backingbean.PersonEditorBackingBeanDataModel;
 
-public class PartnerBackingBeanDataModel extends NavigatingBackingBeanDataModel<Partner> {
+public class PartnerBackingBeanDataModel extends PersonEditorBackingBeanDataModel<Partner> {
 
-    private ContactType newContactType;
-
-    private String newContactValue;
-
-    private String newHistoryEntry;
-
-    private CollectionDataModel<PartnerContact> contacts;
-
-    private CollectionDataModel<PartnerHistory> history;
-    
     private CollectionDataModel<Freelancer> freelancer;
 
-    private CollectionDataModel<GenericSearchResult> searchResult = new CollectionDataModel<GenericSearchResult>();
-
-    private List<ContactType> contactTypes;
-    
     private Freelancer originalFreelancer;
     
     private String codeToAdd;
@@ -50,91 +46,8 @@ public class PartnerBackingBeanDataModel extends NavigatingBackingBeanDataModel<
     @Override
     public void setEntity(Partner aValue) {
         super.setEntity(aValue);
-        contacts = new CollectionDataModel<PartnerContact>(aValue.getContacts());
-        contacts.sort(Comparators.CONTACTCOMPARATOR);
-        history = new CollectionDataModel<PartnerHistory>(aValue.getHistory());
-        history.sort(Comparators.INVERSECREATIONDATECOMPARATOR);
         freelancer = new CollectionDataModel<Freelancer>(aValue.getFreelancer());
-        newContactType = null;
-        newContactValue = null;
-    }
-
-    public CollectionDataModel<PartnerContact> getContacts() {
-        return contacts;
-    }
-
-    /**
-     * @return the newContactType
-     */
-    public ContactType getNewContactType() {
-        return newContactType;
-    }
-
-    /**
-     * @param newContactType
-     *                the newContactType to set
-     */
-    public void setNewContactType(ContactType newContactType) {
-        this.newContactType = newContactType;
-    }
-
-    /**
-     * @return the newContactValue
-     */
-    public String getNewContactValue() {
-        return newContactValue;
-    }
-
-    /**
-     * @param newContactValue
-     *                the newContactValue to set
-     */
-    public void setNewContactValue(String newContactValue) {
-        this.newContactValue = newContactValue;
-    }
-
-    /**
-     * @return the contactTypes
-     */
-    public List<ContactType> getContactTypes() {
-        return contactTypes;
-    }
-
-    /**
-     * @param contactTypes
-     *                the contactTypes to set
-     */
-    public void setContactTypes(List<ContactType> contactTypes) {
-        this.contactTypes = contactTypes;
-    }
-
-    /**
-     * @return the history
-     */
-    public CollectionDataModel<PartnerHistory> getHistory() {
-        return history;
-    }
-
-    /**
-     * @return the searchResult
-     */
-    public CollectionDataModel<GenericSearchResult> getSearchResult() {
-        return searchResult;
-    }
-
-    /**
-     * @return the newHistoryEntry
-     */
-    public String getNewHistoryEntry() {
-        return newHistoryEntry;
-    }
-
-    /**
-     * @param newHistoryEntry
-     *                the newHistoryEntry to set
-     */
-    public void setNewHistoryEntry(String newHistoryEntry) {
-        this.newHistoryEntry = newHistoryEntry;
+        codeToAdd = null;
     }
 
     public Freelancer getOriginalFreelancer() {
@@ -157,27 +70,6 @@ public class PartnerBackingBeanDataModel extends NavigatingBackingBeanDataModel<
      */
     public void setFreelancer(CollectionDataModel<Freelancer> freelancer) {
         this.freelancer = freelancer;
-    }
-
-    /**
-     * @param contacts the contacts to set
-     */
-    public void setContacts(CollectionDataModel<PartnerContact> contacts) {
-        this.contacts = contacts;
-    }
-
-    /**
-     * @param history the history to set
-     */
-    public void setHistory(CollectionDataModel<PartnerHistory> history) {
-        this.history = history;
-    }
-
-    /**
-     * @param searchResult the searchResult to set
-     */
-    public void setSearchResult(CollectionDataModel<GenericSearchResult> searchResult) {
-        this.searchResult = searchResult;
     }
 
     /**
