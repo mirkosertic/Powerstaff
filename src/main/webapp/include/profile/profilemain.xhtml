@@ -81,7 +81,7 @@
 
 				<b:cell x="1" y="4" width="3">
 					<a4j:outputPanel ajaxRendered="true">
-					<b:table rendered="#{profileBackingBean.data.searchResultSize > 0}" var="row" value="#{profileBackingBean.data.searchResult}" cols="20,100,100,60,60,80,60,310,20">
+					<b:table rendered="#{profileBackingBean.data.searchResultSize > 0}" var="row" value="#{profileBackingBean.data.searchResult}" cols="20,130,70,50,30,70,40,380,20">
 						<h:column>
 							<f:facet name="header">
 							</f:facet>
@@ -110,7 +110,7 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">
-								<h:outputText value="Std.Satz"/>
+								<h:outputText value="Satz"/>
 							</f:facet>
 							<h:outputText value="#{row.freelancer.stundensatz}"/>
 						</h:column>
@@ -118,7 +118,9 @@
 							<f:facet name="header">
 								<h:outputText value="Verf."/>
 							</f:facet>
-							<h:outputText value="#{row.freelancer.availability}"/>
+							<h:outputText value="#{row.freelancer.availability}">
+								<f:converter converterId="dateConverter"/>
+							</h:outputText>
 						</h:column>
 						<h:column>
 							<f:facet name="header">
