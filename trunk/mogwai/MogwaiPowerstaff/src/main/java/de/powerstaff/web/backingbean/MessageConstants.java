@@ -25,4 +25,6 @@ public interface MessageConstants {
     String MSG_KEINE_KONTAKTINFOS = "message.keinekontaktinfosangegeben";
     
     String MSG_ZUVIELESUCHERGEBNISSE = "message.zuvielesuchergebnisse";
+    
+    String DATE_FORMAT = "global.dateformat.short";
 }

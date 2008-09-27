@@ -50,6 +50,13 @@
 		</converter-class>
 	</converter>
 
+	<converter>
+		<converter-id>dateConverter</converter-id>
+		<converter-class>
+			de.powerstaff.web.converter.DateConverter
+		</converter-class>
+	</converter>
+
 	<managed-bean>
 		<managed-bean-name>navigationBackingBean</managed-bean-name>
 		<managed-bean-class>

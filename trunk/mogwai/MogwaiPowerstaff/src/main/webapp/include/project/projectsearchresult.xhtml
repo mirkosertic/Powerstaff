@@ -69,7 +69,9 @@
 							<f:facet name="header">
 								<h:outputText value="Start"/>
 							</f:facet>
-							<h:outputText value="#{row.start}"/>
+							<h:outputText value="#{row.startDate}">
+								<f:converter converterId="dateConverter"/>
+							</h:outputText>
 						</h:column>
 						<h:column>
 							<f:facet name="header">
