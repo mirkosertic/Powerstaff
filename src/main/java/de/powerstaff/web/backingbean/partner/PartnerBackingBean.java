@@ -28,6 +28,7 @@ import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.PartnerService;
 import de.powerstaff.web.backingbean.PersonEditorBackingBean;
 import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
+import de.powerstaff.web.backingbean.project.ProjectBackingBean;
 
 public class PartnerBackingBean extends PersonEditorBackingBean<Partner, PartnerBackingBeanDataModel, PartnerService> {
 
@@ -68,16 +69,27 @@ public class PartnerBackingBean extends PersonEditorBackingBean<Partner, Partner
     public void updateModel(UpdateModelInfo aInfo) {
         super.updateModel(aInfo);
         if (aInfo.getCommand() instanceof EditEntityCommand) {
-            EditEntityCommand<Freelancer> theCommand = (EditEntityCommand<Freelancer>) aInfo.getCommand();
 
-            Partner theOldPartner = theCommand.getValue().getPartner();
             init();
 
-            Partner thePartner = (Partner) entityService.findByPrimaryKey(theOldPartner.getId());
-            getData().setEntity(thePartner);
-            afterNavigation();
+            EditEntityCommand theCommand = (EditEntityCommand) aInfo.getCommand();
+            if (theCommand.getValue() instanceof Freelancer) {
 
-            getData().setOriginalFreelancer(theCommand.getValue());
+                Freelancer theFreelancer = (Freelancer) theCommand.getValue();
+                Partner theOldPartner = theFreelancer.getPartner();
+
+                Partner thePartner = (Partner) entityService.findByPrimaryKey(theOldPartner.getId());
+                getData().setEntity(thePartner);
+                afterNavigation();
+
+                getData().setOriginalFreelancer(theFreelancer);
+            } else {
+                Partner thePartner = (Partner) theCommand.getValue();
+                
+                thePartner = (Partner) entityService.findByPrimaryKey(thePartner.getId());
+                getData().setEntity(thePartner);
+                afterNavigation();
+            }
         }
     }
 
@@ -164,5 +176,17 @@ public class PartnerBackingBean extends PersonEditorBackingBean<Partner, Partner
     @Override
     protected PartnerHistory createNewHistory() {
         return new PartnerHistory();
+    }
+
+    public String commandNewProject() {
+
+        Partner thePartner = getData().getEntity();
+        if (thePartner.getId() == null) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_KEINPARTNER);
+            return null;
+        }
+
+        forceUpdateOfBean(ProjectBackingBean.class, new EditEntityCommand<Partner>(thePartner));
+        return "PROJEKT_STAMMDATEN";
     }
 }

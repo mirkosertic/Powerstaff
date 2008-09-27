@@ -7,11 +7,13 @@ import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.mogwai.common.web.utils.UpdateModelInfo;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.Customer;
+import de.powerstaff.business.entity.Partner;
 import de.powerstaff.business.entity.Project;
 import de.powerstaff.business.service.ProjectService;
 import de.powerstaff.business.service.TooManySearchResults;
 import de.powerstaff.web.backingbean.NavigatingBackingBean;
 import de.powerstaff.web.backingbean.customer.CustomerBackingBean;
+import de.powerstaff.web.backingbean.partner.PartnerBackingBean;
 
 public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBackingBeanDataModel, ProjectService> {
 
@@ -56,7 +58,7 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
     @Override
     public void commandSave() {
         try {
-            if (getData().getEntity().getCustomer() != null) {
+            if (getData().getEntity().getContactPerson() != null) {
                 super.commandSave();
             } else {
                 JSFMessageUtils.addGlobalErrorMessage(MSG_KEINKUNDE);
@@ -92,6 +94,13 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
             return "CUSTOMER_STAMMDATEN";
         }
 
+        Partner thePartner = getData().getEntity().getPartner();
+        if (thePartner != null) {
+
+            forceUpdateOfBean(PartnerBackingBean.class, new EditEntityCommand<Partner>(thePartner));
+            return "PARTNER_STAMMDATEN";
+        }
+
         JSFMessageUtils.addGlobalErrorMessage(MSG_KEINKUNDE);
         return null;
     }
@@ -100,12 +109,18 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
     public void updateModel(UpdateModelInfo aInfo) {
         super.updateModel(aInfo);
         if (aInfo.getCommand() instanceof EditEntityCommand) {
-            EditEntityCommand<Customer> theCommand = (EditEntityCommand<Customer>) aInfo.getCommand();
+            
+            EditEntityCommand theCommand = (EditEntityCommand) aInfo.getCommand();
 
             init();
 
             Project theProject = new Project();
-            theProject.setCustomer(theCommand.getValue());
+            if (theCommand.getValue() instanceof Customer) {
+                theProject.setCustomer((Customer) theCommand.getValue());
+            } 
+            if (theCommand.getValue() instanceof Partner) {
+                theProject.setPartner((Partner) theCommand.getValue());
+            } 
 
             getData().setEntity(theProject);
             afterNavigation();

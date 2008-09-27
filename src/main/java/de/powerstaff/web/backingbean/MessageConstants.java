@@ -19,6 +19,8 @@ public interface MessageConstants {
     String MSG_PROFILEGEFUNDEN = "message.profilegefunden";
 
     String MSG_KEINKUNDE = "message.keinkundeangegeben";
+    
+    String MSG_KEINPARTNER = "message.keinpartnerangegeben";
 
     String MSG_FALSCHESLOGIN = "message.falscheslogin";
 

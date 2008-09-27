@@ -58,9 +58,20 @@ public abstract class NavigatingDAOHibernateImpl<T extends Entity> extends Gener
 
                 String theQueryString = "select item.id";
                 for (String aProperty : aProperties) {
-                    theQueryString += " ,item." + aProperty;
+                    if (!aProperty.startsWith("+")) {
+                        theQueryString += " ,item." + aProperty;
+                    } else {
+                        theQueryString += " ,j_" + aProperty.substring(1).toLowerCase();
+                    }
                 }
                 theQueryString += " from " + aType.getName() + " item ";
+                for (String aProperty : aProperties) {
+                    if (aProperty.startsWith("+")) {
+                        String theRealName = aProperty.substring(1);
+                        theQueryString += " left outer join item." + theRealName + " as j_" + theRealName.toLowerCase();
+                    }
+                }
+
                 HashMap<String, Object> theParams = new HashMap<String, Object>();
 
                 boolean theFirst = true;
@@ -121,7 +132,11 @@ public abstract class NavigatingDAOHibernateImpl<T extends Entity> extends Gener
                     GenericSearchResult theRowObject = new GenericSearchResult();
                     theRowObject.put(GenericSearchResult.OBJECT_ID_KEY, theRow[0]);
                     for (int i = 0; i < aProperties.length; i++) {
-                        theRowObject.put(aProperties[i], theRow[i + 1]);
+                        String thePropertyName = aProperties[i];
+                        if (thePropertyName.startsWith(".")) {
+                            thePropertyName = thePropertyName.substring(1);
+                        }
+                        theRowObject.put(thePropertyName, theRow[i + 1]);
                     }
                     theResult.add(theRowObject);
                 }

@@ -135,7 +135,7 @@
 									</b:cell>
 									<b:cell x="4" y="2" width="2">
 										<a4j:outputPanel ajaxRendered="true">
-											<h:outputText value="#{projectBackingBean.data.entity.customer}">
+											<h:outputText value="#{projectBackingBean.data.entity.contactPerson}">
 												<f:converter converterId="personConverter" />
 											</h:outputText>
 										</a4j:outputPanel>
@@ -274,7 +274,7 @@
 									</b:cell>
 									<b:cell x="4" y="2" width="5">
 										<b:inputfield
-											value="#{projectBackingBean.data.entity.customer.name1}"
+											value="#{projectBackingBean.data.entity.contactPerson.name1}"
 											id="vorname" labelComponentId="vornamelabel" 
 											disabled="true"/>
 									</b:cell>
@@ -284,7 +284,7 @@
 									</b:cell>
 									<b:cell x="4" y="4" width="5">
 										<b:inputfield
-											value="#{projectBackingBean.data.entity.customer.name2}"
+											value="#{projectBackingBean.data.entity.contactPerson.name2}"
 											id="nachname" labelComponentId="nachname_label" 
 											disabled="true"/>
 									</b:cell>
@@ -294,7 +294,7 @@
 									</b:cell>
 									<b:cell x="4" y="6" width="5">
 										<b:inputfield
-											value="#{projectBackingBean.data.entity.customer.company}"
+											value="#{projectBackingBean.data.entity.contactPerson.company}"
 											id="firma" labelComponentId="firma_label" 
 											disabled="true"/>
 									</b:cell>
@@ -304,7 +304,7 @@
 									</b:cell>
 									<b:cell x="4" y="8" width="5">
 										<b:inputfield
-											value="#{projectBackingBean.data.entity.customer.street}"
+											value="#{projectBackingBean.data.entity.contactPerson.street}"
 											id="strasse" labelComponentId="strasse_label" 
 											disabled="true"/>
 									</b:cell>
@@ -314,20 +314,20 @@
 									</b:cell>
 
 									<b:cell x="4" y="10">
-										<b:inputfield value="#{projectBackingBean.data.entity.customer.country}"
+										<b:inputfield value="#{projectBackingBean.data.entity.contactPerson.country}"
 											id="country" labelComponentId="plzort_label" 
 											disabled="true"/>
 									</b:cell>
 
 									<b:cell x="6" y="10">
-										<b:inputfield value="#{projectBackingBean.data.entity.customer.plz}"
+										<b:inputfield value="#{projectBackingBean.data.entity.contactPerson.plz}"
 											id="plz" labelComponentId="plzort_label" 
 											disabled="true"/>
 									</b:cell>
 
 									<b:cell x="8" y="10">
 										<b:inputfield
-											value="#{projectBackingBean.data.entity.customer.city}" id="ort"
+											value="#{projectBackingBean.data.entity.contactPerson.city}" id="ort"
 											labelComponentId="plz_ort_label" 
 											disabled="true"/>
 									</b:cell>
