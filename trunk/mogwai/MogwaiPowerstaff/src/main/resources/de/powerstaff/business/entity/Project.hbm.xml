@@ -32,8 +32,12 @@
 			<one-to-many class="ProjectPosition"/>
 		</set>
 
-		<many-to-one name="customer" class="Customer" not-null="true" cascade="none">
-			<column name="customer_id"/>
+		<many-to-one name="customer" class="Customer" cascade="none">
+			<column name="customer_id" not-null="false"/>
+		</many-to-one>  
+
+		<many-to-one name="partner" class="Partner" cascade="none">
+			<column name="partner_id" not-null="false"/>
 		</many-to-one>  
 
 		<list name="history" cascade="all-delete-orphan">

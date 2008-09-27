@@ -39,7 +39,6 @@ import de.powerstaff.business.entity.CustomerContact;
 import de.powerstaff.business.entity.CustomerHistory;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerContact;
-import de.powerstaff.business.entity.FreelancerHistory;
 import de.powerstaff.business.entity.Partner;
 import de.powerstaff.business.entity.PartnerContact;
 import de.powerstaff.business.entity.PartnerHistory;

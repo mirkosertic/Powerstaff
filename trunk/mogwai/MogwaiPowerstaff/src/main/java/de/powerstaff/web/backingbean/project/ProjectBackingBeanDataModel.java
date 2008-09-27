@@ -6,7 +6,7 @@ import java.util.Vector;
 import de.mogwai.common.utils.KeyValuePair;
 import de.mogwai.common.web.utils.CollectionDataModel;
 import de.powerstaff.business.dao.GenericSearchResult;
-import de.powerstaff.business.entity.CustomerContact;
+import de.powerstaff.business.entity.Contact;
 import de.powerstaff.business.entity.Project;
 import de.powerstaff.web.backingbean.NavigatingBackingBeanDataModel;
 
@@ -16,7 +16,7 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
 
     private List status = new Vector();
     
-    private CollectionDataModel<CustomerContact> contacts;
+    private CollectionDataModel<Contact> contacts;
 
     public ProjectBackingBeanDataModel() {
         status.add(new KeyValuePair<Integer, String>(1, "Offen"));
@@ -38,10 +38,10 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
     @Override
     public void setEntity(Project aValue) {
         super.setEntity(aValue);
-        if (aValue.getCustomer() != null) {
-            contacts = new CollectionDataModel<CustomerContact>(getEntity().getCustomer().getContacts());
+        if (aValue.getContactPerson() != null) {
+            contacts = new CollectionDataModel<Contact>(getEntity().getContactPerson().getContacts());
         } else {
-            contacts = new CollectionDataModel<CustomerContact>();
+            contacts = new CollectionDataModel<Contact>();            
         }
     }
 
@@ -69,14 +69,14 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
     /**
      * @return the contacts
      */
-    public CollectionDataModel<CustomerContact> getContacts() {
+    public CollectionDataModel<Contact> getContacts() {
         return contacts;
     }
 
     /**
      * @param contacts the contacts to set
      */
-    public void setContacts(CollectionDataModel<CustomerContact> contacts) {
+    public void setContacts(CollectionDataModel<Contact> contacts) {
         this.contacts = contacts;
     }
 }

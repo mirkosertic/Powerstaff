@@ -54,6 +54,8 @@ public class Project extends AuditableEntity implements UDFSupport {
     private Long stundensatzVK;
 
     private Customer customer;
+    
+    private Partner partner;
 
     private Set<ProjectPosition> positions = new HashSet<ProjectPosition>();
 
@@ -213,5 +215,26 @@ public class Project extends AuditableEntity implements UDFSupport {
      */
     public void setSkills(String skills) {
         this.skills = skills;
+    }
+
+    /**
+     * @return the partner
+     */
+    public Partner getPartner() {
+        return partner;
+    }
+
+    /**
+     * @param partner the partner to set
+     */
+    public void setPartner(Partner partner) {
+        this.partner = partner;
+    }
+    
+    public Person getContactPerson() {
+        if (customer != null) {
+            return customer;
+        }
+        return partner;
     }
 }
