@@ -350,7 +350,7 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
                     
                 theSearchEntry.setSavedSearchEntry(theEntry);
                 theSearchEntry.setFreelancer(theFreelancer);
-
+                
                 if (isExtendedSearch) {
                     if (theFreelancer != null) {
                         theResult.getEnties().add(theSearchEntry);

@@ -142,3 +142,8 @@ link {
 	font-weight: bold;	
 	text-decoration: underline;
 }
+
+a {
+	color: black;
+	text-decoration: none;
+}
