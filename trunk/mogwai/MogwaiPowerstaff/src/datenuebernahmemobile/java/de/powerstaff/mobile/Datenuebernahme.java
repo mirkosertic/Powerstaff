@@ -99,10 +99,10 @@ public class Datenuebernahme {
 
         File theCVPath = new File("C:\\Daten\\Arbeit\\Projekte\\MobileConsulting\\CVPath");
 
-        // importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
-        // importPartner(theFactory, theManager, theConnection);        
-        importKunden(theFactory, theManager, theConnection);
-        importProjekte(theFactory, theManager, theConnection);
+        importMitarbeiter(theFactory, theManager, theConnection, theCVPath);
+        // importPartner(theFactory, theManager, theConnection);
+        // importKunden(theFactory, theManager, theConnection);
+        // importProjekte(theFactory, theManager, theConnection);
 
         theConnection.close();
 
@@ -382,38 +382,29 @@ public class Datenuebernahme {
                 theFreelancer.getContacts().add(theContact);
             }
 
-            ResultSet theHistoryResult = theAdresse.executeQuery("select * from mitarbeiter_kontakte where mitArbID = "
-                    + theMitarbeiterID);
-            while (theHistoryResult.next()) {
-
-                String theID = getString(theHistoryResult, "ID");
-                if (!"1109917714".equals(theID)) {
-                    LOGGER.logInfo("Verarbeitung " + theID);
-
-                    FreelancerHistory theHistory = new FreelancerHistory();
-
-                    theHistory.setCreationDate(getTimestamp(theHistoryResult, "datum"));
-                    theHistory.setCreationUserID(getString(theHistoryResult, "person"));
-                    theHistory.setDescription(getString(theHistoryResult, "typ") + "\n"
-                            + getString(theHistoryResult, "notiz"));
-
-                    theFreelancer.getHistory().add(theHistory);
-                }
-            }
-            theHistoryResult.close();
-
+            /*
+             * ResultSet theHistoryResult = theAdresse.executeQuery("select *
+             * from mitarbeiter_kontakte where mitArbID = " + theMitarbeiterID);
+             * while (theHistoryResult.next()) {
+             * 
+             * String theID = getString(theHistoryResult, "ID"); if
+             * (!"1109917714".equals(theID)) { LOGGER.logInfo("Verarbeitung " +
+             * theID);
+             * 
+             * FreelancerHistory theHistory = new FreelancerHistory();
+             * 
+             * theHistory.setCreationDate(getTimestamp(theHistoryResult,
+             * "datum"));
+             * theHistory.setCreationUserID(getString(theHistoryResult,
+             * "person")); theHistory.setDescription(getString(theHistoryResult,
+             * "typ") + "\n" + getString(theHistoryResult, "notiz"));
+             * 
+             * theFreelancer.getHistory().add(theHistory); } }
+             * theHistoryResult.close();
+             */
             ResultSet theReadAgain = theReadAgainStatement.executeQuery("select * from mitarbeiter where ID = "
                     + theMitarbeiterID);
             theReadAgain.next();
-
-            String theGulpName = getString(theReadAgain, "gulpName");
-            if (!StringUtils.isEmpty(theGulpName)) {
-                FreelancerContact theContact = new FreelancerContact();
-                theContact.setType(theGulpNameContactType);
-                theContact.setValue(theGulpName);
-                theFreelancer.getContacts().add(theContact);
-            }
-
             resultSetToUDF(theReadAgain, theFreelancer);
             theReadAgain.close();
 
@@ -431,6 +422,13 @@ public class Datenuebernahme {
                     if (theFreelancer.getCreationDate() != null) {
                         theCV.setLastModified(theFreelancer.getCreationDate().getTime());
                     }
+
+                    ResultSet theCVAktu = theReadAgainStatement.executeQuery("select * from aktivitat where cvnr = '"
+                            + theFreelancer.getCode() + "' and aktivitat = 'CV aktualisiert' order by datum desc");
+                    if (theCVAktu.next()) {
+                        theCV.setLastModified(getDate(theCVAktu, "datum").getTime());
+                    }
+                    theCVAktu.close();
                 }
             }
 
@@ -903,7 +901,7 @@ public class Datenuebernahme {
         Statement theReadAgainStatement = aConnection.createStatement();
         ResultSet theProjectResult = theProjectStatement
                 .executeQuery("select * from projekt where (prNr like 'MS%') or ((prNr like 'TD%'))");
-        
+
         long theCounter = 0;
 
         Map<String, Customer> theDummies = new HashMap<String, Customer>();
