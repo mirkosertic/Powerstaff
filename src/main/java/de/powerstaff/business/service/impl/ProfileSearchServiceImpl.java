@@ -31,12 +31,16 @@ import org.apache.lucene.analysis.KeywordAnalyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.QueryParser;
-import org.apache.lucene.queryParser.analyzing.AnalyzingQueryParser;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.WildcardQuery;
+import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SpanGradientFormatter;
@@ -130,17 +134,20 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
         ProfileSearchResult theResult = new ProfileSearchResult();
         theResult.setSearchRequest(aRequest);
 
-        StringBuilder theRealQuery = getRealQuery(aRequest);
+        Analyzer theAnalyzer = new StandardAnalyzer();
 
-        logger.logDebug("Search query is " + theRealQuery);
+        Query theQuery = getRealQuery(aRequest, theAnalyzer);
+
+        logger.logInfo("Search query is " + theQuery);
 
         long theStartTime = System.currentTimeMillis();
 
         Searcher theSearcher = new IndexSearcher(systemParameterService.getIndexerPath());
-        Analyzer theAnalyzer = new StandardAnalyzer();
-        AnalyzingQueryParser theParser = new AnalyzingQueryParser(ProfileIndexerService.CONTENT, theAnalyzer);
-        theParser.setAllowLeadingWildcard(true);
-        Query theQuery = theParser.parse(theRealQuery.toString());
+
+        theQuery = theSearcher.rewrite(theQuery);
+
+        logger.logInfo("Rewritten Search query is " + theQuery);
+
         Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(1, "#000000", "#0000FF", null, null),
                 new QueryScorer(theQuery));
 
@@ -202,7 +209,7 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
             if (theResult.getEnties().size() >= theMaxSearchResult) {
 
                 theDuration = System.currentTimeMillis() - theStartTime;
-                logger.logDebug("Reached max result count, duration = " + theDuration);
+                logger.logInfo("Reached max result count, duration = " + theDuration);
 
                 profileSearchDAO.save(theSearch);
 
@@ -215,25 +222,32 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
         }
 
         theDuration = System.currentTimeMillis() - theStartTime;
-        logger.logDebug("Finished, duration = " + theDuration);
+        logger.logInfo("Finished, duration = " + theDuration);
 
         profileSearchDAO.save(theSearch);
 
         return theResult;
     }
 
-    private StringBuilder getRealQuery(ProfileSearchRequest aRequest) {
-        StringBuilder theRealQuery = new StringBuilder();
-        StringTokenizer st = new StringTokenizer(aRequest.getProfileContent(), " ");
-        while (st.hasMoreElements()) {
-            if (theRealQuery.length() > 0) {
-                theRealQuery.append(" AND ");
+    private Query getRealQuery(ProfileSearchRequest aRequest, Analyzer aAnalyzer) throws IOException {
+
+        BooleanQuery.setMaxClauseCount(8192);
+        BooleanQuery theQuery = new BooleanQuery();
+
+        Query theTempQuery = null;
+        StringTokenizer st = new StringTokenizer(aRequest.getProfileContent(), " ,:.?");
+        while (st.hasMoreTokens()) {
+            String theToken = st.nextToken();
+
+            if ((theToken.startsWith("*") || (theToken.endsWith("*")))) {
+                theTempQuery = new WildcardQuery(new Term(ProfileIndexerService.CONTENT, theToken));
+            } else {
+                theTempQuery = new TermQuery(new Term(ProfileIndexerService.CONTENT, theToken));
             }
-            theRealQuery.append("CONTENT:\"");
-            theRealQuery.append(st.nextToken().toLowerCase());
-            theRealQuery.append("\"");
+            theQuery.add(theTempQuery, Occur.MUST);
         }
-        return theRealQuery;
+
+        return theQuery;
     }
 
     public Vector<FreelancerProfile> findProfiles(String aCode) throws Exception {
@@ -252,7 +266,7 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
             Hits theHits = theSearcher.search(theQuery);
 
             logger.logDebug("Size of search result is " + theHits.length());
-            
+
             SimpleDateFormat theFormat = new SimpleDateFormat("dd.MM.yyyy");
 
             for (int i = 0; i < theHits.length(); i++) {
@@ -262,13 +276,13 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
                 FreelancerProfile theSearchResult = new FreelancerProfile();
 
                 String theFileName = theDocument.get(ProfileIndexerService.PATH);
-                
+
                 Long theModifiedDate = Long.parseLong(theDocument.get(ProfileIndexerService.MODIFIED));
                 Date theDate = new Date();
                 theDate.setTime(theModifiedDate.longValue());
-                
+
                 theSearchResult.setInfotext("Aktualisiert : " + theFormat.format(theDate));
-                
+
                 int p = theFileName.lastIndexOf(File.separator);
                 if (p >= 0) {
                     theFileName = theFileName.substring(p + 1);
@@ -314,14 +328,20 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
         ProfileSearchResult theResult = new ProfileSearchResult();
         theResult.setSearchRequest(theRequest);
 
-        StringBuilder theRealQuery = getRealQuery(theRequest);
+        Analyzer theAnalyzer = new StandardAnalyzer();
+
+        Query theQuery = getRealQuery(theRequest, theAnalyzer);
+
+        logger.logInfo("Search query is " + theQuery);
 
         Searcher theSearcher = new IndexSearcher(systemParameterService.getIndexerPath());
-        Analyzer theAnalyzer = new StandardAnalyzer();
-        QueryParser theQueryParser = new QueryParser(ProfileIndexerService.CONTENT, theAnalyzer);
-        Query theQuery = theQueryParser.parse(theRealQuery.toString());
+
+        theQuery = theSearcher.rewrite(theQuery);
+
         Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(1, "#000000", "#0000FF", null, null),
                 new QueryScorer(theQuery));
+
+        logger.logInfo("Rewritten Search query is " + theQuery);
 
         Analyzer theDocumentSearchAnalyzer = new KeywordAnalyzer();
         QueryParser theDocumentSearchParser = new QueryParser(ProfileIndexerService.UNIQUE_ID,
@@ -346,11 +366,11 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
                 theSearchEntry.setHighlightResult(getHighlightedSearchResult(theAnalyzer, theHighlighter, theDocument));
 
                 ProfileSearchInfoDetail theFreelancer;
-                    theFreelancer = freelancerService.findFreelancerByCode(theSearchEntry.getCode());
-                    
+                theFreelancer = freelancerService.findFreelancerByCode(theSearchEntry.getCode());
+
                 theSearchEntry.setSavedSearchEntry(theEntry);
                 theSearchEntry.setFreelancer(theFreelancer);
-                
+
                 if (isExtendedSearch) {
                     if (theFreelancer != null) {
                         theResult.getEnties().add(theSearchEntry);
@@ -360,13 +380,13 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
                 }
             }
         }
-        
+
         theResult.setTotalFound(theResult.getEnties().size());
         return theResult;
     }
 
     public void removeSavedSearchEntry(SavedProfileSearchEntry aSavedSearchEntry) {
-        
+
         User theUser = (User) UserContextHolder.getUserContext().getAuthenticatable();
 
         SavedProfileSearch theSearch = profileSearchDAO.getSavedSearchFor(theUser);
