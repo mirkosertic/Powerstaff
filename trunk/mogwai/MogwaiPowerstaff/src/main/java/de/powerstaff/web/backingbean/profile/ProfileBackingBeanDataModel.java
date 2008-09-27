@@ -57,4 +57,11 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
     public int getSearchResultSize() {
         return searchResult.size();
     }
+
+    /**
+     * @param searchResult the searchResult to set
+     */
+    public void setSearchResult(CollectionDataModel<ProfileSearchEntry> searchResult) {
+        this.searchResult = searchResult;
+    }
 }

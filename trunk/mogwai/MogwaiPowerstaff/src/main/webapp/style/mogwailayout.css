@@ -363,6 +363,11 @@
 	left: 10px;
 }
 
+.mogwaiLink {
+	color: black;
+	text-decoration: none;
+}
+
 body {
   background-color:white; 
   margin-left:0px; 

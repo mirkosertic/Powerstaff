@@ -92,31 +92,46 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">
-								<h:outputText value="Name1"/>
+								<h:commandLink action="#{profileBackingBean.commandSortByName1}">
+									<h:outputText value="Name1"/>
+									<a4j:support event="onclick"/>
+								</h:commandLink>
 							</f:facet>
 							<h:outputText value="#{row.freelancer.name1}"/>
 						</h:column>
 						<h:column>
 							<f:facet name="header">
-								<h:outputText value="Name2"/>
+								<h:commandLink action="#{profileBackingBean.commandSortByName2}">
+									<h:outputText value="Name2"/>
+									<a4j:support event="onclick"/>
+								</h:commandLink>
 							</f:facet>
 							<h:outputText value="#{row.freelancer.name2}"/>
 						</h:column>
 						<h:column>
 							<f:facet name="header">
-								<h:outputText value="Plz"/>
+								<h:commandLink action="#{profileBackingBean.commandSortByPLZ}">
+									<h:outputText value="Plz"/>
+									<a4j:support event="onclick"/>
+								</h:commandLink>
 							</f:facet>
 							<h:outputText value="#{row.freelancer.plz}"/>
 						</h:column>
 						<h:column>
 							<f:facet name="header">
-								<h:outputText value="Satz"/>
+								<h:commandLink action="#{profileBackingBean.commandSortBySatz}">
+									<h:outputText value="Satz"/>
+									<a4j:support event="onclick"/>
+								</h:commandLink>
 							</f:facet>
 							<h:outputText value="#{row.freelancer.stundensatz}"/>
 						</h:column>
 						<h:column>
 							<f:facet name="header">
-								<h:outputText value="Verf."/>
+								<h:commandLink action="#{profileBackingBean.commandSortByVerf}">
+									<h:outputText value="Verf."/>
+									<a4j:support event="onclick"/>
+								</h:commandLink>
 							</f:facet>
 							<h:outputText value="#{row.freelancer.availability}">
 								<f:converter converterId="dateConverter"/>
@@ -124,7 +139,10 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">
-								<h:outputText value="Code"/>
+								<h:commandLink action="#{profileBackingBean.commandSortByCode}">
+									<h:outputText value="Code"/>
+									<a4j:support event="onclick"/>
+								</h:commandLink>
 							</f:facet>
 							<h:outputText value="#{row.code}"/>
 						</h:column>
