@@ -18,7 +18,10 @@
 		<property name="fax"/>		
 		<property name="phone"/>				
 		<property name="email"/>						
-		<property name="web"/>								
+		<property name="web"/>
+		<property name="gulp">
+			<column name="GULP" default="0"/>
+		</property>					
 
   </class>
 </hibernate-mapping>

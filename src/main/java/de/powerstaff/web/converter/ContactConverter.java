@@ -39,6 +39,16 @@ public class ContactConverter implements Converter {
             if (theType.isEmail()) {
                 return "<a class=\"contact\" href=\"mailto:" + theContact.getValue() + "\">" + theDisplayValue + "</a>";
             }
+
+            if (theType.isGulp()) {
+
+                String theValue = theContact.getValue();
+
+                theValue = "http://www.gulp.de/profil/" + theValue + ".html";
+
+                return "<a class=\"contact\"  target=\"_blank\" href=\"" + theValue + "\">" + theDisplayValue + "</a>";
+
+            }
         }
 
         return theDisplayValue;

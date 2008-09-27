@@ -48,5 +48,6 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-core-2.3.2.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-analyzers-2.3.2.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-highlighter-2.3.2.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-misc-2.3.2.jar"/>
 	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
 </classpath>
