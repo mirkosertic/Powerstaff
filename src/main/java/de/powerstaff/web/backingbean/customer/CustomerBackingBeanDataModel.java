@@ -1,34 +1,28 @@
+/**
+ * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ * 
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
 package de.powerstaff.web.backingbean.customer;
 
-import java.util.List;
-
-import de.mogwai.common.web.utils.CollectionDataModel;
-import de.powerstaff.business.dao.GenericSearchResult;
-import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Customer;
-import de.powerstaff.business.entity.CustomerContact;
-import de.powerstaff.business.entity.CustomerHistory;
-import de.powerstaff.web.backingbean.NavigatingBackingBeanDataModel;
-import de.powerstaff.web.utils.Comparators;
+import de.powerstaff.web.backingbean.PersonEditorBackingBeanDataModel;
 
-public class CustomerBackingBeanDataModel extends NavigatingBackingBeanDataModel<Customer> {
-
-    private ContactType newContactType;
-
-    private String newContactValue;
-
-    private String newHistoryEntry;
-
-    private CollectionDataModel<CustomerContact> contacts;
-
-    private CollectionDataModel<CustomerHistory> history;
-
-    private CollectionDataModel<GenericSearchResult> searchResult = new CollectionDataModel<GenericSearchResult>();
-
-    private List<ContactType> contactTypes;
+public class CustomerBackingBeanDataModel extends PersonEditorBackingBeanDataModel<Customer> {
 
     public CustomerBackingBeanDataModel() {
-
     }
 
     public CustomerBackingBeanDataModel(Customer aCustomer) {
@@ -43,89 +37,5 @@ public class CustomerBackingBeanDataModel extends NavigatingBackingBeanDataModel
     @Override
     public void setEntity(Customer aValue) {
         super.setEntity(aValue);
-        contacts = new CollectionDataModel<CustomerContact>(aValue.getContacts());
-        contacts.sort(Comparators.CONTACTCOMPARATOR);
-        history = new CollectionDataModel<CustomerHistory>(aValue.getHistory());
-        history.sort(Comparators.INVERSECREATIONDATECOMPARATOR);
-        newContactType = null;
-        newContactValue = null;
-    }
-
-    public CollectionDataModel<CustomerContact> getContacts() {
-        return contacts;
-    }
-
-    /**
-     * @return the newContactType
-     */
-    public ContactType getNewContactType() {
-        return newContactType;
-    }
-
-    /**
-     * @param newContactType
-     *                the newContactType to set
-     */
-    public void setNewContactType(ContactType newContactType) {
-        this.newContactType = newContactType;
-    }
-
-    /**
-     * @return the newContactValue
-     */
-    public String getNewContactValue() {
-        return newContactValue;
-    }
-
-    /**
-     * @param newContactValue
-     *                the newContactValue to set
-     */
-    public void setNewContactValue(String newContactValue) {
-        this.newContactValue = newContactValue;
-    }
-
-    /**
-     * @return the contactTypes
-     */
-    public List<ContactType> getContactTypes() {
-        return contactTypes;
-    }
-
-    /**
-     * @param contactTypes
-     *                the contactTypes to set
-     */
-    public void setContactTypes(List<ContactType> contactTypes) {
-        this.contactTypes = contactTypes;
-    }
-
-    /**
-     * @return the history
-     */
-    public CollectionDataModel<CustomerHistory> getHistory() {
-        return history;
-    }
-
-    /**
-     * @return the searchResult
-     */
-    public CollectionDataModel<GenericSearchResult> getSearchResult() {
-        return searchResult;
-    }
-
-    /**
-     * @return the newHistoryEntry
-     */
-    public String getNewHistoryEntry() {
-        return newHistoryEntry;
-    }
-
-    /**
-     * @param newHistoryEntry
-     *                the newHistoryEntry to set
-     */
-    public void setNewHistoryEntry(String newHistoryEntry) {
-        this.newHistoryEntry = newHistoryEntry;
     }
 }

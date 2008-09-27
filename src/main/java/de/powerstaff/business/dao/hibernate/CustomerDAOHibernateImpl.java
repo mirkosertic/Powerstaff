@@ -17,14 +17,23 @@
  */
 package de.powerstaff.business.dao.hibernate;
 
+import java.util.Collection;
 import java.util.List;
 
 import de.powerstaff.business.dao.CustomerDAO;
 import de.powerstaff.business.dao.GenericSearchResult;
+import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Customer;
 
-public class CustomerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Customer> implements CustomerDAO {
+public class CustomerDAOHibernateImpl extends PersonDAOHibernateImpl<Customer> implements CustomerDAO {
 
+    private static final String[] PROPERTIES = new String[] { "name1", "name2", "company", "city", "comments" };
+
+    private static final String[] SEARCHPROPERTIES = new String[] { "name1", "name2", "company", "street", "country", "plz", "city",
+            "comments", };
+
+    private static final String[] ORDERBYPROPERTIES = new String[] { "name1", "name2" };
+    
     @Override
     protected Customer createNew() {
         return new Customer();
@@ -37,14 +46,11 @@ public class CustomerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Custome
 
     public List<GenericSearchResult> performQBESearch(Customer aObject, int aMaxSearchResult) {
 
-        String[] theProperties = new String[] { "name1", "name2", "company", "city", "comments" };
-
-        String[] theSearchProperties = new String[] { "name1", "name2", "company", "street", "country", "plz", "city",
-                "comments", };
-
-        String[] theOrderByProperties = new String[] { "name1", "name2" };
-
-        return performQBESearch(aObject, theProperties, theSearchProperties, theOrderByProperties, MATCH_LIKE,
+        return performQBESearch(aObject, PROPERTIES, SEARCHPROPERTIES, ORDERBYPROPERTIES, MATCH_LIKE,
                 aMaxSearchResult);
+    }
+
+    public Collection<GenericSearchResult> performSearchByContact(String aContact, ContactType aContactType, int aMax) {
+        return performSearchByContact(aContact, aContactType, PROPERTIES, ORDERBYPROPERTIES, aMax);
     }
 }

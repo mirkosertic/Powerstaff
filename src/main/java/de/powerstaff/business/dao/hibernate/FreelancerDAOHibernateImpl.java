@@ -19,6 +19,7 @@ package de.powerstaff.business.dao.hibernate;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -33,10 +34,19 @@ import de.powerstaff.business.dao.FreelancerDAO;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.dto.ProfileSearchRequest;
+import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Freelancer;
 
-public class FreelancerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Freelancer> implements FreelancerDAO {
+public class FreelancerDAOHibernateImpl extends PersonDAOHibernateImpl<Freelancer> implements FreelancerDAO {
 
+    private static final String[] DISPLAYPROPERTIES = new String[] { "name1", "name2", "availabilityAsDate", "sallaryLong", "skills" };
+
+    private static final String[] SEARCHPROPERTIES = new String[] { "name1", "name2", "company", "street", "country", "plz", "city",
+            "comments", "workplace", "sallaryLong", "code", "contactPerson", "contactType",
+            "contactReason", "lastContact", "skills", "gulpID" };
+
+    private static final String[] ORDERBYPROPERTIES = new String[] { "name1", "name2" };
+    
     @Override
     protected Freelancer createNew() {
         return new Freelancer();
@@ -107,15 +117,7 @@ public class FreelancerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Freel
 
     public List<GenericSearchResult> performQBESearch(Freelancer aObject, int aMaxSearchResult) {
 
-        String[] theDisplayProperties = new String[] { "name1", "name2", "availabilityAsDate", "sallaryLong", "skills" };
-
-        String[] theSearchProperties = new String[] { "name1", "name2", "company", "street", "country", "plz", "city",
-                "comments", "workplace", "sallaryLong", "code", "contactPerson", "contactType",
-                "contactReason", "lastContact", "skills", "gulpID" };
-
-        String[] theOrderByProperties = new String[] { "name1", "name2" };
-
-        return performQBESearch(aObject, theDisplayProperties, theSearchProperties, theOrderByProperties, MATCH_LIKE,
+        return performQBESearch(aObject, DISPLAYPROPERTIES, SEARCHPROPERTIES, ORDERBYPROPERTIES, MATCH_LIKE,
                 aMaxSearchResult);
     }
 
@@ -153,5 +155,9 @@ public class FreelancerDAOHibernateImpl extends NavigatingDAOHibernateImpl<Freel
             }
             
         });
+    }
+
+    public Collection<GenericSearchResult> performSearchByContact(String aContact, ContactType aContactType, int aMax) {
+        return performSearchByContact(aContact, aContactType, DISPLAYPROPERTIES, ORDERBYPROPERTIES, aMax);
     }
 }

@@ -25,6 +25,7 @@ import de.powerstaff.business.dao.FreelancerDAO;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.dto.ProfileSearchRequest;
+import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
@@ -125,5 +126,15 @@ public class FreelancerServiceImpl extends LogableService implements FreelancerS
 
     public Freelancer findRealFreelancerByCode(String aCode) {
         return freelancerDAO.findByCodeReal(aCode);
+    }
+
+    public Collection<GenericSearchResult> performSearchByContact(String aContact, ContactType aContactType)
+            throws TooManySearchResults {
+        int aMax = systemParameterService.getMaxSearchResult();
+        Collection<GenericSearchResult> theResult = freelancerDAO.performSearchByContact(aContact, aContactType, aMax);
+        if (theResult.size() == aMax) {
+            throw new TooManySearchResults(theResult);
+        }
+        return theResult;
     }
 }

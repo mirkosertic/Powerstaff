@@ -23,11 +23,9 @@ import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.entity.Freelancer;
 
-public interface FreelancerDAO extends NavigatingDAO<Freelancer> {
+public interface FreelancerDAO extends PersonDAO<Freelancer> {
 
     ProfileSearchInfoDetail findByCode(String aCode, ProfileSearchRequest request);
-
-    List<GenericSearchResult> performQBESearch(Freelancer object , int aMaxSearchResult);
 
     List<String> getCodeSuggestions(String aSuggest);
 

@@ -17,11 +17,7 @@
  */
 package de.powerstaff.business.dao;
 
-import java.util.List;
-
 import de.powerstaff.business.entity.Customer;
 
-public interface CustomerDAO extends NavigatingDAO<Customer> {
-
-    List<GenericSearchResult> performQBESearch(Customer aObject, int aMaxSearchResult);
+public interface CustomerDAO extends PersonDAO<Customer> {
 }

@@ -18,11 +18,11 @@
 package de.powerstaff.business.service.impl;
 
 import java.util.Collection;
-import java.util.List;
 
 import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dao.PartnerDAO;
+import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.Partner;
 import de.powerstaff.business.service.PartnerService;
@@ -106,15 +106,21 @@ public class PartnerServiceImpl extends LogableService implements PartnerService
         partnerDAO.save(aObject);
     }
 
-    public List<Partner> findAll() {
-        return partnerDAO.findAll();
-    }
-
     public void delete(Partner aObject) {
         partnerDAO.delete(aObject);
     }
 
     public Partner findByRecordNumber(Long aNumber) {
         return partnerDAO.findByRecordNumber(aNumber);
+    }
+
+    public Collection<GenericSearchResult> performSearchByContact(String aContact, ContactType aContactType)
+            throws TooManySearchResults {
+        int aMax = systemParameterService.getMaxSearchResult();
+        Collection<GenericSearchResult> theResult = partnerDAO.performSearchByContact(aContact, aContactType, aMax);
+        if (theResult.size() == aMax) {
+            throw new TooManySearchResults(theResult);
+        }
+        return theResult;
     }
 }

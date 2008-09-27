@@ -17,11 +17,7 @@
  */
 package de.powerstaff.business.service;
 
-import java.util.List;
-
 import de.powerstaff.business.entity.Partner;
 
-public interface PartnerService extends NavigatingService<Partner> {
-
-    List<Partner> findAll();
+public interface PartnerService extends PersonService<Partner> {
 }

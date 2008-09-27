@@ -1,166 +1,37 @@
+/**
+ * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
+ * 
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ * 
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
 package de.powerstaff.web.backingbean.customer;
-
-import java.util.Collection;
 
 import de.mogwai.common.command.EditEntityCommand;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.mogwai.common.web.utils.UpdateModelInfo;
-import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.Customer;
 import de.powerstaff.business.entity.CustomerContact;
-import de.powerstaff.business.entity.CustomerHistory;
-import de.powerstaff.business.service.AdditionalDataService;
+import de.powerstaff.business.entity.HistoryEntity;
 import de.powerstaff.business.service.CustomerService;
-import de.powerstaff.business.service.TooManySearchResults;
-import de.powerstaff.web.backingbean.NavigatingBackingBean;
+import de.powerstaff.web.backingbean.PersonEditorBackingBean;
 import de.powerstaff.web.backingbean.project.ProjectBackingBean;
-import de.powerstaff.web.utils.Comparators;
 
-public class CustomerBackingBean extends NavigatingBackingBean<Customer, CustomerBackingBeanDataModel, CustomerService> {
-
-    private AdditionalDataService additinalDataService;
+public class CustomerBackingBean extends PersonEditorBackingBean<Customer, CustomerBackingBeanDataModel, CustomerService> {
 
     @Override
     protected CustomerBackingBeanDataModel createDataModel() {
         return new CustomerBackingBeanDataModel();
-    }
-
-    /**
-     * @return the additinalDataService
-     */
-    public AdditionalDataService getAdditinalDataService() {
-        return additinalDataService;
-    }
-
-    /**
-     * @param additinalDataService
-     *                the additinalDataService to set
-     */
-    public void setAdditinalDataService(AdditionalDataService additinalDataService) {
-        this.additinalDataService = additinalDataService;
-    }
-
-    public String commandSearch() {
-
-        Collection<GenericSearchResult> theResult = null;
-        try {
-            theResult = entityService.performQBESearch(getData().getEntity());
-        } catch (TooManySearchResults e) {
-            theResult = e.getResult();
-            JSFMessageUtils.addGlobalErrorMessage(MSG_ZUVIELESUCHERGEBNISSE);            
-        }
-
-        if (theResult.size() < 1) {
-            JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);
-            return null;
-        }
-
-        if (theResult.size() == 1) {
-            GenericSearchResult theResult2 = (GenericSearchResult) theResult.iterator().next();
-            getData().setEntity(entityService.findByPrimaryKey((Long) theResult2.get(GenericSearchResult.OBJECT_ID_KEY)));
-
-            afterNavigation();
-            return null;
-        }
-
-        getData().getSearchResult().setWrappedData(theResult);
-        return "CUSTOMER_SEARCHRESULT";
-    }
-
-    public void commandAddContact() {
-
-        if ((getData().getNewContactValue() == null) || ("".equals(getData().getNewContactValue()))) {
-
-            JSFMessageUtils.addGlobalErrorMessage(MSG_KEINE_KONTAKTINFOS);
-
-            return;
-        }
-
-        CustomerBackingBeanDataModel theModel = getData();
-
-        Customer theFreelancer = theModel.getEntity();
-
-        CustomerContact theContact = new CustomerContact();
-        theContact.setType(theModel.getNewContactType());
-        theContact.setValue(theModel.getNewContactValue());
-
-        theFreelancer.getContacts().add(theContact);
-
-        theModel.setEntity(theFreelancer);
-    }
-
-    public void commandDeleteContact() {
-
-        CustomerBackingBeanDataModel theModel = getData();
-
-        Customer theFreelancer = theModel.getEntity();
-
-        CustomerContact theContact = (CustomerContact) theModel.getContacts().getRowData();
-        theFreelancer.getContacts().remove(theContact);
-
-        theModel.setEntity(theFreelancer);
-        getData().getHistory().sort(Comparators.INVERSECREATIONDATECOMPARATOR);
-
-        JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
-    }
-
-    @Override
-    public void init() {
-        super.init();
-
-        getData().setContactTypes(additinalDataService.getContactTypes());
-        commandNew();
-    }
-
-    public String commandBack() {
-        return "CUSTOMER_STAMMDATEN";
-    }
-
-    public String commandStammdaten() {
-        return "CUSTOMER_STAMMDATEN";
-    }
-
-    public String commandHistorie() {
-        return "CUSTOMER_HISTORIE";
-    }
-
-    public void commandAddNewHistoryEntry() {
-        CustomerHistory theHistory = new CustomerHistory();
-        theHistory.setDescription(getData().getNewHistoryEntry());
-
-        Customer theCustomer = getData().getEntity();
-        theCustomer.getHistory().add(theHistory);
-
-        entityService.save(theCustomer);
-
-        getData().setNewHistoryEntry(null);
-        getData().setEntity(theCustomer);
-
-        JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
-    }
-
-    public String commandSelectSearchResult() {
-
-        GenericSearchResult theResult = (GenericSearchResult) getData().getSearchResult().getRowData();
-        Customer theEntity = entityService.findByPrimaryKey((Long) theResult.get(GenericSearchResult.OBJECT_ID_KEY));
-        getData().setEntity(theEntity);
-
-        afterNavigation();
-        return "CUSTOMER_STAMMDATEN";
-    }
-
-    public void commandDeleteHistoryEntry() {
-
-        CustomerHistory theHistory = (CustomerHistory) getData().getHistory().getRowData();
-        getData().getHistory().remove(theHistory);
-
-        Customer theFreelancer = getData().getEntity();
-        entityService.save(theFreelancer);
-
-        getData().setEntity(theFreelancer);
-        getData().getHistory().sort(Comparators.INVERSECREATIONDATECOMPARATOR);
-
-        JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
     }
 
     public String commandNewProject() {
@@ -191,5 +62,15 @@ public class CustomerBackingBean extends NavigatingBackingBean<Customer, Custome
     @Override
     protected Customer createNew() {
         return new Customer();
+    }
+
+    @Override
+    protected CustomerContact createNewContact() {
+        return new CustomerContact();
+    }
+
+    @Override
+    protected HistoryEntity createNewHistory() {
+        return new HistoryEntity();
     }
 }

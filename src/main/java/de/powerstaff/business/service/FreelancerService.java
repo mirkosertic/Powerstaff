@@ -23,7 +23,7 @@ import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.entity.Freelancer;
 
-public interface FreelancerService extends NavigatingService<Freelancer> {
+public interface FreelancerService extends PersonService<Freelancer> {
 
     ProfileSearchInfoDetail findFreelancerByCode(String code);
 
