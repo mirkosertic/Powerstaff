@@ -31,6 +31,8 @@ public class ContactType extends AuditableEntity implements StringPresentationPr
     private boolean email;
 
     private boolean web;
+    
+    private boolean gulp;
 
     public String getDescription() {
         return description;
@@ -74,5 +76,19 @@ public class ContactType extends AuditableEntity implements StringPresentationPr
 
     public String getStringPresentation() {
         return description;
+    }
+
+    /**
+     * @return the gulp
+     */
+    public boolean isGulp() {
+        return gulp;
+    }
+
+    /**
+     * @param gulp the gulp to set
+     */
+    public void setGulp(boolean gulp) {
+        this.gulp = gulp;
     }
 }

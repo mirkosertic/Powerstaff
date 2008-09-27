@@ -31,11 +31,15 @@ import org.apache.lucene.analysis.KeywordAnalyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.queryParser.analyzing.AnalyzingQueryParser;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
+import org.apache.lucene.search.WildcardQuery;
 import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SpanGradientFormatter;
@@ -137,7 +141,8 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
 
         Searcher theSearcher = new IndexSearcher(systemParameterService.getIndexerPath());
         Analyzer theAnalyzer = new StandardAnalyzer();
-        QueryParser theParser = new QueryParser(ProfileIndexerService.CONTENT, theAnalyzer);
+        AnalyzingQueryParser theParser = new AnalyzingQueryParser(ProfileIndexerService.CONTENT, theAnalyzer);
+        theParser.setAllowLeadingWildcard(true);
         Query theQuery = theParser.parse(theRealQuery.toString());
         Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(1, "#000000", "#0000FF", null, null),
                 new QueryScorer(theQuery));
@@ -227,7 +232,7 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
             if (theRealQuery.length() > 0) {
                 theRealQuery.append(" AND ");
             }
-            theRealQuery.append("\"");
+            theRealQuery.append("CONTENT:\"");
             theRealQuery.append(st.nextToken().toLowerCase());
             theRealQuery.append("\"");
         }
