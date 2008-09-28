@@ -98,6 +98,13 @@
 								</h:commandLink>
 							</f:facet>
 							<h:outputText value="#{row.freelancer.name1}"/>
+							<h:panelGroup rendered="#{!empty row.freelancer.gulpNameContact}">
+								<br/>
+								<h:outputText value="Gulp : " escape="false"/>
+								<h:outputText value="#{row.freelancer.gulpNameContact}" escape="false">
+									<f:converter converterId="contactConverter" />
+								</h:outputText>
+							</h:panelGroup>
 						</h:column>
 						<h:column>
 							<f:facet name="header">

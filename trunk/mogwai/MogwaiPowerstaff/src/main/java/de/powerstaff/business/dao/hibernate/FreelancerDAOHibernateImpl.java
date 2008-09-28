@@ -97,6 +97,11 @@ public class FreelancerDAOHibernateImpl extends PersonDAOHibernateImpl<Freelance
 
                     String theCountry = (String) theRow[5];
                     String thePlz = (String) theRow[6];
+                    
+                    Query theContactQuery = aSession.createQuery("select c from Freelancer item inner join item.contacts as c where item.code = :code");
+                    theContactQuery.setString("code", aCode);
+                    theDetail.getContacts().addAll(theContactQuery.list());
+                    
                     if (!StringUtils.isEmpty(theCountry)) {
                         if (StringUtils.isEmpty(thePlz)) {
                             thePlz = theCountry;

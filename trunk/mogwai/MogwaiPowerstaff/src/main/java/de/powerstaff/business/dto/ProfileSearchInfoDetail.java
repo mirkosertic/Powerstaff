@@ -17,9 +17,12 @@
  */
 package de.powerstaff.business.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import de.mogwai.common.business.dto.DataTransferObject;
+import de.powerstaff.business.entity.FreelancerContact;
 
 public class ProfileSearchInfoDetail extends DataTransferObject {
 
@@ -34,6 +37,8 @@ public class ProfileSearchInfoDetail extends DataTransferObject {
     private String plz;
     
     private Long stundensatz;
+    
+    private List<FreelancerContact> contacts = new ArrayList<FreelancerContact>();
     
     /**
      * @return the availability
@@ -121,5 +126,28 @@ public class ProfileSearchInfoDetail extends DataTransferObject {
      */
     public void setStundensatz(Long stundensatz) {
         this.stundensatz = stundensatz;
+    }
+
+    /**
+     * @return the contacts
+     */
+    public List<FreelancerContact> getContacts() {
+        return contacts;
+    }
+
+    /**
+     * @param contacts the contacts to set
+     */
+    public void setContacts(List<FreelancerContact> contacts) {
+        this.contacts = contacts;
+    }
+    
+    public FreelancerContact getGulpNameContact() {
+        for (FreelancerContact theContact : contacts) {
+            if (theContact.getType().isGulp()) {
+                return theContact;
+            }
+        }
+        return null;
     }
 }
