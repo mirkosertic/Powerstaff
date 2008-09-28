@@ -22,14 +22,13 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.KeywordAnalyzer;
+import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.QueryParser;
@@ -57,6 +56,7 @@ import de.powerstaff.business.entity.FreelancerProfile;
 import de.powerstaff.business.entity.SavedProfileSearch;
 import de.powerstaff.business.entity.SavedProfileSearchEntry;
 import de.powerstaff.business.entity.User;
+import de.powerstaff.business.lucene.analysis.ProfileAnalyzerFactory;
 import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ProfileIndexerService;
@@ -134,7 +134,7 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
         ProfileSearchResult theResult = new ProfileSearchResult();
         theResult.setSearchRequest(aRequest);
 
-        Analyzer theAnalyzer = new StandardAnalyzer();
+        Analyzer theAnalyzer = ProfileAnalyzerFactory.createAnalyzer();
 
         Query theQuery = getRealQuery(aRequest, theAnalyzer);
 
@@ -235,16 +235,19 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
         BooleanQuery theQuery = new BooleanQuery();
 
         Query theTempQuery = null;
-        StringTokenizer st = new StringTokenizer(aRequest.getProfileContent(), " ,:.?");
-        while (st.hasMoreTokens()) {
-            String theToken = st.nextToken();
+        TokenStream theTokenStream = aAnalyzer.tokenStream(ProfileIndexerService.CONTENT, new StringReader(aRequest.getProfileContent().toLowerCase()));
+        Token theToken = theTokenStream.next();
+        while (theToken != null) {
+            String theTokenText = theToken.termText();
 
-            if ((theToken.startsWith("*") || (theToken.endsWith("*")))) {
-                theTempQuery = new WildcardQuery(new Term(ProfileIndexerService.CONTENT, theToken));
+            if ((theTokenText.startsWith("*") || (theTokenText.endsWith("*")))) {
+                theTempQuery = new WildcardQuery(new Term(ProfileIndexerService.CONTENT, theTokenText));
             } else {
-                theTempQuery = new TermQuery(new Term(ProfileIndexerService.CONTENT, theToken));
+                theTempQuery = new TermQuery(new Term(ProfileIndexerService.CONTENT, theTokenText));
             }
             theQuery.add(theTempQuery, Occur.MUST);
+            
+            theToken = theTokenStream.next(theToken);
         }
 
         return theQuery;
@@ -328,7 +331,7 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
         ProfileSearchResult theResult = new ProfileSearchResult();
         theResult.setSearchRequest(theRequest);
 
-        Analyzer theAnalyzer = new StandardAnalyzer();
+        Analyzer theAnalyzer = ProfileAnalyzerFactory.createAnalyzer();
 
         Query theQuery = getRealQuery(theRequest, theAnalyzer);
 

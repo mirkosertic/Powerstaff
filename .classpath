@@ -45,7 +45,7 @@
 	<classpathentry kind="lib" path="C:/jboss-4.2.2.GA/server/default/lib/mysql-connector-java-5.1.5-bin.jar"/>
 	<classpathentry kind="lib" path="C:/jboss-4.2.2.GA/server/default/lib/commons-logging.jar"/>
 	<classpathentry kind="lib" path="C:/jboss-4.2.2.GA/server/default/lib/antlr.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-core-2.3.2.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-core-2.3.2.jar" sourcepath="C:/Temp/lucene-2.3.2/src/java/"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-analyzers-2.3.2.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-highlighter-2.3.2.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-misc-2.3.2.jar"/>
