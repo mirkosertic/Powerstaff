@@ -133,7 +133,7 @@ public abstract class NavigatingDAOHibernateImpl<T extends Entity> extends Gener
                     theRowObject.put(GenericSearchResult.OBJECT_ID_KEY, theRow[0]);
                     for (int i = 0; i < aProperties.length; i++) {
                         String thePropertyName = aProperties[i];
-                        if (thePropertyName.startsWith(".")) {
+                        if (thePropertyName.startsWith("+")) {
                             thePropertyName = thePropertyName.substring(1);
                         }
                         theRowObject.put(thePropertyName, theRow[i + 1]);
