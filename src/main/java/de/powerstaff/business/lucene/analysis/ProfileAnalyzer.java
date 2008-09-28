@@ -16,7 +16,7 @@ import org.apache.lucene.analysis.WordlistLoader;
 
 class ProfileAnalyzer extends Analyzer {
 
-    private static final int MIN_LENGTH = 1;
+    private static final int MIN_LENGTH = 2;
 
     private static final int MAX_LENGTH = Integer.MAX_VALUE;
 
