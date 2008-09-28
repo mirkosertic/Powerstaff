@@ -92,6 +92,10 @@ function registerHotKey(aFormID,aHotKey,aClientID) {
 	registeredKeyListeners[aHotKey] = theEntry;
 }
 
+function clearHotKeys() {
+	registeredKeyListeners = new Array();
+}
+
 //
 // Validierung der Länge eines Textareas
 //
