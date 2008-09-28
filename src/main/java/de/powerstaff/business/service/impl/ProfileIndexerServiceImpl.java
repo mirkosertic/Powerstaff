@@ -83,10 +83,12 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
 
         logger.logInfo("Processing deleted or updated files");
 
+        IndexReader reader = null;
+        Directory directory = null;
         try {
 
-            Directory directory = FSDirectory.getDirectory(systemParameterService.getIndexerPath(), false);
-            IndexReader reader = IndexReader.open(directory);
+            directory = FSDirectory.getDirectory(systemParameterService.getIndexerPath(), false);
+            reader = IndexReader.open(directory);
 
             for (int i = 0; i < reader.maxDoc(); i++) {
 
@@ -101,15 +103,32 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
             }
 
             reader.close();
+            reader = null;
             directory.close();
+            directory = null;
 
         } catch (Exception e) {
 
             logger.logError("Error on execution", e);
 
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    logger.logError("Error closing indexreader", e);
+                }
+            }
+            if (directory != null) {
+                try {
+                    directory.close();
+                } catch (IOException e) {
+                    logger.logError("Error closing directory");
+                }
+            }
         }
 
-        logger.logDebug("Done with deleted or updated files");
+        logger.logInfo("Done with deleted or updated files");
     }
 
     /**

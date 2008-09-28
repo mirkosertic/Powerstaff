@@ -1,7 +1,9 @@
 package de.powerstaff.business.lucene.analysis;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,32 +12,23 @@ import org.apache.lucene.analysis.LengthFilter;
 import org.apache.lucene.analysis.StopFilter;
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.WordlistLoader;
 
 class ProfileAnalyzer extends Analyzer {
 
     private static final int MIN_LENGTH = 1;
-    
-    private static final int MAX_LENGTH = Integer.MAX_VALUE;
-    
-    private static final String[] GERMAN_STOP_WORDS = {
-      "einer", "eine", "eines", "einem", "einen",
-      "der", "die", "das", "dass", "daß",
-      "du", "er", "sie", "es",
-      "was", "wer", "wie", "wir",
-      "und", "oder", "ohne", "mit",
-      "am", "im", "in", "aus", "auf",
-      "ist", "sein", "war", "wird",
-      "ihr", "ihre", "ihres",
-      "als", "für", "von", "mit",
-      "dich", "dir", "mich", "mir",
-      "mein", "sein", "kein",
-      "durch", "wegen", "wird"
-    };
 
-    private Set<String> stopSet = new HashSet<String>();    
+    private static final int MAX_LENGTH = Integer.MAX_VALUE;
+
+    private Set<String> stopSet = new HashSet<String>();
 
     public ProfileAnalyzer() {
-        stopSet = StopFilter.makeStopSet(GERMAN_STOP_WORDS);
+        URL theUrl = getClass().getResource("/de/powerstaff/business/lucene/analysis/Stoplist.txt");
+        try {
+            stopSet = WordlistLoader.getWordSet(new InputStreamReader(theUrl.openStream()));
+        } catch (IOException e) {
+            throw new RuntimeException("Error loading stoplist", e);
+        }
     }
 
     @Override
@@ -48,10 +41,11 @@ class ProfileAnalyzer extends Analyzer {
 
     private static final class SavedStreams {
         private ProfileCharTokenizer tokenStream;
+
         private TokenFilter filter;
     }
 
-    @Override    
+    @Override
     public TokenStream reusableTokenStream(String fieldName, Reader reader) throws IOException {
         SavedStreams streams = (SavedStreams) getPreviousTokenStream();
         if (streams == null) {
