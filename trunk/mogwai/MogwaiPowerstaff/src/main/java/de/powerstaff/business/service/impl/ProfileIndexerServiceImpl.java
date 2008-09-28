@@ -24,7 +24,6 @@ import java.util.UUID;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.KeywordAnalyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexReader;
@@ -38,6 +37,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 import de.mogwai.common.business.service.impl.LogableService;
+import de.powerstaff.business.lucene.analysis.ProfileAnalyzerFactory;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ProfileIndexerService;
 import de.powerstaff.business.service.ServiceLoggerService;
@@ -151,12 +151,14 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
                 try {
 
                     // Try to append
-                    writer = new IndexWriter(systemParameterService.getIndexerPath(), new StandardAnalyzer(), false);
+                    writer = new IndexWriter(systemParameterService.getIndexerPath(), ProfileAnalyzerFactory
+                            .createAnalyzer(), false);
 
                 } catch (Exception ex) {
 
                     // Create a new index
-                    writer = new IndexWriter(systemParameterService.getIndexerPath(), new StandardAnalyzer(), true);
+                    writer = new IndexWriter(systemParameterService.getIndexerPath(), ProfileAnalyzerFactory
+                            .createAnalyzer(), true);
                 }
                 indexDocs(writer, sourcePath, sourcePath.toString(), 0);
 
@@ -223,7 +225,8 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
 
                     doc.add(new Field(PATH, aFile.getPath(), Field.Store.YES, Field.Index.UN_TOKENIZED));
                     doc.add(new Field(CODE, theCode, Field.Store.YES, Field.Index.UN_TOKENIZED));
-                    doc.add(new Field(UNIQUE_ID, UUID.randomUUID().toString(), Field.Store.YES, Field.Index.UN_TOKENIZED));
+                    doc.add(new Field(UNIQUE_ID, UUID.randomUUID().toString(), Field.Store.YES,
+                            Field.Index.UN_TOKENIZED));
                     doc.add(new Field(STRIPPEDPATH, theStrippedPath, Field.Store.YES, Field.Index.UN_TOKENIZED));
                     doc.add(new Field(MODIFIED, "" + aFile.lastModified(), Field.Store.YES, Field.Index.NO));
                     doc.add(new Field(INDEXINGTIME, "" + System.currentTimeMillis(), Field.Store.YES, Field.Index.NO));
@@ -281,11 +284,11 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
                 if (fileName.startsWith("Profil ")) {
 
                     aCounter = aCounter + 1;
-                    
+
                     // Ok, the profile is valid
                     // It can be indexed
                     processFile(aWriter, aFile, aBaseFile);
-                    
+
                 } else {
 
                     // it is not a valid file
@@ -315,7 +318,8 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
             try {
 
                 // Try to append
-                theWriter = new IndexWriter(systemParameterService.getIndexerPath(), new StandardAnalyzer(), true);
+                theWriter = new IndexWriter(systemParameterService.getIndexerPath(), ProfileAnalyzerFactory
+                        .createAnalyzer(), true);
                 theWriter.close();
 
             } catch (Exception e) {
