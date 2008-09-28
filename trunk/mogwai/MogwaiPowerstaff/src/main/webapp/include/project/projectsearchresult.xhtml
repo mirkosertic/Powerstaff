@@ -50,18 +50,18 @@
 				</b:cell>
 
 				<b:cell x="1" y="4">
-					<b:table var="row" value="#{projectBackingBean.data.searchResult}" cols="20,150,150,130,100,260">
+					<b:table var="row" value="#{projectBackingBean.data.searchResult}" cols="20,70,80,80,70,230,260">
 						<h:column>
 							<f:facet name="header">
 							</f:facet>
 							<b:commandLink action="#{projectBackingBean.commandSelectSearchResult}">
 								<b:image source="/images/select.gif" />
 								<a4j:support event="onclick"/>
-							</b:commandLink>
+							</b:commandLink> 
 						</h:column>
 						<h:column>
 							<f:facet name="header">
-								<h:outputText value="Projektnummer"/>
+								<h:outputText value="Nummer"/>
 							</f:facet>
 							<h:outputText value="#{row.projectNumber}"/>
 						</h:column>
@@ -81,9 +81,18 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">
+								<h:outputText value="Status"/>
+							</f:facet>
+							<h:outputText value="#{projectBackingBean.data.searchResultRowProjectStatus}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
 								<h:outputText value="Kunde"/>
 							</f:facet>
-							<h:outputText value="#{row.customer}">
+							<h:outputText value="#{row.customer}" rendered="#{!empty row.customer}">
+								<f:converter converterId="personConverter"/>
+							</h:outputText>
+							<h:outputText value="#{row.partner}" rendered="#{!empty row.partner}">
 								<f:converter converterId="personConverter"/>
 							</h:outputText>
 						</h:column>

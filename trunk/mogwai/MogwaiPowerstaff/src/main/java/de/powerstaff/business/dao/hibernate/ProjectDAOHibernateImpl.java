@@ -44,7 +44,7 @@ public class ProjectDAOHibernateImpl extends NavigatingDAOHibernateImpl<Project>
 
     public List<GenericSearchResult> performQBESearch(Project aObject, int aMaxSearchResult) {
 
-        String[] theProperties = new String[] { "projectNumber", "startDate", "duration", "descriptionShort" , "+customer", "+partner"};
+        String[] theProperties = new String[] { "projectNumber", "startDate", "duration", "descriptionShort", "status", "+customer", "+partner"};
 
         String[] theSearchProperties = new String[] { "entryDate", "projectNumber", "workplace", "startDate", "duration",
                 "descriptionShort", "descriptionLong" };

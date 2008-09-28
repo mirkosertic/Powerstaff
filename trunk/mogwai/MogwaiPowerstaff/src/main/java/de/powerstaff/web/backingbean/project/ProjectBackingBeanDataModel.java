@@ -1,7 +1,7 @@
 package de.powerstaff.web.backingbean.project;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import de.mogwai.common.utils.KeyValuePair;
 import de.mogwai.common.web.utils.CollectionDataModel;
@@ -14,8 +14,8 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
 
     private CollectionDataModel<GenericSearchResult> searchResult = new CollectionDataModel<GenericSearchResult>();
 
-    private List status = new Vector();
-    
+    private List<KeyValuePair> status = new ArrayList<KeyValuePair>();
+
     private CollectionDataModel<Contact> contacts;
 
     public ProjectBackingBeanDataModel() {
@@ -24,6 +24,17 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
         status.add(new KeyValuePair<Integer, String>(3, "Canceled"));
         status.add(new KeyValuePair<Integer, String>(4, "Besetzt"));
         status.add(new KeyValuePair<Integer, String>(5, "Search zu"));
+    }
+
+    public String getSearchResultRowProjectStatus() {
+        GenericSearchResult theResult = (GenericSearchResult) searchResult.getRowData();
+        Object theStatus = theResult.get("status");
+        for (KeyValuePair theST : status) {
+            if (theST.getKey().equals(theStatus)) {
+                return (String) theST.getValue();
+            }
+        }
+        return null;
     }
 
     public ProjectBackingBeanDataModel(Project aProject) {
@@ -41,7 +52,7 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
         if (aValue.getContactPerson() != null) {
             contacts = new CollectionDataModel<Contact>(getEntity().getContactPerson().getContacts());
         } else {
-            contacts = new CollectionDataModel<Contact>();            
+            contacts = new CollectionDataModel<Contact>();
         }
     }
 
@@ -60,7 +71,8 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
     }
 
     /**
-     * @param status the status to set
+     * @param status
+     *                the status to set
      */
     public void setStatus(List status) {
         this.status = status;
@@ -74,7 +86,8 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
     }
 
     /**
-     * @param contacts the contacts to set
+     * @param contacts
+     *                the contacts to set
      */
     public void setContacts(CollectionDataModel<Contact> contacts) {
         this.contacts = contacts;
