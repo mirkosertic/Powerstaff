@@ -51,10 +51,40 @@ public class ProfileBackingBean extends WrappingBackingBean<ProfileBackingBeanDa
     private static final Logger LOGGER = new Logger(ProfileBackingBean.class);
 
     private ProfileSearchService profileSearchService;
-    
-    private static final Comparator STRINGCOMPARATOR = new NullsafeComparator(new TransformingComparator(new StringLowerCaseTransformer()));
+
+    private static final Comparator STRINGCOMPARATOR = new NullsafeComparator(new TransformingComparator(
+            new StringLowerCaseTransformer()));
+
     private static final Comparator LONGCOMPARATOR = new NullsafeComparator(LongComparator.INSTANCE);
+
     private static final Comparator DATECOMPARATOR = new NullsafeComparator(DateComparator.INSTANCE);
+    
+    private static class NullSafeSearchEntryComparator implements Comparator<ProfileSearchEntry> {
+        
+        private Comparator delegate;
+        
+        public NullSafeSearchEntryComparator(Comparator aDelegate) {
+            delegate = aDelegate;
+        }
+
+        public int compare(ProfileSearchEntry o1, ProfileSearchEntry o2) {
+            ProfileSearchInfoDetail theF1 = o1.getFreelancer();
+            ProfileSearchInfoDetail theF2 = o2.getFreelancer();
+            
+            if (theF1 == null && theF2 == null) {
+                return 0;
+            }
+            if (theF1 == null && theF2 != null) {
+                return -1;
+            }
+            if (theF1 != null && theF2 == null) {
+                return 1;
+            }
+
+            return delegate.compare(o1, o2);            
+        }
+        
+    }
 
     @Override
     protected ProfileBackingBeanDataModel createDataModel() {
@@ -162,37 +192,38 @@ public class ProfileBackingBean extends WrappingBackingBean<ProfileBackingBeanDa
 
     public void commandSortByName1() {
         List theData = (List) getData().getSearchResult().getWrappedData();
-        Collections.sort(theData, new BeanComparator("freelancer.name1", STRINGCOMPARATOR));
+        Collections.sort(theData, new NullSafeSearchEntryComparator(new BeanComparator("freelancer.name1", STRINGCOMPARATOR)));
         getData().setSearchResult(new CollectionDataModel<ProfileSearchEntry>(theData));
     }
 
     public void commandSortByName2() {
         List theData = (List) getData().getSearchResult().getWrappedData();
-        Collections.sort(theData, new BeanComparator("freelancer.name2", STRINGCOMPARATOR));
+        Collections.sort(theData, new NullSafeSearchEntryComparator(new BeanComparator("freelancer.name2", STRINGCOMPARATOR)));
         getData().setSearchResult(new CollectionDataModel<ProfileSearchEntry>(theData));
     }
 
     public void commandSortByPLZ() {
         List theData = (List) getData().getSearchResult().getWrappedData();
-        Collections.sort(theData, new BeanComparator("freelancer.plz", STRINGCOMPARATOR));
+        Collections.sort(theData, new NullSafeSearchEntryComparator(new BeanComparator("freelancer.plz", STRINGCOMPARATOR)));
         getData().setSearchResult(new CollectionDataModel<ProfileSearchEntry>(theData));
     }
 
     public void commandSortBySatz() {
         List theData = (List) getData().getSearchResult().getWrappedData();
-        Collections.sort(theData, new BeanComparator("freelancer.sallaryLong", LONGCOMPARATOR));
+        Collections.sort(theData, new NullSafeSearchEntryComparator(new BeanComparator("freelancer.sallaryLong", LONGCOMPARATOR)));
         getData().setSearchResult(new CollectionDataModel<ProfileSearchEntry>(theData));
     }
 
     public void commandSortByVerf() {
         List theData = (List) getData().getSearchResult().getWrappedData();
-        Collections.sort(theData, new BeanComparator("freelancer.availabilityAsDate", DATECOMPARATOR));
+        Collections.sort(theData, new NullSafeSearchEntryComparator(new BeanComparator("freelancer.availabilityAsDate",
+                DATECOMPARATOR)));
         getData().setSearchResult(new CollectionDataModel<ProfileSearchEntry>(theData));
     }
 
     public void commandSortByCode() {
         List theData = (List) getData().getSearchResult().getWrappedData();
-        Collections.sort(theData, new BeanComparator("code" , STRINGCOMPARATOR));
+        Collections.sort(theData, new BeanComparator("code", STRINGCOMPARATOR));
         getData().setSearchResult(new CollectionDataModel<ProfileSearchEntry>(theData));
     }
 }
