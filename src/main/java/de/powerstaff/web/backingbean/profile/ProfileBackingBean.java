@@ -210,13 +210,13 @@ public class ProfileBackingBean extends WrappingBackingBean<ProfileBackingBeanDa
 
     public void commandSortBySatz() {
         List theData = (List) getData().getSearchResult().getWrappedData();
-        Collections.sort(theData, new NullSafeSearchEntryComparator(new BeanComparator("freelancer.sallaryLong", LONGCOMPARATOR)));
+        Collections.sort(theData, new NullSafeSearchEntryComparator(new BeanComparator("freelancer.stundensatz", LONGCOMPARATOR)));
         getData().setSearchResult(new CollectionDataModel<ProfileSearchEntry>(theData));
     }
 
     public void commandSortByVerf() {
         List theData = (List) getData().getSearchResult().getWrappedData();
-        Collections.sort(theData, new NullSafeSearchEntryComparator(new BeanComparator("freelancer.availabilityAsDate",
+        Collections.sort(theData, new NullSafeSearchEntryComparator(new BeanComparator("freelancer.availability",
                 DATECOMPARATOR)));
         getData().setSearchResult(new CollectionDataModel<ProfileSearchEntry>(theData));
     }
