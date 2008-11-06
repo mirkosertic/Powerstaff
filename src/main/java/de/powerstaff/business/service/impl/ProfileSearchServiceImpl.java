@@ -27,19 +27,15 @@ import java.util.Vector;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.KeywordAnalyzer;
-import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.index.Term;
+import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
-import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.WildcardQuery;
-import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SpanGradientFormatter;
@@ -72,7 +68,7 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
     private PowerstaffSystemParameterService systemParameterService;
 
     private ProfileSearchDAO profileSearchDAO;
-
+    
     /**
      * @return the systemParameterService
      */
@@ -229,13 +225,18 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
         return theResult;
     }
 
-    private Query getRealQuery(ProfileSearchRequest aRequest, Analyzer aAnalyzer) throws IOException {
+    private Query getRealQuery(ProfileSearchRequest aRequest, Analyzer aAnalyzer) throws IOException, ParseException {
 
         BooleanQuery.setMaxClauseCount(8192);
-        BooleanQuery theQuery = new BooleanQuery();
-
+        
+        GoogleStyleQueryParser theParser = new GoogleStyleQueryParser();
+        return theParser.parseQuery(aRequest.getProfileContent(), aAnalyzer, ProfileIndexerService.CONTENT);
+        
+/*        BooleanQuery theQuery = new BooleanQuery();
+        
         Query theTempQuery = null;
-        TokenStream theTokenStream = aAnalyzer.tokenStream(ProfileIndexerService.CONTENT, new StringReader(aRequest.getProfileContent().toLowerCase()));
+        TokenStream theTokenStream = aAnalyzer.tokenStream(ProfileIndexerService.CONTENT, new StringReader(aRequest
+                .getProfileContent().toLowerCase()));
         Token theToken = theTokenStream.next();
         while (theToken != null) {
             String theTokenText = theToken.termText();
@@ -246,11 +247,11 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
                 theTempQuery = new TermQuery(new Term(ProfileIndexerService.CONTENT, theTokenText));
             }
             theQuery.add(theTempQuery, Occur.MUST);
-            
+
             theToken = theTokenStream.next(theToken);
         }
 
-        return theQuery;
+        return theQuery;*/
     }
 
     public Vector<FreelancerProfile> findProfiles(String aCode) throws Exception {
