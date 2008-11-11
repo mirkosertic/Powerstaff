@@ -32,6 +32,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 			value="java:/TransactionManager" />
 	</bean>
 
+	<tx:annotation-driven transaction-manager="txManager" order="200"/>
+
 	<tx:advice id="txAdvice" transaction-manager="txManager">
 		<tx:attributes>
 			<tx:method name="get*" propagation="REQUIRED"
@@ -39,7 +41,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 			<tx:method name="*" propagation="REQUIRED" />
 		</tx:attributes>
 	</tx:advice>
-
+	
 	<aop:config>
 		<aop:pointcut id="businessServiceInterfacePointcut"
 			expression="execution(public * de.powerstaff.business.service.impl.*.*(..))" />

@@ -35,6 +35,8 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.lucene.analysis.ProfileAnalyzerFactory;
@@ -134,6 +136,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
     /**
      * Run the indexer.
      */
+    @Transactional(propagation = Propagation.NEVER)
     public void runIndexer() {
 
         // Läuft der indexer bereits ?
