@@ -26,8 +26,8 @@ import java.util.Vector;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.CachingTokenFilter;
 import org.apache.lucene.analysis.KeywordAnalyzer;
-import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
@@ -39,6 +39,7 @@ import org.apache.lucene.search.Searcher;
 import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SpanGradientFormatter;
+import org.apache.lucene.search.highlight.SpanScorer;
 
 import de.mogwai.common.business.service.impl.LogableService;
 import de.mogwai.common.usercontext.UserContextHolder;
@@ -143,7 +144,7 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
         theQuery = theSearcher.rewrite(theQuery);
 
         logger.logInfo("Rewritten Search query is " + theQuery);
-
+        
         Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(1, "#000000", "#0000FF", null, null),
                 new QueryScorer(theQuery));
 
@@ -174,7 +175,7 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
                 theEntry.setFreelancer(theFreelancer);
             }
 
-            theEntry.setHighlightResult(getHighlightedSearchResult(theAnalyzer, theHighlighter, theDocument));
+            theEntry.setHighlightResult(getHighlightedSearchResult(theAnalyzer, theHighlighter, theDocument, theQuery));
 
             if (isExtendedSearch) {
                 if (theFreelancer != null) {
@@ -308,11 +309,16 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
         return theResult;
     }
 
-    protected String getHighlightedSearchResult(Analyzer aAnalyzer, Highlighter aHighlighter, Document aDocument)
+    protected String getHighlightedSearchResult(Analyzer aAnalyzer, Highlighter aHighlighter, Document aDocument, Query aQuery)
             throws IOException {
 
         String theContent = aDocument.get(ProfileIndexerService.ORIG_CONTENT);
-        TokenStream tokenStream = aAnalyzer.tokenStream(ProfileIndexerService.CONTENT, new StringReader(theContent));
+        
+        CachingTokenFilter tokenStream = new CachingTokenFilter(aAnalyzer.tokenStream(
+                ProfileIndexerService.CONTENT, new StringReader(theContent)));
+
+        aHighlighter.setFragmentScorer(new SpanScorer(aQuery, ProfileIndexerService.CONTENT,
+        tokenStream));
 
         return aHighlighter.getBestFragments(tokenStream, theContent, 5, "&nbsp;...&nbsp;");
     }
@@ -367,7 +373,7 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
 
                 theSearchEntry.setCode(theDocument.get(ProfileIndexerService.CODE));
 
-                theSearchEntry.setHighlightResult(getHighlightedSearchResult(theAnalyzer, theHighlighter, theDocument));
+                theSearchEntry.setHighlightResult(getHighlightedSearchResult(theAnalyzer, theHighlighter, theDocument, theQuery));
 
                 ProfileSearchInfoDetail theFreelancer;
                 theFreelancer = freelancerService.findFreelancerByCode(theSearchEntry.getCode());
