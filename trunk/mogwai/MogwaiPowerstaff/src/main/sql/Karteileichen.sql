@@ -16,7 +16,7 @@ where
 update freelancer a
     inner join freelancer_udf b on (a.id = b.freelancer_id)
 set
-    a.comments =  concat('Vermittelt von ',b.stringValue, '\n', a.comments)
+    a.comments =  concat('Vermittelt von ',b.stringValue, '\n', ifnull(a.comments,''))
 where 
     b.name = 'ansp' and
     b.stringValue is not null
@@ -28,9 +28,28 @@ update freelancer a
     inner join customer_udf c on (c.intvalue = b.intvalue)
     inner join customer d on (c.customer_id = d.id)
 set
-    a.comments = concat('Vermittelt von ',d.name1,', ', d.name2, ', ' ,d.company,'\n',a.comments)
+    a.comments = concat('Vermittelt von ',ifnull(d.name1,''),', ', ifnull(d.name2,''), ', ' ,ifnull(d.company,''),'\n',ifnull(a.comments,''))
 where 
     b.name = 'anspID' and
     b.intvalue is not null and
     b.intvalue <> 0 and 
     c.name = 'ID'
+
+
+select * from freelancer where code = '05152' // 17399
+
+select concat('Vermittelt von ',b.stringValue, '\n', ifnull(a.comments, '')), b.stringValue from freelancer a
+    inner join freelancer_udf b on (a.id = b.freelancer_id)
+where 
+    b.name = 'ansp' and
+    b.stringValue is not null and
+    a.id = 17399
+
+
+update freelancer a
+    inner join freelancer_udf b on (a.id = b.freelancer_id)
+set
+    a.comments =  concat('Vermittelt von ',b.stringValue, '\n', a.comments)
+where 
+    b.name = 'ansp' and
+    b.stringValue is not null
