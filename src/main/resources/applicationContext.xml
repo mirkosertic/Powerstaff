@@ -44,7 +44,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 	
 	<aop:config>
 		<aop:pointcut id="businessServiceInterfacePointcut"
-			expression="execution(public * de.powerstaff.business.service.impl.*.*(..))" />
+			expression="execution(public * de.powerstaff.business.service.impl.*.*(..)) and !@annotation(org.springframework.transaction.annotation.Transactional)" />
 		<aop:advisor advice-ref="txAdvice"
 			pointcut-ref="businessServiceInterfacePointcut" />
 	</aop:config>

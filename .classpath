@@ -7,7 +7,6 @@
 	<classpathentry kind="src" path="src/datenuebernahmemobile/java"/>
 	<classpathentry kind="src" path="src/datenuebernahmemobile/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="com.genuitec.eclipse.j2eedt.core.J2EE14_CONTAINER"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/aspectjrt.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/aspectjweaver.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/commons-beanutils-1.7.0.jar"/>
@@ -49,5 +48,6 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-analyzers-2.4.0.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-highlighter-2.4.0.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-misc-2.4.0.jar"/>
+	<classpathentry kind="con" path="com.genuitec.eclipse.j2eedt.core.J2EE14_CONTAINER"/>
 	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
 </classpath>
