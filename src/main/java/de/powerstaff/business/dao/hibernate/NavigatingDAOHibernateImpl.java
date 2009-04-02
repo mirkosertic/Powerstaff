@@ -92,14 +92,18 @@ public abstract class NavigatingDAOHibernateImpl<T extends Entity> extends Gener
                         }
 
                         if (theValue instanceof String) {
-                            if (aMatchMode == MATCH_LIKE) {
-                                theQueryString += "lower(item." + thePropertyName + ") like :" + thePropertyName;
-                                theParams.put(thePropertyName, "%" + theValue.toString().toLowerCase() + "%");
+                            String theStringValue = (String) theValue;
+                            if (!theStringValue.contains("%")) {
+                                if (aMatchMode == MATCH_LIKE) {
+                                    theQueryString += "lower(item." + thePropertyName + ") like :" + thePropertyName;
+                                    theParams.put(thePropertyName, "%" + theStringValue.toLowerCase() + "%");
+                                } else {
+                                    theQueryString += "item." + thePropertyName + " = :" + thePropertyName;
+                                    theParams.put(thePropertyName, theValue);
+                                }
                             } else {
-
-                                theQueryString += "item." + thePropertyName + " = :" + thePropertyName;
-                                theParams.put(thePropertyName, theValue);
-
+                                theQueryString += "lower(item." + thePropertyName + ") like :" + thePropertyName;
+                                theParams.put(thePropertyName, theStringValue);
                             }
                         } else {
                             theQueryString += "item." + thePropertyName + " = :" + thePropertyName;
