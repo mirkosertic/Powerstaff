@@ -32,13 +32,22 @@
 			<b:gridBagLayout cols="810" rows="10,p,1,p,p" id="menu">
 
 				<b:cell x="1" y="1">
-					<b:titledBox label="Neuen Eintrag erfassen">
-						<b:gridBagLayout cols="2,*,100,2"
-							rows="2,100,2,p,2">
-							<b:cell x="2" y="2" width="2">
-								<b:textarea id="input" required="true" value="#{freelancerBackingBean.data.newHistoryEntry}"/>
+					<b:titledBox label="Neuen Eintrag erfassen" id="input">
+						<b:gridBagLayout cols="2,50,200,*,100,2"
+							rows="2,p,2,100,2,p,2">
+							<b:cell x="2" y="2">
+								<b:label id="typ" label="Typ"/>
+								<b:label id="text" label="Text" rendered="false"/>
 							</b:cell>
-							<b:cell x="3" y="4">
+							<b:cell x="3" y="2">
+								<b:combobox labelComponentId="typ" value="#{freelancerBackingBean.data.newHistoryType}" values="#{freelancerBackingBean.data.historyTypes}" nullable="false">
+									<f:converter converterId="historyTypeConverter"/>
+								</b:combobox>								
+							</b:cell>
+							<b:cell x="2" y="4" width="4">
+								<b:textarea labelComponentId="text" required="true" value="#{freelancerBackingBean.data.newHistoryEntry}"/>
+							</b:cell>
+							<b:cell x="5" y="6">
 								<b:commandButton sizeToGridBag="true" value="Erfassen" action="#{freelancerBackingBean.commandAddNewHistoryEntry}">
 									<a4j:support event="onclick"
 										reRender="input,history" />
@@ -67,7 +76,7 @@
 							<f:facet name="header">
 								<h:outputText value="Historie"/>
 							</f:facet>
-							<b:gridBagLayout cols="790" rows="p,2,p">
+							<b:gridBagLayout cols="590,200" rows="p,2,p">
 
 								<b:cell x="1" y="1">
 									<h:outputText value="#{row}">
@@ -75,7 +84,13 @@
 									</h:outputText>
 								</b:cell>
 
-								<b:cell x="1" y="3">
+								<b:cell x="2" y="1">
+									<h:outputText value="#{row.type}">
+										<f:converter converterId="historyTypeConverter"/>
+									</h:outputText>
+								</b:cell>
+
+								<b:cell x="1" y="3" width="2">
 									<h:outputText value="#{row.description}" escape="false">
 										<f:converter converterId="textConverter"/>
 									</h:outputText>

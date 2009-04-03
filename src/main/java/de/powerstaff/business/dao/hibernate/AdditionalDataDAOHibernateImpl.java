@@ -27,6 +27,7 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import de.mogwai.common.dao.hibernate.GenericDaoHibernateImpl;
 import de.powerstaff.business.dao.AdditionalDataDAO;
 import de.powerstaff.business.entity.ContactType;
+import de.powerstaff.business.entity.HistoryType;
 
 public class AdditionalDataDAOHibernateImpl extends GenericDaoHibernateImpl implements AdditionalDataDAO {
 
@@ -36,6 +37,19 @@ public class AdditionalDataDAOHibernateImpl extends GenericDaoHibernateImpl impl
             public Object doInHibernate(Session aSession) throws SQLException {
                 List<ContactType> theResult = new Vector<ContactType>();
                 theResult.addAll(aSession.createQuery("from ContactType item order by item.description").list());
+                return theResult;
+            }
+
+        });
+    }
+
+    @Override
+    public List<HistoryType> getHistoryTypes() {
+        return (List<HistoryType>) getHibernateTemplate().execute(new HibernateCallback() {
+
+            public Object doInHibernate(Session aSession) throws SQLException {
+                List<HistoryType> theResult = new Vector<HistoryType>();
+                theResult.addAll(aSession.createQuery("from HistoryType item order by item.description").list());
                 return theResult;
             }
 

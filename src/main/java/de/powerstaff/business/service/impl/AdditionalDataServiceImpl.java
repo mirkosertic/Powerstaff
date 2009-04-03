@@ -22,6 +22,7 @@ import java.util.List;
 import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.AdditionalDataDAO;
 import de.powerstaff.business.entity.ContactType;
+import de.powerstaff.business.entity.HistoryType;
 import de.powerstaff.business.service.AdditionalDataService;
 
 public class AdditionalDataServiceImpl extends LogableService implements AdditionalDataService {
@@ -45,5 +46,10 @@ public class AdditionalDataServiceImpl extends LogableService implements Additio
 
     public List<ContactType> getContactTypes() {
         return additionalDataDAO.getContactTypes();
+    }
+
+    @Override
+    public List<HistoryType> getHistoryTypes() {
+        return additionalDataDAO.getHistoryTypes();
     }
 }

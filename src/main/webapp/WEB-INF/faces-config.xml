@@ -23,6 +23,13 @@
 	</converter>
 
 	<converter>
+		<converter-id>historyTypeConverter</converter-id>
+		<converter-class>
+			de.powerstaff.web.converter.HistoryTypeConverter
+		</converter-class>
+	</converter>
+
+	<converter>
 		<converter-id>auditInformationConverter</converter-id>
 		<converter-class>
 			de.powerstaff.web.converter.AuditInformationConverter
