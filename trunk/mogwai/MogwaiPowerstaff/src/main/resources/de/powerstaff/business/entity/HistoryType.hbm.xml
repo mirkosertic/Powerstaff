@@ -3,22 +3,12 @@
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="de.powerstaff.business.entity" default-lazy="false">
-  <class name="FreelancerHistory" table="freelancer_history">
+  <class name="HistoryType" table="historytype">
 
 		<id name="id" column="id">
 	        <generator class="identity"/>
-   		</id>
+		</id>
 
-		<property column="creationDate" name="creationDate"/>
-		<property column="creationUser" name="creationUserID"/>
-		<property column="changedDate" name="lastModificationDate"/>
-		<property column="changedUser" name="lastModificationUserID"/>
-		
 		<property name="description" not-null="true" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
-		
-		<many-to-one name="type" class="HistoryType">
-			<column name="type_id" not-null="false"/>
-		</many-to-one>  
-
   </class>
 </hibernate-mapping>

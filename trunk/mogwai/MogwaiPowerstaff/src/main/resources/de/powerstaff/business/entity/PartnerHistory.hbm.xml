@@ -16,6 +16,9 @@
 		
 		<property name="description" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
 		
+		<many-to-one name="type" class="HistoryType">
+			<column name="type_id" not-null="false"/>
+		</many-to-one>  
 
   </class>
 </hibernate-mapping>
