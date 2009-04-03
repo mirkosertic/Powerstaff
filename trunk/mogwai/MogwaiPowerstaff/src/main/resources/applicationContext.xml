@@ -22,7 +22,12 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
 	<bean id="datasource"
 		class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName" value="java:/powerstaffdb" />
+		<property name="jndiName" value="java:powerstaff/db" />
+	</bean>
+
+	<bean id="cronExpression"
+		class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:powerstaff/indexcronexpression" />
 	</bean>
 
 	<bean id="txManager"
@@ -272,9 +277,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 	<bean id="perMinuteCronTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="indexerJobDetail" />
-		<property name="cronExpression">
-			<value>0 0,30 * * * ?</value>
-		</property>
+		<property name="cronExpression" ref="cronExpression"/>
 	</bean>
 
 	<bean id="webSyncJobDetail"
