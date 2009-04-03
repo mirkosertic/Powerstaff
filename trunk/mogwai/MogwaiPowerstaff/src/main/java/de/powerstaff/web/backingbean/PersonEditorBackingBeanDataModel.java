@@ -22,6 +22,7 @@ import java.util.List;
 import de.mogwai.common.web.utils.CollectionDataModel;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.ContactType;
+import de.powerstaff.business.entity.HistoryType;
 import de.powerstaff.business.entity.Person;
 import de.powerstaff.business.entity.FreelancerContact;
 import de.powerstaff.business.entity.FreelancerHistory;
@@ -34,6 +35,8 @@ public abstract class PersonEditorBackingBeanDataModel<T extends Person> extends
     private String newContactValue;
 
     private String newHistoryEntry;
+    
+    private HistoryType newHistoryType;
 
     private CollectionDataModel<FreelancerContact> contacts;
 
@@ -42,6 +45,8 @@ public abstract class PersonEditorBackingBeanDataModel<T extends Person> extends
     private CollectionDataModel<GenericSearchResult> searchResult = new CollectionDataModel<GenericSearchResult>();
 
     private List<ContactType> contactTypes;
+    
+    private List<HistoryType> historyTypes;
 
     protected PersonEditorBackingBeanDataModel() {
     }
@@ -158,5 +163,33 @@ public abstract class PersonEditorBackingBeanDataModel<T extends Person> extends
      */
     public void setContactTypes(List<ContactType> contactTypes) {
         this.contactTypes = contactTypes;
+    }
+
+    /**
+     * @return the historyTypes
+     */
+    public List<HistoryType> getHistoryTypes() {
+        return historyTypes;
+    }
+
+    /**
+     * @param historyTypes the historyTypes to set
+     */
+    public void setHistoryTypes(List<HistoryType> historyTypes) {
+        this.historyTypes = historyTypes;
+    }
+
+    /**
+     * @return the historyType
+     */
+    public HistoryType getNewHistoryType() {
+        return newHistoryType;
+    }
+
+    /**
+     * @param historyType the historyType to set
+     */
+    public void setNewHistoryType(HistoryType historyType) {
+        this.newHistoryType = historyType;
     }
 }

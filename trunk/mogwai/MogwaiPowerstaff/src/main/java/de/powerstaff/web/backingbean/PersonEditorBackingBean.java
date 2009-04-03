@@ -56,7 +56,8 @@ public abstract class PersonEditorBackingBean<T extends Person, V extends Person
     public void init() {
         super.init();
 
-        getData().setContactTypes((List<ContactType>) additinalDataService.getContactTypes());
+        getData().setContactTypes(additinalDataService.getContactTypes());
+        getData().setHistoryTypes(additinalDataService.getHistoryTypes());
 
         commandNew();
     }
@@ -136,6 +137,7 @@ public abstract class PersonEditorBackingBean<T extends Person, V extends Person
         
         HistoryEntity theHistory = createNewHistory();
         theHistory.setDescription(getData().getNewHistoryEntry());
+        theHistory.setType(getData().getNewHistoryType());
 
         T thePerson = getData().getEntity();
         thePerson.getHistory().add(theHistory);

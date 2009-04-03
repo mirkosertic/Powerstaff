@@ -66,7 +66,7 @@
 							<f:facet name="header">
 								<h:outputText value="Historie"/>
 							</f:facet>
-							<b:gridBagLayout cols="790" rows="p,2,p">
+							<b:gridBagLayout cols="690,100" rows="p,2,p">
 
 								<b:cell x="1" y="1">
 									<h:outputText value="#{row}">
@@ -74,7 +74,13 @@
 									</h:outputText>
 								</b:cell>
 
-								<b:cell x="1" y="3">
+								<b:cell x="2" y="1">
+									<h:outputText value="#{row.type}">
+										<f:converter converterId="historyTypeConverter"/>
+									</h:outputText>
+								</b:cell>
+
+								<b:cell x="1" y="3" width="2">
 									<h:outputText value="#{row.description}" escape="false">
 										<f:converter converterId="textConverter"/>
 									</h:outputText>
