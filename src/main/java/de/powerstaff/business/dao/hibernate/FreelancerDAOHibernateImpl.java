@@ -39,11 +39,11 @@ import de.powerstaff.business.entity.Freelancer;
 
 public class FreelancerDAOHibernateImpl extends PersonDAOHibernateImpl<Freelancer> implements FreelancerDAO {
 
-    private static final String[] DISPLAYPROPERTIES = new String[] { "name1", "name2", "availabilityAsDate", "sallaryLong", "skills" };
+    private static final String[] DISPLAYPROPERTIES = new String[] { "name1", "name2", "availabilityAsDate", "sallaryLong", "skills" , "code"};
 
     private static final String[] SEARCHPROPERTIES = new String[] { "name1", "name2", "company", "street", "country", "plz", "city",
             "comments", "workplace", "sallaryLong", "code", "contactPerson", "contactType",
-            "contactReason", "lastContact", "skills", "gulpID" };
+            "contactReason", "lastContact", "skills", "gulpID" , "code"};
 
     private static final String[] ORDERBYPROPERTIES = new String[] { "name1", "name2" };
     
