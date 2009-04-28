@@ -6,6 +6,7 @@ import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 import de.powerstaff.web.backingbean.partner.PartnerBackingBean;
 import de.powerstaff.web.backingbean.profile.ProfileBackingBean;
 import de.powerstaff.web.backingbean.project.ProjectBackingBean;
+import de.powerstaff.web.backingbean.statistik.StatistikBackingBean;
 
 public class NavigationBackingBean extends BackingBean {
 
@@ -34,4 +35,8 @@ public class NavigationBackingBean extends BackingBean {
         return "PROFILE_STAMMDATEN";
     }
 
+    public String commandStatistik() {
+        forceNavigationResetOfBean(StatistikBackingBean.class);
+        return "STATISTIK_STATISTIK";
+    }
 }

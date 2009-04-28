@@ -8,6 +8,7 @@
   <JSFFlowResource path="/include/project/projectmain.xhtml" location="330,430" dimension="209,36" />
   <JSFFlowResource path="/include/project/projectsearchresult.xhtml" location="30,530" dimension="246,36" />
   <JSFFlowResource path="/include/profile/profilemain.xhtml" location="330,530" dimension="201,36" />
+  <JSFFlowResource path="/include/statistic/statisticmain.xhtml" location="330,730" dimension="238,36" />
   <JSFFlowResource path="/include/freelancer/*" location="480,630" dimension="155,36" />
   <JSFFlowResource path="/include/freelancer/freelancerhistory.xhtml" location="480,30" dimension="250,36" />
   <JSFFlowResource path="/include/freelancer/freelancersearchresult.xhtml" location="30,130" dimension="276,36" />
@@ -20,8 +21,8 @@
   <JSFFlowResource path="/include/partner/partnerfreelancer.xhtml" location="30,630" dimension="259,36" />
   <JSFFlowNavigationCase id="*,/include/freelancer/freelancermain.xhtml,FREELANCER_STAMMDATEN,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
-      <AbsolutePoint location="80,33" />
-      <AbsolutePoint location="180,33" />
+      <AbsolutePoint location="80,48" />
+      <AbsolutePoint location="180,48" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
   <JSFFlowNavigationCase id="*,/include/customer/customermain.xhtml,CUSTOMER_STAMMDATEN,&lt;empty&gt;" routingType="0">
@@ -34,50 +35,57 @@
   </JSFFlowNavigationCase>
   <JSFFlowNavigationCase id="*,/include/partner/partnermain.xhtml,PARTNER_STAMMDATEN,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
-      <AbsolutePoint location="70,30" />
-      <AbsolutePoint location="70,-37" />
-      <AbsolutePoint location="737,-37" />
-      <AbsolutePoint location="737,403" />
-      <AbsolutePoint location="136,403" />
-      <AbsolutePoint location="136,366" />
+      <AbsolutePoint location="30,48" />
+      <AbsolutePoint location="-7,48" />
+      <AbsolutePoint location="-7,348" />
+      <AbsolutePoint location="30,348" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
   <JSFFlowNavigationCase id="*,/include/project/projectmain.xhtml,PROJEKT_STAMMDATEN,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
-      <AbsolutePoint location="30,48" />
-      <AbsolutePoint location="7,48" />
-      <AbsolutePoint location="7,373" />
-      <AbsolutePoint location="434,373" />
+      <AbsolutePoint location="30,63" />
+      <AbsolutePoint location="7,63" />
+      <AbsolutePoint location="7,403" />
+      <AbsolutePoint location="434,403" />
       <AbsolutePoint location="434,430" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
   <JSFFlowNavigationCase id="*,/include/project/projectsearchresult.xhtml,PROJEKT_SEARCHRESULT,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
-      <AbsolutePoint location="30,63" />
-      <AbsolutePoint location="-22,63" />
-      <AbsolutePoint location="-22,548" />
+      <AbsolutePoint location="30,33" />
+      <AbsolutePoint location="-37,33" />
+      <AbsolutePoint location="-37,548" />
       <AbsolutePoint location="30,548" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
   <JSFFlowNavigationCase id="*,/include/profile/profilemain.xhtml,PROFILE_STAMMDATEN,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
+      <AbsolutePoint location="70,66" />
+      <AbsolutePoint location="70,78" />
+      <AbsolutePoint location="313,78" />
+      <AbsolutePoint location="313,548" />
+      <AbsolutePoint location="330,548" />
+    </AutomaticBendpoints>
+  </JSFFlowNavigationCase>
+  <JSFFlowNavigationCase id="*,/include/statistic/statisticmain.xhtml,STATISTIK_STATISTIK,&lt;empty&gt;" routingType="0">
+    <AutomaticBendpoints>
       <AbsolutePoint location="55,30" />
-      <AbsolutePoint location="55,-74" />
-      <AbsolutePoint location="782,-74" />
-      <AbsolutePoint location="782,548" />
-      <AbsolutePoint location="531,548" />
+      <AbsolutePoint location="55,-7" />
+      <AbsolutePoint location="767,-7" />
+      <AbsolutePoint location="767,748" />
+      <AbsolutePoint location="568,748" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
   <JSFFlowNavigationCase id="*,/include/freelancer/freelancermain.xhtml,INDEX,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
-      <AbsolutePoint location="55,48" />
-      <AbsolutePoint location="299,48" />
+      <AbsolutePoint location="80,63" />
+      <AbsolutePoint location="180,63" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
   <JSFFlowNavigationCase id="/include/freelancer/*,/include/freelancer/freelancermain.xhtml,STAMMDATEN,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
-      <AbsolutePoint location="609,630" />
-      <AbsolutePoint location="609,203" />
+      <AbsolutePoint location="603,630" />
+      <AbsolutePoint location="603,203" />
       <AbsolutePoint location="337,203" />
       <AbsolutePoint location="337,66" />
     </AutomaticBendpoints>
@@ -98,33 +106,35 @@
   </JSFFlowNavigationCase>
   <JSFFlowNavigationCase id="/include/customer/*,/include/customer/customermain.xhtml,STAMMDATEN,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
-      <AbsolutePoint location="183,763" />
-      <AbsolutePoint location="642,763" />
+      <AbsolutePoint location="106,730" />
+      <AbsolutePoint location="106,693" />
+      <AbsolutePoint location="642,693" />
       <AbsolutePoint location="642,166" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
   <JSFFlowNavigationCase id="/include/customer/*,/include/customer/customerhistory.xhtml,HISTORIE,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
       <AbsolutePoint location="30,748" />
-      <AbsolutePoint location="22,748" />
-      <AbsolutePoint location="22,248" />
+      <AbsolutePoint location="-22,748" />
+      <AbsolutePoint location="-22,248" />
       <AbsolutePoint location="30,248" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
   <JSFFlowNavigationCase id="/include/customer/*,/include/customer/customersearchresult.xhtml,SEARCHRESULT,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
-      <AbsolutePoint location="183,748" />
-      <AbsolutePoint location="313,748" />
-      <AbsolutePoint location="313,248" />
-      <AbsolutePoint location="330,248" />
+      <AbsolutePoint location="106,766" />
+      <AbsolutePoint location="106,803" />
+      <AbsolutePoint location="672,803" />
+      <AbsolutePoint location="672,248" />
+      <AbsolutePoint location="596,248" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
   <JSFFlowNavigationCase id="/include/partner/*,/include/partner/partnermain.xhtml,STAMMDATEN,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
       <AbsolutePoint location="30,648" />
-      <AbsolutePoint location="-7,648" />
-      <AbsolutePoint location="-7,348" />
-      <AbsolutePoint location="30,348" />
+      <AbsolutePoint location="22,648" />
+      <AbsolutePoint location="22,363" />
+      <AbsolutePoint location="30,363" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
   <JSFFlowNavigationCase id="/include/partner/*,/include/partner/partnerhistory.xhtml,HISTORIE,&lt;empty&gt;" routingType="0">
@@ -137,10 +147,10 @@
   </JSFFlowNavigationCase>
   <JSFFlowNavigationCase id="/include/partner/*,/include/partner/partnersearchresult.xhtml,SEARCHRESULT,&lt;empty&gt;" routingType="0">
     <AutomaticBendpoints>
-      <AbsolutePoint location="30,633" />
-      <AbsolutePoint location="7,633" />
-      <AbsolutePoint location="7,463" />
-      <AbsolutePoint location="30,463" />
+      <AbsolutePoint location="30,663" />
+      <AbsolutePoint location="7,663" />
+      <AbsolutePoint location="7,448" />
+      <AbsolutePoint location="30,448" />
     </AutomaticBendpoints>
   </JSFFlowNavigationCase>
   <JSFFlowNavigationCase id="/include/partner/*,/include/partner/partnerfreelancer.xhtml,FREIBERUFLER,&lt;empty&gt;" routingType="0">
