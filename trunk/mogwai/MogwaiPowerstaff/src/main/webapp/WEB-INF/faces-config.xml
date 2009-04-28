@@ -168,6 +168,18 @@
 		</managed-property>
 	</managed-bean>
 
+	<managed-bean>
+		<managed-bean-name>statistikBackingBean</managed-bean-name>
+		<managed-bean-class>
+			de.powerstaff.web.backingbean.statistik.StatistikBackingBean
+		</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>statisticService</property-name>
+			<value>#{statistikService}</value>
+		</managed-property>
+	</managed-bean>
+
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
@@ -193,6 +205,10 @@
 		<navigation-case>
 			<from-outcome>PROFILE_STAMMDATEN</from-outcome>
 			<to-view-id>/include/profile/profilemain.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>STATISTIK_STATISTIK</from-outcome>
+			<to-view-id>/include/statistic/statisticmain.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>INDEX</from-outcome>

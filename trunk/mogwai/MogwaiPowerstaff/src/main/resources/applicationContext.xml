@@ -194,6 +194,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 	<bean id="profileSearchDAO" class="de.powerstaff.business.dao.hibernate.ProfileSearchDAOHibernateImpl">
 		<property name="hibernateTemplate" ref="hibernateTemplate"/>
 	</bean>
+
+	<bean id="statistikDAO" class="de.powerstaff.business.dao.hibernate.StatistikDAOHibernateImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
 	
 	<!-- 
 		Definition der Services
@@ -220,6 +224,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 	<bean id="freelancerService" class="de.powerstaff.business.service.impl.FreelancerServiceImpl">
 		<property name="freelancerDAO" ref="freelancerDAO"/>
 		<property name="systemParameterService" ref="systemParameterService"/>		
+	</bean>
+
+	<bean id="statistikService" class="de.powerstaff.business.service.impl.StatistikServiceImpl">
+		<property name="statistikDAO" ref="statistikDAO"/>
 	</bean>
 	
 	<bean id="systemParameterService"
