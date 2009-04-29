@@ -178,6 +178,10 @@
 			<property-name>statisticService</property-name>
 			<value>#{statistikService}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>additionalDataService</property-name>
+			<value>#{additinalDataService}</value>
+		</managed-property>
 	</managed-bean>
 
 	<navigation-rule>
