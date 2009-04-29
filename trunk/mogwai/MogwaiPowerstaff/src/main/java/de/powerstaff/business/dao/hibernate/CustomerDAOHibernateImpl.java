@@ -30,7 +30,7 @@ public class CustomerDAOHibernateImpl extends PersonDAOHibernateImpl<Customer> i
     private static final String[] PROPERTIES = new String[] { "name1", "name2", "company", "city", "comments" };
 
     private static final String[] SEARCHPROPERTIES = new String[] { "name1", "name2", "company", "street", "country", "plz", "city",
-            "comments", };
+            "comments", "kreditorNr", "debitorNr"};
 
     private static final String[] ORDERBYPROPERTIES = new String[] { "name1", "name2" };
     

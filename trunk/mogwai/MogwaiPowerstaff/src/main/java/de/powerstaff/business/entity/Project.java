@@ -56,6 +56,10 @@ public class Project extends AuditableEntity implements UDFSupport {
     private Customer customer;
     
     private Partner partner;
+    
+    private String kreditorNr;
+    
+    private String debitorNr;
 
     private Set<ProjectPosition> positions = new HashSet<ProjectPosition>();
 
@@ -236,5 +240,33 @@ public class Project extends AuditableEntity implements UDFSupport {
             return customer;
         }
         return partner;
+    }
+
+    /**
+     * @return the kreditorNr
+     */
+    public String getKreditorNr() {
+        return kreditorNr;
+    }
+
+    /**
+     * @param kreditorNr the kreditorNr to set
+     */
+    public void setKreditorNr(String kreditorNr) {
+        this.kreditorNr = kreditorNr;
+    }
+
+    /**
+     * @return the debitorNr
+     */
+    public String getDebitorNr() {
+        return debitorNr;
+    }
+
+    /**
+     * @param debitorNr the debitorNr to set
+     */
+    public void setDebitorNr(String debitorNr) {
+        this.debitorNr = debitorNr;
     }
 }
