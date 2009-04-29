@@ -261,7 +261,41 @@
 
 							</b:titledBox>
 						</b:cell>
-						<b:cell x="1" y="5">
+					</b:gridBagLayout>
+				</b:cell>
+				
+				<b:cell x="3" y="4">
+					<b:gridBagLayout rows="p,10,p,10" cols="*">
+				
+						<b:cell x="1" y="1">
+							<b:titledBox label="Kodierung">
+
+								<b:gridBagLayout cols="2,100,2,*,2" rows="2,p,2,p,2">
+
+									<b:cell x="2" y="2">
+										<b:label id="debitor_label" label="Debitor" />
+									</b:cell>
+									<b:cell x="4" y="2">
+										<b:inputfield
+											value="#{customerBackingBean.data.entity.debitorNr}"
+											id="debitor" labelComponentId="debitor_label" />
+									</b:cell>
+
+									<b:cell x="2" y="4">
+										<b:label id="kreditor_label" label="Kreditor" />
+									</b:cell>
+									<b:cell x="4" y="4">
+										<b:inputfield
+											value="#{customerBackingBean.data.entity.kreditorNr}"
+											id="kreditor" labelComponentId="kreditor_label" />
+									</b:cell>
+
+								</b:gridBagLayout>
+
+							</b:titledBox>
+						</b:cell>
+						
+						<b:cell x="1" y="3">
 							<b:titledBox label="Kommentar">
 								<b:gridBagLayout cols="2,*,2" rows="2,100,2">
 									<b:cell x="2" y="2">
@@ -272,8 +306,9 @@
 								</b:gridBagLayout>
 							</b:titledBox>
 						</b:cell>
+						
 					</b:gridBagLayout>
-				</b:cell>
+				</b:cell>				
 		
 			</b:gridBagLayout>
 			
