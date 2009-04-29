@@ -43,7 +43,7 @@ public class FreelancerDAOHibernateImpl extends PersonDAOHibernateImpl<Freelance
 
     private static final String[] SEARCHPROPERTIES = new String[] { "name1", "name2", "company", "street", "country", "plz", "city",
             "comments", "workplace", "sallaryLong", "code", "contactPerson", "contactType",
-            "contactReason", "lastContact", "skills", "gulpID" , "code"};
+            "contactReason", "lastContact", "skills", "gulpID" , "code", "kreditorNr", "debitorNr"};
 
     private static final String[] ORDERBYPROPERTIES = new String[] { "name1", "name2" };
     
