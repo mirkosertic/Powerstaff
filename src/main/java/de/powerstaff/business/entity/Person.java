@@ -47,6 +47,10 @@ public class Person<T extends Contact, H extends HistoryEntity> extends Auditabl
     private Set<T> contacts = new HashSet<T>();
 
     private Set<H> history = new HashSet<H>();
+    
+    private String kreditorNr;
+    
+    private String debitorNr;
 
     public Person() {
     }
@@ -144,5 +148,33 @@ public class Person<T extends Contact, H extends HistoryEntity> extends Auditabl
 
     public void setHistory(Set<H> history) {
         this.history = history;
+    }
+
+    /**
+     * @return the kreditorNr
+     */
+    public String getKreditorNr() {
+        return kreditorNr;
+    }
+
+    /**
+     * @param kreditorNr the kreditorNr to set
+     */
+    public void setKreditorNr(String kreditorNr) {
+        this.kreditorNr = kreditorNr;
+    }
+
+    /**
+     * @return the debitorNr
+     */
+    public String getDebitorNr() {
+        return debitorNr;
+    }
+
+    /**
+     * @param debitorNr the debitorNr to set
+     */
+    public void setDebitorNr(String debitorNr) {
+        this.debitorNr = debitorNr;
     }
 }
