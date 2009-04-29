@@ -22,10 +22,13 @@ import java.util.List;
 import de.mogwai.common.dao.DAO;
 import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.HistoryType;
+import de.powerstaff.business.entity.User;
 
 public interface AdditionalDataDAO extends DAO {
 
     List<ContactType> getContactTypes();
 
     List<HistoryType> getHistoryTypes();
+
+    List<User> getUserList();
 }

@@ -19,6 +19,7 @@ package de.powerstaff.web.backingbean.statistik;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 
 import javax.faces.component.UIComponent;
@@ -40,6 +41,8 @@ public class StatistikBackingBeanDataModel extends BackingBeanDataModel {
     
     private CollectionDataModel<KontakthistorieEntry> searchResult = new CollectionDataModel<KontakthistorieEntry>(
             new Vector<KontakthistorieEntry>());
+    
+    private List<User> benutzerListe;
 
     public StatistikBackingBeanDataModel() {
         Date today = new Date();
@@ -125,5 +128,21 @@ public class StatistikBackingBeanDataModel extends BackingBeanDataModel {
     
     public int getSearchResultSize() {
         return searchResult.size();
+    }
+
+
+    /**
+     * @return the benutzerListe
+     */
+    public List<User> getBenutzerListe() {
+        return benutzerListe;
+    }
+
+
+    /**
+     * @param benutzerListe the benutzerListe to set
+     */
+    public void setBenutzerListe(List<User> benutzerListe) {
+        this.benutzerListe = benutzerListe;
     }
 }

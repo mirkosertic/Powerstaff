@@ -27,6 +27,7 @@ import de.mogwai.common.logging.Logger;
 import de.mogwai.common.web.backingbean.WrappingBackingBean;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.dto.KontakthistorieEntry;
+import de.powerstaff.business.service.AdditionalDataService;
 import de.powerstaff.business.service.StatisticService;
 import de.powerstaff.web.backingbean.MessageConstants;
 
@@ -36,6 +37,8 @@ public class StatistikBackingBean extends WrappingBackingBean<StatistikBackingBe
     private static final Logger LOGGER = new Logger(StatistikBackingBean.class);
 
     private StatisticService statisticService;
+    
+    private AdditionalDataService additionalDataService;
 
     @Override
     protected StatistikBackingBeanDataModel createDataModel() {
@@ -50,6 +53,7 @@ public class StatistikBackingBean extends WrappingBackingBean<StatistikBackingBe
         } else {
             setData(createDataModel());
         }
+        getData().setBenutzerListe(additionalDataService.getUserList());
     }
 
     public boolean isTransient() {
@@ -82,6 +86,20 @@ public class StatistikBackingBean extends WrappingBackingBean<StatistikBackingBe
      */
     public void setStatisticService(StatisticService statisticService) {
         this.statisticService = statisticService;
+    }
+    
+    /**
+     * @return the additionalDataService
+     */
+    public AdditionalDataService getAdditionalDataService() {
+        return additionalDataService;
+    }
+
+    /**
+     * @param additionalDataService the additionalDataService to set
+     */
+    public void setAdditionalDataService(AdditionalDataService additionalDataService) {
+        this.additionalDataService = additionalDataService;
     }
 
     public void commandSearch() {

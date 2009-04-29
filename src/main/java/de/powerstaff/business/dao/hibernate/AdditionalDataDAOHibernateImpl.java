@@ -28,6 +28,7 @@ import de.mogwai.common.dao.hibernate.GenericDaoHibernateImpl;
 import de.powerstaff.business.dao.AdditionalDataDAO;
 import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.HistoryType;
+import de.powerstaff.business.entity.User;
 
 public class AdditionalDataDAOHibernateImpl extends GenericDaoHibernateImpl implements AdditionalDataDAO {
 
@@ -50,6 +51,19 @@ public class AdditionalDataDAOHibernateImpl extends GenericDaoHibernateImpl impl
             public Object doInHibernate(Session aSession) throws SQLException {
                 List<HistoryType> theResult = new Vector<HistoryType>();
                 theResult.addAll(aSession.createQuery("from HistoryType item order by item.description").list());
+                return theResult;
+            }
+
+        });
+    }
+
+    @Override
+    public List<User> getUserList() {
+        return (List<User>) getHibernateTemplate().execute(new HibernateCallback() {
+
+            public Object doInHibernate(Session aSession) throws SQLException {
+                List<User> theResult = new Vector<User>();
+                theResult.addAll(aSession.createQuery("from User item order by item.name").list());
                 return theResult;
             }
 

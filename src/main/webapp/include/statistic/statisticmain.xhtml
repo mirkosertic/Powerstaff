@@ -55,10 +55,10 @@
 							</b:cell>
 
 							<b:cell x="2" y="6">
-								<b:label id="benutzer" label="Benutzer" />
+								<b:label id="benutzer" label="Kontaktperson" />
 							</b:cell>
 							<b:cell x="4" y="6">
-								<b:combobox labelComponentId="benutzer" nullable="true" />
+								<b:combobox labelComponentId="benutzer" value="#{statistikBackingBean.data.benutzer}" nullable="true" values="#{statistikBackingBean.data.benutzerListe}"/>
 							</b:cell>
 
 							<b:cell x="6" y="6">
