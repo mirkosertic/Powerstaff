@@ -73,5 +73,7 @@
 			</composite-element>
 		</map>
 		
+		<property name="debitorNr"/>
+		<property name="kreditorNr"/>		
   </class>
 </hibernate-mapping>

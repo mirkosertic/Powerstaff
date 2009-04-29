@@ -22,6 +22,9 @@
 		<property name="plz"/>
 		<property name="city"/>
 		<property name="comments" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+		
+		<property name="debitorNr"/>
+		<property name="kreditorNr"/>		
 
 		<set name="contacts" cascade="all-delete-orphan" order-by="value">
 			<key column="partner_id"/>
