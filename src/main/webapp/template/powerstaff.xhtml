@@ -1,6 +1,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0"
  xmlns="http://www.w3.org/1999/xhtml"
- xmlns:ui="http://java.sun.com/jsf/facelets">
+ xmlns:ui="http://java.sun.com/jsf/facelets"
+ xmlns:b="http://mogwai.sourceforge.net/layout">
 	<tr height="20">
 		<td class="lightgray" width="20">
 			<img src="images/spacer.gif" width="20" height="1" />
@@ -9,11 +10,11 @@
 		<td class="lightgray" width="20">
 			<img src="images/spacer.gif" width="20" height="1" />
 		</td>
-		<td class="lightgray">
+		<td class="lightgray" valign="top">
 			<ui:insert name="mainmenu" />
 		</td>
-		<td class="lightgray" width="20">
-			<img src="images/spacer.gif" width="20" height="1" />
+		<td class="lightgray" width="20" valign="top" rowspan="2">
+			<b:image source="/images/mclogo.gif" height="50" />		
 		</td>
 	</tr>
 	<tr height="20">
@@ -21,7 +22,6 @@
 		<td class="lightgray">
 			<img src="images/spacer.gif" width="180" height="1" />
 		</td>
-		<td class="white"></td>
 		<td class="white"></td>
 		<td class="white"></td>
 	</tr>
