@@ -130,63 +130,91 @@
 							<b:titledBox label="Adresse">
 
 								<b:gridBagLayout cols="2,100,2,30,2,50,2,*,2"
-									rows="2,p,2,p,2,p,2,p,2,p,2">
-
+									rows="2,p,2,p,2,p,2,p,2,p,2,p,2,p,2,p,2">
+									
 									<b:cell x="2" y="2">
-										<b:label id="vornamelabel" label="Name" />
+										<b:label id="titellabel" label="Titel" />
 									</b:cell>
 									<b:cell x="4" y="2" width="5">
+										<b:inputfield
+											value="#{freelancerBackingBean.data.entity.titel}"
+											id="titel" labelComponentId="titellabel" />
+									</b:cell>
+
+									<b:cell x="2" y="4">
+										<b:label id="vornamelabel" label="Name" />
+									</b:cell>
+									<b:cell x="4" y="4" width="5">
 										<b:inputfield
 											value="#{freelancerBackingBean.data.entity.name1}"
 											id="vorname" labelComponentId="vornamelabel" />
 									</b:cell>
 
-									<b:cell x="2" y="4">
+									<b:cell x="2" y="6">
 										<b:label id="nachname_label" label="Vorname" />
 									</b:cell>
-									<b:cell x="4" y="4" width="5">
+									<b:cell x="4" y="6" width="5">
 										<b:inputfield
 											value="#{freelancerBackingBean.data.entity.name2}"
 											id="nachname" labelComponentId="nachname_label" />
 									</b:cell>
 
-									<b:cell x="2" y="6">
+									<b:cell x="2" y="8">
 										<b:label id="firma_label" label="Firma" />
 									</b:cell>
-									<b:cell x="4" y="6" width="5">
+									<b:cell x="4" y="8" width="5">
 										<b:inputfield
 											value="#{freelancerBackingBean.data.entity.company}"
 											id="firma" labelComponentId="firma_label" />
 									</b:cell>
 
-									<b:cell x="2" y="8">
+									<b:cell x="2" y="10">
 										<b:label id="strasse_label" label="Strasse" />
 									</b:cell>
-									<b:cell x="4" y="8" width="5">
+									<b:cell x="4" y="10" width="5">
 										<b:inputfield
 											value="#{freelancerBackingBean.data.entity.street}"
 											id="strasse" labelComponentId="strasse_label" />
 									</b:cell>
 
-									<b:cell x="2" y="10">
+									<b:cell x="2" y="12">
 										<b:label id="plzort_label" label="Land Plz/Ort" />
 									</b:cell>
 
-									<b:cell x="4" y="10">
+									<b:cell x="4" y="12">
 										<b:inputfield value="#{freelancerBackingBean.data.entity.country}"
 											id="land" labelComponentId="plzort_label" />
 									</b:cell>
 
-									<b:cell x="6" y="10">
+									<b:cell x="6" y="12">
 										<b:inputfield value="#{freelancerBackingBean.data.entity.plz}"
 											id="plz" labelComponentId="plzort_label" />
 									</b:cell>
 
-									<b:cell x="8" y="10">
+									<b:cell x="8" y="12">
 										<b:inputfield
 											value="#{freelancerBackingBean.data.entity.city}" id="ort"
 											labelComponentId="plz_ort_label" />
 									</b:cell>
+									
+									<b:cell x="2" y="14">
+										<b:label id="nationallabel" label="Nationalität" />
+									</b:cell>
+									<b:cell x="4" y="14" width="5">
+										<b:inputfield
+											value="#{freelancerBackingBean.data.entity.nationalitaet}"
+											id="nationalitaet" labelComponentId="nationallabel" />
+									</b:cell>
+
+									<b:cell x="2" y="16">
+										<b:label id="geburtstaglabel" label="Geburtsdatum" />
+									</b:cell>
+									<b:cell x="4" y="16" width="5">
+										<b:inputfield
+											value="#{freelancerBackingBean.data.entity.geburtsdatum}"
+											id="geburtstag" labelComponentId="geburtstaglabel" />
+									</b:cell>
+									
 								</b:gridBagLayout>
 
 
@@ -270,7 +298,7 @@
 						<b:cell x="1" y="7">
 							<b:titledBox label="Zusatzinformationen">
 
-								<b:gridBagLayout cols="2,100,2,*,2" rows="2,p,2,p,2,p,2,p,2,p,2,p,2">
+								<b:gridBagLayout cols="2,100,2,*,2" rows="2,p,2,p,2,p,2,p,2,p,2">
 
 									<b:cell x="2" y="2">
 										<b:label id="kontaktperson_label" label="Kontaktperson" />
@@ -312,15 +340,6 @@
 										<b:checkbox
 											value="#{freelancerBackingBean.data.entity.showAgain}"
 											id="wiedervorlage" label="Wiedervorlage" />
-									</b:cell>
-
-									<b:cell x="2" y="12">
-										<b:label id="geburtsdatum_label" label="Geburtsdatum" />
-									</b:cell>
-									<b:cell x="4" y="12">
-										<b:inputfield
-											value="#{freelancerBackingBean.data.entity.geburtsdatum}"
-											id="geburtsdatum" labelComponentId="geburtsdatum_label" />
 									</b:cell>
 
 								</b:gridBagLayout>

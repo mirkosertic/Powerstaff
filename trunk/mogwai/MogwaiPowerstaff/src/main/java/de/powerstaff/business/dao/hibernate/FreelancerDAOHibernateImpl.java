@@ -39,14 +39,16 @@ import de.powerstaff.business.entity.Freelancer;
 
 public class FreelancerDAOHibernateImpl extends PersonDAOHibernateImpl<Freelancer> implements FreelancerDAO {
 
-    private static final String[] DISPLAYPROPERTIES = new String[] { "name1", "name2", "availabilityAsDate", "sallaryLong", "skills" , "code"};
+    private static final String[] DISPLAYPROPERTIES = new String[] { "name1", "name2", "availabilityAsDate",
+            "sallaryLong", "skills", "code" };
 
-    private static final String[] SEARCHPROPERTIES = new String[] { "name1", "name2", "company", "street", "country", "plz", "city",
-            "comments", "workplace", "sallaryLong", "code", "contactPerson", "contactType",
-            "contactReason", "lastContact", "skills", "gulpID" , "code", "kreditorNr", "debitorNr"};
+    private static final String[] SEARCHPROPERTIES = new String[] { "name1", "name2", "company", "street", "country",
+            "plz", "city", "comments", "workplace", "sallaryLong", "code", "contactPerson", "contactType",
+            "contactReason", "lastContact", "skills", "gulpID", "code", "kreditorNr", "debitorNr", "titel",
+            "nationalitaet" };
 
     private static final String[] ORDERBYPROPERTIES = new String[] { "name1", "name2" };
-    
+
     @Override
     protected Freelancer createNew() {
         return new Freelancer();
@@ -97,11 +99,12 @@ public class FreelancerDAOHibernateImpl extends PersonDAOHibernateImpl<Freelance
 
                     String theCountry = (String) theRow[5];
                     String thePlz = (String) theRow[6];
-                    
-                    Query theContactQuery = aSession.createQuery("select c from Freelancer item inner join item.contacts as c where item.code = :code");
+
+                    Query theContactQuery = aSession
+                            .createQuery("select c from Freelancer item inner join item.contacts as c where item.code = :code");
                     theContactQuery.setString("code", aCode);
                     theDetail.getContacts().addAll(theContactQuery.list());
-                    
+
                     if (!StringUtils.isEmpty(theCountry)) {
                         if (StringUtils.isEmpty(thePlz)) {
                             thePlz = theCountry;
@@ -158,7 +161,7 @@ public class FreelancerDAOHibernateImpl extends PersonDAOHibernateImpl<Freelance
                 }
                 return null;
             }
-            
+
         });
     }
 

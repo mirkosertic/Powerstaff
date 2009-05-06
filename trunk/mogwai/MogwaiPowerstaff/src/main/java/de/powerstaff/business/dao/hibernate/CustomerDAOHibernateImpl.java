@@ -29,11 +29,11 @@ public class CustomerDAOHibernateImpl extends PersonDAOHibernateImpl<Customer> i
 
     private static final String[] PROPERTIES = new String[] { "name1", "name2", "company", "city", "comments" };
 
-    private static final String[] SEARCHPROPERTIES = new String[] { "name1", "name2", "company", "street", "country", "plz", "city",
-            "comments", "kreditorNr", "debitorNr"};
+    private static final String[] SEARCHPROPERTIES = new String[] { "titel", "name1", "name2", "company", "street",
+            "country", "plz", "city", "comments", "kreditorNr", "debitorNr", "nationalitaet" };
 
     private static final String[] ORDERBYPROPERTIES = new String[] { "name1", "name2" };
-    
+
     @Override
     protected Customer createNew() {
         return new Customer();
@@ -46,8 +46,7 @@ public class CustomerDAOHibernateImpl extends PersonDAOHibernateImpl<Customer> i
 
     public List<GenericSearchResult> performQBESearch(Customer aObject, int aMaxSearchResult) {
 
-        return performQBESearch(aObject, PROPERTIES, SEARCHPROPERTIES, ORDERBYPROPERTIES, MATCH_LIKE,
-                aMaxSearchResult);
+        return performQBESearch(aObject, PROPERTIES, SEARCHPROPERTIES, ORDERBYPROPERTIES, MATCH_LIKE, aMaxSearchResult);
     }
 
     public Collection<GenericSearchResult> performSearchByContact(String aContact, ContactType aContactType, int aMax) {

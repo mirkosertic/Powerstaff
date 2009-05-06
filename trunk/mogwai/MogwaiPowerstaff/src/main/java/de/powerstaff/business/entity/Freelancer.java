@@ -67,8 +67,6 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> imp
     private Long sallaryPartnerPerDayLong;
 
     private Set<ProjectPosition> projects = new HashSet<ProjectPosition>();
-    
-    private String geburtsdatum;
 
     public Set<ProjectPosition> getProjects() {
         return projects;
@@ -199,21 +197,6 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> imp
 
     public void setUdf(Map<String, UserDefinedField> udf) {
         this.udf = udf;
-    }
-
-    /**
-     * @return the geburtsdatum
-     */
-    @Column(length = 255)
-    public String getGeburtsdatum() {
-        return geburtsdatum;
-    }
-
-    /**
-     * @param geburtsdatum the geburtsdatum to set
-     */
-    public void setGeburtsdatum(String geburtsdatum) {
-        this.geburtsdatum = geburtsdatum;
     }
 
     /**

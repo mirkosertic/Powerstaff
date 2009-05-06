@@ -33,13 +33,16 @@
 		<property name="skills"  type="org.springframework.orm.hibernate3.support.ClobStringType"/>
 		<property name="gulpID"/>
 		<property name="showAgain"/>
-		<property name="geburtsdatum"/>
 		<property name="sallaryPartnerLong"/>
 		<property name="sallaryPartnerPerDayLong"/>
 		<property name="sallaryPerDayLong"/>
 		<property name="sallaryLong"/>
 		<property name="sallaryComment" type="org.springframework.orm.hibernate3.support.ClobStringType"/>		
 		<property name="status"/>
+		
+		<property name="titel"/>
+		<property name="nationalitaet"/>
+		<property name="geburtsdatum"/>		
 
 		<set name="contacts" cascade="all-delete-orphan" order-by="value">
 			<key column="freelancer_id"/>

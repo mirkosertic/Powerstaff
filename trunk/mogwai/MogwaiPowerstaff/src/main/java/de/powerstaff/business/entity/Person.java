@@ -26,6 +26,8 @@ import de.mogwai.common.business.entity.AuditableEntity;
 
 public class Person<T extends Contact, H extends HistoryEntity> extends AuditableEntity {
 
+    private String titel;
+    
     private String name1;
 
     private String name2;
@@ -39,6 +41,10 @@ public class Person<T extends Contact, H extends HistoryEntity> extends Auditabl
     private String plz;
 
     private String city;
+    
+    private String nationalitaet;
+    
+    private String geburtsdatum;
 
     private String comments;
 
@@ -153,6 +159,7 @@ public class Person<T extends Contact, H extends HistoryEntity> extends Auditabl
     /**
      * @return the kreditorNr
      */
+    @Column(length = 255)
     public String getKreditorNr() {
         return kreditorNr;
     }
@@ -167,6 +174,7 @@ public class Person<T extends Contact, H extends HistoryEntity> extends Auditabl
     /**
      * @return the debitorNr
      */
+    @Column(length = 255)
     public String getDebitorNr() {
         return debitorNr;
     }
@@ -176,5 +184,50 @@ public class Person<T extends Contact, H extends HistoryEntity> extends Auditabl
      */
     public void setDebitorNr(String debitorNr) {
         this.debitorNr = debitorNr;
+    }
+
+    /**
+     * @return the titel
+     */
+    @Column(length = 255)
+    public String getTitel() {
+        return titel;
+    }
+
+    /**
+     * @param titel the titel to set
+     */
+    public void setTitel(String titel) {
+        this.titel = titel;
+    }
+
+    /**
+     * @return the nationalitaet
+     */
+    @Column(length = 255)
+    public String getNationalitaet() {
+        return nationalitaet;
+    }
+
+    /**
+     * @param nationalitaet the nationalitaet to set
+     */
+    public void setNationalitaet(String nationalitaet) {
+        this.nationalitaet = nationalitaet;
+    }
+
+    /**
+     * @return the geburtsdatum
+     */
+    @Column(length = 255)
+    public String getGeburtsdatum() {
+        return geburtsdatum;
+    }
+
+    /**
+     * @param geburtsdatum the geburtsdatum to set
+     */
+    public void setGeburtsdatum(String geburtsdatum) {
+        this.geburtsdatum = geburtsdatum;
     }
 }
