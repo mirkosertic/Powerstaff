@@ -24,7 +24,11 @@
 		<property name="comments" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
 		
 		<property name="debitorNr"/>
-		<property name="kreditorNr"/>		
+		<property name="kreditorNr"/>
+		
+		<property name="titel"/>
+		<property name="nationalitaet"/>
+		<property name="geburtsdatum"/>		
 
 		<set name="contacts" cascade="all-delete-orphan" order-by="value">
 			<key column="partner_id"/>

@@ -145,67 +145,96 @@
 							<b:titledBox label="Adresse">
 
 								<b:gridBagLayout cols="2,100,2,30,2,50,2,*,2"
-									rows="2,p,2,p,2,p,2,p,2,p,2">
-
+									rows="2,p,2,p,2,p,2,p,2,p,2,p,2,p,2,p,2">
+									
 									<b:cell x="2" y="2">
-										<b:label id="vornamelabel" label="Name" />
+										<b:label id="titellabel" label="Titel" />
 									</b:cell>
 									<b:cell x="4" y="2" width="5">
+										<b:inputfield
+											value="#{partnerBackingBean.data.entity.titel}"
+											id="titel" labelComponentId="titellabel" />
+									</b:cell>
+
+									<b:cell x="2" y="4">
+										<b:label id="vornamelabel" label="Name" />
+									</b:cell>
+									<b:cell x="4" y="4" width="5">
 										<b:inputfield
 											value="#{partnerBackingBean.data.entity.name1}"
 											id="vorname" labelComponentId="vornamelabel" />
 									</b:cell>
 
-									<b:cell x="2" y="4">
+									<b:cell x="2" y="6">
 										<b:label id="nachname_label" label="Vorname" />
 									</b:cell>
-									<b:cell x="4" y="4" width="5">
+									<b:cell x="4" y="6" width="5">
 										<b:inputfield
 											value="#{partnerBackingBean.data.entity.name2}"
 											id="nachname" labelComponentId="nachname_label" />
 									</b:cell>
 
-									<b:cell x="2" y="6">
+									<b:cell x="2" y="8">
 										<b:label id="firma_label" label="Firma" />
 									</b:cell>
-									<b:cell x="4" y="6" width="5">
+									<b:cell x="4" y="8" width="5">
 										<b:inputfield
 											value="#{partnerBackingBean.data.entity.company}"
 											id="firma" labelComponentId="firma_label" />
 									</b:cell>
 
-									<b:cell x="2" y="8">
+									<b:cell x="2" y="10">
 										<b:label id="strasse_label" label="Strasse" />
 									</b:cell>
-									<b:cell x="4" y="8" width="5">
+									<b:cell x="4" y="10" width="5">
 										<b:inputfield
 											value="#{partnerBackingBean.data.entity.street}"
 											id="strasse" labelComponentId="strasse_label" />
 									</b:cell>
 
-									<b:cell x="2" y="10">
+									<b:cell x="2" y="12">
 										<b:label id="plzort_label" label="Land Plz/Ort" />
 									</b:cell>
 
-									<b:cell x="4" y="10">
+									<b:cell x="4" y="12">
 										<b:inputfield value="#{partnerBackingBean.data.entity.country}"
-											id="country" labelComponentId="plzort_label" />
+											id="land" labelComponentId="plzort_label" />
 									</b:cell>
 
-									<b:cell x="6" y="10">
+									<b:cell x="6" y="12">
 										<b:inputfield value="#{partnerBackingBean.data.entity.plz}"
 											id="plz" labelComponentId="plzort_label" />
 									</b:cell>
 
-									<b:cell x="8" y="10">
+									<b:cell x="8" y="12">
 										<b:inputfield
 											value="#{partnerBackingBean.data.entity.city}" id="ort"
 											labelComponentId="plz_ort_label" />
 									</b:cell>
+									
+									<b:cell x="2" y="14">
+										<b:label id="nationallabel" label="Nationalität" />
+									</b:cell>
+									<b:cell x="4" y="14" width="5">
+										<b:inputfield
+											value="#{partnerBackingBean.data.entity.nationalitaet}"
+											id="nationalitaet" labelComponentId="nationallabel" />
+									</b:cell>
+
+									<b:cell x="2" y="16">
+										<b:label id="geburtstaglabel" label="Geburtsdatum" />
+									</b:cell>
+									<b:cell x="4" y="16" width="5">
+										<b:inputfield
+											value="#{partnerBackingBean.data.entity.geburtsdatum}"
+											id="geburtstag" labelComponentId="geburtstaglabel" />
+									</b:cell>
+									
 								</b:gridBagLayout>
 
 
 							</b:titledBox>
+
 						</b:cell>
 						<b:cell x="1" y="3">
 							<b:titledBox label="Kontaktinformationen" id="contact">
