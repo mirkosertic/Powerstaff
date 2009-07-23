@@ -25,6 +25,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		<property name="jndiName" value="java:powerstaff/db" />
 	</bean>
 
+	<bean id="webdatasource"
+		class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:powerstaff/webdb" />
+	</bean>
+
 	<bean id="cronExpression"
 		class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:powerstaff/indexcronexpression" />
@@ -150,10 +155,53 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="websessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="webdatasource" />
+		<property name="entityInterceptor" ref="auditInterceptor" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.show_sql">
+					${kias.hibernate.showsql}
+				</prop>
+				<prop key="hibernate.dialect">
+					${kias.database.dialect}
+				</prop>
+				<prop key="hibernate.jdbc.use_streams_for_binary">
+					true
+				</prop>
+				<prop key="transaction.factory_class">
+					org.hibernate.transaction.JTATransactionFactory
+				</prop>
+				<prop key="jta.UserTransaction">
+					java:comp/UserTransaction
+				</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+		<property name="lobHandler">
+			<bean
+				class="org.springframework.jdbc.support.lob.DefaultLobHandler">
+			</bean>
+		</property>
+		<property name="mappingLocations">
+			<list>
+				<value>
+					classpath:/de/powerstaff/business/entity/WebProject.hbm.xml
+				</value>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="hibernateTemplate"
 		class="org.springframework.orm.hibernate3.HibernateTemplate">
 		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="webhibernateTemplate"
+		class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="websessionFactory" />
 	</bean>
 
 	<!-- 
@@ -199,6 +247,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		<property name="hibernateTemplate" ref="hibernateTemplate"/>
 	</bean>
 	
+	<bean id="websiteDAO"
+		class="de.powerstaff.business.dao.hibernate.WebsiteDAOHibernateImpl">
+		<property name="hibernateTemplate" ref="webhibernateTemplate" />
+	</bean>
+	
 	<!-- 
 		Definition der Services
 	 -->
@@ -233,12 +286,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 	<bean id="systemParameterService"
 		class="de.powerstaff.business.service.impl.PowerstaffSystemParameterServiceImpl">
 		<property name="systemParameterDao" ref="systemParameterDAO"/>
-	</bean>
-
-	<bean id="websiteDAO"
-		class="de.powerstaff.business.dao.generic.WebsiteURLDAOImpl">
-		<property name="systemParameterService"
-			ref="systemParameterService" />
 	</bean>
 
 	<bean id="profileSearchService"

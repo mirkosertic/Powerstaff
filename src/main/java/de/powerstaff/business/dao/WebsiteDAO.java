@@ -30,9 +30,11 @@ public interface WebsiteDAO {
 
     void delete(WebProject aProject);
 
-    WebProject findByOriginId(Long aId);
+    WebProject getById(Long aId);
 
     void saveOrUpdate(WebProject aProject);
 
     void saveOrUpdate(NewsletterMail aMail);
+
+    void save(WebProject aWebProject);
 }

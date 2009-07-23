@@ -35,8 +35,6 @@ public class WebProject extends AuditableEntity {
 
     private String descriptionLong;
 
-    private Long originId;
-
     private boolean notifiedForNewsletter;
 
     public String getDate() {
@@ -77,14 +75,6 @@ public class WebProject extends AuditableEntity {
 
     public void setNotifiedForNewsletter(boolean notifiedForNewsletter) {
         this.notifiedForNewsletter = notifiedForNewsletter;
-    }
-
-    public Long getOriginId() {
-        return originId;
-    }
-
-    public void setOriginId(Long originId) {
-        this.originId = originId;
     }
 
     public String getProjectNumber() {

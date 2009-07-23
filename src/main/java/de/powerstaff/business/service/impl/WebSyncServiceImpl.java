@@ -109,7 +109,7 @@ public class WebSyncServiceImpl extends LogableService implements WebSyncService
             Collection<WebProject> theWebProjects = websiteDAO.getCurrentProjects();
             for (WebProject theWebProject : theWebProjects) {
 
-                Project theProject = (Project) projectDAO.findByPrimaryKey(theWebProject.getOriginId());
+                Project theProject = (Project) projectDAO.findByPrimaryKey(theWebProject.getId());
                 if ((theProject == null) || (!theProject.isVisibleOnWebSite())) {
 
                     websiteDAO.delete(theWebProject);
@@ -125,9 +125,11 @@ public class WebSyncServiceImpl extends LogableService implements WebSyncService
 
                 Project theProject = (Project) theObject;
 
-                WebProject theWebProject = (WebProject) websiteDAO.findByOriginId(theProject.getId());
+                WebProject theWebProject = (WebProject) websiteDAO.getById(theProject.getId());
+                boolean isNew = false;
                 if (theWebProject == null) {
                     theWebProject = new WebProject();
+                    isNew = true;
                 }
 
                 theWebProject.setCreationDate(theProject.getCreationDate());
@@ -149,9 +151,14 @@ public class WebSyncServiceImpl extends LogableService implements WebSyncService
                 theWebProject.setDuration(theProject.getDuration());
                 theWebProject.setDescriptionShort(theProject.getDescriptionShort());
                 theWebProject.setDescriptionLong(theProject.getDescriptionLong());
-                theWebProject.setOriginId(theProject.getId());
+                theWebProject.setId(theProject.getId());
 
-                websiteDAO.saveOrUpdate(theWebProject);
+                if (isNew) {
+                    websiteDAO.save(theWebProject);
+                } else {
+                    websiteDAO.saveOrUpdate(theWebProject);
+                }
+                    
             }
 
             serviceLogger.logEnd(SERVICE_ID, "");
