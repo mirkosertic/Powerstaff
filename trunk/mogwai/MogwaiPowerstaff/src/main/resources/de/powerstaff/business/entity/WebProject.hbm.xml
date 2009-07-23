@@ -2,27 +2,25 @@
 <!DOCTYPE hibernate-mapping PUBLIC
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="de.mogwai.kias.example.bo" default-lazy="false">
-  <class name="WebProject" table="webproject">
+<hibernate-mapping package="de.powerstaff.business.entity" default-lazy="false">
+  <class name="WebProject" table="powerstaff_project">
 
 		<id name="id" column="id">
-	        <generator class="identity"/>
+	        <generator class="assigned"/>
 		</id>
 
-		<property column="creationDate" name="creationDate"/>
-		<property column="creationUser" name="creationUserID"/>
-		<property column="changedDate" name="lastModificationDate"/>
-		<property column="changedUser" name="lastModificationUserID"/>
+		<property column="creationdate" name="creationDate"/>
+		<property column="creationuser" name="creationUserID"/>
+		<property column="changeddate" name="lastModificationDate"/>
+		<property column="changeduser" name="lastModificationUserID"/>
 		
 		<property name="date"/>
-		<property name="projectNumber"/>
+		<property column="projectnumber" name="projectNumber"/>
 		<property name="workplace"/>
 		<property name="start"/>
 		<property name="duration"/>
-		<property name="descriptionShort"/>
-		<property name="descriptionLong"/>
-		<property name="originId"/>
-		<property name="notifiedForNewsletter"/>
+		<property column="descriptionshort" name="descriptionShort"/>
+		<property column="descriptionlong" name="descriptionLong" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
 
   </class>
 </hibernate-mapping>

@@ -87,14 +87,6 @@ public class PowerstaffSystemParameterServiceImpl extends SystemParameterService
         setString(SystemParameterEnum.NEWSLETTER_TEMPLATE, aValue);
     }
 
-    public String getRemoteWebUrl() {
-        return getString(SystemParameterEnum.REMOTE_WEB_URL, null);
-    }
-
-    public void setRemoteWebUrl(String aValue) {
-        setString(SystemParameterEnum.REMOTE_WEB_URL, aValue);
-    }
-
     public String getSmtpHost() {
         return getString(SystemParameterEnum.SMTP_HOST, null);
     }

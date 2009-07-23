@@ -61,10 +61,6 @@ public interface PowerstaffSystemParameterService extends Service {
 
     void setNewsletterTemplate(String aValue);
 
-    String getRemoteWebUrl();
-
-    void setRemoteWebUrl(String aValue);
-
     String getSmtpHost();
 
     void setSmtpHost(String aValue);
