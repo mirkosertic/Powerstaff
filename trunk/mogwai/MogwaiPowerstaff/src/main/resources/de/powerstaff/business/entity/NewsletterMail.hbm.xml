@@ -3,16 +3,13 @@
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="de.powerstaff.business.entity" default-lazy="false">
-  <class name="NewsletterMail" table="newslettermail">
+  <class name="NewsletterMail" table="powerstaff_newsletter">
 
 		<id name="mail" column="mail">
 	        <generator class="assigned"/>
 		</id>
 
-		<property name="registeredTimestamp"/>
-		<property name="confirmed"/>
-		<property name="confirmedTimestamp"/>
-		<property name="errorcounter"/>
+		<property name="confirmed" column="confirmed"/>
 
   </class>
 </hibernate-mapping>

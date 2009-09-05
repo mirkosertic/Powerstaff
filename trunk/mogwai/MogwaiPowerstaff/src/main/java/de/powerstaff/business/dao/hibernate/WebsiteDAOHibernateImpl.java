@@ -4,8 +4,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.criterion.Expression;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
 import de.mogwai.common.dao.hibernate.GenericDaoHibernateImpl;
@@ -40,7 +42,15 @@ public class WebsiteDAOHibernateImpl extends GenericDaoHibernateImpl implements 
 
     @Override
     public Collection<NewsletterMail> getConfirmedMails() {
-        return new ArrayList<NewsletterMail>();
+        return (Collection<NewsletterMail>) getHibernateTemplate().execute(new HibernateCallback() {
+
+            @Override
+            public Object doInHibernate(Session aSession) throws HibernateException, SQLException {
+                Criteria theCriteria = aSession.createCriteria(NewsletterMail.class);
+                theCriteria.add(Expression.eq("confirmed", 1));
+                return theCriteria.list();
+            }
+        });
     }
 
     @Override

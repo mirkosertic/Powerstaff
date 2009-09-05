@@ -17,41 +17,15 @@
  */
 package de.powerstaff.business.entity;
 
-import java.sql.Timestamp;
-
 import de.mogwai.common.business.entity.AuditableEntity;
 
 public class NewsletterMail extends AuditableEntity {
 
     private String mail;
 
-    private Timestamp registeredTimestamp;
-
-    private Timestamp confirmedTimestamp;
-
-    private Boolean confirmed;
-
     private int errorcounter;
 
-    public Boolean isConfirmed() {
-        return confirmed;
-    }
-
-    public Boolean getConfirmed() {
-        return confirmed;
-    }
-
-    public void setConfirmed(Boolean confirmed) {
-        this.confirmed = confirmed;
-    }
-
-    public Timestamp getConfirmedTimestamp() {
-        return confirmedTimestamp;
-    }
-
-    public void setConfirmedTimestamp(Timestamp confirmedTimestamp) {
-        this.confirmedTimestamp = confirmedTimestamp;
-    }
+    private int confirmed;
 
     public String getMail() {
         return mail;
@@ -59,14 +33,6 @@ public class NewsletterMail extends AuditableEntity {
 
     public void setMail(String mail) {
         this.mail = mail;
-    }
-
-    public Timestamp getRegisteredTimestamp() {
-        return registeredTimestamp;
-    }
-
-    public void setRegisteredTimestamp(Timestamp registeredTimestamp) {
-        this.registeredTimestamp = registeredTimestamp;
     }
 
     public int getErrorcounter() {
@@ -77,7 +43,11 @@ public class NewsletterMail extends AuditableEntity {
         this.errorcounter = errorcounter;
     }
 
-    public void setConfirmed(String aValue) {
-        setConfirmed("1".equals(aValue));
+    public int getConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(int confirmed) {
+        this.confirmed = confirmed;
     }
 }
