@@ -184,7 +184,6 @@ public class NewsletterServiceImpl extends LogableService implements NewsletterS
         if (aDebugMode) {
             theReceiver.clear();
             NewsletterMail theTempMail = new NewsletterMail();
-            theTempMail.setConfirmed(true);
             theTempMail.setMail(aDebugAdress);
             theReceiver.add(theTempMail);
         }
