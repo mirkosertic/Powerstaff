@@ -21,5 +21,4 @@ import de.mogwai.common.business.service.Service;
 
 public interface NewsletterService extends Service, NewsletterServicePublicInterface {
 
-    void sendNewsletter();
 }
