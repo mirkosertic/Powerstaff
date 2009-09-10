@@ -190,6 +190,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 				<value>
 					classpath:/de/powerstaff/business/entity/WebProject.hbm.xml
 				</value>
+				<value>
+					classpath:/de/powerstaff/business/entity/NewsletterMail.hbm.xml
+				</value>
 			</list>
 		</property>
 	</bean>

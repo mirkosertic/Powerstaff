@@ -19,6 +19,7 @@ package de.powerstaff.business.service.impl;
 
 import java.io.File;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Properties;
 import java.util.Vector;
@@ -182,7 +183,7 @@ public class NewsletterServiceImpl extends LogableService implements NewsletterS
 
         // Nur für Debug - Zwecke !!!
         if (aDebugMode) {
-            theReceiver.clear();
+            theReceiver = new ArrayList<NewsletterMail>();
             NewsletterMail theTempMail = new NewsletterMail();
             theTempMail.setMail(aDebugAdress);
             theReceiver.add(theTempMail);
