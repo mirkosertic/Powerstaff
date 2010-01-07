@@ -258,6 +258,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 	<!-- 
 		Definition der Services
 	 -->
+	<bean id="luceneService" class="de.powerstaff.business.service.impl.LuceneServiceImpl">
+		<property name="systemParameterService" ref="systemParameterService"/>
+	</bean
+	>
 	<bean id="additinalDataService" class="de.powerstaff.business.service.impl.AdditionalDataServiceImpl">
 		<property name="additionalDataDAO" ref="additionalDataDAO"/>
 	</bean>
@@ -298,6 +302,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 			ref="systemParameterService" />
 		<property name="profileSearchDAO"
 			ref="profileSearchDAO" />
+		<property name="luceneService" ref="luceneService"/>
 	</bean>
 
 	<bean id="serviceLoggerService"
@@ -309,6 +314,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		class="de.powerstaff.business.service.impl.ProfileIndexerServiceImpl">
 		<property name="serviceLogger" ref="serviceLoggerService" />
 		<property name="systemParameterService"	ref="systemParameterService" />
+		<property name="luceneService" ref="luceneService"/>		
 	</bean>
 
 	<bean id="webSyncService"
