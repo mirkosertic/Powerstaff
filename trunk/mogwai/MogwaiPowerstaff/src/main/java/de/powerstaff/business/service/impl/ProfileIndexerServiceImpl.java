@@ -40,6 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.lucene.analysis.ProfileAnalyzerFactory;
+import de.powerstaff.business.service.LuceneService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ProfileIndexerService;
 import de.powerstaff.business.service.ServiceLoggerService;
@@ -59,6 +60,8 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
     private ServiceLoggerService serviceLogger;
 
     private PowerstaffSystemParameterService systemParameterService;
+    
+    private LuceneService luceneService;
 
     private boolean running;
 
@@ -85,12 +88,9 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
 
         logger.logInfo("Processing deleted or updated files");
 
-        IndexReader reader = null;
-        Directory directory = null;
         try {
 
-            directory = FSDirectory.getDirectory(systemParameterService.getIndexerPath(), false);
-            reader = IndexReader.open(directory);
+            IndexReader reader = luceneService.getIndexReader();
 
             for (int i = 0; i < reader.maxDoc(); i++) {
 
@@ -104,32 +104,12 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
                 }
             }
 
-            reader.close();
-            reader = null;
-            directory.close();
-            directory = null;
-
         } catch (Exception e) {
 
             logger.logError("Error on execution", e);
 
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    logger.logError("Error closing indexreader", e);
-                }
-            }
-            if (directory != null) {
-                try {
-                    directory.close();
-                } catch (IOException e) {
-                    logger.logError("Error closing directory");
-                }
-            }
         }
-
+        
         logger.logInfo("Done with deleted or updated files");
     }
 
@@ -169,24 +149,12 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
             File sourcePath = new File(systemParameterService.getIndexerSourcePath());
             if ((sourcePath.exists()) && (sourcePath.isDirectory())) {
 
-                IndexWriter writer = null;
-                try {
+                IndexWriter writer = luceneService.getIndexWriter();
 
-                    // Try to append
-                    writer = new IndexWriter(systemParameterService.getIndexerPath(), ProfileAnalyzerFactory
-                            .createAnalyzer(), false);
-
-                } catch (Exception ex) {
-
-                    // Create a new index
-                    writer = new IndexWriter(systemParameterService.getIndexerPath(), ProfileAnalyzerFactory
-                            .createAnalyzer(), true);
-                }
                 indexDocs(writer, sourcePath, sourcePath.toString(), 0);
 
-                writer.optimize();
-
-                writer.close();
+                luceneService.shutdownIndexWriter();
+                
             } else {
                 logger.logDebug("Source path " + sourcePath + " does not exists");
             }
@@ -211,7 +179,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
         try {
 
             // First, try to detect if the file exists
-            Searcher theSearcher = new IndexSearcher(systemParameterService.getIndexerPath());
+            Searcher theSearcher = luceneService.getIndexSearcher();
             Analyzer theAnalyzer = new KeywordAnalyzer();
             QueryParser theParser = new QueryParser(PATH, theAnalyzer);
 
@@ -336,13 +304,10 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
         File sourcePath = new File(systemParameterService.getIndexerSourcePath());
         if ((sourcePath.exists()) && (sourcePath.isDirectory())) {
 
-            IndexWriter theWriter = null;
             try {
 
-                // Try to append
-                theWriter = new IndexWriter(systemParameterService.getIndexerPath(), ProfileAnalyzerFactory
-                        .createAnalyzer(), true);
-                theWriter.close();
+            	luceneService.createNewIndex();
+            	luceneService.shutdownIndexWriter();
 
             } catch (Exception e) {
                 logger.logError("Unable to rebuild index");

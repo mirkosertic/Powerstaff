@@ -55,6 +55,7 @@ import de.powerstaff.business.entity.SavedProfileSearchEntry;
 import de.powerstaff.business.entity.User;
 import de.powerstaff.business.lucene.analysis.ProfileAnalyzerFactory;
 import de.powerstaff.business.service.FreelancerService;
+import de.powerstaff.business.service.LuceneService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ProfileIndexerService;
 import de.powerstaff.business.service.ProfileSearchService;
@@ -67,6 +68,8 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
     private FreelancerService freelancerService;
 
     private PowerstaffSystemParameterService systemParameterService;
+    
+    private LuceneService luceneService;
 
     private ProfileSearchDAO profileSearchDAO;
     
@@ -108,7 +111,15 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
         this.profileSearchDAO = profileSearchDAO;
     }
 
-    private void copySearchRequestInto(SearchRequestSupport aSource, SearchRequestSupport aDestination) {
+    public LuceneService getLuceneService() {
+		return luceneService;
+	}
+
+	public void setLuceneService(LuceneService luceneService) {
+		this.luceneService = luceneService;
+	}
+
+	private void copySearchRequestInto(SearchRequestSupport aSource, SearchRequestSupport aDestination) {
         aDestination.setProfileContent(aSource.getProfileContent());
         aDestination.setPlz(aSource.getPlz());
         aDestination.setStundensatzVon(aSource.getStundensatzVon());
@@ -139,7 +150,7 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
 
         long theStartTime = System.currentTimeMillis();
 
-        Searcher theSearcher = new IndexSearcher(systemParameterService.getIndexerPath());
+        Searcher theSearcher = luceneService.getIndexSearcher();
 
         theQuery = theSearcher.rewrite(theQuery);
 
@@ -230,29 +241,8 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
 
         BooleanQuery.setMaxClauseCount(8192);
         
-        GoogleStyleQueryParser theParser = new GoogleStyleQueryParser();
+        GoogleStyleQueryParser theParser = new GoogleStyleQueryParser(luceneService.getIndexReader());
         return theParser.parseQuery(aRequest.getProfileContent(), aAnalyzer, ProfileIndexerService.CONTENT);
-        
-/*        BooleanQuery theQuery = new BooleanQuery();
-        
-        Query theTempQuery = null;
-        TokenStream theTokenStream = aAnalyzer.tokenStream(ProfileIndexerService.CONTENT, new StringReader(aRequest
-                .getProfileContent().toLowerCase()));
-        Token theToken = theTokenStream.next();
-        while (theToken != null) {
-            String theTokenText = theToken.termText();
-
-            if ((theTokenText.startsWith("*") || (theTokenText.endsWith("*")))) {
-                theTempQuery = new WildcardQuery(new Term(ProfileIndexerService.CONTENT, theTokenText));
-            } else {
-                theTempQuery = new TermQuery(new Term(ProfileIndexerService.CONTENT, theTokenText));
-            }
-            theQuery.add(theTempQuery, Occur.MUST);
-
-            theToken = theTokenStream.next(theToken);
-        }
-
-        return theQuery;*/
     }
 
     public Vector<FreelancerProfile> findProfiles(String aCode) throws Exception {
@@ -344,7 +334,7 @@ public class ProfileSearchServiceImpl extends LogableService implements ProfileS
 
         logger.logInfo("Search query is " + theQuery);
 
-        Searcher theSearcher = new IndexSearcher(systemParameterService.getIndexerPath());
+        Searcher theSearcher = luceneService.getIndexSearcher();
 
         theQuery = theSearcher.rewrite(theQuery);
 
