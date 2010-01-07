@@ -51,9 +51,10 @@ public class LuceneServiceImpl implements LuceneService {
 	@Override
 	public synchronized IndexReader getIndexReader()
 			throws CorruptIndexException, IOException {
-		if (indexReader == null) {
+		if (indexReader == null || !indexReader.isCurrent()) {
 			indexReader = IndexReader.open(systemParameterService
 					.getIndexerPath());
+			indexSearcher = null;
 		}
 		return indexReader;
 	}
