@@ -21,6 +21,7 @@ import java.io.File;
 
 import de.powerstaff.business.service.impl.reader.msword.DOCWordDocumentReader;
 import de.powerstaff.business.service.impl.reader.msword.DOCXWordDocumentReader;
+import de.powerstaff.business.service.impl.reader.pdf.PDFDocumentReader;
 import de.powerstaff.business.service.impl.reader.txt.TextDocumentReader;
 
 /**
@@ -69,7 +70,9 @@ public final class DocumentReaderFactory {
         if (fileName.getName().toUpperCase().endsWith(".TXT")) {
             return new TextDocumentReader();
         }
+        if (fileName.getName().toUpperCase().endsWith(".PDF")) {
+            return new PDFDocumentReader();
+        }
         return null;
     }
-
 }
