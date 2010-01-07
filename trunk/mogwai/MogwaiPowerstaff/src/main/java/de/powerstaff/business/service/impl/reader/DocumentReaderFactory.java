@@ -19,8 +19,9 @@ package de.powerstaff.business.service.impl.reader;
 
 import java.io.File;
 
+import de.powerstaff.business.service.impl.reader.msword.DOCWordDocumentReader;
+import de.powerstaff.business.service.impl.reader.msword.DOCXWordDocumentReader;
 import de.powerstaff.business.service.impl.reader.txt.TextDocumentReader;
-import de.powerstaff.business.service.impl.reader.word.WordDocumentReader;
 
 /**
  * Factory for creating document readers.
@@ -60,7 +61,10 @@ public final class DocumentReaderFactory {
      */
     public DocumentReader getDocumentReaderForFile(File fileName) {
         if (fileName.getName().toUpperCase().endsWith(".DOC")) {
-            return new WordDocumentReader();
+            return new DOCWordDocumentReader();
+        }
+        if (fileName.getName().toUpperCase().endsWith(".DOCX")) {
+            return new DOCXWordDocumentReader();
         }
         if (fileName.getName().toUpperCase().endsWith(".TXT")) {
             return new TextDocumentReader();
