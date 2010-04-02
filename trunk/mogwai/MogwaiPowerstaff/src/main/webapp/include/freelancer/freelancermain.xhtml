@@ -39,46 +39,57 @@
 								<b:commandLink title="Erster Datensatz" action="#{freelancerBackingBean.commandFirst}">
 									<b:image source="/images/first.gif" />
 									<a4j:support event="onclick"
-										reRender="#{freelancerBackingBean.data.changedComponents}" />
+										reRender="#{freelancerBackingBean.data.changedComponents}"
+										onsubmit="if (!checkForChangedData()) {return;}"
+										oncomplete="clearChanged()"/>
 								</b:commandLink>
 							</b:cell>
 							<b:cell x="2" y="1">
 								<b:commandLink title="Vorheriger Datensatz" action="#{freelancerBackingBean.commandPrior}">
 									<b:image source="/images/prior.gif" />
 									<a4j:support event="onclick"
-										reRender="#{freelancerBackingBean.data.changedComponents}" />
+										reRender="#{freelancerBackingBean.data.changedComponents}" 
+										onsubmit="if (!checkForChangedData()) {return;}"
+										oncomplete="clearChanged()"/>
 								</b:commandLink>
 							</b:cell>
 							<b:cell x="3" y="1">
 								<b:commandLink title="Nächster Datensatz" action="#{freelancerBackingBean.commandNext}">
 									<b:image source="/images/next.gif" />
 									<a4j:support event="onclick"
-										reRender="#{freelancerBackingBean.data.changedComponents}" />
+										reRender="#{freelancerBackingBean.data.changedComponents}"
+										onsubmit="if (!checkForChangedData()) {return;}"
+										oncomplete="clearChanged()"/>
 								</b:commandLink>
 							</b:cell>
 							<b:cell x="4" y="1">
 								<b:commandLink title="Letzter Datensatz" action="#{freelancerBackingBean.commandLast}">
 									<b:image source="/images/last.gif" />
 									<a4j:support event="onclick"
-										reRender="#{freelancerBackingBean.data.changedComponents}" />
+										reRender="#{freelancerBackingBean.data.changedComponents}"
+										onsubmit="if (!checkForChangedData()) {return;}"
+										oncomplete="clearChanged()"/>
 								</b:commandLink>
 							</b:cell>
 							<b:cell x="6" y="1">
 								<b:commandLink title="Neuer Datensatz" action="#{freelancerBackingBean.commandNew}">
 									<b:image source="/images/new.gif" />
 									<a4j:support event="onclick"
-										reRender="#{freelancerBackingBean.data.changedComponents}" />
+										reRender="#{freelancerBackingBean.data.changedComponents}" 
+										onsubmit="if (!checkForChangedData()) {return;}"
+										oncomplete="clearChanged()"/>
 								</b:commandLink>
 							</b:cell>
 							<b:cell x="7" y="1">
 								<b:commandLink title="Speichern" action="#{freelancerBackingBean.commandSave}">
 									<b:image source="/images/update.gif" />
 									<a4j:support event="onclick"
-										reRender="#{freelancerBackingBean.data.changedComponents}" />
+										reRender="#{freelancerBackingBean.data.changedComponents}" 
+										oncomplete="clearChanged()"/>
 								</b:commandLink>
 							</b:cell>
 							<b:cell x="9" y="1">
-								<a4j:commandLink title="Löschen" action="#{freelancerBackingBean.commandDelete}" onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick löschen?')) {return false;}" reRender="#{freelancerBackingBean.data.changedComponents}">
+								<a4j:commandLink title="Löschen" action="#{freelancerBackingBean.commandDelete}" onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick löschen?')) {return false;}" reRender="#{freelancerBackingBean.data.changedComponents}" oncomplete="clearChanged()">
 									<b:image source="/images/delete.gif" />
 								</a4j:commandLink>
 							</b:cell>
@@ -86,7 +97,8 @@
 								<b:commandLink title="Suchen" action="#{freelancerBackingBean.commandSearch}">
 									<b:image source="/images/search.gif" />
 									<a4j:support event="onclick"
-										reRender="#{freelancerBackingBean.data.changedComponents}" />
+										reRender="#{freelancerBackingBean.data.changedComponents}" 
+										oncomplete="clearChanged()"/>
 								</b:commandLink>
 							</b:cell>
 							<b:cell x="12" y="1" valign="middle" align="right">
@@ -99,7 +111,9 @@
 								<b:commandLink title="Springe zu Datensatz" action="#{freelancerBackingBean.commandJumpToRecord}">
 									<b:image source="/images/search.gif" />
 									<a4j:support event="onclick"
-										reRender="#{freelancerBackingBean.data.changedComponents}" />
+										reRender="#{freelancerBackingBean.data.changedComponents}" 
+										onsubmit="if (!checkForChangedData()) {return;}"
+										oncomplete="clearChanged()"/>
 								</b:commandLink>
 							</b:cell>
 							<b:cell x="15" y="1" align="right">
@@ -252,7 +266,8 @@
 												<b:commandLink title="Kontaktinformation löschen" action="#{freelancerBackingBean.commandDeleteContact}">
 													<b:image source="/images/delete.gif" />
 													<a4j:support event="onclick"
-														reRender="kontakttable" />
+														reRender="kontakttable"
+														onsubmit="markChanged()"/>
 												</b:commandLink>
 											</h:column>									
 										</b:table>
@@ -274,7 +289,8 @@
 										<b:commandLink title="Kontaktinformation hinzufügen" action="#{freelancerBackingBean.commandAddContact}">
 											<b:image source="images/add.gif" />
 											<a4j:support event="onclick"
-											reRender="#{freelancerBackingBean.data.changedComponents}" />
+											reRender="#{freelancerBackingBean.data.changedComponents}"
+											onsubmit="markChanged()"/>
 										</b:commandLink>
 									</b:cell>
 
@@ -373,7 +389,8 @@
 										<rich:calendar value="#{freelancerBackingBean.data.entity.availabilityAsDate}"
 													   datePattern="dd.MM.yyyy"
 													   inputStyle="width:270px;"
-													   cellWidth="34px">
+													   cellWidth="34px"
+													   onchanged="markChanged()">
 										</rich:calendar>
 									</b:cell>
 
@@ -532,5 +549,10 @@
 			</b:gridBagLayout>
 			
 		</f:subview>			
+		
+		<a4j:outputPanel ajaxRendered="true">
+			<rich:jQuery selector=":input" query="change(function() {markChanged();})"/>
+		</a4j:outputPanel>
+		
 	</ui:define>
 </ui:composition>	

@@ -7,14 +7,16 @@
 		<b:cell x="1" y="1">
 			<b:commandLink action="#{partnerBackingBean.commandStammdaten}" immediate="true" styleClass="menuitem">
 				<h:outputText value="Stammdaten" />
-				<a4j:support event="onclick"/>
+				<a4j:support event="onclick"
+					onsubmit="if (!checkForChangedData()) {return;}"/>
 			</b:commandLink>		
 		</b:cell>
 		
 		<b:cell x="1" y="3">
 			<b:commandLink action="#{partnerBackingBean.commandHistorie}" immediate="true" styleClass="menuitem">
 				<h:outputText value="Kontakthistorie" />
-				<a4j:support event="onclick"/>				
+				<a4j:support event="onclick"
+					onsubmit="if (!checkForChangedData()) {return;}"/>				
 			</b:commandLink>		
 		</b:cell>
 		
