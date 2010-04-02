@@ -41,9 +41,6 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/richfaces-api-3.1.6.GA.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/richfaces-impl-3.1.6.GA.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/richfaces-ui-3.1.6.GA.jar"/>
-	<classpathentry kind="lib" path="C:/jboss-4.2.2.GA/server/default/lib/mysql-connector-java-5.1.8-bin.jar"/>
-	<classpathentry kind="lib" path="C:/jboss-4.2.2.GA/server/default/lib/commons-logging.jar"/>
-	<classpathentry kind="lib" path="C:/jboss-4.2.2.GA/server/default/lib/antlr.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-core-2.4.0.jar" sourcepath="C:/Users/Andrea/Downloads/lucene-2.4.0/src/java"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-analyzers-2.4.0.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-highlighter-2.4.0.jar"/>

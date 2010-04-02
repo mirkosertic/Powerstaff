@@ -6,5 +6,33 @@
     xmlns:rich="http://richfaces.org/rich">
     <script language="JavaScript">
     	clearHotKeys();
+
+    	var changed = false;
+
+    	function markChanged() {
+
+        	if (!changed) {
+
+        		document.getElementById("changedmarker").style.visibility="visible";
+        		changed = true;
+        	}
+    	}
+
+    	function clearChanged() {
+        	changed = false;
+    		document.getElementById("changedmarker").style.visibility="hidden";
+    	}
+
+    	function checkForChangedData() {
+			if (changed) {
+				if (!confirm("Es wurden Daten noch nicht gespeichert. Wollen Sie fortfahren?")) {
+					return false;
+				}
+				clearChanged();				
+			}
+			
+        	return true;
+    	}
+        	
     </script>
 </f:subview>
