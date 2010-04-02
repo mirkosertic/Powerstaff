@@ -69,22 +69,15 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
         this.readerFactory = DocumentReaderFactory.getInstance();
     }
 
-    /**
-     * @return the systemParameterService
-     */
-    public PowerstaffSystemParameterService getSystemParameterService() {
-        return systemParameterService;
-    }
-
-    /**
-     * @param systemParameterService
-     *                the systemParameterService to set
-     */
     public void setSystemParameterService(PowerstaffSystemParameterService systemParameterService) {
         this.systemParameterService = systemParameterService;
     }
 
-    private void processDeletedOrUpdatedFiles() {
+    public void setLuceneService(LuceneService luceneService) {
+		this.luceneService = luceneService;
+	}
+
+	private void processDeletedOrUpdatedFiles() {
 
         logger.logInfo("Processing deleted or updated files");
 

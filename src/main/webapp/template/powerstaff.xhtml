@@ -1,7 +1,9 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0"
  xmlns="http://www.w3.org/1999/xhtml"
  xmlns:ui="http://java.sun.com/jsf/facelets"
- xmlns:b="http://mogwai.sourceforge.net/layout">
+ xmlns:b="http://mogwai.sourceforge.net/layout"
+ xmlns:a4j="http://richfaces.org/a4j"
+ xmlns:rich="http://richfaces.org/rich">
 	<tr height="20">
 		<td class="lightgray" width="20">
 			<img src="images/spacer.gif" width="20" height="1" />
@@ -57,12 +59,20 @@
 					</td>
 				</tr>
 			</table>
+			
+			<br/><br/>
+			<div id="changedmarker" style="visibility:hidden; color:red; font-weight:bold; text-align:center;">
+				<img src="images/icon_warndreieck.gif"/><br/>
+				Ungespeicherte Daten!
+			</div>
 		</td>
 		<td class="white"></td>
 		<td class="white padding content">
 			<br />
-			<ui:include src="/include/scripts.xhtml"/>			
+			<ui:include src="/include/scripts.xhtml"/>
 			<ui:insert name="content" />
+			
+			<rich:jQuery selector=":input" query="change(function() {markChanged();})"/>
 		</td>
 		<td class="white"></td>
 	</tr>
