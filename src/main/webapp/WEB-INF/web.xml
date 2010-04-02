@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<context-param>
 		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-		<param-value>client</param-value>
+		<param-value>server</param-value>
 	</context-param>
 	<context-param>
 		<param-name>org.richfaces.SKIN</param-name>
@@ -27,40 +27,31 @@
 		<param-value>classpath:/applicationContext.xml</param-value>
 	</context-param>
 	<context-param>
-		<param-name>
-			org.apache.myfaces.COMPRESS_STATE_IN_SESSION
-		</param-name>
+		<param-name>org.apache.myfaces.COMPRESS_STATE_IN_SESSION</param-name>
 		<param-value>false</param-value>
 	</context-param>
 	<context-param>
-		<param-name>
-			org.apache.myfaces.SERIALIZE_STATE_IN_SESSION
-		</param-name>
+		<param-name>org.apache.myfaces.PRETTY_HTML</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	<context-param>
+		<param-name>org.apache.myfaces.SERIALIZE_STATE_IN_SESSION</param-name>
 		<param-value>false</param-value>
 	</context-param>
 	<context-param>
 		<param-name>org.apache.myfaces.SERIAL_FACTORY</param-name>
-		<param-value>
-			de.mogwai.common.web.serialization.JBossSerialFactory
-		</param-value>
+		<param-value>de.mogwai.common.web.serialization.JBossSerialFactory</param-value>
 	</context-param>
 	<context-param>
-		<param-name>
-			org.jboss.jbossfaces.WAR_BUNDLES_JSF_IMPL
-		</param-name>
+		<param-name>org.jboss.jbossfaces.WAR_BUNDLES_JSF_IMPL</param-name>
 		<param-value>true</param-value>
 	</context-param>
-	
 	<listener>
-		<listener-class>
-			org.apache.myfaces.webapp.StartupServletContextListener
-		</listener-class>
+		<listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
 	</listener>
 	
 	<listener>
-		<listener-class>
-			org.springframework.web.context.ContextLoaderListener
-		</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
 	<servlet>
@@ -75,7 +66,7 @@
 	</servlet-mapping>
 	
 	<session-config>
-		<session-timeout>1000</session-timeout>
+		<session-timeout>600</session-timeout>
 	</session-config>
 	
 	<welcome-file-list>
