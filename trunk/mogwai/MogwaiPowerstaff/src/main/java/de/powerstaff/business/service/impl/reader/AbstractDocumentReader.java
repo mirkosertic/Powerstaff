@@ -17,23 +17,24 @@
  */
 package de.powerstaff.business.service.impl.reader;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
+import java.util.StringTokenizer;
 
 public abstract class AbstractDocumentReader implements DocumentReader {
 
-	protected String toFlatString(Reader aReader) throws IOException {
-        StringBuilder theBuilder = new StringBuilder();
-        BufferedReader theReader = new BufferedReader(aReader);
-        while (theReader.ready()) {
-            String theLine = theReader.readLine();
-            if (theLine != null) {
-                theBuilder.append(theLine);
-                theBuilder.append(" ");
-            }
-        }
-        theReader.close();
-        return theBuilder.toString();
+	protected String toFlatString(String aString) throws IOException {
+		StringBuilder theBuilder = new StringBuilder();
+		StringTokenizer theST = new StringTokenizer(aString, "\n\r");
+		while (theST.hasMoreTokens()) {
+			String theLine = theST.nextToken();
+			if (theLine != null) {
+				theLine = theLine.trim();
+				if (theLine != null && theLine.length() > 0) {
+					theBuilder.append(theLine);
+					theBuilder.append(" ");
+				}
+			}
+		}
+		return theBuilder.toString();
 	}
 }

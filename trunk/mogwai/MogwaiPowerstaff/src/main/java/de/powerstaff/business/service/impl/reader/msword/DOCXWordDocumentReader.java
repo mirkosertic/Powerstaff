@@ -19,7 +19,6 @@ package de.powerstaff.business.service.impl.reader.msword;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.StringReader;
 
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -40,6 +39,6 @@ public class DOCXWordDocumentReader extends AbstractDocumentReader {
     	XWPFWordExtractor theExtractor = new XWPFWordExtractor(theDocument);
     	String theText = theExtractor.getText();
     	theText = theText.replace('|',' ');
-    	return new ReadResult(toFlatString(new StringReader(theText)));
+    	return new ReadResult(toFlatString(theText));
     }
 }

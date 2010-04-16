@@ -52,6 +52,14 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/poi-ooxml-schemas-3.6-20091214.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/poi-scratchpad-3.6-20091214.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/xmlbeans-2.3.0.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/pdfbox-0.8.0-incubating.jar" sourcepath="C:/Users/Andrea/Downloads/pdfbox-0.8.0-incubating-src.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/commons-io-1.4.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/fontbox-1.1.0.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jempbox-1.1.0.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/pdfbox-1.1.0.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/bcmail-jdk16-145.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/bcpg-jdk16-145.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/bcprov-jdk16-145.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/bctest-jdk16-145.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/bctsp-jdk16-145.jar"/>
 	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
 </classpath>

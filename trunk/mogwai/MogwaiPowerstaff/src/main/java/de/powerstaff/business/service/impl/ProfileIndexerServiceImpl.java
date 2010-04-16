@@ -201,7 +201,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
 
                 try {
 
-                    logger.logDebug("Adding file " + aFile + " to index");
+                    logger.logInfo("Adding file " + aFile + " to index");
 
                     Document doc = new Document();
                     ReadResult theResult = theDocumentReader.getContent(aFile);
