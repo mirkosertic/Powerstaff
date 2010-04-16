@@ -19,7 +19,6 @@ package de.powerstaff.business.service.impl.reader.msword;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.StringReader;
 
 import org.apache.poi.hwpf.extractor.WordExtractor;
 
@@ -38,6 +37,6 @@ public class DOCWordDocumentReader extends AbstractDocumentReader {
     	WordExtractor theExtractor = new WordExtractor(new FileInputStream(inputFile));
     	String theText = theExtractor.getText();
     	theText = theText.replace('|',' ');
-    	return new ReadResult(toFlatString(new StringReader(theText)));
+    	return new ReadResult(toFlatString(theText));
     }
 }
