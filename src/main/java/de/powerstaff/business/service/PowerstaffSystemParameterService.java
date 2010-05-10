@@ -100,4 +100,28 @@ public interface PowerstaffSystemParameterService extends Service {
     int getMaxSearchResult();
 
     void setMaxSearchResult(int aValue);
+
+    /**
+     * @return True if the DOC Format is enabled for indexing
+     */
+	boolean isDOCFormatEnabled();
+	void setDOCFormatEnabled(boolean aValue);	
+
+    /**
+     * @return True if the DOCX Format is enabled for indexing
+     */
+	boolean isDOCXFormatEnabled();
+	void setDOCXFormatEnabled(boolean aValue);
+
+    /**
+     * @return True if the TXT Format is enabled for indexing
+     */
+	boolean isTXTFormatEnabled();
+	void setTXTFormatEnabled(boolean aValue);
+	
+    /**
+     * @return True if the PDF Format is enabled for indexing
+     */
+	boolean isPDFFormatEnabled();
+	void setPDFFormatEnabled(boolean aValue);	
 }

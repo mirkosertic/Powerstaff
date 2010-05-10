@@ -18,7 +18,11 @@
 package de.powerstaff.business.service.impl.reader;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
+import de.mogwai.common.business.service.impl.LogableService;
+import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.impl.reader.msword.DOCWordDocumentReader;
 import de.powerstaff.business.service.impl.reader.msword.DOCXWordDocumentReader;
 import de.powerstaff.business.service.impl.reader.pdf.PDFDocumentReader;
@@ -29,50 +33,58 @@ import de.powerstaff.business.service.impl.reader.txt.TextDocumentReader;
  * 
  * @author sertic
  */
-public final class DocumentReaderFactory {
+public class DocumentReaderFactory extends LogableService {
 
-    private static DocumentReaderFactory me;
+	private PowerstaffSystemParameterService systemParameterService;
 
-    /**
-     * This is a singleton.
-     */
-    private DocumentReaderFactory() {
-    }
+	private Map<String, DocumentReader> availableReaders = new HashMap<String, DocumentReader>();
 
-    public static DocumentReaderFactory getInstance() {
+	public void setSystemParameterService(
+			PowerstaffSystemParameterService aService) {
+		this.systemParameterService = aService;
+	}
 
-        // Is the singleton already created ?
-        if (me == null) {
+	public void initialize() {
+		synchronized (availableReaders) {
+			availableReaders.clear();
+			if (systemParameterService.isDOCFormatEnabled()) {
+				availableReaders.put(".DOC", new DOCWordDocumentReader());
+			}
+			if (systemParameterService.isDOCXFormatEnabled()) {
+				availableReaders.put(".DOCX", new DOCXWordDocumentReader());
+			}
+			if (systemParameterService.isTXTFormatEnabled()) {
+				availableReaders.put(".TXT", new TextDocumentReader());
+			}
+			if (systemParameterService.isPDFFormatEnabled()) {
+				availableReaders.put(".PDF", new PDFDocumentReader());
+			}
 
-            // No, create the single and unique instance !
-            me = new DocumentReaderFactory();
+			for (Map.Entry<String, DocumentReader> theEntry : availableReaders
+					.entrySet()) {
+				logger.logInfo("Supporting file format " + theEntry.getKey());
+			}
+		}
+	}
 
-        }
-
-        return me;
-    }
-
-    /**
-     * Get the document reader instance for a document.
-     * 
-     * @param fileName
-     *                the source file
-     * @return the reader that can read the source file or null if none is
-     *         available
-     */
-    public DocumentReader getDocumentReaderForFile(File fileName) {
-        if (fileName.getName().toUpperCase().endsWith(".DOC")) {
-            return new DOCWordDocumentReader();
-        }
-        if (fileName.getName().toUpperCase().endsWith(".DOCX")) {
-            return new DOCXWordDocumentReader();
-        }
-        if (fileName.getName().toUpperCase().endsWith(".TXT")) {
-            return new TextDocumentReader();
-        }
-        if (fileName.getName().toUpperCase().endsWith(".PDF")) {
-            return new PDFDocumentReader();
-        }
-        return null;
-    }
+	/**
+	 * Get the document reader instance for a document.
+	 * 
+	 * @param fileName
+	 *            the source file
+	 * @return the reader that can read the source file or null if none is
+	 *         available
+	 */
+	public DocumentReader getDocumentReaderForFile(File fileName) {
+		String theFilename = fileName.getName().toUpperCase();
+		synchronized (availableReaders) {
+			for (Map.Entry<String, DocumentReader> theEntry : availableReaders
+					.entrySet()) {
+				if (theFilename.endsWith(theEntry.getKey())) {
+					return theEntry.getValue();
+				}
+			}
+		}
+		return null;
+	}
 }
