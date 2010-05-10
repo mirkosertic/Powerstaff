@@ -314,7 +314,12 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		class="de.powerstaff.business.service.impl.ProfileIndexerServiceImpl">
 		<property name="serviceLogger" ref="serviceLoggerService" />
 		<property name="systemParameterService"	ref="systemParameterService" />
-		<property name="luceneService" ref="luceneService"/>		
+		<property name="luceneService" ref="luceneService"/>
+		<property name="readerFactory">
+			<bean class="de.powerstaff.business.service.impl.reader.DocumentReaderFactory">
+				<property name="systemParameterService" ref="systemParameterService"/>
+			</bean>
+		</property>		
 	</bean>
 
 	<bean id="webSyncService"

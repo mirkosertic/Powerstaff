@@ -30,16 +30,12 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.Hits;
-import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.mogwai.common.business.service.impl.LogableService;
-import de.powerstaff.business.lucene.analysis.ProfileAnalyzerFactory;
 import de.powerstaff.business.service.LuceneService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ProfileIndexerService;
@@ -64,12 +60,12 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
     private LuceneService luceneService;
 
     private boolean running;
+    
+    public void setReaderFactory(DocumentReaderFactory readerFactory) {
+		this.readerFactory = readerFactory;
+	}
 
-    public ProfileIndexerServiceImpl() {
-        this.readerFactory = DocumentReaderFactory.getInstance();
-    }
-
-    public void setSystemParameterService(PowerstaffSystemParameterService systemParameterService) {
+	public void setSystemParameterService(PowerstaffSystemParameterService systemParameterService) {
         this.systemParameterService = systemParameterService;
     }
 
@@ -121,6 +117,8 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
             logger.logInfo("Indexing disabled");
             return;
         }
+        
+        readerFactory.initialize();
 
         serviceLogger.logStart(SERVICE_ID, "");
 
@@ -307,5 +305,4 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
             }
         }
     }
-
 }
