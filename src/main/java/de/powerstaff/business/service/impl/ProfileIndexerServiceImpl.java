@@ -222,7 +222,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements Profile
                 }
             } else {
 
-                logger.logWarning("Cannot index file " + aFile + " as there is no DocumentReader.");
+                logger.logDebug("Cannot index file " + aFile + " as there is no DocumentReader.");
 
             }
 
