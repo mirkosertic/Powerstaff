@@ -31,141 +31,154 @@ import de.mogwai.common.dao.SystemParameterDao;
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:25:25 $
  */
-public class SystemParameterDaoHibernateImpl extends GenericDaoHibernateImpl implements SystemParameterDao {
+public class SystemParameterDaoHibernateImpl extends GenericDaoHibernateImpl
+		implements SystemParameterDao {
 
-    @Override
-    public void save(Object aObject) {
-        getHibernateTemplate().save(aObject);
-    }
+	@Override
+	public void save(Object aObject) {
+		getHibernateTemplate().save(aObject);
+	}
 
-    public void update(Object aObject) {
-        getHibernateTemplate().update(aObject);
-    }
+	public void update(Object aObject) {
+		getHibernateTemplate().update(aObject);
+	}
 
-    /**
-     * @see de.mogwai.common.dao.SystemParameterDao#getAll()
-     */
-    public List getAll() {
+	/**
+	 * @see de.mogwai.common.dao.SystemParameterDao#getAll()
+	 */
+	public List getAll() {
 
-        return getHibernateTemplate().find("from SystemParameter order by id");
-    }
+		return getHibernateTemplate().find("from SystemParameter order by id");
+	}
 
-    public Boolean getBoolean(final BaseEnumItemEnum aEnumItem) {
-        return (Boolean) getHibernateTemplate().execute(new HibernateCallback() {
+	public Boolean getBoolean(final BaseEnumItemEnum aEnumItem) {
+		return (Boolean) getHibernateTemplate().execute(
+				new HibernateCallback() {
 
-            public Object doInHibernate(Session aSession) {
+					public Object doInHibernate(Session aSession) {
 
-                SystemParameter theParameter = (SystemParameter) aSession.get(SystemParameter.class, aEnumItem.getId());
-                if (theParameter != null) {
-                    return new Boolean(Boolean.TRUE.toString().equals(theParameter.getValue()));
-                }
-                return Boolean.FALSE;
-            }
-        });
-    }
+						SystemParameter theParameter = (SystemParameter) aSession
+								.get(SystemParameter.class, aEnumItem.getId());
+						if (theParameter != null) {
+							return Boolean.TRUE.toString().equals(
+									theParameter.getValue());
+						}
+						return Boolean.FALSE;
+					}
+				});
+	}
 
-    public String getString(final BaseEnumItemEnum aEnumItem) {
-        return (String) getHibernateTemplate().execute(new HibernateCallback() {
+	public String getString(final BaseEnumItemEnum aEnumItem) {
+		return (String) getHibernateTemplate().execute(new HibernateCallback() {
 
-            public Object doInHibernate(Session aSession) {
+			public Object doInHibernate(Session aSession) {
 
-                SystemParameter theParameter = (SystemParameter) aSession.get(SystemParameter.class, aEnumItem.getId());
-                if (theParameter != null) {
-                    return theParameter.getValue();
-                }
-                return null;
-            }
-        });
-    }
+				SystemParameter theParameter = (SystemParameter) aSession.get(
+						SystemParameter.class, aEnumItem.getId());
+				if (theParameter != null) {
+					return theParameter.getValue();
+				}
+				return null;
+			}
+		});
+	}
 
-    public void setBoolean(final BaseEnumItemEnum aEnumItem, final String aName, final Boolean aValue) {
-        getHibernateTemplate().execute(new HibernateCallback() {
+	public void setBoolean(final BaseEnumItemEnum aEnumItem,
+			final String aName, final Boolean aValue) {
+		getHibernateTemplate().execute(new HibernateCallback() {
 
-            public Object doInHibernate(Session aSession) {
+			public Object doInHibernate(Session aSession) {
 
-                String theStrValue = Boolean.FALSE.toString();
-                if (Boolean.TRUE.equals(aValue)) {
-                    theStrValue = Boolean.TRUE.toString();
-                }
+				String theStrValue = Boolean.FALSE.toString();
+				if (Boolean.TRUE.equals(aValue)) {
+					theStrValue = Boolean.TRUE.toString();
+				}
 
-                SystemParameter theParameter = (SystemParameter) aSession.get(SystemParameter.class, aEnumItem.getId());
-                if (theParameter != null) {
+				SystemParameter theParameter = (SystemParameter) aSession.get(
+						SystemParameter.class, aEnumItem.getId());
+				if (theParameter != null) {
 
-                    theParameter.setValue(theStrValue);
-                    aSession.update(theParameter);
+					theParameter.setValue(theStrValue);
+					aSession.update(theParameter);
 
-                } else {
-                    theParameter = new SystemParameter();
-                    theParameter.setName(aName);
-                    theParameter.setId(aEnumItem.getId());
-                    theParameter.setValue(theStrValue);
+				} else {
+					theParameter = new SystemParameter();
+					theParameter.setName(aName);
+					theParameter.setId(aEnumItem.getId());
+					theParameter.setValue(theStrValue);
 
-                    aSession.save(theParameter);
-                }
-                return null;
-            }
-        });
-    }
+					aSession.save(theParameter);
+				}
+				return null;
+			}
+		});
+	}
 
-    public void setString(final BaseEnumItemEnum aEnumItem, final String aName, final String aValue) {
-        getHibernateTemplate().execute(new HibernateCallback() {
+	public void setString(final BaseEnumItemEnum aEnumItem, final String aName,
+			final String aValue) {
+		getHibernateTemplate().execute(new HibernateCallback() {
 
-            public Object doInHibernate(Session aSession) {
+			public Object doInHibernate(Session aSession) {
 
-                SystemParameter theParameter = (SystemParameter) aSession.get(SystemParameter.class, aEnumItem.getId());
-                if (theParameter != null) {
+				SystemParameter theParameter = (SystemParameter) aSession.get(
+						SystemParameter.class, aEnumItem.getId());
+				if (theParameter != null) {
 
-                    theParameter.setValue(aValue);
-                    aSession.update(theParameter);
+					theParameter.setValue(aValue);
+					aSession.update(theParameter);
 
-                } else {
-                    theParameter = new SystemParameter();
-                    theParameter.setName(aName);
-                    theParameter.setId(aEnumItem.getId());
-                    theParameter.setValue(aValue);
+				} else {
+					theParameter = new SystemParameter();
+					theParameter.setName(aName);
+					theParameter.setId(aEnumItem.getId());
+					theParameter.setValue(aValue);
 
-                    aSession.save(theParameter);
-                }
-                return null;
-            }
-        });
-    }
+					aSession.save(theParameter);
+				}
+				return null;
+			}
+		});
+	}
 
-    public int getInt(final BaseEnumItemEnum aEnumItem) {
-        return (Integer) getHibernateTemplate().execute(new HibernateCallback() {
+	public int getInt(final BaseEnumItemEnum aEnumItem) {
+		return (Integer) getHibernateTemplate().execute(
+				new HibernateCallback() {
 
-            public Object doInHibernate(Session aSession) {
+					public Object doInHibernate(Session aSession) {
 
-                SystemParameter theParameter = (SystemParameter) aSession.get(SystemParameter.class, aEnumItem.getId());
-                if (theParameter != null) {
-                    return Integer.parseInt(theParameter.getValue());
-                }
-                return new Integer(0);
-            }
-        });
-    }
+						SystemParameter theParameter = (SystemParameter) aSession
+								.get(SystemParameter.class, aEnumItem.getId());
+						if (theParameter != null) {
+							return Integer.parseInt(theParameter.getValue());
+						}
+						return Integer.valueOf(0);
+					}
+				});
+	}
 
-    public void setInt(final BaseEnumItemEnum aEnumItem, final String aName, final int aValue) {
-        getHibernateTemplate().execute(new HibernateCallback() {
+	public void setInt(final BaseEnumItemEnum aEnumItem, final String aName,
+			final int aValue) {
+		getHibernateTemplate().execute(new HibernateCallback() {
 
-            public Object doInHibernate(Session aSession) {
+			public Object doInHibernate(Session aSession) {
 
-                SystemParameter theParameter = (SystemParameter) aSession.get(SystemParameter.class, aEnumItem.getId());
-                if (theParameter != null) {
+				SystemParameter theParameter = (SystemParameter) aSession.get(
+						SystemParameter.class, aEnumItem.getId());
+				if (theParameter != null) {
 
-                    theParameter.setValue("" + aValue);
-                    aSession.update(theParameter);
+					theParameter.setValue("" + aValue);
+					aSession.update(theParameter);
 
-                } else {
-                    theParameter = new SystemParameter();
-                    theParameter.setName(aName);
-                    theParameter.setId(aEnumItem.getId());
-                    theParameter.setValue("" + aValue);
+				} else {
+					theParameter = new SystemParameter();
+					theParameter.setName(aName);
+					theParameter.setId(aEnumItem.getId());
+					theParameter.setValue("" + aValue);
 
-                    aSession.save(theParameter);
-                }
-                return null;
-            }
-        });
-    }
+					aSession.save(theParameter);
+				}
+				return null;
+			}
+		});
+	}
 }

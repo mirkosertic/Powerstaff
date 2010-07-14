@@ -20,8 +20,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 
-import javax.faces.context.FacesContext;
-
 import de.mogwai.common.web.ResourceBundleManager;
 
 /**
@@ -32,28 +30,27 @@ import de.mogwai.common.web.ResourceBundleManager;
  */
 public class NumberInputfieldComponent extends NumberInputfieldComponentBase {
 
-    public NumberInputfieldComponent() {
-    }
+	public NumberInputfieldComponent() {
+	}
 
-    /**
-     * Erstellung eines NumberFormat - Objektes, mit dem eine formatierte Ein -
-     * und Ausgabe anhand des aktuellen numberFormatResourceKey erzeugt wird.
-     * Ist kein numberFormatResourceKey verfügbar, gibt die Methode null zurück.
-     * 
-     * @return das NumberFormat
-     */
-    public NumberFormat createNumberFormat() {
+	/**
+	 * Erstellung eines NumberFormat - Objektes, mit dem eine formatierte Ein -
+	 * und Ausgabe anhand des aktuellen numberFormatResourceKey erzeugt wird.
+	 * Ist kein numberFormatResourceKey verfügbar, gibt die Methode null zurück.
+	 * 
+	 * @return das NumberFormat
+	 */
+	public NumberFormat createNumberFormat() {
 
-        String theFormat = getNumberFormatResourceKey();
-        if (theFormat == null) {
-            return null;
-        }
+		String theFormat = getNumberFormatResourceKey();
+		if (theFormat == null) {
+			return null;
+		}
 
-        DecimalFormatSymbols theSymbols = new DecimalFormatSymbols(FacesContext.getCurrentInstance().getViewRoot()
-                .getLocale());
-        theSymbols = new DecimalFormatSymbols();
-        DecimalFormat theDecimalFormat = new DecimalFormat(ResourceBundleManager.getBundle().getString(theFormat),
-                theSymbols);
-        return theDecimalFormat;
-    }
+		DecimalFormatSymbols theSymbols = new DecimalFormatSymbols();
+		DecimalFormat theDecimalFormat = new DecimalFormat(
+				ResourceBundleManager.getBundle().getString(theFormat),
+				theSymbols);
+		return theDecimalFormat;
+	}
 }

@@ -18,7 +18,6 @@
 package de.powerstaff.business.dao.hibernate;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -37,135 +36,155 @@ import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Freelancer;
 
-public class FreelancerDAOHibernateImpl extends PersonDAOHibernateImpl<Freelancer> implements FreelancerDAO {
+public class FreelancerDAOHibernateImpl extends
+		PersonDAOHibernateImpl<Freelancer> implements FreelancerDAO {
 
-    private static final String[] DISPLAYPROPERTIES = new String[] { "name1", "name2", "availabilityAsDate",
-            "sallaryLong", "skills", "code" };
+	private static final String[] DISPLAYPROPERTIES = new String[] { "name1",
+			"name2", "availabilityAsDate", "sallaryLong", "skills", "code" };
 
-    private static final String[] SEARCHPROPERTIES = new String[] { "name1", "name2", "company", "street", "country",
-            "plz", "city", "comments", "workplace", "sallaryLong", "code", "contactPerson", "contactType",
-            "contactReason", "lastContact", "skills", "gulpID", "code", "kreditorNr", "debitorNr", "titel",
-            "nationalitaet" };
+	private static final String[] SEARCHPROPERTIES = new String[] { "name1",
+			"name2", "company", "street", "country", "plz", "city", "comments",
+			"workplace", "sallaryLong", "code", "contactPerson", "contactType",
+			"contactReason", "lastContact", "skills", "gulpID", "code",
+			"kreditorNr", "debitorNr", "titel", "nationalitaet" };
 
-    private static final String[] ORDERBYPROPERTIES = new String[] { "name1", "name2" };
+	private static final String[] ORDERBYPROPERTIES = new String[] { "name1",
+			"name2" };
 
-    @Override
-    protected Freelancer createNew() {
-        return new Freelancer();
-    }
+	@Override
+	protected Freelancer createNew() {
+		return new Freelancer();
+	}
 
-    @Override
-    protected Class getEntityClass() {
-        return Freelancer.class;
-    }
+	@Override
+	protected Class getEntityClass() {
+		return Freelancer.class;
+	}
 
-    public ProfileSearchInfoDetail findByCode(final String aCode, final ProfileSearchRequest request) {
-        return (ProfileSearchInfoDetail) getHibernateTemplate().execute(new HibernateCallback() {
+	public ProfileSearchInfoDetail findByCode(final String aCode,
+			final ProfileSearchRequest request) {
+		return (ProfileSearchInfoDetail) getHibernateTemplate().execute(
+				new HibernateCallback() {
 
-            public Object doInHibernate(Session aSession) throws SQLException {
+					public Object doInHibernate(Session aSession)
+							throws SQLException {
 
-                SimpleDateFormat theFormat = new SimpleDateFormat("dd.MM.yyyy");
-                String theQueryString = "select item.name1, item.name2, item.availabilityAsDate, item.id , item.sallaryLong, item.country, item.plz from Freelancer item where item.code = :code ";
-                if (request != null) {
-                    Long theSallaryStart = request.getStundensatzVon();
-                    if (theSallaryStart != null) {
-                        theQueryString += "and item.sallaryLong >= " + theSallaryStart;
-                    }
+						String theQueryString = "select item.name1, item.name2, item.availabilityAsDate, item.id , item.sallaryLong, item.country, item.plz from Freelancer item where item.code = :code ";
+						if (request != null) {
+							Long theSallaryStart = request.getStundensatzVon();
+							if (theSallaryStart != null) {
+								theQueryString += "and item.sallaryLong >= "
+										+ theSallaryStart;
+							}
 
-                    Long theSallaryEnd = request.getStundensatzBis();
-                    if (theSallaryEnd != null) {
-                        theQueryString += "and item.sallaryLong <= " + theSallaryEnd;
-                    }
+							Long theSallaryEnd = request.getStundensatzBis();
+							if (theSallaryEnd != null) {
+								theQueryString += "and item.sallaryLong <= "
+										+ theSallaryEnd;
+							}
 
-                    String thePlz = request.getPlz();
-                    if (!StringUtils.isEmpty(thePlz)) {
-                        theQueryString += "and item.plz like '" + thePlz + "'";
-                    }
+							String thePlz = request.getPlz();
+							if (!StringUtils.isEmpty(thePlz)) {
+								theQueryString += "and item.plz like '"
+										+ thePlz + "'";
+							}
 
-                }
-                Query theQuery = aSession.createQuery(theQueryString);
-                theQuery.setString("code", aCode);
-                Iterator theIterator = theQuery.list().iterator();
-                if (theIterator.hasNext()) {
-                    Object[] theRow = (Object[]) theIterator.next();
+						}
+						Query theQuery = aSession.createQuery(theQueryString);
+						theQuery.setString("code", aCode);
+						Iterator theIterator = theQuery.list().iterator();
+						if (theIterator.hasNext()) {
+							Object[] theRow = (Object[]) theIterator.next();
 
-                    ProfileSearchInfoDetail theDetail = new ProfileSearchInfoDetail();
-                    theDetail.setName1((String) theRow[0]);
-                    theDetail.setName2((String) theRow[1]);
+							ProfileSearchInfoDetail theDetail = new ProfileSearchInfoDetail();
+							theDetail.setName1((String) theRow[0]);
+							theDetail.setName2((String) theRow[1]);
 
-                    theDetail.setAvailability((Date) theRow[2]);
-                    theDetail.setId((Long) theRow[3]);
-                    theDetail.setStundensatz((Long) theRow[4]);
+							theDetail.setAvailability((Date) theRow[2]);
+							theDetail.setId((Long) theRow[3]);
+							theDetail.setStundensatz((Long) theRow[4]);
 
-                    String theCountry = (String) theRow[5];
-                    String thePlz = (String) theRow[6];
+							String theCountry = (String) theRow[5];
+							String thePlz = (String) theRow[6];
 
-                    Query theContactQuery = aSession
-                            .createQuery("select c from Freelancer item inner join item.contacts as c where item.code = :code");
-                    theContactQuery.setString("code", aCode);
-                    theDetail.getContacts().addAll(theContactQuery.list());
+							Query theContactQuery = aSession
+									.createQuery("select c from Freelancer item inner join item.contacts as c where item.code = :code");
+							theContactQuery.setString("code", aCode);
+							theDetail.getContacts().addAll(
+									theContactQuery.list());
 
-                    if (!StringUtils.isEmpty(theCountry)) {
-                        if (StringUtils.isEmpty(thePlz)) {
-                            thePlz = theCountry;
-                        } else {
-                            thePlz = theCountry + thePlz;
-                        }
-                    }
-                    theDetail.setPlz(thePlz);
+							if (!StringUtils.isEmpty(theCountry)) {
+								if (StringUtils.isEmpty(thePlz)) {
+									thePlz = theCountry;
+								} else {
+									thePlz = theCountry + thePlz;
+								}
+							}
+							theDetail.setPlz(thePlz);
 
-                    return theDetail;
-                }
+							return theDetail;
+						}
 
-                return null;
-            }
+						return null;
+					}
 
-        });
-    }
+				});
+	}
 
-    public List<GenericSearchResult> performQBESearch(Freelancer aObject, int aMaxSearchResult) {
+	public List<GenericSearchResult> performQBESearch(Freelancer aObject,
+			int aMaxSearchResult) {
 
-        return performQBESearch(aObject, DISPLAYPROPERTIES, SEARCHPROPERTIES, ORDERBYPROPERTIES, MATCH_LIKE,
-                aMaxSearchResult);
-    }
+		return performQBESearch(aObject, DISPLAYPROPERTIES, SEARCHPROPERTIES,
+				ORDERBYPROPERTIES, MATCH_LIKE, aMaxSearchResult);
+	}
 
-    public List<String> getCodeSuggestions(final String aSuggest) {
-        return (List<String>) getHibernateTemplate().execute(new HibernateCallback() {
+	public List<String> getCodeSuggestions(final String aSuggest) {
+		return (List<String>) getHibernateTemplate().execute(
+				new HibernateCallback() {
 
-            public Object doInHibernate(Session aSession) throws SQLException {
-                List<String> theResult = new Vector<String>();
+					public Object doInHibernate(Session aSession)
+							throws SQLException {
+						List<String> theResult = new Vector<String>();
 
-                Query theQuery = aSession.createQuery("select item.code from Freelancer item where item.code like '"
-                        + aSuggest.trim() + "%') order by item.code");
-                for (Iterator theIterator = theQuery.iterate(); theIterator.hasNext();) {
-                    String theCode = (String) theIterator.next();
-                    if (!theResult.contains(theCode)) {
-                        theResult.add(theCode);
-                    }
-                }
+						Query theQuery = aSession
+								.createQuery("select item.code from Freelancer item where item.code like '"
+										+ aSuggest.trim()
+										+ "%') order by item.code");
+						for (Iterator theIterator = theQuery.iterate(); theIterator
+								.hasNext();) {
+							String theCode = (String) theIterator.next();
+							if (!theResult.contains(theCode)) {
+								theResult.add(theCode);
+							}
+						}
 
-                return theResult;
-            }
+						return theResult;
+					}
 
-        });
-    }
+				});
+	}
 
-    public Freelancer findByCodeReal(final String aCode) {
-        return (Freelancer) getHibernateTemplate().execute(new HibernateCallback() {
+	public Freelancer findByCodeReal(final String aCode) {
+		return (Freelancer) getHibernateTemplate().execute(
+				new HibernateCallback() {
 
-            public Object doInHibernate(Session aSession) {
-                Query theQuery = aSession.createQuery("from Freelancer item where item.code = :code");
-                theQuery.setString("code", aCode);
-                for (Iterator theIt = theQuery.iterate(); theIt.hasNext();) {
-                    return theIt.next();
-                }
-                return null;
-            }
+					public Object doInHibernate(Session aSession) {
+						Query theQuery = aSession
+								.createQuery("from Freelancer item where item.code = :code");
+						theQuery.setString("code", aCode);
+						for (Iterator theIt = theQuery.iterate(); theIt
+								.hasNext();) {
+							return theIt.next();
+						}
+						return null;
+					}
 
-        });
-    }
+				});
+	}
 
-    public Collection<GenericSearchResult> performSearchByContact(String aContact, ContactType aContactType, int aMax) {
-        return performSearchByContact(aContact, aContactType, DISPLAYPROPERTIES, ORDERBYPROPERTIES, aMax);
-    }
+	public Collection<GenericSearchResult> performSearchByContact(
+			String aContact, ContactType aContactType, int aMax) {
+		return performSearchByContact(aContact, aContactType,
+				DISPLAYPROPERTIES, ORDERBYPROPERTIES, aMax);
+	}
 }

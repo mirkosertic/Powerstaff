@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.hibernate.Query;
@@ -34,255 +35,283 @@ import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dao.NavigatingDAO;
 import de.powerstaff.business.service.RecordInfo;
 
-public abstract class NavigatingDAOHibernateImpl<T extends Entity> extends GenericDaoHibernateImpl implements
-        NavigatingDAO<T> {
+public abstract class NavigatingDAOHibernateImpl<T extends Entity> extends
+		GenericDaoHibernateImpl implements NavigatingDAO<T> {
 
-    protected static final int MATCH_LIKE = 1;
+	protected static final int MATCH_LIKE = 1;
 
-    protected static final int MATCH_EXACT = 2;
+	protected static final int MATCH_EXACT = 2;
 
-    protected abstract T createNew();
+	protected abstract T createNew();
 
-    protected abstract Class getEntityClass();
+	protected abstract Class getEntityClass();
 
-    public List<GenericSearchResult> performQBESearch(final Entity aObject, final String[] aProperties,
-            final String[] aSearchProperties, final String[] aOrderByProperties, final int aMatchMode,
-            final int aMaxSearchResult) {
+	public List<GenericSearchResult> performQBESearch(final Entity aObject,
+			final String[] aProperties, final String[] aSearchProperties,
+			final String[] aOrderByProperties, final int aMatchMode,
+			final int aMaxSearchResult) {
 
-        final Class aType = aObject.getClass();
-        return (List) getHibernateTemplate().execute(new HibernateCallback() {
+		final Class aType = aObject.getClass();
+		return (List) getHibernateTemplate().execute(new HibernateCallback() {
 
-            public Object doInHibernate(Session aSession) throws SQLException {
+			public Object doInHibernate(Session aSession) throws SQLException {
 
-                List<GenericSearchResult> theResult = new ArrayList<GenericSearchResult>();
+				List<GenericSearchResult> theResult = new ArrayList<GenericSearchResult>();
 
-                String theQueryString = "select item.id";
-                for (String aProperty : aProperties) {
-                    if (!aProperty.startsWith("+")) {
-                        theQueryString += " ,item." + aProperty;
-                    } else {
-                        theQueryString += " ,j_" + aProperty.substring(1).toLowerCase();
-                    }
-                }
-                theQueryString += " from " + aType.getName() + " item ";
-                for (String aProperty : aProperties) {
-                    if (aProperty.startsWith("+")) {
-                        String theRealName = aProperty.substring(1);
-                        theQueryString += " left outer join item." + theRealName + " as j_" + theRealName.toLowerCase();
-                    }
-                }
+				String theQueryString = "select item.id";
+				for (String aProperty : aProperties) {
+					if (!aProperty.startsWith("+")) {
+						theQueryString += " ,item." + aProperty;
+					} else {
+						theQueryString += " ,j_"
+								+ aProperty.substring(1).toLowerCase();
+					}
+				}
+				theQueryString += " from " + aType.getName() + " item ";
+				for (String aProperty : aProperties) {
+					if (aProperty.startsWith("+")) {
+						String theRealName = aProperty.substring(1);
+						theQueryString += " left outer join item."
+								+ theRealName + " as j_"
+								+ theRealName.toLowerCase();
+					}
+				}
 
-                HashMap<String, Object> theParams = new HashMap<String, Object>();
+				HashMap<String, Object> theParams = new HashMap<String, Object>();
 
-                boolean theFirst = true;
-                for (int i = 0; i < aSearchProperties.length; i++) {
-                    String thePropertyName = aSearchProperties[i];
-                    Object theValue = null;
-                    try {
-                        theValue = PropertyUtils.getProperty(aObject, thePropertyName);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                    if ((theValue != null) && (!"".equals(theValue))) {
-                        if (theFirst) {
-                            theQueryString += " where ";
-                        }
-                        if (!theFirst) {
-                            theQueryString += " and ";
-                        }
+				boolean theFirst = true;
+				for (int i = 0; i < aSearchProperties.length; i++) {
+					String thePropertyName = aSearchProperties[i];
+					Object theValue = null;
+					try {
+						theValue = PropertyUtils.getProperty(aObject,
+								thePropertyName);
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+					if ((theValue != null) && (!"".equals(theValue))) {
+						if (theFirst) {
+							theQueryString += " where ";
+						}
+						if (!theFirst) {
+							theQueryString += " and ";
+						}
 
-                        if (theValue instanceof String) {
-                            String theStringValue = (String) theValue;
-                            if (!theStringValue.contains("%")) {
-                                if (aMatchMode == MATCH_LIKE) {
-                                    theQueryString += "lower(item." + thePropertyName + ") like :" + thePropertyName;
-                                    theParams.put(thePropertyName, "%" + theStringValue.toLowerCase() + "%");
-                                } else {
-                                    theQueryString += "lower(item." + thePropertyName + ") = :" + thePropertyName;
-                                    theParams.put(thePropertyName, theStringValue.toLowerCase());
-                                }
-                            } else {
-                                theQueryString += "lower(item." + thePropertyName + ") like :" + thePropertyName;
-                                theParams.put(thePropertyName, theStringValue.toLowerCase());
-                            }
-                        } else {
-                            theQueryString += "item." + thePropertyName + " = :" + thePropertyName;
-                            theParams.put(thePropertyName, theValue);
-                        }
+						if (theValue instanceof String) {
+							String theStringValue = (String) theValue;
+							if (!theStringValue.contains("%")) {
+								if (aMatchMode == MATCH_LIKE) {
+									theQueryString += "lower(item."
+											+ thePropertyName + ") like :"
+											+ thePropertyName;
+									theParams.put(thePropertyName, "%"
+											+ theStringValue.toLowerCase()
+											+ "%");
+								} else {
+									theQueryString += "lower(item."
+											+ thePropertyName + ") = :"
+											+ thePropertyName;
+									theParams.put(thePropertyName,
+											theStringValue.toLowerCase());
+								}
+							} else {
+								theQueryString += "lower(item."
+										+ thePropertyName + ") like :"
+										+ thePropertyName;
+								theParams.put(thePropertyName, theStringValue
+										.toLowerCase());
+							}
+						} else {
+							theQueryString += "item." + thePropertyName
+									+ " = :" + thePropertyName;
+							theParams.put(thePropertyName, theValue);
+						}
 
-                        theFirst = false;
-                    }
-                }
+						theFirst = false;
+					}
+				}
 
-                if ((aOrderByProperties != null) && (aOrderByProperties.length > 0)) {
-                    theQueryString += " order by ";
-                    for (int i = 0; i < aOrderByProperties.length; i++) {
-                        String propertyName = aOrderByProperties[i];
-                        if (i > 0) {
-                            theQueryString += ",";
-                        }
-                        theQueryString += " item." + propertyName;
-                    }
-                }
+				if ((aOrderByProperties != null)
+						&& (aOrderByProperties.length > 0)) {
+					theQueryString += " order by ";
+					for (int i = 0; i < aOrderByProperties.length; i++) {
+						String propertyName = aOrderByProperties[i];
+						if (i > 0) {
+							theQueryString += ",";
+						}
+						theQueryString += " item." + propertyName;
+					}
+				}
 
-                Query theQuery = aSession.createQuery(theQueryString);
-                for (String theKey : theParams.keySet()) {
-                    Object theValue = theParams.get(theKey);
-                    theQuery.setParameter(theKey, theValue);
-                }
-                theQuery.setMaxResults(aMaxSearchResult);
-                for (Iterator it = theQuery.list().iterator(); it.hasNext();) {
-                    Object[] theRow = (Object[]) it.next();
-                    GenericSearchResult theRowObject = new GenericSearchResult();
-                    theRowObject.put(GenericSearchResult.OBJECT_ID_KEY, theRow[0]);
-                    for (int i = 0; i < aProperties.length; i++) {
-                        String thePropertyName = aProperties[i];
-                        if (thePropertyName.startsWith("+")) {
-                            thePropertyName = thePropertyName.substring(1);
-                        }
-                        theRowObject.put(thePropertyName, theRow[i + 1]);
-                    }
-                    theResult.add(theRowObject);
-                }
+				Query theQuery = aSession.createQuery(theQueryString);
+				for (Map.Entry<String, Object> theEntry : theParams.entrySet()) {
+					Object theValue = theParams.get(theEntry.getKey());
+					theQuery.setParameter(theEntry.getKey(), theValue);
+				}
+				theQuery.setMaxResults(aMaxSearchResult);
+				for (Iterator it = theQuery.list().iterator(); it.hasNext();) {
+					Object[] theRow = (Object[]) it.next();
+					GenericSearchResult theRowObject = new GenericSearchResult();
+					theRowObject.put(GenericSearchResult.OBJECT_ID_KEY,
+							theRow[0]);
+					for (int i = 0; i < aProperties.length; i++) {
+						String thePropertyName = aProperties[i];
+						if (thePropertyName.startsWith("+")) {
+							thePropertyName = thePropertyName.substring(1);
+						}
+						theRowObject.put(thePropertyName, theRow[i + 1]);
+					}
+					theResult.add(theRowObject);
+				}
 
-                return theResult;
-            }
+				return theResult;
+			}
 
-        });
-    }
+		});
+	}
 
-    public T findById(Long aId) {
-        return (T) getHibernateTemplate().get(getEntityClass(), aId);
-    }
+	public T findById(Long aId) {
+		return (T) getHibernateTemplate().get(getEntityClass(), aId);
+	}
 
-    public T findFirst() {
+	public T findFirst() {
 
-        final String theTypeName = getEntityClass().getName();
+		final String theTypeName = getEntityClass().getName();
 
-        return (T) getHibernateTemplate().execute(new HibernateCallback() {
+		return (T) getHibernateTemplate().execute(new HibernateCallback() {
 
-            public Object doInHibernate(Session aSession) throws SQLException {
-                Iterator resultIterator = aSession.createQuery(
-                        "from " + theTypeName + " i where i.id = (select min(id) from " + theTypeName + ")").list()
-                        .iterator();
-                if (resultIterator.hasNext()) {
-                    return resultIterator.next();
-                }
+			public Object doInHibernate(Session aSession) throws SQLException {
+				Iterator resultIterator = aSession.createQuery(
+						"from " + theTypeName
+								+ " i where i.id = (select min(id) from "
+								+ theTypeName + ")").list().iterator();
+				if (resultIterator.hasNext()) {
+					return resultIterator.next();
+				}
 
-                return createNew();
-            }
-        });
-    }
+				return createNew();
+			}
+		});
+	}
 
-    public T findLast() {
+	public T findLast() {
 
-        final String theTypeName = getEntityClass().getName();
+		final String theTypeName = getEntityClass().getName();
 
-        return (T) getHibernateTemplate().execute(new HibernateCallback() {
+		return (T) getHibernateTemplate().execute(new HibernateCallback() {
 
-            public Object doInHibernate(Session aSession) throws SQLException {
-                Iterator resultIterator = aSession.createQuery(
-                        "from " + theTypeName + " i where i.id = (select max(id) from " + theTypeName + ")").list()
-                        .iterator();
-                if (resultIterator.hasNext()) {
-                    return resultIterator.next();
-                }
+			public Object doInHibernate(Session aSession) throws SQLException {
+				Iterator resultIterator = aSession.createQuery(
+						"from " + theTypeName
+								+ " i where i.id = (select max(id) from "
+								+ theTypeName + ")").list().iterator();
+				if (resultIterator.hasNext()) {
+					return resultIterator.next();
+				}
 
-                return createNew();
-            }
-        });
-    }
+				return createNew();
+			}
+		});
+	}
 
-    public T findNext(final T aObject) {
+	public T findNext(final T aObject) {
 
-        final String theTypeName = getEntityClass().getName();
+		final String theTypeName = getEntityClass().getName();
 
-        if ((aObject == null) || (aObject.getId() == null)) {
-            return findLast();
-        }
+		if ((aObject == null) || (aObject.getId() == null)) {
+			return findLast();
+		}
 
-        return (T) getHibernateTemplate().execute(new HibernateCallback() {
+		return (T) getHibernateTemplate().execute(new HibernateCallback() {
 
-            public Object doInHibernate(Session aSession) throws SQLException {
-                Query theQuery = aSession.createQuery("from " + theTypeName + " i where i.id = (select min(j.id) from "
-                        + theTypeName + " j where j.id > :currentID)");
-                theQuery.setLong("currentID", aObject.getId());
-                Iterator resultIterator = theQuery.list().iterator();
-                if (resultIterator.hasNext()) {
-                    return resultIterator.next();
-                }
+			public Object doInHibernate(Session aSession) throws SQLException {
+				Query theQuery = aSession.createQuery("from " + theTypeName
+						+ " i where i.id = (select min(j.id) from "
+						+ theTypeName + " j where j.id > :currentID)");
+				theQuery.setLong("currentID", aObject.getId());
+				Iterator resultIterator = theQuery.list().iterator();
+				if (resultIterator.hasNext()) {
+					return resultIterator.next();
+				}
 
-                return findLast();
-            }
-        });
-    }
+				return findLast();
+			}
+		});
+	}
 
-    public T findPrior(final T aObject) {
+	public T findPrior(final T aObject) {
 
-        final String theTypeName = getEntityClass().getName();
+		final String theTypeName = getEntityClass().getName();
 
-        if ((aObject == null) || (aObject.getId() == null)) {
-            return findFirst();
-        }
+		if ((aObject == null) || (aObject.getId() == null)) {
+			return findFirst();
+		}
 
-        return (T) getHibernateTemplate().execute(new HibernateCallback() {
+		return (T) getHibernateTemplate().execute(new HibernateCallback() {
 
-            public Object doInHibernate(Session aSession) throws SQLException {
-                Query theQuery = aSession.createQuery("from " + theTypeName + " i where i.id = (select max(j.id) from "
-                        + theTypeName + " j where j.id < :currentID)");
-                theQuery.setLong("currentID", aObject.getId());
-                Iterator resultIterator = theQuery.list().iterator();
-                if (resultIterator.hasNext()) {
-                    return resultIterator.next();
-                }
+			public Object doInHibernate(Session aSession) throws SQLException {
+				Query theQuery = aSession.createQuery("from " + theTypeName
+						+ " i where i.id = (select max(j.id) from "
+						+ theTypeName + " j where j.id < :currentID)");
+				theQuery.setLong("currentID", aObject.getId());
+				Iterator resultIterator = theQuery.list().iterator();
+				if (resultIterator.hasNext()) {
+					return resultIterator.next();
+				}
 
-                return findFirst();
-            }
-        });
-    }
+				return findFirst();
+			}
+		});
+	}
 
-    public RecordInfo getRecordInfo(final T aObject) {
+	public RecordInfo getRecordInfo(final T aObject) {
 
-        final String theTypeName = getEntityClass().getName();
+		final String theTypeName = getEntityClass().getName();
 
-        return (RecordInfo) getHibernateTemplate().execute(new HibernateCallback() {
+		return (RecordInfo) getHibernateTemplate().execute(
+				new HibernateCallback() {
 
-            public Object doInHibernate(Session aSession) {
-                RecordInfo theInfo = new RecordInfo();
+					public Object doInHibernate(Session aSession) {
+						RecordInfo theInfo = new RecordInfo();
 
-                Query theQuery = aSession.createQuery("select count(item.id) from " + theTypeName + " item");
-                theInfo.setCount((Long) theQuery.uniqueResult());
+						Query theQuery = aSession
+								.createQuery("select count(item.id) from "
+										+ theTypeName + " item");
+						theInfo.setCount((Long) theQuery.uniqueResult());
 
-                if (aObject.getId() != null) {
-                    theQuery = aSession.createQuery("select count(item.id) from " + theTypeName
-                            + " item where item.id<= :number");
-                    theQuery.setLong("number", aObject.getId());
-                    theInfo.setNumber((Long) theQuery.uniqueResult());
-                }
+						if (aObject.getId() != null) {
+							theQuery = aSession
+									.createQuery("select count(item.id) from "
+											+ theTypeName
+											+ " item where item.id<= :number");
+							theQuery.setLong("number", aObject.getId());
+							theInfo.setNumber((Long) theQuery.uniqueResult());
+						}
 
-                return theInfo;
-            }
-        });
-    }
+						return theInfo;
+					}
+				});
+	}
 
-    public T findByRecordNumber(final Long aNumber) {
-        if (aNumber == null) {
-            return findFirst();
-        }
+	public T findByRecordNumber(final Long aNumber) {
+		if (aNumber == null) {
+			return findFirst();
+		}
 
-        return (T) getHibernateTemplate().execute(new HibernateCallback() {
+		return (T) getHibernateTemplate().execute(new HibernateCallback() {
 
-            public Object doInHibernate(Session aSession) {
-                Query theQuery = aSession.createQuery("from " + getEntityClass().getName());
-                theQuery.setFirstResult(aNumber.intValue() - 1);
-                theQuery.setMaxResults(1);
-                Iterator theIt = theQuery.iterate();
-                if (theIt.hasNext()) {
-                    return theIt.next();
-                }
-                return findFirst();
-            }
+			public Object doInHibernate(Session aSession) {
+				Query theQuery = aSession.createQuery("from "
+						+ getEntityClass().getName());
+				theQuery.setFirstResult(aNumber.intValue() - 1);
+				theQuery.setMaxResults(1);
+				Iterator theIt = theQuery.iterate();
+				if (theIt.hasNext()) {
+					return theIt.next();
+				}
+				return findFirst();
+			}
 
-        });
-    }
+		});
+	}
 }

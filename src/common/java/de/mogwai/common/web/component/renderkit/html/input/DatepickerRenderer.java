@@ -46,170 +46,179 @@ import de.mogwai.common.web.utils.JSFJavaScriptUtilities;
  */
 public class DatepickerRenderer extends BaseInputRenderer {
 
-    private static final String DATE_FORMAT_RESOURCE_NAME = "global.dateformat.short";
+	private static final String DATE_FORMAT_RESOURCE_NAME = "global.dateformat.short";
 
-    private static final String VALIDATION_ERROR = "validator.invaliddate";
+	private static final String VALIDATION_ERROR = "validator.invaliddate";
 
-    private static final String ENABLED_CLASS = "w8em divider-dot format-d-m-y no-transparency mogwaiDatePicker";
+	private static final String ENABLED_CLASS = "w8em divider-dot format-d-m-y no-transparency mogwaiDatePicker";
 
-    private static final String DISABLED_CLASS = "mogwaiDatePickerDisabled";
+	private static final String DISABLED_CLASS = "mogwaiDatePickerDisabled";
 
-    public DatepickerRenderer() {
-    }
+	public DatepickerRenderer() {
+	}
 
-    @Override
-    protected String getType(BaseInputComponent aComponent) {
-        return "text";
-    }
+	@Override
+	protected String getType(BaseInputComponent aComponent) {
+		return "text";
+	}
 
-    @Override
-    public void encodeBegin(FacesContext aContext, UIComponent aComponent) throws IOException {
+	@Override
+	public void encodeBegin(FacesContext aContext, UIComponent aComponent)
+			throws IOException {
 
-        ResponseWriter theWriter = aContext.getResponseWriter();
+		ResponseWriter theWriter = aContext.getResponseWriter();
 
-        DatepickerComponent theComponent = (DatepickerComponent) aComponent;
-        String theValue;
-        if (theComponent.isValid()) {
-            ResourceBundle theBundle = ResourceBundleManager.getBundle();
-            SimpleDateFormat theFormat = new SimpleDateFormat(theBundle.getString(DATE_FORMAT_RESOURCE_NAME));
+		DatepickerComponent theComponent = (DatepickerComponent) aComponent;
+		String theValue;
+		if (theComponent.isValid()) {
+			ResourceBundle theBundle = ResourceBundleManager.getBundle();
+			SimpleDateFormat theFormat = new SimpleDateFormat(theBundle
+					.getString(DATE_FORMAT_RESOURCE_NAME));
 
-            Object theObjectValue = ModalComponentUtils.getCurrentComponentValue(theComponent);
+			Object theObjectValue = ModalComponentUtils
+					.getCurrentComponentValue(theComponent);
 
-            Converter theConverter = theComponent.getConverter();
-            if (theConverter == null) {
+			Converter theConverter = theComponent.getConverter();
+			if (theConverter == null) {
 
-                // Wenn es keinen Converter gibt, so wird der Datentyp Date
-                // angenommen
-                if (theObjectValue instanceof Date) {
-                    Date theDateValue = (Date) theObjectValue;
+				// Wenn es keinen Converter gibt, so wird der Datentyp Date
+				// angenommen
+				if (theObjectValue instanceof Date) {
+					Date theDateValue = (Date) theObjectValue;
 
-                    if (theDateValue == null) {
-                        theValue = "";
-                    } else {
-                        theValue = theFormat.format(theDateValue);
-                    }
-                } else {
-                    theValue = (String) theObjectValue;
-                }
-            } else {
-                // Wenn es einen Converter gibt, so soll dieser den Job
-                // übernehmen
-                theValue = theConverter.getAsString(aContext, aComponent, theObjectValue);
-            }
+					theValue = theFormat.format(theDateValue);
+				} else {
+					theValue = (String) theObjectValue;
+				}
+			} else {
+				// Wenn es einen Converter gibt, so soll dieser den Job
+				// übernehmen
+				theValue = theConverter.getAsString(aContext, aComponent,
+						theObjectValue);
+			}
 
-        } else {
-            theValue = (String) theComponent.getSubmittedValue();
-        }
+		} else {
+			theValue = (String) theComponent.getSubmittedValue();
+		}
 
-        String theClientID = aComponent.getClientId(aContext);
+		String theClientID = aComponent.getClientId(aContext);
 
-        theWriter.startElement("div", aComponent);
+		theWriter.startElement("div", aComponent);
 
-        HashMap<String, String> theStyles = new HashMap<String, String>();
-        theStyles.put("position", "relative");
+		HashMap<String, String> theStyles = new HashMap<String, String>();
+		theStyles.put("position", "relative");
 
-        setWidthIfInGridBag(theWriter, aComponent, theStyles);
+		setWidthIfInGridBag(theWriter, aComponent, theStyles);
 
-        theWriter.startElement("input", aComponent);
-        theWriter.writeAttribute("type", getType(theComponent), null);
-        theWriter.writeAttribute("name", theClientID, null);
-        theWriter.writeAttribute("id", theClientID, null);
-        theWriter.writeAttribute("size", "10", null);
-        theWriter.writeAttribute("value", theValue, "value");
-        theWriter.writeAttribute("class", getDisplayClass(theComponent), null);
+		theWriter.startElement("input", aComponent);
+		theWriter.writeAttribute("type", getType(theComponent), null);
+		theWriter.writeAttribute("name", theClientID, null);
+		theWriter.writeAttribute("id", theClientID, null);
+		theWriter.writeAttribute("size", "10", null);
+		theWriter.writeAttribute("value", theValue, "value");
+		theWriter.writeAttribute("class", getDisplayClass(theComponent), null);
 
-        encodeSubmitEvent(aContext, theWriter, theComponent);
+		encodeSubmitEvent(aContext, theWriter, theComponent);
 
-        encodeDisabledAttributes(theComponent, theWriter);
+		encodeDisabledAttributes(theComponent, theWriter);
 
-        theWriter.endElement("input");
+		theWriter.endElement("input");
 
-        renderInvalidMarker(theWriter, theComponent);
+		renderInvalidMarker(theWriter, theComponent);
 
-        theWriter.endElement("div");
+		theWriter.endElement("div");
 
-        JSFJavaScriptUtilities theUtilities = JSFJavaScriptFactory.getJavaScriptUtilities(aContext);
-        theUtilities.encodeSpecialFormSubmitHTML(aContext, theComponent, theWriter);
-    }
+		JSFJavaScriptUtilities theUtilities = JSFJavaScriptFactory
+				.getJavaScriptUtilities(aContext);
+		theUtilities.encodeSpecialFormSubmitHTML(aContext, theComponent,
+				theWriter);
+	}
 
-    @Override
-    public void encodeEnd(FacesContext aContext, UIComponent aComponent) throws IOException {
-    }
+	@Override
+	public void encodeEnd(FacesContext aContext, UIComponent aComponent)
+			throws IOException {
+	}
 
-    @Override
-    public void decode(FacesContext aContext, UIComponent aComponent) {
+	@Override
+	public void decode(FacesContext aContext, UIComponent aComponent) {
 
-        DatepickerComponent theBaseComponent = (DatepickerComponent) aComponent;
+		DatepickerComponent theBaseComponent = (DatepickerComponent) aComponent;
 
-        if (isDisabledOrReadOnly(theBaseComponent)) {
-            return;
-        }
+		if (isDisabledOrReadOnly(theBaseComponent)) {
+			return;
+		}
 
-        Map theParamMap = aContext.getExternalContext().getRequestParameterMap();
-        String theClientId = aComponent.getClientId(aContext);
+		Map theParamMap = aContext.getExternalContext()
+				.getRequestParameterMap();
+		String theClientId = aComponent.getClientId(aContext);
 
-        if (theParamMap.containsKey(theClientId)) {
+		if (theParamMap.containsKey(theClientId)) {
 
-            // Force a revalidation here !
-            theBaseComponent.setValid(true);
+			// Force a revalidation here !
+			theBaseComponent.setValid(true);
 
-            String theValue = (String) theParamMap.get(theClientId);
-            theBaseComponent.setSubmittedValue(theValue);
-        }
+			String theValue = (String) theParamMap.get(theClientId);
+			theBaseComponent.setSubmittedValue(theValue);
+		}
 
-        super.decode(aContext, aComponent);
-    }
+		super.decode(aContext, aComponent);
+	}
 
-    @Override
-    public Object getConvertedValue(FacesContext context, UIComponent component, Object submittedValue) {
+	@Override
+	public Object getConvertedValue(FacesContext context,
+			UIComponent component, Object submittedValue) {
 
-        DatepickerComponent theComponent = (DatepickerComponent) component;
-        ResourceBundle theBundle = ResourceBundleManager.getBundle();
+		DatepickerComponent theComponent = (DatepickerComponent) component;
+		ResourceBundle theBundle = ResourceBundleManager.getBundle();
 
-        try {
+		try {
 
-            if ((submittedValue == null) || ("".equals(submittedValue))) {
-                return null;
-            }
+			if ((submittedValue == null) || ("".equals(submittedValue))) {
+				return null;
+			}
 
-            Converter theConverter = theComponent.getConverter();
-            if (theConverter == null) {
+			Converter theConverter = theComponent.getConverter();
+			if (theConverter == null) {
 
-                // Wenn es keinen Converter gibt, so wird angenommen, es wird
-                // ein String in ein Date konvertiert
-                SimpleDateFormat theFormat = new SimpleDateFormat(theBundle.getString(DATE_FORMAT_RESOURCE_NAME));
+				// Wenn es keinen Converter gibt, so wird angenommen, es wird
+				// ein String in ein Date konvertiert
+				SimpleDateFormat theFormat = new SimpleDateFormat(theBundle
+						.getString(DATE_FORMAT_RESOURCE_NAME));
 
-                theComponent.setValid(true);
-                return theFormat.parseObject((String) submittedValue);
+				theComponent.setValid(true);
+				return theFormat.parseObject((String) submittedValue);
 
-            } else {
+			} else {
 
-                // Sonst übernimmt der Converter den Job
-                theComponent.setValid(true);
-                return theConverter.getAsObject(context, component, (String) submittedValue);
-            }
+				// Sonst übernimmt der Converter den Job
+				theComponent.setValid(true);
+				return theConverter.getAsObject(context, component,
+						(String) submittedValue);
+			}
 
-        } catch (Exception e) {
+		} catch (Exception e) {
 
-            theComponent.setValid(false);
+			theComponent.setValid(false);
 
-            String theLabel = theComponent.getDescribingLabel();
+			String theLabel = theComponent.getDescribingLabel();
 
-            String theMessage = MessageFormat.format(theBundle.getString(VALIDATION_ERROR), new Object[] { theLabel });
-            FacesMessage theFacesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, theMessage, "");
+			String theMessage = MessageFormat.format(theBundle
+					.getString(VALIDATION_ERROR), new Object[] { theLabel });
+			FacesMessage theFacesMessage = new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, theMessage, "");
 
-            throw new ConverterException(theFacesMessage);
+			throw new ConverterException(theFacesMessage);
 
-        }
-    }
+		}
+	}
 
-    @Override
-    protected String getDisabledClass() {
-        return DISABLED_CLASS;
-    }
+	@Override
+	protected String getDisabledClass() {
+		return DISABLED_CLASS;
+	}
 
-    @Override
-    protected String getEnabledClass() {
-        return ENABLED_CLASS;
-    }
+	@Override
+	protected String getEnabledClass() {
+		return ENABLED_CLASS;
+	}
 }
