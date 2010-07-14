@@ -19,6 +19,7 @@ package de.mogwai.common.web.component.renderkit.html;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.faces.FactoryFinder;
 import javax.faces.component.UIComponent;
@@ -45,228 +46,247 @@ import de.mogwai.common.web.component.layout.GridbagLayoutCellComponent;
  */
 public class BaseRenderer extends Renderer {
 
-    protected boolean rendersChildren;
+	protected boolean rendersChildren;
 
-    protected BaseRenderer() {
-        rendersChildren = true;
-    }
+	protected BaseRenderer() {
+		rendersChildren = true;
+	}
 
-    @Override
-    public boolean getRendersChildren() {
-        return rendersChildren;
-    }
+	@Override
+	public boolean getRendersChildren() {
+		return rendersChildren;
+	}
 
-    @Override
-    public Object getConvertedValue(FacesContext aContext, UIComponent aComponent, Object aSubmittedValue) {
+	@Override
+	public Object getConvertedValue(FacesContext aContext,
+			UIComponent aComponent, Object aSubmittedValue) {
 
-        if ((aComponent instanceof UIOutput) && (aSubmittedValue instanceof String)) {
-            Converter theConverter = ((UIOutput) aComponent).getConverter();
-            if (theConverter != null) {
-                return theConverter.getAsObject(aContext, aComponent, (String) aSubmittedValue);
-            }
-        }
+		if ((aComponent instanceof UIOutput)
+				&& (aSubmittedValue instanceof String)) {
+			Converter theConverter = ((UIOutput) aComponent).getConverter();
+			if (theConverter != null) {
+				return theConverter.getAsObject(aContext, aComponent,
+						(String) aSubmittedValue);
+			}
+		}
 
-        return aSubmittedValue;
-    }
+		return aSubmittedValue;
+	}
 
-    /**
-     * Ermittlung der String - Darstellung für einen Wert.
-     * 
-     * Falls die Komponente einen Converter hat, wird der Converter benutzt, um
-     * die String - Darstellung zu generieren.
-     * 
-     * Falls der Wert ein StringPresentationProvider ist, so wird dieses
-     * Interface benutzt, um die String - Darstellung zu generieren.
-     * 
-     * Wenn der Wert null ist, wird ein Leerstring zurückgegeben.
-     * 
-     * In allen anderen Fällen wird die toString() Methode benutzt.
-     * 
-     * @param aContext
-     *                der Context
-     * @param aComponent
-     *                die Komponente
-     * @param aValue
-     *                der Wert
-     * @return die String - Version
-     */
-    protected String getStringValue(FacesContext aContext, UIOutput aComponent, Object aValue) {
+	/**
+	 * Ermittlung der String - Darstellung für einen Wert.
+	 * 
+	 * Falls die Komponente einen Converter hat, wird der Converter benutzt, um
+	 * die String - Darstellung zu generieren.
+	 * 
+	 * Falls der Wert ein StringPresentationProvider ist, so wird dieses
+	 * Interface benutzt, um die String - Darstellung zu generieren.
+	 * 
+	 * Wenn der Wert null ist, wird ein Leerstring zurückgegeben.
+	 * 
+	 * In allen anderen Fällen wird die toString() Methode benutzt.
+	 * 
+	 * @param aContext
+	 *            der Context
+	 * @param aComponent
+	 *            die Komponente
+	 * @param aValue
+	 *            der Wert
+	 * @return die String - Version
+	 */
+	protected String getStringValue(FacesContext aContext, UIOutput aComponent,
+			Object aValue) {
 
-        Converter theConverter = (aComponent).getConverter();
-        if (theConverter != null) {
-            return theConverter.getAsString(aContext, aComponent, aValue);
-        }
+		Converter theConverter = (aComponent).getConverter();
+		if (theConverter != null) {
+			return theConverter.getAsString(aContext, aComponent, aValue);
+		}
 
-        if (aValue instanceof StringPresentationProvider) {
-            return ((StringPresentationProvider) aValue).getStringPresentation();
-        }
+		if (aValue instanceof StringPresentationProvider) {
+			return ((StringPresentationProvider) aValue)
+					.getStringPresentation();
+		}
 
-        if (aValue == null) {
-            return "";
-        }
+		if (aValue == null) {
+			return "";
+		}
 
-        return aValue.toString();
-    }
+		return aValue.toString();
+	}
 
-    /**
-     * Render a component to its string representation.
-     * 
-     * @param aContext
-     *                der Kontext
-     * @param aComponent
-     *                die Komponente
-     * @return the generated HTML - Data for the component.
-     * @throws IOException
-     *                 wird im Falle eines Fehlers geworfen
-     */
-    protected String renderComponentToString(FacesContext aContext, UIComponent aComponent) throws IOException {
+	/**
+	 * Render a component to its string representation.
+	 * 
+	 * @param aContext
+	 *            der Kontext
+	 * @param aComponent
+	 *            die Komponente
+	 * @return the generated HTML - Data for the component.
+	 * @throws IOException
+	 *             wird im Falle eines Fehlers geworfen
+	 */
+	protected String renderComponentToString(FacesContext aContext,
+			UIComponent aComponent) throws IOException {
 
-        ResponseWriter theOldWriter = aContext.getResponseWriter();
+		ResponseWriter theOldWriter = aContext.getResponseWriter();
 
-        StringWriter theWriter = new StringWriter();
-        ResponseWriter theTempWriter = theOldWriter.cloneWithWriter(theWriter);
+		StringWriter theWriter = new StringWriter();
+		ResponseWriter theTempWriter = theOldWriter.cloneWithWriter(theWriter);
 
-        aContext.setResponseWriter(theTempWriter);
+		aContext.setResponseWriter(theTempWriter);
 
-        RendererUtils.renderChild(aContext, aComponent);
+		RendererUtils.renderChild(aContext, aComponent);
 
-        theTempWriter.flush();
+		theTempWriter.flush();
 
-        aContext.setResponseWriter(theOldWriter);
+		aContext.setResponseWriter(theOldWriter);
 
-        return theWriter.toString();
+		return theWriter.toString();
 
-    }
+	}
 
-    protected void setWidthIfInGridBag(ResponseWriter aWriter, UIComponent aComponent,
-            HashMap<String, String> aAdditionalStyles) throws IOException {
+	protected void setWidthIfInGridBag(ResponseWriter aWriter,
+			UIComponent aComponent, HashMap<String, String> aAdditionalStyles)
+			throws IOException {
 
-        if (aComponent.getParent() instanceof GridbagLayoutCellComponent) {
-            int theWidth = ((GridbagLayoutCellComponent) aComponent.getParent()).computeWidth();
+		if (aComponent.getParent() instanceof GridbagLayoutCellComponent) {
+			int theWidth = ((GridbagLayoutCellComponent) aComponent.getParent())
+					.computeWidth();
 
-            if (aAdditionalStyles == null) {
-                aAdditionalStyles = new HashMap<String, String>();
-            }
+			if (aAdditionalStyles == null) {
+				aAdditionalStyles = new HashMap<String, String>();
+			}
 
-            aAdditionalStyles.put("width", "" + (theWidth) + "px;");
-        }
+			aAdditionalStyles.put("width", "" + (theWidth) + "px;");
+		}
 
-        if ((aAdditionalStyles != null) && (aAdditionalStyles.keySet().size() > 0)) {
+		if ((aAdditionalStyles != null)
+				&& (aAdditionalStyles.keySet().size() > 0)) {
 
-            StringBuilder theStyles = new StringBuilder();
-            for (String theKey : aAdditionalStyles.keySet()) {
-                String theValue = aAdditionalStyles.get(theKey);
+			StringBuilder theStyles = new StringBuilder();
+			for (Map.Entry<String, String> theEntry : aAdditionalStyles
+					.entrySet()) {
 
-                theStyles.append(theKey);
-                theStyles.append(":");
-                theStyles.append(theValue);
-                theStyles.append(";");
-            }
+				theStyles.append(theEntry.getKey());
+				theStyles.append(":");
+				theStyles.append(theEntry.getValue());
+				theStyles.append(";");
+			}
 
-            aWriter.writeAttribute("style", theStyles, null);
-        }
+			aWriter.writeAttribute("style", theStyles, null);
+		}
 
-    }
+	}
 
-    protected HashMap<String, String> getHeightIfInGridGag(UIComponent aComponent) {
+	protected HashMap<String, String> getHeightIfInGridGag(
+			UIComponent aComponent) {
 
-        if (aComponent.getParent() instanceof GridbagLayoutCellComponent) {
-            int theHeight = ((GridbagLayoutCellComponent) aComponent.getParent()).computeHeight();
+		if (aComponent.getParent() instanceof GridbagLayoutCellComponent) {
+			int theHeight = ((GridbagLayoutCellComponent) aComponent
+					.getParent()).computeHeight();
 
-            HashMap<String, String> theResult = new HashMap<String, String>();
-            theResult.put("height", theHeight + "px");
+			HashMap<String, String> theResult = new HashMap<String, String>();
+			theResult.put("height", theHeight + "px");
 
-            return theResult;
-        }
+			return theResult;
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    protected void setHeightIfInGridBag(ResponseWriter aWriter, UIComponent aComponent) throws IOException {
+	protected void setHeightIfInGridBag(ResponseWriter aWriter,
+			UIComponent aComponent) throws IOException {
 
-        if (aComponent.getParent() instanceof GridbagLayoutCellComponent) {
-            int theHeight = ((GridbagLayoutCellComponent) aComponent.getParent()).computeHeight();
+		if (aComponent.getParent() instanceof GridbagLayoutCellComponent) {
+			int theHeight = ((GridbagLayoutCellComponent) aComponent
+					.getParent()).computeHeight();
 
-            aWriter.writeAttribute("style", "height:" + (theHeight) + "px;", null);
-        }
-    }
+			aWriter.writeAttribute("style", "height:" + (theHeight) + "px;",
+					null);
+		}
+	}
 
-    protected String computeAbsoluteURL(FacesContext aContext, String aUrlRelativeToContext) {
+	protected String computeAbsoluteURL(FacesContext aContext,
+			String aUrlRelativeToContext) {
 
-        ExternalContext theExternalContext = aContext.getExternalContext();
-        HttpServletRequest theRequest = (HttpServletRequest) theExternalContext.getRequest();
+		ExternalContext theExternalContext = aContext.getExternalContext();
+		HttpServletRequest theRequest = (HttpServletRequest) theExternalContext
+				.getRequest();
 
-        String theRequestURI = theRequest.getRequestURI();
-        String theContextPath = theRequest.getContextPath();
+		String theRequestURI = theRequest.getRequestURI();
+		String theContextPath = theRequest.getContextPath();
 
-        String theApplicationURI = theRequestURI.substring(theContextPath.length());
-        if (theApplicationURI.equals("/")) {
-            theApplicationURI = "";
-        }
+		String theApplicationURI = theRequestURI.substring(theContextPath
+				.length());
+		if (theApplicationURI.equals("/")) {
+			theApplicationURI = "";
+		}
 
-        if (theApplicationURI.startsWith("/")) {
-            theApplicationURI = theApplicationURI.substring(1);
-        }
+		if (theApplicationURI.startsWith("/")) {
+			theApplicationURI = theApplicationURI.substring(1);
+		}
 
-        if (aUrlRelativeToContext.startsWith("/")) {
-            aUrlRelativeToContext = aUrlRelativeToContext.substring(1);
-        }
+		if (aUrlRelativeToContext.startsWith("/")) {
+			aUrlRelativeToContext = aUrlRelativeToContext.substring(1);
+		}
 
-        String theRealUrl = aUrlRelativeToContext;
-        int p = theApplicationURI.indexOf("/");
-        while (p >= 0) {
-            theRealUrl = "../" + theRealUrl;
-            p = theApplicationURI.indexOf("/", p + 1);
-        }
+		String theRealUrl = aUrlRelativeToContext;
+		int p = theApplicationURI.indexOf("/");
+		while (p >= 0) {
+			theRealUrl = "../" + theRealUrl;
+			p = theApplicationURI.indexOf("/", p + 1);
+		}
 
-        return theRealUrl;
-    }
+		return theRealUrl;
+	}
 
-    /**
-     * Remove any html comments from a given string.
-     * 
-     * @param aValue
-     *                the html string
-     * @return the string without comments
-     */
-    protected StringBuffer stripCommentsFromString(StringBuffer aValue) {
+	/**
+	 * Remove any html comments from a given string.
+	 * 
+	 * @param aValue
+	 *            the html string
+	 * @return the string without comments
+	 */
+	protected StringBuffer stripCommentsFromString(StringBuffer aValue) {
 
-        int p = aValue.indexOf("<!--");
-        while (p >= 0) {
-            int p2 = aValue.indexOf("-->", p);
+		int p = aValue.indexOf("<!--");
+		while (p >= 0) {
+			int p2 = aValue.indexOf("-->", p);
 
-            aValue.delete(p, p2 + 3);
+			aValue.delete(p, p2 + 3);
 
-            p = aValue.indexOf("<!--");
-        }
+			p = aValue.indexOf("<!--");
+		}
 
-        return aValue;
-    }
+		return aValue;
+	}
 
-    /**
-     * Ermittlung des Renderers für eine Komponente.
-     * 
-     * @param aContext
-     *                der Kontext
-     * @param aComponent
-     *                die Komponente
-     * @return der Renderer oder null, wenn kein Renderer gefunden wurde
-     */
-    protected Renderer getRenderer(FacesContext aContext, UIComponent aComponent) {
-        String theRenderType = aComponent.getRendererType();
-        if (theRenderType == null) {
-            return null;
-        }
+	/**
+	 * Ermittlung des Renderers für eine Komponente.
+	 * 
+	 * @param aContext
+	 *            der Kontext
+	 * @param aComponent
+	 *            die Komponente
+	 * @return der Renderer oder null, wenn kein Renderer gefunden wurde
+	 */
+	protected Renderer getRenderer(FacesContext aContext, UIComponent aComponent) {
+		String theRenderType = aComponent.getRendererType();
+		if (theRenderType == null) {
+			return null;
+		}
 
-        String theRenderKitId = aContext.getViewRoot().getRenderKitId();
-        RenderKitFactory theRenderKitFactory = (RenderKitFactory) FactoryFinder
-                .getFactory(FactoryFinder.RENDER_KIT_FACTORY);
-        RenderKit theRenderKit = theRenderKitFactory.getRenderKit(aContext, theRenderKitId);
-        return theRenderKit.getRenderer(aComponent.getFamily(), theRenderType);
-    }
+		String theRenderKitId = aContext.getViewRoot().getRenderKitId();
+		RenderKitFactory theRenderKitFactory = (RenderKitFactory) FactoryFinder
+				.getFactory(FactoryFinder.RENDER_KIT_FACTORY);
+		RenderKit theRenderKit = theRenderKitFactory.getRenderKit(aContext,
+				theRenderKitId);
+		return theRenderKit.getRenderer(aComponent.getFamily(), theRenderType);
+	}
 
-    @Override
-    public void encodeChildren(FacesContext aContext, UIComponent aComponent) throws IOException {
-        RendererUtils.renderChildren(aContext, aComponent);
-    }
+	@Override
+	public void encodeChildren(FacesContext aContext, UIComponent aComponent)
+			throws IOException {
+		RendererUtils.renderChildren(aContext, aComponent);
+	}
 }

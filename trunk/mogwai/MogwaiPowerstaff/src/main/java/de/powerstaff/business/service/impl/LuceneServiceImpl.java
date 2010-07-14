@@ -25,11 +25,12 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.LockObtainFailedException;
 
+import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.lucene.analysis.ProfileAnalyzerFactory;
 import de.powerstaff.business.service.LuceneService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 
-public class LuceneServiceImpl implements LuceneService {
+public class LuceneServiceImpl extends LogableService implements LuceneService {
 
 	private PowerstaffSystemParameterService systemParameterService;
 
@@ -52,6 +53,14 @@ public class LuceneServiceImpl implements LuceneService {
 	public synchronized IndexReader getIndexReader()
 			throws CorruptIndexException, IOException {
 		if (indexReader == null || !indexReader.isCurrent()) {
+
+			if (indexReader == null) {
+				logger.logInfo("Creating new indexreader as there is no one");
+			} else {
+				logger
+						.logInfo("Reopen existing indexreader as there are new segments");
+			}
+
 			indexReader = IndexReader.open(systemParameterService
 					.getIndexerPath());
 			indexSearcher = null;
@@ -69,23 +78,31 @@ public class LuceneServiceImpl implements LuceneService {
 	}
 
 	@Override
-	public IndexWriter getIndexWriter() throws CorruptIndexException,
-			LockObtainFailedException, IOException {
+	public synchronized IndexWriter getIndexWriter()
+			throws CorruptIndexException, LockObtainFailedException,
+			IOException {
 		if (indexWriter == null) {
+
+			String thePath = systemParameterService.getIndexerPath();
+
 			try {
 
+				logger.logInfo("Trying to append to existing index in "
+						+ thePath);
+
 				// Try to append
-				indexWriter = new IndexWriter(systemParameterService
-						.getIndexerPath(), ProfileAnalyzerFactory
+				indexWriter = new IndexWriter(thePath, ProfileAnalyzerFactory
 						.createAnalyzer(), false);
 
 			} catch (Exception ex) {
 
+				logger.logError("Error appending to index, creating a new one",
+						ex);
+
 				// Create a new index
-				indexWriter = new IndexWriter(systemParameterService
-						.getIndexerPath(), ProfileAnalyzerFactory
+				indexWriter = new IndexWriter(thePath, ProfileAnalyzerFactory
 						.createAnalyzer(), true);
-				
+
 				indexReader = null;
 				indexSearcher = null;
 			}
@@ -94,7 +111,11 @@ public class LuceneServiceImpl implements LuceneService {
 	}
 
 	@Override
-	public synchronized void shutdownIndexWriter() throws CorruptIndexException, IOException {
+	public synchronized void shutdownIndexWriter()
+			throws CorruptIndexException, IOException {
+
+		logger.logInfo("Shutting down index writer");
+
 		try {
 			indexWriter.optimize();
 		} finally {
@@ -104,12 +125,16 @@ public class LuceneServiceImpl implements LuceneService {
 	}
 
 	@Override
-	public synchronized IndexWriter createNewIndex() throws CorruptIndexException, LockObtainFailedException, IOException {
+	public synchronized IndexWriter createNewIndex()
+			throws CorruptIndexException, LockObtainFailedException,
+			IOException {
+
+		logger.logInfo("Creating new index");
+
 		// Create a new index
-		indexWriter = new IndexWriter(systemParameterService
-				.getIndexerPath(), ProfileAnalyzerFactory
-				.createAnalyzer(), true);
-		
+		indexWriter = new IndexWriter(systemParameterService.getIndexerPath(),
+				ProfileAnalyzerFactory.createAnalyzer(), true);
+
 		indexReader = null;
 		indexSearcher = null;
 

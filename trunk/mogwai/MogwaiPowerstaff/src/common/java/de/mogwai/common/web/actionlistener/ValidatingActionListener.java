@@ -47,104 +47,129 @@ import de.mogwai.common.web.utils.Validatable;
  */
 public class ValidatingActionListener extends ActionListenerImpl {
 
-    private static final Logger LOGGER = new Logger(ValidatingActionListener.class);
+	private static final Logger LOGGER = new Logger(
+			ValidatingActionListener.class);
 
-    private class ValueBindingWrapper extends ValueBindingImpl {
-        public ValueBindingWrapper(FacesContext aContext, String aExpression) {
-            super(aContext.getApplication(), aExpression);
-        }
+	private static class ValueBindingWrapper extends ValueBindingImpl {
+		public ValueBindingWrapper(FacesContext aContext, String aExpression) {
+			super(aContext.getApplication(), aExpression);
+		}
 
-        @Override
-        public Object resolveToBaseAndProperty(FacesContext facesContext) throws ELException {
-            return super.resolveToBaseAndProperty(facesContext);
-        }
-    }
+		@Override
+		public Object resolveToBaseAndProperty(FacesContext facesContext)
+				throws ELException {
+			return super.resolveToBaseAndProperty(facesContext);
+		}
+	}
 
-    @Override
-    public void processAction(ActionEvent aActionEvent) {
-        FacesContext theContext = FacesContext.getCurrentInstance();
-        Application theApplication = theContext.getApplication();
+	@Override
+	public void processAction(ActionEvent aActionEvent) {
+		FacesContext theContext = FacesContext.getCurrentInstance();
+		Application theApplication = theContext.getApplication();
 
-        ActionSource theActionSource = (ActionSource) aActionEvent.getComponent();
-        MethodBinding theMethodBinding = theActionSource.getAction();
+		ActionSource theActionSource = (ActionSource) aActionEvent
+				.getComponent();
+		MethodBinding theMethodBinding = theActionSource.getAction();
 
-        String theFromAction;
-        String theOutcome = null;
-        if (theMethodBinding == null) {
-            theFromAction = null;
-            theOutcome = null;
-        } else {
-            theFromAction = theMethodBinding.getExpressionString();
-            try {
-                // Try to guess the affected class
-                ValueBindingWrapper theWrapper = new ValueBindingWrapper(theContext, theFromAction);
-                Object[] theBaseAndProperty = (Object[]) theWrapper.resolveToBaseAndProperty(theContext);
-                Object theBase = theBaseAndProperty[0];
+		String theFromAction;
+		String theOutcome = null;
+		if (theMethodBinding == null) {
+			theFromAction = null;
+			theOutcome = null;
+		} else {
+			theFromAction = theMethodBinding.getExpressionString();
+			try {
+				// Try to guess the affected class
+				ValueBindingWrapper theWrapper = new ValueBindingWrapper(
+						theContext, theFromAction);
+				Object[] theBaseAndProperty = (Object[]) theWrapper
+						.resolveToBaseAndProperty(theContext);
+				Object theBase = theBaseAndProperty[0];
 
-                LOGGER.logDebug("Executing method " + theBaseAndProperty[1] + " on bean " + theBase);
+				LOGGER.logDebug("Executing method " + theBaseAndProperty[1]
+						+ " on bean " + theBase);
 
-                boolean theValidationResult = true;
+				boolean theValidationResult = true;
 
-                // Set the current JSF - Locale to the User - Context
-                UserContext theUserContext = UserContextHolder.getUserContext();
-                if (theUserContext != null) {
-                    theUserContext.setSessionValue(UserContext.LOCALE, theContext.getViewRoot().getLocale());
-                }
+				// Set the current JSF - Locale to the User - Context
+				UserContext theUserContext = UserContextHolder.getUserContext();
+				if (theUserContext != null) {
+					theUserContext.setSessionValue(UserContext.LOCALE,
+							theContext.getViewRoot().getLocale());
+				}
 
-                // If the target object is validatable, perform a validation
-                // But only if its not set to immediate
-                if ((theBase instanceof Validatable) && (!theActionSource.isImmediate())) {
+				// If the target object is validatable, perform a validation
+				// But only if its not set to immediate
+				if ((theBase instanceof Validatable)
+						&& (!theActionSource.isImmediate())) {
 
-                    theValidationResult = ((Validatable) theBase).validate(theContext);
+					theValidationResult = ((Validatable) theBase)
+							.validate(theContext);
 
-                    LOGGER.logDebug("Validation result is " + theValidationResult);
-                }
+					LOGGER.logDebug("Validation result is "
+							+ theValidationResult);
+				}
 
-                // Only perform the real method invocation, if the validation
-                // result is positive. Else, do nothing
-                if (theValidationResult) {
+				// Only perform the real method invocation, if the validation
+				// result is positive. Else, do nothing
+				if (theValidationResult) {
 
-                    theOutcome = (String) theMethodBinding.invoke(theContext, null);
+					theOutcome = (String) theMethodBinding.invoke(theContext,
+							null);
 
-                    // For the case that the user locale was changed, update the
-                    // locale in
-                    // the current session
-                    if (theUserContext != null) {
-                        theUserContext.setSessionValue(UserContext.LOCALE, theContext.getViewRoot().getLocale());
-                    }
+					// For the case that the user locale was changed, update the
+					// locale in
+					// the current session
+					if (theUserContext != null) {
+						theUserContext.setSessionValue(UserContext.LOCALE,
+								theContext.getViewRoot().getLocale());
+					}
 
-                    LOGGER.logDebug("Result outcome is " + theOutcome);
-                }
+					LOGGER.logDebug("Result outcome is " + theOutcome);
+				}
 
-                // Log the Messages
-                Iterator theMessagesIterator = theContext.getMessages();
-                while (theMessagesIterator.hasNext()) {
-                    FacesMessage theMessage = (FacesMessage) theMessagesIterator.next();
+				// Log the Messages
+				Iterator theMessagesIterator = theContext.getMessages();
+				while (theMessagesIterator.hasNext()) {
+					FacesMessage theMessage = (FacesMessage) theMessagesIterator
+							.next();
 
-                    LOGGER.logDebug("Message : " + theMessage.getSeverity() + " " + theMessage.getSummary());
-                }
+					LOGGER.logDebug("Message : " + theMessage.getSeverity()
+							+ " " + theMessage.getSummary());
+				}
 
-            } catch (ELException e1) {
+			} catch (ELException e1) {
 
-                throw new RuntimeException("Error on method binding expression " + theFromAction, e1);
+				throw new RuntimeException(
+						"Error on method binding expression " + theFromAction,
+						e1);
 
-            } catch (EvaluationException e) {
-                Throwable cause = e.getCause();
-                if (cause != null && cause instanceof AbortProcessingException) {
-                    throw (AbortProcessingException) cause;
-                } else {
-                    throw new FacesException("EvaluationException calling action method " + theFromAction
-                            + " of component with id " + aActionEvent.getComponent().getClientId(theContext), e
-                            .getCause());
-                }
-            } catch (RuntimeException e) {
-                throw new FacesException("RuntimeException calling action method " + theFromAction
-                        + " of component with id " + aActionEvent.getComponent().getClientId(theContext), e);
-            }
-        }
+			} catch (EvaluationException e) {
+				Throwable cause = e.getCause();
+				if (cause != null && cause instanceof AbortProcessingException) {
+					throw (AbortProcessingException) cause;
+				} else {
+					throw new FacesException(
+							"EvaluationException calling action method "
+									+ theFromAction
+									+ " of component with id "
+									+ aActionEvent.getComponent().getClientId(
+											theContext), e.getCause());
+				}
+			} catch (RuntimeException e) {
+				throw new FacesException(
+						"RuntimeException calling action method "
+								+ theFromAction
+								+ " of component with id "
+								+ aActionEvent.getComponent().getClientId(
+										theContext), e);
+			}
+		}
 
-        NavigationHandler theNavigationHandler = theApplication.getNavigationHandler();
-        theNavigationHandler.handleNavigation(theContext, theFromAction, theOutcome);
-        theContext.renderResponse();
-    }
+		NavigationHandler theNavigationHandler = theApplication
+				.getNavigationHandler();
+		theNavigationHandler.handleNavigation(theContext, theFromAction,
+				theOutcome);
+		theContext.renderResponse();
+	}
 }

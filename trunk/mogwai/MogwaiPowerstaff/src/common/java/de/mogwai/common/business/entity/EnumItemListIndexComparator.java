@@ -16,7 +16,10 @@
  */
 package de.mogwai.common.business.entity;
 
+import java.io.Serializable;
 import java.util.Comparator;
+
+import org.apache.poi.hssf.record.formula.functions.T;
 
 /**
  * Comparator für Sortierung nach listIndex von EnumItems.
@@ -24,24 +27,25 @@ import java.util.Comparator;
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:16:39 $
  */
-public class EnumItemListIndexComparator implements Comparator<EnumItem> {
-    /**
-     * @see java.util.Comparator#compare(T, T)
-     */
-    public int compare(EnumItem enumItem1, EnumItem enumItem2) {
+public class EnumItemListIndexComparator implements Comparator<EnumItem>,
+		Serializable {
+	/**
+	 * @see java.util.Comparator#compare(T, T)
+	 */
+	public int compare(EnumItem enumItem1, EnumItem enumItem2) {
 
-        Integer listIndex1 = enumItem1.getListIndex();
-        Integer listIndex2 = enumItem2.getListIndex();
+		Integer listIndex1 = enumItem1.getListIndex();
+		Integer listIndex2 = enumItem2.getListIndex();
 
-        if (listIndex1 == null && listIndex2 == null) {
-            return 0;
-        } else if (listIndex1 == null) {
-            return 1;
-        } else if (listIndex2 == null) {
-            return -1;
-        }
+		if (listIndex1 == null && listIndex2 == null) {
+			return 0;
+		} else if (listIndex1 == null) {
+			return 1;
+		} else if (listIndex2 == null) {
+			return -1;
+		}
 
-        return listIndex1.compareTo(listIndex2);
-    }
+		return listIndex1.compareTo(listIndex2);
+	}
 
 }
