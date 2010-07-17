@@ -62,7 +62,7 @@
 
 	
 	<logger name="de.powerstaff.business.service.impl.ProfileIndexerServiceImpl">
-		<level value="DEBUG"/>
+		<level value="INFO"/>
 	</logger>	
 	<root>
 		<priority value="INFO" />
