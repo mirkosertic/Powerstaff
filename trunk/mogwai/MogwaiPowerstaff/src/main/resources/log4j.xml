@@ -56,14 +56,6 @@
 		</layout>
 	</appender>
 	
-	<logger name="org.springframework.transaction">
-		<level value="INFO"/>
-	</logger>
-
-	
-	<logger name="de.powerstaff.business.service.impl.ProfileIndexerServiceImpl">
-		<level value="INFO"/>
-	</logger>	
 	<root>
 		<priority value="INFO" />
 		<appender-ref ref="file_debug" />
