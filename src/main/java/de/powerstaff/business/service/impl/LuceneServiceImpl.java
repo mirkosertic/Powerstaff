@@ -23,121 +23,144 @@ import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.LockObtainFailedException;
+import org.apache.lucene.store.SimpleFSLockFactory;
+import org.springframework.beans.factory.InitializingBean;
 
 import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.lucene.analysis.ProfileAnalyzerFactory;
 import de.powerstaff.business.service.LuceneService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 
-public class LuceneServiceImpl extends LogableService implements LuceneService {
+public class LuceneServiceImpl extends LogableService implements LuceneService , InitializingBean {
 
-	private PowerstaffSystemParameterService systemParameterService;
+    private PowerstaffSystemParameterService systemParameterService;
 
-	private IndexReader indexReader;
+    private IndexReader indexReader;
 
-	private IndexSearcher indexSearcher;
+    private IndexSearcher indexSearcher;
 
-	private IndexWriter indexWriter;
+    private IndexWriter indexWriter;
+    
+    private Directory directory;
 
-	public PowerstaffSystemParameterService getSystemParameterService() {
-		return systemParameterService;
-	}
+    public PowerstaffSystemParameterService getSystemParameterService() {
+        return systemParameterService;
+    }
 
-	public void setSystemParameterService(
-			PowerstaffSystemParameterService systemParameterService) {
-		this.systemParameterService = systemParameterService;
-	}
+    public void setSystemParameterService(PowerstaffSystemParameterService systemParameterService) {
+        this.systemParameterService = systemParameterService;
+    }
+    
+    @Override
+    public synchronized IndexReader getIndexReader() throws CorruptIndexException, IOException {
+        if (indexReader == null || !indexReader.isCurrent()) {
 
-	@Override
-	public synchronized IndexReader getIndexReader()
-			throws CorruptIndexException, IOException {
-		if (indexReader == null || !indexReader.isCurrent()) {
+            if (indexReader == null) {
+                logger.logInfo("Creating new indexreader as there is no one");
+            } else {
+                logger.logInfo("Reopen existing indexreader as there are new segments");
+            }
 
-			if (indexReader == null) {
-				logger.logInfo("Creating new indexreader as there is no one");
-			} else {
-				logger
-						.logInfo("Reopen existing indexreader as there are new segments");
-			}
+            indexReader = IndexReader.open(directory);
+            indexSearcher = null;
+        }
+        return indexReader;
+    }
 
-			indexReader = IndexReader.open(systemParameterService
-					.getIndexerPath());
-			indexSearcher = null;
-		}
-		return indexReader;
-	}
+    @Override
+    public synchronized IndexSearcher getIndexSearcher() throws CorruptIndexException, IOException {
+        if (indexSearcher == null) {
+            indexSearcher = new IndexSearcher(getIndexReader());
+        }
+        return indexSearcher;
+    }
 
-	@Override
-	public synchronized IndexSearcher getIndexSearcher()
-			throws CorruptIndexException, IOException {
-		if (indexSearcher == null) {
-			indexSearcher = new IndexSearcher(getIndexReader());
-		}
-		return indexSearcher;
-	}
+    @Override
+    public synchronized IndexWriter getIndexWriter() throws CorruptIndexException, LockObtainFailedException,
+            IOException {
+        if (indexWriter == null) {
 
-	@Override
-	public synchronized IndexWriter getIndexWriter()
-			throws CorruptIndexException, LockObtainFailedException,
-			IOException {
-		if (indexWriter == null) {
+            try {
+                
+                logger.logInfo("Trying to append to existing index in " + directory);
 
-			String thePath = systemParameterService.getIndexerPath();
+                // Try to append
+                indexWriter = new IndexWriter(directory, ProfileAnalyzerFactory.createAnalyzer(), false);
+                
+            } catch (LockObtainFailedException e) {
 
-			try {
+                logger.logInfo("Index seems to be locked, trying to unlock");
+                
+                try {
+                    
+                    IndexWriter.unlock(directory);
+                    
+                    indexWriter = new IndexWriter(directory, ProfileAnalyzerFactory.createAnalyzer(), false);                    
+                    
+                    logger.logInfo("Index unlocked and writer created for exing index");
+                    
+                } catch (Exception e1) {
 
-				logger.logInfo("Trying to append to existing index in "
-						+ thePath);
+                    logger.logError("Error on unlocking existing index, will create a new one", e1);
 
-				// Try to append
-				indexWriter = new IndexWriter(thePath, ProfileAnalyzerFactory
-						.createAnalyzer(), false);
+                    // Create a new index
+                    indexWriter = new IndexWriter(directory, ProfileAnalyzerFactory.createAnalyzer(), true);
 
-			} catch (Exception ex) {
+                    indexReader = null;
+                    indexSearcher = null;
+                }
 
-				logger.logError("Error appending to index, creating a new one",
-						ex);
+            } catch (Exception ex) {
 
-				// Create a new index
-				indexWriter = new IndexWriter(thePath, ProfileAnalyzerFactory
-						.createAnalyzer(), true);
+                logger.logError("Error appending to index, creating a new one", ex);
 
-				indexReader = null;
-				indexSearcher = null;
-			}
-		}
-		return indexWriter;
-	}
+                // Create a new index
+                indexWriter = new IndexWriter(directory, ProfileAnalyzerFactory.createAnalyzer(), true);
 
-	@Override
-	public synchronized void shutdownIndexWriter()
-			throws CorruptIndexException, IOException {
+                indexReader = null;
+                indexSearcher = null;
+            }
+        }
+        return indexWriter;
+    }
 
-		logger.logInfo("Shutting down index writer");
+    @Override
+    public synchronized void shutdownIndexWriter() throws CorruptIndexException, IOException {
 
-		try {
-			indexWriter.optimize();
-		} finally {
-			indexWriter.close();
-			indexWriter = null;
-		}
-	}
+        logger.logInfo("Shutting down index writer");
 
-	@Override
-	public synchronized IndexWriter createNewIndex()
-			throws CorruptIndexException, LockObtainFailedException,
-			IOException {
+        try {
+            indexWriter.optimize();
+        } finally {
+            indexWriter.close();
+            indexWriter = null;
+            
+            indexReader = null;
+            indexSearcher = null;
+        }
+    }
 
-		logger.logInfo("Creating new index");
+    @Override
+    public synchronized IndexWriter createNewIndex() throws CorruptIndexException, LockObtainFailedException,
+            IOException {
 
-		// Create a new index
-		indexWriter = new IndexWriter(systemParameterService.getIndexerPath(),
-				ProfileAnalyzerFactory.createAnalyzer(), true);
+        logger.logInfo("Creating new index");
 
-		indexReader = null;
-		indexSearcher = null;
+        // Create a new index
+        indexWriter = new IndexWriter(directory, ProfileAnalyzerFactory.createAnalyzer(),
+                true);
 
-		return indexWriter;
-	}
+        indexReader = null;
+        indexSearcher = null;
+
+        return indexWriter;
+    }
+
+    public void afterPropertiesSet() throws Exception {
+        String theFile = systemParameterService.getIndexerPath();
+        directory = FSDirectory.getDirectory(theFile);
+    }
 }
