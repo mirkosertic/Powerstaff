@@ -17,9 +17,6 @@
  */
 package de.powerstaff.business.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.mogwai.common.business.entity.AuditableEntity;
 import de.powerstaff.business.dto.SearchRequestSupport;
 
@@ -28,101 +25,101 @@ import de.powerstaff.business.dto.SearchRequestSupport;
  * 
  * @author msertic
  */
-public class SavedProfileSearch extends AuditableEntity implements SearchRequestSupport {
-    
-    private User user;
-    
-    private String profileContent;
-    
-    private String plz;
-    
-    private Long stundensatzVon;
-    
-    private Long stundensatzBis;
+public class SavedProfileSearch extends AuditableEntity implements
+		SearchRequestSupport {
 
-    private List<SavedProfileSearchEntry> entries = new ArrayList<SavedProfileSearchEntry>();
+	private User user;
 
-    /**
-     * @return the user
-     */
-    public User getUser() {
-        return user;
-    }
+	private String profileContent;
 
-    /**
-     * @param user the user to set
-     */
-    public void setUser(User user) {
-        this.user = user;
-    }
+	private String plz;
 
-    /**
-     * @return the profileContent
-     */
-    public String getProfileContent() {
-        return profileContent;
-    }
+	private Long stundensatzVon;
 
-    /**
-     * @param profileContent the profileContent to set
-     */
-    public void setProfileContent(String profileContent) {
-        this.profileContent = profileContent;
-    }
+	private Long stundensatzBis;
 
-    /**
-     * @return the plz
-     */
-    public String getPlz() {
-        return plz;
-    }
+	private String sortierung;
 
-    /**
-     * @param plz the plz to set
-     */
-    public void setPlz(String plz) {
-        this.plz = plz;
-    }
+	/**
+	 * @return the user
+	 */
+	public User getUser() {
+		return user;
+	}
 
-    /**
-     * @return the stundensatzVon
-     */
-    public Long getStundensatzVon() {
-        return stundensatzVon;
-    }
+	/**
+	 * @param user
+	 *            the user to set
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-    /**
-     * @param stundensatzVon the stundensatzVon to set
-     */
-    public void setStundensatzVon(Long stundensatzVon) {
-        this.stundensatzVon = stundensatzVon;
-    }
+	/**
+	 * @return the profileContent
+	 */
+	public String getProfileContent() {
+		return profileContent;
+	}
 
-    /**
-     * @return the stundensatzBis
-     */
-    public Long getStundensatzBis() {
-        return stundensatzBis;
-    }
+	/**
+	 * @param profileContent
+	 *            the profileContent to set
+	 */
+	public void setProfileContent(String profileContent) {
+		this.profileContent = profileContent;
+	}
 
-    /**
-     * @param stundensatzBis the stundensatzBis to set
-     */
-    public void setStundensatzBis(Long stundensatzBis) {
-        this.stundensatzBis = stundensatzBis;
-    }
+	/**
+	 * @return the plz
+	 */
+	public String getPlz() {
+		return plz;
+	}
 
-    /**
-     * @return the entries
-     */
-    public List<SavedProfileSearchEntry> getEntries() {
-        return entries;
-    }
+	/**
+	 * @param plz
+	 *            the plz to set
+	 */
+	public void setPlz(String plz) {
+		this.plz = plz;
+	}
 
-    /**
-     * @param entries the entries to set
-     */
-    public void setEntries(List<SavedProfileSearchEntry> entries) {
-        this.entries = entries;
-    }
+	/**
+	 * @return the stundensatzVon
+	 */
+	public Long getStundensatzVon() {
+		return stundensatzVon;
+	}
+
+	/**
+	 * @param stundensatzVon
+	 *            the stundensatzVon to set
+	 */
+	public void setStundensatzVon(Long stundensatzVon) {
+		this.stundensatzVon = stundensatzVon;
+	}
+
+	/**
+	 * @return the stundensatzBis
+	 */
+	public Long getStundensatzBis() {
+		return stundensatzBis;
+	}
+
+	/**
+	 * @param stundensatzBis
+	 *            the stundensatzBis to set
+	 */
+	public void setStundensatzBis(Long stundensatzBis) {
+		this.stundensatzBis = stundensatzBis;
+	}
+
+	public String getSortierung() {
+		return sortierung;
+	}
+
+	public void setSortierung(String sortierung) {
+		this.sortierung = sortierung;
+	}
 }

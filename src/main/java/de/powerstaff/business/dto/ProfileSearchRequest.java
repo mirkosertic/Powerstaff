@@ -21,73 +21,89 @@ import org.apache.commons.lang.StringUtils;
 
 import de.mogwai.common.business.dto.DataTransferObject;
 
-public class ProfileSearchRequest extends DataTransferObject implements SearchRequestSupport {
+public class ProfileSearchRequest extends DataTransferObject implements
+		SearchRequestSupport {
 
-    private String profileContent;
-    
-    private String plz;
-    
-    private Long stundensatzVon;
-    
-    private Long stundensatzBis;
+	private String profileContent = "";
 
-    /**
-     * @return the profileContent
-     */
-    public String getProfileContent() {
-        return profileContent;
-    }
+	private String plz;
 
-    /**
-     * @param profileContent the profileContent to set
-     */
-    public void setProfileContent(String profileContent) {
-        this.profileContent = profileContent;
-    }
-    
-    public boolean isExtendedSearch() {
-        return (!StringUtils.isEmpty(plz)) || (stundensatzVon != null) || (stundensatzBis != null);
-    }
+	private Long stundensatzVon;
 
-    /**
-     * @return the plz
-     */
-    public String getPlz() {
-        return plz;
-    }
+	private Long stundensatzBis;
 
-    /**
-     * @param plz the plz to set
-     */
-    public void setPlz(String plz) {
-        this.plz = plz;
-    }
+	private String sortierung;
 
-    /**
-     * @return the stundensatzVon
-     */
-    public Long getStundensatzVon() {
-        return stundensatzVon;
-    }
+	/**
+	 * @return the profileContent
+	 */
+	public String getProfileContent() {
+		return profileContent;
+	}
 
-    /**
-     * @param stundensatzVon the stundensatzVon to set
-     */
-    public void setStundensatzVon(Long stundensatzVon) {
-        this.stundensatzVon = stundensatzVon;
-    }
+	/**
+	 * @param profileContent
+	 *            the profileContent to set
+	 */
+	public void setProfileContent(String profileContent) {
+		this.profileContent = profileContent;
+	}
 
-    /**
-     * @return the stundensatzBis
-     */
-    public Long getStundensatzBis() {
-        return stundensatzBis;
-    }
+	public boolean isExtendedSearch() {
+		return (!StringUtils.isEmpty(plz)) || (stundensatzVon != null)
+				|| (stundensatzBis != null);
+	}
 
-    /**
-     * @param stundensatzBis the stundensatzBis to set
-     */
-    public void setStundensatzBis(Long stundensatzBis) {
-        this.stundensatzBis = stundensatzBis;
-    }
+	/**
+	 * @return the plz
+	 */
+	public String getPlz() {
+		return plz;
+	}
+
+	/**
+	 * @param plz
+	 *            the plz to set
+	 */
+	public void setPlz(String plz) {
+		this.plz = plz;
+	}
+
+	/**
+	 * @return the stundensatzVon
+	 */
+	public Long getStundensatzVon() {
+		return stundensatzVon;
+	}
+
+	/**
+	 * @param stundensatzVon
+	 *            the stundensatzVon to set
+	 */
+	public void setStundensatzVon(Long stundensatzVon) {
+		this.stundensatzVon = stundensatzVon;
+	}
+
+	/**
+	 * @return the stundensatzBis
+	 */
+	public Long getStundensatzBis() {
+		return stundensatzBis;
+	}
+
+	/**
+	 * @param stundensatzBis
+	 *            the stundensatzBis to set
+	 */
+	public void setStundensatzBis(Long stundensatzBis) {
+		this.stundensatzBis = stundensatzBis;
+	}
+
+	public String getSortierung() {
+		return sortierung;
+	}
+
+	public void setSortierung(String sortierung) {
+		this.sortierung = sortierung;
+	}
 }

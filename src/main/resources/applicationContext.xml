@@ -147,9 +147,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 					classpath:/de/powerstaff/business/entity/SavedProfileSearch.hbm.xml
 				</value>
 				<value>
-					classpath:/de/powerstaff/business/entity/SavedProfileSearchEntry.hbm.xml
-				</value>
-				<value>
 					classpath:/de/powerstaff/business/entity/HistoryType.hbm.xml
 				</value>
 			</list>
@@ -283,7 +280,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
 	<bean id="freelancerService" class="de.powerstaff.business.service.impl.FreelancerServiceImpl">
 		<property name="freelancerDAO" ref="freelancerDAO"/>
-		<property name="systemParameterService" ref="systemParameterService"/>		
+		<property name="systemParameterService" ref="systemParameterService"/>
+		<property name="profileIndexerService" ref="profileIndexerService"/>
 	</bean>
 
 	<bean id="statistikService" class="de.powerstaff.business.service.impl.StatistikServiceImpl">
@@ -315,6 +313,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		<property name="serviceLogger" ref="serviceLoggerService" />
 		<property name="systemParameterService"	ref="systemParameterService" />
 		<property name="luceneService" ref="luceneService"/>
+		<property name="freelancerDAO" ref="freelancerDAO"/>
 		<property name="readerFactory">
 			<bean class="de.powerstaff.business.service.impl.reader.DocumentReaderFactory">
 				<property name="systemParameterService" ref="systemParameterService"/>

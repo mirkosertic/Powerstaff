@@ -19,15 +19,23 @@ package de.powerstaff.business.dto;
 
 public interface SearchRequestSupport {
 
-    String getProfileContent();
-    void setProfileContent(String aContent);
-    
-    String getPlz();
-    void setPlz(String plz);
+	String getProfileContent();
 
-    Long getStundensatzVon();
-    void setStundensatzVon(Long stundensatzVon);
+	void setProfileContent(String aContent);
 
-    Long getStundensatzBis();
-    void setStundensatzBis(Long stundensatzBis);
+	String getPlz();
+
+	void setPlz(String plz);
+
+	Long getStundensatzVon();
+
+	void setStundensatzVon(Long stundensatzVon);
+
+	Long getStundensatzBis();
+
+	void setStundensatzBis(Long stundensatzBis);
+
+	String getSortierung();
+
+	void setSortierung(String sortierung);
 }

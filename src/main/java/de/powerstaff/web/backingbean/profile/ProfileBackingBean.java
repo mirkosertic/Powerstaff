@@ -18,212 +18,218 @@
 package de.powerstaff.web.backingbean.profile;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 import javax.faces.component.StateHolder;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.beanutils.BeanComparator;
-import org.apache.commons.collections.comparators.TransformingComparator;
-
 import de.mogwai.common.command.EditEntityCommand;
 import de.mogwai.common.command.ResetNavigationInfo;
 import de.mogwai.common.logging.Logger;
-import de.mogwai.common.utils.DateComparator;
-import de.mogwai.common.utils.LongComparator;
-import de.mogwai.common.utils.NullsafeComparator;
-import de.mogwai.common.utils.StringLowerCaseTransformer;
 import de.mogwai.common.web.backingbean.WrappingBackingBean;
-import de.mogwai.common.web.utils.CollectionDataModel;
 import de.mogwai.common.web.utils.JSFMessageUtils;
+import de.powerstaff.business.dto.DataPage;
 import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.dto.ProfileSearchInfoDetail;
-import de.powerstaff.business.dto.ProfileSearchResult;
+import de.powerstaff.business.dto.ProfileSearchRequest;
+import de.powerstaff.business.service.ProfileIndexerService;
 import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.web.backingbean.MessageConstants;
 import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
+import de.powerstaff.web.utils.PagedListDataModel;
 
-public class ProfileBackingBean extends WrappingBackingBean<ProfileBackingBeanDataModel> implements MessageConstants,
-        StateHolder {
+public class ProfileBackingBean extends
+		WrappingBackingBean<ProfileBackingBeanDataModel> implements
+		MessageConstants, StateHolder {
 
-    private static final Logger LOGGER = new Logger(ProfileBackingBean.class);
+	private static final Logger LOGGER = new Logger(ProfileBackingBean.class);
 
-    private ProfileSearchService profileSearchService;
+	private ProfileSearchService profileSearchService;
 
-    private static final Comparator STRINGCOMPARATOR = new NullsafeComparator(new TransformingComparator(
-            new StringLowerCaseTransformer()));
+	@Override
+	protected ProfileBackingBeanDataModel createDataModel() {
+		return new ProfileBackingBeanDataModel();
+	}
 
-    private static final Comparator LONGCOMPARATOR = new NullsafeComparator(LongComparator.INSTANCE);
+	@Override
+	public void init() {
+		super.init();
+		if (getData() != null) {
+			getData().setViewRoot(null);
+		} else {
+			setData(createDataModel());
+		}
+	}
 
-    private static final Comparator DATECOMPARATOR = new NullsafeComparator(DateComparator.INSTANCE);
-    
-    private static class NullSafeSearchEntryComparator implements Comparator<ProfileSearchEntry> {
-        
-        private Comparator delegate;
-        
-        public NullSafeSearchEntryComparator(Comparator aDelegate) {
-            delegate = aDelegate;
-        }
+	public ProfileSearchService getProfileSearchService() {
+		return profileSearchService;
+	}
 
-        public int compare(ProfileSearchEntry o1, ProfileSearchEntry o2) {
-            ProfileSearchInfoDetail theF1 = o1.getFreelancer();
-            ProfileSearchInfoDetail theF2 = o2.getFreelancer();
-            
-            if (theF1 == null && theF2 == null) {
-                return 0;
-            }
-            if (theF1 == null && theF2 != null) {
-                return -1;
-            }
-            if (theF1 != null && theF2 == null) {
-                return 1;
-            }
+	public void setProfileSearchService(
+			ProfileSearchService profileSearchService) {
+		this.profileSearchService = profileSearchService;
+	}
 
-            return delegate.compare(o1, o2);            
-        }
-        
-    }
+	private void initializeDataModel() {
+		getData().setSearchResult(
+				new PagedListDataModel<ProfileSearchEntry>(8) {
 
-    @Override
-    protected ProfileBackingBeanDataModel createDataModel() {
-        return new ProfileBackingBeanDataModel();
-    }
+					@Override
+					public DataPage<ProfileSearchEntry> fetchPage(int startRow,
+							int pageSize) {
+						try {
+							return profileSearchService.findProfileDataPage(
+									getData().getSearchRequest(), startRow,
+									pageSize);
+						} catch (Exception e) {
+							JSFMessageUtils
+									.addGlobalErrorMessage(
+											MSG_FEHLERBEIDERPROFILSUCHE, e
+													.getMessage());
+							LOGGER.logError("Fehler bei Profilsuche", e);
+						}
+						return new DataPage<ProfileSearchEntry>(0, 0,
+								new ArrayList<ProfileSearchEntry>());
+					}
+				});
+	}
 
-    @Override
-    public void init() {
-        super.init();
-        if (getData() != null) {
-            getData().setViewRoot(null);
-        } else {
-            setData(createDataModel());
-        }
-    }
+	@Override
+	public void resetNavigation(ResetNavigationInfo aInfo) {
+		super.resetNavigation(aInfo);
 
-    /**
-     * @return the profileSearchService
-     */
-    public ProfileSearchService getProfileSearchService() {
-        return profileSearchService;
-    }
+		try {
+			ProfileSearchRequest theResult = profileSearchService
+					.getLastSearchRequest();
+			if (theResult != null) {
+				getData().setSearchRequest(theResult);
 
-    /**
-     * @param profileSearchService
-     *                the profileSearchService to set
-     */
-    public void setProfileSearchService(ProfileSearchService profileSearchService) {
-        this.profileSearchService = profileSearchService;
-    }
+				initializeDataModel();
 
-    @Override
-    public void resetNavigation(ResetNavigationInfo aInfo) {
-        super.resetNavigation(aInfo);
+				int theTotalResult = getData().getSearchResult().getRowCount();
 
-        try {
-            ProfileSearchResult theResult = profileSearchService.getLastSearchResult();
-            if (theResult != null) {
-                getData().setSearchRequest(theResult.getSearchRequest());
-                getData().getSearchResult().setWrappedData(theResult.getEnties());
+				if (theTotalResult == 0) {
+					JSFMessageUtils
+							.addGlobalErrorMessage(MSG_KEINEPROFILEGEFUNDEN);
+				} else {
+					JSFMessageUtils.addGlobalInfoMessage(MSG_PROFILEGEFUNDEN,
+							"" + theTotalResult);
+				}
+			} else {
 
-                if (theResult.getEnties().size() == 0) {
-                    JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEPROFILEGEFUNDEN);
-                } else {
-                    JSFMessageUtils.addGlobalInfoMessage(MSG_PROFILEGEFUNDEN, "" + theResult.getEnties().size(), ""
-                            + theResult.getTotalFound());
-                }
-            }
-        } catch (Exception e) {
-            JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE, e.getMessage());
-            LOGGER.logError("Fehler bei Profilsuche", e);
-        }
-    }
+				getData().setSearchRequest(new ProfileSearchRequest());
 
-    public void commandSearch() {
-        try {
-            ProfileSearchResult theResult = profileSearchService.searchDocument(getData().getSearchRequest());
-            getData().getSearchResult().setWrappedData(theResult.getEnties());
+				initializeDataModel();
+			}
+		} catch (Exception e) {
+			JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE,
+					e.getMessage());
+			LOGGER.logError("Fehler bei Profilsuche", e);
+		}
+	}
 
-            if (theResult.getEnties().size() == 0) {
-                JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEPROFILEGEFUNDEN);
-            } else {
-                JSFMessageUtils.addGlobalInfoMessage(MSG_PROFILEGEFUNDEN, "" + theResult.getEnties().size(), ""
-                        + theResult.getTotalFound());
-            }
+	public void commandSearch() {
+		try {
+			profileSearchService
+					.saveSearchRequest(getData().getSearchRequest());
 
-        } catch (Exception e) {
-            JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE, e.getMessage());
-            LOGGER.logError("Fehler bei Profilsuche", e);
-        }
-    }
+			initializeDataModel();
 
-    public String commandSelectSearchResult() {
-        forceUpdateOfBean(FreelancerBackingBean.class, new EditEntityCommand<ProfileSearchInfoDetail>(
-                ((ProfileSearchEntry) getData().getSearchResult().getRowData()).getFreelancer()));
-        return "FREELANCER_STAMMDATEN";
-    }
+			int theTotalResult = getData().getSearchResult().getRowCount();
 
-    public void commandDeleteSearchEntry() {
-        ProfileSearchEntry theEntry = (ProfileSearchEntry) getData().getSearchResult().getRowData();
-        getData().getSearchResult().remove(theEntry);
+			if (theTotalResult == 0) {
+				JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEPROFILEGEFUNDEN);
+			} else {
+				JSFMessageUtils.addGlobalInfoMessage(MSG_PROFILEGEFUNDEN, ""
+						+ theTotalResult);
+			}
 
-        profileSearchService.removeSavedSearchEntry(theEntry.getSavedSearchEntry());
+		} catch (Exception e) {
+			JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE,
+					e.getMessage());
+			LOGGER.logError("Fehler bei Profilsuche", e);
+		}
+	}
 
-        JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
-    }
+	public String commandSelectSearchResult() {
+		forceUpdateOfBean(FreelancerBackingBean.class,
+				new EditEntityCommand<ProfileSearchInfoDetail>(
+						((ProfileSearchEntry) getData().getSearchResult()
+								.getRowData()).getFreelancer()));
+		return "FREELANCER_STAMMDATEN";
+	}
 
-    public boolean isTransient() {
-        return false;
-    }
+	public void commandDeleteSearchEntry() {
+		/*
+		 * ProfileSearchEntry theEntry = (ProfileSearchEntry) getData()
+		 * .getSearchResult().getRowData();
+		 * getData().getSearchResult().remove(theEntry);
+		 * 
+		 * profileSearchService.removeSavedSearchEntry(theEntry
+		 * .getSavedSearchEntry());
+		 */
 
-    public void setTransient(boolean aValue) {
-    }
+		JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
+	}
 
-    public void restoreState(FacesContext aContext, Object aValue) {
-        Object[] theData = (Object[]) aValue;
-        setData((ProfileBackingBeanDataModel) theData[0]);
-    }
+	public boolean isTransient() {
+		return false;
+	}
 
-    public Object saveState(FacesContext aContext) {
-        ArrayList theData = new ArrayList();
-        theData.add(getData());
-        return theData.toArray();
-    }
+	public void setTransient(boolean aValue) {
+	}
 
-    public void commandSortByName1() {
-        List theData = (List) getData().getSearchResult().getWrappedData();
-        Collections.sort(theData, new NullSafeSearchEntryComparator(new BeanComparator("freelancer.name1", STRINGCOMPARATOR)));
-        getData().setSearchResult(new CollectionDataModel<ProfileSearchEntry>(theData));
-    }
+	public void restoreState(FacesContext aContext, Object aValue) {
+		Object[] theData = (Object[]) aValue;
+		setData((ProfileBackingBeanDataModel) theData[0]);
+	}
 
-    public void commandSortByName2() {
-        List theData = (List) getData().getSearchResult().getWrappedData();
-        Collections.sort(theData, new NullSafeSearchEntryComparator(new BeanComparator("freelancer.name2", STRINGCOMPARATOR)));
-        getData().setSearchResult(new CollectionDataModel<ProfileSearchEntry>(theData));
-    }
+	public Object saveState(FacesContext aContext) {
+		ArrayList theData = new ArrayList();
+		theData.add(getData());
+		return theData.toArray();
+	}
 
-    public void commandSortByPLZ() {
-        List theData = (List) getData().getSearchResult().getWrappedData();
-        Collections.sort(theData, new NullSafeSearchEntryComparator(new BeanComparator("freelancer.plz", STRINGCOMPARATOR)));
-        getData().setSearchResult(new CollectionDataModel<ProfileSearchEntry>(theData));
-    }
+	public void commandSortByName1() {
+		getData().getSearchRequest().setSortierung(ProfileIndexerService.NAME1);
 
-    public void commandSortBySatz() {
-        List theData = (List) getData().getSearchResult().getWrappedData();
-        Collections.sort(theData, new NullSafeSearchEntryComparator(new BeanComparator("freelancer.stundensatz", LONGCOMPARATOR)));
-        getData().setSearchResult(new CollectionDataModel<ProfileSearchEntry>(theData));
-    }
+		profileSearchService.saveSearchRequest(getData().getSearchRequest());
+		initializeDataModel();
+	}
 
-    public void commandSortByVerf() {
-        List theData = (List) getData().getSearchResult().getWrappedData();
-        Collections.sort(theData, new NullSafeSearchEntryComparator(new BeanComparator("freelancer.availability",
-                DATECOMPARATOR)));
-        getData().setSearchResult(new CollectionDataModel<ProfileSearchEntry>(theData));
-    }
+	public void commandSortByName2() {
+		getData().getSearchRequest().setSortierung(ProfileIndexerService.NAME2);
 
-    public void commandSortByCode() {
-        List theData = (List) getData().getSearchResult().getWrappedData();
-        Collections.sort(theData, new BeanComparator("code", STRINGCOMPARATOR));
-        getData().setSearchResult(new CollectionDataModel<ProfileSearchEntry>(theData));
-    }
+		profileSearchService.saveSearchRequest(getData().getSearchRequest());
+		initializeDataModel();
+	}
+
+	public void commandSortByPLZ() {
+		getData().getSearchRequest().setSortierung(ProfileIndexerService.PLZ);
+
+		profileSearchService.saveSearchRequest(getData().getSearchRequest());
+		initializeDataModel();
+	}
+
+	public void commandSortBySatz() {
+		getData().getSearchRequest().setSortierung(
+				ProfileIndexerService.STUNDENSATZ);
+
+		profileSearchService.saveSearchRequest(getData().getSearchRequest());
+		initializeDataModel();
+	}
+
+	public void commandSortByVerf() {
+		getData().getSearchRequest().setSortierung(
+				ProfileIndexerService.VERFUEGBARKEIT);
+
+		profileSearchService.saveSearchRequest(getData().getSearchRequest());
+		initializeDataModel();
+	}
+
+	public void commandSortByCode() {
+		getData().getSearchRequest().setSortierung(ProfileIndexerService.CODE);
+
+		profileSearchService.saveSearchRequest(getData().getSearchRequest());
+		initializeDataModel();
+	}
 }

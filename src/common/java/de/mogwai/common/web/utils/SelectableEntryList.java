@@ -24,40 +24,39 @@ import java.util.Vector;
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:15:57 $
  */
-@SuppressWarnings("serial")
 public class SelectableEntryList extends CollectionDataModel<SelectableEntry> {
 
-    public SelectableEntryList() {
-        super(new Vector<SelectableEntry>());
-    }
+	public SelectableEntryList() {
+		super(new Vector<SelectableEntry>());
+	}
 
-    /**
-     * Selektieren eines bestimmten Eintrages.
-     * 
-     * @param aIndex
-     *                der Index des Eintrages
-     */
-    @SuppressWarnings("unchecked")
-    public void select(int aIndex) {
-        Vector<SelectableEntry> theEntries = (Vector<SelectableEntry>) getWrappedData();
-        for (int i = 0; i < theEntries.size(); i++) {
-            SelectableEntry theEntry = theEntries.get(i);
-            theEntry.setSelected(i == aIndex);
-        }
-    }
+	/**
+	 * Selektieren eines bestimmten Eintrages.
+	 * 
+	 * @param aIndex
+	 *            der Index des Eintrages
+	 */
+	@SuppressWarnings("unchecked")
+	public void select(int aIndex) {
+		Vector<SelectableEntry> theEntries = (Vector<SelectableEntry>) getWrappedData();
+		for (int i = 0; i < theEntries.size(); i++) {
+			SelectableEntry theEntry = theEntries.get(i);
+			theEntry.setSelected(i == aIndex);
+		}
+	}
 
-    /**
-     * Selektieren eines bestimmten Eintrages.
-     * 
-     * @param aEntry
-     *                der Eintrag
-     */
-    @SuppressWarnings("unchecked")
-    public void select(SelectableEntry aEntry) {
-        Vector<SelectableEntry> theEntries = (Vector<SelectableEntry>) getWrappedData();
-        for (int i = 0; i < theEntries.size(); i++) {
-            SelectableEntry theEntry = theEntries.get(i);
-            theEntry.setSelected(theEntry.equals(aEntry));
-        }
-    }
+	/**
+	 * Selektieren eines bestimmten Eintrages.
+	 * 
+	 * @param aEntry
+	 *            der Eintrag
+	 */
+	@SuppressWarnings("unchecked")
+	public void select(SelectableEntry aEntry) {
+		Vector<SelectableEntry> theEntries = (Vector<SelectableEntry>) getWrappedData();
+		for (int i = 0; i < theEntries.size(); i++) {
+			SelectableEntry theEntry = theEntries.get(i);
+			theEntry.setSelected(theEntry.equals(aEntry));
+		}
+	}
 }

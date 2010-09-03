@@ -21,7 +21,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 
 import org.apache.commons.lang.StringUtils;
@@ -29,6 +31,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CachingTokenFilter;
 import org.apache.lucene.analysis.KeywordAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.BooleanQuery;
@@ -36,6 +39,9 @@ import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.WildcardQuery;
+import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SpanGradientFormatter;
@@ -44,15 +50,15 @@ import org.apache.lucene.search.highlight.SpanScorer;
 import de.mogwai.common.business.service.impl.LogableService;
 import de.mogwai.common.usercontext.UserContextHolder;
 import de.powerstaff.business.dao.ProfileSearchDAO;
+import de.powerstaff.business.dto.DataPage;
 import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.dto.ProfileSearchRequest;
-import de.powerstaff.business.dto.ProfileSearchResult;
 import de.powerstaff.business.dto.SearchRequestSupport;
 import de.powerstaff.business.entity.Freelancer;
+import de.powerstaff.business.entity.FreelancerContact;
 import de.powerstaff.business.entity.FreelancerProfile;
 import de.powerstaff.business.entity.SavedProfileSearch;
-import de.powerstaff.business.entity.SavedProfileSearchEntry;
 import de.powerstaff.business.entity.User;
 import de.powerstaff.business.lucene.analysis.ProfileAnalyzerFactory;
 import de.powerstaff.business.service.FreelancerService;
@@ -128,127 +134,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
 		aDestination.setPlz(aSource.getPlz());
 		aDestination.setStundensatzVon(aSource.getStundensatzVon());
 		aDestination.setStundensatzBis(aSource.getStundensatzBis());
-	}
-
-	public ProfileSearchResult searchDocument(ProfileSearchRequest aRequest)
-			throws Exception {
-
-		int theMaxSearchResult = systemParameterService
-				.getProfileMaxSearchResult();
-
-		User theUser = (User) UserContextHolder.getUserContext()
-				.getAuthenticatable();
-
-		profileSearchDAO.deleteSavedSearchesFor(theUser);
-
-		SavedProfileSearch theSearch = new SavedProfileSearch();
-		theSearch.setUser(theUser);
-
-		copySearchRequestInto(aRequest, theSearch);
-
-		ProfileSearchResult theResult = new ProfileSearchResult();
-		theResult.setSearchRequest(aRequest);
-
-		Analyzer theAnalyzer = ProfileAnalyzerFactory.createAnalyzer();
-
-		Query theQuery = getRealQuery(aRequest, theAnalyzer);
-
-		logger.logInfo("Search query is " + theQuery);
-
-		long theStartTime = System.currentTimeMillis();
-
-		Searcher theSearcher = luceneService.getIndexSearcher();
-
-		theQuery = theSearcher.rewrite(theQuery);
-
-		logger.logInfo("Rewritten Search query is " + theQuery);
-
-		Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(
-				1, "#000000", "#0000FF", null, null), new QueryScorer(theQuery));
-
-		Hits theHits = theSearcher.search(theQuery);
-
-		long theDuration = System.currentTimeMillis() - theStartTime;
-
-		logger.logDebug("Size of search result is " + theHits.length()
-				+ " duration = " + theDuration);
-
-		theResult.setTotalFound(theHits.length());
-		boolean isExtendedSearch = aRequest.isExtendedSearch();
-
-		for (int i = 0; i < theHits.length(); i++) {
-
-			Document theDocument = theHits.doc(i);
-
-			ProfileSearchEntry theEntry = new ProfileSearchEntry();
-			theEntry.setCode(theDocument.get(ProfileIndexerService.CODE));
-
-			ProfileSearchInfoDetail theFreelancer;
-			if (isExtendedSearch) {
-				theFreelancer = freelancerService.findFreelancerByCodeExtended(
-						theEntry.getCode(), aRequest);
-			} else {
-				theFreelancer = freelancerService.findFreelancerByCode(theEntry
-						.getCode());
-			}
-
-			if (theFreelancer != null) {
-				theEntry.setFreelancer(theFreelancer);
-			}
-
-			theEntry.setHighlightResult(getHighlightedSearchResult(theAnalyzer,
-					theHighlighter, theDocument, theQuery));
-
-			if (isExtendedSearch) {
-				if (theFreelancer != null) {
-					theResult.getEnties().add(theEntry);
-
-					SavedProfileSearchEntry theSavedEntry = new SavedProfileSearchEntry();
-					theEntry.setSavedSearchEntry(theSavedEntry);
-					if (theFreelancer != null) {
-						theSavedEntry.setFreelancerId(theFreelancer.getId());
-					}
-					theSavedEntry.setUniqueDocumentId(theDocument
-							.get(ProfileIndexerService.UNIQUE_ID));
-					theSearch.getEntries().add(theSavedEntry);
-
-				}
-			} else {
-
-				SavedProfileSearchEntry theSavedEntry = new SavedProfileSearchEntry();
-				theEntry.setSavedSearchEntry(theSavedEntry);
-				if (theFreelancer != null) {
-					theSavedEntry.setFreelancerId(theFreelancer.getId());
-				}
-				theSavedEntry.setUniqueDocumentId(theDocument
-						.get(ProfileIndexerService.UNIQUE_ID));
-				theSearch.getEntries().add(theSavedEntry);
-
-				theResult.getEnties().add(theEntry);
-			}
-
-			if (theResult.getEnties().size() >= theMaxSearchResult) {
-
-				theDuration = System.currentTimeMillis() - theStartTime;
-				logger.logInfo("Reached max result count, duration = "
-						+ theDuration);
-
-				profileSearchDAO.save(theSearch);
-
-				return theResult;
-			}
-		}
-
-		if (isExtendedSearch) {
-			theResult.setTotalFound(theResult.getEnties().size());
-		}
-
-		theDuration = System.currentTimeMillis() - theStartTime;
-		logger.logInfo("Finished, duration = " + theDuration);
-
-		profileSearchDAO.save(theSearch);
-
-		return theResult;
+		aDestination.setSortierung(aSource.getSortierung());
 	}
 
 	private Query getRealQuery(ProfileSearchRequest aRequest, Analyzer aAnalyzer)
@@ -256,10 +142,20 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
 		BooleanQuery.setMaxClauseCount(8192);
 
+		BooleanQuery theQuery = new BooleanQuery();
+
 		GoogleStyleQueryParser theParser = new GoogleStyleQueryParser(
 				luceneService.getIndexReader());
-		return theParser.parseQuery(aRequest.getProfileContent(), aAnalyzer,
-				ProfileIndexerService.CONTENT);
+
+		theQuery.add(theParser.parseQuery(aRequest.getProfileContent(),
+				aAnalyzer, ProfileIndexerService.CONTENT), Occur.MUST);
+
+		if (!StringUtils.isEmpty(aRequest.getPlz())) {
+			theQuery.add(new WildcardQuery(new Term(ProfileIndexerService.PLZ,
+					aRequest.getPlz().replace("%", "*"))), Occur.MUST);
+		}
+
+		return theQuery;
 	}
 
 	public Vector<FreelancerProfile> findProfiles(String aCode)
@@ -278,6 +174,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
 			QueryParser theParser = new QueryParser(ProfileIndexerService.CODE,
 					theAnalyzer);
 			Query theQuery = theParser.parse(theRealQuery.toString());
+
 			Hits theHits = theSearcher.search(theQuery);
 
 			logger.logInfo("Size of search result is " + theHits.length());
@@ -341,7 +238,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
 				"&nbsp;...&nbsp;");
 	}
 
-	public ProfileSearchResult getLastSearchResult() throws Exception {
+	public ProfileSearchRequest getLastSearchRequest() throws Exception {
 
 		User theUser = (User) UserContextHolder.getUserContext()
 				.getAuthenticatable();
@@ -355,99 +252,110 @@ public class ProfileSearchServiceImpl extends LogableService implements
 		ProfileSearchRequest theRequest = new ProfileSearchRequest();
 		copySearchRequestInto(theSearch, theRequest);
 
-		ProfileSearchResult theResult = new ProfileSearchResult();
-		theResult.setSearchRequest(theRequest);
-
-		Analyzer theAnalyzer = ProfileAnalyzerFactory.createAnalyzer();
-
-		Query theQuery = getRealQuery(theRequest, theAnalyzer);
-
-		logger.logInfo("Search query is " + theQuery);
-
-		Searcher theSearcher = luceneService.getIndexSearcher();
-
-		theQuery = theSearcher.rewrite(theQuery);
-
-		Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(
-				1, "#000000", "#0000FF", null, null), new QueryScorer(theQuery));
-
-		logger.logInfo("Rewritten Search query is " + theQuery);
-
-		Analyzer theDocumentSearchAnalyzer = new KeywordAnalyzer();
-		QueryParser theDocumentSearchParser = new QueryParser(
-				ProfileIndexerService.UNIQUE_ID, theDocumentSearchAnalyzer);
-
-		boolean isExtendedSearch = theRequest.isExtendedSearch();
-
-		for (SavedProfileSearchEntry theEntry : theSearch.getEntries()) {
-			ProfileSearchEntry theSearchEntry = new ProfileSearchEntry();
-
-			String theUniqueId = theEntry.getUniqueDocumentId();
-			String theDocumentSearcjRealQuery = "\"" + theUniqueId + "\"";
-
-			Query theDocumentQuery = theDocumentSearchParser
-					.parse(theDocumentSearcjRealQuery);
-			Hits theDocumentHits = theSearcher.search(theDocumentQuery);
-			if (theDocumentHits.length() == 1) {
-
-				Document theDocument = theDocumentHits.doc(0);
-
-				theSearchEntry.setCode(theDocument
-						.get(ProfileIndexerService.CODE));
-
-				theSearchEntry.setHighlightResult(getHighlightedSearchResult(
-						theAnalyzer, theHighlighter, theDocument, theQuery));
-
-				ProfileSearchInfoDetail theFreelancer;
-				theFreelancer = freelancerService
-						.findFreelancerByCode(theSearchEntry.getCode());
-
-				theSearchEntry.setSavedSearchEntry(theEntry);
-				theSearchEntry.setFreelancer(theFreelancer);
-
-				if (isExtendedSearch) {
-					if (theFreelancer != null) {
-						theResult.getEnties().add(theSearchEntry);
-					}
-				} else {
-					theResult.getEnties().add(theSearchEntry);
-				}
-			} else {
-
-				Freelancer theFreelancer = freelancerService
-						.findByPrimaryKey(theEntry.getFreelancerId());
-				if (theFreelancer != null) {
-					logger
-							.logInfo("Removing file from search list as it was removed from index. hits = "
-									+ theDocumentHits.length()
-									+ " freelancer code = "
-									+ theFreelancer.getCode());
-				} else {
-					logger
-							.logInfo("Removing file from search list as it was removed from index. hits = "
-									+ theDocumentHits.length()
-									+ " freelancer unknown");
-				}
-
-			}
-		}
-
-		theResult.setTotalFound(theResult.getEnties().size());
-		return theResult;
+		return theRequest;
 	}
 
-	public void removeSavedSearchEntry(SavedProfileSearchEntry aSavedSearchEntry) {
-
+	@Override
+	public void saveSearchRequest(ProfileSearchRequest searchRequest) {
 		User theUser = (User) UserContextHolder.getUserContext()
 				.getAuthenticatable();
 
 		SavedProfileSearch theSearch = profileSearchDAO
 				.getSavedSearchFor(theUser);
+
 		if (theSearch == null) {
-			return;
+			theSearch = new SavedProfileSearch();
+			theSearch.setUser(theUser);
 		}
 
-		theSearch.getEntries().remove(aSavedSearchEntry);
+		copySearchRequestInto(searchRequest, theSearch);
+
 		profileSearchDAO.save(theSearch);
+	}
+
+	@Override
+	public DataPage<ProfileSearchEntry> findProfileDataPage(
+			ProfileSearchRequest aRequest, int startRow, int pageSize)
+			throws Exception {
+
+		Analyzer theAnalyzer = ProfileAnalyzerFactory.createAnalyzer();
+
+		Query theQuery = getRealQuery(aRequest, theAnalyzer);
+
+		logger.logInfo("Search query is " + theQuery + " from " + startRow
+				+ " with pagesize " + pageSize);
+
+		long theStartTime = System.currentTimeMillis();
+
+		Searcher theSearcher = luceneService.getIndexSearcher();
+
+		theQuery = theSearcher.rewrite(theQuery);
+
+		logger.logInfo("Rewritten Search query is " + theQuery);
+
+		Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(
+				1, "#000000", "#0000FF", null, null), new QueryScorer(theQuery));
+
+		Sort theSort = null;
+		if (!StringUtils.isEmpty(aRequest.getSortierung())) {
+			theSort = new Sort(aRequest.getSortierung());
+		}
+
+		Hits theHits;
+		if (theSort == null) {
+			theHits = theSearcher.search(theQuery);
+		} else {
+			theHits = theSearcher.search(theQuery, theSort);
+		}
+
+		long theDuration = System.currentTimeMillis() - theStartTime;
+
+		logger.logDebug("Size of search result is " + theHits.length()
+				+ " duration = " + theDuration);
+
+		int theStart = startRow;
+		int theEnd = startRow + pageSize;
+		if (theEnd > theHits.length()) {
+			theEnd = theHits.length();
+		}
+
+		List<ProfileSearchEntry> theResult = new ArrayList<ProfileSearchEntry>();
+
+		for (int i = theStart; i < theEnd; i++) {
+
+			Document theDocument = theHits.doc(i);
+
+			ProfileSearchEntry theEntry = new ProfileSearchEntry();
+			theEntry.setCode(theDocument.get(ProfileIndexerService.CODE));
+			theEntry.setHighlightResult(getHighlightedSearchResult(theAnalyzer, //
+					theHighlighter, theDocument, theQuery));
+
+			ProfileSearchInfoDetail theDetail = new ProfileSearchInfoDetail();
+
+			String theFreelancerId = theDocument
+					.get(ProfileIndexerService.FREELANCERID);
+			if (!StringUtils.isEmpty(theFreelancerId)) {
+				Freelancer theFreelancer = freelancerService
+						.findByPrimaryKey(Long.parseLong(theFreelancerId));
+				if (theFreelancer != null) {
+					theDetail.setId(theFreelancer.getId());
+					theDetail.setName1(theFreelancer.getName1());
+					theDetail.setName2(theFreelancer.getName1());
+					theDetail.setAvailability(theFreelancer
+							.getAvailabilityAsDate());
+					theDetail.setPlz(theFreelancer.getPlz());
+					theDetail.setStundensatz(theFreelancer.getSallaryLong());
+					theDetail.setContacts(new ArrayList<FreelancerContact>(
+							theFreelancer.getContacts()));
+				}
+			}
+
+			theEntry.setFreelancer(theDetail);
+
+			theResult.add(theEntry);
+		}
+
+		return new DataPage<ProfileSearchEntry>(theHits.length(), theStart,
+				theResult);
 	}
 }

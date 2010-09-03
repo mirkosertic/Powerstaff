@@ -22,11 +22,6 @@
 		<property name="plz" />
 		<property name="stundensatzVon"/>
 		<property name="stundensatzBis"/>
-
-		<list name="entries" cascade="all-delete-orphan">
-			<key column="savedprofilesearch_id"/>
-			<list-index column="listindex"/>			
-			<one-to-many class="SavedProfileSearchEntry"/>
-		</list>
+		<property name="sortierung"/>
   </class>
 </hibernate-mapping>

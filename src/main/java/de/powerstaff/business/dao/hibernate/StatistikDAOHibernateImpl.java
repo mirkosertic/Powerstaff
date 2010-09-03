@@ -43,122 +43,143 @@ import de.powerstaff.business.entity.HistoryType;
 import de.powerstaff.business.entity.Partner;
 import de.powerstaff.business.entity.User;
 
-public class StatistikDAOHibernateImpl extends GenericDaoHibernateImpl implements StatistikDAO {
+public class StatistikDAOHibernateImpl extends GenericDaoHibernateImpl
+		implements StatistikDAO {
 
-    @Override
-    public List<KontakthistorieEntry> kontakthistorie(final Date aDatumVon, final Date aDatumBis, final User aBenutzer) {
-        return (List<KontakthistorieEntry>) getHibernateTemplate().execute(new HibernateCallback() {
+	@Override
+	public List<KontakthistorieEntry> kontakthistorie(final Date aDatumVon,
+			final Date aDatumBis, final User aBenutzer) {
+		return (List<KontakthistorieEntry>) getHibernateTemplate().execute(
+				new HibernateCallback() {
 
-            @Override
-            public Object doInHibernate(Session aSession) throws SQLException {
-                List<KontakthistorieEntry> theResult = new ArrayList<KontakthistorieEntry>();
+					@Override
+					public Object doInHibernate(Session aSession)
+							throws SQLException {
+						List<KontakthistorieEntry> theResult = new ArrayList<KontakthistorieEntry>();
 
-                Conjunction theRestrictions = Restrictions.conjunction();
-                if (aDatumVon != null) {
-                    theRestrictions.add(Restrictions.ge("h.creationDate", aDatumVon));
-                }
-                if (aDatumBis != null) {
-                    theRestrictions.add(Restrictions.le("h.creationDate", aDatumBis));
-                }
-                if (aBenutzer != null) {
-                    theRestrictions.add(Restrictions.eq("h.creationUserID", aBenutzer.getUserId()));
-                }
+						Conjunction theRestrictions = Restrictions
+								.conjunction();
+						if (aDatumVon != null) {
+							theRestrictions.add(Restrictions.ge(
+									"h.creationDate", aDatumVon));
+						}
+						if (aDatumBis != null) {
+							theRestrictions.add(Restrictions.le(
+									"h.creationDate", aDatumBis));
+						}
+						if (aBenutzer != null) {
+							theRestrictions.add(Restrictions.eq(
+									"h.creationUserID", aBenutzer.getUserId()));
+						}
 
-                
-                // Freiberufler
-                Criteria theCriteria = aSession.createCriteria(Freelancer.class, "p");
-                Criteria theKontakt = theCriteria.createCriteria("history", "h");
-                theCriteria.add(theRestrictions);
-                
-                ProjectionList theProjections = Projections.projectionList();
-                theProjections.add(Projections.property("p.name1"));
-                theProjections.add(Projections.property("p.name2"));
-                theProjections.add(Projections.property("p.code"));
-                theProjections.add(Projections.property("h.creationDate"));
-                theProjections.add(Projections.property("h.creationUserID"));
-                theProjections.add(Projections.property("h.type"));
-                theProjections.add(Projections.property("h.description"));
+						// Freiberufler
+						Criteria theCriteria = aSession.createCriteria(
+								Freelancer.class, "p");
+						theCriteria.createCriteria("history", "h");
+						theCriteria.add(theRestrictions);
 
-                theCriteria.setProjection(theProjections);
-                for (Object theResultObject : theCriteria.list()) {
-                    Object[] theResultArray = (Object[]) theResultObject;
-                    
-                    KontakthistorieEntry theEntry = new KontakthistorieEntry();
-                    theEntry.setName1((String) theResultArray[0]);
-                    theEntry.setName2((String) theResultArray[1]);
-                    theEntry.setCode((String) theResultArray[2]);
-                    Timestamp theTimestamp = (Timestamp) theResultArray[3];
-                    theEntry.setDatum(new Date(theTimestamp.getTime()));
-                    theEntry.setUserid((String) theResultArray[4]);
-                    theEntry.setType((HistoryType) theResultArray[5]);
-                    theEntry.setDescription((String) theResultArray[6]);
-                    
-                    theResult.add(theEntry);
-                }
-                
-                // Partner
-                theCriteria = aSession.createCriteria(Partner.class, "p");
-                theKontakt = theCriteria.createCriteria("history", "h");
-                theCriteria.add(theRestrictions);
-                
-                theProjections = Projections.projectionList();
-                theProjections.add(Projections.property("p.name1"));
-                theProjections.add(Projections.property("p.name2"));
-                theProjections.add(Projections.property("h.creationDate"));
-                theProjections.add(Projections.property("h.creationUserID"));
-                theProjections.add(Projections.property("h.type"));
-                theProjections.add(Projections.property("h.description"));
+						ProjectionList theProjections = Projections
+								.projectionList();
+						theProjections.add(Projections.property("p.name1"));
+						theProjections.add(Projections.property("p.name2"));
+						theProjections.add(Projections.property("p.code"));
+						theProjections.add(Projections
+								.property("h.creationDate"));
+						theProjections.add(Projections
+								.property("h.creationUserID"));
+						theProjections.add(Projections.property("h.type"));
+						theProjections.add(Projections
+								.property("h.description"));
 
-                theCriteria.setProjection(theProjections);
-                for (Object theResultObject : theCriteria.list()) {
-                    Object[] theResultArray = (Object[]) theResultObject;
-                    
-                    KontakthistorieEntry theEntry = new KontakthistorieEntry();
-                    theEntry.setName1((String) theResultArray[0]);
-                    theEntry.setName2((String) theResultArray[1]);
-                    Timestamp theTimestamp = (Timestamp) theResultArray[2];
-                    theEntry.setDatum(new Date(theTimestamp.getTime()));
-                    theEntry.setUserid((String) theResultArray[3]);
-                    theEntry.setType((HistoryType) theResultArray[4]);
-                    theEntry.setDescription((String) theResultArray[5]);
-                    
-                    theResult.add(theEntry);
-                } 
-                
-                // Kunden
-                theCriteria = aSession.createCriteria(Customer.class, "p");
-                theKontakt = theCriteria.createCriteria("history", "h");
-                theCriteria.add(theRestrictions);
-                
-                theProjections = Projections.projectionList();
-                theProjections.add(Projections.property("p.name1"));
-                theProjections.add(Projections.property("p.name2"));
-                theProjections.add(Projections.property("h.creationDate"));
-                theProjections.add(Projections.property("h.creationUserID"));
-                theProjections.add(Projections.property("h.type"));
-                theProjections.add(Projections.property("h.description"));
+						theCriteria.setProjection(theProjections);
+						for (Object theResultObject : theCriteria.list()) {
+							Object[] theResultArray = (Object[]) theResultObject;
 
-                theCriteria.setProjection(theProjections);
-                for (Object theResultObject : theCriteria.list()) {
-                    Object[] theResultArray = (Object[]) theResultObject;
-                    
-                    KontakthistorieEntry theEntry = new KontakthistorieEntry();
-                    theEntry.setName1((String) theResultArray[0]);
-                    theEntry.setName2((String) theResultArray[1]);
-                    Timestamp theTimestamp = (Timestamp) theResultArray[2];
-                    theEntry.setDatum(new Date(theTimestamp.getTime()));
-                    theEntry.setUserid((String) theResultArray[3]);
-                    theEntry.setType((HistoryType) theResultArray[4]);
-                    theEntry.setDescription((String) theResultArray[5]);
-                    
-                    theResult.add(theEntry);
-                } 
-                
-                Collections.sort(theResult, new ReverseComparator(new BeanComparator("datum")));
-                
-                return theResult;
-            }
-        });
-    }
+							KontakthistorieEntry theEntry = new KontakthistorieEntry();
+							theEntry.setName1((String) theResultArray[0]);
+							theEntry.setName2((String) theResultArray[1]);
+							theEntry.setCode((String) theResultArray[2]);
+							Timestamp theTimestamp = (Timestamp) theResultArray[3];
+							theEntry.setDatum(new Date(theTimestamp.getTime()));
+							theEntry.setUserid((String) theResultArray[4]);
+							theEntry.setType((HistoryType) theResultArray[5]);
+							theEntry.setDescription((String) theResultArray[6]);
+
+							theResult.add(theEntry);
+						}
+
+						// Partner
+						theCriteria = aSession.createCriteria(Partner.class,
+								"p");
+						theCriteria.createCriteria("history", "h");
+						theCriteria.add(theRestrictions);
+
+						theProjections = Projections.projectionList();
+						theProjections.add(Projections.property("p.name1"));
+						theProjections.add(Projections.property("p.name2"));
+						theProjections.add(Projections
+								.property("h.creationDate"));
+						theProjections.add(Projections
+								.property("h.creationUserID"));
+						theProjections.add(Projections.property("h.type"));
+						theProjections.add(Projections
+								.property("h.description"));
+
+						theCriteria.setProjection(theProjections);
+						for (Object theResultObject : theCriteria.list()) {
+							Object[] theResultArray = (Object[]) theResultObject;
+
+							KontakthistorieEntry theEntry = new KontakthistorieEntry();
+							theEntry.setName1((String) theResultArray[0]);
+							theEntry.setName2((String) theResultArray[1]);
+							Timestamp theTimestamp = (Timestamp) theResultArray[2];
+							theEntry.setDatum(new Date(theTimestamp.getTime()));
+							theEntry.setUserid((String) theResultArray[3]);
+							theEntry.setType((HistoryType) theResultArray[4]);
+							theEntry.setDescription((String) theResultArray[5]);
+
+							theResult.add(theEntry);
+						}
+
+						// Kunden
+						theCriteria = aSession.createCriteria(Customer.class,
+								"p");
+						theCriteria.createCriteria("history", "h");
+						theCriteria.add(theRestrictions);
+
+						theProjections = Projections.projectionList();
+						theProjections.add(Projections.property("p.name1"));
+						theProjections.add(Projections.property("p.name2"));
+						theProjections.add(Projections
+								.property("h.creationDate"));
+						theProjections.add(Projections
+								.property("h.creationUserID"));
+						theProjections.add(Projections.property("h.type"));
+						theProjections.add(Projections
+								.property("h.description"));
+
+						theCriteria.setProjection(theProjections);
+						for (Object theResultObject : theCriteria.list()) {
+							Object[] theResultArray = (Object[]) theResultObject;
+
+							KontakthistorieEntry theEntry = new KontakthistorieEntry();
+							theEntry.setName1((String) theResultArray[0]);
+							theEntry.setName2((String) theResultArray[1]);
+							Timestamp theTimestamp = (Timestamp) theResultArray[2];
+							theEntry.setDatum(new Date(theTimestamp.getTime()));
+							theEntry.setUserid((String) theResultArray[3]);
+							theEntry.setType((HistoryType) theResultArray[4]);
+							theEntry.setDescription((String) theResultArray[5]);
+
+							theResult.add(theEntry);
+						}
+
+						Collections.sort(theResult, new ReverseComparator(
+								new BeanComparator("datum")));
+
+						return theResult;
+					}
+				});
+	}
 
 }

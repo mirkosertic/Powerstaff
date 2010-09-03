@@ -18,22 +18,40 @@
 package de.powerstaff.business.service;
 
 import de.mogwai.common.business.service.Service;
+import de.powerstaff.business.entity.Freelancer;
 
-public interface ProfileIndexerService extends Service, ProfileIndexerServicePublicInterface {
+public interface ProfileIndexerService extends Service,
+		ProfileIndexerServicePublicInterface {
 
-    String PATH = "PATH";
+	String PATH = "PATH";
 
-    String STRIPPEDPATH = "STRIPPEDPATH";
+	String STRIPPEDPATH = "STRIPPEDPATH";
 
-    String MODIFIED = "MODIFIED";
+	String MODIFIED = "MODIFIED";
 
-    String CONTENT = "CONTENT";
+	String CONTENT = "CONTENT";
 
-    String ORIG_CONTENT = "ORIG_CONTENT";
+	String ORIG_CONTENT = "ORIG_CONTENT";
 
-    String CODE = "CODE";
+	String CODE = "CODE";
 
-    String INDEXINGTIME = "INDEXINGTIME";
-    
-    String UNIQUE_ID = "UNIQUEID";
+	String INDEXINGTIME = "INDEXINGTIME";
+
+	String UNIQUE_ID = "UNIQUEID";
+
+	String NAME1 = "NAME1";
+
+	String NAME2 = "NAME2";
+
+	String PLZ = "PLZ";
+
+	String VERFUEGBARKEIT = "VERFUEGBARKEIT";
+
+	String STUNDENSATZ = "STUNDENSATZ";
+
+	String FREELANCERID = "FREELANCERID";
+
+	String HASMATCHINGRECORD = "HASMATCHINGRECORD";
+
+	void refresh(Freelancer aFreelancer);
 }

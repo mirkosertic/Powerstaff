@@ -25,20 +25,19 @@ import java.util.Vector;
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:16:23 $
  */
-@SuppressWarnings("serial")
 public class MapDataModel extends CollectionDataModel<MapDataModelEntry> {
 
-    /**
-     * Initialisierung.
-     * 
-     * @param aMap
-     *                die Daten
-     */
-    public MapDataModel(Map aMap) {
-        super(new Vector<MapDataModelEntry>());
+	/**
+	 * Initialisierung.
+	 * 
+	 * @param aMap
+	 *            die Daten
+	 */
+	public MapDataModel(Map aMap) {
+		super(new Vector<MapDataModelEntry>());
 
-        for (Object theKey : aMap.keySet()) {
-            add(new MapDataModelEntry(aMap, theKey));
-        }
-    }
+		for (Object theKey : aMap.keySet()) {
+			add(new MapDataModelEntry(aMap, theKey));
+		}
+	}
 }
