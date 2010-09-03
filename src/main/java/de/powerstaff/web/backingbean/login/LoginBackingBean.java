@@ -31,7 +31,12 @@ import de.powerstaff.web.backingbean.MessageConstants;
 
 public class LoginBackingBean extends WrappingBackingBean<LoginBackingBeanDataModel> implements MessageConstants {
 
-    private LoginService loginService;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8961543903559963065L;
+
+	private LoginService loginService;
 
     private static final Logger LOGGER = new Logger(LoginBackingBean.class);
 

@@ -24,4 +24,9 @@ package de.mogwai.common.command;
  */
 public class UpdateModelCommand implements Command {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1043249728039209315L;
+
 }

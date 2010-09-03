@@ -23,7 +23,12 @@ import de.mogwai.common.web.component.input.ComboboxComponent;
 
 public class ComboboxInputBackingBean extends BackingBean {
 
-    private String value1;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8679197584384874789L;
+
+	private String value1;
 
     private String value2;
 

@@ -11,7 +11,12 @@ import de.mogwai.common.web.backingbean.WrappingBackingBean;
 public abstract class EntityEditorBackingBean<T extends EntityEditorBackingBeanDataModel> extends
         WrappingBackingBean<T> implements MessageConstants, StateHolder {
 
-    @Override
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2457744179297229854L;
+
+	@Override
     public void init() {
         super.init();
         setData(createDataModel());

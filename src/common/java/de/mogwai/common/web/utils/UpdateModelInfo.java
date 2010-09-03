@@ -28,7 +28,12 @@ import de.mogwai.common.command.UpdateModelCommand;
  */
 public class UpdateModelInfo implements Serializable {
 
-    private UpdateModelCommand command;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8334365356014835896L;
+
+	private UpdateModelCommand command;
 
     private String callerViewId;
 

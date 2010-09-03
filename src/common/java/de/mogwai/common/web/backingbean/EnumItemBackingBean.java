@@ -47,6 +47,11 @@ import de.mogwai.common.web.utils.EnumItemMultiLanguageSelectItemList;
  */
 public abstract class EnumItemBackingBean extends BackingBean {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3667665357906269681L;
+
 	private EnumItemService enumItemService;
 
 	private EnumItemCategoryService enumItemCategoryService;

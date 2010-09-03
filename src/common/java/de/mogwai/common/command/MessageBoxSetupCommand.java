@@ -24,7 +24,12 @@ package de.mogwai.common.command;
  */
 public class MessageBoxSetupCommand extends UpdateModelCommand {
 
-    private String title;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6615681268857465213L;
+
+	private String title;
 
     private String message;
 

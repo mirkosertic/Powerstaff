@@ -26,7 +26,11 @@ package de.mogwai.common.command;
  */
 public class GetOrEditEntityAndCallbackCommand<T> extends UpdateModelCommand {
 
-    private T value;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8645272460282473544L;
+	private T value;
 
     public GetOrEditEntityAndCallbackCommand(T aValue) {
         value = aValue;

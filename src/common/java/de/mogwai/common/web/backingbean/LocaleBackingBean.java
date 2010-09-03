@@ -32,7 +32,11 @@ import de.mogwai.common.web.utils.SelectableEntryList;
  */
 public class LocaleBackingBean extends BackingBean {
 
-    private SelectableEntryList supportedLocales = new SelectableEntryList();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2111511042199635083L;
+	private SelectableEntryList supportedLocales = new SelectableEntryList();
 
     public LocaleBackingBean() {
 

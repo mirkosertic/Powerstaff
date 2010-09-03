@@ -26,7 +26,12 @@ import java.sql.Timestamp;
  */
 public class AuditableEntity extends Entity {
 
-    private Timestamp creationDate = new Timestamp(System.currentTimeMillis());
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1453762400693078426L;
+
+	private Timestamp creationDate = new Timestamp(System.currentTimeMillis());
 
     private String creationUserID;
 

@@ -22,7 +22,12 @@ import de.mogwai.common.web.backingbean.BackingBean;
 
 public class TestBackingBean extends BackingBean {
 
-    private String value;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1413416428029781877L;
+
+	private String value;
 
     private String value1;
 

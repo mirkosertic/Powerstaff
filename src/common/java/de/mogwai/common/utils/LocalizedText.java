@@ -29,7 +29,11 @@ import java.util.Map;
  */
 public class LocalizedText implements Serializable {
 
-    private Map<String, String> map = new HashMap<String, String>();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -300240052406252567L;
+	private Map<String, String> map = new HashMap<String, String>();
 
     public String getTextD() {
         return LocalizedTextMapHelper.getForLocale(map, Locale.GERMAN);

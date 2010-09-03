@@ -97,7 +97,7 @@
 									<a4j:support event="onclick"/>
 								</h:commandLink>
 							</f:facet>
-							<h:outputText value="#{row.freelancer.name1}"/>
+							<h:outputText value="#{row.freelancer.name1}" styleClass="#{row.freelancer.contactforbidden?'kontaktsperre':''}"/>
 							<h:panelGroup rendered="#{!empty row.freelancer.gulpNameContact}">
 								<br/>
 								<h:outputText value="Gulp : " escape="false"/>
@@ -113,7 +113,7 @@
 									<a4j:support event="onclick"/>
 								</h:commandLink>
 							</f:facet>
-							<h:outputText value="#{row.freelancer.name2}"/>
+							<h:outputText value="#{row.freelancer.name2}" styleClass="#{row.freelancer.contactforbidden?'kontaktsperre':''}"/>
 						</h:column>
 						<h:column>
 							<f:facet name="header">

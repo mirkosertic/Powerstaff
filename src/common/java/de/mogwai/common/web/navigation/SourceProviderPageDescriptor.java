@@ -26,7 +26,11 @@ import de.mogwai.common.utils.SourceProvider;
  */
 public abstract class SourceProviderPageDescriptor extends PageDescriptor implements SourceProvider {
 
-    private MultiPageNavigationDataModel model;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2736497734324312291L;
+	private MultiPageNavigationDataModel model;
 
     public SourceProviderPageDescriptor(MultiPageNavigationDataModel aModel, String aPage, String aDescriptionKey) {
         this(aModel, aPage, aDescriptionKey, true);

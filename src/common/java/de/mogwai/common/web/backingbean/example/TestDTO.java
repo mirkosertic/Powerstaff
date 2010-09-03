@@ -20,7 +20,11 @@ import java.io.Serializable;
 
 public class TestDTO implements Serializable {
 
-    private Object wert1;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6469283626155873795L;
+	private Object wert1;
 
     public TestDTO(Object aWert) {
         wert1 = aWert;

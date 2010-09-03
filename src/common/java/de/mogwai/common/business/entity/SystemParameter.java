@@ -24,7 +24,12 @@ package de.mogwai.common.business.entity;
  */
 public class SystemParameter extends Entity {
 
-    private String name;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -598965662409443637L;
+
+	private String name;
 
     private String value;
 

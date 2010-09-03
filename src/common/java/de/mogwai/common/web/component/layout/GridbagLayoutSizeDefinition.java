@@ -26,7 +26,12 @@ import java.io.Serializable;
  */
 public class GridbagLayoutSizeDefinition implements Serializable {
 
-    private String align;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3020350468651968345L;
+
+	private String align;
 
     private String size;
 

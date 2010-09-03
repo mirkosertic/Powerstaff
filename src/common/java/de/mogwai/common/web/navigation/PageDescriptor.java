@@ -37,7 +37,12 @@ import de.mogwai.common.web.ResourceBundleManager;
  */
 public class PageDescriptor implements Serializable {
 
-    private String page;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -874855834816231207L;
+
+	private String page;
 
     private String descriptionKey;
 

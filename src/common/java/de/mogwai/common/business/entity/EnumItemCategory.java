@@ -30,7 +30,12 @@ import java.util.Set;
  */
 public class EnumItemCategory extends Entity {
 
-    private String name;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1528202056452036894L;
+
+	private String name;
 
     /**
      * Die Sortierung der EnumItems soll alphabetisch erfolgen. Falls false,

@@ -27,7 +27,12 @@ import java.util.Vector;
  */
 public class ResultVector<T> extends Vector<T> {
 
-    private String statement;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6805970183342028133L;
+
+	private String statement;
 
     private String error;
 

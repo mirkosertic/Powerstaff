@@ -38,7 +38,12 @@ import de.powerstaff.web.backingbean.partner.PartnerBackingBean;
 public class FreelancerBackingBean extends
         PersonEditorBackingBean<Freelancer, FreelancerBackingBeanDataModel, FreelancerService> {
 
-    private static final Logger LOGGER = new Logger(FreelancerBackingBean.class);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1951906917491517234L;
+
+	private static final Logger LOGGER = new Logger(FreelancerBackingBean.class);
 
     private ProfileSearchService profileSearchService;
 

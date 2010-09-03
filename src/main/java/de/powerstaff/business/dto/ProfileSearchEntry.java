@@ -21,6 +21,11 @@ import de.mogwai.common.business.dto.DataTransferObject;
 
 public class ProfileSearchEntry extends DataTransferObject {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5794367871287035425L;
+
 	private String code;
 
 	private ProfileSearchInfoDetail freelancer;

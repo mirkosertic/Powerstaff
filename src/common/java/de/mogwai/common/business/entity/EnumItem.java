@@ -28,7 +28,12 @@ import java.util.Map;
  */
 public class EnumItem extends AuditableEntity {
 
-    private Integer listIndex;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1957676243167166123L;
+
+	private Integer listIndex;
 
     private String name;
 

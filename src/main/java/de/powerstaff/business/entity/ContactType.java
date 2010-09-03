@@ -22,7 +22,12 @@ import de.mogwai.common.utils.StringPresentationProvider;
 
 public class ContactType extends AuditableEntity implements StringPresentationProvider {
 
-    private String description;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8034787319984772308L;
+
+	private String description;
 
     private boolean phone;
 

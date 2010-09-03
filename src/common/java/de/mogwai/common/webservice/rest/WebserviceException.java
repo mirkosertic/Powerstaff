@@ -25,6 +25,11 @@ package de.mogwai.common.webservice.rest;
 public class WebserviceException extends Exception {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5839738878737933706L;
+
+	/**
      * Constructor.
      * 
      * @param aMessage

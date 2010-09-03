@@ -35,7 +35,12 @@ import de.mogwai.common.web.utils.ValidateModalDataCommand;
  */
 public class ModalControllerBackingBean extends BackingBean {
 
-    private BackingBean modalInitiator;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1213209802281243076L;
+
+	private BackingBean modalInitiator;
 
     private ModalPageDescriptor currentModalPageDescriptor;
 

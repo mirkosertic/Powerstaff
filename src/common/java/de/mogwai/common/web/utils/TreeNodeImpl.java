@@ -29,7 +29,12 @@ import org.apache.myfaces.custom.tree2.TreeNodeBase;
  */
 public class TreeNodeImpl extends TreeNodeBase implements Serializable {
 
-    private static long IDCOUNTER = 1;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5927874657090314735L;
+
+	private static long IDCOUNTER = 1;
 
     private TreeNodeImpl parent;
 

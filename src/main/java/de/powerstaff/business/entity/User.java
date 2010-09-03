@@ -26,7 +26,12 @@ import de.mogwai.common.usercontext.Authenticatable;
 
 public class User extends AuditableEntity implements Authenticatable , UserDetails {
 
-    private String name;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1984356742823703755L;
+
+	private String name;
 
     private String password;
 

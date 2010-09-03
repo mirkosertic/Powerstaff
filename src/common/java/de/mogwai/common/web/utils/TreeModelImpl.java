@@ -28,7 +28,11 @@ import org.apache.myfaces.custom.tree2.TreeModelBase;
  */
 public class TreeModelImpl extends TreeModelBase implements Serializable {
 
-    private TreeNodeImpl selectedNode;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6320021616832449890L;
+	private TreeNodeImpl selectedNode;
 
     /**
      * Constructor.

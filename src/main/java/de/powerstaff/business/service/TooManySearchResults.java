@@ -28,7 +28,11 @@ import de.powerstaff.business.dao.GenericSearchResult;
  */
 public class TooManySearchResults extends Exception {
 
-    private Collection<GenericSearchResult> result;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4386760675569924915L;
+	private Collection<GenericSearchResult> result;
 
     public TooManySearchResults(Collection<GenericSearchResult> aResult) {
         result = aResult;

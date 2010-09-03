@@ -38,7 +38,11 @@ import de.mogwai.common.web.utils.ValidateModalDataCommand;
  */
 public abstract class WrappingBackingBean<T extends BackingBeanDataModel> extends BackingBean {
 
-    private T dataModel;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6493790613060807490L;
+	private T dataModel;
 
     /**
      * Constructor.

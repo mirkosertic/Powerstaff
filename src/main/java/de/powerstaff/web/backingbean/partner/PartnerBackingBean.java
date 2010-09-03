@@ -32,7 +32,11 @@ import de.powerstaff.web.backingbean.project.ProjectBackingBean;
 
 public class PartnerBackingBean extends PersonEditorBackingBean<Partner, PartnerBackingBeanDataModel, PartnerService> {
 
-    private FreelancerService freelancerService;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5789495052412740906L;
+	private FreelancerService freelancerService;
 
     @Override
     protected PartnerBackingBeanDataModel createDataModel() {

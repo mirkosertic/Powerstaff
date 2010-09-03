@@ -29,7 +29,12 @@ import de.mogwai.common.web.utils.DownloadUtils;
  */
 public class DownloadBackingBean extends BackingBean {
 
-    public String download() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6233960974770669631L;
+
+	public String download() {
 
         DownloadUtils.getInstance().sentFileToBrowser(FacesContext.getCurrentInstance(), "Lala.txt", "Lala", true);
         return null;

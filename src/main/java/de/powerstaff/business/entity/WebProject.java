@@ -21,7 +21,12 @@ import de.mogwai.common.business.entity.AuditableEntity;
 
 public class WebProject extends AuditableEntity {
 
-    private String date;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4288433736723968550L;
+
+	private String date;
 
     private String projectNumber;
 

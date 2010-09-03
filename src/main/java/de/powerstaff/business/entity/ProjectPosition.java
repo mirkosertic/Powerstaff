@@ -23,7 +23,12 @@ import de.mogwai.common.business.entity.AuditableEntity;
 
 public class ProjectPosition extends AuditableEntity {
 
-    private Project project;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3748584707902354798L;
+
+	private Project project;
 
     private Freelancer freelancer;
 

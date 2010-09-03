@@ -60,7 +60,12 @@ import de.mogwai.common.usercontext.UserContextHolder;
  */
 public class AuditInterceptor extends EmptyInterceptor implements BeanFactoryAware {
 
-    private static final Logger LOGGER = new Logger(AuditInterceptor.class);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6801708632533685578L;
+
+	private static final Logger LOGGER = new Logger(AuditInterceptor.class);
 
     private BeanFactory beanFactory;
 

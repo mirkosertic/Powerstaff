@@ -11,7 +11,12 @@ import de.mogwai.common.business.entity.AuditableEntity;
  */
 public class UserDefinedField extends AuditableEntity {
 
-    private boolean booleanValue;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6428209739024154852L;
+
+	private boolean booleanValue;
 
     private Date dateValue;
 

@@ -28,7 +28,12 @@ import javax.faces.model.DataModel;
  */
 public class TreeMenuDataModel extends DataModel implements Serializable {
 
-    private TreeMenuItem rootItem;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7516573296925636308L;
+
+	private TreeMenuItem rootItem;
 
     private int rowIndex = -1;
 

@@ -26,4 +26,9 @@ import de.mogwai.common.command.UpdateModelCommand;
  */
 public class ShutdownModalDialogCommand extends UpdateModelCommand {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6811185131479521937L;
+
 }

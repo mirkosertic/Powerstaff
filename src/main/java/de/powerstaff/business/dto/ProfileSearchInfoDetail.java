@@ -26,128 +26,146 @@ import de.powerstaff.business.entity.FreelancerContact;
 
 public class ProfileSearchInfoDetail extends DataTransferObject {
 
-    private Long id;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5622749387352518250L;
 
-    private String name1;
+	private Long id;
 
-    private String name2;
+	private String name1;
 
-    private Date availability;
-    
-    private String plz;
-    
-    private Long stundensatz;
-    
-    private List<FreelancerContact> contacts = new ArrayList<FreelancerContact>();
-    
-    /**
-     * @return the availability
-     */
-    public Date getAvailability() {
-        return availability;
-    }
+	private String name2;
 
-    /**
-     * @param availability
-     *                the availability to set
-     */
-    public void setAvailability(Date availability) {
-        this.availability = availability;
-    }
+	private Date availability;
 
-    /**
-     * @return the name1
-     */
-    public String getName1() {
-        return name1;
-    }
+	private String plz;
 
-    /**
-     * @param name1
-     *                the name1 to set
-     */
-    public void setName1(String name1) {
-        this.name1 = name1;
-    }
+	private Long stundensatz;
 
-    /**
-     * @return the name2
-     */
-    public String getName2() {
-        return name2;
-    }
+	private boolean contactforbidden;
 
-    /**
-     * @param name2
-     *                the name2 to set
-     */
-    public void setName2(String name2) {
-        this.name2 = name2;
-    }
+	private List<FreelancerContact> contacts = new ArrayList<FreelancerContact>();
 
-    /**
-     * @return the id
-     */
-    public Long getId() {
-        return id;
-    }
+	/**
+	 * @return the availability
+	 */
+	public Date getAvailability() {
+		return availability;
+	}
 
-    /**
-     * @param id
-     *                the id to set
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
+	/**
+	 * @param availability
+	 *            the availability to set
+	 */
+	public void setAvailability(Date availability) {
+		this.availability = availability;
+	}
 
-    /**
-     * @return the plz
-     */
-    public String getPlz() {
-        return plz;
-    }
+	/**
+	 * @return the name1
+	 */
+	public String getName1() {
+		return name1;
+	}
 
-    /**
-     * @param plz the plz to set
-     */
-    public void setPlz(String plz) {
-        this.plz = plz;
-    }
+	/**
+	 * @param name1
+	 *            the name1 to set
+	 */
+	public void setName1(String name1) {
+		this.name1 = name1;
+	}
 
-    /**
-     * @return the stundensatz
-     */
-    public Long getStundensatz() {
-        return stundensatz;
-    }
+	/**
+	 * @return the name2
+	 */
+	public String getName2() {
+		return name2;
+	}
 
-    /**
-     * @param stundensatz the stundensatz to set
-     */
-    public void setStundensatz(Long stundensatz) {
-        this.stundensatz = stundensatz;
-    }
+	/**
+	 * @param name2
+	 *            the name2 to set
+	 */
+	public void setName2(String name2) {
+		this.name2 = name2;
+	}
 
-    /**
-     * @return the contacts
-     */
-    public List<FreelancerContact> getContacts() {
-        return contacts;
-    }
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
 
-    /**
-     * @param contacts the contacts to set
-     */
-    public void setContacts(List<FreelancerContact> contacts) {
-        this.contacts = contacts;
-    }
-    
-    public FreelancerContact getGulpNameContact() {
-        for (FreelancerContact theContact : contacts) {
-            if (theContact.getType().isGulp()) {
-                return theContact;
-            }
-        }
-        return null;
-    }
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the plz
+	 */
+	public String getPlz() {
+		return plz;
+	}
+
+	/**
+	 * @param plz
+	 *            the plz to set
+	 */
+	public void setPlz(String plz) {
+		this.plz = plz;
+	}
+
+	/**
+	 * @return the stundensatz
+	 */
+	public Long getStundensatz() {
+		return stundensatz;
+	}
+
+	/**
+	 * @param stundensatz
+	 *            the stundensatz to set
+	 */
+	public void setStundensatz(Long stundensatz) {
+		this.stundensatz = stundensatz;
+	}
+
+	/**
+	 * @return the contacts
+	 */
+	public List<FreelancerContact> getContacts() {
+		return contacts;
+	}
+
+	/**
+	 * @param contacts
+	 *            the contacts to set
+	 */
+	public void setContacts(List<FreelancerContact> contacts) {
+		this.contacts = contacts;
+	}
+
+	public boolean isContactforbidden() {
+		return contactforbidden;
+	}
+
+	public void setContactforbidden(boolean contactforbidden) {
+		this.contactforbidden = contactforbidden;
+	}
+
+	public FreelancerContact getGulpNameContact() {
+		for (FreelancerContact theContact : contacts) {
+			if (theContact.getType().isGulp()) {
+				return theContact;
+			}
+		}
+		return null;
+	}
 }

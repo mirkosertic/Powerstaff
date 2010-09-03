@@ -47,7 +47,12 @@ import de.mogwai.common.web.utils.Validatable;
  */
 public abstract class BackingBean implements Initable, Navigatable, Updateable, Validatable, Serializable {
 
-    private boolean initialized;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6152673765217442475L;
+
+	private boolean initialized;
 
     private String queueID = getClass().getName();
 

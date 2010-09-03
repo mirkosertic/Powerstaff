@@ -29,7 +29,12 @@ package de.mogwai.common.exception;
  */
 public class UserMessageException extends Exception {
 
-    /** Schlüssel der Message Resource. */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6170502578911260189L;
+
+	/** Schlüssel der Message Resource. */
     private String messageKey;
 
     /** Ersatzwerte für die Message Resource. */

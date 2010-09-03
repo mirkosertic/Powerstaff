@@ -30,6 +30,11 @@ package de.mogwai.common.exception;
 public abstract class SystemException extends RuntimeException {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -996432641483078474L;
+
+	/**
      * @param message
      *                zu loggende Meldung in deutscher Sprache (keine
      *                Lokalisierung!).

@@ -117,16 +117,18 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 
 			for (int i = 0; i < reader.maxDoc(); i++) {
 
-				Document document = reader.document(i);
-				File file = new File(document.get(PATH));
-				if (!file.exists()
-						|| !("" + file.lastModified()).equals(document
-								.get(MODIFIED))) {
+				if (!reader.isDeleted(i)) {
+					Document document = reader.document(i);
+					File file = new File(document.get(PATH));
+					if (!file.exists()
+							|| !("" + file.lastModified()).equals(document
+									.get(MODIFIED))) {
 
-					logger.logInfo("Deleting file " + file.toString()
-							+ " from index as it was modified");
+						logger.logInfo("Deleting file " + file.toString()
+								+ " from index as it was modified");
 
-					writer.deleteDocuments(createQueryForFile(file));
+						writer.deleteDocuments(createQueryForFile(file));
+					}
 				}
 			}
 

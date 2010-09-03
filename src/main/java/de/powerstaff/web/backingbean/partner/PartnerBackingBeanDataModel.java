@@ -24,7 +24,12 @@ import de.powerstaff.web.backingbean.PersonEditorBackingBeanDataModel;
 
 public class PartnerBackingBeanDataModel extends PersonEditorBackingBeanDataModel<Partner> {
 
-    private CollectionDataModel<Freelancer> freelancer;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6489685830340553955L;
+
+	private CollectionDataModel<Freelancer> freelancer;
 
     private Freelancer originalFreelancer;
     

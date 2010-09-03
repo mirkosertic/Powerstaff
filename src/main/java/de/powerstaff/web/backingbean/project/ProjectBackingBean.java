@@ -17,7 +17,12 @@ import de.powerstaff.web.backingbean.partner.PartnerBackingBean;
 
 public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBackingBeanDataModel, ProjectService> {
 
-    @Override
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8688601363580323078L;
+
+	@Override
     protected ProjectBackingBeanDataModel createDataModel() {
         return new ProjectBackingBeanDataModel();
     }

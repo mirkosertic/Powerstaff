@@ -29,7 +29,12 @@ import de.powerstaff.web.backingbean.project.ProjectBackingBean;
 
 public class CustomerBackingBean extends PersonEditorBackingBean<Customer, CustomerBackingBeanDataModel, CustomerService> {
 
-    @Override
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1019229554217528125L;
+
+	@Override
     protected CustomerBackingBeanDataModel createDataModel() {
         return new CustomerBackingBeanDataModel();
     }

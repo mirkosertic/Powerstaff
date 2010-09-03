@@ -32,6 +32,10 @@ import org.apache.poi.hssf.record.formula.functions.T;
 public class EnumItemLabelComparator implements Comparator<EnumItem>,
 		Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8302872564279846096L;
 	private Locale locale;
 
 	/**

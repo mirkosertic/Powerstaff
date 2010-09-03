@@ -24,6 +24,11 @@ import de.mogwai.common.business.dto.DataTransferObject;
 public class ProfileSearchRequest extends DataTransferObject implements
 		SearchRequestSupport {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4589784445090293497L;
+
 	private String profileContent = "";
 
 	private String plz;

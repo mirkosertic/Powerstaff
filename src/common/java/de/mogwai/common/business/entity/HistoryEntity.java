@@ -28,7 +28,12 @@ import java.sql.Timestamp;
  */
 public abstract class HistoryEntity<T extends Entity> extends Entity {
 
-    public static final String REASON_INSERT = "I";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5779554196170468358L;
+
+	public static final String REASON_INSERT = "I";
 
     public static final String REASON_UPDATE = "U";
 

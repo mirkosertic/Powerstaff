@@ -22,7 +22,11 @@ import java.util.Map;
 
 public class Customer extends Person<CustomerContact, CustomerHistory> implements UDFSupport {
 
-    private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -246495433294061147L;
+	private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
     
     public Customer() {
     }

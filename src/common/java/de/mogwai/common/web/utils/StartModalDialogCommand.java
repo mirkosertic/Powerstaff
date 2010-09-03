@@ -28,7 +28,12 @@ import de.mogwai.common.web.navigation.ModalPageDescriptor;
  */
 public class StartModalDialogCommand extends UpdateModelCommand {
 
-    private BackingBean initiator;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3963358589452081396L;
+
+	private BackingBean initiator;
 
     private ModalPageDescriptor pageDescriptor;
 

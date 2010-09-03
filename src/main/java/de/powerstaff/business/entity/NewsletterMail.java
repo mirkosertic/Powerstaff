@@ -21,7 +21,12 @@ import de.mogwai.common.business.entity.AuditableEntity;
 
 public class NewsletterMail extends AuditableEntity {
 
-    private String mail;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5098053162078095434L;
+
+	private String mail;
 
     private int errorcounter;
 

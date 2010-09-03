@@ -26,7 +26,12 @@ import de.mogwai.common.business.entity.AuditableEntity;
 
 public class Person<T extends Contact, H extends HistoryEntity> extends AuditableEntity {
 
-    private String titel;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1255375037203457359L;
+
+	private String titel;
     
     private String name1;
 

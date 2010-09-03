@@ -31,7 +31,12 @@ import de.mogwai.common.business.entity.AuditableEntity;
 
 public class Project extends AuditableEntity implements UDFSupport {
 
-    private Date entryDate;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5246378338479768068L;
+
+	private Date entryDate;
 
     private String projectNumber;
 

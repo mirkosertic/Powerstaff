@@ -21,7 +21,12 @@ import de.mogwai.common.business.entity.AuditableEntity;
 
 public abstract class Contact extends AuditableEntity {
 
-    private String value;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3944979992814079327L;
+
+	private String value;
 
     private ContactType type;
 

@@ -28,7 +28,12 @@ import javax.persistence.Column;
 
 public class Freelancer extends Person<FreelancerContact, FreelancerHistory> implements UDFSupport {
 
-    private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3142067482465272515L;
+
+	private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
     
     private String workplace;
 
