@@ -24,7 +24,12 @@ import de.mogwai.common.web.utils.TreeNodeImpl;
 
 public class TreeBackingBean extends BackingBean {
 
-    private TreeNodeImpl rootNode = new TreeNodeImpl();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4140002600854928748L;
+
+	private TreeNodeImpl rootNode = new TreeNodeImpl();
 
     private TreeModelImpl treeModel = new TreeModelImpl(rootNode);
 

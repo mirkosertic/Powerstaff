@@ -26,7 +26,12 @@ import de.mogwai.common.command.UpdateModelCommand;
  */
 public class ValidateModalDataCommand extends UpdateModelCommand {
 
-    private Object data;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8474084667155022478L;
+
+	private Object data;
 
     private boolean validated;
 

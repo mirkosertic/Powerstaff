@@ -18,4 +18,9 @@
 package de.powerstaff.business.entity;
 
 public class FreelancerHistory extends HistoryEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4695510189345606504L;
 }

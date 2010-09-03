@@ -22,7 +22,12 @@ import de.powerstaff.web.backingbean.PersonEditorBackingBeanDataModel;
 
 public class CustomerBackingBeanDataModel extends PersonEditorBackingBeanDataModel<Customer> {
 
-    public CustomerBackingBeanDataModel() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8186977706581123230L;
+
+	public CustomerBackingBeanDataModel() {
     }
 
     public CustomerBackingBeanDataModel(Customer aCustomer) {

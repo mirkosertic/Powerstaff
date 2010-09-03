@@ -28,6 +28,11 @@ import de.mogwai.common.web.enums.MessageResult;
 public class MessageBoxOkCancelBackingBean extends MessageBoxBackingBean {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5119417279036864491L;
+
+	/**
      * {@inheritDoc}
      */
     @Override

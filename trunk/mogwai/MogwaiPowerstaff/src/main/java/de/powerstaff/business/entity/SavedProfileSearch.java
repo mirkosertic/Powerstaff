@@ -28,6 +28,11 @@ import de.powerstaff.business.dto.SearchRequestSupport;
 public class SavedProfileSearch extends AuditableEntity implements
 		SearchRequestSupport {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8205335843201371353L;
+
 	private User user;
 
 	private String profileContent;

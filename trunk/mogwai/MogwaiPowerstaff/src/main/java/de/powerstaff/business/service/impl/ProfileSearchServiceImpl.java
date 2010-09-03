@@ -345,6 +345,8 @@ public class ProfileSearchServiceImpl extends LogableService implements
 							.getAvailabilityAsDate());
 					theDetail.setPlz(theFreelancer.getPlz());
 					theDetail.setStundensatz(theFreelancer.getSallaryLong());
+					theDetail.setContactforbidden(theFreelancer
+							.isContactforbidden());
 					theDetail.setContacts(new ArrayList<FreelancerContact>(
 							theFreelancer.getContacts()));
 				}

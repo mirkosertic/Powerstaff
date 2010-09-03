@@ -30,7 +30,12 @@ import de.powerstaff.web.utils.Comparators;
 
 public abstract class PersonEditorBackingBeanDataModel<T extends Person> extends NavigatingBackingBeanDataModel<T> {
 
-    private ContactType newContactType;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7341944583550217823L;
+
+	private ContactType newContactType;
 
     private String newContactValue;
 

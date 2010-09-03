@@ -27,6 +27,11 @@ package de.mogwai.common.exception;
 public class BusinessException extends SystemException {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7663943401518505155L;
+
+	/**
      * @param message
      *                zu loggende Meldung in deutscher Sprache (keine
      *                Lokalisierung!).

@@ -20,7 +20,12 @@ import de.mogwai.common.web.backingbean.BackingBean;
 
 public class NumberInputBackingBean extends BackingBean {
 
-    private Integer intValue = 42;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3245379088195751260L;
+
+	private Integer intValue = 42;
 
     private Double doubleValue = 42.12;
 

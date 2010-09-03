@@ -25,7 +25,12 @@ import de.mogwai.common.web.backingbean.BackingBean;
 
 public class CheckboxlistInputBackingBean extends BackingBean {
 
-    private List<String> value1 = new Vector<String>();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3877232031372816443L;
+
+	private List<String> value1 = new Vector<String>();
 
     private List<String> value2 = new Vector<String>();
 
@@ -39,7 +44,11 @@ public class CheckboxlistInputBackingBean extends BackingBean {
 
     public static class ObjectWrapper implements StringPresentationProvider, Serializable {
 
-        private String value;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 381275603155485455L;
+		private String value;
 
         public ObjectWrapper(String aValue) {
             value = aValue;

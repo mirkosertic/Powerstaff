@@ -18,4 +18,9 @@
 package de.powerstaff.business.entity;
 
 public class CustomerHistory extends HistoryEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3137544093792218620L;
 }

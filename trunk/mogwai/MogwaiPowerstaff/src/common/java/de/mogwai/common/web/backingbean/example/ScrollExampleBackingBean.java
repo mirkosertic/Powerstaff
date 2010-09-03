@@ -27,7 +27,11 @@ import de.mogwai.common.web.component.layout.ScrollComponent;
  */
 public class ScrollExampleBackingBean extends BackingBean {
 
-    private ScrollComponent scrollComponent;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1089833372421955717L;
+	private ScrollComponent scrollComponent;
 
     /**
      * Gibt den Wert des Attributs <code>scrollComponent</code> zurück.

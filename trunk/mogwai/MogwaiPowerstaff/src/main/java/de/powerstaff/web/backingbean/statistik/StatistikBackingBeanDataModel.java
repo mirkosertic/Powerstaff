@@ -31,7 +31,12 @@ import de.powerstaff.business.entity.User;
 
 public class StatistikBackingBeanDataModel extends BackingBeanDataModel {
 
-    private transient UIComponent viewRoot;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6994365012255337045L;
+
+	private transient UIComponent viewRoot;
     
     private Date datumVon;
     

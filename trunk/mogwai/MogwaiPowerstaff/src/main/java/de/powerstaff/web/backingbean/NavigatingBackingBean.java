@@ -9,7 +9,12 @@ import de.powerstaff.business.service.RecordInfo;
 public abstract class NavigatingBackingBean<T extends Entity, V extends NavigatingBackingBeanDataModel, S extends NavigatingService<T>>
         extends EntityEditorBackingBean<V> {
 
-    private static final Logger LOGGER = new Logger(NavigatingBackingBean.class);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7505086677065098879L;
+
+	private static final Logger LOGGER = new Logger(NavigatingBackingBean.class);
 
     protected S entityService;
 

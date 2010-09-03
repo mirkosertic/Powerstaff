@@ -20,7 +20,12 @@ import de.mogwai.common.web.backingbean.BackingBean;
 
 public class CheckboxInputBackingBean extends BackingBean {
 
-    private Boolean value1;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5795599118292413585L;
+
+	private Boolean value1;
 
     private boolean value2;
 

@@ -24,7 +24,12 @@ import de.mogwai.common.web.backingbean.BackingBean;
 
 public class RadiolistInputBackingBean extends BackingBean {
 
-    private String value1;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4151846732553192513L;
+
+	private String value1;
 
     private String value2;
 
@@ -38,7 +43,11 @@ public class RadiolistInputBackingBean extends BackingBean {
 
     public static class ObjectWrapper implements StringPresentationProvider, Serializable {
 
-        private String value;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -519723083794411837L;
+		private String value;
 
         public ObjectWrapper(String aValue) {
             value = aValue;

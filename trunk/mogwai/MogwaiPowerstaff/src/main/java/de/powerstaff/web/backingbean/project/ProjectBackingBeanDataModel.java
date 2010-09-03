@@ -12,7 +12,12 @@ import de.powerstaff.web.backingbean.NavigatingBackingBeanDataModel;
 
 public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<Project> {
 
-    private CollectionDataModel<GenericSearchResult> searchResult = new CollectionDataModel<GenericSearchResult>();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4432968696961074056L;
+
+	private CollectionDataModel<GenericSearchResult> searchResult = new CollectionDataModel<GenericSearchResult>();
 
     private List<KeyValuePair> status = new ArrayList<KeyValuePair>();
 

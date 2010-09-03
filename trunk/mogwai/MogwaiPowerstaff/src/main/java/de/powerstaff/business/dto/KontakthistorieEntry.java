@@ -24,7 +24,12 @@ import de.powerstaff.business.entity.HistoryType;
 
 public class KontakthistorieEntry extends DataTransferObject {
 
-    private Date datum;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5648351697219539516L;
+
+	private Date datum;
 
     private String name1;
 

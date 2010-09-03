@@ -35,6 +35,10 @@ import de.powerstaff.web.utils.Comparators;
 public abstract class PersonEditorBackingBean<T extends Person, V extends PersonEditorBackingBeanDataModel<T>, S extends PersonService<T>>
 		extends NavigatingBackingBean<T, V, S> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6719464867736964872L;
 	private AdditionalDataService additinalDataService;
 
 	/**

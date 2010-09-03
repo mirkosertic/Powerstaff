@@ -29,7 +29,12 @@ import javax.faces.model.ListDataModel;
  */
 public class MultiPageNavigationDataModel extends ListDataModel implements Serializable {
 
-    private int index;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8620312686454005755L;
+
+	private int index;
 
     private PageDescriptor overrideDescriptor;
 

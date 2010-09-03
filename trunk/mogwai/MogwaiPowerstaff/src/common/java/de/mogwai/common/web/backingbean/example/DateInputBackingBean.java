@@ -22,7 +22,12 @@ import de.mogwai.common.web.backingbean.BackingBean;
 
 public class DateInputBackingBean extends BackingBean {
 
-    private Date datum;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6009078012460453773L;
+
+	private Date datum;
 
     private Date datum2;
 

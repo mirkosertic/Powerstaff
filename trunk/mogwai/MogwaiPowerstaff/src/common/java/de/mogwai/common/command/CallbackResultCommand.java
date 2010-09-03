@@ -24,7 +24,11 @@ package de.mogwai.common.command;
  */
 public class CallbackResultCommand extends UpdateModelCommand {
 
-    private Object value;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9081680741360395366L;
+	private Object value;
 
     public CallbackResultCommand(Object aValue) {
         value = aValue;

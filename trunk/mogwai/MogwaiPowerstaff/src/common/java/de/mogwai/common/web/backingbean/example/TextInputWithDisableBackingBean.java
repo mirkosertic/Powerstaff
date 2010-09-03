@@ -22,7 +22,12 @@ import de.mogwai.common.web.component.input.ModalComponentUtils;
 
 public class TextInputWithDisableBackingBean extends BackingBean {
 
-    private String text1;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9208942755445228213L;
+
+	private String text1;
 
     private String text2;
 

@@ -368,6 +368,10 @@
 	text-decoration: none;
 }
 
+.kontaktsperre {
+	color: red;
+}
+
 body {
   background-color:white; 
   margin-left:0px; 

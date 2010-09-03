@@ -28,7 +28,12 @@ import de.mogwai.common.business.entity.Entity;
  */
 public class ObjectLockedException extends RuntimeException {
 
-    private Entity entity;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8374264186743579906L;
+
+	private Entity entity;
 
     private String lockUserId;
 

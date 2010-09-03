@@ -18,4 +18,9 @@
 package de.powerstaff.business.entity;
 
 public class PartnerHistory extends HistoryEntity {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2660983559180826430L;
 }

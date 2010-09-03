@@ -24,6 +24,11 @@ package de.mogwai.common.command;
  */
 public class ResetNavigationCommand implements Command {
 
-    public ResetNavigationCommand() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -144517202853446634L;
+
+	public ResetNavigationCommand() {
     }
 }

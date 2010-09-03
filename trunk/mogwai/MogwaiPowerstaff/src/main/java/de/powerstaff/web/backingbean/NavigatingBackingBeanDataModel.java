@@ -11,7 +11,12 @@ import de.mogwai.common.web.component.ComponentUtils;
 
 public abstract class NavigatingBackingBeanDataModel<T extends Entity> extends EntityEditorBackingBeanDataModel<T> {
 
-    private transient UIComponent viewRoot;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4222492868578096147L;
+
+	private transient UIComponent viewRoot;
     
     private Long recordNumber;
 

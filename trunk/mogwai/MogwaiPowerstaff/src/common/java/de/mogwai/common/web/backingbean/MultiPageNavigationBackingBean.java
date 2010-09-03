@@ -33,7 +33,11 @@ import de.mogwai.common.web.navigation.PageDescriptor;
  */
 public abstract class MultiPageNavigationBackingBean<T extends BackingBeanDataModel> extends WrappingBackingBean<T> {
 
-    protected MultiPageNavigationDataModel pageModel = new MultiPageNavigationDataModel();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6162563876375819590L;
+	protected MultiPageNavigationDataModel pageModel = new MultiPageNavigationDataModel();
 
     public MultiPageNavigationDataModel getPageModel() {
         return pageModel;

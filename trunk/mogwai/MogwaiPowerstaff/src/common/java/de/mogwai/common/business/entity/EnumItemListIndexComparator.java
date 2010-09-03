@@ -30,6 +30,11 @@ import org.apache.poi.hssf.record.formula.functions.T;
 public class EnumItemListIndexComparator implements Comparator<EnumItem>,
 		Serializable {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2401080976216452170L;
+
+	/**
 	 * @see java.util.Comparator#compare(T, T)
 	 */
 	public int compare(EnumItem enumItem1, EnumItem enumItem2) {

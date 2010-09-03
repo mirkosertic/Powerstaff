@@ -18,7 +18,11 @@ package de.mogwai.common.command;
 
 public class EditEntityCommand<T> extends UpdateModelCommand {
 
-    private T value;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2263680910475181067L;
+	private T value;
 
     public EditEntityCommand(T aValue) {
         value = aValue;

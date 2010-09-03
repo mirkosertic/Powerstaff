@@ -10,7 +10,12 @@ import de.powerstaff.web.backingbean.statistik.StatistikBackingBean;
 
 public class NavigationBackingBean extends BackingBean {
 
-    public String commandFreelancer() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2068461554004949119L;
+
+	public String commandFreelancer() {
         forceNavigationResetOfBean(FreelancerBackingBean.class);
         return "FREELANCER_STAMMDATEN";
     }

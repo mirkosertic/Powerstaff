@@ -21,7 +21,12 @@ import de.mogwai.common.web.navigation.PageDescriptor;
 
 public class MultiPageBackingBean extends MultiPageNavigationBackingBean<MultiPageDataModel> {
 
-    private PageDescriptor page1 = new PageDescriptor("/includes/page1.jsp");
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1298129744945813846L;
+
+	private PageDescriptor page1 = new PageDescriptor("/includes/page1.jsp");
 
     private PageDescriptor page2 = new PageDescriptor("/includes/page2.jsp");
 

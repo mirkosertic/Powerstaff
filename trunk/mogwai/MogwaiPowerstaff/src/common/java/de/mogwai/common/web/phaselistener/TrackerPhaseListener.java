@@ -25,7 +25,12 @@ import de.mogwai.common.logging.Logger;
 
 public class TrackerPhaseListener implements PhaseListener {
 
-    private static final Logger LOGGER = new Logger(TrackerPhaseListener.class);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4017505684182951105L;
+
+	private static final Logger LOGGER = new Logger(TrackerPhaseListener.class);
 
     private ThreadLocal<Long> start = new ThreadLocal<Long>();
 

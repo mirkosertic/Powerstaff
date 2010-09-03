@@ -27,7 +27,12 @@ import de.mogwai.common.web.utils.UpdateModelInfo;
 
 public class TableExampleBackingBean extends BackingBean {
 
-    public static class TableRow {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6908810875772856940L;
+
+	public static class TableRow {
 
         private String wert1;
 

@@ -34,7 +34,12 @@ import de.powerstaff.web.backingbean.MessageConstants;
 public class StatistikBackingBean extends WrappingBackingBean<StatistikBackingBeanDataModel> implements MessageConstants,
         StateHolder {
 
-    private static final Logger LOGGER = new Logger(StatistikBackingBean.class);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3411470666529912902L;
+
+	private static final Logger LOGGER = new Logger(StatistikBackingBean.class);
 
     private StatisticService statisticService;
     

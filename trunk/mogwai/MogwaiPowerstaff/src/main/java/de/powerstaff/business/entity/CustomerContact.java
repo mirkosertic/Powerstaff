@@ -18,4 +18,9 @@
 package de.powerstaff.business.entity;
 
 public class CustomerContact extends Contact {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4685034599770094970L;
 }

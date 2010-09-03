@@ -32,6 +32,11 @@ import de.mogwai.common.web.model.EnumItemMultiLanguageSelectItem;
 public class EnumItemMultiLanguageSelectItemList extends Vector<EnumItemMultiLanguageSelectItem> {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1859187515135497658L;
+
+	/**
      * Default - Konstruktor.
      */
     public EnumItemMultiLanguageSelectItemList() {

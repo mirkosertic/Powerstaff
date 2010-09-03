@@ -27,7 +27,12 @@ import java.sql.Timestamp;
  */
 public class LockEntry extends Entity {
 
-    private long objectId;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2077232876028680541L;
+
+	private long objectId;
 
     private String objectName;
 

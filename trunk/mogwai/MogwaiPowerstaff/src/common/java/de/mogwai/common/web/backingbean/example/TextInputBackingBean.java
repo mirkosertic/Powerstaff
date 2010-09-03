@@ -20,7 +20,12 @@ import de.mogwai.common.web.backingbean.BackingBean;
 
 public class TextInputBackingBean extends BackingBean {
 
-    private String text1;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2052752520775975633L;
+
+	private String text1;
 
     private String text2;
 

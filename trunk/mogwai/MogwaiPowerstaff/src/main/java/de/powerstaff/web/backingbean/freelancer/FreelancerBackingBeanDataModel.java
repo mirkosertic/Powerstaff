@@ -11,7 +11,12 @@ import de.powerstaff.web.backingbean.PersonEditorBackingBeanDataModel;
 
 public class FreelancerBackingBeanDataModel extends PersonEditorBackingBeanDataModel<Freelancer> {
 
-    private CollectionDataModel<FreelancerProfile> profiles = new CollectionDataModel<FreelancerProfile>();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 686254367960000233L;
+
+	private CollectionDataModel<FreelancerProfile> profiles = new CollectionDataModel<FreelancerProfile>();
 
     private List status = new Vector();
 

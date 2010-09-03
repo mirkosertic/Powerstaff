@@ -30,7 +30,12 @@ package de.mogwai.common.command;
  */
 public class MessageBoxResultObjectCommand<T, O> extends UpdateModelCommand {
 
-    private T value;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4052175047888236687L;
+
+	private T value;
 
     private O obj;
 

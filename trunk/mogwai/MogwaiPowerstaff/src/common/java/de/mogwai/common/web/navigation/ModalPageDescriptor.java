@@ -24,7 +24,12 @@ package de.mogwai.common.web.navigation;
  */
 public class ModalPageDescriptor extends PageDescriptor {
 
-    public ModalPageDescriptor(String aPage, String aDescriptionKey) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3147594069826385120L;
+
+	public ModalPageDescriptor(String aPage, String aDescriptionKey) {
         super(aPage, aDescriptionKey, true);
     }
 }

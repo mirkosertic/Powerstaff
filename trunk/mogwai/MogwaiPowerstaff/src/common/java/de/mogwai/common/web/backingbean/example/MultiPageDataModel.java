@@ -20,7 +20,12 @@ import de.mogwai.common.web.backingbean.BackingBeanDataModel;
 
 public class MultiPageDataModel extends BackingBeanDataModel {
 
-    private String value1;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5470274594852268572L;
+
+	private String value1;
 
     private String value2;
 

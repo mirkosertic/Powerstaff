@@ -30,7 +30,12 @@ import de.mogwai.common.web.utils.UpdateModelInfo;
  */
 public class MessageBoxBackingBean extends WrappingBackingBean<MessageBoxDataModel> {
 
-    @Override
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2300664320668913354L;
+
+	@Override
     protected MessageBoxDataModel createDataModel() {
         return new MessageBoxDataModel();
     }

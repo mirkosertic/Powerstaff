@@ -25,7 +25,12 @@ import de.mogwai.common.web.navigation.ModalPageDescriptor;
 
 public class ModalOverlayBackingBean extends BackingBean {
 
-    private String wert1;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5226026699926668679L;
+
+	private String wert1;
 
     private String wert2;
 

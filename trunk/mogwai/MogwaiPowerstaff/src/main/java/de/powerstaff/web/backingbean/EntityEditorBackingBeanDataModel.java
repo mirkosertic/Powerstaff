@@ -4,7 +4,11 @@ import de.mogwai.common.web.backingbean.BackingBeanDataModel;
 
 public abstract class EntityEditorBackingBeanDataModel<T extends Object> extends BackingBeanDataModel {
 
-    private T entity;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -248382974035163220L;
+	private T entity;
 
     public EntityEditorBackingBeanDataModel() {
         initialize();

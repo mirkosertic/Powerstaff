@@ -21,7 +21,11 @@ import de.mogwai.common.business.entity.AuditableEntity;
 
 public class ProjectHistory extends AuditableEntity {
 
-    private String description;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7179222223507675362L;
+	private String description;
 
     public String getDescription() {
         return description;

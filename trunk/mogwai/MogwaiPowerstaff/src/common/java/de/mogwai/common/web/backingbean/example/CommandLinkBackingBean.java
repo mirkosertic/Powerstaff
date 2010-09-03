@@ -20,7 +20,12 @@ import de.mogwai.common.web.backingbean.BackingBean;
 
 public class CommandLinkBackingBean extends BackingBean {
 
-    public CommandLinkBackingBean() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8520344958077670915L;
+
+	public CommandLinkBackingBean() {
     }
 
     public String jumpToPage1() {

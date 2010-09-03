@@ -24,7 +24,12 @@ package de.mogwai.common.utils;
  */
 public class XMLException extends Exception {
 
-    public XMLException(Exception aException) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7070482203926428175L;
+
+	public XMLException(Exception aException) {
         super(aException);
     }
 }

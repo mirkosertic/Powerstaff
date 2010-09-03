@@ -24,7 +24,12 @@ import java.util.Set;
 
 public class Partner extends Person<PartnerContact, PartnerHistory> implements UDFSupport {
 
-    private Set<Freelancer> freelancer = new HashSet<Freelancer>();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 57927036856781913L;
+
+	private Set<Freelancer> freelancer = new HashSet<Freelancer>();
     
     private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
 

@@ -27,7 +27,12 @@ import de.mogwai.common.web.component.ComponentUtils;
 
 public class LoginBackingBeanDataModel extends BackingBeanDataModel {
 
-    private UIComponent viewRoot;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6679747434377687583L;
+
+	private UIComponent viewRoot;
 
     private String username;
 
