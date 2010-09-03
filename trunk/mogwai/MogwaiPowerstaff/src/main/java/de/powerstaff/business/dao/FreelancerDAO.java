@@ -25,9 +25,11 @@ import de.powerstaff.business.entity.Freelancer;
 
 public interface FreelancerDAO extends PersonDAO<Freelancer> {
 
-    ProfileSearchInfoDetail findByCode(String aCode, ProfileSearchRequest request);
+	ProfileSearchInfoDetail findByCode(String aCode);
 
-    List<String> getCodeSuggestions(String aSuggest);
+	List<String> findCodesBy(ProfileSearchRequest request);
 
-    Freelancer findByCodeReal(String aCode);
+	List<String> getCodeSuggestions(String aSuggest);
+
+	Freelancer findByCodeReal(String aCode);
 }

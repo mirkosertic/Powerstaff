@@ -18,6 +18,7 @@
 package de.powerstaff.business.dao.hibernate;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -61,8 +62,47 @@ public class FreelancerDAOHibernateImpl extends
 		return Freelancer.class;
 	}
 
-	public ProfileSearchInfoDetail findByCode(final String aCode,
-			final ProfileSearchRequest request) {
+	public List<String> findCodesBy(final ProfileSearchRequest request) {
+		return (List<String>) getHibernateTemplate().execute(
+				new HibernateCallback() {
+
+					public Object doInHibernate(Session aSession)
+							throws SQLException {
+
+						String theQueryString = "select item.code from Freelancer item where true=true ";
+
+						Long theSallaryStart = request.getStundensatzVon();
+						if (theSallaryStart != null) {
+							theQueryString += "and item.sallaryLong >= "
+									+ theSallaryStart;
+						}
+
+						Long theSallaryEnd = request.getStundensatzBis();
+						if (theSallaryEnd != null) {
+							theQueryString += "and item.sallaryLong <= "
+									+ theSallaryEnd;
+						}
+
+						String thePlz = request.getPlz();
+						if (!StringUtils.isEmpty(thePlz)) {
+							theQueryString += "and item.plz like '" + thePlz
+									+ "'";
+						}
+
+						Query theQuery = aSession.createQuery(theQueryString);
+						Iterator theIterator = theQuery.list().iterator();
+						List<String> theResult = new ArrayList<String>();
+						if (theIterator.hasNext()) {
+							theResult.add((String) theIterator.next());
+						}
+
+						return theResult;
+					}
+
+				});
+	}
+
+	public ProfileSearchInfoDetail findByCode(final String aCode) {
 		return (ProfileSearchInfoDetail) getHibernateTemplate().execute(
 				new HibernateCallback() {
 
@@ -70,26 +110,7 @@ public class FreelancerDAOHibernateImpl extends
 							throws SQLException {
 
 						String theQueryString = "select item.name1, item.name2, item.availabilityAsDate, item.id , item.sallaryLong, item.country, item.plz from Freelancer item where item.code = :code ";
-						if (request != null) {
-							Long theSallaryStart = request.getStundensatzVon();
-							if (theSallaryStart != null) {
-								theQueryString += "and item.sallaryLong >= "
-										+ theSallaryStart;
-							}
 
-							Long theSallaryEnd = request.getStundensatzBis();
-							if (theSallaryEnd != null) {
-								theQueryString += "and item.sallaryLong <= "
-										+ theSallaryEnd;
-							}
-
-							String thePlz = request.getPlz();
-							if (!StringUtils.isEmpty(thePlz)) {
-								theQueryString += "and item.plz like '"
-										+ thePlz + "'";
-							}
-
-						}
 						Query theQuery = aSession.createQuery(theQueryString);
 						theQuery.setString("code", aCode);
 						Iterator theIterator = theQuery.list().iterator();

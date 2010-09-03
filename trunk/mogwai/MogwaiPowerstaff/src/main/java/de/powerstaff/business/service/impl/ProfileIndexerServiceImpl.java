@@ -20,12 +20,16 @@ package de.powerstaff.business.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Date;
 import java.util.UUID;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.KeywordAnalyzer;
+import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.NumberTools;
+import org.apache.lucene.document.DateTools.Resolution;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.queryParser.ParseException;
@@ -37,6 +41,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.mogwai.common.business.service.impl.LogableService;
+import de.powerstaff.business.dao.FreelancerDAO;
+import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.service.LuceneService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ProfileIndexerService;
@@ -61,7 +67,31 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 
 	private LuceneService luceneService;
 
+	private FreelancerDAO freelancerDAO;
+
 	private boolean running;
+
+	private static String toIndexFormat(Date aValue) {
+		if (aValue == null) {
+			return "";
+		}
+		return DateTools.dateToString(aValue, Resolution.DAY);
+	}
+
+	private static String toIndexFormat(Long aNumber) {
+		if (aNumber == null) {
+			return "";
+		}
+		return NumberTools.longToString(aNumber.longValue());
+	}
+
+	private static String toIndexFormat(boolean aBoolean) {
+		return aBoolean ? "true" : "false";
+	}
+
+	public void setFreelancerDAO(FreelancerDAO freelancerDAO) {
+		this.freelancerDAO = freelancerDAO;
+	}
 
 	public void setReaderFactory(DocumentReaderFactory readerFactory) {
 		this.readerFactory = readerFactory;
@@ -115,6 +145,15 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 
 		Query theQuery = theParser.parse("\""
 				+ file.toString().replace("\\", "\\\\") + "\"");
+		return theQuery;
+	}
+
+	private Query createQueryForFreelancerId(long aFreelancerId)
+			throws ParseException {
+		Analyzer theAnalyzer = new KeywordAnalyzer();
+		QueryParser theParser = new QueryParser(FREELANCERID, theAnalyzer);
+
+		Query theQuery = theParser.parse("\"" + aFreelancerId + "\"");
 		return theQuery;
 	}
 
@@ -172,7 +211,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 		} finally {
 
 			try {
-				luceneService.shutdownIndexWriter();
+				luceneService.shutdownIndexWriter(true);
 			} catch (Exception e) {
 				logger.logError("Error on shutdown of index writer", e);
 			}
@@ -245,6 +284,38 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 							Field.Store.YES, Field.Index.UN_TOKENIZED));
 					doc.add(new Field(CONTENT, new StringReader(theResult
 							.getContent())));
+
+					Freelancer theFreelancer = freelancerDAO
+							.findByCodeReal(theCode);
+
+					if (theFreelancer != null) {
+						doc.add(new Field(NAME1, theFreelancer.getName1(),
+								Field.Store.YES, Field.Index.UN_TOKENIZED));
+						doc.add(new Field(NAME2, theFreelancer.getName2(),
+								Field.Store.YES, Field.Index.UN_TOKENIZED));
+						doc.add(new Field(FREELANCERID, ""
+								+ theFreelancer.getId(), Field.Store.YES,
+								Field.Index.UN_TOKENIZED));
+						doc.add(new Field(PLZ, theFreelancer.getPlz(),
+								Field.Store.YES, Field.Index.UN_TOKENIZED));
+						doc.add(new Field(VERFUEGBARKEIT,
+								toIndexFormat(theFreelancer
+										.getAvailabilityAsDate()),
+								Field.Store.YES, Field.Index.UN_TOKENIZED));
+						doc.add(new Field(STUNDENSATZ,
+								toIndexFormat(theFreelancer.getSallaryLong()),
+								Field.Store.YES, Field.Index.UN_TOKENIZED));
+
+						doc.add(new Field(HASMATCHINGRECORD,
+								toIndexFormat(true), Field.Store.YES,
+								Field.Index.UN_TOKENIZED));
+
+						freelancerDAO.detach(theFreelancer);
+					} else {
+						doc.add(new Field(HASMATCHINGRECORD,
+								toIndexFormat(false), Field.Store.YES,
+								Field.Index.UN_TOKENIZED));
+					}
 
 					aWriter.addDocument(doc);
 
@@ -335,10 +406,35 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 			try {
 
 				luceneService.createNewIndex();
-				luceneService.shutdownIndexWriter();
+				luceneService.shutdownIndexWriter(false);
 
 			} catch (Exception e) {
 				logger.logError("Unable to rebuild index", e);
+			}
+		}
+	}
+
+	@Override
+	public synchronized void refresh(Freelancer aFreelancer) {
+		try {
+
+			logger.logInfo("Refreshing index for freelancer "
+					+ aFreelancer.getId());
+
+			IndexWriter theWriter = luceneService.getIndexWriter();
+			theWriter.deleteDocuments(createQueryForFreelancerId(aFreelancer
+					.getId()));
+
+		} catch (Exception e) {
+			logger.logError("Error while refreshing index for freelancer code "
+					+ aFreelancer.getCode());
+		} finally {
+			try {
+				if (!running) {
+					luceneService.shutdownIndexWriter(false);
+				}
+			} catch (Exception e) {
+				logger.logError("Error shutting down index writer");
 			}
 		}
 	}

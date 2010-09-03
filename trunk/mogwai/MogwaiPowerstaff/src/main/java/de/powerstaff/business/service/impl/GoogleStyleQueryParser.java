@@ -46,7 +46,7 @@ public class GoogleStyleQueryParser {
 	public static final String EMPTY = "";
 
 	private char delimiter;
-	
+
 	private IndexReader reader;
 
 	public GoogleStyleQueryParser(IndexReader aReader) {
@@ -103,8 +103,7 @@ public class GoogleStyleQueryParser {
 			if (!isWildcardTerm(theTokenText)) {
 				thePhraseQuery.add(theTerm);
 			} else {
-				WildcardTermEnum theEnum = new WildcardTermEnum(reader,
-						theTerm);
+				WildcardTermEnum theEnum = new WildcardTermEnum(reader, theTerm);
 				try {
 					List<Term> theTerms = new ArrayList<Term>();
 					do {

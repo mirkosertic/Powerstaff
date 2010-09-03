@@ -29,13 +29,16 @@ import de.mogwai.common.business.service.Service;
 
 public interface LuceneService extends Service {
 
-	IndexReader getIndexReader() throws CorruptIndexException, IOException ;
-	
-	IndexSearcher getIndexSearcher() throws CorruptIndexException, IOException ;
-	
-	IndexWriter getIndexWriter() throws CorruptIndexException, LockObtainFailedException, IOException ;
-	
-	IndexWriter createNewIndex() throws CorruptIndexException, LockObtainFailedException, IOException ; 
-	
-	void shutdownIndexWriter() throws CorruptIndexException, IOException;
+	IndexReader getIndexReader() throws CorruptIndexException, IOException;
+
+	IndexSearcher getIndexSearcher() throws CorruptIndexException, IOException;
+
+	IndexWriter getIndexWriter() throws CorruptIndexException,
+			LockObtainFailedException, IOException;
+
+	IndexWriter createNewIndex() throws CorruptIndexException,
+			LockObtainFailedException, IOException;
+
+	void shutdownIndexWriter(boolean aOptimize) throws CorruptIndexException,
+			IOException;
 }

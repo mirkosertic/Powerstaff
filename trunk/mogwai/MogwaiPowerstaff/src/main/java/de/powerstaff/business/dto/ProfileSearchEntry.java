@@ -18,54 +18,36 @@
 package de.powerstaff.business.dto;
 
 import de.mogwai.common.business.dto.DataTransferObject;
-import de.powerstaff.business.entity.SavedProfileSearchEntry;
-
 
 public class ProfileSearchEntry extends DataTransferObject {
 
-    private String code;
+	private String code;
 
-    private ProfileSearchInfoDetail freelancer;
+	private ProfileSearchInfoDetail freelancer;
 
-    private String highlightResult;
-    
-    private SavedProfileSearchEntry savedSearchEntry;
+	private String highlightResult;
 
-    public String getCode() {
-        return code;
-    }
+	public String getCode() {
+		return code;
+	}
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+	public void setCode(String code) {
+		this.code = code;
+	}
 
-    public ProfileSearchInfoDetail getFreelancer() {
-        return freelancer;
-    }
+	public ProfileSearchInfoDetail getFreelancer() {
+		return freelancer;
+	}
 
-    public void setFreelancer(ProfileSearchInfoDetail freelancer) {
-        this.freelancer = freelancer;
-    }
+	public void setFreelancer(ProfileSearchInfoDetail freelancer) {
+		this.freelancer = freelancer;
+	}
 
-    public String getHighlightResult() {
-        return highlightResult;
-    }
+	public String getHighlightResult() {
+		return highlightResult;
+	}
 
-    public void setHighlightResult(String highlightResult) {
-        this.highlightResult = highlightResult;
-    }
-
-    /**
-     * @return the savedSearchEntry
-     */
-    public SavedProfileSearchEntry getSavedSearchEntry() {
-        return savedSearchEntry;
-    }
-
-    /**
-     * @param savedSearchEntry the savedSearchEntry to set
-     */
-    public void setSavedSearchEntry(SavedProfileSearchEntry savedSearchEntry) {
-        this.savedSearchEntry = savedSearchEntry;
-    }
+	public void setHighlightResult(String highlightResult) {
+		this.highlightResult = highlightResult;
+	}
 }

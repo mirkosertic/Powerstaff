@@ -143,19 +143,25 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 	}
 
 	@Override
-	public synchronized void shutdownIndexWriter()
+	public synchronized void shutdownIndexWriter(boolean aOptimize)
 			throws CorruptIndexException, IOException {
 
-		logger.logInfo("Shutting down index writer");
+		if (indexWriter != null) {
+			logger.logInfo("Shutting down index writer");
 
-		try {
-			indexWriter.optimize();
-		} finally {
-			indexWriter.close();
-			indexWriter = null;
+			try {
+				if (aOptimize) {
+					logger.logInfo("Optimiting index");
+					indexWriter.optimize();
+					logger.logInfo("Optimizing done");
+				}
+			} finally {
+				indexWriter.close();
+				indexWriter = null;
 
-			indexReader = null;
-			indexSearcher = null;
+				indexReader = null;
+				indexSearcher = null;
+			}
 		}
 	}
 

@@ -18,6 +18,7 @@ import java.io.OutputStream;
 import java.io.StringBufferInputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -240,7 +241,7 @@ public class ClientHttpRequest {
 		write('"');
 		newline();
 		write("Content-Type: ");
-		String type = connection.guessContentTypeFromName(filename);
+		String type = URLConnection.guessContentTypeFromName(filename);
 		if (type == null) {
 			type = "application/octet-stream";
 		}

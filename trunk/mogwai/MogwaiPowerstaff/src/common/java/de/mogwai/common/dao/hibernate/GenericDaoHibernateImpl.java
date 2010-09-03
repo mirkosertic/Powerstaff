@@ -26,40 +26,47 @@ import de.mogwai.common.dao.DAO;
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:25:22 $
  */
-public abstract class GenericDaoHibernateImpl extends HibernateDaoSupport implements DAO {
+public abstract class GenericDaoHibernateImpl extends HibernateDaoSupport
+		implements DAO {
 
-    public Object getById(Class entityClass, Long id) {
+	public Object getById(Class entityClass, Long id) {
 
-        return getHibernateTemplate().get(entityClass, id);
-    }
+		return getHibernateTemplate().get(entityClass, id);
+	}
 
-    public void save(Object entity) {
+	public void save(Object entity) {
 
-        getHibernateTemplate().saveOrUpdate(entity);
-    }
+		getHibernateTemplate().saveOrUpdate(entity);
+		getHibernateTemplate().flush();
+	}
 
-    public void delete(Object entity) {
+	public void delete(Object entity) {
 
-        getHibernateTemplate().delete(entity);
-    }
+		getHibernateTemplate().delete(entity);
+		getHibernateTemplate().flush();
+	}
 
-    /**
-     * Wandelt die GUI-Wildcards in SQL Wilcards um.
-     * 
-     * @param str
-     *                unbearbeiteteter String aus dem GUI
-     * @return String mit SQL-Wildcards für die Datenbank
-     */
+	public void detach(Object aObject) {
+		getHibernateTemplate().evict(aObject);
+	}
 
-    public String wildcardFilter(String str) {
-        if (str.indexOf('?') >= 0) {
-            str = str.replace('?', '_');
-        }
-        if (str.indexOf('*') >= 0) {
-            str = str.replace('*', '%');
-        }
-        return str;
+	/**
+	 * Wandelt die GUI-Wildcards in SQL Wilcards um.
+	 * 
+	 * @param str
+	 *            unbearbeiteteter String aus dem GUI
+	 * @return String mit SQL-Wildcards für die Datenbank
+	 */
 
-    }
+	public String wildcardFilter(String str) {
+		if (str.indexOf('?') >= 0) {
+			str = str.replace('?', '_');
+		}
+		if (str.indexOf('*') >= 0) {
+			str = str.replace('*', '%');
+		}
+		return str;
+
+	}
 
 }

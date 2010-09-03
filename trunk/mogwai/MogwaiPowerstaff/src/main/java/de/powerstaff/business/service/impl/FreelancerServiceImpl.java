@@ -29,112 +29,108 @@ import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
+import de.powerstaff.business.service.ProfileIndexerService;
 import de.powerstaff.business.service.RecordInfo;
 import de.powerstaff.business.service.TooManySearchResults;
 
-public class FreelancerServiceImpl extends LogableService implements FreelancerService {
+public class FreelancerServiceImpl extends LogableService implements
+		FreelancerService {
 
-    private FreelancerDAO freelancerDAO;
-    
-    private PowerstaffSystemParameterService systemParameterService;
+	private FreelancerDAO freelancerDAO;
 
-    /**
-     * @return the freelancerDAO
-     */
-    public FreelancerDAO getFreelancerDAO() {
-        return freelancerDAO;
-    }
+	private PowerstaffSystemParameterService systemParameterService;
 
-    /**
-     * @param freelancerDAO
-     *                the freelancerDAO to set
-     */
-    public void setFreelancerDAO(FreelancerDAO freelancerDAO) {
-        this.freelancerDAO = freelancerDAO;
-    }
+	private ProfileIndexerService profileIndexerService;
 
-    /**
-     * @return the systemParameterService
-     */
-    public PowerstaffSystemParameterService getSystemParameterService() {
-        return systemParameterService;
-    }
+	public void setProfileIndexerService(
+			ProfileIndexerService profileIndexerService) {
+		this.profileIndexerService = profileIndexerService;
+	}
 
-    /**
-     * @param systemParameterService the systemParameterService to set
-     */
-    public void setSystemParameterService(PowerstaffSystemParameterService systemParameterService) {
-        this.systemParameterService = systemParameterService;
-    }
+	public void setFreelancerDAO(FreelancerDAO freelancerDAO) {
+		this.freelancerDAO = freelancerDAO;
+	}
 
-    public ProfileSearchInfoDetail findFreelancerByCode(String code) {
-        return freelancerDAO.findByCode(code, null);
-    }
+	public void setSystemParameterService(
+			PowerstaffSystemParameterService systemParameterService) {
+		this.systemParameterService = systemParameterService;
+	}
 
-    public void delete(Freelancer aEntity) {
-        freelancerDAO.delete(aEntity);
-    }
+	public ProfileSearchInfoDetail findFreelancerByCode(String code) {
+		return freelancerDAO.findByCode(code);
+	}
 
-    public Freelancer findByPrimaryKey(Long aId) {
-        return freelancerDAO.findById(aId);
-    }
+	public void delete(Freelancer aEntity) {
+		freelancerDAO.delete(aEntity);
+		profileIndexerService.refresh(aEntity);
+	}
 
-    public Freelancer findFirst() {
-        return freelancerDAO.findFirst();
-    }
+	public Freelancer findByPrimaryKey(Long aId) {
+		return freelancerDAO.findById(aId);
+	}
 
-    public Freelancer findLast() {
-        return freelancerDAO.findLast();
-    }
+	public Freelancer findFirst() {
+		return freelancerDAO.findFirst();
+	}
 
-    public Freelancer findNext(Freelancer aObject) {
-        return freelancerDAO.findNext(aObject);
-    }
+	public Freelancer findLast() {
+		return freelancerDAO.findLast();
+	}
 
-    public Freelancer findPrior(Freelancer aObject) {
-        return freelancerDAO.findPrior(aObject);
-    }
+	public Freelancer findNext(Freelancer aObject) {
+		return freelancerDAO.findNext(aObject);
+	}
 
-    public RecordInfo getRecordInfo(Freelancer aObject) {
-        return freelancerDAO.getRecordInfo(aObject);
-    }
+	public Freelancer findPrior(Freelancer aObject) {
+		return freelancerDAO.findPrior(aObject);
+	}
 
-    public Collection<GenericSearchResult> performQBESearch(Freelancer aObject) throws TooManySearchResults {
-        int aMax = systemParameterService.getMaxSearchResult();
-        Collection<GenericSearchResult> theResult = freelancerDAO.performQBESearch(aObject, aMax);
-        if (theResult.size() == aMax) {
-            throw new TooManySearchResults(theResult);
-        }
-        return theResult;
-    }
+	public RecordInfo getRecordInfo(Freelancer aObject) {
+		return freelancerDAO.getRecordInfo(aObject);
+	}
 
-    public void save(Freelancer aObject) {
-        freelancerDAO.save(aObject);
-    }
+	public Collection<GenericSearchResult> performQBESearch(Freelancer aObject)
+			throws TooManySearchResults {
+		int aMax = systemParameterService.getMaxSearchResult();
+		Collection<GenericSearchResult> theResult = freelancerDAO
+				.performQBESearch(aObject, aMax);
+		if (theResult.size() == aMax) {
+			throw new TooManySearchResults(theResult);
+		}
+		return theResult;
+	}
 
-    public List<String> getCodeSuggestions(String aSuggest) {
-        return freelancerDAO.getCodeSuggestions(aSuggest);
-    }
+	public void save(Freelancer aObject) {
+		freelancerDAO.save(aObject);
+		profileIndexerService.refresh(aObject);
+	}
 
-    public Freelancer findByRecordNumber(Long aNumber) {
-        return freelancerDAO.findByRecordNumber(aNumber);
-    }
+	public List<String> getCodeSuggestions(String aSuggest) {
+		return freelancerDAO.getCodeSuggestions(aSuggest);
+	}
 
-    public ProfileSearchInfoDetail findFreelancerByCodeExtended(String code, ProfileSearchRequest request) {
-        return freelancerDAO.findByCode(code, request);
-    }
+	public Freelancer findByRecordNumber(Long aNumber) {
+		return freelancerDAO.findByRecordNumber(aNumber);
+	}
 
-    public Freelancer findRealFreelancerByCode(String aCode) {
-        return freelancerDAO.findByCodeReal(aCode);
-    }
+	public List<String> findFreelancerCodesByExtended(
+			ProfileSearchRequest request) {
+		return freelancerDAO.findCodesBy(request);
+	}
 
-    public Collection<GenericSearchResult> performSearchByContact(String aContact, ContactType aContactType)
-            throws TooManySearchResults {
-        int aMax = systemParameterService.getMaxSearchResult();
-        Collection<GenericSearchResult> theResult = freelancerDAO.performSearchByContact(aContact, aContactType, aMax);
-        if (theResult.size() == aMax) {
-            throw new TooManySearchResults(theResult);
-        }
-        return theResult;
-    }
+	public Freelancer findRealFreelancerByCode(String aCode) {
+		return freelancerDAO.findByCodeReal(aCode);
+	}
+
+	public Collection<GenericSearchResult> performSearchByContact(
+			String aContact, ContactType aContactType)
+			throws TooManySearchResults {
+		int aMax = systemParameterService.getMaxSearchResult();
+		Collection<GenericSearchResult> theResult = freelancerDAO
+				.performSearchByContact(aContact, aContactType, aMax);
+		if (theResult.size() == aMax) {
+			throw new TooManySearchResults(theResult);
+		}
+		return theResult;
+	}
 }
