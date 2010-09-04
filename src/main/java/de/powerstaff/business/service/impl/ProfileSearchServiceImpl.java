@@ -31,15 +31,20 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CachingTokenFilter;
 import org.apache.lucene.analysis.KeywordAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.NumberTools;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.misc.ChainedFilter;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.Filter;
 import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.RangeFilter;
 import org.apache.lucene.search.Searcher;
 import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.WildcardQuery;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.highlight.Highlighter;
@@ -270,6 +275,8 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
 		copySearchRequestInto(searchRequest, theSearch);
 
+		theSearch.getProfilesToIgnore().clear();
+
 		profileSearchDAO.save(theSearch);
 	}
 
@@ -277,6 +284,12 @@ public class ProfileSearchServiceImpl extends LogableService implements
 	public DataPage<ProfileSearchEntry> findProfileDataPage(
 			ProfileSearchRequest aRequest, int startRow, int pageSize)
 			throws Exception {
+
+		User theUser = (User) UserContextHolder.getUserContext()
+				.getAuthenticatable();
+
+		SavedProfileSearch theSearch = profileSearchDAO
+				.getSavedSearchFor(theUser);
 
 		Analyzer theAnalyzer = ProfileAnalyzerFactory.createAnalyzer();
 
@@ -296,16 +309,48 @@ public class ProfileSearchServiceImpl extends LogableService implements
 		Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(
 				1, "#000000", "#0000FF", null, null), new QueryScorer(theQuery));
 
+		BooleanQuery theRealQuery = new BooleanQuery();
+		theRealQuery.add(theQuery, Occur.MUST);
+
+		for (String theId : theSearch.getProfilesToIgnore()) {
+			theRealQuery.add(new TermQuery(new Term(
+					ProfileIndexerService.UNIQUE_ID, theId)), Occur.MUST_NOT);
+		}
+
+		logger.logInfo("Query with ignore is " + theRealQuery);
+
 		Sort theSort = null;
 		if (!StringUtils.isEmpty(aRequest.getSortierung())) {
 			theSort = new Sort(aRequest.getSortierung());
 		}
 
+		Filter theFilter = null;
+		if (aRequest.getStundensatzVon() != null
+				| aRequest.getStundensatzBis() != null) {
+			List<Filter> theFilterList = new ArrayList<Filter>();
+			if (aRequest.getStundensatzVon() != null) {
+				theFilterList
+						.add(RangeFilter.More(
+								ProfileIndexerService.STUNDENSATZ, NumberTools
+										.longToString(aRequest
+												.getStundensatzVon() - 1)));
+			}
+			if (aRequest.getStundensatzBis() != null) {
+				theFilterList
+						.add(RangeFilter.Less(
+								ProfileIndexerService.STUNDENSATZ, NumberTools
+										.longToString(aRequest
+												.getStundensatzBis() + 1)));
+			}
+			theFilter = new ChainedFilter(theFilterList
+					.toArray(new Filter[] {}), ChainedFilter.AND);
+		}
+
 		Hits theHits;
 		if (theSort == null) {
-			theHits = theSearcher.search(theQuery);
+			theHits = theSearcher.search(theRealQuery, theFilter);
 		} else {
-			theHits = theSearcher.search(theQuery, theSort);
+			theHits = theSearcher.search(theRealQuery, theFilter, theSort);
 		}
 
 		long theDuration = System.currentTimeMillis() - theStartTime;
@@ -327,8 +372,10 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
 			ProfileSearchEntry theEntry = new ProfileSearchEntry();
 			theEntry.setCode(theDocument.get(ProfileIndexerService.CODE));
-			theEntry.setHighlightResult(getHighlightedSearchResult(theAnalyzer, //
+			theEntry.setHighlightResult(getHighlightedSearchResult(theAnalyzer,
 					theHighlighter, theDocument, theQuery));
+			theEntry.setDocumentId(theDocument
+					.get(ProfileIndexerService.UNIQUE_ID));
 
 			ProfileSearchInfoDetail theDetail = new ProfileSearchInfoDetail();
 
@@ -359,5 +406,19 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
 		return new DataPage<ProfileSearchEntry>(theHits.length(), theStart,
 				theResult);
+	}
+
+	@Override
+	public void removeSavedSearchEntry(String aDocumentId) {
+
+		User theUser = (User) UserContextHolder.getUserContext()
+				.getAuthenticatable();
+
+		SavedProfileSearch theSearch = profileSearchDAO
+				.getSavedSearchFor(theUser);
+
+		theSearch.getProfilesToIgnore().add(aDocumentId);
+
+		profileSearchDAO.save(theSearch);
 	}
 }

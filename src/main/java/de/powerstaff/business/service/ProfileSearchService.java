@@ -36,4 +36,6 @@ public interface ProfileSearchService extends Service {
 	DataPage<ProfileSearchEntry> findProfileDataPage(
 			ProfileSearchRequest aRequest, int startRow, int pageSize)
 			throws Exception;
+
+	void removeSavedSearchEntry(String aDocumentId);
 }

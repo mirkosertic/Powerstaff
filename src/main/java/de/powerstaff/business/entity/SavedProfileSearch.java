@@ -17,6 +17,9 @@
  */
 package de.powerstaff.business.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import de.mogwai.common.business.entity.AuditableEntity;
 import de.powerstaff.business.dto.SearchRequestSupport;
 
@@ -44,6 +47,8 @@ public class SavedProfileSearch extends AuditableEntity implements
 	private Long stundensatzBis;
 
 	private String sortierung;
+
+	private Set<String> profilesToIgnore = new HashSet<String>();
 
 	/**
 	 * @return the user
@@ -126,5 +131,13 @@ public class SavedProfileSearch extends AuditableEntity implements
 
 	public void setSortierung(String sortierung) {
 		this.sortierung = sortierung;
+	}
+
+	public Set<String> getProfilesToIgnore() {
+		return profilesToIgnore;
+	}
+
+	public void setProfilesToIgnore(Set<String> profilesToIgnore) {
+		this.profilesToIgnore = profilesToIgnore;
 	}
 }
