@@ -21,107 +21,111 @@ import de.mogwai.common.business.service.Service;
 
 public interface PowerstaffSystemParameterService extends Service {
 
-    String getIndexerNetworkDir();
+	String getWrongDataReportDir();
 
-    void setIndexerNetworkDir(String aValue);
+	void setWrongDataReportDir(String aValue);
 
-    String getIndexerPath();
+	String getIndexerNetworkDir();
 
-    void setIndexerPath(String aValue);
+	void setIndexerNetworkDir(String aValue);
 
-    String getIndexerSourcePath();
+	String getIndexerPath();
 
-    void setIndexerSourcePath(String aValue);
+	void setIndexerPath(String aValue);
 
-    int getNewsletterBatchCount();
+	String getIndexerSourcePath();
 
-    void setNewsletterBatchCount(int aValue);
+	void setIndexerSourcePath(String aValue);
 
-    int getNewsletterMaxThreadCount();
+	int getNewsletterBatchCount();
 
-    void setNewsletterMaxThreadCount(int aValue);
+	void setNewsletterBatchCount(int aValue);
 
-    boolean isNewsletterSendDelta();
+	int getNewsletterMaxThreadCount();
 
-    void setNewsletterSendDelta(boolean aValue);
+	void setNewsletterMaxThreadCount(int aValue);
 
-    String getNewsletterSender();
+	boolean isNewsletterSendDelta();
 
-    void setNewsletterSender(String aValue);
+	void setNewsletterSendDelta(boolean aValue);
 
-    int getNewsletterSleepIntervall();
+	String getNewsletterSender();
 
-    void setNewsletterSleepIntervall(int aValue);
+	void setNewsletterSender(String aValue);
 
-    String getNewsletterSubject();
+	int getNewsletterSleepIntervall();
 
-    void setNewsletterSubject(String aValue);
+	void setNewsletterSleepIntervall(int aValue);
 
-    String getNewsletterTemplate();
+	String getNewsletterSubject();
 
-    void setNewsletterTemplate(String aValue);
+	void setNewsletterSubject(String aValue);
 
-    String getSmtpHost();
+	String getNewsletterTemplate();
 
-    void setSmtpHost(String aValue);
+	void setNewsletterTemplate(String aValue);
 
-    int getSmtpPort();
+	String getSmtpHost();
 
-    void setSmtpPort(int aValue);
+	void setSmtpHost(String aValue);
 
-    String getSmtpPwd();
+	int getSmtpPort();
 
-    void setSmtpPwd(String aValue);
+	void setSmtpPort(int aValue);
 
-    String getSmtpUser();
+	String getSmtpPwd();
 
-    void setSmtpUser(String aValue);
+	void setSmtpPwd(String aValue);
 
-    boolean isNewsletterEnabled();
+	String getSmtpUser();
 
-    void setNewsletterEnabled(boolean aValue);
+	void setSmtpUser(String aValue);
 
-    boolean isWebSyncEnabled();
+	boolean isNewsletterEnabled();
 
-    void setWebSyncEnabled(boolean aValue);
+	void setNewsletterEnabled(boolean aValue);
 
-    boolean isIndexingEnabled();
+	boolean isWebSyncEnabled();
 
-    void setIndexingEnabled(boolean aValue);
+	void setWebSyncEnabled(boolean aValue);
 
-    boolean isDeletedDocumentRemovalEnabled();
+	boolean isIndexingEnabled();
 
-    void setDeletedDocumentRemovalEnabled(boolean aValue);
+	void setIndexingEnabled(boolean aValue);
 
-    int getProfileMaxSearchResult();
+	boolean isDeletedDocumentRemovalEnabled();
 
-    void setProfileMaxSearchResult(int aValue);
-    
-    int getMaxSearchResult();
+	void setDeletedDocumentRemovalEnabled(boolean aValue);
 
-    void setMaxSearchResult(int aValue);
+	int getMaxSearchResult();
 
-    /**
-     * @return True if the DOC Format is enabled for indexing
-     */
+	void setMaxSearchResult(int aValue);
+
+	/**
+	 * @return True if the DOC Format is enabled for indexing
+	 */
 	boolean isDOCFormatEnabled();
-	void setDOCFormatEnabled(boolean aValue);	
 
-    /**
-     * @return True if the DOCX Format is enabled for indexing
-     */
+	void setDOCFormatEnabled(boolean aValue);
+
+	/**
+	 * @return True if the DOCX Format is enabled for indexing
+	 */
 	boolean isDOCXFormatEnabled();
+
 	void setDOCXFormatEnabled(boolean aValue);
 
-    /**
-     * @return True if the TXT Format is enabled for indexing
-     */
+	/**
+	 * @return True if the TXT Format is enabled for indexing
+	 */
 	boolean isTXTFormatEnabled();
+
 	void setTXTFormatEnabled(boolean aValue);
-	
-    /**
-     * @return True if the PDF Format is enabled for indexing
-     */
+
+	/**
+	 * @return True if the PDF Format is enabled for indexing
+	 */
 	boolean isPDFFormatEnabled();
-	void setPDFFormatEnabled(boolean aValue);	
+
+	void setPDFFormatEnabled(boolean aValue);
 }

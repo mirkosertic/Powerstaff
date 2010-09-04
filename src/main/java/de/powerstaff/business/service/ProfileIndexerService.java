@@ -53,5 +53,7 @@ public interface ProfileIndexerService extends Service,
 
 	String HASMATCHINGRECORD = "HASMATCHINGRECORD";
 
+	String SHACHECKSUM = "SHACHECKSUM";
+
 	void refresh(Freelancer aFreelancer);
 }

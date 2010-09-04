@@ -18,6 +18,7 @@
 package de.powerstaff.business.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.dto.ProfileSearchRequest;
@@ -32,4 +33,6 @@ public interface FreelancerDAO extends PersonDAO<Freelancer> {
 	List<String> getCodeSuggestions(String aSuggest);
 
 	Freelancer findByCodeReal(String aCode);
+
+	Set<String> getKnownCodesFromDB();
 }

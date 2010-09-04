@@ -23,6 +23,7 @@ import java.io.StringReader;
 import java.util.Date;
 import java.util.UUID;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.KeywordAnalyzer;
 import org.apache.lucene.document.DateTools;
@@ -284,6 +285,9 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 							Field.Index.NO));
 					doc.add(new Field(ORIG_CONTENT, theResult.getContent(),
 							Field.Store.YES, Field.Index.UN_TOKENIZED));
+					doc.add(new Field(SHACHECKSUM, DigestUtils.shaHex(theResult
+							.getContent()), Field.Store.YES,
+							Field.Index.UN_TOKENIZED));
 					doc.add(new Field(CONTENT, new StringReader(theResult
 							.getContent())));
 

@@ -326,7 +326,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
 		Filter theFilter = null;
 		if (aRequest.getStundensatzVon() != null
-				| aRequest.getStundensatzBis() != null) {
+				|| aRequest.getStundensatzBis() != null) {
 			List<Filter> theFilterList = new ArrayList<Filter>();
 			if (aRequest.getStundensatzVon() != null) {
 				theFilterList
