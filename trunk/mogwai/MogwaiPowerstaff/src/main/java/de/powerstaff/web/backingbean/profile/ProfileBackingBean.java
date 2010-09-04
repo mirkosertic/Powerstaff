@@ -164,14 +164,13 @@ public class ProfileBackingBean extends
 	}
 
 	public void commandDeleteSearchEntry() {
-		/*
-		 * ProfileSearchEntry theEntry = (ProfileSearchEntry) getData()
-		 * .getSearchResult().getRowData();
-		 * getData().getSearchResult().remove(theEntry);
-		 * 
-		 * profileSearchService.removeSavedSearchEntry(theEntry
-		 * .getSavedSearchEntry());
-		 */
+
+		ProfileSearchEntry theEntry = (ProfileSearchEntry) getData()
+				.getSearchResult().getRowData();
+
+		profileSearchService.removeSavedSearchEntry(theEntry.getDocumentId());
+
+		initializeDataModel();
 
 		JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
 	}

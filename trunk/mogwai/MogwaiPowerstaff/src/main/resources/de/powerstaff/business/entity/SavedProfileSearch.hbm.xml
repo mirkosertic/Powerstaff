@@ -23,5 +23,10 @@
 		<property name="stundensatzVon"/>
 		<property name="stundensatzBis"/>
 		<property name="sortierung"/>
+		
+		<set name="profilesToIgnore" table="savedprofilesearchignore">
+			<key column="savedprofilesearch_id" not-null="true"></key>
+			<element column="documentid" type="string"></element>
+		</set>
   </class>
 </hibernate-mapping>

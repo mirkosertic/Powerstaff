@@ -32,6 +32,8 @@ public class ProfileSearchEntry extends DataTransferObject {
 
 	private String highlightResult;
 
+	private String documentId;
+
 	public String getCode() {
 		return code;
 	}
@@ -54,5 +56,13 @@ public class ProfileSearchEntry extends DataTransferObject {
 
 	public void setHighlightResult(String highlightResult) {
 		this.highlightResult = highlightResult;
+	}
+
+	public String getDocumentId() {
+		return documentId;
+	}
+
+	public void setDocumentId(String documentId) {
+		this.documentId = documentId;
 	}
 }
