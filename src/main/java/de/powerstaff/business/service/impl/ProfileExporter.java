@@ -35,11 +35,18 @@ public class ProfileExporter {
 			String theCode = theDocument.get(ProfileIndexerService.CODE);
 			String theContent = theDocument
 					.get(ProfileIndexerService.ORIG_CONTENT);
+			String theStrippedPath = theDocument
+					.get(ProfileIndexerService.STRIPPEDPATH);
+			theStrippedPath = theStrippedPath.replace(".pdf", ".txt");
+			theStrippedPath = theStrippedPath.replace(".doc", ".txt");
+			theStrippedPath = theStrippedPath.replace(".DOC", ".txt");
+			theStrippedPath = theStrippedPath.replace(".docx", ".txt");
 
 			String theContentMD5 = DigestUtils.md5Hex(theContent);
 
-			File theProfileFile = new File(theTargetDirectory, "Profil "
-					+ theCode + ".txt");
+			File theProfileFile = new File(theTargetDirectory, theStrippedPath);
+			theProfileFile.getParentFile().mkdirs();
+
 			FileWriter theWriter = new FileWriter(theProfileFile);
 			theWriter.write(theContent);
 			theWriter.close();

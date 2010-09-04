@@ -38,4 +38,6 @@ public interface ProfileSearchService extends Service {
 			throws Exception;
 
 	void removeSavedSearchEntry(String aDocumentId);
+
+	int getPageSize();
 }

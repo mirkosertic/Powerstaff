@@ -75,7 +75,7 @@ public class WrongDataServiceImpl extends LogableService implements
 		File theProfileDoppelterCode = new File(theReportFile,
 				"Profile_Kodierung_doppelt.csv");
 		File theProfileDoppelterInhalt = new File(theReportFile,
-				"Profile_Doppelter_Inhalt.csv");
+				"Profile_doppelter_Inhalt.csv");
 
 		Set<String> theKnownCodes = new HashSet<String>();
 		Set<String> theKnownContent = new HashSet<String>();
