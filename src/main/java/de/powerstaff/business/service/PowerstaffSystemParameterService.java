@@ -128,4 +128,8 @@ public interface PowerstaffSystemParameterService extends Service {
 	boolean isPDFFormatEnabled();
 
 	void setPDFFormatEnabled(boolean aValue);
+
+	String getStartDateForNotInNewsletter();
+
+	void setStartDateForNotInNewsletter(String aValue);
 }

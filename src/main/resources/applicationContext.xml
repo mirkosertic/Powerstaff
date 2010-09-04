@@ -342,6 +342,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 	 	<property name="systemParameterService" ref="systemParameterService"/>
 	 	<property name="luceneService" ref="luceneService"/>
 	 	<property name="freelancerDao" ref="freelancerDAO"/>
+	 	<property name="websiteDao" ref="websiteDAO"/>
 	 </bean>
 
 	<bean id="indexerJobDetail"
@@ -374,6 +375,21 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		</property>
 	</bean>
 
+	<bean id="wrongDataJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="wrongDataService" />
+		<property name="targetMethod">
+			<value>run</value>
+		</property>
+	</bean>
+
+	<bean id="wrongDataCronTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="wrongDataJobDetail" />
+		<property name="cronExpression">
+			<value>0 0 0 * * ?</value>
+		</property>
+	</bean>
 
 	<bean id="newsletterJobDetail"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -398,6 +414,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 				<ref bean="perMinuteCronTrigger" />
 				<ref bean="webSyncPerMinuteCronTrigger"/>
 				<ref bean="newsletterPerMinuteCronTrigger"/>
+				<ref bean="wrongDataCronTrigger"/>
 			</list>
 		</property>
 	</bean>

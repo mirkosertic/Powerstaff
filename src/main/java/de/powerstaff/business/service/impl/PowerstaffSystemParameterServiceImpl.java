@@ -208,4 +208,15 @@ public class PowerstaffSystemParameterServiceImpl extends
 	public void setWrongDataReportDir(String aValue) {
 		setString(SystemParameterEnum.WRONGDATAREPORTDIR, aValue);
 	}
+
+	@Override
+	public String getStartDateForNotInNewsletter() {
+		return getString(SystemParameterEnum.STARTDATE_FOR_NOT_IN_NEWSLETTER,
+				"01.01.2007");
+	}
+
+	@Override
+	public void setStartDateForNotInNewsletter(String aValue) {
+		setString(SystemParameterEnum.STARTDATE_FOR_NOT_IN_NEWSLETTER, aValue);
+	}
 }

@@ -234,4 +234,19 @@ public class FreelancerDAOHibernateImpl extends
 					}
 				});
 	}
+
+	@Override
+	public Iterator getAllIterator() {
+		return (Iterator) getHibernateTemplate().execute(
+				new HibernateCallback() {
+
+					@Override
+					public Object doInHibernate(Session aSession)
+							throws HibernateException, SQLException {
+						Query theQuery = aSession
+								.createQuery("from Freelancer");
+						return theQuery.iterate();
+					}
+				});
+	}
 }
