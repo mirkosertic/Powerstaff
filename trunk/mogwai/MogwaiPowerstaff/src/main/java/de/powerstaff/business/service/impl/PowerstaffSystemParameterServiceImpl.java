@@ -151,14 +151,6 @@ public class PowerstaffSystemParameterServiceImpl extends
 		setBoolean(SystemParameterEnum.INDEXING_ENABLED, aValue);
 	}
 
-	public int getProfileMaxSearchResult() {
-		return getInt(SystemParameterEnum.PROFILE_MAX_SEARCH_RESULT, 100);
-	}
-
-	public void setProfileMaxSearchResult(int aValue) {
-		setInt(SystemParameterEnum.PROFILE_MAX_SEARCH_RESULT, aValue);
-	}
-
 	public int getMaxSearchResult() {
 		return getInt(SystemParameterEnum.MAX_SEARCH_RESULT, 100);
 	}
@@ -205,5 +197,15 @@ public class PowerstaffSystemParameterServiceImpl extends
 	@Override
 	public void setTXTFormatEnabled(boolean aValue) {
 		setBoolean(SystemParameterEnum.TXTFORMATENABLED, aValue);
+	}
+
+	@Override
+	public String getWrongDataReportDir() {
+		return getString(SystemParameterEnum.WRONGDATAREPORTDIR, null);
+	}
+
+	@Override
+	public void setWrongDataReportDir(String aValue) {
+		setString(SystemParameterEnum.WRONGDATAREPORTDIR, aValue);
 	}
 }

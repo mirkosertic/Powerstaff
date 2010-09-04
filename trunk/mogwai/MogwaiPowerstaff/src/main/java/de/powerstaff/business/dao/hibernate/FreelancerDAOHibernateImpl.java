@@ -21,11 +21,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
@@ -207,5 +210,28 @@ public class FreelancerDAOHibernateImpl extends
 			String aContact, ContactType aContactType, int aMax) {
 		return performSearchByContact(aContact, aContactType,
 				DISPLAYPROPERTIES, ORDERBYPROPERTIES, aMax);
+	}
+
+	@Override
+	public Set<String> getKnownCodesFromDB() {
+		return (Set<String>) getHibernateTemplate().execute(
+				new HibernateCallback() {
+
+					@Override
+					public Object doInHibernate(Session aSession)
+							throws HibernateException, SQLException {
+						Query theQuery = aSession
+								.createQuery("select distinct item.code from Freelancer item order by item.code");
+						Set<String> theResult = new HashSet<String>();
+						for (Iterator theIt = theQuery.iterate(); theIt
+								.hasNext();) {
+							String theCode = (String) theIt.next();
+							if (!StringUtils.isEmpty(theCode)) {
+								theResult.add(theCode);
+							}
+						}
+						return theResult;
+					}
+				});
 	}
 }

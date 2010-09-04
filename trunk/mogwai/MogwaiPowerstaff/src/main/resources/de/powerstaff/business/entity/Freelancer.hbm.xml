@@ -77,6 +77,7 @@
 		</map>
 		
 		<property name="debitorNr"/>
-		<property name="kreditorNr"/>		
+		<property name="kreditorNr"/>
+	
   </class>
 </hibernate-mapping>

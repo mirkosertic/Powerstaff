@@ -336,6 +336,13 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		<property name="systemParameterService"
 			ref="systemParameterService" />
 	</bean>
+	
+	<bean id="wrongDataService"
+	 	class="de.powerstaff.business.service.impl.WrongDataServiceImpl">
+	 	<property name="systemParameterService" ref="systemParameterService"/>
+	 	<property name="luceneService" ref="luceneService"/>
+	 	<property name="freelancerDao" ref="freelancerDAO"/>
+	 </bean>
 
 	<bean id="indexerJobDetail"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
@@ -423,6 +430,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 					value-ref="profileIndexerService" />
 				<entry key="powerstaff:name=WebSync"
 					value-ref="webSyncService" />
+				<entry key="powerstaff:name=WrongData"
+					value-ref="wrongDataService" />
 			</map>
 		</property>
 		<property name="assembler">
@@ -433,7 +442,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 						de.powerstaff.business.service.PowerstaffSystemParameterService,
 						de.powerstaff.business.service.NewsletterServicePublicInterface,
 						de.powerstaff.business.service.ProfileIndexerServicePublicInterface,
-						de.powerstaff.business.service.WebSyncServicePublicInterface						
+						de.powerstaff.business.service.WebSyncServicePublicInterface,
+						de.powerstaff.business.service.WrongDataService						
 					</value>
 				</property>
 			</bean>
