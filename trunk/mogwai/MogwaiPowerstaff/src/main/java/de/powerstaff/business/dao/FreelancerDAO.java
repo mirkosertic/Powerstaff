@@ -17,6 +17,7 @@
  */
 package de.powerstaff.business.dao;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -35,4 +36,6 @@ public interface FreelancerDAO extends PersonDAO<Freelancer> {
 	Freelancer findByCodeReal(String aCode);
 
 	Set<String> getKnownCodesFromDB();
+
+	Iterator getAllIterator();
 }
