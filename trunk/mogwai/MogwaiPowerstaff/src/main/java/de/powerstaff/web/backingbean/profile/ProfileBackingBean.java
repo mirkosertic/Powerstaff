@@ -76,7 +76,7 @@ public class ProfileBackingBean extends
 
 	private void initializeDataModel() {
 		getData().setSearchResult(
-				new PagedListDataModel<ProfileSearchEntry>(8) {
+				new PagedListDataModel<ProfileSearchEntry>(getPageSize()) {
 
 					@Override
 					public DataPage<ProfileSearchEntry> fetchPage(int startRow,
@@ -96,6 +96,9 @@ public class ProfileBackingBean extends
 								new ArrayList<ProfileSearchEntry>());
 					}
 				});
+		if (getData().getDataScroller() != null) {
+			getData().getDataScroller().setFirstRow(0);
+		}
 	}
 
 	@Override
@@ -235,5 +238,9 @@ public class ProfileBackingBean extends
 
 		profileSearchService.saveSearchRequest(getData().getSearchRequest());
 		initializeDataModel();
+	}
+
+	public int getPageSize() {
+		return profileSearchService.getPageSize();
 	}
 }

@@ -19,6 +19,8 @@ package de.powerstaff.web.backingbean.profile;
 
 import javax.faces.component.UIComponent;
 
+import org.richfaces.component.UIDatascroller;
+
 import de.mogwai.common.web.backingbean.BackingBeanDataModel;
 import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.dto.ProfileSearchRequest;
@@ -36,6 +38,8 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 	private transient UIComponent viewRoot;
 
 	private PagedListDataModel<ProfileSearchEntry> searchResult;
+
+	private transient UIDatascroller dataScroller;
 
 	/**
 	 * @return the searchRequest
@@ -81,5 +85,13 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 			return 0;
 		}
 		return searchResult.getRowCount();
+	}
+
+	public UIDatascroller getDataScroller() {
+		return dataScroller;
+	}
+
+	public void setDataScroller(UIDatascroller dataScroller) {
+		this.dataScroller = dataScroller;
 	}
 }

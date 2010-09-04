@@ -421,4 +421,9 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
 		profileSearchDAO.save(theSearch);
 	}
+
+	@Override
+	public int getPageSize() {
+		return systemParameterService.getMaxSearchResult();
+	}
 }
