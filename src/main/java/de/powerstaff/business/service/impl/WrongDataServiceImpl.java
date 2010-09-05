@@ -224,13 +224,16 @@ public class WrongDataServiceImpl extends LogableService implements
 							validDate = false;
 						}
 
+						String theMail = "";
+
 						if (validDate) {
 							boolean hasMail = false;
 							for (FreelancerContact theContact : theFreelancer
 									.getContacts()) {
 								if (theContact.getType().isEmail()) {
-									if (theMails.contains(theContact.getValue()
-											.toLowerCase())) {
+									theMail = theContact.getValue();
+									if (theMails
+											.contains(theMail.toLowerCase())) {
 										hasMail = true;
 									}
 								}
@@ -241,7 +244,8 @@ public class WrongDataServiceImpl extends LogableService implements
 										.println(theFreelancer.getCode() + ";"
 												+ theFreelancer.getName1()
 												+ ";"
-												+ theFreelancer.getName2());
+												+ theFreelancer.getName2()
+												+ ";" + theMail);
 							}
 						}
 					}
