@@ -387,7 +387,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
 				if (theFreelancer != null) {
 					theDetail.setId(theFreelancer.getId());
 					theDetail.setName1(theFreelancer.getName1());
-					theDetail.setName2(theFreelancer.getName1());
+					theDetail.setName2(theFreelancer.getName2());
 					theDetail.setAvailability(theFreelancer
 							.getAvailabilityAsDate());
 					theDetail.setPlz(theFreelancer.getPlz());
