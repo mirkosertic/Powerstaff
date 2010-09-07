@@ -212,7 +212,8 @@ public class WrongDataServiceImpl extends LogableService implements
 					Freelancer theFreelancer = (Freelancer) theIt.next();
 
 					String theLastContact = theFreelancer.getLastContact();
-					if (!StringUtils.isEmpty(theLastContact)) {
+					if (!StringUtils.isEmpty(theLastContact)
+							&& !theFreelancer.isContactforbidden()) {
 
 						boolean validDate = true;
 						try {
