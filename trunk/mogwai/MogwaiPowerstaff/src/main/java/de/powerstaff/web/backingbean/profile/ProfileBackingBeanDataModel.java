@@ -34,7 +34,7 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 
 	private transient UIComponent viewRoot;
 
-	private PagedListDataModel<ProfileSearchEntry> searchResult;
+	private transient PagedListDataModel<ProfileSearchEntry> searchResult;
 
 	private transient UIDatascroller dataScroller;
 

@@ -185,6 +185,8 @@ public class ProfileBackingBean extends
 	public void restoreState(FacesContext aContext, Object aValue) {
 		Object[] theData = (Object[]) aValue;
 		setData((ProfileBackingBeanDataModel) theData[0]);
+
+		initializeDataModel();
 	}
 
 	public Object saveState(FacesContext aContext) {
