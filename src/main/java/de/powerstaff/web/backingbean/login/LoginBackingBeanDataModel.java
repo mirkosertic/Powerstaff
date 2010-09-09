@@ -27,65 +27,63 @@ import de.mogwai.common.web.component.ComponentUtils;
 
 public class LoginBackingBeanDataModel extends BackingBeanDataModel {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = -6679747434377687583L;
 
-	private UIComponent viewRoot;
+	private transient UIComponent viewRoot;
 
-    private String username;
+	private String username;
 
-    private String password;
+	private String password;
 
-    /**
-     * @return the password
-     */
-    public String getPassword() {
-        return password;
-    }
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
 
-    /**
-     * @param password
-     *                the password to set
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	/**
+	 * @param password
+	 *            the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    /**
-     * @return the username
-     */
-    @Column(nullable = false, length = 255)
-    public String getUsername() {
-        return username;
-    }
+	/**
+	 * @return the username
+	 */
+	@Column(nullable = false, length = 255)
+	public String getUsername() {
+		return username;
+	}
 
-    /**
-     * @param username
-     *                the username to set
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	/**
+	 * @param username
+	 *            the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    /**
-     * @return the viewRoot
-     */
-    public UIComponent getViewRoot() {
-        return viewRoot;
-    }
+	/**
+	 * @return the viewRoot
+	 */
+	public UIComponent getViewRoot() {
+		return viewRoot;
+	}
 
-    /**
-     * @param viewRoot
-     *                the viewRoot to set
-     */
-    public void setViewRoot(UIComponent viewRoot) {
-        this.viewRoot = viewRoot;
-    }
+	/**
+	 * @param viewRoot
+	 *            the viewRoot to set
+	 */
+	public void setViewRoot(UIComponent viewRoot) {
+		this.viewRoot = viewRoot;
+	}
 
-    public List<String> getChangedComponents() {
-        List<String> theResult = ComponentUtils.getDynamicContentComponentIDs(viewRoot);
-        return theResult;
-    }
+	public List<String> getChangedComponents() {
+		List<String> theResult = ComponentUtils
+				.getDynamicContentComponentIDs(viewRoot);
+		return theResult;
+	}
 }

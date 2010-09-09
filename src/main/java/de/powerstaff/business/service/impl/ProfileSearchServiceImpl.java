@@ -312,9 +312,12 @@ public class ProfileSearchServiceImpl extends LogableService implements
 		BooleanQuery theRealQuery = new BooleanQuery();
 		theRealQuery.add(theQuery, Occur.MUST);
 
-		for (String theId : theSearch.getProfilesToIgnore()) {
-			theRealQuery.add(new TermQuery(new Term(
-					ProfileIndexerService.UNIQUE_ID, theId)), Occur.MUST_NOT);
+		if (theSearch != null) {
+			for (String theId : theSearch.getProfilesToIgnore()) {
+				theRealQuery.add(new TermQuery(new Term(
+						ProfileIndexerService.UNIQUE_ID, theId)),
+						Occur.MUST_NOT);
+			}
 		}
 
 		logger.logInfo("Query with ignore is " + theRealQuery);

@@ -17,56 +17,61 @@
  */
 package de.powerstaff.business.entity;
 
-public class FreelancerProfile {
+import java.io.Serializable;
 
-    private String name;
+public class FreelancerProfile implements Serializable {
 
-    private String fileName;
-    
-    private String infotext;
+	private static final long serialVersionUID = 1L;
 
-    public String getFileName() {
-        return fileName;
-    }
+	private String name;
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
+	private String fileName;
 
-    public FreelancerProfile() {
-    }
+	private String infotext;
 
-    public FreelancerProfile(String aName) {
-        name = aName;
-    }
+	public String getFileName() {
+		return fileName;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public FreelancerProfile() {
+	}
 
-    public boolean isWordProfile() {
-        return fileName.toLowerCase().endsWith(".doc");
-    }
+	public FreelancerProfile(String aName) {
+		name = aName;
+	}
 
-    public boolean isTextProfile() {
-        return fileName.toLowerCase().endsWith(".txt");
-    }
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * @return the infotext
-     */
-    public String getInfotext() {
-        return infotext;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    /**
-     * @param infotext the infotext to set
-     */
-    public void setInfotext(String infotext) {
-        this.infotext = infotext;
-    }
+	public boolean isWordProfile() {
+		return fileName.toLowerCase().endsWith(".doc");
+	}
+
+	public boolean isTextProfile() {
+		return fileName.toLowerCase().endsWith(".txt");
+	}
+
+	/**
+	 * @return the infotext
+	 */
+	public String getInfotext() {
+		return infotext;
+	}
+
+	/**
+	 * @param infotext
+	 *            the infotext to set
+	 */
+	public void setInfotext(String infotext) {
+		this.infotext = infotext;
+	}
 }

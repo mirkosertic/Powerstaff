@@ -29,41 +29,41 @@ import de.mogwai.common.web.backingbean.WrappingBackingBean;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.web.backingbean.MessageConstants;
 
-public class LoginBackingBean extends WrappingBackingBean<LoginBackingBeanDataModel> implements MessageConstants {
+public class LoginBackingBean extends
+		WrappingBackingBean<LoginBackingBeanDataModel> implements
+		MessageConstants {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = -8961543903559963065L;
 
-	private LoginService loginService;
+	private transient LoginService loginService;
 
-    private static final Logger LOGGER = new Logger(LoginBackingBean.class);
+	private static final Logger LOGGER = new Logger(LoginBackingBean.class);
 
-    @Override
-    protected LoginBackingBeanDataModel createDataModel() {
-        return new LoginBackingBeanDataModel();
-    }
+	@Override
+	protected LoginBackingBeanDataModel createDataModel() {
+		return new LoginBackingBeanDataModel();
+	}
 
-    public LoginService getLoginService() {
-        return loginService;
-    }
+	public LoginService getLoginService() {
+		return loginService;
+	}
 
-    public void setLoginService(LoginService loginService) {
-        this.loginService = loginService;
-    }
+	public void setLoginService(LoginService loginService) {
+		this.loginService = loginService;
+	}
 
-    public String commandLogin() {
-        try {
-            HttpServletRequest theRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext()
-                    .getRequest();
-            loginService.login(getData().getUsername(), getData().getPassword(), new WebAuthenticationDetails(
-                    theRequest));
-            return "INDEX";
-        } catch (LoginException e) {
-            LOGGER.logError("Fehler beim Login", e);
-            JSFMessageUtils.addGlobalErrorMessage(MSG_FALSCHESLOGIN);
-            return null;
-        }
-    }
+	public String commandLogin() {
+		try {
+			HttpServletRequest theRequest = (HttpServletRequest) FacesContext
+					.getCurrentInstance().getExternalContext().getRequest();
+			loginService.login(getData().getUsername(),
+					getData().getPassword(), new WebAuthenticationDetails(
+							theRequest));
+			return "INDEX";
+		} catch (LoginException e) {
+			LOGGER.logError("Fehler beim Login", e);
+			JSFMessageUtils.addGlobalErrorMessage(MSG_FALSCHESLOGIN);
+			return null;
+		}
+	}
 }

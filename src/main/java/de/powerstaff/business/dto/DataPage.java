@@ -1,5 +1,6 @@
 package de.powerstaff.business.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,11 +9,14 @@ import java.util.List;
  * size of the dataset. EJBs can return instances of this type when returning
  * subsets of available data.
  */
-public class DataPage<T> {
+public class DataPage<T> implements Serializable {
 
 	private int datasetSize;
 	private int startRow;
 	private List<T> data;
+
+	public DataPage() {
+	}
 
 	/**
 	 * Create an object representing a sublist of a dataset.

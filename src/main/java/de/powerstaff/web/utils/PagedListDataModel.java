@@ -1,5 +1,7 @@
 package de.powerstaff.web.utils;
 
+import java.io.Serializable;
+
 import javax.faces.model.DataModel;
 
 import de.powerstaff.business.dto.DataPage;
@@ -18,7 +20,8 @@ import de.powerstaff.business.dto.DataPage;
  * the managed bean uses) to provide the data wrapped in a DataPage object that
  * provides info on the full size of the dataset.
  */
-public abstract class PagedListDataModel<T> extends DataModel {
+public abstract class PagedListDataModel<T> extends DataModel implements
+		Serializable {
 
 	private int pageSize;
 	private int rowIndex;

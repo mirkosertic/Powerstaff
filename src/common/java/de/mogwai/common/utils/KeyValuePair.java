@@ -16,55 +16,60 @@
  */
 package de.mogwai.common.utils;
 
-public class KeyValuePair<N, V> implements ObjectProvider, StringPresentationProvider {
+import java.io.Serializable;
 
-    private N key;
+public class KeyValuePair<N, V> implements ObjectProvider,
+		StringPresentationProvider, Serializable {
 
-    private V value;
+	private static final long serialVersionUID = 1L;
 
-    public KeyValuePair() {
-    }
+	private N key;
 
-    public KeyValuePair(N aKey, V aValue) {
-        key = aKey;
-        value = aValue;
-    }
+	private V value;
 
-    public Object getProvidedObject() {
-        return key;
-    }
+	public KeyValuePair() {
+	}
 
-    public String getStringPresentation() {
-        return value.toString();
-    }
+	public KeyValuePair(N aKey, V aValue) {
+		key = aKey;
+		value = aValue;
+	}
 
-    /**
-     * @return the key
-     */
-    public N getKey() {
-        return key;
-    }
+	public Object getProvidedObject() {
+		return key;
+	}
 
-    /**
-     * @param key
-     *                the key to set
-     */
-    public void setKey(N key) {
-        this.key = key;
-    }
+	public String getStringPresentation() {
+		return value.toString();
+	}
 
-    /**
-     * @return the value
-     */
-    public V getValue() {
-        return value;
-    }
+	/**
+	 * @return the key
+	 */
+	public N getKey() {
+		return key;
+	}
 
-    /**
-     * @param value
-     *                the value to set
-     */
-    public void setValue(V value) {
-        this.value = value;
-    }
+	/**
+	 * @param key
+	 *            the key to set
+	 */
+	public void setKey(N key) {
+		this.key = key;
+	}
+
+	/**
+	 * @return the value
+	 */
+	public V getValue() {
+		return value;
+	}
+
+	/**
+	 * @param value
+	 *            the value to set
+	 */
+	public void setValue(V value) {
+		this.value = value;
+	}
 }

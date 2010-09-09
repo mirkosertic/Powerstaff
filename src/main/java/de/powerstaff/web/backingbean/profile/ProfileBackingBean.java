@@ -41,14 +41,11 @@ public class ProfileBackingBean extends
 		WrappingBackingBean<ProfileBackingBeanDataModel> implements
 		MessageConstants, StateHolder {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5802587658636877536L;
 
 	private static final Logger LOGGER = new Logger(ProfileBackingBean.class);
 
-	private ProfileSearchService profileSearchService;
+	private transient ProfileSearchService profileSearchService;
 
 	@Override
 	protected ProfileBackingBeanDataModel createDataModel() {
