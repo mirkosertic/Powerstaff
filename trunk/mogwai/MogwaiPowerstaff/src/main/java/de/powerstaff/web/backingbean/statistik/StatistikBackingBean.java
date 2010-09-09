@@ -31,95 +31,99 @@ import de.powerstaff.business.service.AdditionalDataService;
 import de.powerstaff.business.service.StatisticService;
 import de.powerstaff.web.backingbean.MessageConstants;
 
-public class StatistikBackingBean extends WrappingBackingBean<StatistikBackingBeanDataModel> implements MessageConstants,
-        StateHolder {
+public class StatistikBackingBean extends
+		WrappingBackingBean<StatistikBackingBeanDataModel> implements
+		MessageConstants, StateHolder {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = -3411470666529912902L;
 
 	private static final Logger LOGGER = new Logger(StatistikBackingBean.class);
 
-    private StatisticService statisticService;
-    
-    private AdditionalDataService additionalDataService;
+	private transient StatisticService statisticService;
 
-    @Override
-    protected StatistikBackingBeanDataModel createDataModel() {
-        return new StatistikBackingBeanDataModel();
-    }
+	private transient AdditionalDataService additionalDataService;
 
-    @Override
-    public void init() {
-        super.init();
-        if (getData() != null) {
-            getData().setViewRoot(null);
-        } else {
-            setData(createDataModel());
-        }
-        getData().setBenutzerListe(additionalDataService.getUserList());
-    }
+	@Override
+	protected StatistikBackingBeanDataModel createDataModel() {
+		return new StatistikBackingBeanDataModel();
+	}
 
-    public boolean isTransient() {
-        return false;
-    }
+	@Override
+	public void init() {
+		super.init();
+		if (getData() != null) {
+			getData().setViewRoot(null);
+		} else {
+			setData(createDataModel());
+		}
+		getData().setBenutzerListe(additionalDataService.getUserList());
+	}
 
-    public void setTransient(boolean aValue) {
-    }
+	public boolean isTransient() {
+		return false;
+	}
 
-    public void restoreState(FacesContext aContext, Object aValue) {
-        Object[] theData = (Object[]) aValue;
-        setData((StatistikBackingBeanDataModel) theData[0]);
-    }
+	public void setTransient(boolean aValue) {
+	}
 
-    public Object saveState(FacesContext aContext) {
-        ArrayList theData = new ArrayList();
-        theData.add(getData());
-        return theData.toArray();
-    }
-    
-    /**
-     * @return the statisticService
-     */
-    public StatisticService getStatisticService() {
-        return statisticService;
-    }
+	public void restoreState(FacesContext aContext, Object aValue) {
+		Object[] theData = (Object[]) aValue;
+		setData((StatistikBackingBeanDataModel) theData[0]);
+	}
 
-    /**
-     * @param statisticService the statisticService to set
-     */
-    public void setStatisticService(StatisticService statisticService) {
-        this.statisticService = statisticService;
-    }
-    
-    /**
-     * @return the additionalDataService
-     */
-    public AdditionalDataService getAdditionalDataService() {
-        return additionalDataService;
-    }
+	public Object saveState(FacesContext aContext) {
+		ArrayList theData = new ArrayList();
+		theData.add(getData());
+		return theData.toArray();
+	}
 
-    /**
-     * @param additionalDataService the additionalDataService to set
-     */
-    public void setAdditionalDataService(AdditionalDataService additionalDataService) {
-        this.additionalDataService = additionalDataService;
-    }
+	/**
+	 * @return the statisticService
+	 */
+	public StatisticService getStatisticService() {
+		return statisticService;
+	}
 
-    public void commandSearch() {
-        try {
+	/**
+	 * @param statisticService
+	 *            the statisticService to set
+	 */
+	public void setStatisticService(StatisticService statisticService) {
+		this.statisticService = statisticService;
+	}
 
-            List<KontakthistorieEntry> theResult = statisticService.kontakthistorie(getData().getDatumVon(), getData().getDatumBis(), getData().getBenutzer());
-            getData().getSearchResult().setWrappedData(theResult);
+	/**
+	 * @return the additionalDataService
+	 */
+	public AdditionalDataService getAdditionalDataService() {
+		return additionalDataService;
+	}
 
-            if (theResult.size() == 0) {
-                JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);
-            }
+	/**
+	 * @param additionalDataService
+	 *            the additionalDataService to set
+	 */
+	public void setAdditionalDataService(
+			AdditionalDataService additionalDataService) {
+		this.additionalDataService = additionalDataService;
+	}
 
-        } catch (Exception e) {
-            JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERSUCHE, e.getMessage());
-            LOGGER.logError("Fehler bei Suche", e);
-        }
-    }
+	public void commandSearch() {
+		try {
+
+			List<KontakthistorieEntry> theResult = statisticService
+					.kontakthistorie(getData().getDatumVon(), getData()
+							.getDatumBis(), getData().getBenutzer());
+			getData().getSearchResult().setWrappedData(theResult);
+
+			if (theResult.size() == 0) {
+				JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);
+			}
+
+		} catch (Exception e) {
+			JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERSUCHE, e
+					.getMessage());
+			LOGGER.logError("Fehler bei Suche", e);
+		}
+	}
 }

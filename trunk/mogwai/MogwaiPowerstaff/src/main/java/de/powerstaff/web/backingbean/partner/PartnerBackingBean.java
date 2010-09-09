@@ -30,167 +30,176 @@ import de.powerstaff.web.backingbean.PersonEditorBackingBean;
 import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 import de.powerstaff.web.backingbean.project.ProjectBackingBean;
 
-public class PartnerBackingBean extends PersonEditorBackingBean<Partner, PartnerBackingBeanDataModel, PartnerService> {
+public class PartnerBackingBean
+		extends
+		PersonEditorBackingBean<Partner, PartnerBackingBeanDataModel, PartnerService> {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = -5789495052412740906L;
-	private FreelancerService freelancerService;
 
-    @Override
-    protected PartnerBackingBeanDataModel createDataModel() {
-        return new PartnerBackingBeanDataModel();
-    }
+	private transient FreelancerService freelancerService;
 
-    /**
-     * @return the freelancerService
-     */
-    public FreelancerService getFreelancerService() {
-        return freelancerService;
-    }
+	@Override
+	protected PartnerBackingBeanDataModel createDataModel() {
+		return new PartnerBackingBeanDataModel();
+	}
 
-    /**
-     * @param freelancerService
-     *                the freelancerService to set
-     */
-    public void setFreelancerService(FreelancerService freelancerService) {
-        this.freelancerService = freelancerService;
-    }
+	/**
+	 * @return the freelancerService
+	 */
+	public FreelancerService getFreelancerService() {
+		return freelancerService;
+	}
 
-    public String commandFreiberufler() {
-        return "FREIBERUFLER";
-    }
+	/**
+	 * @param freelancerService
+	 *            the freelancerService to set
+	 */
+	public void setFreelancerService(FreelancerService freelancerService) {
+		this.freelancerService = freelancerService;
+	}
 
-    public String commandSelectFreelancer() {
+	public String commandFreiberufler() {
+		return "FREIBERUFLER";
+	}
 
-        Freelancer theFreelancer = (Freelancer) getData().getFreelancer().getRowData();
-        forceUpdateOfBean(FreelancerBackingBean.class, new EditEntityCommand<Freelancer>(theFreelancer));
-        return "FREELANCER_STAMMDATEN";
-    }
+	public String commandSelectFreelancer() {
 
-    @Override
-    public void updateModel(UpdateModelInfo aInfo) {
-        super.updateModel(aInfo);
-        if (aInfo.getCommand() instanceof EditEntityCommand) {
+		Freelancer theFreelancer = (Freelancer) getData().getFreelancer()
+				.getRowData();
+		forceUpdateOfBean(FreelancerBackingBean.class,
+				new EditEntityCommand<Freelancer>(theFreelancer));
+		return "FREELANCER_STAMMDATEN";
+	}
 
-            init();
+	@Override
+	public void updateModel(UpdateModelInfo aInfo) {
+		super.updateModel(aInfo);
+		if (aInfo.getCommand() instanceof EditEntityCommand) {
 
-            EditEntityCommand theCommand = (EditEntityCommand) aInfo.getCommand();
-            if (theCommand.getValue() instanceof Freelancer) {
+			init();
 
-                Freelancer theFreelancer = (Freelancer) theCommand.getValue();
-                Partner theOldPartner = theFreelancer.getPartner();
+			EditEntityCommand theCommand = (EditEntityCommand) aInfo
+					.getCommand();
+			if (theCommand.getValue() instanceof Freelancer) {
 
-                Partner thePartner = (Partner) entityService.findByPrimaryKey(theOldPartner.getId());
-                getData().setEntity(thePartner);
-                afterNavigation();
+				Freelancer theFreelancer = (Freelancer) theCommand.getValue();
+				Partner theOldPartner = theFreelancer.getPartner();
 
-                getData().setOriginalFreelancer(theFreelancer);
-            } else {
-                Partner thePartner = (Partner) theCommand.getValue();
-                
-                thePartner = (Partner) entityService.findByPrimaryKey(thePartner.getId());
-                getData().setEntity(thePartner);
-                afterNavigation();
-            }
-        }
-    }
+				Partner thePartner = (Partner) entityService
+						.findByPrimaryKey(theOldPartner.getId());
+				getData().setEntity(thePartner);
+				afterNavigation();
 
-    @Override
-    protected Partner createNew() {
-        return new Partner();
-    }
+				getData().setOriginalFreelancer(theFreelancer);
+			} else {
+				Partner thePartner = (Partner) theCommand.getValue();
 
-    @Override
-    public void commandFirst() {
-        super.commandFirst();
-        getData().setOriginalFreelancer(null);
-    }
+				thePartner = (Partner) entityService
+						.findByPrimaryKey(thePartner.getId());
+				getData().setEntity(thePartner);
+				afterNavigation();
+			}
+		}
+	}
 
-    @Override
-    public void commandLast() {
-        super.commandLast();
-        getData().setOriginalFreelancer(null);
-    }
+	@Override
+	protected Partner createNew() {
+		return new Partner();
+	}
 
-    @Override
-    public void commandNew() {
-        super.commandNew();
-        getData().setOriginalFreelancer(null);
-    }
+	@Override
+	public void commandFirst() {
+		super.commandFirst();
+		getData().setOriginalFreelancer(null);
+	}
 
-    @Override
-    public void commandNext() {
-        super.commandNext();
-        getData().setOriginalFreelancer(null);
-    }
+	@Override
+	public void commandLast() {
+		super.commandLast();
+		getData().setOriginalFreelancer(null);
+	}
 
-    @Override
-    public void commandPrior() {
-        super.commandPrior();
-        getData().setOriginalFreelancer(null);
-    }
+	@Override
+	public void commandNew() {
+		super.commandNew();
+		getData().setOriginalFreelancer(null);
+	}
 
-    public String commandJumpToFreelancer() {
-        forceUpdateOfBean(FreelancerBackingBean.class, new EditEntityCommand<Freelancer>(getData()
-                .getOriginalFreelancer()));
-        return "FREELANCER_STAMMDATEN";
-    }
+	@Override
+	public void commandNext() {
+		super.commandNext();
+		getData().setOriginalFreelancer(null);
+	}
 
-    public void commandAddFreelancer() {
+	@Override
+	public void commandPrior() {
+		super.commandPrior();
+		getData().setOriginalFreelancer(null);
+	}
 
-        Freelancer theFreelancer = freelancerService.findRealFreelancerByCode(getData().getCodeToAdd());
-        if (theFreelancer != null) {
+	public String commandJumpToFreelancer() {
+		forceUpdateOfBean(FreelancerBackingBean.class,
+				new EditEntityCommand<Freelancer>(getData()
+						.getOriginalFreelancer()));
+		return "FREELANCER_STAMMDATEN";
+	}
 
-            Partner thePartner = getData().getEntity();
+	public void commandAddFreelancer() {
 
-            theFreelancer.setPartner(thePartner);
-            freelancerService.save(theFreelancer);
+		Freelancer theFreelancer = freelancerService
+				.findRealFreelancerByCode(getData().getCodeToAdd());
+		if (theFreelancer != null) {
 
-            thePartner = entityService.findByPrimaryKey(thePartner.getId());
-            getData().setEntity(thePartner);
+			Partner thePartner = getData().getEntity();
 
-            JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
-        } else {
-            JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);
-        }
-    }
+			theFreelancer.setPartner(thePartner);
+			freelancerService.save(theFreelancer);
 
-    public void commandRemoveFreelancer() {
+			thePartner = entityService.findByPrimaryKey(thePartner.getId());
+			getData().setEntity(thePartner);
 
-        Freelancer theFreelancer = (Freelancer) getData().getFreelancer().getRowData();
+			JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
+		} else {
+			JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);
+		}
+	}
 
-        Partner thePartner = getData().getEntity();
+	public void commandRemoveFreelancer() {
 
-        theFreelancer.setPartner(null);
-        freelancerService.save(theFreelancer);
+		Freelancer theFreelancer = (Freelancer) getData().getFreelancer()
+				.getRowData();
 
-        thePartner = entityService.findByPrimaryKey(thePartner.getId());
-        getData().setEntity(thePartner);
+		Partner thePartner = getData().getEntity();
 
-        JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
-    }
+		theFreelancer.setPartner(null);
+		freelancerService.save(theFreelancer);
 
-    @Override
-    protected PartnerContact createNewContact() {
-        return new PartnerContact();
-    }
+		thePartner = entityService.findByPrimaryKey(thePartner.getId());
+		getData().setEntity(thePartner);
 
-    @Override
-    protected PartnerHistory createNewHistory() {
-        return new PartnerHistory();
-    }
+		JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
+	}
 
-    public String commandNewProject() {
+	@Override
+	protected PartnerContact createNewContact() {
+		return new PartnerContact();
+	}
 
-        Partner thePartner = getData().getEntity();
-        if (thePartner.getId() == null) {
-            JSFMessageUtils.addGlobalErrorMessage(MSG_KEINPARTNER);
-            return null;
-        }
+	@Override
+	protected PartnerHistory createNewHistory() {
+		return new PartnerHistory();
+	}
 
-        forceUpdateOfBean(ProjectBackingBean.class, new EditEntityCommand<Partner>(thePartner));
-        return "PROJEKT_STAMMDATEN";
-    }
+	public String commandNewProject() {
+
+		Partner thePartner = getData().getEntity();
+		if (thePartner.getId() == null) {
+			JSFMessageUtils.addGlobalErrorMessage(MSG_KEINPARTNER);
+			return null;
+		}
+
+		forceUpdateOfBean(ProjectBackingBean.class,
+				new EditEntityCommand<Partner>(thePartner));
+		return "PROJEKT_STAMMDATEN";
+	}
 }

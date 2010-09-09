@@ -28,9 +28,6 @@ import de.powerstaff.web.utils.PagedListDataModel;
 
 public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8778198734206433965L;
 
 	private ProfileSearchRequest searchRequest = new ProfileSearchRequest();

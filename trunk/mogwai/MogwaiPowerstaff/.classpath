@@ -61,5 +61,6 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/bcprov-jdk16-145.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/bctest-jdk16-145.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/bctsp-jdk16-145.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jaxen-1.1.3.jar"/>
 	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
 </classpath>
