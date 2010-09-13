@@ -23,6 +23,10 @@ import de.powerstaff.business.dto.DataPage;
 public abstract class PagedListDataModel<T> extends DataModel implements
 		Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int pageSize;
 	private int rowIndex;
 	private DataPage<T> page;

@@ -122,23 +122,6 @@ public class ClientHttpRequest {
 		this(new URL(urlString));
 	}
 
-	private void postCookies() {
-		StringBuffer cookieList = new StringBuffer();
-
-		for (Iterator i = cookies.entrySet().iterator(); i.hasNext();) {
-			Map.Entry entry = (Map.Entry) (i.next());
-			cookieList.append(entry.getKey().toString() + "="
-					+ entry.getValue());
-
-			if (i.hasNext()) {
-				cookieList.append("; ");
-			}
-		}
-		if (cookieList.length() > 0) {
-			connection.setRequestProperty("Cookie", cookieList.toString());
-		}
-	}
-
 	/**
 	 * adds a cookie to the requst.
 	 * 
