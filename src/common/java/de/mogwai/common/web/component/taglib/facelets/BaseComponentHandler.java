@@ -19,7 +19,6 @@ package de.mogwai.common.web.component.taglib.facelets;
 import javax.faces.component.UIComponent;
 
 import com.sun.facelets.FaceletContext;
-import com.sun.facelets.tag.TagAttribute;
 import com.sun.facelets.tag.jsf.ComponentConfig;
 import com.sun.facelets.tag.jsf.ComponentHandler;
 
@@ -27,28 +26,19 @@ import de.mogwai.common.web.component.input.BaseInputComponent;
 
 public class BaseComponentHandler extends ComponentHandler {
 
-    private final TagAttribute actionAttribute;
+	protected BaseComponentHandler(ComponentConfig aConfig) {
+		super(aConfig);
+	}
 
-    private final TagAttribute immediateAttribute;
-
-    private final TagAttribute submitOnChange;
-
-    protected BaseComponentHandler(ComponentConfig aConfig) {
-        super(aConfig);
-
-        actionAttribute = getAttribute("action");
-        immediateAttribute = getAttribute("immediate");
-        submitOnChange = getAttribute("submitOnChange");
-    }
-
-    @Override
-    protected void onComponentCreated(FaceletContext aContext, UIComponent aComponent, UIComponent aParent) {
-        super.onComponentCreated(aContext, aComponent, aParent);
-        if (aComponent instanceof BaseInputComponent) {
-            BaseInputComponent theComponent = (BaseInputComponent) aComponent;
-            theComponent.initInputComponent();
-            theComponent.initValueBindingForChildren();
-        }
-    }
+	@Override
+	protected void onComponentCreated(FaceletContext aContext,
+			UIComponent aComponent, UIComponent aParent) {
+		super.onComponentCreated(aContext, aComponent, aParent);
+		if (aComponent instanceof BaseInputComponent) {
+			BaseInputComponent theComponent = (BaseInputComponent) aComponent;
+			theComponent.initInputComponent();
+			theComponent.initValueBindingForChildren();
+		}
+	}
 
 }

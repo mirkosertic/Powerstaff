@@ -11,6 +11,10 @@ import java.util.List;
  */
 public class DataPage<T> implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int datasetSize;
 	private int startRow;
 	private List<T> data;
