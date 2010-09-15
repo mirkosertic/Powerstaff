@@ -43,373 +43,403 @@ import de.mogwai.common.web.component.renderkit.html.BaseRenderer;
  */
 public class TableRenderer extends BaseRenderer {
 
-    public TableRenderer() {
-        super();
-    }
+	public TableRenderer() {
+		super();
+	}
 
-    protected void renderChildAndCheckEmptyness(FacesContext aContext, UIComponent aComponent) throws IOException {
+	protected void renderChildAndCheckEmptyness(FacesContext aContext,
+			UIComponent aComponent) throws IOException {
 
-        ResponseWriter theWriter = aContext.getResponseWriter();
+		ResponseWriter theWriter = aContext.getResponseWriter();
 
-        StringWriter theStringWriter = new StringWriter();
-        ResponseWriter theBufferedWriter = theWriter.cloneWithWriter(theStringWriter);
-        aContext.setResponseWriter(theBufferedWriter);
+		StringWriter theStringWriter = new StringWriter();
+		ResponseWriter theBufferedWriter = theWriter
+				.cloneWithWriter(theStringWriter);
+		aContext.setResponseWriter(theBufferedWriter);
 
-        if (aComponent != null) {
-            RendererUtils.renderChild(aContext, aComponent);
-        }
+		if (aComponent != null) {
+			RendererUtils.renderChild(aContext, aComponent);
+		}
 
-        aContext.setResponseWriter(theWriter);
+		aContext.setResponseWriter(theWriter);
 
-        theStringWriter.flush();
-        StringBuffer theContent = stripCommentsFromString(theStringWriter.getBuffer());
-        if (theContent.length() > 0) {
-            theWriter.write(theContent.toString());
-        } else {
-            theWriter.write("<div style=\"width:1px; height:1px;\"></div>");
-        }
+		theStringWriter.flush();
+		StringBuffer theContent = stripCommentsFromString(theStringWriter
+				.getBuffer());
+		if (theContent.length() > 0) {
+			theWriter.write(theContent.toString());
+		} else {
+			theWriter.write("<div style=\"width:1px; height:1px;\"></div>");
+		}
 
-    }
+	}
 
-    @Override
-    public void encodeBegin(FacesContext aContext, UIComponent aComponent) throws IOException {
+	@Override
+	public void encodeBegin(FacesContext aContext, UIComponent aComponent)
+			throws IOException {
 
-        TableComponent theTableComponent = (TableComponent) aComponent;
+		TableComponent theTableComponent = (TableComponent) aComponent;
 
-        ResponseWriter theWriter = aContext.getResponseWriter();
+		ResponseWriter theWriter = aContext.getResponseWriter();
 
-        boolean hasId = false;
+		boolean hasId = false;
 
-        if (theTableComponent.hasFunctions()) {
-            theWriter.startElement("table", aComponent);
-            theWriter.writeAttribute("id", theTableComponent.getClientId(aContext), null);
-            theWriter.writeAttribute("cellspacing", "0", null);
-            theWriter.writeAttribute("cellpadding", "0", null);
-            theWriter.writeAttribute("border", "0", null);
-            theWriter.startElement("tr", aComponent);
-            theWriter.startElement("td", aComponent);
-            hasId = true;
-        }
+		if (theTableComponent.hasFunctions()) {
+			theWriter.startElement("table", aComponent);
+			theWriter.writeAttribute("id", theTableComponent
+					.getClientId(aContext), null);
+			theWriter.writeAttribute("cellspacing", "0", null);
+			theWriter.writeAttribute("cellpadding", "0", null);
+			theWriter.writeAttribute("border", "0", null);
+			theWriter.startElement("tr", aComponent);
+			theWriter.startElement("td", aComponent);
+			hasId = true;
+		}
 
-        theWriter.startElement("table", aComponent);
-        if (!hasId) {
-            theWriter.writeAttribute("id", theTableComponent.getClientId(aContext), null);
-        }
-        theWriter.writeAttribute("cellspacing", "0", null);
-        theWriter.writeAttribute("cellpadding", "0", null);
-        theWriter.writeAttribute("border", "0", null);
-        theWriter.writeAttribute("class", "mogwaiTable", null);
+		theWriter.startElement("table", aComponent);
+		if (!hasId) {
+			theWriter.writeAttribute("id", theTableComponent
+					.getClientId(aContext), null);
+		}
+		theWriter.writeAttribute("cellspacing", "0", null);
+		theWriter.writeAttribute("cellpadding", "0", null);
+		theWriter.writeAttribute("border", "0", null);
+		theWriter.writeAttribute("class", "mogwaiTable", null);
 
-        Vector<UIColumn> theColumns = ListAwareUtils.getColumns(theTableComponent);
-        GridbagLayoutSizeDefinitionVector theCols = theTableComponent.getCols();
+		Vector<UIColumn> theColumns = ListAwareUtils
+				.getColumns(theTableComponent);
+		GridbagLayoutSizeDefinitionVector theCols = theTableComponent.getCols();
 
-        // Render the table definition
-        theWriter.startElement("colgroup", theTableComponent);
-        for (int i = 0; i < theColumns.size(); i++) {
+		// Render the table definition
+		theWriter.startElement("colgroup", theTableComponent);
+		for (int i = 0; i < theColumns.size(); i++) {
 
-            String theWidth = GridBagLayoutUtils.getSizeForColumn(theTableComponent, theCols, i);
+			String theWidth = GridBagLayoutUtils.getSizeForColumn(
+					theTableComponent, theCols, i);
 
-            theWriter.startElement("col", aComponent);
-            theWriter.writeAttribute("width", theWidth, null);
-            theWriter.endElement("col");
+			theWriter.startElement("col", aComponent);
+			theWriter.writeAttribute("width", theWidth, null);
+			theWriter.endElement("col");
 
-        }
-        theWriter.endElement("colgroup");
+		}
+		theWriter.endElement("colgroup");
 
-    }
+	}
 
-    protected void renderHeader(FacesContext aContext, UIComponent aComponent, Vector<UIColumn> aColumns,
-            Object aGroupObject) throws IOException {
+	protected void renderHeader(FacesContext aContext, UIComponent aComponent,
+			Vector<UIColumn> aColumns, Object aGroupObject) throws IOException {
 
-        TableComponent theTableComponent = (TableComponent) aComponent;
+		TableComponent theTableComponent = (TableComponent) aComponent;
 
-        if (!theTableComponent.isShowHeader()) {
-            return;
-        }
+		if (!theTableComponent.isShowHeader()) {
+			return;
+		}
 
-        GridbagLayoutSizeDefinitionVector theCols = theTableComponent.getCols();
+		GridbagLayoutSizeDefinitionVector theCols = theTableComponent.getCols();
 
-        ResponseWriter theWriter = aContext.getResponseWriter();
+		ResponseWriter theWriter = aContext.getResponseWriter();
 
-        if (aGroupObject != null) {
-            theWriter.startElement("tr", aComponent);
+		if (aGroupObject != null) {
+			theWriter.startElement("tr", aComponent);
 
-            if (theTableComponent.isUseStyles()) {
-                theWriter.writeAttribute("class", "mogwaiTableGroupRow", null);
-            }
+			if (theTableComponent.isUseStyles()) {
+				theWriter.writeAttribute("class", "mogwaiTableGroupRow", null);
+			}
 
-            theWriter.startElement("td", aComponent);
-            theWriter.writeAttribute("colspan", aColumns.size(), null);
+			theWriter.startElement("td", aComponent);
+			theWriter.writeAttribute("colspan", aColumns.size(), null);
 
-            if (theTableComponent.isUseStyles()) {
-                theWriter.writeAttribute("class", "mogwaiTableGroupCell", null);
-            }
+			if (theTableComponent.isUseStyles()) {
+				theWriter.writeAttribute("class", "mogwaiTableGroupCell", null);
+			}
 
-            UIComponent theGroupHeader = theTableComponent.getMogwaiFacet(TableComponent.GROUPHEADER_FACET);
+			UIComponent theGroupHeader = theTableComponent
+					.getMogwaiFacet(TableComponent.GROUPHEADER_FACET);
 
-            aContext.getExternalContext().getRequestMap().put(TableComponent.HEADER_VAR_ATTRIBUTE, aGroupObject);
+			aContext.getExternalContext().getRequestMap().put(
+					TableComponent.HEADER_VAR_ATTRIBUTE, aGroupObject);
 
-            RendererUtils.renderChild(aContext, theGroupHeader);
+			RendererUtils.renderChild(aContext, theGroupHeader);
 
-            aContext.getExternalContext().getRequestMap().remove(TableComponent.HEADER_VAR_ATTRIBUTE);
+			aContext.getExternalContext().getRequestMap().remove(
+					TableComponent.HEADER_VAR_ATTRIBUTE);
 
-            theWriter.endElement("td");
-            theWriter.endElement("tr");
-        }
+			theWriter.endElement("td");
+			theWriter.endElement("tr");
+		}
 
-        theWriter.startElement("tr", aComponent);
+		theWriter.startElement("tr", aComponent);
 
-        if (theTableComponent.isUseStyles()) {
-            theWriter.writeAttribute("class", "mogwaiTableHeaderRow", null);
-        }
+		if (theTableComponent.isUseStyles()) {
+			theWriter.writeAttribute("class", "mogwaiTableHeaderRow", null);
+		}
 
-        for (int i = 0; i < aColumns.size(); i++) {
-            UIComponent theColumn = aColumns.get(i);
+		for (int i = 0; i < aColumns.size(); i++) {
+			UIComponent theColumn = aColumns.get(i);
 
-            theWriter.startElement("th", aComponent);
+			theWriter.startElement("th", aComponent);
 
-            if (theTableComponent.isUseStyles()) {
-                theWriter.writeAttribute("class", (i == aColumns.size() - 1) ? "mogwaiTableHeaderCellLast"
-                        : "mogwaiTableHeaderCell", null);
-            }
-            theWriter.writeAttribute("align", theCols.get(i).getAlign(), null);
+			if (theTableComponent.isUseStyles()) {
+				theWriter
+						.writeAttribute(
+								"class",
+								(i == aColumns.size() - 1) ? "mogwaiTableHeaderCellLast"
+										: "mogwaiTableHeaderCell", null);
+			}
+			theWriter.writeAttribute("align", theCols.get(i).getAlign(), null);
 
-            renderChildAndCheckEmptyness(aContext, theColumn.getFacet("header"));
+			renderChildAndCheckEmptyness(aContext, theColumn.getFacet("header"));
 
-            theWriter.endElement("th");
-        }
+			theWriter.endElement("th");
+		}
 
-        theWriter.endElement("tr");
+		theWriter.endElement("tr");
 
-    }
+	}
 
-    protected void renderFooter(FacesContext aContext, ResponseWriter aWriter, TableComponent aComponent,
-            Vector<UIColumn> aColumns) throws IOException {
+	protected void renderFooter(FacesContext aContext, ResponseWriter aWriter,
+			TableComponent aComponent, Vector<UIColumn> aColumns)
+			throws IOException {
 
-        if (!aComponent.isShowFooter()) {
-            return;
-        }
+		if (!aComponent.isShowFooter()) {
+			return;
+		}
 
-        GridbagLayoutSizeDefinitionVector theCols = aComponent.getCols();
+		GridbagLayoutSizeDefinitionVector theCols = aComponent.getCols();
 
-        aWriter.startElement("tr", aComponent);
+		aWriter.startElement("tr", aComponent);
 
-        if (aComponent.isUseStyles()) {
-            aWriter.writeAttribute("class", "mogwaiTableFooterRow", null);
-        }
+		if (aComponent.isUseStyles()) {
+			aWriter.writeAttribute("class", "mogwaiTableFooterRow", null);
+		}
 
-        for (int i = 0; i < aColumns.size(); i++) {
+		for (int i = 0; i < aColumns.size(); i++) {
 
-            UIComponent theColumn = aColumns.get(i);
+			UIComponent theColumn = aColumns.get(i);
 
-            aWriter.startElement("th", aComponent);
+			aWriter.startElement("th", aComponent);
 
-            if (aComponent.isUseStyles()) {
-                aWriter.writeAttribute("class", (i == aColumns.size() - 1) ? "mogwaiTableFooterCellLast"
-                        : "mogwaiTableFooterCell", null);
-            }
-            aWriter.writeAttribute("align", theCols.get(i).getAlign(), null);
+			if (aComponent.isUseStyles()) {
+				aWriter
+						.writeAttribute(
+								"class",
+								(i == aColumns.size() - 1) ? "mogwaiTableFooterCellLast"
+										: "mogwaiTableFooterCell", null);
+			}
+			aWriter.writeAttribute("align", theCols.get(i).getAlign(), null);
 
-            renderChildAndCheckEmptyness(aContext, theColumn.getFacet("footer"));
+			renderChildAndCheckEmptyness(aContext, theColumn.getFacet("footer"));
 
-            aWriter.endElement("th");
-        }
+			aWriter.endElement("th");
+		}
 
-        aWriter.endElement("tr");
+		aWriter.endElement("tr");
 
-    }
+	}
 
-    @Override
-    @SuppressWarnings("all")
-    public void encodeChildren(FacesContext aContext, UIComponent aComponent) throws IOException {
+	@Override
+	@SuppressWarnings("all")
+	public void encodeChildren(FacesContext aContext, UIComponent aComponent)
+			throws IOException {
 
-        TableComponent theTableComponent = (TableComponent) aComponent;
+		TableComponent theTableComponent = (TableComponent) aComponent;
 
-        GridbagLayoutSizeDefinitionVector theCols = theTableComponent.getCols();
+		GridbagLayoutSizeDefinitionVector theCols = theTableComponent.getCols();
 
-        ResponseWriter theWriter = aContext.getResponseWriter();
+		ResponseWriter theWriter = aContext.getResponseWriter();
 
-        UIData theData = (UIData) aComponent;
+		UIData theData = (UIData) aComponent;
 
-        Vector<UIColumn> theColumns = ListAwareUtils.getColumns(theTableComponent);
+		Vector<UIColumn> theColumns = ListAwareUtils
+				.getColumns(theTableComponent);
 
-        int theFirstRow = theData.getFirst();
-        int theRows = theData.getRows();
-        int theLast;
+		int theFirstRow = theData.getFirst();
+		int theRows = theData.getRows();
+		int theLast;
 
-        if (theRows <= 0) {
-            theLast = theData.getRowCount();
-        } else {
+		if (theRows <= 0) {
+			theLast = theData.getRowCount();
+		} else {
 
-            theLast = theFirstRow + theRows;
-            if (theLast > theData.getRowCount()) {
-                theLast = theData.getRowCount();
-            }
-        }
+			theLast = theFirstRow + theRows;
+			if (theLast > theData.getRowCount()) {
+				theLast = theData.getRowCount();
+			}
+		}
 
-        int theRow = theFirstRow;
-        int theRowCounter = 0;
+		int theRow = theFirstRow;
+		int theRowCounter = 0;
 
-        Object theCurrentGroupObject = null;
+		Object theCurrentGroupObject = null;
 
-        if (theRow >= theLast) {
-            // There is no data, so only render the header
-            renderHeader(aContext, aComponent, theColumns, null);
+		if (theRow >= theLast) {
+			// There is no data, so only render the header
+			renderHeader(aContext, aComponent, theColumns, null);
 
-            UIComponent theNoDataFacet = aComponent.getFacet(TableComponent.NODATA_FACET);
-            if (theNoDataFacet != null) {
-                theWriter.startElement("tr", aComponent);
-                theWriter.startElement("td", aComponent);
+			UIComponent theNoDataFacet = aComponent
+					.getFacet(TableComponent.NODATA_FACET);
+			if (theNoDataFacet != null) {
+				theWriter.startElement("tr", aComponent);
+				theWriter.startElement("td", aComponent);
 
-                if (theTableComponent.isUseStyles()) {
-                    theWriter.writeAttribute("class", "mogwaiNoDataCell", null);
-                }
+				if (theTableComponent.isUseStyles()) {
+					theWriter.writeAttribute("class", "mogwaiNoDataCell", null);
+				}
 
-                theWriter.writeAttribute("colspan", theColumns.size(), null);
+				theWriter.writeAttribute("colspan", theColumns.size(), null);
 
-                renderChildAndCheckEmptyness(aContext, theNoDataFacet);
+				renderChildAndCheckEmptyness(aContext, theNoDataFacet);
 
-                theWriter.endElement("td");
-                theWriter.endElement("tr");
-            }
-        }
+				theWriter.endElement("td");
+				theWriter.endElement("tr");
+			}
+		}
 
-        while (theRow < theLast) {
+		while (theRow < theLast) {
 
-            theData.setRowIndex(theRow);
+			theData.setRowIndex(theRow);
 
-            Object theRowData = theData.getRowData();
-            if ((!(theRowData instanceof RowGroupProvider)) && (theRowCounter == 0)) {
-                // Object is no grouping provider, and it is the first row, so
-                // add a plain header
-                renderHeader(aContext, aComponent, theColumns, null);
-            }
+			Object theRowData = theData.getRowData();
+			if ((!(theRowData instanceof RowGroupProvider))
+					&& (theRowCounter == 0)) {
+				// Object is no grouping provider, and it is the first row, so
+				// add a plain header
+				renderHeader(aContext, aComponent, theColumns, null);
+			}
 
-            boolean suppressData = false;
+			boolean suppressData = false;
 
-            if ((theRowData instanceof RowGroupProvider)) {
+			if ((theRowData instanceof RowGroupProvider)) {
 
-                RowGroupProvider<Object> theProvider = (RowGroupProvider<Object>) theRowData;
+				RowGroupProvider<Object> theProvider = (RowGroupProvider<Object>) theRowData;
 
-                Object theNewGroupObject = theProvider.getGroupingObject();
+				Object theNewGroupObject = theProvider.getGroupingObject();
 
-                if ((theCurrentGroupObject == null) || (!theCurrentGroupObject.equals(theNewGroupObject))) {
+				if ((theCurrentGroupObject == null)
+						|| (!theCurrentGroupObject.equals(theNewGroupObject))) {
 
-                    // Group has changed, render a new header and include the
-                    // grouping object
-                    renderHeader(aContext, aComponent, theColumns, theNewGroupObject);
+					// Group has changed, render a new header and include the
+					// grouping object
+					renderHeader(aContext, aComponent, theColumns,
+							theNewGroupObject);
 
-                    theCurrentGroupObject = theNewGroupObject;
+					theCurrentGroupObject = theNewGroupObject;
 
-                    theRowCounter = 0;
-                }
+					theRowCounter = 0;
+				}
 
-                suppressData = theProvider.getValue() == null;
+				suppressData = theProvider.getValue() == null;
 
-            }
+			}
 
-            if (!suppressData) {
-                theWriter.startElement("tr", aComponent);
+			if (!suppressData) {
+				theWriter.startElement("tr", aComponent);
 
-                for (int i = 0; i < theColumns.size(); i++) {
+				for (int i = 0; i < theColumns.size(); i++) {
 
-                    UIColumn theChild = theColumns.get(i);
+					UIColumn theChild = theColumns.get(i);
 
-                    theWriter.startElement("td", aComponent);
+					theWriter.startElement("td", aComponent);
 
-                    // String theWidth =
-                    // GridBagLayoutUtils.getSizeForColumn(theTableComponent,
-                    // theCols, i);
-                    // theWriter.writeAttribute("width", theWidth, null);
+					// String theWidth =
+					// GridBagLayoutUtils.getSizeForColumn(theTableComponent,
+					// theCols, i);
+					// theWriter.writeAttribute("width", theWidth, null);
 
-                    if (theTableComponent.isUseStyles()) {
-                        String theClass = (theRowCounter % 2) == 0 ? "mogwaiTableCellEven" : "mogwaiTableCellOdd";
-                        if (i == theColumns.size() - 1) {
-                            theClass += "Last";
-                        }
+					if (theTableComponent.isUseStyles()) {
+						String theClass = (theRowCounter % 2) == 0 ? "mogwaiTableCellEven"
+								: "mogwaiTableCellOdd";
+						if (i == theColumns.size() - 1) {
+							theClass += "Last";
+						}
 
-                        theWriter.writeAttribute("class", theClass, null);
-                    }
+						theWriter.writeAttribute("class", theClass, null);
+					}
 
-                    renderChildAndCheckEmptyness(aContext, theChild);
+					renderChildAndCheckEmptyness(aContext, theChild);
 
-                    theWriter.endElement("td");
-                }
+					theWriter.endElement("td");
+				}
 
-                theWriter.endElement("tr");
-            }
+				theWriter.endElement("tr");
+			}
 
-            theRow++;
-            theRowCounter++;
-        }
+			theRow++;
+			theRowCounter++;
+		}
 
-        if (theTableComponent.isFillupRows()) {
+		if (theTableComponent.isFillupRows()) {
 
-            // Es sollen noch Leerzeilen angehängt werden
-            while (theRowCounter < theRows) {
+			// Es sollen noch Leerzeilen angehängt werden
+			while (theRowCounter < theRows) {
 
-                theWriter.startElement("tr", aComponent);
+				theWriter.startElement("tr", aComponent);
 
-                for (int i = 0; i < theColumns.size(); i++) {
+				for (int i = 0; i < theColumns.size(); i++) {
 
-                    UIColumn theChild = theColumns.get(i);
+					theWriter.startElement("td", aComponent);
 
-                    theWriter.startElement("td", aComponent);
+					if (theTableComponent.isUseStyles()) {
+						String theClass = (theRowCounter % 2) == 0 ? "mogwaiTableCellEven"
+								: "mogwaiTableCellOdd";
+						if (i == theColumns.size() - 1) {
+							theClass += "Last";
+						}
 
-                    if (theTableComponent.isUseStyles()) {
-                        String theClass = (theRowCounter % 2) == 0 ? "mogwaiTableCellEven" : "mogwaiTableCellOdd";
-                        if (i == theColumns.size() - 1) {
-                            theClass += "Last";
-                        }
+						theWriter.writeAttribute("class", theClass, null);
+					}
 
-                        theWriter.writeAttribute("class", theClass, null);
-                    }
+					theWriter.writeAttribute("align",
+							theCols.get(i).getAlign(), null);
 
-                    theWriter.writeAttribute("align", theCols.get(i).getAlign(), null);
+					UIComponent theEmptyCellFacet = aComponent
+							.getFacet(TableComponent.EMPTYCELL_FACET);
+					if (theEmptyCellFacet != null) {
+						renderChildAndCheckEmptyness(aContext,
+								theEmptyCellFacet);
+					} else {
+						// Alt 255 Hack !!
+						theWriter.write(" ");
+					}
 
-                    UIComponent theEmptyCellFacet = aComponent.getFacet(TableComponent.EMPTYCELL_FACET);
-                    if (theEmptyCellFacet != null) {
-                        renderChildAndCheckEmptyness(aContext, theEmptyCellFacet);
-                    } else {
-                        // Alt 255 Hack !!
-                        theWriter.write(" ");
-                    }
+					theWriter.endElement("td");
+				}
 
-                    theWriter.endElement("td");
-                }
+				theWriter.endElement("tr");
 
-                theWriter.endElement("tr");
+				theRowCounter++;
+			}
+		}
+	}
 
-                theRowCounter++;
-            }
-        }
-    }
+	@Override
+	public void encodeEnd(FacesContext aContext, UIComponent aComponent)
+			throws IOException {
 
-    @Override
-    public void encodeEnd(FacesContext aContext, UIComponent aComponent) throws IOException {
+		TableComponent theTableComponent = (TableComponent) aComponent;
+		ResponseWriter theWriter = aContext.getResponseWriter();
 
-        TableComponent theTableComponent = (TableComponent) aComponent;
-        ResponseWriter theWriter = aContext.getResponseWriter();
+		Vector<UIColumn> theColumns = ListAwareUtils
+				.getColumns(theTableComponent);
+		renderFooter(aContext, theWriter, theTableComponent, theColumns);
 
-        Vector<UIColumn> theColumns = ListAwareUtils.getColumns(theTableComponent);
-        renderFooter(aContext, theWriter, theTableComponent, theColumns);
+		theWriter.endElement("table");
 
-        theWriter.endElement("table");
+		if (theTableComponent.hasFunctions()) {
+			theWriter.endElement("td");
+			theWriter.startElement("td", aComponent);
+			theWriter.writeAttribute("align", "left", null);
+			theWriter.writeAttribute("valign", "bottom", null);
+			theWriter.writeAttribute("nowrap", "nowrap", null);
 
-        if (theTableComponent.hasFunctions()) {
-            theWriter.endElement("td");
-            theWriter.startElement("td", aComponent);
-            theWriter.writeAttribute("align", "left", null);
-            theWriter.writeAttribute("valign", "bottom", null);
-            theWriter.writeAttribute("nowrap", "nowrap", null);
+			RendererUtils.renderChild(aContext, theTableComponent
+					.getFunctions());
 
-            RendererUtils.renderChild(aContext, theTableComponent.getFunctions());
+			theWriter.endElement("td");
+			theWriter.endElement("tr");
+			theWriter.endElement("table");
+		}
 
-            theWriter.endElement("td");
-            theWriter.endElement("tr");
-            theWriter.endElement("table");
-        }
-
-    }
+	}
 
 }
