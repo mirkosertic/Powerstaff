@@ -36,9 +36,11 @@ public interface LuceneService extends Service {
 	IndexWriter getIndexWriter() throws CorruptIndexException,
 			LockObtainFailedException, IOException;
 
-	IndexWriter createNewIndex() throws CorruptIndexException,
+	void createNewIndex() throws CorruptIndexException,
 			LockObtainFailedException, IOException;
 
 	void shutdownIndexWriter(boolean aOptimize) throws CorruptIndexException,
 			IOException;
+
+	void forceNewIndexReader();
 }

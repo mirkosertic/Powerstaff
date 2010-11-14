@@ -21,9 +21,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.KeywordAnalyzer;
 import org.apache.lucene.document.DateTools;
@@ -44,9 +46,11 @@ import org.springframework.transaction.annotation.Transactional;
 import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.FreelancerDAO;
 import de.powerstaff.business.entity.Freelancer;
+import de.powerstaff.business.entity.FreelancerProfile;
 import de.powerstaff.business.service.LuceneService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ProfileIndexerService;
+import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.business.service.ServiceLoggerService;
 import de.powerstaff.business.service.impl.reader.DocumentReader;
 import de.powerstaff.business.service.impl.reader.DocumentReaderFactory;
@@ -71,6 +75,8 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 	private FreelancerDAO freelancerDAO;
 
 	private boolean running;
+
+	private ProfileSearchService profileSearchService;
 
 	private static String toIndexFormat(Date aValue) {
 		if (aValue == null) {
@@ -107,6 +113,11 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 		this.luceneService = luceneService;
 	}
 
+	public void setProfileSearchService(
+			ProfileSearchService profileSearchService) {
+		this.profileSearchService = profileSearchService;
+	}
+
 	private void processDeletedOrUpdatedFiles() {
 
 		logger.logInfo("Processing deleted or updated files");
@@ -132,6 +143,8 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 					}
 				}
 			}
+
+			luceneService.shutdownIndexWriter(false);
 
 		} catch (Exception e) {
 
@@ -232,114 +245,121 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 	private void processFile(IndexWriter aWriter, File aFile,
 			String aBaseFileName) {
 
-		try {
+		synchronized (this) {
+			try {
 
-			// First, try to detect if the file exists
-			Searcher theSearcher = luceneService.getIndexSearcher();
-			Query theQuery = createQueryForFile(aFile);
-			Hits theHits = theSearcher.search(theQuery);
-			if (theHits.length() > 0) {
+				// First, try to detect if the file exists
+				Searcher theSearcher = luceneService.getIndexSearcher();
+				Query theQuery = createQueryForFile(aFile);
+				Hits theHits = theSearcher.search(theQuery);
+				if (theHits.length() > 0) {
 
-				logger.logDebug("Ignoring file " + aFile
-						+ " as it seems to be duplicate");
+					logger.logDebug("Ignoring file " + aFile
+							+ " as it seems to be duplicate");
 
-				return;
-			}
-
-			DocumentReader theDocumentReader = this.readerFactory
-					.getDocumentReaderForFile(aFile);
-			if (theDocumentReader != null) {
-
-				// Try to get the coding
-				String theCode = aFile.getName().substring("Profil ".length())
-						.trim();
-				int p = theCode.lastIndexOf(".");
-				if (p > 0) {
-					theCode = theCode.substring(0, p);
+					return;
 				}
 
-				String theStrippedPath = aFile.toString().substring(
-						aBaseFileName.length() + 1);
+				DocumentReader theDocumentReader = readerFactory
+						.getDocumentReaderForFile(aFile);
+				if (theDocumentReader != null) {
 
-				theCode = theCode.trim();
-
-				try {
-
-					logger.logInfo("Adding file " + aFile + " to index");
-
-					Document doc = new Document();
-					ReadResult theResult = theDocumentReader.getContent(aFile);
-
-					doc.add(new Field(PATH, aFile.getPath(), Field.Store.YES,
-							Field.Index.UN_TOKENIZED));
-					doc.add(new Field(CODE, theCode, Field.Store.YES,
-							Field.Index.UN_TOKENIZED));
-					doc.add(new Field(UNIQUE_ID, UUID.randomUUID().toString(),
-							Field.Store.YES, Field.Index.UN_TOKENIZED));
-					doc.add(new Field(STRIPPEDPATH, theStrippedPath,
-							Field.Store.YES, Field.Index.UN_TOKENIZED));
-					doc.add(new Field(MODIFIED, "" + aFile.lastModified(),
-							Field.Store.YES, Field.Index.NO));
-					doc.add(new Field(INDEXINGTIME, ""
-							+ System.currentTimeMillis(), Field.Store.YES,
-							Field.Index.NO));
-					doc.add(new Field(ORIG_CONTENT, theResult.getContent(),
-							Field.Store.YES, Field.Index.UN_TOKENIZED));
-					doc.add(new Field(SHACHECKSUM, DigestUtils.shaHex(theResult
-							.getContent()), Field.Store.YES,
-							Field.Index.UN_TOKENIZED));
-					doc.add(new Field(CONTENT, new StringReader(theResult
-							.getContent())));
-
-					Freelancer theFreelancer = freelancerDAO
-							.findByCodeReal(theCode);
-
-					if (theFreelancer != null) {
-						doc.add(new Field(NAME1, theFreelancer.getName1(),
-								Field.Store.YES, Field.Index.UN_TOKENIZED));
-						doc.add(new Field(NAME2, theFreelancer.getName2(),
-								Field.Store.YES, Field.Index.UN_TOKENIZED));
-						doc.add(new Field(FREELANCERID, ""
-								+ theFreelancer.getId(), Field.Store.YES,
-								Field.Index.UN_TOKENIZED));
-						doc.add(new Field(PLZ, theFreelancer.getPlz(),
-								Field.Store.YES, Field.Index.UN_TOKENIZED));
-						doc.add(new Field(VERFUEGBARKEIT,
-								toIndexFormat(theFreelancer
-										.getAvailabilityAsDate()),
-								Field.Store.YES, Field.Index.UN_TOKENIZED));
-						doc.add(new Field(STUNDENSATZ,
-								toIndexFormat(theFreelancer.getSallaryLong()),
-								Field.Store.YES, Field.Index.UN_TOKENIZED));
-
-						doc.add(new Field(HASMATCHINGRECORD,
-								toIndexFormat(true), Field.Store.YES,
-								Field.Index.UN_TOKENIZED));
-
-						freelancerDAO.detach(theFreelancer);
-					} else {
-						doc.add(new Field(HASMATCHINGRECORD,
-								toIndexFormat(false), Field.Store.YES,
-								Field.Index.UN_TOKENIZED));
+					// Try to get the coding
+					String theCode = aFile.getName().substring(
+							"Profil ".length()).trim();
+					int p = theCode.lastIndexOf(".");
+					if (p > 0) {
+						theCode = theCode.substring(0, p);
 					}
 
-					aWriter.addDocument(doc);
+					String theStrippedPath = aFile.toString().substring(
+							aBaseFileName.length() + 1);
 
-				} catch (Exception ex) {
+					theCode = theCode.trim();
 
-					logger.logInfo("Error on indexing file " + aFile + " : "
-							+ ex.getMessage());
-					logger.logDebug("Error on indexing file " + aFile, ex);
+					try {
+
+						logger.logInfo("Adding file " + aFile + " to index");
+
+						Document doc = new Document();
+						ReadResult theResult = theDocumentReader
+								.getContent(aFile);
+
+						doc.add(new Field(PATH, aFile.getPath(),
+								Field.Store.YES, Field.Index.UN_TOKENIZED));
+						doc.add(new Field(CODE, theCode, Field.Store.YES,
+								Field.Index.UN_TOKENIZED));
+						doc.add(new Field(UNIQUE_ID, UUID.randomUUID()
+								.toString(), Field.Store.YES,
+								Field.Index.UN_TOKENIZED));
+						doc.add(new Field(STRIPPEDPATH, theStrippedPath,
+								Field.Store.YES, Field.Index.UN_TOKENIZED));
+						doc.add(new Field(MODIFIED, "" + aFile.lastModified(),
+								Field.Store.YES, Field.Index.NO));
+						doc.add(new Field(INDEXINGTIME, ""
+								+ System.currentTimeMillis(), Field.Store.YES,
+								Field.Index.NO));
+						doc.add(new Field(ORIG_CONTENT, theResult.getContent(),
+								Field.Store.YES, Field.Index.UN_TOKENIZED));
+						doc.add(new Field(SHACHECKSUM, DigestUtils
+								.shaHex(theResult.getContent()),
+								Field.Store.YES, Field.Index.UN_TOKENIZED));
+						doc.add(new Field(CONTENT, new StringReader(theResult
+								.getContent())));
+
+						Freelancer theFreelancer = freelancerDAO
+								.findByCodeReal(theCode);
+
+						if (theFreelancer != null) {
+							doc.add(new Field(NAME1, theFreelancer.getName1(),
+									Field.Store.YES, Field.Index.UN_TOKENIZED));
+							doc.add(new Field(NAME2, theFreelancer.getName2(),
+									Field.Store.YES, Field.Index.UN_TOKENIZED));
+							doc.add(new Field(FREELANCERID, ""
+									+ theFreelancer.getId(), Field.Store.YES,
+									Field.Index.UN_TOKENIZED));
+							doc.add(new Field(PLZ, theFreelancer.getPlz(),
+									Field.Store.YES, Field.Index.UN_TOKENIZED));
+							doc.add(new Field(VERFUEGBARKEIT,
+									toIndexFormat(theFreelancer
+											.getAvailabilityAsDate()),
+									Field.Store.YES, Field.Index.UN_TOKENIZED));
+							doc.add(new Field(STUNDENSATZ,
+									toIndexFormat(theFreelancer
+											.getSallaryLong()),
+									Field.Store.YES, Field.Index.UN_TOKENIZED));
+
+							doc.add(new Field(HASMATCHINGRECORD,
+									toIndexFormat(true), Field.Store.YES,
+									Field.Index.UN_TOKENIZED));
+
+							freelancerDAO.detach(theFreelancer);
+						} else {
+							doc.add(new Field(HASMATCHINGRECORD,
+									toIndexFormat(false), Field.Store.YES,
+									Field.Index.UN_TOKENIZED));
+						}
+
+						aWriter.addDocument(doc);
+
+					} catch (Exception ex) {
+
+						logger.logInfo("Error on indexing file " + aFile
+								+ " : " + ex.getMessage());
+						logger.logDebug("Error on indexing file " + aFile, ex);
+					}
+				} else {
+
+					logger.logDebug("Cannot index file " + aFile
+							+ " as there is no DocumentReader.");
+
 				}
-			} else {
 
-				logger.logDebug("Cannot index file " + aFile
-						+ " as there is no DocumentReader.");
-
+			} catch (Exception e) {
+				logger
+						.logError("General error on indexing on file " + aFile,
+								e);
 			}
-
-		} catch (Exception e) {
-			logger.logError("General error on indexing on file " + aFile, e);
 		}
 
 	}
@@ -410,7 +430,6 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 		if ((sourcePath.exists()) && (sourcePath.isDirectory())) {
 
 			try {
-
 				luceneService.createNewIndex();
 				luceneService.shutdownIndexWriter(false);
 
@@ -422,25 +441,63 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 
 	@Override
 	public synchronized void refresh(Freelancer aFreelancer) {
-		try {
-
-			logger.logInfo("Refreshing index for freelancer "
-					+ aFreelancer.getId());
-
-			IndexWriter theWriter = luceneService.getIndexWriter();
-			theWriter.deleteDocuments(createQueryForFreelancerId(aFreelancer
-					.getId()));
-
-		} catch (Exception e) {
-			logger.logError("Error while refreshing index for freelancer code "
-					+ aFreelancer.getCode());
-		} finally {
+		synchronized (this) {
 			try {
-				if (!running) {
-					luceneService.shutdownIndexWriter(false);
+
+				readerFactory.initialize();
+
+				logger.logInfo("Refreshing index for freelancer "
+						+ aFreelancer.getId());
+
+				List<FreelancerProfile> theProfiles = null;
+				if (!StringUtils.isEmpty(aFreelancer.getCode())) {
+					theProfiles = profileSearchService.findProfiles(aFreelancer
+							.getCode());
 				}
+
+				IndexWriter theWriter = luceneService.getIndexWriter();
+
+				logger.logInfo("Deleting documents for freelancer");
+
+				theWriter
+						.deleteDocuments(createQueryForFreelancerId(aFreelancer
+								.getId()));
+
+				theWriter.commit();
+
+				String sourcePath = systemParameterService
+						.getIndexerSourcePath();
+
+				luceneService.forceNewIndexReader();
+
+				if (theProfiles != null) {
+					for (FreelancerProfile theProfile : theProfiles) {
+						File theFileOnServer = new File(theProfile
+								.getFileNameOnServer());
+						if (theFileOnServer.exists()) {
+
+							processFile(theWriter, theFileOnServer, sourcePath);
+
+						} else {
+							logger
+									.logInfo("Cannot add profile to index as it does not exist anymore "
+											+ theFileOnServer);
+						}
+					}
+				}
+
+				luceneService.forceNewIndexReader();
+
 			} catch (Exception e) {
-				logger.logError("Error shutting down index writer");
+				logger
+						.logError("Error while refreshing index for freelancer code "
+								+ aFreelancer.getCode());
+			} finally {
+				try {
+					luceneService.shutdownIndexWriter(false);
+				} catch (Exception e) {
+					logger.logError("Error shutting down index writer");
+				}
 			}
 		}
 	}

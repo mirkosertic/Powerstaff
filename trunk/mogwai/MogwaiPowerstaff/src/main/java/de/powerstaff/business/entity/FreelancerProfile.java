@@ -29,6 +29,8 @@ public class FreelancerProfile implements Serializable {
 
 	private String infotext;
 
+	private String fileNameOnServer;
+
 	public String getFileName() {
 		return fileName;
 	}
@@ -60,18 +62,19 @@ public class FreelancerProfile implements Serializable {
 		return fileName.toLowerCase().endsWith(".txt");
 	}
 
-	/**
-	 * @return the infotext
-	 */
 	public String getInfotext() {
 		return infotext;
 	}
 
-	/**
-	 * @param infotext
-	 *            the infotext to set
-	 */
 	public void setInfotext(String infotext) {
 		this.infotext = infotext;
+	}
+
+	public String getFileNameOnServer() {
+		return fileNameOnServer;
+	}
+
+	public void setFileNameOnServer(String fileNameOnServer) {
+		this.fileNameOnServer = fileNameOnServer;
 	}
 }

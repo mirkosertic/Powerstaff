@@ -46,6 +46,8 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 
 	private Directory directory;
 
+	private int indexWriterUsageCount;
+
 	public PowerstaffSystemParameterService getSystemParameterService() {
 		return systemParameterService;
 	}
@@ -56,67 +58,89 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 	}
 
 	@Override
-	public synchronized IndexReader getIndexReader()
-			throws CorruptIndexException, IOException {
-		if (indexReader == null || !indexReader.isCurrent()) {
+	public IndexReader getIndexReader() throws CorruptIndexException,
+			IOException {
+		synchronized (this) {
+			if (indexReader == null || !indexReader.isCurrent()) {
 
-			if (indexReader == null) {
-				logger.logInfo("Creating new indexreader as there is no one");
-			} else {
-				logger
-						.logInfo("Reopen existing indexreader as there are new segments");
+				if (indexReader == null) {
+					logger
+							.logInfo("Creating new indexreader as there is no one");
+				} else {
+					logger
+							.logInfo("Reopen existing indexreader as there are new segments");
+				}
+
+				indexReader = IndexReader.open(directory);
+				indexSearcher = null;
 			}
-
-			indexReader = IndexReader.open(directory);
-			indexSearcher = null;
+			return indexReader;
 		}
-		return indexReader;
 	}
 
 	@Override
 	public synchronized IndexSearcher getIndexSearcher()
 			throws CorruptIndexException, IOException {
-		if (indexSearcher == null) {
-			indexSearcher = new IndexSearcher(getIndexReader());
+		synchronized (this) {
+			if (indexSearcher == null) {
+				indexSearcher = new IndexSearcher(getIndexReader());
+			}
+			return indexSearcher;
 		}
-		return indexSearcher;
 	}
 
 	@Override
-	public synchronized IndexWriter getIndexWriter()
-			throws CorruptIndexException, LockObtainFailedException,
-			IOException {
-		if (indexWriter == null) {
+	public IndexWriter getIndexWriter() throws CorruptIndexException,
+			LockObtainFailedException, IOException {
 
-			try {
+		synchronized (this) {
+			if (indexWriter == null) {
 
-				logger.logInfo("Trying to append to existing index in "
-						+ directory);
-
-				// Try to append
-				indexWriter = new IndexWriter(directory, ProfileAnalyzerFactory
-						.createAnalyzer(), false);
-
-			} catch (LockObtainFailedException e) {
-
-				logger.logInfo("Index seems to be locked, trying to unlock");
+				indexWriterUsageCount = 1;
 
 				try {
 
-					IndexWriter.unlock(directory);
+					logger.logInfo("Trying to append to existing index in "
+							+ directory);
 
+					// Try to append
 					indexWriter = new IndexWriter(directory,
 							ProfileAnalyzerFactory.createAnalyzer(), false);
 
-					logger
-							.logInfo("Index unlocked and writer created for exing index");
-
-				} catch (Exception e1) {
+				} catch (LockObtainFailedException e) {
 
 					logger
-							.logError(
-									"Error on unlocking existing index, will create a new one",
-									e1);
+							.logInfo("Index seems to be locked, trying to unlock");
+
+					try {
+
+						IndexWriter.unlock(directory);
+
+						indexWriter = new IndexWriter(directory,
+								ProfileAnalyzerFactory.createAnalyzer(), false);
+
+						logger
+								.logInfo("Index unlocked and writer created for exing index");
+
+					} catch (Exception e1) {
+
+						logger
+								.logError(
+										"Error on unlocking existing index, will create a new one",
+										e1);
+
+						// Create a new index
+						indexWriter = new IndexWriter(directory,
+								ProfileAnalyzerFactory.createAnalyzer(), true);
+
+						indexReader = null;
+						indexSearcher = null;
+					}
+
+				} catch (Exception ex) {
+
+					logger.logError(
+							"Error appending to index, creating a new one", ex);
 
 					// Create a new index
 					indexWriter = new IndexWriter(directory,
@@ -125,65 +149,93 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 					indexReader = null;
 					indexSearcher = null;
 				}
+			} else {
 
-			} catch (Exception ex) {
+				logger.logInfo("Reusing existing index writer");
 
-				logger.logError("Error appending to index, creating a new one",
-						ex);
-
-				// Create a new index
-				indexWriter = new IndexWriter(directory, ProfileAnalyzerFactory
-						.createAnalyzer(), true);
-
-				indexReader = null;
-				indexSearcher = null;
+				indexWriterUsageCount++;
 			}
+			return indexWriter;
 		}
-		return indexWriter;
 	}
 
 	@Override
-	public synchronized void shutdownIndexWriter(boolean aOptimize)
+	public void shutdownIndexWriter(boolean aOptimize)
 			throws CorruptIndexException, IOException {
 
-		if (indexWriter != null) {
-			logger.logInfo("Shutting down index writer");
+		synchronized (this) {
+			if (indexWriter != null) {
 
-			try {
-				if (aOptimize) {
-					logger.logInfo("Optimizing index");
-					indexWriter.optimize();
-					logger.logInfo("Optimizing done");
+				if (indexWriterUsageCount < 1) {
+					logger.logError("Wrong instance count of index writers!");
 				}
-			} finally {
-				indexWriter.close();
-				indexWriter = null;
 
-				indexReader = null;
-				indexSearcher = null;
+				indexWriterUsageCount--;
+
+				if (indexWriterUsageCount <= 0) {
+
+					logger.logInfo("Shutting down index writer");
+
+					try {
+						if (aOptimize) {
+							logger.logInfo("Optimizing index");
+							indexWriter.optimize();
+							logger.logInfo("Optimizing done");
+						}
+					} finally {
+						indexWriter.close();
+						indexWriter = null;
+
+						indexReader = null;
+						indexSearcher = null;
+					}
+				} else {
+
+					logger
+							.logInfo("Will not shutdown indexwriter as usage count is "
+									+ indexWriterUsageCount);
+				}
 			}
 		}
 	}
 
 	@Override
-	public synchronized IndexWriter createNewIndex()
-			throws CorruptIndexException, LockObtainFailedException,
-			IOException {
+	public void createNewIndex() throws CorruptIndexException,
+			LockObtainFailedException, IOException {
 
-		logger.logInfo("Creating new index");
+		synchronized (this) {
+			logger.logInfo("Creating new index");
 
-		// Create a new index
-		indexWriter = new IndexWriter(directory, ProfileAnalyzerFactory
-				.createAnalyzer(), true);
+			// Create a new index
+			indexWriter = new IndexWriter(directory, ProfileAnalyzerFactory
+					.createAnalyzer(), true);
 
-		indexReader = null;
-		indexSearcher = null;
+			indexReader = null;
+			indexSearcher = null;
 
-		return indexWriter;
+			indexWriterUsageCount = 1;
+
+			shutdownIndexWriter(false);
+		}
 	}
 
 	public void afterPropertiesSet() throws Exception {
 		String theFile = systemParameterService.getIndexerPath();
 		directory = FSDirectory.getDirectory(theFile);
+	}
+
+	@Override
+	public void forceNewIndexReader() {
+		synchronized (this) {
+			if (indexWriter != null) {
+				try {
+					indexWriter.commit();
+				} catch (Exception e) {
+					logger.logError("Cannot commit IndexWriter", e);
+				}
+			}
+			indexReader = null;
+			indexSearcher = null;
+		}
 	}
 }

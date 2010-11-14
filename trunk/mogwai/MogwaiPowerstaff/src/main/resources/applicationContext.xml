@@ -314,6 +314,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 		<property name="systemParameterService"	ref="systemParameterService" />
 		<property name="luceneService" ref="luceneService"/>
 		<property name="freelancerDAO" ref="freelancerDAO"/>
+		<property name="profileSearchService" ref="profileSearchService"/>
 		<property name="readerFactory">
 			<bean class="de.powerstaff.business.service.impl.reader.DocumentReaderFactory">
 				<property name="systemParameterService" ref="systemParameterService"/>
