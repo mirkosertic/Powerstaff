@@ -192,6 +192,9 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
 				FreelancerProfile theSearchResult = new FreelancerProfile();
 
+				theSearchResult.setFileNameOnServer(theDocument
+						.get(ProfileIndexerService.PATH));
+
 				String theFileName = theDocument
 						.get(ProfileIndexerService.PATH);
 
