@@ -92,6 +92,8 @@ public class WrongDataServiceImpl extends LogableService implements
 				"Profile_doppelter_Inhalt.csv");
 		File theFreelancerOhneNewsletter = new File(theReportFile,
 				"Freiberufler_ohne_Newsletter.csv");
+		File theFreelancerMitHomepageOhneKontakt = new File(theReportFile,
+				"Freiberufler_mit_Homepage_ohne_Kontakt.csv");
 
 		Set<String> theKnownCodes = new HashSet<String>();
 		Set<String> theKnownContent = new HashSet<String>();
@@ -101,6 +103,7 @@ public class WrongDataServiceImpl extends LogableService implements
 		PrintWriter theProfileDoppelterCodeWriter = null;
 		PrintWriter theProfileDoppelterInhaltWriter = null;
 		PrintWriter theFreelancerOhneNewsletterWriter = null;
+		PrintWriter theFreelancerMitHomepageOhneKontaktWriter = null;
 
 		try {
 
@@ -112,12 +115,17 @@ public class WrongDataServiceImpl extends LogableService implements
 					theProfileDoppelterInhalt);
 			theFreelancerOhneNewsletterWriter = new PrintWriter(
 					theFreelancerOhneNewsletter);
+			theFreelancerMitHomepageOhneKontaktWriter = new PrintWriter(
+					theFreelancerMitHomepageOhneKontakt);
 
 			theProfileDoppelterCodeWriter.println("Kodierung;Dateinamen");
 			theProfileDoppelterInhaltWriter.println("Kodierung;Dateinamen");
 			theProfileOhneDBWriter.println("Kodierung;Dateinamen");
 			theDBOhneProfilWriter.println("Kodierung;Name;Vorname");
-			theFreelancerOhneNewsletterWriter.println("Kodierung;Name;Vorname");
+			theFreelancerOhneNewsletterWriter
+					.println("Kodierung;Name;Vorname;Mail");
+			theFreelancerMitHomepageOhneKontaktWriter
+					.println("Kodierung;Name;Vorname;Homepage");
 
 			Set<String> theCodesFromDB = freelancerDao.getKnownCodesFromDB();
 
@@ -195,23 +203,31 @@ public class WrongDataServiceImpl extends LogableService implements
 				}
 			}
 
-			if (systemParameterService.isNewsletterEnabled()) {
-				Set<String> theMails = new HashSet<String>();
+			boolean newsletterEnabled = systemParameterService
+					.isNewsletterEnabled();
+			Set<String> theMails = new HashSet<String>();
+			Date theStartDate = null;
+
+			DateFormat theDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+			if (newsletterEnabled) {
+				theStartDate = theDateFormat.parse(systemParameterService
+						.getStartDateForNotInNewsletter());
+
 				for (NewsletterMail theMail : websiteDao.getConfirmedMails()) {
 					theMails.add(theMail.getMail().toLowerCase());
 				}
 
-				DateFormat theDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+			}
 
-				Date theStartDate = theDateFormat.parse(systemParameterService
-						.getStartDateForNotInNewsletter());
+			count = 0;
+			for (Iterator theIt = freelancerDao.getAllIterator(); theIt
+					.hasNext();) {
+				Freelancer theFreelancer = (Freelancer) theIt.next();
 
-				count = 0;
-				for (Iterator theIt = freelancerDao.getAllIterator(); theIt
-						.hasNext();) {
-					Freelancer theFreelancer = (Freelancer) theIt.next();
+				String theLastContact = theFreelancer.getLastContact();
 
-					String theLastContact = theFreelancer.getLastContact();
+				if (newsletterEnabled) {
 					if (!StringUtils.isEmpty(theLastContact)
 							&& !theFreelancer.isContactforbidden()) {
 
@@ -250,13 +266,37 @@ public class WrongDataServiceImpl extends LogableService implements
 							}
 						}
 					}
+				}
 
-					freelancerDao.detach(theFreelancer);
+				if (StringUtils.isEmpty(theLastContact)
+						|| "kein kontakt".equals(theLastContact.trim()
+								.toLowerCase())) {
 
-					count++;
-					if (count % 100 == 0) {
-						logger.logInfo("Done with " + count + " freelancer");
+					boolean hasHomepage = false;
+					String theHomepage = null;
+					for (FreelancerContact theContact : theFreelancer
+							.getContacts()) {
+						if (theContact.getType().isWeb()) {
+							theHomepage = theContact.getValue();
+							hasHomepage = true;
+						}
 					}
+
+					if (hasHomepage) {
+						theFreelancerMitHomepageOhneKontaktWriter
+								.println(theFreelancer.getCode() + ";"
+										+ theFreelancer.getName1() + ";"
+										+ theFreelancer.getName2() + ";"
+										+ theHomepage);
+					}
+
+				}
+
+				freelancerDao.detach(theFreelancer);
+
+				count++;
+				if (count % 100 == 0) {
+					logger.logInfo("Done with " + count + " freelancer");
 				}
 			}
 		} finally {
@@ -278,7 +318,9 @@ public class WrongDataServiceImpl extends LogableService implements
 			if (theFreelancerOhneNewsletterWriter != null) {
 				theFreelancerOhneNewsletterWriter.close();
 			}
-
+			if (theFreelancerMitHomepageOhneKontaktWriter != null) {
+				theFreelancerMitHomepageOhneKontaktWriter.close();
+			}
 		}
 	}
 }
