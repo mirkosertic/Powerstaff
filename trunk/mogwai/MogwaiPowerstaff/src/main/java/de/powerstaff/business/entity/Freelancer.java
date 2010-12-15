@@ -26,12 +26,12 @@ import java.util.Vector;
 
 import javax.persistence.Column;
 
+import org.hibernate.search.annotations.Indexed;
+
+@Indexed
 public class Freelancer extends Person<FreelancerContact, FreelancerHistory>
 		implements UDFSupport {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3142067482465272515L;
 
 	private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();

@@ -31,15 +31,15 @@ import org.apache.lucene.analysis.KeywordAnalyzer;
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.NumberTools;
 import org.apache.lucene.document.DateTools.Resolution;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
-import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.util.NumericUtils;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,7 +89,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 		if (aNumber == null) {
 			return "";
 		}
-		return NumberTools.longToString(aNumber.longValue());
+		return NumericUtils.longToPrefixCoded(aNumber.longValue());
 	}
 
 	private static String toIndexFormat(boolean aBoolean) {
@@ -157,7 +157,8 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 
 	private Query createQueryForFile(File file) throws ParseException {
 		Analyzer theAnalyzer = new KeywordAnalyzer();
-		QueryParser theParser = new QueryParser(PATH, theAnalyzer);
+		QueryParser theParser = LuceneUtils
+				.createQueryParser(PATH, theAnalyzer);
 
 		Query theQuery = theParser.parse("\""
 				+ file.toString().replace("\\", "\\\\") + "\"");
@@ -167,7 +168,8 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 	private Query createQueryForFreelancerId(long aFreelancerId)
 			throws ParseException {
 		Analyzer theAnalyzer = new KeywordAnalyzer();
-		QueryParser theParser = new QueryParser(FREELANCERID, theAnalyzer);
+		QueryParser theParser = LuceneUtils.createQueryParser(FREELANCERID,
+				theAnalyzer);
 
 		Query theQuery = theParser.parse("\"" + aFreelancerId + "\"");
 		return theQuery;
@@ -251,8 +253,8 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 				// First, try to detect if the file exists
 				Searcher theSearcher = luceneService.getIndexSearcher();
 				Query theQuery = createQueryForFile(aFile);
-				Hits theHits = theSearcher.search(theQuery);
-				if (theHits.length() > 0) {
+				TopDocs theDocs = theSearcher.search(theQuery, 10);
+				if (theDocs.totalHits > 0) {
 
 					logger.logDebug("Ignoring file " + aFile
 							+ " as it seems to be duplicate");
@@ -286,24 +288,24 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 								.getContent(aFile);
 
 						doc.add(new Field(PATH, aFile.getPath(),
-								Field.Store.YES, Field.Index.UN_TOKENIZED));
+								Field.Store.YES, Field.Index.NOT_ANALYZED));
 						doc.add(new Field(CODE, theCode, Field.Store.YES,
-								Field.Index.UN_TOKENIZED));
+								Field.Index.NOT_ANALYZED));
 						doc.add(new Field(UNIQUE_ID, UUID.randomUUID()
 								.toString(), Field.Store.YES,
-								Field.Index.UN_TOKENIZED));
+								Field.Index.NOT_ANALYZED));
 						doc.add(new Field(STRIPPEDPATH, theStrippedPath,
-								Field.Store.YES, Field.Index.UN_TOKENIZED));
+								Field.Store.YES, Field.Index.NOT_ANALYZED));
 						doc.add(new Field(MODIFIED, "" + aFile.lastModified(),
 								Field.Store.YES, Field.Index.NO));
 						doc.add(new Field(INDEXINGTIME, ""
 								+ System.currentTimeMillis(), Field.Store.YES,
 								Field.Index.NO));
 						doc.add(new Field(ORIG_CONTENT, theResult.getContent(),
-								Field.Store.YES, Field.Index.UN_TOKENIZED));
+								Field.Store.YES, Field.Index.NOT_ANALYZED));
 						doc.add(new Field(SHACHECKSUM, DigestUtils
 								.shaHex(theResult.getContent()),
-								Field.Store.YES, Field.Index.UN_TOKENIZED));
+								Field.Store.YES, Field.Index.NOT_ANALYZED));
 						doc.add(new Field(CONTENT, new StringReader(theResult
 								.getContent())));
 
@@ -312,32 +314,32 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 
 						if (theFreelancer != null) {
 							doc.add(new Field(NAME1, theFreelancer.getName1(),
-									Field.Store.YES, Field.Index.UN_TOKENIZED));
+									Field.Store.YES, Field.Index.NOT_ANALYZED));
 							doc.add(new Field(NAME2, theFreelancer.getName2(),
-									Field.Store.YES, Field.Index.UN_TOKENIZED));
+									Field.Store.YES, Field.Index.NOT_ANALYZED));
 							doc.add(new Field(FREELANCERID, ""
 									+ theFreelancer.getId(), Field.Store.YES,
-									Field.Index.UN_TOKENIZED));
+									Field.Index.NOT_ANALYZED));
 							doc.add(new Field(PLZ, theFreelancer.getPlz(),
-									Field.Store.YES, Field.Index.UN_TOKENIZED));
+									Field.Store.YES, Field.Index.NOT_ANALYZED));
 							doc.add(new Field(VERFUEGBARKEIT,
 									toIndexFormat(theFreelancer
 											.getAvailabilityAsDate()),
-									Field.Store.YES, Field.Index.UN_TOKENIZED));
+									Field.Store.YES, Field.Index.NOT_ANALYZED));
 							doc.add(new Field(STUNDENSATZ,
 									toIndexFormat(theFreelancer
 											.getSallaryLong()),
-									Field.Store.YES, Field.Index.UN_TOKENIZED));
+									Field.Store.YES, Field.Index.NOT_ANALYZED));
 
 							doc.add(new Field(HASMATCHINGRECORD,
 									toIndexFormat(true), Field.Store.YES,
-									Field.Index.UN_TOKENIZED));
+									Field.Index.NOT_ANALYZED));
 
 							freelancerDAO.detach(theFreelancer);
 						} else {
 							doc.add(new Field(HASMATCHINGRECORD,
 									toIndexFormat(false), Field.Store.YES,
-									Field.Index.UN_TOKENIZED));
+									Field.Index.NOT_ANALYZED));
 						}
 
 						aWriter.addDocument(doc);

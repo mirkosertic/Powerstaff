@@ -17,83 +17,87 @@
  */
 package de.powerstaff.business.entity;
 
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Store;
+
 import de.mogwai.common.business.entity.AuditableEntity;
 import de.mogwai.common.utils.StringPresentationProvider;
 
-public class ContactType extends AuditableEntity implements StringPresentationProvider {
+public class ContactType extends AuditableEntity implements
+		StringPresentationProvider {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 8034787319984772308L;
 
+	@Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private String description;
 
-    private boolean phone;
+	private boolean phone;
 
-    private boolean fax;
+	private boolean fax;
 
-    private boolean email;
+	private boolean email;
 
-    private boolean web;
-    
-    private boolean gulp;
+	private boolean web;
 
-    public String getDescription() {
-        return description;
-    }
+	private boolean gulp;
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public boolean isEmail() {
-        return email;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public void setEmail(boolean email) {
-        this.email = email;
-    }
+	public boolean isEmail() {
+		return email;
+	}
 
-    public boolean isFax() {
-        return fax;
-    }
+	public void setEmail(boolean email) {
+		this.email = email;
+	}
 
-    public void setFax(boolean fax) {
-        this.fax = fax;
-    }
+	public boolean isFax() {
+		return fax;
+	}
 
-    public boolean isPhone() {
-        return phone;
-    }
+	public void setFax(boolean fax) {
+		this.fax = fax;
+	}
 
-    public void setPhone(boolean phone) {
-        this.phone = phone;
-    }
+	public boolean isPhone() {
+		return phone;
+	}
 
-    public boolean isWeb() {
-        return web;
-    }
+	public void setPhone(boolean phone) {
+		this.phone = phone;
+	}
 
-    public void setWeb(boolean web) {
-        this.web = web;
-    }
+	public boolean isWeb() {
+		return web;
+	}
 
-    public String getStringPresentation() {
-        return description;
-    }
+	public void setWeb(boolean web) {
+		this.web = web;
+	}
 
-    /**
-     * @return the gulp
-     */
-    public boolean isGulp() {
-        return gulp;
-    }
+	public String getStringPresentation() {
+		return description;
+	}
 
-    /**
-     * @param gulp the gulp to set
-     */
-    public void setGulp(boolean gulp) {
-        this.gulp = gulp;
-    }
+	/**
+	 * @return the gulp
+	 */
+	public boolean isGulp() {
+		return gulp;
+	}
+
+	/**
+	 * @param gulp
+	 *            the gulp to set
+	 */
+	public void setGulp(boolean gulp) {
+		this.gulp = gulp;
+	}
 }

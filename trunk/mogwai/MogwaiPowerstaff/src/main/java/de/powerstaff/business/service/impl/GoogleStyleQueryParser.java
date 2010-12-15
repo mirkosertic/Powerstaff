@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.ParseException;
@@ -72,9 +72,12 @@ public class GoogleStyleQueryParser {
 
 		TokenStream theTokenStream = aAnalyzer.tokenStream(aField,
 				new StringReader(aTerm));
-		Token theToken = theTokenStream.next();
-		while (theToken != null) {
-			String theTokenText = theToken.termText();
+		while (theTokenStream.incrementToken()) {
+
+			TermAttribute theTermAttribute = theTokenStream
+					.getAttribute(TermAttribute.class);
+
+			String theTokenText = theTermAttribute.term();
 
 			if (isWildcardTerm(aTerm)) {
 				theTempQuery = new WildcardQuery(new Term(aField, theTokenText));
@@ -82,8 +85,6 @@ public class GoogleStyleQueryParser {
 				theTempQuery = new TermQuery(new Term(aField, theTokenText));
 			}
 			aQuery.add(theTempQuery, Occur.MUST);
-
-			theToken = theTokenStream.next(theToken);
 		}
 	}
 
@@ -94,9 +95,12 @@ public class GoogleStyleQueryParser {
 
 		TokenStream theTokenStream = aAnalyzer.tokenStream(aField,
 				new StringReader(aTerm));
-		Token theToken = theTokenStream.next();
-		while (theToken != null) {
-			String theTokenText = theToken.termText();
+		while (theTokenStream.incrementToken()) {
+
+			TermAttribute theTermAttribute = theTokenStream
+					.getAttribute(TermAttribute.class);
+
+			String theTokenText = theTermAttribute.term();
 
 			Term theTerm = new Term(aField, theTokenText);
 
@@ -114,8 +118,6 @@ public class GoogleStyleQueryParser {
 					theEnum.close();
 				}
 			}
-
-			theToken = theTokenStream.next(theToken);
 		}
 
 		aQuery.add(thePhraseQuery, Occur.MUST);

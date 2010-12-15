@@ -23,7 +23,7 @@ public class ProfileExporter {
 		File theTargetDirectory = new File(
 				"C:\\Daten\\Arbeit\\Projekte\\Synekt\\Profile");
 		IndexReader theReader = IndexReader.open(FSDirectory
-				.getDirectory(theIndexDirectory));
+				.open(theIndexDirectory));
 
 		int errorCounter = 0;
 		List<String> theKnownFiles = new ArrayList<String>();
