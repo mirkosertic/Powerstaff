@@ -86,6 +86,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 					java:comp/UserTransaction
 				</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="javax.persistence.validation.mode">none</prop>
+				<prop key="hibernate.validator.apply_to_ddl">false</prop>
+				<prop key="hibernate.validator.autoregister_listeners">false</prop>
+				<prop key="hibernate.search.default.directory_provider">filesystem</prop>
+				<prop key="hibernate.search.default.indexBase">c:\temp\hibernatesearch</prop>
 			</props>
 		</property>
 		<property name="lobHandler">

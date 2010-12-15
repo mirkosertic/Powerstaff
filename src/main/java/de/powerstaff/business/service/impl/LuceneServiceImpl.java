@@ -17,6 +17,7 @@
  */
 package de.powerstaff.business.service.impl;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.lucene.index.CorruptIndexException;
@@ -105,7 +106,8 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 
 					// Try to append
 					indexWriter = new IndexWriter(directory,
-							ProfileAnalyzerFactory.createAnalyzer(), false);
+							ProfileAnalyzerFactory.createAnalyzer(), false,
+							IndexWriter.MaxFieldLength.UNLIMITED);
 
 				} catch (LockObtainFailedException e) {
 
@@ -117,7 +119,8 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 						IndexWriter.unlock(directory);
 
 						indexWriter = new IndexWriter(directory,
-								ProfileAnalyzerFactory.createAnalyzer(), false);
+								ProfileAnalyzerFactory.createAnalyzer(), false,
+								IndexWriter.MaxFieldLength.UNLIMITED);
 
 						logger
 								.logInfo("Index unlocked and writer created for exing index");
@@ -131,7 +134,8 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 
 						// Create a new index
 						indexWriter = new IndexWriter(directory,
-								ProfileAnalyzerFactory.createAnalyzer(), true);
+								ProfileAnalyzerFactory.createAnalyzer(), true,
+								IndexWriter.MaxFieldLength.UNLIMITED);
 
 						indexReader = null;
 						indexSearcher = null;
@@ -144,7 +148,8 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 
 					// Create a new index
 					indexWriter = new IndexWriter(directory,
-							ProfileAnalyzerFactory.createAnalyzer(), true);
+							ProfileAnalyzerFactory.createAnalyzer(), true,
+							IndexWriter.MaxFieldLength.UNLIMITED);
 
 					indexReader = null;
 					indexSearcher = null;
@@ -208,7 +213,8 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 
 			// Create a new index
 			indexWriter = new IndexWriter(directory, ProfileAnalyzerFactory
-					.createAnalyzer(), true);
+					.createAnalyzer(), true,
+					IndexWriter.MaxFieldLength.UNLIMITED);
 
 			indexReader = null;
 			indexSearcher = null;
@@ -221,7 +227,7 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 
 	public void afterPropertiesSet() throws Exception {
 		String theFile = systemParameterService.getIndexerPath();
-		directory = FSDirectory.getDirectory(theFile);
+		directory = FSDirectory.open(new File(theFile));
 	}
 
 	@Override

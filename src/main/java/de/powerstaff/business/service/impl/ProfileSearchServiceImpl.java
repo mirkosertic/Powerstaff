@@ -31,26 +31,28 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CachingTokenFilter;
 import org.apache.lucene.analysis.KeywordAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.NumberTools;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.misc.ChainedFilter;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Filter;
-import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.NumericRangeFilter;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.RangeFilter;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.Searcher;
 import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.WildcardQuery;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SpanGradientFormatter;
-import org.apache.lucene.search.highlight.SpanScorer;
+import org.apache.lucene.store.FSDirectory;
 
 import de.mogwai.common.business.service.impl.LogableService;
 import de.mogwai.common.usercontext.UserContextHolder;
@@ -77,6 +79,9 @@ import de.powerstaff.business.service.ProfileSearchService;
  */
 public class ProfileSearchServiceImpl extends LogableService implements
 		ProfileSearchService {
+	{
+		BooleanQuery.setMaxClauseCount(8192);
+	}
 
 	private FreelancerService freelancerService;
 
@@ -86,17 +91,10 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
 	private ProfileSearchDAO profileSearchDAO;
 
-	/**
-	 * @return the systemParameterService
-	 */
 	public PowerstaffSystemParameterService getSystemParameterService() {
 		return systemParameterService;
 	}
 
-	/**
-	 * @param systemParameterService
-	 *            the systemParameterService to set
-	 */
 	public void setSystemParameterService(
 			PowerstaffSystemParameterService systemParameterService) {
 		this.systemParameterService = systemParameterService;
@@ -110,17 +108,10 @@ public class ProfileSearchServiceImpl extends LogableService implements
 		this.freelancerService = freelancerService;
 	}
 
-	/**
-	 * @return the profileSearchDAO
-	 */
 	public ProfileSearchDAO getProfileSearchDAO() {
 		return profileSearchDAO;
 	}
 
-	/**
-	 * @param profileSearchDAO
-	 *            the profileSearchDAO to set
-	 */
 	public void setProfileSearchDAO(ProfileSearchDAO profileSearchDAO) {
 		this.profileSearchDAO = profileSearchDAO;
 	}
@@ -144,8 +135,6 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
 	private Query getRealQuery(ProfileSearchRequest aRequest, Analyzer aAnalyzer)
 			throws IOException, ParseException {
-
-		BooleanQuery.setMaxClauseCount(8192);
 
 		BooleanQuery theQuery = new BooleanQuery();
 
@@ -173,22 +162,22 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
 			logger.logInfo("Search query is " + theRealQuery);
 
-			Searcher theSearcher = new IndexSearcher(systemParameterService
-					.getIndexerPath());
+			Searcher theSearcher = new IndexSearcher(FSDirectory.open(new File(
+					systemParameterService.getIndexerPath())));
 			Analyzer theAnalyzer = new KeywordAnalyzer();
-			QueryParser theParser = new QueryParser(ProfileIndexerService.CODE,
-					theAnalyzer);
+			QueryParser theParser = LuceneUtils.createQueryParser(
+					ProfileIndexerService.CODE, theAnalyzer);
 			Query theQuery = theParser.parse(theRealQuery.toString());
 
-			Hits theHits = theSearcher.search(theQuery);
+			TopDocs theDocs = theSearcher.search(theQuery, 10);
 
-			logger.logInfo("Size of search result is " + theHits.length());
+			logger.logInfo("Size of search result is " + theDocs.totalHits);
 
 			SimpleDateFormat theFormat = new SimpleDateFormat("dd.MM.yyyy");
 
-			for (int i = 0; i < theHits.length(); i++) {
+			for (ScoreDoc theDoc : theDocs.scoreDocs) {
 
-				Document theDocument = theHits.doc(i);
+				Document theDocument = theSearcher.doc(theDoc.doc);
 
 				FreelancerProfile theSearchResult = new FreelancerProfile();
 
@@ -231,16 +220,13 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
 	protected String getHighlightedSearchResult(Analyzer aAnalyzer,
 			Highlighter aHighlighter, Document aDocument, Query aQuery)
-			throws IOException {
+			throws IOException, InvalidTokenOffsetsException {
 
 		String theContent = aDocument.get(ProfileIndexerService.ORIG_CONTENT);
 
 		CachingTokenFilter tokenStream = new CachingTokenFilter(aAnalyzer
 				.tokenStream(ProfileIndexerService.CONTENT, new StringReader(
 						theContent)));
-
-		aHighlighter.setFragmentScorer(new SpanScorer(aQuery,
-				ProfileIndexerService.CONTENT, tokenStream));
 
 		return aHighlighter.getBestFragments(tokenStream, theContent, 5,
 				"&nbsp;...&nbsp;");
@@ -327,54 +313,55 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
 		Sort theSort = null;
 		if (!StringUtils.isEmpty(aRequest.getSortierung())) {
-			theSort = new Sort(aRequest.getSortierung());
+			theSort = new Sort(new SortField(aRequest.getSortierung(),
+					SortField.STRING));
 		}
 
 		Filter theFilter = null;
+
 		if (aRequest.getStundensatzVon() != null
 				|| aRequest.getStundensatzBis() != null) {
 			List<Filter> theFilterList = new ArrayList<Filter>();
 			if (aRequest.getStundensatzVon() != null) {
-				theFilterList
-						.add(RangeFilter.More(
-								ProfileIndexerService.STUNDENSATZ, NumberTools
-										.longToString(aRequest
-												.getStundensatzVon() - 1)));
+				theFilterList.add(NumericRangeFilter.newLongRange(
+						ProfileIndexerService.STUNDENSATZ, aRequest
+								.getStundensatzVon(), Long.MAX_VALUE, true,
+						true));
 			}
 			if (aRequest.getStundensatzBis() != null) {
-				theFilterList
-						.add(RangeFilter.Less(
-								ProfileIndexerService.STUNDENSATZ, NumberTools
-										.longToString(aRequest
-												.getStundensatzBis() + 1)));
+				theFilterList.add(NumericRangeFilter.newLongRange(
+						ProfileIndexerService.STUNDENSATZ, 0l, aRequest
+								.getStundensatzBis(), true, true));
 			}
 			theFilter = new ChainedFilter(theFilterList
 					.toArray(new Filter[] {}), ChainedFilter.AND);
 		}
 
-		Hits theHits;
+		int theStart = startRow;
+		int theEnd = startRow + pageSize;
+
+		TopDocs theHits;
 		if (theSort == null) {
-			theHits = theSearcher.search(theRealQuery, theFilter);
+			theHits = theSearcher.search(theRealQuery, theFilter, theEnd);
 		} else {
-			theHits = theSearcher.search(theRealQuery, theFilter, theSort);
+			theHits = theSearcher.search(theRealQuery, theFilter, theEnd,
+					theSort);
 		}
 
 		long theDuration = System.currentTimeMillis() - theStartTime;
 
-		logger.logDebug("Size of search result is " + theHits.length()
-				+ " duration = " + theDuration);
-
-		int theStart = startRow;
-		int theEnd = startRow + pageSize;
-		if (theEnd > theHits.length()) {
-			theEnd = theHits.length();
+		if (theEnd > theHits.totalHits) {
+			theEnd = theHits.totalHits;
 		}
+
+		logger.logInfo("Size of search result is " + theHits.totalHits
+				+ " duration = " + theDuration);
 
 		List<ProfileSearchEntry> theResult = new ArrayList<ProfileSearchEntry>();
 
 		for (int i = theStart; i < theEnd; i++) {
 
-			Document theDocument = theHits.doc(i);
+			Document theDocument = theSearcher.doc(theHits.scoreDocs[i].doc);
 
 			ProfileSearchEntry theEntry = new ProfileSearchEntry();
 			theEntry.setCode(theDocument.get(ProfileIndexerService.CODE));
@@ -410,7 +397,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
 			theResult.add(theEntry);
 		}
 
-		return new DataPage<ProfileSearchEntry>(theHits.length(), theStart,
+		return new DataPage<ProfileSearchEntry>(theHits.totalHits, theStart,
 				theResult);
 	}
 

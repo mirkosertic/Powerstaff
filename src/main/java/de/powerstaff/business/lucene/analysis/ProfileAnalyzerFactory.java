@@ -4,10 +4,10 @@ import org.apache.lucene.analysis.Analyzer;
 
 public final class ProfileAnalyzerFactory {
 
-    private ProfileAnalyzerFactory() {
-    }
-    
-    public static Analyzer createAnalyzer() {
-        return new ProfileAnalyzer();
-    }
+	private ProfileAnalyzerFactory() {
+	}
+
+	public static Analyzer createAnalyzer() {
+		return new ProfileAnalyzer();
+	}
 }

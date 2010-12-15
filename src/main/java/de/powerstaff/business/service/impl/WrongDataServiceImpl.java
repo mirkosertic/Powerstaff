@@ -14,10 +14,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.TopDocs;
 
 import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.FreelancerDAO;
@@ -62,10 +63,11 @@ public class WrongDataServiceImpl extends LogableService implements
 			IndexSearcher aSearcher) throws IOException {
 		StringBuilder theResult = new StringBuilder();
 		Query theQuery = new TermQuery(new Term(aField, aValue));
-		Hits theHits = aSearcher.search(theQuery);
-		for (int i = 0; i < theHits.length(); i++) {
-			Document theDocument = theHits.doc(i);
-			if (i > 0) {
+		TopDocs theDocs = aSearcher.search(theQuery, 100);
+		for (ScoreDoc theDoc : theDocs.scoreDocs) {
+
+			Document theDocument = aSearcher.doc(theDoc.doc);
+			if (theResult.length() > 0) {
 				theResult = theResult.append(";");
 			}
 			theResult.append(theDocument

@@ -201,6 +201,7 @@ public abstract class NavigatingDAOHibernateImpl<T extends Entity> extends
 		return (T) getHibernateTemplate().execute(new HibernateCallback() {
 
 			public Object doInHibernate(Session aSession) throws SQLException {
+
 				Iterator resultIterator = aSession.createQuery(
 						"from " + theTypeName
 								+ " i where i.id = (select max(id) from "

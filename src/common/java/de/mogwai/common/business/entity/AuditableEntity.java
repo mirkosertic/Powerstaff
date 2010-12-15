@@ -26,48 +26,45 @@ import java.sql.Timestamp;
  */
 public class AuditableEntity extends Entity {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1453762400693078426L;
 
 	private Timestamp creationDate = new Timestamp(System.currentTimeMillis());
 
-    private String creationUserID;
+	private String creationUserID;
 
-    private Timestamp lastModificationDate;
+	private Timestamp lastModificationDate;
 
-    private String lastModificationUserID;
+	private String lastModificationUserID;
 
-    public Timestamp getCreationDate() {
-        return creationDate;
-    }
+	public Timestamp getCreationDate() {
+		return creationDate;
+	}
 
-    public void setCreationDate(Timestamp creationDate) {
-        this.creationDate = creationDate;
-    }
+	public void setCreationDate(Timestamp creationDate) {
+		this.creationDate = creationDate;
+	}
 
-    public String getCreationUserID() {
-        return creationUserID;
-    }
+	public String getCreationUserID() {
+		return creationUserID;
+	}
 
-    public void setCreationUserID(String creationUserID) {
-        this.creationUserID = creationUserID;
-    }
+	public void setCreationUserID(String creationUserID) {
+		this.creationUserID = creationUserID;
+	}
 
-    public Timestamp getLastModificationDate() {
-        return lastModificationDate;
-    }
+	public Timestamp getLastModificationDate() {
+		return lastModificationDate;
+	}
 
-    public void setLastModificationDate(Timestamp lastModificationDate) {
-        this.lastModificationDate = lastModificationDate;
-    }
+	public void setLastModificationDate(Timestamp lastModificationDate) {
+		this.lastModificationDate = lastModificationDate;
+	}
 
-    public String getLastModificationUserID() {
-        return lastModificationUserID;
-    }
+	public String getLastModificationUserID() {
+		return lastModificationUserID;
+	}
 
-    public void setLastModificationUserID(String lastModificationUserID) {
-        this.lastModificationUserID = lastModificationUserID;
-    }
+	public void setLastModificationUserID(String lastModificationUserID) {
+		this.lastModificationUserID = lastModificationUserID;
+	}
 }
