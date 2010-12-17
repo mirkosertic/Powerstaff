@@ -24,6 +24,6 @@ package de.mogwai.common.web.enums;
  */
 public enum MessageResult {
 
-    OK, CANCEL, JA, NEIN
+	OK, CANCEL;
 
 }

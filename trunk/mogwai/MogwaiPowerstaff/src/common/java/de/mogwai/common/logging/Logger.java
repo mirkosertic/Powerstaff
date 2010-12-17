@@ -31,147 +31,105 @@ import org.apache.log4j.NDC;
  */
 public class Logger {
 
-    private org.apache.log4j.Logger log;
+	private org.apache.log4j.Logger log;
 
-    /**
-     * Instanzierung eines benannten Loggers. Der Name des Loggers entspricht
-     * dem Namen der übergebenen Klasse. Sinn: Beim Einsatz der Apache Log4j API
-     * können über das Konfig File Package oder Klassenfilter gesetzt werden.
-     * 
-     * @param clazz
-     *                Class for which a log name will be derived.
-     */
-    public Logger(Class clazz) {
+	/**
+	 * Instanzierung eines benannten Loggers. Der Name des Loggers entspricht
+	 * dem Namen der übergebenen Klasse. Sinn: Beim Einsatz der Apache Log4j API
+	 * können über das Konfig File Package oder Klassenfilter gesetzt werden.
+	 * 
+	 * @param clazz
+	 *            Class for which a log name will be derived.
+	 */
+	public Logger(Class clazz) {
 
-        // Log Instanz über Factory holen.
-        log = org.apache.log4j.Logger.getLogger(clazz);
-    }
+		// Log Instanz über Factory holen.
+		log = org.apache.log4j.Logger.getLogger(clazz);
+	}
 
-    /**
-     * Logt einen Fehler der die Stabilität des Programms beeinflusst.
-     * 
-     * @param message
-     *                Fehlermeldung.
-     */
-    public void logFatal(String message) {
-        log.fatal(message);
-    }
+	/**
+	 * Logt einen Fehler, der nicht automatisch behoben werden kann.
+	 * 
+	 * @param message
+	 *            Fehlermeldung.
+	 */
+	public void logError(String message) {
+		log.error(message);
+	}
 
-    /**
-     * Logt einen Fehler der die Stabilität des Programms beeinflusst.
-     * 
-     * @param message
-     *                Fehlermeldung.
-     * @param t
-     *                Ursache des Fehlers.
-     */
-    public void logFatal(String message, Throwable t) {
-        log.fatal(message, t);
-    }
+	/**
+	 * Logt einen Fehler, der nicht automatisch behoben werden kann.
+	 * 
+	 * @param message
+	 *            Fehlermeldung.
+	 * @param t
+	 *            Ursache des Fehlers.
+	 */
+	public void logError(String message, Throwable t) {
+		log.error(message, t);
+	}
 
-    /**
-     * Logt einen Fehler, der nicht automatisch behoben werden kann.
-     * 
-     * @param message
-     *                Fehlermeldung.
-     */
-    public void logError(String message) {
-        log.error(message);
-    }
+	/**
+	 * Logt einen Fehler, der behoben oder übergangen werden konnte.
+	 * 
+	 * @param message
+	 *            Meldung.
+	 */
+	public void logWarning(String message) {
+		log.warn(message);
+	}
 
-    /**
-     * Logt einen Fehler, der nicht automatisch behoben werden kann.
-     * 
-     * @param message
-     *                Fehlermeldung.
-     * @param t
-     *                Ursache des Fehlers.
-     */
-    public void logError(String message, Throwable t) {
-        log.error(message, t);
-    }
+	/**
+	 * Logt einen Fehler, der behoben oder übergangen werden konnte.
+	 * 
+	 * @param message
+	 *            Meldung.
+	 * @param t
+	 *            Ursache des Warnung.
+	 */
+	public void logWarning(String message, Throwable t) {
+		log.warn(message, t);
+	}
 
-    /**
-     * Logt einen Fehler, der behoben oder übergangen werden konnte.
-     * 
-     * @param message
-     *                Meldung.
-     */
-    public void logWarning(String message) {
-        log.warn(message);
-    }
+	/**
+	 * Logt eine Information zum Programmablauf.
+	 * 
+	 * @param message
+	 *            Meldung.
+	 */
+	public void logInfo(String message) {
+		log.info(message);
+	}
 
-    /**
-     * Logt einen Fehler, der behoben oder übergangen werden konnte.
-     * 
-     * @param message
-     *                Meldung.
-     * @param t
-     *                Ursache des Warnung.
-     */
-    public void logWarning(String message, Throwable t) {
-        log.warn(message, t);
-    }
+	/**
+	 * Logt eine Information zum Nachvollziehen des Programmstatus.
+	 * 
+	 * @param message
+	 *            Meldung.
+	 */
+	public void logDebug(String message) {
+		log.debug(message);
+	}
 
-    /**
-     * Logt eine Information zum Programmablauf.
-     * 
-     * @param message
-     *                Meldung.
-     */
-    public void logInfo(String message) {
-        log.info(message);
-    }
+	/**
+	 * Logt eine Information zum Nachvollziehen des Programmstatus.
+	 * 
+	 * @param message
+	 *            Meldung.
+	 * @param t
+	 *            Ursache.
+	 */
+	public void logDebug(String message, Throwable t) {
+		log.debug(message, t);
+	}
 
-    /**
-     * Logt eine Information zum Programmablauf.
-     * 
-     * @param message
-     *                Meldung.
-     * @param t
-     *                Ursache.
-     */
-    public void logInfo(String message, Throwable t) {
-        log.info(message, t);
-    }
-
-    /**
-     * Logt eine Information zum Nachvollziehen des Programmstatus.
-     * 
-     * @param message
-     *                Meldung.
-     */
-    public void logDebug(String message) {
-        log.debug(message);
-    }
-
-    /**
-     * Logt eine Information zum Nachvollziehen des Programmstatus.
-     * 
-     * @param message
-     *                Meldung.
-     * @param t
-     *                Ursache.
-     */
-    public void logDebug(String message, Throwable t) {
-        log.debug(message, t);
-    }
-
-    /**
-     * Seten des aktuellen Debug - Contextes ( Log4J ).
-     * 
-     * @param theRemoteUser
-     *                das aktuell angemeldete Benutzer
-     */
-    public void setDebugContext(String theRemoteUser) {
-        NDC.push(theRemoteUser);
-    }
-
-    /**
-     * Freigabe des aktuellen Debug - Contextes ( Log4J ).
-     */
-    public void unsetDebugContext() {
-        NDC.pop();
-        NDC.remove();
-    }
+	/**
+	 * Seten des aktuellen Debug - Contextes ( Log4J ).
+	 * 
+	 * @param theRemoteUser
+	 *            das aktuell angemeldete Benutzer
+	 */
+	public void setDebugContext(String theRemoteUser) {
+		NDC.push(theRemoteUser);
+	}
 }

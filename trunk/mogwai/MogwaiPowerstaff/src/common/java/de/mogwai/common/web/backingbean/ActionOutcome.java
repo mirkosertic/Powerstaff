@@ -23,26 +23,26 @@ package de.mogwai.common.web.backingbean;
  * @version $Date: 2008-09-04 18:17:06 $
  */
 public enum ActionOutcome {
-    SUCCESS("success"), FAILURE("failure"), SUCCESSDELETE("successdelete");
+	SUCCESS("success");
 
-    private final String value;
+	private final String value;
 
-    /**
-     * Instanzierung mit Action Outcome String.
-     * 
-     * @param value
-     *                Action Outcome String
-     */
-    private ActionOutcome(String value) {
-        this.value = value;
-    }
+	/**
+	 * Instanzierung mit Action Outcome String.
+	 * 
+	 * @param value
+	 *            Action Outcome String
+	 */
+	private ActionOutcome(String value) {
+		this.value = value;
+	}
 
-    /**
-     * Action Outcome String.
-     * 
-     * @return Action Outcome String.
-     */
-    public String value() {
-        return value;
-    }
+	/**
+	 * Action Outcome String.
+	 * 
+	 * @return Action Outcome String.
+	 */
+	public String value() {
+		return value;
+	}
 }

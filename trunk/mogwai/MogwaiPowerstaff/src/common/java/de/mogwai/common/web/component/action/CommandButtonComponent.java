@@ -25,33 +25,30 @@ import de.mogwai.common.web.ResourceBundleManager;
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:24:45 $
  */
-public class CommandButtonComponent extends CommandButtonComponentBase implements LabelProvider {
+public class CommandButtonComponent extends CommandButtonComponentBase
+		implements LabelProvider {
 
-    public static final String RESET_ACTION = "reset";
+	public static final String BUTTON_TYPE = "button";
 
-    public static final String BUTTON_TYPE = "button";
+	public CommandButtonComponent() {
+	}
 
-    public static final String RESET_TYPE = "reset";
+	public String getLabel() {
+		String theKey = getKey();
+		if (theKey != null) {
+			return ResourceBundleManager.getBundle().getString(theKey);
+		}
 
-    public CommandButtonComponent() {
-    }
+		return getValue().toString();
+	}
 
-    public String getLabel() {
-        String theKey = getKey();
-        if (theKey != null) {
-            return ResourceBundleManager.getBundle().getString(theKey);
-        }
+	@Override
+	public Object getValue() {
+		String theKey = getKey();
+		if (theKey != null) {
+			return ResourceBundleManager.getBundle().getString(theKey);
+		}
 
-        return getValue().toString();
-    }
-
-    @Override
-    public Object getValue() {
-        String theKey = getKey();
-        if (theKey != null) {
-            return ResourceBundleManager.getBundle().getString(theKey);
-        }
-
-        return super.getValue();
-    }
+		return super.getValue();
+	}
 }
