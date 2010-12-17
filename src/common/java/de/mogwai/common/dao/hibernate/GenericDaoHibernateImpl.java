@@ -49,24 +49,4 @@ public abstract class GenericDaoHibernateImpl extends HibernateDaoSupport
 	public void detach(Object aObject) {
 		getHibernateTemplate().evict(aObject);
 	}
-
-	/**
-	 * Wandelt die GUI-Wildcards in SQL Wilcards um.
-	 * 
-	 * @param str
-	 *            unbearbeiteteter String aus dem GUI
-	 * @return String mit SQL-Wildcards für die Datenbank
-	 */
-
-	public String wildcardFilter(String str) {
-		if (str.indexOf('?') >= 0) {
-			str = str.replace('?', '_');
-		}
-		if (str.indexOf('*') >= 0) {
-			str = str.replace('*', '%');
-		}
-		return str;
-
-	}
-
 }

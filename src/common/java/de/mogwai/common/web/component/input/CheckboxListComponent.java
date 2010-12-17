@@ -30,68 +30,70 @@ import javax.faces.el.ValueBinding;
  */
 public class CheckboxListComponent extends CheckboxListComponentBase {
 
-    public static final String FLOW_HORIZONTAL = "horizontal";
+	public static final String FLOW_VERTICAL = "vertical";
 
-    public static final String FLOW_VERTICAL = "vertical";
+	public static final String VALUES_BINDING_NAME = "values";
 
-    public static final String VALUES_BINDING_NAME = "values";
+	public CheckboxListComponent() {
+	}
 
-    public CheckboxListComponent() {
-    }
+	public List getValues() {
+		ValueBinding theBinding = getValueBinding(VALUES_BINDING_NAME);
+		if (theBinding != null) {
 
-    public List getValues() {
-        ValueBinding theBinding = getValueBinding(VALUES_BINDING_NAME);
-        if (theBinding != null) {
+			Object theResult = theBinding.getValue(FacesContext
+					.getCurrentInstance());
+			if ((theResult != null) && (!(theResult instanceof List))) {
+				throw new RuntimeException(
+						"Combobox can only be bound to java.util.List properties! Expression is "
+								+ theBinding.getExpressionString());
+			}
 
-            Object theResult = theBinding.getValue(FacesContext.getCurrentInstance());
-            if ((theResult != null) && (!(theResult instanceof List))) {
-                throw new RuntimeException("Combobox can only be bound to java.util.List properties! Expression is "
-                        + theBinding.getExpressionString());
-            }
+			return (List) theResult;
+		}
 
-            return (List) theResult;
-        }
+		return null;
+	}
 
-        return null;
-    }
+	/**
+	 * Radiobuttons that belong to a group must have the same name on client
+	 * side. This is forced by overriding this method.
+	 * 
+	 * @param aContext
+	 *            der Kontext
+	 * @return the client id
+	 */
+	@Override
+	public String getClientId(FacesContext aContext) {
 
-    /**
-     * Radiobuttons that belong to a group must have the same name on client
-     * side. This is forced by overriding this method.
-     * 
-     * @param aContext
-     *                der Kontext
-     * @return the client id
-     */
-    @Override
-    public String getClientId(FacesContext aContext) {
+		ValueBinding theBinding = getValueBinding("value");
+		if (theBinding != null) {
+			return super.getClientId(aContext) + "::"
+					+ theBinding.getExpressionString();
+		}
 
-        ValueBinding theBinding = getValueBinding("value");
-        if (theBinding != null) {
-            return super.getClientId(aContext) + "::" + theBinding.getExpressionString();
-        }
+		return super.getClientId(aContext);
+	}
 
-        return super.getClientId(aContext);
-    }
+	@Override
+	protected Object getConvertedValue(FacesContext aContext,
+			Object aSubmittedValue) {
 
-    @Override
-    protected Object getConvertedValue(FacesContext aContext, Object aSubmittedValue) {
+		// Wenn die Komponente ein Pflichtfeld ist, diese überprüfen
+		if (isRequired()) {
 
-        // Wenn die Komponente ein Pflichtfeld ist, diese überprüfen
-        if (isRequired()) {
+			Collection theValue = (Collection) aSubmittedValue;
+			if ((theValue == null) || (theValue.size() == 0)) {
 
-            Collection theValue = (Collection) aSubmittedValue;
-            if ((theValue == null) || (theValue.size() == 0)) {
+				// Sie ist nicht gefüllt, also ist diese Komponente Invalid
+				addMissingRequiredFieldMessage(aContext);
 
-                // Sie ist nicht gefüllt, also ist diese Komponente Invalid
-                addMissingRequiredFieldMessage(aContext);
+				setValid(false);
+				return theValue;
+			}
+		}
 
-                setValid(false);
-                return theValue;
-            }
-        }
-
-        return aSubmittedValue;
-    }
+		return aSubmittedValue;
+	}
 
 }
