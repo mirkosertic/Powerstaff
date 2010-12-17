@@ -26,9 +26,6 @@ import java.util.Vector;
 
 import javax.persistence.Column;
 
-import org.hibernate.search.annotations.Indexed;
-
-@Indexed
 public class Freelancer extends Person<FreelancerContact, FreelancerHistory>
 		implements UDFSupport {
 

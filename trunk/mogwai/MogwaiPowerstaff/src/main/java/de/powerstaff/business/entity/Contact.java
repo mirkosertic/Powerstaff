@@ -17,21 +17,14 @@
  */
 package de.powerstaff.business.entity;
 
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.IndexedEmbedded;
-import org.hibernate.search.annotations.Store;
-
 import de.mogwai.common.business.entity.AuditableEntity;
 
 public abstract class Contact extends AuditableEntity {
 
 	private static final long serialVersionUID = 3944979992814079327L;
 
-	@Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private String value;
 
-	@IndexedEmbedded
 	private ContactType type;
 
 	public String getValue() {

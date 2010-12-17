@@ -49,10 +49,6 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 
 	private int indexWriterUsageCount;
 
-	public PowerstaffSystemParameterService getSystemParameterService() {
-		return systemParameterService;
-	}
-
 	public void setSystemParameterService(
 			PowerstaffSystemParameterService systemParameterService) {
 		this.systemParameterService = systemParameterService;
