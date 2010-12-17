@@ -25,7 +25,8 @@ import java.io.Serializable;
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:17:11 $
  */
-@SuppressWarnings("serial")
 public class BackingBeanDataModel implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 }

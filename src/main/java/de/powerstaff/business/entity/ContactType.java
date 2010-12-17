@@ -17,10 +17,6 @@
  */
 package de.powerstaff.business.entity;
 
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Store;
-
 import de.mogwai.common.business.entity.AuditableEntity;
 import de.mogwai.common.utils.StringPresentationProvider;
 
@@ -29,7 +25,6 @@ public class ContactType extends AuditableEntity implements
 
 	private static final long serialVersionUID = 8034787319984772308L;
 
-	@Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private String description;
 
 	private boolean phone;

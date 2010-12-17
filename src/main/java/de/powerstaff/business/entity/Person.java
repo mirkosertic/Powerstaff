@@ -22,11 +22,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.IndexedEmbedded;
-import org.hibernate.search.annotations.Store;
-
 import de.mogwai.common.business.entity.AuditableEntity;
 
 public class Person<T extends Contact, H extends HistoryEntity> extends
@@ -36,10 +31,8 @@ public class Person<T extends Contact, H extends HistoryEntity> extends
 
 	private String titel;
 
-	@Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private String name1;
 
-	@Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private String name2;
 
 	private String company;
@@ -60,10 +53,8 @@ public class Person<T extends Contact, H extends HistoryEntity> extends
 
 	private boolean contactforbidden;
 
-	@IndexedEmbedded
 	private Set<T> contacts = new HashSet<T>();
 
-	@IndexedEmbedded
 	private Set<H> history = new HashSet<H>();
 
 	private String kreditorNr;

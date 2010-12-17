@@ -59,6 +59,7 @@ import de.powerstaff.business.service.impl.reader.ReadResult;
 /**
  * @author Mirko Sertic
  */
+@Transactional
 public class ProfileIndexerServiceImpl extends LogableService implements
 		ProfileIndexerService {
 
@@ -416,10 +417,6 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 			}
 		}
 		return aCounter;
-	}
-
-	public ServiceLoggerService getServiceLogger() {
-		return serviceLogger;
 	}
 
 	public void setServiceLogger(ServiceLoggerService serviceLogger) {

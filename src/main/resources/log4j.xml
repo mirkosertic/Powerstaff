@@ -3,19 +3,17 @@
 <log4j:configuration>
 
 	<!--
-		Konfiguration der Fileausgabe.
-		Level DEBUG bis INFO werden in steze_debug_log.txt geschrieben.
+		Konfiguration der Fileausgabe. Level DEBUG bis INFO werden in
+		steze_debug_log.txt geschrieben.
 	-->
-	<appender name="file_debug"
-		class="org.apache.log4j.DailyRollingFileAppender">
+	<appender name="file_debug" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File"
 			value="${jboss.server.home.dir}/log/powerstaff_debug_log.txt" />
 		<param name="Append" value="true" />
 		<!-- Taeglicher Rollover -->
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern"
-				value="%d [%t] %c%n%-5p: [%x] %m%n" />
+			<param name="ConversionPattern" value="%d [%t] %c%n%-5p: [%x] %m%n" />
 		</layout>
 
 		<!-- Level DEBUG bis INFO werden ausgegeben -->
@@ -27,19 +25,17 @@
 	</appender>
 
 	<!--
-		Konfiguration der Fileausgabe.
-		Level WARN bis FATAL werden in steze_error_log.txt geschrieben.
+		Konfiguration der Fileausgabe. Level WARN bis FATAL werden in
+		steze_error_log.txt geschrieben.
 	-->
-	<appender name="file_error"
-		class="org.apache.log4j.DailyRollingFileAppender">
+	<appender name="file_error" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File"
 			value="${jboss.server.home.dir}/log/powerstaff_error_log.txt" />
 		<param name="Append" value="true" />
 		<!-- Taeglicher Rollover -->
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern"
-				value="%d [%t] %c%n%-5p: [%x] %m%n" />
+			<param name="ConversionPattern" value="%d [%t] %c%n%-5p: [%x] %m%n" />
 		</layout>
 
 		<!-- Level WARN bis FATAL werden ausgegeben -->
@@ -49,17 +45,23 @@
 			<param name="AcceptOnMatch" value="true" />
 		</filter>
 	</appender>
-	
+
 	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d [%t] %c%n%-5p: [%x] %m%n"/>
+			<param name="ConversionPattern" value="%d [%t] %c%n%-5p: [%x] %m%n" />
 		</layout>
 	</appender>
-	
+
+	<!-- <logger name="org.springframework.transaction">
+		<level value="DEBUG" />
+		<appender-ref ref="stdout" />
+		<appender-ref ref="file_debug" />
+	</logger> -->
+
 	<root>
 		<priority value="INFO" />
 		<appender-ref ref="file_debug" />
 		<appender-ref ref="file_error" />
-		<appender-ref ref="stdout" />  
+		<appender-ref ref="stdout" />
 	</root>
 </log4j:configuration>

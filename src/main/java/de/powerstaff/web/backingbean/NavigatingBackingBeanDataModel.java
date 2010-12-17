@@ -1,61 +1,41 @@
 package de.powerstaff.web.backingbean;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 import de.mogwai.common.business.entity.Entity;
 import de.mogwai.common.web.component.ComponentUtils;
 
-public abstract class NavigatingBackingBeanDataModel<T extends Entity> extends EntityEditorBackingBeanDataModel<T> {
+public abstract class NavigatingBackingBeanDataModel<T extends Entity> extends
+		EntityEditorBackingBeanDataModel<T> {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = -4222492868578096147L;
 
-	private transient UIComponent viewRoot;
-    
-    private Long recordNumber;
+	private Long recordNumber;
 
-    protected NavigatingBackingBeanDataModel() {
-    }
+	protected NavigatingBackingBeanDataModel() {
+	}
 
-    protected NavigatingBackingBeanDataModel(T aValue) {
-        super(aValue);
-    }
+	protected NavigatingBackingBeanDataModel(T aValue) {
+		super(aValue);
+	}
 
-    /**
-     * @return the viewRoot
-     */
-    public UIComponent getViewRoot() {
-        return viewRoot;
-    }
+	public List<String> getChangedComponents() {
 
-    /**
-     * @param viewRoot
-     *                the viewRoot to set
-     */
-    public void setViewRoot(UIComponent viewRoot) {
-        this.viewRoot = viewRoot;
-    }
+		List<String> theResult = ComponentUtils
+				.getDynamicContentComponentIDs(FacesContext
+						.getCurrentInstance().getViewRoot());
+		ComponentUtils.addModalComponentIDs(theResult, FacesContext
+				.getCurrentInstance().getViewRoot());
+		return theResult;
+	}
 
-    public List<String> getChangedComponents() {
-        if (viewRoot == null) {
-            return new ArrayList<String>();
-        }
-        List<String> theResult = ComponentUtils.getDynamicContentComponentIDs(viewRoot);
-        ComponentUtils.addModalComponentIDs(theResult, FacesContext.getCurrentInstance().getViewRoot());
-        return theResult;
-    }
+	public Long getRecordNumber() {
+		return recordNumber;
+	}
 
-    public Long getRecordNumber() {
-        return recordNumber;
-    }
-
-    public void setRecordNumber(Long recordNumber) {
-        this.recordNumber = recordNumber;
-    }
+	public void setRecordNumber(Long recordNumber) {
+		this.recordNumber = recordNumber;
+	}
 }

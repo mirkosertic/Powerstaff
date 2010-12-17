@@ -52,8 +52,6 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/hibernate-commons-annotations-3.2.0.Final.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/hibernate-core-3.6.0.Final.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/hibernate-jpa-2.0-api-1.0.0.Final.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/hibernate-search-3.3.0.CR2.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/hibernate-search-analyzers-3.3.0.CR2.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jgroups-2.8.0.GA.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-analyzers-3.0.3.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/lucene-collation-3.0.3.jar"/>
@@ -67,7 +65,7 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/org.springframework.context-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/org.springframework.context.support-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/org.springframework.core-3.0.5.RELEASE.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/org.springframework.orm-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/org.springframework.orm-3.0.5.RELEASE.jar" sourcepath="C:/Users/mirkosertic/.m2/repository/org/springframework/spring-orm/3.0.5.RELEASE/spring-orm-3.0.5.RELEASE-sources.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/org.springframework.web-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/org.springframework.asm-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/org.springframework.transaction-3.0.5.RELEASE.jar"/>
