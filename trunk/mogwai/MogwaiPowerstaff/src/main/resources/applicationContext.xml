@@ -22,25 +22,22 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
 	<bean id="datasource"
 		class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName" value="java:powerstaff/db" />
+		<property name="jndiName" value="java:comp/env/powerstaff/db" />
 	</bean>
 
 	<bean id="webdatasource"
 		class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName" value="java:powerstaff/webdb" />
+		<property name="jndiName" value="java:comp/env/powerstaff/webdb" />
 	</bean>
 
 	<bean id="cronExpression"
 		class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName" value="java:powerstaff/indexcronexpression" />
+		<property name="jndiName" value="java:comp/env/powerstaff/indexcronexpression" />
 	</bean>
 
-	<bean id="txManager"
-		class="org.springframework.transaction.jta.JtaTransactionManager">
-		<property name="userTransactionName" value="UserTransaction" />
-		<property name="transactionManagerName"
-			value="java:/TransactionManager" />
-	</bean>
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="datasource"/>
+    </bean>
 
 	<tx:annotation-driven transaction-manager="txManager" order="200"/>
 
@@ -78,12 +75,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 				</prop>
 				<prop key="hibernate.jdbc.use_streams_for_binary">
 					true
-				</prop>
-				<prop key="transaction.factory_class">
-					org.hibernate.transaction.JTATransactionFactory
-				</prop>
-				<prop key="jta.UserTransaction">
-					java:comp/UserTransaction
 				</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="javax.persistence.validation.mode">none</prop>
@@ -170,12 +161,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 				</prop>
 				<prop key="hibernate.jdbc.use_streams_for_binary">
 					true
-				</prop>
-				<prop key="transaction.factory_class">
-					org.hibernate.transaction.JTATransactionFactory
-				</prop>
-				<prop key="jta.UserTransaction">
-					java:comp/UserTransaction
 				</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
@@ -424,10 +409,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 	</bean>
 
 	<bean class="org.springframework.jmx.export.MBeanExporter">
-		<property name="server">
-			<bean class="org.jboss.mx.util.MBeanServerLocator"
-				factory-method="locateJBoss" />
-		</property>
 		<property name="beans">
 			<map>
 				<entry key="powerstaff:name=HibernateStatistics">
