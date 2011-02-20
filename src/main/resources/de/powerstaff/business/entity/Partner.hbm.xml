@@ -22,6 +22,7 @@
 		<property name="plz"/>
 		<property name="city"/>
 		<property name="comments" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+        <property name="contactforbidden"/>
 		
 		<property name="debitorNr"/>
 		<property name="kreditorNr"/>
