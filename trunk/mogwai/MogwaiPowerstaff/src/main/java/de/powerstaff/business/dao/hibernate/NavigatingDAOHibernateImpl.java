@@ -303,7 +303,7 @@ public abstract class NavigatingDAOHibernateImpl<T extends Entity> extends
 
 			public Object doInHibernate(Session aSession) {
 				Query theQuery = aSession.createQuery("from "
-						+ getEntityClass().getName());
+						+ getEntityClass().getName()+" order by id");
 				theQuery.setFirstResult(aNumber.intValue() - 1);
 				theQuery.setMaxResults(1);
 				Iterator theIt = theQuery.iterate();
