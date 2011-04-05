@@ -184,6 +184,8 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 							logger.logInfo("Optimizing done");
 						}
 					} finally {
+                        indexWriter.commit();
+
 						indexWriter.close();
 						indexWriter = null;
 
