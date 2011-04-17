@@ -29,9 +29,6 @@ public interface Navigatable {
 
     /**
      * Reset the navigation to its initial state.
-     * 
-     * @param aInfo
-     *                reset information.
      */
-    void resetNavigation(ResetNavigationInfo aInfo);
+    void resetNavigation();
 }

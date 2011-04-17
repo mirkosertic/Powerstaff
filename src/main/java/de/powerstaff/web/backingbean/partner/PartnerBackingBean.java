@@ -18,6 +18,7 @@
 package de.powerstaff.web.backingbean.partner;
 
 import de.mogwai.common.command.EditEntityCommand;
+import de.mogwai.common.command.UpdateModelCommand;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.mogwai.common.web.utils.UpdateModelInfo;
 import de.powerstaff.business.entity.Freelancer;
@@ -38,7 +39,27 @@ public class PartnerBackingBean
 
 	private transient FreelancerService freelancerService;
 
-	@Override
+    private FreelancerBackingBean freelancerBackingBean;
+
+    private ProjectBackingBean projectBackingBean;
+
+    public ProjectBackingBean getProjectBackingBean() {
+        return projectBackingBean;
+    }
+
+    public void setProjectBackingBean(ProjectBackingBean projectBackingBean) {
+        this.projectBackingBean = projectBackingBean;
+    }
+
+    public FreelancerBackingBean getFreelancerBackingBean() {
+        return freelancerBackingBean;
+    }
+
+    public void setFreelancerBackingBean(FreelancerBackingBean freelancerBackingBean) {
+        this.freelancerBackingBean = freelancerBackingBean;
+    }
+
+    @Override
 	protected PartnerBackingBeanDataModel createDataModel() {
 		return new PartnerBackingBeanDataModel();
 	}
@@ -66,20 +87,18 @@ public class PartnerBackingBean
 
 		Freelancer theFreelancer = (Freelancer) getData().getFreelancer()
 				.getRowData();
-		forceUpdateOfBean(FreelancerBackingBean.class,
-				new EditEntityCommand<Freelancer>(theFreelancer));
+        freelancerBackingBean.updateModel(new EditEntityCommand<Freelancer>(theFreelancer));
 		return "FREELANCER_STAMMDATEN";
 	}
 
 	@Override
-	public void updateModel(UpdateModelInfo aInfo) {
+	public void updateModel(UpdateModelCommand aInfo) {
 		super.updateModel(aInfo);
-		if (aInfo.getCommand() instanceof EditEntityCommand) {
+		if (aInfo instanceof EditEntityCommand) {
 
 			init();
 
-			EditEntityCommand theCommand = (EditEntityCommand) aInfo
-					.getCommand();
+			EditEntityCommand theCommand = (EditEntityCommand) aInfo;
 			if (theCommand.getValue() instanceof Freelancer) {
 
 				Freelancer theFreelancer = (Freelancer) theCommand.getValue();
@@ -138,9 +157,8 @@ public class PartnerBackingBean
 	}
 
 	public String commandJumpToFreelancer() {
-		forceUpdateOfBean(FreelancerBackingBean.class,
-				new EditEntityCommand<Freelancer>(getData()
-						.getOriginalFreelancer()));
+        freelancerBackingBean.updateModel(new EditEntityCommand<Freelancer>(getData()
+                .getOriginalFreelancer()));
 		return "FREELANCER_STAMMDATEN";
 	}
 
@@ -198,8 +216,7 @@ public class PartnerBackingBean
 			return null;
 		}
 
-		forceUpdateOfBean(ProjectBackingBean.class,
-				new EditEntityCommand<Partner>(thePartner));
+        projectBackingBean.updateModel(new EditEntityCommand<Partner>(thePartner));
 		return "PROJEKT_STAMMDATEN";
 	}
 }

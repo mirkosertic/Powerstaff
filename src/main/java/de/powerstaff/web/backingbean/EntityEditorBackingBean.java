@@ -23,8 +23,8 @@ public abstract class EntityEditorBackingBean<T extends EntityEditorBackingBeanD
     }
 
     @Override
-    public void resetNavigation(ResetNavigationInfo aInfo) {
-        super.resetNavigation(aInfo);
+    public void resetNavigation() {
+        super.resetNavigation();
         init();
     }
 

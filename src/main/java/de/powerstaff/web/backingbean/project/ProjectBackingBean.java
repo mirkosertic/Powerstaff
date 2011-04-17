@@ -3,6 +3,7 @@ package de.powerstaff.web.backingbean.project;
 import java.util.Collection;
 
 import de.mogwai.common.command.EditEntityCommand;
+import de.mogwai.common.command.UpdateModelCommand;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.mogwai.common.web.utils.UpdateModelInfo;
 import de.powerstaff.business.dao.GenericSearchResult;
@@ -17,12 +18,28 @@ import de.powerstaff.web.backingbean.partner.PartnerBackingBean;
 
 public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBackingBeanDataModel, ProjectService> {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 8688601363580323078L;
 
-	@Override
+    private CustomerBackingBean customerBackingBean;
+    private PartnerBackingBean partnerBackingBean;
+
+    public PartnerBackingBean getPartnerBackingBean() {
+        return partnerBackingBean;
+    }
+
+    public void setPartnerBackingBean(PartnerBackingBean partnerBackingBean) {
+        this.partnerBackingBean = partnerBackingBean;
+    }
+
+    public CustomerBackingBean getCustomerBackingBean() {
+        return customerBackingBean;
+    }
+
+    public void setCustomerBackingBean(CustomerBackingBean customerBackingBean) {
+        this.customerBackingBean = customerBackingBean;
+    }
+
+    @Override
     protected ProjectBackingBeanDataModel createDataModel() {
         return new ProjectBackingBeanDataModel();
     }
@@ -95,14 +112,14 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
         Customer theCustomer = getData().getEntity().getCustomer();
         if (theCustomer != null) {
 
-            forceUpdateOfBean(CustomerBackingBean.class, new EditEntityCommand<Customer>(theCustomer));
+            customerBackingBean.updateModel(new EditEntityCommand<Customer>(theCustomer));
             return "CUSTOMER_STAMMDATEN";
         }
 
         Partner thePartner = getData().getEntity().getPartner();
         if (thePartner != null) {
 
-            forceUpdateOfBean(PartnerBackingBean.class, new EditEntityCommand<Partner>(thePartner));
+            partnerBackingBean.updateModel(new EditEntityCommand<Partner>(thePartner));
             return "PARTNER_STAMMDATEN";
         }
 
@@ -111,11 +128,11 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
     }
 
     @Override
-    public void updateModel(UpdateModelInfo aInfo) {
+    public void updateModel(UpdateModelCommand aInfo) {
         super.updateModel(aInfo);
-        if (aInfo.getCommand() instanceof EditEntityCommand) {
+        if (aInfo instanceof EditEntityCommand) {
             
-            EditEntityCommand theCommand = (EditEntityCommand) aInfo.getCommand();
+            EditEntityCommand theCommand = (EditEntityCommand) aInfo;
 
             init();
 

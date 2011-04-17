@@ -50,7 +50,15 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
+
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.apache.myfaces.orchestra.conversation.servlet.ConversationManagerSessionListener</listener-class>
+    </listener>
+
 	<servlet>
 		<servlet-name>FacesServlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>

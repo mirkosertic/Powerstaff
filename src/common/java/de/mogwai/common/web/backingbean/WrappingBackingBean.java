@@ -70,30 +70,4 @@ public abstract class WrappingBackingBean<T extends BackingBeanDataModel> extend
     public void setData(T aDataModel) {
         this.dataModel = aDataModel;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean validate(FacesContext aContext) {
-
-        ValidateModalDataCommand theCommand = new ValidateModalDataCommand(getData());
-        try {
-            forceUpdateOfBean(ModalControllerBackingBean.class, theCommand);
-
-            if (theCommand.isValidated()) {
-                return true;
-            }
-
-        } catch (ValidatorException e) {
-
-            aContext.addMessage(null, e.getFacesMessage());
-
-            return false;
-
-        }
-
-        return super.validate(aContext);
-    }
-
 }
