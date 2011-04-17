@@ -16,6 +16,8 @@
  */
 package de.mogwai.common.web.utils;
 
+import de.mogwai.common.command.UpdateModelCommand;
+
 /**
  * Marker for updatable backing beans.
  * 
@@ -30,5 +32,5 @@ public interface Updateable {
      * @param aInfo
      *                update information.
      */
-    void updateModel(UpdateModelInfo aInfo);
+    void updateModel(UpdateModelCommand aInfo);
 }

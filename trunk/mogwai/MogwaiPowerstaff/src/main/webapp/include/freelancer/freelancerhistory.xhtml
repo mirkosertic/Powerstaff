@@ -12,9 +12,8 @@
 		<ui:include src="/include/freelancer/freelancermenu2.xhtml"/>
 	</ui:define>
 	<ui:define name="content">
-		<b:saveState value="#{freelancerBackingBean}"/>	
-		<b:title title="Freiberufler - Kontakthistorie"/>	
-		<f:subview>
+		<b:title title="Freiberufler - Kontakthistorie"/>
+		<f:subview id="freelancer_contacthistory">
 			<b:gridBagLayout rows="p,10" cols="200,p">
 				<b:cell y="1" x="1">
 					<h:outputText styleClass="title" value="Freiberufler Kontakthistorie"/>

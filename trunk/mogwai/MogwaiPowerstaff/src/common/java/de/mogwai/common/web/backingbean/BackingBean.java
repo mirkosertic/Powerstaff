@@ -20,20 +20,10 @@ import java.io.Serializable;
 
 import javax.faces.context.FacesContext;
 
-import de.mogwai.common.command.CallbackResultCommand;
-import de.mogwai.common.command.Command;
-import de.mogwai.common.command.MessageBoxResultCommand;
-import de.mogwai.common.command.MessageBoxSetupCommand;
-import de.mogwai.common.command.ResetNavigationCommand;
 import de.mogwai.common.command.ResetNavigationInfo;
 import de.mogwai.common.command.UpdateModelCommand;
 import de.mogwai.common.utils.Initable;
 import de.mogwai.common.utils.Navigatable;
-import de.mogwai.common.web.navigation.ModalPageDescriptor;
-import de.mogwai.common.web.utils.NavigationUtils;
-import de.mogwai.common.web.utils.ShutdownModalDialogCommand;
-import de.mogwai.common.web.utils.StartModalDialogCommand;
-import de.mogwai.common.web.utils.UpdateModelInfo;
 import de.mogwai.common.web.utils.Updateable;
 import de.mogwai.common.web.utils.Validatable;
 
@@ -52,12 +42,6 @@ public abstract class BackingBean implements Initable, Navigatable, Updateable,
 	private static final long serialVersionUID = -6152673765217442475L;
 
 	private boolean initialized;
-
-	private String queueID = getClass().getName();
-
-	// This holds information about the last view who causes this bean to update
-	// its model
-	protected UpdateModelInfo lastUpdateModelInfo;
 
 	/**
 	 * Refresh Action - Methode.
@@ -97,173 +81,14 @@ public abstract class BackingBean implements Initable, Navigatable, Updateable,
 		initialized = aStatus;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void resetNavigation(ResetNavigationInfo aInfo) {
+	public void resetNavigation() {
 		forceInitialization();
-
-		lastUpdateModelInfo = null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void updateModel(UpdateModelInfo aInfo) {
-
-		Command theCommand = aInfo.getCommand();
-		if (theCommand instanceof MessageBoxResultCommand) {
-			shutdownModalDialog();
-		}
-
-		lastUpdateModelInfo = aInfo;
+	public void updateModel(UpdateModelCommand aInfo) {
 	}
 
-	/**
-	 * Den Reset der Navigation einer BackingBean forcieren.
-	 * 
-	 * @param aBeanClass
-	 *            Klasse der BackingBean
-	 * @param aCommand
-	 *            das Command
-	 */
-	public void forceNavigationResetOfBean(Class aBeanClass,
-			ResetNavigationCommand aCommand) {
-		NavigationUtils.getInstance().forceResetNavigationOfBeans(
-				FacesContext.getCurrentInstance(), aBeanClass.getName(),
-				aCommand);
-	}
-
-	/**
-	 * Den Reset der Navigation einer BackingBean forcieren.
-	 * 
-	 * @param aQueueID
-	 *            der Name der Queue
-	 * @param aCommand
-	 *            das Command
-	 */
-	public void forceNavigationResetOfBean(String aQueueID,
-			ResetNavigationCommand aCommand) {
-		NavigationUtils.getInstance().forceResetNavigationOfBeans(
-				FacesContext.getCurrentInstance(), aQueueID, aCommand);
-	}
-
-	/**
-	 * Die Aktualisierung eines Datenmodells einer BackingBean forcieren.
-	 * 
-	 * @param aBeanClass
-	 *            die BackingBean - Klasse
-	 * @param aCommand
-	 *            das Kommando
-	 */
-	public void forceUpdateOfBean(Class aBeanClass, UpdateModelCommand aCommand) {
-		NavigationUtils.getInstance().forceUpdateOfBeans(this,
-				FacesContext.getCurrentInstance(), aBeanClass.getName(),
-				aCommand);
-	}
-
-	/**
-	 * Die Aktualisierung eines Datenmodells einer BackingBean forcieren.
-	 * 
-	 * @param aQueueID
-	 *            die Queue - ID der BackingBean
-	 * @param aCommand
-	 *            das Kommando
-	 */
-	public void forceUpdateOfBean(String aQueueID, UpdateModelCommand aCommand) {
-		NavigationUtils.getInstance().forceUpdateOfBeans(this,
-				FacesContext.getCurrentInstance(), aQueueID, aCommand);
-	}
-
-	/**
-	 * Den Reset der Navigation einer BackingBean forcieren.
-	 * 
-	 * @param aBeanClass
-	 *            die BackingBean - Klasse
-	 */
-	public void forceNavigationResetOfBean(Class aBeanClass) {
-		forceNavigationResetOfBean(aBeanClass, new ResetNavigationCommand());
-	}
-
-	/**
-	 * Wenn diese Bean aus einem Callback heraus gestartet wurde, kann über
-	 * diese Methode das Outcome ermittelt werden, um zu dem Aufrufer zurück zu
-	 * springen.
-	 * 
-	 * @param aValue
-	 *            das Argument, das dem Aufrufer als Ergebnis des Callbacks
-	 *            übergeben wird.
-	 * @return das Outcome, um zum Aufrufer zurückzuspringen.
-	 */
-	protected String returnToCallbackTarget(Object aValue) {
-
-		forceUpdateOfBean(lastUpdateModelInfo.getSenderQueueID(),
-				new CallbackResultCommand(aValue));
-
-		return lastUpdateModelInfo.getCallerViewId();
-	}
-
-	public boolean validate(FacesContext aContext) {
+    public boolean validate(FacesContext aContext) {
 		return true;
-	}
-
-	/**
-	 * Starten eines modalen Dialoges.
-	 * 
-	 * @param aPageDescriptor
-	 *            Descriptor für den anzuzeigenden Dialog
-	 */
-	public void launchModalDialog(ModalPageDescriptor aPageDescriptor) {
-		forceUpdateOfBean(ModalControllerBackingBean.class,
-				new StartModalDialogCommand(this, aPageDescriptor));
-	}
-
-	/**
-	 * Starten einer modalen MessageBox.
-	 * 
-	 * @param aPageDescriptor
-	 *            der Page - Descriptor
-	 * @param aBackingBeanClass
-	 *            die BackingBean - Klasse
-	 * @param aTitle
-	 *            der Titel
-	 * @param aMessage
-	 *            die Nachricht
-	 */
-	public void launchMessageDialog(ModalPageDescriptor aPageDescriptor,
-			Class aBackingBeanClass, String aTitle, String aMessage) {
-
-		forceUpdateOfBean(aBackingBeanClass, new MessageBoxSetupCommand(aTitle,
-				aMessage));
-		launchModalDialog(aPageDescriptor);
-	}
-
-	/**
-	 * Beenden des aktuellen, modalen Dialoges.
-	 */
-	public void shutdownModalDialog() {
-		forceUpdateOfBean(ModalControllerBackingBean.class,
-				new ShutdownModalDialogCommand());
-	}
-
-	/**
-	 * Ermittlung der Queue - ID der Backing Bean.
-	 * 
-	 * Per Default ist die Queue - ID der Name der aktuellen Klasse
-	 * 
-	 * @return die Queue - ID
-	 */
-	public String getQueueID() {
-		return queueID;
-	}
-
-	/**
-	 * Setzen der Queue - ID der Backing Bean.
-	 * 
-	 * @param aQueueID
-	 *            die neue Queue - ID
-	 */
-	public void setQueueID(String aQueueID) {
-		queueID = aQueueID;
 	}
 }

@@ -18,6 +18,7 @@
 package de.powerstaff.web.backingbean.customer;
 
 import de.mogwai.common.command.EditEntityCommand;
+import de.mogwai.common.command.UpdateModelCommand;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.mogwai.common.web.utils.UpdateModelInfo;
 import de.powerstaff.business.entity.Customer;
@@ -29,12 +30,19 @@ import de.powerstaff.web.backingbean.project.ProjectBackingBean;
 
 public class CustomerBackingBean extends PersonEditorBackingBean<Customer, CustomerBackingBeanDataModel, CustomerService> {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = -1019229554217528125L;
 
-	@Override
+    private ProjectBackingBean projectBackingBean;
+
+    public ProjectBackingBean getProjectBackingBean() {
+        return projectBackingBean;
+    }
+
+    public void setProjectBackingBean(ProjectBackingBean projectBackingBean) {
+        this.projectBackingBean = projectBackingBean;
+    }
+
+    @Override
     protected CustomerBackingBeanDataModel createDataModel() {
         return new CustomerBackingBeanDataModel();
     }
@@ -47,15 +55,15 @@ public class CustomerBackingBean extends PersonEditorBackingBean<Customer, Custo
             return null;
         }
 
-        forceUpdateOfBean(ProjectBackingBean.class, new EditEntityCommand<Customer>(theCustomer));
+        projectBackingBean.updateModel(new EditEntityCommand<Customer>(theCustomer));
         return "PROJEKT_STAMMDATEN";
     }
 
     @Override
-    public void updateModel(UpdateModelInfo aInfo) {
+    public void updateModel(UpdateModelCommand aInfo) {
         super.updateModel(aInfo);
-        if (aInfo.getCommand() instanceof EditEntityCommand) {
-            EditEntityCommand<Customer> theCommand = (EditEntityCommand<Customer>) aInfo.getCommand();
+        if (aInfo instanceof EditEntityCommand) {
+            EditEntityCommand<Customer> theCommand = (EditEntityCommand<Customer>) aInfo;
             init();
             Customer theEntity = (Customer) entityService.findByPrimaryKey(theCommand.getValue().getId());
             getData().setEntity(theEntity);

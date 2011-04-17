@@ -12,9 +12,8 @@
 		<ui:include src="/include/partner/partnermenu2.xhtml"/>
 	</ui:define>
 	<ui:define name="content">
-		<b:saveState value="#{partnerBackingBean}"/>
-		<b:title title="Geschäftspartner - Kontakthistorie"/>	
-		<f:subview>
+		<b:title title="Geschäftspartner - Kontakthistorie"/>
+		<f:subview id="partner_contacthistory">
 			<b:gridBagLayout rows="p,10" cols="200,p">
 				<b:cell y="1" x="1">
 					<h:outputText styleClass="title" value="Geschäftspartner Kontakthistorie"/>

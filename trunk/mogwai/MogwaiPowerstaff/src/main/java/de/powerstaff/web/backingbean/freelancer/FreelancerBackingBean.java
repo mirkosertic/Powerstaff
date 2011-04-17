@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Vector;
 
 import de.mogwai.common.command.EditEntityCommand;
+import de.mogwai.common.command.UpdateModelCommand;
 import de.mogwai.common.logging.Logger;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.mogwai.common.web.utils.UpdateModelInfo;
@@ -45,7 +46,17 @@ public class FreelancerBackingBean
 
 	private transient ProfileSearchService profileSearchService;
 
-	@Override
+    private PartnerBackingBean partnerBackingBean;
+
+    public PartnerBackingBean getPartnerBackingBean() {
+        return partnerBackingBean;
+    }
+
+    public void setPartnerBackingBean(PartnerBackingBean partnerBackingBean) {
+        this.partnerBackingBean = partnerBackingBean;
+    }
+
+    @Override
 	protected FreelancerBackingBeanDataModel createDataModel() {
 		return new FreelancerBackingBeanDataModel();
 	}
@@ -98,19 +109,17 @@ public class FreelancerBackingBean
 	public String commandShowPartner() {
 		Partner thePartner = getData().getEntity().getPartner();
 		if (thePartner != null) {
-			forceUpdateOfBean(PartnerBackingBean.class,
-					new EditEntityCommand<Freelancer>(getData().getEntity()));
+			partnerBackingBean.updateModel(new EditEntityCommand<Freelancer>(getData().getEntity()));
 			return "PARTNER_STAMMDATEN";
 		}
 		return null;
 	}
 
 	@Override
-	public void updateModel(UpdateModelInfo aInfo) {
+	public void updateModel(UpdateModelCommand aInfo) {
 		super.updateModel(aInfo);
-		if (aInfo.getCommand() instanceof EditEntityCommand) {
-			EditEntityCommand theCommand = (EditEntityCommand) aInfo
-					.getCommand();
+		if (aInfo instanceof EditEntityCommand) {
+			EditEntityCommand theCommand = (EditEntityCommand) aInfo;
 
 			init();
 			if (theCommand.getValue() instanceof ProfileSearchInfoDetail) {

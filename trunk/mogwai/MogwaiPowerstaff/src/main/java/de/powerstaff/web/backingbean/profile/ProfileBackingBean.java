@@ -47,7 +47,17 @@ public class ProfileBackingBean extends
 
 	private transient ProfileSearchService profileSearchService;
 
-	@Override
+    private FreelancerBackingBean freelancerBackingBean;
+
+    public FreelancerBackingBean getFreelancerBackingBean() {
+        return freelancerBackingBean;
+    }
+
+    public void setFreelancerBackingBean(FreelancerBackingBean freelancerBackingBean) {
+        this.freelancerBackingBean = freelancerBackingBean;
+    }
+
+    @Override
 	protected ProfileBackingBeanDataModel createDataModel() {
 		return new ProfileBackingBeanDataModel();
 	}
@@ -104,8 +114,8 @@ public class ProfileBackingBean extends
 	}
 
 	@Override
-	public void resetNavigation(ResetNavigationInfo aInfo) {
-		super.resetNavigation(aInfo);
+	public void resetNavigation() {
+		super.resetNavigation();
 
 		try {
 			ProfileSearchRequest theResult = profileSearchService
@@ -161,8 +171,7 @@ public class ProfileBackingBean extends
 	}
 
 	public String commandSelectSearchResult() {
-		forceUpdateOfBean(FreelancerBackingBean.class,
-				new EditEntityCommand<ProfileSearchInfoDetail>(
+		freelancerBackingBean.updateModel(new EditEntityCommand<ProfileSearchInfoDetail>(
 						((ProfileSearchEntry) getData().getSearchResult()
 								.getRowData()).getFreelancer()));
 		return "FREELANCER_STAMMDATEN";

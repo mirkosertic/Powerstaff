@@ -28,7 +28,7 @@ import de.mogwai.common.business.entity.LockEntry;
 import de.mogwai.common.dao.LockServiceDao;
 
 /**
- * Implementation des LockService DAO für Hibernate.
+ * Implementation des LockService DAO fÃ¼r Hibernate.
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:25:27 $

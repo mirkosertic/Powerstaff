@@ -17,7 +17,9 @@
  */
 package de.powerstaff.business.entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -238,4 +240,25 @@ public class Person<T extends Contact, H extends HistoryEntity> extends
 	public void setGeburtsdatum(String geburtsdatum) {
 		this.geburtsdatum = geburtsdatum;
 	}
+
+    public List<T> getEMailContacts() {
+        List<T> theResult = new ArrayList<T>();
+        for (T theEntry : getContacts()) {
+            if (theEntry.getType().isEmail()) {
+                theResult.add(theEntry);
+            }
+        }
+        return theResult;
+    }
+
+    public List<T> getWebContacts() {
+        List<T> theResult = new ArrayList<T>();
+        for (T theEntry : getContacts()) {
+            if (theEntry.getType().isWeb()) {
+                theResult.add(theEntry);
+            }
+        }
+        return theResult;
+    }
+
 }

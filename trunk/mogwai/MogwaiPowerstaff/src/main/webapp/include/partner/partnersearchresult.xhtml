@@ -12,9 +12,8 @@
 		<ui:include src="/include/partner/partnermenu1.xhtml"/>
 	</ui:define>
 	<ui:define name="content">
-		<b:saveState value="#{partnerBackingBean}"/>	
-		<b:title title="Geschäftspartner - Suchergebnisse"/>	
-		<f:subview>
+		<b:title title="Geschäftspartner - Suchergebnisse"/>
+		<f:subview id="partner_searchresult">
 			<b:gridBagLayout id="x" rows="p,10" cols="100,p">
 				<b:cell y="1" x="1">
 					<h:outputText styleClass="title" value="Partner Suchergebnisse"/>

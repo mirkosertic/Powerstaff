@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <import resource="classpath*:/META-INF/spring-orchestra-init.xml"/>
+
+    <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="conversation.access">
+                    <bean class="org.apache.myfaces.orchestra.conversation.spring.SpringConversationScope">
+                        <property name="timeout" value="30"/>
+                        <property name="lifetime" value="access"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean name="navigationBackingBean" class="de.powerstaff.web.backingbean.navigation.NavigationBackingBean" scope="request">
+    </bean>
+
+    <bean name="freelancerBackingBean" class="de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean" scope="conversation.access">
+        <property name="additinalDataService" ref="additinalDataService"/>
+        <property name="profileSearchService" ref="profileSearchService"/>
+        <property name="entityService" ref="freelancerService"/>
+        <property name="partnerBackingBean" ref="partnerBackingBean"/>
+    </bean>
+
+    <bean name="customerBackingBean" class="de.powerstaff.web.backingbean.customer.CustomerBackingBean" scope="conversation.access">
+        <property name="additinalDataService" ref="additinalDataService"/>
+        <property name="entityService" ref="customerService"/>
+        <property name="projectBackingBean" ref="projectBackingBean"/>
+    </bean>
+
+    <bean name="partnerBackingBean" class="de.powerstaff.web.backingbean.partner.PartnerBackingBean" scope="conversation.access">
+        <property name="additinalDataService" ref="additinalDataService"/>
+        <property name="entityService" ref="partnerService"/>
+        <property name="freelancerService" ref="freelancerService"/>
+        <property name="freelancerBackingBean" ref="freelancerBackingBean"/>
+        <property name="projectBackingBean" ref="projectBackingBean"/>
+    </bean>
+
+    <bean name="projectBackingBean" class="de.powerstaff.web.backingbean.project.ProjectBackingBean" scope="conversation.access">
+        <property name="entityService" ref="projectService"/>
+        <property name="customerBackingBean" ref="customerBackingBean"/>
+        <property name="partnerBackingBean" ref="partnerBackingBean"/>
+    </bean>
+
+    <bean name="profileBackingBean" class="de.powerstaff.web.backingbean.profile.ProfileBackingBean" scope="conversation.access">
+        <property name="profileSearchService" ref="profileSearchService"/>
+        <property name="freelancerBackingBean" ref="freelancerBackingBean"/>
+    </bean>
+
+    <bean name="loginBackingBean" class="de.powerstaff.web.backingbean.login.LoginBackingBean" scope="conversation.access">
+        <property name="loginService" ref="loginService"/>
+    </bean>
+
+    <bean name="statistikBackingBean" class="de.powerstaff.web.backingbean.statistik.StatistikBackingBean" scope="conversation.access">
+        <property name="additionalDataService" ref="additinalDataService"/>
+        <property name="statisticService" ref="statistikService"/>
+    </bean>
+
+</beans>
