@@ -75,6 +75,13 @@ public class WrongDataServiceImpl extends LogableService implements
         return theResult.toString();
     }
 
+    private String saveString(String aValue) {
+        if (aValue == null) {
+            return "";
+        }
+        return aValue;
+    }
+
     @Override
     public void run() throws Exception {
 
@@ -257,21 +264,21 @@ public class WrongDataServiceImpl extends LogableService implements
                         theAvailable = theDateFormat.format(theAvailability);
                     }
 
-                    theFreelancerForNewsletterWriter.print(theFreelancer.getCode());
+                    theFreelancerForNewsletterWriter.print(saveString(theFreelancer.getCode()));
                     theFreelancerForNewsletterWriter.print(";");
-                    theFreelancerForNewsletterWriter.print(theFreelancer.getName1());
+                    theFreelancerForNewsletterWriter.print(saveString(theFreelancer.getName1()));
                     theFreelancerForNewsletterWriter.print(";");
-                    theFreelancerForNewsletterWriter.print(theFreelancer.getName2());
+                    theFreelancerForNewsletterWriter.print(saveString(theFreelancer.getName2()));
                     theFreelancerForNewsletterWriter.print(";");
-                    theFreelancerForNewsletterWriter.print(theMail);
+                    theFreelancerForNewsletterWriter.print(saveString(theMail));
                     theFreelancerForNewsletterWriter.print(";");
-                    theFreelancerForNewsletterWriter.print(theFreelancer.getKreditorNr());
+                    theFreelancerForNewsletterWriter.print(saveString(theFreelancer.getKreditorNr()));
                     theFreelancerForNewsletterWriter.print(";");
-                    theFreelancerForNewsletterWriter.print(theAvailable);
+                    theFreelancerForNewsletterWriter.print(saveString(theAvailable));
                     theFreelancerForNewsletterWriter.print(";");
-                    theFreelancerForNewsletterWriter.print(theWeb);
+                    theFreelancerForNewsletterWriter.print(saveString(theWeb));
                     theFreelancerForNewsletterWriter.print(";");
-                    theFreelancerForNewsletterWriter.print(theFreelancer.getLastContact());
+                    theFreelancerForNewsletterWriter.print(saveString(theFreelancer.getLastContact()));
                     theFreelancerForNewsletterWriter.println();
                 }
 
