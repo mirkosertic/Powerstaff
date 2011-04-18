@@ -243,17 +243,17 @@ public class WrongDataServiceImpl extends LogableService implements
                 List<FreelancerContact> theMailContacts = theFreelancer.getEMailContacts();
                 List<FreelancerContact> theWebContacts = theFreelancer.getWebContacts();
 
-                if (!theFreelancer.isContactforbidden() && theMailContacts.size() > 0) {
+                if (!theFreelancer.isContactforbidden()) {
 
                     String theMail = null;
                     for (FreelancerContact theContact : theMailContacts) {
-                        if (StringUtils.isEmpty(theMail)) {
+                        if (StringUtils.isEmpty(theMail) && "eMail".equalsIgnoreCase(theContact.getType().getDescription())) {
                             theMail = theContact.getValue();
                         }
                     }
                     String theWeb = "";
                     for (FreelancerContact theContact : theWebContacts) {
-                        if (StringUtils.isEmpty(theWeb)) {
+                        if (StringUtils.isEmpty(theWeb) && "Web".equalsIgnoreCase(theContact.getType().getDescription())) {
                             theWeb = theContact.getValue();
                         }
                     }
