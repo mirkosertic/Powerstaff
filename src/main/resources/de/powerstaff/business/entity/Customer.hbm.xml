@@ -31,17 +31,17 @@
 		<property name="nationalitaet"/>
 		<property name="geburtsdatum"/>		
 
-		<set name="contacts" cascade="all-delete-orphan" order-by="value">
+		<set name="contacts" cascade="all-delete-orphan" order-by="value" fetch="join">
 			<key column="customer_id"/>
 			<one-to-many class="CustomerContact"/>
 		</set>
 
-		<set name="history" cascade="all-delete-orphan" order-by="creationDate DESC">
+		<set name="history" cascade="all-delete-orphan" order-by="creationDate DESC" fetch="join">
 			<key column="customer_id"/>
 			<one-to-many class="CustomerHistory"/>
 		</set>
 		
-		<map name="udf" table="customer_udf" cascade="all-delete-orphan">
+		<map name="udf" table="customer_udf" cascade="all-delete-orphan" fetch="join">
 			<key column="customer_id" foreign-key="customer_udf_fk1"/>
 			<map-key type="string" length="255" column="name"/>
 			<composite-element class="UserDefinedField">

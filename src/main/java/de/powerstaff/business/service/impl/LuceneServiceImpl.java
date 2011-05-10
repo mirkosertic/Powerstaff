@@ -33,6 +33,7 @@ import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.lucene.analysis.ProfileAnalyzerFactory;
 import de.powerstaff.business.service.LuceneService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
+import sun.util.LocaleServiceProviderPool;
 
 public class LuceneServiceImpl extends LogableService implements LuceneService,
 		InitializingBean {
@@ -64,12 +65,14 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 					logger
 							.logInfo("Creating new indexreader as there is no one");
 				} else {
+                    closeIndexReader();
 					logger
 							.logInfo("Reopen existing indexreader as there are new segments");
 				}
 
 				indexReader = IndexReader.open(directory);
-				indexSearcher = null;
+
+                closeIndexSearcher();
 			}
 			return indexReader;
 		}
@@ -85,6 +88,28 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 			return indexSearcher;
 		}
 	}
+
+    private void closeIndexReader() {
+        if (indexReader != null) {
+            try {
+                indexReader.close();
+            } catch (Exception e) {
+                logger.logError("Error closing IndexReader", e);
+            }
+        }
+        indexReader = null;
+    }
+
+    private void closeIndexSearcher() {
+        if (indexSearcher != null) {
+            try {
+                indexSearcher.close();
+            } catch (Exception e) {
+                logger.logError("Error closing IndexSearcher", e);
+            }
+        }
+        indexSearcher = null;
+    }
 
 	@Override
 	public IndexWriter getIndexWriter() throws CorruptIndexException,
@@ -176,6 +201,7 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 				if (indexWriterUsageCount <= 0) {
 
 					logger.logInfo("Shutting down index writer");
+                    indexWriter.commit();
 
 					try {
 						if (aOptimize) {
@@ -183,14 +209,10 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 							indexWriter.optimize();
 							logger.logInfo("Optimizing done");
 						}
+                        indexWriter.close();
+                        indexWriter = null;
 					} finally {
-                        indexWriter.commit();
-
-						indexWriter.close();
-						indexWriter = null;
-
-						indexReader = null;
-						indexSearcher = null;
+                        forceNewIndexReader();
 					}
 				} else {
 
@@ -238,8 +260,8 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 					logger.logError("Cannot commit IndexWriter", e);
 				}
 			}
-			indexReader = null;
-			indexSearcher = null;
+            closeIndexReader();
+            closeIndexSearcher();
 		}
 	}
 }

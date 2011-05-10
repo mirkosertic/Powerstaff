@@ -31,7 +31,7 @@
 		<property name="debitorNr"/>
 		<property name="kreditorNr"/>		
 		
-		<set name="positions" cascade="all-delete-orphan" inverse="true">
+		<set name="positions" cascade="all-delete-orphan" inverse="true" fetch="join">
 			<key column="project_id"/>
 			<one-to-many class="ProjectPosition"/>
 		</set>
@@ -44,13 +44,13 @@
 			<column name="partner_id" not-null="false"/>
 		</many-to-one>  
 
-		<list name="history" cascade="all-delete-orphan">
+		<list name="history" cascade="all-delete-orphan" fetch="join">
 			<key column="project_id"/>
 			<index column="position"/>
 			<one-to-many class="ProjectHistory"/>
 		</list>
 		
-		<map name="udf" table="project_udf" cascade="all-delete-orphan">
+		<map name="udf" table="project_udf" cascade="all-delete-orphan" fetch="join">
 			<key column="project_id" foreign-key="project_udf_fk1"/>
 			<map-key type="string" length="255" column="name"/>
 			<composite-element class="UserDefinedField">
