@@ -245,6 +245,28 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 		}
 	}
 
+    private void addField(Document aDocument, String aFieldname, Long aLongValue, Field.Store aStoreValue, Field.Index aIndexValue) {
+        if (aLongValue != null) {
+            addField(aDocument, aFieldname, toIndexFormat(aLongValue), aStoreValue, aIndexValue);
+        }
+    }
+
+    private void addField(Document aDocument, String aFieldname, Date aDateValue, Field.Store aStoreValue, Field.Index aIndexValue) {
+        if (aDateValue != null) {
+            addField(aDocument, aFieldname, toIndexFormat(aDateValue), aStoreValue, aIndexValue);
+        }
+    }
+
+    private void addField(Document aDocument, String aFieldname, boolean aBooleanValue, Field.Store aStoreValue, Field.Index aIndexValue) {
+        addField(aDocument, aFieldname, toIndexFormat(aBooleanValue), aStoreValue, aIndexValue);
+    }
+
+    private void addField(Document aDocument, String aFieldname, String aStringValue, Field.Store aStoreValue, Field.Index aIndexValue) {
+        if (!StringUtils.isEmpty(aStringValue)) {
+            aDocument.add(new Field(aFieldname, aStringValue, aStoreValue, aIndexValue));
+        }
+    }
+
 	private void processFile(IndexWriter aWriter, File aFile,
 			String aBaseFileName) {
 
@@ -282,31 +304,30 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 
 					try {
 
-						logger.logInfo("Adding file " + aFile + " to index");
+						logger.logDebug("Adding file " + aFile + " to index");
 
 						Document doc = new Document();
 						ReadResult theResult = theDocumentReader
 								.getContent(aFile);
 
-						doc.add(new Field(PATH, aFile.getPath(),
-								Field.Store.YES, Field.Index.NOT_ANALYZED));
-						doc.add(new Field(CODE, theCode, Field.Store.YES,
-								Field.Index.NOT_ANALYZED));
-						doc.add(new Field(UNIQUE_ID, UUID.randomUUID()
+						addField(doc, PATH, aFile.getPath(),
+								Field.Store.YES, Field.Index.NOT_ANALYZED);
+						addField(doc, CODE, theCode, Field.Store.YES,
+								Field.Index.NOT_ANALYZED);
+						addField(doc, UNIQUE_ID, UUID.randomUUID()
 								.toString(), Field.Store.YES,
-								Field.Index.NOT_ANALYZED));
-						doc.add(new Field(STRIPPEDPATH, theStrippedPath,
-								Field.Store.YES, Field.Index.NOT_ANALYZED));
-						doc.add(new Field(MODIFIED, "" + aFile.lastModified(),
-								Field.Store.YES, Field.Index.NO));
-						doc.add(new Field(INDEXINGTIME, ""
-								+ System.currentTimeMillis(), Field.Store.YES,
-								Field.Index.NO));
-						doc.add(new Field(ORIG_CONTENT, theResult.getContent(),
-								Field.Store.YES, Field.Index.NOT_ANALYZED));
-						doc.add(new Field(SHACHECKSUM, DigestUtils
+								Field.Index.NOT_ANALYZED);
+						addField(doc, STRIPPEDPATH, theStrippedPath,
+								Field.Store.YES, Field.Index.NOT_ANALYZED);
+						addField(doc, MODIFIED, "" + aFile.lastModified(),
+								Field.Store.YES, Field.Index.NO);
+						addField(doc, INDEXINGTIME, System.currentTimeMillis(), Field.Store.YES,
+								Field.Index.NO);
+						addField(doc, ORIG_CONTENT, theResult.getContent(),
+								Field.Store.YES, Field.Index.NOT_ANALYZED);
+						addField(doc, SHACHECKSUM, DigestUtils
 								.shaHex(theResult.getContent()),
-								Field.Store.YES, Field.Index.NOT_ANALYZED));
+								Field.Store.YES, Field.Index.NOT_ANALYZED);
 						doc.add(new Field(CONTENT, new StringReader(theResult
 								.getContent())));
 
@@ -314,33 +335,30 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 								.findByCodeReal(theCode);
 
 						if (theFreelancer != null) {
-							doc.add(new Field(NAME1, theFreelancer.getName1(),
-									Field.Store.YES, Field.Index.NOT_ANALYZED));
-							doc.add(new Field(NAME2, theFreelancer.getName2(),
-									Field.Store.YES, Field.Index.NOT_ANALYZED));
-							doc.add(new Field(FREELANCERID, ""
-									+ theFreelancer.getId(), Field.Store.YES,
-									Field.Index.NOT_ANALYZED));
-							doc.add(new Field(PLZ, theFreelancer.getPlz(),
-									Field.Store.YES, Field.Index.NOT_ANALYZED));
-							doc.add(new Field(VERFUEGBARKEIT,
-									toIndexFormat(theFreelancer
-											.getAvailabilityAsDate()),
-									Field.Store.YES, Field.Index.NOT_ANALYZED));
-							doc.add(new Field(STUNDENSATZ,
-									toIndexFormat(theFreelancer
-											.getSallaryLong()),
-									Field.Store.YES, Field.Index.NOT_ANALYZED));
+							addField(doc, NAME1, theFreelancer.getName1(),
+									Field.Store.YES, Field.Index.NOT_ANALYZED);
+							addField(doc, NAME2, theFreelancer.getName2(),
+									Field.Store.YES, Field.Index.NOT_ANALYZED);
+							addField(doc, FREELANCERID, "" + theFreelancer.getId(), Field.Store.YES,
+									Field.Index.NOT_ANALYZED);
+							addField(doc, PLZ, theFreelancer.getPlz(),
+									Field.Store.YES, Field.Index.NOT_ANALYZED);
+							addField(doc, VERFUEGBARKEIT, theFreelancer
+											.getAvailabilityAsDate(),
+									Field.Store.YES, Field.Index.NOT_ANALYZED);
+							addField(doc, STUNDENSATZ,theFreelancer
+											.getSallaryLong(),
+									Field.Store.YES, Field.Index.NOT_ANALYZED);
 
-							doc.add(new Field(HASMATCHINGRECORD,
-									toIndexFormat(true), Field.Store.YES,
-									Field.Index.NOT_ANALYZED));
+							addField(doc, HASMATCHINGRECORD,
+									true, Field.Store.YES,
+									Field.Index.NOT_ANALYZED);
 
 							freelancerDAO.detach(theFreelancer);
 						} else {
-							doc.add(new Field(HASMATCHINGRECORD,
-									toIndexFormat(false), Field.Store.YES,
-									Field.Index.NOT_ANALYZED));
+							addField(doc, HASMATCHINGRECORD,
+									false, Field.Store.YES,
+									Field.Index.NOT_ANALYZED);
 						}
 
 						aWriter.addDocument(doc);
@@ -461,8 +479,6 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 				theWriter
 						.deleteDocuments(createQueryForFreelancerId(aFreelancer
 								.getId()));
-
-				theWriter.commit();
 
 				String sourcePath = systemParameterService
 						.getIndexerSourcePath();
