@@ -12,7 +12,7 @@
 			<b:commandLink action="#{freelancerBackingBean.commandHistorie}" immediate="true" styleClass="menuitem">
 				<h:outputText value="Kontakthistorie" />
 				<a4j:support event="onclick"
-					onsubmit="if (!checkForChangedData()) {return;}"/>				
+					onsubmit="if (!checkForChangedData()) {return false;}"/>
 			</b:commandLink>		
 		</b:cell>
 		

@@ -39,7 +39,7 @@
 									<b:image source="/images/first.gif" />
 									<a4j:support event="onclick"
 										reRender="#{freelancerBackingBean.data.changedComponents}"
-										onsubmit="if (!checkForChangedData()) {return;}"
+										onsubmit="if (!checkForChangedData()) {return false;}"
 										oncomplete="clearChanged()"/>
 								</b:commandLink>
 							</b:cell>
@@ -48,7 +48,7 @@
 									<b:image source="/images/prior.gif" />
 									<a4j:support event="onclick"
 										reRender="#{freelancerBackingBean.data.changedComponents}" 
-										onsubmit="if (!checkForChangedData()) {return;}"
+										onsubmit="if (!checkForChangedData()) {return false;};"
 										oncomplete="clearChanged()"/>
 								</b:commandLink>
 							</b:cell>
@@ -57,7 +57,7 @@
 									<b:image source="/images/next.gif" />
 									<a4j:support event="onclick"
 										reRender="#{freelancerBackingBean.data.changedComponents}"
-										onsubmit="if (!checkForChangedData()) {return;}"
+										onsubmit="if (!checkForChangedData()) {return false;}"
 										oncomplete="clearChanged()"/>
 								</b:commandLink>
 							</b:cell>
@@ -66,7 +66,7 @@
 									<b:image source="/images/last.gif" />
 									<a4j:support event="onclick"
 										reRender="#{freelancerBackingBean.data.changedComponents}"
-										onsubmit="if (!checkForChangedData()) {return;}"
+										onsubmit="if (!checkForChangedData()) {return false;}"
 										oncomplete="clearChanged()"/>
 								</b:commandLink>
 							</b:cell>
@@ -75,7 +75,7 @@
 									<b:image source="/images/new.gif" />
 									<a4j:support event="onclick"
 										reRender="#{freelancerBackingBean.data.changedComponents}" 
-										onsubmit="if (!checkForChangedData()) {return;}"
+										onsubmit="if (!checkForChangedData()) {return false;}"
 										oncomplete="clearChanged()"/>
 								</b:commandLink>
 							</b:cell>
@@ -111,7 +111,7 @@
 									<b:image source="/images/search.gif" />
 									<a4j:support event="onclick"
 										reRender="#{freelancerBackingBean.data.changedComponents}" 
-										onsubmit="if (!checkForChangedData()) {return;}"
+										onsubmit="if (!checkForChangedData()) {return false;}"
 										oncomplete="clearChanged()"/>
 								</b:commandLink>
 							</b:cell>
