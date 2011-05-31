@@ -36,10 +36,11 @@ import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.web.backingbean.MessageConstants;
 import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 import de.powerstaff.web.utils.PagedListDataModel;
+import org.springframework.beans.factory.InitializingBean;
 
 public class ProfileBackingBean extends
 		WrappingBackingBean<ProfileBackingBeanDataModel> implements
-		MessageConstants, StateHolder {
+		MessageConstants, StateHolder, InitializingBean {
 
 	private static final long serialVersionUID = -5802587658636877536L;
 
@@ -256,4 +257,9 @@ public class ProfileBackingBean extends
 	public int getPageSize() {
 		return profileSearchService.getPageSize();
 	}
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        resetNavigation();
+    }
 }
