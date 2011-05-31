@@ -12,15 +12,55 @@ public class NavigationBackingBean extends BackingBean {
 
 	private static final long serialVersionUID = -2068461554004949119L;
 
-	public String commandFreelancer() {
+    private FreelancerBackingBean freelancerBackingBean;
+    private PartnerBackingBean partnerBackingBean;
+    private ProjectBackingBean projectBackingBean;
+    private CustomerBackingBean customerBackingBean;
+
+    public FreelancerBackingBean getFreelancerBackingBean() {
+        return freelancerBackingBean;
+    }
+
+    public void setFreelancerBackingBean(FreelancerBackingBean freelancerBackingBean) {
+        this.freelancerBackingBean = freelancerBackingBean;
+    }
+
+    public PartnerBackingBean getPartnerBackingBean() {
+        return partnerBackingBean;
+    }
+
+    public void setPartnerBackingBean(PartnerBackingBean partnerBackingBean) {
+        this.partnerBackingBean = partnerBackingBean;
+    }
+
+    public ProjectBackingBean getProjectBackingBean() {
+        return projectBackingBean;
+    }
+
+    public void setProjectBackingBean(ProjectBackingBean projectBackingBean) {
+        this.projectBackingBean = projectBackingBean;
+    }
+
+    public CustomerBackingBean getCustomerBackingBean() {
+        return customerBackingBean;
+    }
+
+    public void setCustomerBackingBean(CustomerBackingBean customerBackingBean) {
+        this.customerBackingBean = customerBackingBean;
+    }
+
+    public String commandFreelancer() {
+        freelancerBackingBean.reload();
         return "FREELANCER_STAMMDATEN";
     }
 
     public String commandPartner() {
+        partnerBackingBean.reload();
         return "PARTNER_STAMMDATEN";
     }
 
     public String commandCustomer() {
+        customerBackingBean.reload();
         return "CUSTOMER_STAMMDATEN";
     }
 
@@ -29,6 +69,7 @@ public class NavigationBackingBean extends BackingBean {
     }
 
     public String commandProfile() {
+        projectBackingBean.reload();
         return "PROFILE_STAMMDATEN";
     }
 
