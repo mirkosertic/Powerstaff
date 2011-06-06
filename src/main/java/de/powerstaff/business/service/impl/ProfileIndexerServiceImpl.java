@@ -393,7 +393,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 
 			if (aFile.isDirectory()) {
 
-				logger.logDebug("Scanning directory " + aFile);
+				logger.logInfo("Scanning directory " + aFile);
 
 				String[] files = aFile.list();
 				// an IO error could occur

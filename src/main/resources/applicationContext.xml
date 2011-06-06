@@ -372,6 +372,14 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         </property>
     </bean>
 
+    <bean id="rebuildIndexJobDetail"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="luceneService"/>
+        <property name="targetMethod">
+            <value>createNewIndex</value>
+        </property>
+    </bean>
+
     <bean id="wrongDataCronTrigger"
           class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="wrongDataJobDetail"/>
@@ -396,6 +404,14 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         </property>
     </bean>
 
+    <bean id="rebuildIndexCronTrigger"
+          class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="rebuildIndexJobDetail"/>
+        <property name="cronExpression">
+            <value>	0 20 0 1/1 * ? *</value>
+        </property>
+    </bean>
+
     <bean
             class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
@@ -404,6 +420,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
                 <ref bean="webSyncPerMinuteCronTrigger"/>
                 <ref bean="newsletterPerMinuteCronTrigger"/>
                 <ref bean="wrongDataCronTrigger"/>
+                <ref bean="rebuildIndexCronTrigger"/>
             </list>
         </property>
     </bean>
