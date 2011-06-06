@@ -162,8 +162,8 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
 			logger.logInfo("Search query is " + theRealQuery);
 
-			Searcher theSearcher = new IndexSearcher(FSDirectory.open(new File(
-					systemParameterService.getIndexerPath())));
+            IndexSearcher theSearcher = luceneService.getIndexSearcher();
+
 			Analyzer theAnalyzer = new KeywordAnalyzer();
 			QueryParser theParser = LuceneUtils.createQueryParser(
 					ProfileIndexerService.CODE, theAnalyzer);
@@ -212,7 +212,6 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
 				theResult.add(theSearchResult);
 			}
-
 		}
 
 		return theResult;

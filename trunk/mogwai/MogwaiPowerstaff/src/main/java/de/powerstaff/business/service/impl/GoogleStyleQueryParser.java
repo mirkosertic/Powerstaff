@@ -62,8 +62,15 @@ public class GoogleStyleQueryParser {
 		if ((aTerm.startsWith("*") || (aTerm.endsWith("*")))) {
 			return true;
 		}
+        if ((aTerm.startsWith("%") || (aTerm.endsWith("%")))) {
+            return true;
+        }
 		return false;
 	}
+
+    protected String getCorrectedWildcardTerm(String aTerm) {
+        return aTerm.replace("%","*");
+    }
 
 	protected void addWildcardOrTermQueries(String aTerm, BooleanQuery aQuery,
 			String aField, Analyzer aAnalyzer) throws IOException {
@@ -80,7 +87,7 @@ public class GoogleStyleQueryParser {
 			String theTokenText = theTermAttribute.term();
 
 			if (isWildcardTerm(aTerm)) {
-				theTempQuery = new WildcardQuery(new Term(aField, theTokenText));
+				theTempQuery = new WildcardQuery(new Term(aField, getCorrectedWildcardTerm(aTerm)));
 			} else {
 				theTempQuery = new TermQuery(new Term(aField, theTokenText));
 			}
@@ -107,7 +114,8 @@ public class GoogleStyleQueryParser {
 			if (!isWildcardTerm(theTokenText)) {
 				thePhraseQuery.add(theTerm);
 			} else {
-				WildcardTermEnum theEnum = new WildcardTermEnum(reader, theTerm);
+                Term theWildcardTerm = new Term(theTerm.field(), getCorrectedWildcardTerm(theTerm.text()));
+				WildcardTermEnum theEnum = new WildcardTermEnum(reader, theWildcardTerm);
 				try {
 					List<Term> theTerms = new ArrayList<Term>();
 					do {

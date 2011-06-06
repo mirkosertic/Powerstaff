@@ -20,6 +20,7 @@ package de.powerstaff.business.service.impl;
 import java.io.File;
 import java.io.IOException;
 
+import de.mogwai.common.logging.Logger;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
@@ -90,25 +91,29 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 	}
 
     private void closeIndexReader() {
-        if (indexReader != null) {
-            try {
-                indexReader.close();
-            } catch (Exception e) {
-                logger.logError("Error closing IndexReader", e);
+        synchronized(this) {
+            if (indexReader != null) {
+                try {
+                    indexReader.close();
+                } catch (Exception e) {
+                    logger.logError("Error closing IndexReader", e);
+                }
+                indexReader = null;
             }
         }
-        indexReader = null;
     }
 
     private void closeIndexSearcher() {
-        if (indexSearcher != null) {
-            try {
-                indexSearcher.close();
-            } catch (Exception e) {
-                logger.logError("Error closing IndexSearcher", e);
+        synchronized(this) {
+            if (indexSearcher != null) {
+                try {
+                    indexSearcher.close();
+                } catch (Exception e) {
+                    logger.logError("Error closing IndexSearcher", e);
+                }
+                indexSearcher = null;
             }
         }
-        indexSearcher = null;
     }
 
 	@Override
@@ -158,8 +163,8 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 								ProfileAnalyzerFactory.createAnalyzer(), true,
 								IndexWriter.MaxFieldLength.UNLIMITED);
 
-						indexReader = null;
-						indexSearcher = null;
+                        closeIndexReader();
+                        closeIndexSearcher();
 					}
 
 				} catch (Exception ex) {
@@ -172,8 +177,8 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 							ProfileAnalyzerFactory.createAnalyzer(), true,
 							IndexWriter.MaxFieldLength.UNLIMITED);
 
-					indexReader = null;
-					indexSearcher = null;
+                    closeIndexReader();
+                    closeIndexSearcher();
 				}
 			} else {
 
@@ -203,14 +208,20 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 					logger.logInfo("Shutting down index writer");
                     indexWriter.commit();
 
+                    forceNewIndexReader();
+
 					try {
 						if (aOptimize) {
+
 							logger.logInfo("Optimizing index");
 							indexWriter.optimize();
 							logger.logInfo("Optimizing done");
 						}
                         indexWriter.close();
                         indexWriter = null;
+
+                        indexWriterUsageCount = 0;
+
 					} finally {
                         forceNewIndexReader();
 					}
@@ -231,13 +242,21 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 		synchronized (this) {
 			logger.logInfo("Creating new index");
 
+            if (indexWriter != null) {
+                try {
+                    indexWriter.close();
+                } catch (Exception e) {
+                    logger.logError("Error closing old index writer", e);
+                }
+            }
+
 			// Create a new index
 			indexWriter = new IndexWriter(directory, ProfileAnalyzerFactory
 					.createAnalyzer(), true,
 					IndexWriter.MaxFieldLength.UNLIMITED);
 
-			indexReader = null;
-			indexSearcher = null;
+            closeIndexReader();
+            closeIndexSearcher();
 
 			indexWriterUsageCount = 1;
 
@@ -253,6 +272,7 @@ public class LuceneServiceImpl extends LogableService implements LuceneService,
 	@Override
 	public void forceNewIndexReader() {
 		synchronized (this) {
+            logger.logInfo("Forcing new index reader");
 			if (indexWriter != null) {
 				try {
 					indexWriter.commit();
