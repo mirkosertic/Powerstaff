@@ -156,6 +156,11 @@ public class ProfileSearchServiceImpl extends LogableService implements
 			throws Exception {
 
 		Vector<FreelancerProfile> theResult = new Vector<FreelancerProfile>();
+
+        if (aCode != null) {
+            aCode = aCode.trim();
+        }
+
 		if (!StringUtils.isEmpty(aCode)) {
 
 			String theRealQuery = "\"" + aCode + "\"";
