@@ -55,12 +55,16 @@ public class FreelancerProfile implements Serializable {
 	}
 
 	public boolean isWordProfile() {
-		return fileName.toLowerCase().endsWith(".doc");
+		return fileName.toLowerCase().endsWith(".doc") || fileName.toLowerCase().endsWith(".docx");
 	}
 
 	public boolean isTextProfile() {
 		return fileName.toLowerCase().endsWith(".txt");
 	}
+
+    public boolean isOtherFormat() {
+        return !isWordProfile() && !isTextProfile();
+    }
 
 	public String getInfotext() {
 		return infotext;

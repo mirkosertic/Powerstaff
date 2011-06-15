@@ -92,10 +92,16 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory>
 
 	@Column(length = 255)
 	public String getCode() {
+        if (code != null) {
+            code = code.trim();
+        }
 		return code;
 	}
 
 	public void setCode(String code) {
+        if (code != null) {
+            code = code.trim();
+        }
 		this.code = code;
 	}
 
