@@ -358,7 +358,7 @@
 		</f:subview>
 		
 		<a4j:outputPanel ajaxRendered="true">
-			<rich:jQuery selector=":input" query="change(function() {markChanged();})"/>
+			<rich:jQuery selector=":input:not(:hidden)" query="change(function() {markChanged();})"/>
 		</a4j:outputPanel>
 	</ui:define>
 </ui:composition>	
