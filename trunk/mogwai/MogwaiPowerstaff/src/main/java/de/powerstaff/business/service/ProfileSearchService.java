@@ -24,6 +24,7 @@ import de.powerstaff.business.dto.DataPage;
 import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.entity.FreelancerProfile;
+import de.powerstaff.business.entity.Project;
 
 public interface ProfileSearchService extends Service {
 
@@ -40,4 +41,6 @@ public interface ProfileSearchService extends Service {
 	void removeSavedSearchEntry(String aDocumentId);
 
 	int getPageSize();
+
+    void findMatchingFreelancer(Project aProject);
 }

@@ -14,7 +14,7 @@ import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.WordlistLoader;
 
-class ProfileAnalyzer extends Analyzer {
+public class ProfileAnalyzer extends Analyzer {
 
 	private static final int MIN_LENGTH = 2;
 
@@ -33,7 +33,11 @@ class ProfileAnalyzer extends Analyzer {
 		}
 	}
 
-	@Override
+    public Set<String> getStopSet() {
+        return stopSet;
+    }
+
+    @Override
 	public TokenStream tokenStream(String fieldName, Reader reader) {
 		ProfileCharTokenizer tokenStream = new ProfileCharTokenizer(reader);
 		TokenFilter theFilter = new LengthFilter(tokenStream, MIN_LENGTH,

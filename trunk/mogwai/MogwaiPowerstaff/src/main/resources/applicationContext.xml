@@ -68,7 +68,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.show_sql">
-                    ${kias.hibernate.showsql}
+                    false
                 </prop>
                 <prop key="hibernate.dialect">
                     ${kias.database.dialect}
