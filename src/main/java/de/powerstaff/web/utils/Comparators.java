@@ -19,7 +19,11 @@ public final class Comparators {
             AuditableEntity theE1 = (AuditableEntity) aObject1;
             AuditableEntity theE2 = (AuditableEntity) aObject2;
 
-            return theE1.getCreationDate().compareTo(theE2.getCreationDate());
+            if (theE1.getCreationDate() != null) {
+                return theE1.getCreationDate().compareTo(theE2.getCreationDate());
+            }
+
+            return 0;
         }
 
     };

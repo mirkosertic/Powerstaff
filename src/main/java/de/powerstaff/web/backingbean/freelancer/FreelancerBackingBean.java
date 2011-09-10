@@ -128,12 +128,18 @@ public class FreelancerBackingBean
 						.getValue();
 				Freelancer theFreelancer = (Freelancer) entityService
 						.findByPrimaryKey(theDetails.getId());
-				getData().setEntity(theFreelancer);
+                if (theFreelancer != null) {
+				    getData().setEntity(theFreelancer);
+                } else {
+                    // Freelancer wurde gelöscht, wir springen zu einem neuen Eintrag
+                    JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);
+                    commandNew();
+                }
 			}
 
 			if (theCommand.getValue() instanceof Freelancer) {
 				Freelancer theDetails = (Freelancer) theCommand.getValue();
-				Freelancer theFreelancer = (Freelancer) entityService
+				Freelancer theFreelancer = entityService
 						.findByPrimaryKey(theDetails.getId());
 				getData().setEntity(theFreelancer);
 			}

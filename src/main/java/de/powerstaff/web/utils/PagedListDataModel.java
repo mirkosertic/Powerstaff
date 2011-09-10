@@ -75,7 +75,11 @@ public abstract class PagedListDataModel<T> extends DataModel implements
 	 */
 	@Override
 	public int getRowCount() {
-		return getPage().getDatasetSize();
+        DataPage<T> thePage = getPage();
+        if (thePage != null) {
+            return thePage.getDatasetSize();
+        }
+        return 0;
 	}
 
 	/**

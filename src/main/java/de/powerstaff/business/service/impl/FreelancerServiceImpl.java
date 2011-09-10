@@ -27,6 +27,7 @@ import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Freelancer;
+import de.powerstaff.business.entity.Project;
 import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ProfileIndexerService;

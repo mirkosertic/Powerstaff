@@ -10,6 +10,8 @@ import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.Customer;
 import de.powerstaff.business.entity.Partner;
 import de.powerstaff.business.entity.Project;
+import de.powerstaff.business.service.FreelancerService;
+import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.business.service.ProjectService;
 import de.powerstaff.business.service.TooManySearchResults;
 import de.powerstaff.web.backingbean.NavigatingBackingBean;
@@ -22,6 +24,16 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
 
     private CustomerBackingBean customerBackingBean;
     private PartnerBackingBean partnerBackingBean;
+
+    private ProfileSearchService profileSearchService;
+
+    public ProfileSearchService getProfileSearchService() {
+        return profileSearchService;
+    }
+
+    public void setProfileSearchService(ProfileSearchService profileSearchService) {
+        this.profileSearchService = profileSearchService;
+    }
 
     public PartnerBackingBean getPartnerBackingBean() {
         return partnerBackingBean;
@@ -153,4 +165,11 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
     protected Project createNew() {
         return new Project();
     }
+
+    @Override
+    protected void afterNavigation() {
+        super.afterNavigation();
+
+        profileSearchService.findMatchingFreelancer(getData().getEntity());
+   }
 }
