@@ -30,15 +30,11 @@ import de.powerstaff.business.service.impl.reader.ReadResult;
 import java.io.*;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-import org.apache.commons.codec.digest.DigestUtils;
+import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CachingTokenFilter;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.search.BooleanClause.Occur;
@@ -53,7 +49,6 @@ import org.hibernate.*;
 import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
-import org.hibernate.search.query.dsl.QueryBuilder;
 
 /**
  * @author Mirko Sertic
@@ -261,7 +256,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
         int theStart = startRow;
         int theEnd = startRow + pageSize;
 
-        FullTextQuery theHibernateQuery = theSession.createFullTextQuery(theQuery, Freelancer.class);
+        FullTextQuery theHibernateQuery = theSession.createFullTextQuery(theRealQuery, Freelancer.class);
         if (theFilter != null) {
             theHibernateQuery.setFilter(theFilter);
         }
@@ -270,11 +265,14 @@ public class ProfileSearchServiceImpl extends LogableService implements
         }
         theHibernateQuery.setFirstResult(theStart);
         theHibernateQuery.setMaxResults(theEnd - theStart);
+        theHibernateQuery.setProjection(FullTextQuery.THIS, FullTextQuery.DOCUMENT);
 
         List<ProfileSearchEntry> theResult = new ArrayList<ProfileSearchEntry>();
 
         for (Object theSingleEntity : theHibernateQuery.list()) {
-            Freelancer theFreelancer = (Freelancer) theSingleEntity;
+            Object[] theRow = (Object[]) theSingleEntity;
+            Freelancer theFreelancer = (Freelancer) theRow[0];
+            Document theDocument = (Document) theRow[1];
             ProfileSearchEntry theEntry = new ProfileSearchEntry();
             theEntry.setCode(theFreelancer.getCode());
             theEntry.setDocumentId("" + theFreelancer.getId());
@@ -324,58 +322,100 @@ public class ProfileSearchServiceImpl extends LogableService implements
         return systemParameterService.getMaxSearchResult();
     }
 
-    @Override
-    public List<FreelancerProfile> loadProfilesFor(Freelancer aFreelancer) {
-        List<FreelancerProfile> theProfiles = new ArrayList<FreelancerProfile>();
-        if (aFreelancer != null && aFreelancer.getCode() != null) {
-            String theCode = aFreelancer.getCode().trim();
+    private class FSCache {
 
-            File theSourcepath = new File(systemParameterService.getIndexerSourcePath());
-            fillProfiles(theProfiles, theCode, theSourcepath);
+        static final int TTL_IN_SECONDS = 60;
+        static final String PROFIL_PREFIX = "profil ";
+
+        long lastupdate;
+        Map<String,Set<File>> fileCache = new HashMap<String,Set<File>>();
+
+        boolean needsRefresh() {
+            return lastupdate < System.currentTimeMillis() - (1000 * TTL_IN_SECONDS);
         }
-        return theProfiles;
+
+        void refresh() {
+            refresh(new File(systemParameterService.getIndexerSourcePath()));
+
+        }
+
+        void refresh(File aFile) {
+            for (File theFile : aFile.listFiles()) {
+                if (theFile.isDirectory()) {
+                    refresh(theFile);
+                } else {
+                    String theName = theFile.getName().toLowerCase();
+                    int p = theName.lastIndexOf(".");
+                    if (p>0) {
+                        theName = theName.substring(0, p);
+                    }
+                    if (theName.startsWith(PROFIL_PREFIX)) {
+                        String theCode = theName.substring(PROFIL_PREFIX.length());
+                        registerFileForCode(theFile, theCode);
+                    }
+                }
+            }
+            lastupdate = System.currentTimeMillis();
+        }
+
+        void registerFileForCode(File aFile, String aCode) {
+            Set<File> theFileSet = fileCache.get(aCode);
+            if (theFileSet == null) {
+                theFileSet = new HashSet<File>();
+                fileCache.put(aCode, theFileSet);
+            }
+            theFileSet.add(aFile);
+        }
+
+        Set<File> getFilesForCode(String aCode) {
+            return fileCache.get(aCode);
+        }
     }
 
-    private void fillProfiles(List<FreelancerProfile> aList, String aCode, File aFile) {
-
-        final String thePrefix = "profil " + aCode.toLowerCase()+".";
-        String theClientBaseDir = systemParameterService.getIndexerNetworkDir();
-        if (!theClientBaseDir.endsWith("\\")) {
-            theClientBaseDir += "\\";
-        }
-        String theServerBaseDir = systemParameterService.getIndexerSourcePath();
-        if (!theServerBaseDir.endsWith("\\")) {
-            theServerBaseDir += "\\";
-        }
+    private FSCache filesystemSearchCache = new FSCache();
 
 
-        FileFilter theFilter = new FileFilter() {
-            @Override
-            public boolean accept(File aFile) {
-                if (aFile.isDirectory()) {
-                    return true;
+    @Override
+    public synchronized List<FreelancerProfile> loadProfilesFor(Freelancer aFreelancer) {
+        List<FreelancerProfile> theProfiles = new ArrayList<FreelancerProfile>();
+
+        if (aFreelancer != null && aFreelancer.getCode() != null) {
+
+            if (filesystemSearchCache.needsRefresh()) {
+                filesystemSearchCache.refresh();
+            }
+
+            String theCode = aFreelancer.getCode().trim().toLowerCase();
+            Set<File> theFilesForCode = filesystemSearchCache.getFilesForCode(theCode);
+
+            if (theFilesForCode != null) {
+
+                String theClientBaseDir = systemParameterService.getIndexerNetworkDir();
+                if (!theClientBaseDir.endsWith("\\")) {
+                    theClientBaseDir += "\\";
                 }
-                return aFile.getName().toLowerCase().startsWith(thePrefix);
+                String theServerBaseDir = systemParameterService.getIndexerSourcePath();
+                if (!theServerBaseDir.endsWith("\\")) {
+                    theServerBaseDir += "\\";
+                }
+
+                SimpleDateFormat theFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+                for (File theFile : theFilesForCode) {
+                    FreelancerProfile theProfile = new FreelancerProfile();
+                    theProfile.setName(theFile.getName());
+                    theProfile.setInfotext("Aktualisiert : " + theFormat.format(new Date(theFile.lastModified())));
+                    theProfile.setFileOnserver(theFile);
+
+                    String theStrippedPath = theFile.toString().substring(
+                            theServerBaseDir.length());
+                    theProfile.setFileName(theClientBaseDir + theStrippedPath);
+
+                    theProfiles.add(theProfile);
+                }
             }
-        };
 
-        SimpleDateFormat theFormat = new SimpleDateFormat("dd.MM.yyyy");
-
-        for (File theFile : aFile.listFiles(theFilter)) {
-            if (theFile.isDirectory()) {
-                fillProfiles(aList, aCode, theFile);
-            } else {
-                FreelancerProfile theProfile = new FreelancerProfile();
-                theProfile.setName(theFile.getName());
-                theProfile.setInfotext("Aktualisiert : " + theFormat.format(new Date(theFile.lastModified())));
-                theProfile.setFileOnserver(theFile);
-
-                String theStrippedPath = theFile.toString().substring(
-                        theServerBaseDir.length());
-                theProfile.setFileName(theClientBaseDir + theStrippedPath);
-
-                aList.add(theProfile);
-            }
         }
+        return theProfiles;
     }
 }

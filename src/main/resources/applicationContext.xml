@@ -45,8 +45,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 
     <tx:advice id="txAdvice" transaction-manager="txManager">
         <tx:attributes>
-            <tx:method name="get*" propagation="REQUIRED"
-                       read-only="true"/>
             <tx:method name="*" propagation="REQUIRED"/>
         </tx:attributes>
     </tx:advice>

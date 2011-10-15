@@ -1,25 +1,27 @@
 /**
  * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 package de.powerstaff.business.service.impl;
 
+import de.powerstaff.business.dto.ProfileSearchEntry;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -34,16 +36,17 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.DateTools.Resolution;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.*;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.Searcher;
-import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.NumericUtils;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
+import org.hibernate.bytecode.buildtime.Logger;
+import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
+import org.hibernate.search.MassIndexer;
 import org.hibernate.search.Search;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,19 +68,19 @@ import de.powerstaff.business.service.impl.reader.ReadResult;
  */
 @Transactional
 public class ProfileIndexerServiceImpl extends LogableService implements
-		ProfileIndexerService {
+        ProfileIndexerService {
 
-	private static final String SERVICE_ID = "ProfileIndexer";
+    private static final String SERVICE_ID = "ProfileIndexer";
 
-	private DocumentReaderFactory readerFactory;
+    private DocumentReaderFactory readerFactory;
 
-	private ServiceLoggerService serviceLogger;
+    private ServiceLoggerService serviceLogger;
 
-	private PowerstaffSystemParameterService systemParameterService;
+    private PowerstaffSystemParameterService systemParameterService;
 
-	private FreelancerDAO freelancerDAO;
+    private FreelancerDAO freelancerDAO;
 
-	private ProfileSearchService profileSearchService;
+    private ProfileSearchService profileSearchService;
 
     private SessionFactory sessionFactory;
 
@@ -85,110 +88,119 @@ public class ProfileIndexerServiceImpl extends LogableService implements
         this.sessionFactory = sessionFactory;
     }
 
-    private static String toIndexFormat(Date aValue) {
-		if (aValue == null) {
-			return "";
-		}
-		return DateTools.dateToString(aValue, Resolution.DAY);
-	}
+    public void setFreelancerDAO(FreelancerDAO freelancerDAO) {
+        this.freelancerDAO = freelancerDAO;
+    }
 
-	private static String toIndexFormat(Long aNumber) {
-		if (aNumber == null) {
-			return "";
-		}
-		return NumericUtils.longToPrefixCoded(aNumber.longValue());
-	}
+    public void setReaderFactory(DocumentReaderFactory readerFactory) {
+        this.readerFactory = readerFactory;
+    }
 
-	private static String toIndexFormat(boolean aBoolean) {
-		return aBoolean ? "true" : "false";
-	}
+    public void setSystemParameterService(
+            PowerstaffSystemParameterService systemParameterService) {
+        this.systemParameterService = systemParameterService;
+    }
 
-	public void setFreelancerDAO(FreelancerDAO freelancerDAO) {
-		this.freelancerDAO = freelancerDAO;
-	}
+    public void setProfileSearchService(
+            ProfileSearchService profileSearchService) {
+        this.profileSearchService = profileSearchService;
+    }
 
-	public void setReaderFactory(DocumentReaderFactory readerFactory) {
-		this.readerFactory = readerFactory;
-	}
+    /**
+     * Run the indexer.
+     */
+    @Transactional
+    public void runIndexer() {
 
-	public void setSystemParameterService(
-			PowerstaffSystemParameterService systemParameterService) {
-		this.systemParameterService = systemParameterService;
-	}
+        if (!systemParameterService.isIndexingEnabled()) {
+            logger.logInfo("Indexing disabled");
+            return;
+        }
 
-	public void setProfileSearchService(
-			ProfileSearchService profileSearchService) {
-		this.profileSearchService = profileSearchService;
-	}
+        readerFactory.initialize();
 
-	private void processDeletedOrUpdatedFiles() {
+        serviceLogger.logStart(SERVICE_ID, "");
 
-		logger.logInfo("Processing deleted or updated files");
+        // Jetzt läuft er
 
-		logger.logInfo("Done with deleted or updated files");
-	}
+        long theStartTime = System.currentTimeMillis();
 
-	/**
-	 * Run the indexer.
-	 */
-	@Transactional(propagation = Propagation.NEVER)
-	public void runIndexer() {
+        logger.logInfo("Running indexing");
 
-		if (!systemParameterService.isIndexingEnabled()) {
-			logger.logInfo("Indexing disabled");
-			return;
-		}
+        try {
 
-		readerFactory.initialize();
+            int theBatchSize = 100;
 
-		serviceLogger.logStart(SERVICE_ID, "");
+            Session theHibernateSession = sessionFactory.getCurrentSession();
 
-		// Jetzt läuft er
+            Criteria theCriteria = theHibernateSession.createCriteria(Freelancer.class);
+            theCriteria.setFetchSize(theBatchSize);
+            ScrollableResults theResults = theCriteria.scroll(ScrollMode.FORWARD_ONLY);
+            int counter = 0;
+            while (theResults.next()) {
+                System.out.println("Processing "+counter);
+                Freelancer theFreelancer = (Freelancer) theResults.get(0);
 
-		long theStartTime = System.currentTimeMillis();
+                boolean needsToUpdate = true;
 
-		logger.logInfo("Running indexing");
+                /*TermQuery theQuery = new TermQuery(new Term("id", "" + theFreelancer.getId()));
+                FullTextQuery theHibernateQuery = theSession.createFullTextQuery(theQuery, Freelancer.class);
+                theHibernateQuery.setProjection(FullTextQuery.DOCUMENT);
 
-		try {
+                for (Object theSingleEntity : theHibernateQuery.list()) {
 
-			if (systemParameterService.isDeletedDocumentRemovalEnabled()) {
-				processDeletedOrUpdatedFiles();
-			} else {
-				logger.logInfo("Deleted document removal is disabled");
-			}
+                    needsToUpdate = false;
+                    Object[] theRow = (Object[]) theSingleEntity;
+                    Document theDocument = (Document) theRow[0];
 
-		} catch (Exception ex) {
+                }*/
 
-			logger.logError("Error on indexing", ex);
+                if (needsToUpdate) {
+                    logger.logInfo("Updating freelancer "+theFreelancer.getId()+" as it seems to be new or changed");
+                    //theSession.index(theFreelancer);
+                }
 
-		} finally {
+                if (counter % theBatchSize == 0) {
 
-			theStartTime = System.currentTimeMillis() - theStartTime;
+                    logger.logInfo("Processing record "+ counter);
 
-			logger.logInfo("Indexing finished");
+                    //theHibernateSession.flushToIndexes();
+                    theHibernateSession.clear();
+                }
+                counter++;
+            }
 
-			serviceLogger.logEnd(SERVICE_ID, "Dauer = " + theStartTime + "ms");
-		}
-	}
+        } catch (Exception ex) {
 
-	public void setServiceLogger(ServiceLoggerService serviceLogger) {
-		this.serviceLogger = serviceLogger;
-	}
+            logger.logError("Error on indexing", ex);
+
+        } finally {
+
+            theStartTime = System.currentTimeMillis() - theStartTime;
+
+            logger.logInfo("Indexing finished");
+
+            serviceLogger.logEnd(SERVICE_ID, "Dauer = " + theStartTime + "ms");
+        }
+    }
+
+    public void setServiceLogger(ServiceLoggerService serviceLogger) {
+        this.serviceLogger = serviceLogger;
+    }
 
     @Transactional
-	public void rebuildIndex() {
+    public void rebuildIndex() {
         Session theSession = sessionFactory.getCurrentSession();
         FullTextSession theFt = Search.getFullTextSession(theSession);
-        try {
-            theFt.purgeAll(Freelancer.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
+        MassIndexer theIndexer = theFt.createIndexer(Freelancer.class);
         try {
-            theFt.createIndexer(Freelancer.class).startAndWait();
+            theIndexer.purgeAllOnStart(true);
+            theIndexer.startAndWait();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.logError("Error creating index", e);
         }
-	}
+        theFt.flushToIndexes();
+        theFt.flush();
+    }
 }

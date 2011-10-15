@@ -17,6 +17,7 @@
  */
 package de.powerstaff.business.entity;
 
+import de.powerstaff.business.lucene.analysis.ProfileAnalyzer;
 import de.powerstaff.business.service.FreelancerFieldBridge;
 import java.util.*;
 import javax.persistence.Column;
@@ -24,6 +25,7 @@ import org.hibernate.search.annotations.*;
 
 @Indexed
 @ClassBridge(name="freelancer", impl = FreelancerFieldBridge.class)
+//@Analyzer(impl = ProfileAnalyzer.class)
 public class Freelancer extends Person<FreelancerContact, FreelancerHistory>
         implements UDFSupport {
 
@@ -39,6 +41,7 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory>
     private Date availabilityAsDate;
 
     @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    @NumericField
     private Long sallaryLong;
 
     @Field(index = Index.UN_TOKENIZED, store = Store.YES)
@@ -66,20 +69,24 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory>
     private boolean showAgain;
 
     @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    @NumericField
     private Long sallaryPerDayLong;
 
     @Field(index = Index.UN_TOKENIZED, store = Store.YES)
     private String sallaryComment;
 
     @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    @NumericField
     private Integer status;
 
     private Partner partner;
 
     @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    @NumericField
     private Long sallaryPartnerLong;
 
     @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    @NumericField
     private Long sallaryPartnerPerDayLong;
 
     private Set<ProjectPosition> projects = new HashSet<ProjectPosition>();

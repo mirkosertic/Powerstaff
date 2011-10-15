@@ -93,10 +93,6 @@ public interface PowerstaffSystemParameterService extends Service {
 
 	void setIndexingEnabled(boolean aValue);
 
-	boolean isDeletedDocumentRemovalEnabled();
-
-	void setDeletedDocumentRemovalEnabled(boolean aValue);
-
 	int getMaxSearchResult();
 
 	void setMaxSearchResult(int aValue);
