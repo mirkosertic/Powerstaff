@@ -17,6 +17,7 @@
  */
 package de.powerstaff.business.service;
 
+import de.powerstaff.business.entity.Freelancer;
 import java.util.List;
 
 import de.mogwai.common.business.service.Service;
@@ -27,8 +28,6 @@ import de.powerstaff.business.entity.FreelancerProfile;
 import de.powerstaff.business.entity.Project;
 
 public interface ProfileSearchService extends Service {
-
-	List<FreelancerProfile> findProfiles(String aCode) throws Exception;
 
 	ProfileSearchRequest getLastSearchRequest() throws Exception;
 
@@ -42,5 +41,5 @@ public interface ProfileSearchService extends Service {
 
 	int getPageSize();
 
-    void findMatchingFreelancer(Project aProject);
+    List<FreelancerProfile> loadProfilesFor(Freelancer aFreelancer);
 }

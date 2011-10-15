@@ -25,16 +25,6 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
     private CustomerBackingBean customerBackingBean;
     private PartnerBackingBean partnerBackingBean;
 
-    private ProfileSearchService profileSearchService;
-
-    public ProfileSearchService getProfileSearchService() {
-        return profileSearchService;
-    }
-
-    public void setProfileSearchService(ProfileSearchService profileSearchService) {
-        this.profileSearchService = profileSearchService;
-    }
-
     public PartnerBackingBean getPartnerBackingBean() {
         return partnerBackingBean;
     }
@@ -169,7 +159,5 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
     @Override
     protected void afterNavigation() {
         super.afterNavigation();
-
-        profileSearchService.findMatchingFreelancer(getData().getEntity());
    }
 }

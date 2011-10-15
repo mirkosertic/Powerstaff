@@ -16,6 +16,7 @@
  */
 package de.mogwai.common.dao.hibernate;
 
+import de.powerstaff.business.entity.Freelancer;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -60,9 +61,6 @@ import de.mogwai.common.usercontext.UserContextHolder;
  */
 public class AuditInterceptor extends EmptyInterceptor implements BeanFactoryAware {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 6801708632533685578L;
 
 	private static final Logger LOGGER = new Logger(AuditInterceptor.class);
@@ -230,5 +228,10 @@ public class AuditInterceptor extends EmptyInterceptor implements BeanFactoryAwa
 
     public void setBeanFactory(BeanFactory aFactory) {
         beanFactory = aFactory;
+    }
+
+    @Override
+    public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+        return super.onLoad(entity, id, state, propertyNames, types);
     }
 }

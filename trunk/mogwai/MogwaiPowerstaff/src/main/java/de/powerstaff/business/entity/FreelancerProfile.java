@@ -17,6 +17,7 @@
  */
 package de.powerstaff.business.entity;
 
+import java.io.File;
 import java.io.Serializable;
 
 public class FreelancerProfile implements Serializable {
@@ -29,7 +30,7 @@ public class FreelancerProfile implements Serializable {
 
 	private String infotext;
 
-	private String fileNameOnServer;
+	private File fileOnserver;
 
 	public String getFileName() {
 		return fileName;
@@ -74,11 +75,11 @@ public class FreelancerProfile implements Serializable {
 		this.infotext = infotext;
 	}
 
-	public String getFileNameOnServer() {
-		return fileNameOnServer;
-	}
+    public File getFileOnserver() {
+        return fileOnserver;
+    }
 
-	public void setFileNameOnServer(String fileNameOnServer) {
-		this.fileNameOnServer = fileNameOnServer;
-	}
+    public void setFileOnserver(File fileOnserver) {
+        this.fileOnserver = fileOnserver;
+    }
 }

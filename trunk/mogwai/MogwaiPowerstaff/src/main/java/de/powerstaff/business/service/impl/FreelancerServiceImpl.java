@@ -41,14 +41,7 @@ public class FreelancerServiceImpl extends LogableService implements
 
 	private PowerstaffSystemParameterService systemParameterService;
 
-	private ProfileIndexerService profileIndexerService;
-
-	public void setProfileIndexerService(
-			ProfileIndexerService profileIndexerService) {
-		this.profileIndexerService = profileIndexerService;
-	}
-
-	public void setFreelancerDAO(FreelancerDAO freelancerDAO) {
+    public void setFreelancerDAO(FreelancerDAO freelancerDAO) {
 		this.freelancerDAO = freelancerDAO;
 	}
 
@@ -63,7 +56,6 @@ public class FreelancerServiceImpl extends LogableService implements
 
 	public void delete(Freelancer aEntity) {
 		freelancerDAO.delete(aEntity);
-		profileIndexerService.refresh(aEntity);
 	}
 
 	public Freelancer findByPrimaryKey(Long aId) {
@@ -103,7 +95,6 @@ public class FreelancerServiceImpl extends LogableService implements
 
 	public void save(Freelancer aObject) {
 		freelancerDAO.save(aObject);
-		profileIndexerService.refresh(aObject);
 	}
 
 	public List<String> getCodeSuggestions(String aSuggest) {

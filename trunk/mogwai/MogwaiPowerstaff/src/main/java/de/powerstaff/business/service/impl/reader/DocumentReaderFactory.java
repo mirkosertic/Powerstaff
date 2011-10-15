@@ -62,7 +62,7 @@ public class DocumentReaderFactory extends LogableService {
 
 			for (Map.Entry<String, DocumentReader> theEntry : availableReaders
 					.entrySet()) {
-				logger.logInfo("Supporting file format " + theEntry.getKey());
+				logger.logDebug("Supporting file format " + theEntry.getKey());
 			}
 		}
 	}
