@@ -51,7 +51,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <property name="entityService" ref="projectService"/>
         <property name="customerBackingBean" ref="customerBackingBean"/>
         <property name="partnerBackingBean" ref="partnerBackingBean"/>
-        <property name="profileSearchService" ref="profileSearchService"/>
     </bean>
 
     <bean name="profileBackingBean" class="de.powerstaff.web.backingbean.profile.ProfileBackingBean" scope="conversation.access">

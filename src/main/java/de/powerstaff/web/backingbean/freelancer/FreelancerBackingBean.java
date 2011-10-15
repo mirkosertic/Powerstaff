@@ -85,20 +85,7 @@ public class FreelancerBackingBean
 	protected void afterNavigation() {
 		super.afterNavigation();
 
-		String theCode = getData().getEntity().getCode();
-		if ((theCode != null) && (theCode.length() > 0)) {
-			try {
-				getData().getProfiles().setWrappedData(
-						profileSearchService.findProfiles(theCode));
-			} catch (Exception e) {
-				JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN, e
-						.getMessage());
-				LOGGER.logError(
-						"Konnte Profilliste nicht laden für " + theCode, e);
-			}
-		} else {
-			getData().getProfiles().setWrappedData(new Vector());
-		}
+        getData().getProfiles().setWrappedData(profileSearchService.loadProfilesFor(getData().getEntity()));
 	}
 
 	@Override

@@ -17,6 +17,7 @@
 package de.mogwai.common.business.entity;
 
 import java.io.Serializable;
+import org.hibernate.search.annotations.DocumentId;
 
 /**
  * Basisklasse für Geschäftobjekte (Entities).
@@ -28,6 +29,7 @@ public abstract class Entity implements Serializable {
 
 	private static final long serialVersionUID = 3256446889040622647L;
 
+    @DocumentId
 	private Long id;
 
 	private Long version;

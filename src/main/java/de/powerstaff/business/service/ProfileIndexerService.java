@@ -23,37 +23,33 @@ import de.powerstaff.business.entity.Freelancer;
 public interface ProfileIndexerService extends Service,
 		ProfileIndexerServicePublicInterface {
 
-	String PATH = "PATH";
+    String NUM_PROFILES = "NUM_PROFILES";
+
+    String PROFILE_PATH_PREFIX = "PROFILE_PATH_";
+
+    String PROFILE_MODIFICATION_PREFIX = "PROFILE_MODIFICATION_";
+
+    String PROFILE_CHECKSUM_PREFIX = "PROFILE_CHECKSUM_";
 
 	String STRIPPEDPATH = "STRIPPEDPATH";
 
-	String MODIFIED = "MODIFIED";
+    String CONTENT = "CONTENT";
 
-	String CONTENT = "CONTENT";
+    String CODE = "code";
 
-	String ORIG_CONTENT = "ORIG_CONTENT";
+    String UNIQUE_ID = "UNIQUEID";
 
-	String CODE = "CODE";
+	String NAME1 = "name1";
 
-	String INDEXINGTIME = "INDEXINGTIME";
+	String NAME2 = "name2";
 
-	String UNIQUE_ID = "UNIQUEID";
+	String PLZ = "plz";
 
-	String NAME1 = "NAME1";
+	String VERFUEGBARKEIT = "verfuegbarkeit";
 
-	String NAME2 = "NAME2";
+	String STUNDENSATZ = "stundensatz";
 
-	String PLZ = "PLZ";
-
-	String VERFUEGBARKEIT = "VERFUEGBARKEIT";
-
-	String STUNDENSATZ = "STUNDENSATZ";
-
-	String FREELANCERID = "FREELANCERID";
-
-	String HASMATCHINGRECORD = "HASMATCHINGRECORD";
+    String HASMATCHINGRECORD = "HASMATCHINGRECORD";
 
 	String SHACHECKSUM = "SHACHECKSUM";
-
-	void refresh(Freelancer aFreelancer);
 }

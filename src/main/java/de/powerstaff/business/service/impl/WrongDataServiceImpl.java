@@ -24,7 +24,6 @@ import de.powerstaff.business.dao.WebsiteDAO;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerContact;
 import de.powerstaff.business.entity.NewsletterMail;
-import de.powerstaff.business.service.LuceneService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ProfileIndexerService;
 import de.powerstaff.business.service.WrongDataService;
@@ -34,8 +33,6 @@ public class WrongDataServiceImpl extends LogableService implements
 
     private PowerstaffSystemParameterService systemParameterService;
 
-    private LuceneService luceneService;
-
     private FreelancerDAO freelancerDao;
 
     private WebsiteDAO websiteDao;
@@ -43,10 +40,6 @@ public class WrongDataServiceImpl extends LogableService implements
     public void setSystemParameterService(
             PowerstaffSystemParameterService systemParameterService) {
         this.systemParameterService = systemParameterService;
-    }
-
-    public void setLuceneService(LuceneService luceneService) {
-        this.luceneService = luceneService;
     }
 
     public void setFreelancerDao(FreelancerDAO freelancerDao) {
@@ -142,8 +135,8 @@ public class WrongDataServiceImpl extends LogableService implements
 
             Set<String> theCodesFromDB = freelancerDao.getKnownCodesFromDB();
 
-            IndexReader theReader = luceneService.getIndexReader();
-            IndexSearcher theSearcher = luceneService.getIndexSearcher();
+            IndexReader theReader = null;
+            IndexSearcher theSearcher = null;
 
             for (int i = 0; i < theReader.numDocs(); i++) {
 

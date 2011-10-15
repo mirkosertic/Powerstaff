@@ -1,285 +1,285 @@
 /**
  * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 package de.powerstaff.business.entity;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
-
+import de.powerstaff.business.service.FreelancerFieldBridge;
+import java.util.*;
 import javax.persistence.Column;
+import org.hibernate.search.annotations.*;
 
+@Indexed
+@ClassBridge(name="freelancer", impl = FreelancerFieldBridge.class)
 public class Freelancer extends Person<FreelancerContact, FreelancerHistory>
-		implements UDFSupport {
+        implements UDFSupport {
 
-	private static final long serialVersionUID = 3142067482465272515L;
+    private static final long serialVersionUID = 3142067482465272515L;
 
-	private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
+    private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
 
-	private String workplace;
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    private String workplace;
 
-	private Date availabilityAsDate;
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    @DateBridge(resolution = Resolution.DAY)
+    private Date availabilityAsDate;
 
-	private Long sallaryLong;
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    private Long sallaryLong;
 
-	private String code;
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    private String code;
 
-	private String contactPerson;
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    private String contactPerson;
 
-	private String contactType;
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    private String contactType;
 
-	private String contactReason;
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    private String contactReason;
 
-	private String lastContact;
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    private String lastContact;
 
-	private String skills;
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    private String skills;
 
-	private String gulpID;
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    private String gulpID;
 
-	private boolean showAgain;
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    private boolean showAgain;
 
-	private Vector<FreelancerProfile> profile = new Vector<FreelancerProfile>();
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    private Long sallaryPerDayLong;
 
-	private Long sallaryPerDayLong;
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    private String sallaryComment;
 
-	private String sallaryComment;
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    private Integer status;
 
-	private Integer status;
+    private Partner partner;
 
-	private Partner partner;
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    private Long sallaryPartnerLong;
 
-	private Long sallaryPartnerLong;
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    private Long sallaryPartnerPerDayLong;
 
-	private Long sallaryPartnerPerDayLong;
+    private Set<ProjectPosition> projects = new HashSet<ProjectPosition>();
 
-	private Set<ProjectPosition> projects = new HashSet<ProjectPosition>();
+    public Set<ProjectPosition> getProjects() {
+        return projects;
+    }
 
-	public Set<ProjectPosition> getProjects() {
-		return projects;
-	}
+    public void setProjects(Set<ProjectPosition> orders) {
+        this.projects = orders;
+    }
 
-	public void setProjects(Set<ProjectPosition> orders) {
-		this.projects = orders;
-	}
+    public Freelancer() {
+    }
 
-	public Freelancer() {
-	}
-
-	public Vector<FreelancerProfile> getProfile() {
-		return profile;
-	}
-
-	public void setProfile(Vector<FreelancerProfile> profile) {
-		this.profile = profile;
-	}
-
-	@Column(length = 255)
-	public String getCode() {
+    @Column(length = 255)
+    public String getCode() {
         if (code != null) {
             code = code.trim();
         }
-		return code;
-	}
+        return code;
+    }
 
-	public void setCode(String code) {
+    public void setCode(String code) {
         if (code != null) {
             code = code.trim();
         }
-		this.code = code;
-	}
+        this.code = code;
+    }
 
-	@Column(length = 255)
-	public String getContactPerson() {
-		return contactPerson;
-	}
+    @Column(length = 255)
+    public String getContactPerson() {
+        return contactPerson;
+    }
 
-	public void setContactPerson(String contactPerson) {
-		this.contactPerson = contactPerson;
-	}
+    public void setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
+    }
 
-	@Column(length = 255)
-	public String getContactReason() {
-		return contactReason;
-	}
+    @Column(length = 255)
+    public String getContactReason() {
+        return contactReason;
+    }
 
-	public void setContactReason(String contactReason) {
-		this.contactReason = contactReason;
-	}
+    public void setContactReason(String contactReason) {
+        this.contactReason = contactReason;
+    }
 
-	@Column(length = 255)
-	public String getContactType() {
-		return contactType;
-	}
+    @Column(length = 255)
+    public String getContactType() {
+        return contactType;
+    }
 
-	public void setContactType(String contactType) {
-		this.contactType = contactType;
-	}
+    public void setContactType(String contactType) {
+        this.contactType = contactType;
+    }
 
-	@Column(length = 255)
-	public String getGulpID() {
-		return gulpID;
-	}
+    @Column(length = 255)
+    public String getGulpID() {
+        return gulpID;
+    }
 
-	public void setGulpID(String gulpID) {
-		this.gulpID = gulpID;
-	}
+    public void setGulpID(String gulpID) {
+        this.gulpID = gulpID;
+    }
 
-	@Column(length = 255)
-	public String getLastContact() {
-		return lastContact;
-	}
+    @Column(length = 255)
+    public String getLastContact() {
+        return lastContact;
+    }
 
-	public void setLastContact(String lastContact) {
-		this.lastContact = lastContact;
-	}
+    public void setLastContact(String lastContact) {
+        this.lastContact = lastContact;
+    }
 
-	public boolean isShowAgain() {
-		return showAgain;
-	}
+    public boolean isShowAgain() {
+        return showAgain;
+    }
 
-	public void setShowAgain(boolean showAgain) {
-		this.showAgain = showAgain;
-	}
+    public void setShowAgain(boolean showAgain) {
+        this.showAgain = showAgain;
+    }
 
-	public String getSkills() {
-		return skills;
-	}
+    public String getSkills() {
+        return skills;
+    }
 
-	public void setSkills(String skills) {
-		this.skills = skills;
-	}
+    public void setSkills(String skills) {
+        this.skills = skills;
+    }
 
-	@Column(length = 255)
-	public String getWorkplace() {
-		return workplace;
-	}
+    @Column(length = 255)
+    public String getWorkplace() {
+        return workplace;
+    }
 
-	public void setWorkplace(String workplace) {
-		this.workplace = workplace;
-	}
+    public void setWorkplace(String workplace) {
+        this.workplace = workplace;
+    }
 
-	public Partner getPartner() {
-		return partner;
-	}
+    public Partner getPartner() {
+        return partner;
+    }
 
-	public void setPartner(Partner partner) {
-		this.partner = partner;
-	}
+    public void setPartner(Partner partner) {
+        this.partner = partner;
+    }
 
-	@Column(length = 255)
-	public String getSallaryComment() {
-		return sallaryComment;
-	}
+    @Column(length = 255)
+    public String getSallaryComment() {
+        return sallaryComment;
+    }
 
-	public void setSallaryComment(String sallaryComment) {
-		this.sallaryComment = sallaryComment;
-	}
+    public void setSallaryComment(String sallaryComment) {
+        this.sallaryComment = sallaryComment;
+    }
 
-	public Integer getStatus() {
-		return status;
-	}
+    public Integer getStatus() {
+        return status;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
-	public Map<String, UserDefinedField> getUdf() {
-		return udf;
-	}
+    public Map<String, UserDefinedField> getUdf() {
+        return udf;
+    }
 
-	public void setUdf(Map<String, UserDefinedField> udf) {
-		this.udf = udf;
-	}
+    public void setUdf(Map<String, UserDefinedField> udf) {
+        this.udf = udf;
+    }
 
-	/**
-	 * @return the availabilityAsDate
-	 */
-	public Date getAvailabilityAsDate() {
-		return availabilityAsDate;
-	}
+    /**
+     * @return the availabilityAsDate
+     */
+    public Date getAvailabilityAsDate() {
+        return availabilityAsDate;
+    }
 
-	/**
-	 * @param availabilityAsDate
-	 *            the availabilityAsDate to set
-	 */
-	public void setAvailabilityAsDate(Date availabilityAsDate) {
-		this.availabilityAsDate = availabilityAsDate;
-	}
+    /**
+     * @param availabilityAsDate the availabilityAsDate to set
+     */
+    public void setAvailabilityAsDate(Date availabilityAsDate) {
+        this.availabilityAsDate = availabilityAsDate;
+    }
 
-	/**
-	 * @return the sallaryPerDayLong
-	 */
-	public Long getSallaryPerDayLong() {
-		return sallaryPerDayLong;
-	}
+    /**
+     * @return the sallaryPerDayLong
+     */
+    public Long getSallaryPerDayLong() {
+        return sallaryPerDayLong;
+    }
 
-	/**
-	 * @param sallaryPerDayLong
-	 *            the sallaryPerDayLong to set
-	 */
-	public void setSallaryPerDayLong(Long sallaryPerDayLong) {
-		this.sallaryPerDayLong = sallaryPerDayLong;
-	}
+    /**
+     * @param sallaryPerDayLong the sallaryPerDayLong to set
+     */
+    public void setSallaryPerDayLong(Long sallaryPerDayLong) {
+        this.sallaryPerDayLong = sallaryPerDayLong;
+    }
 
-	/**
-	 * @return the sallaryPartnerLong
-	 */
-	public Long getSallaryPartnerLong() {
-		return sallaryPartnerLong;
-	}
+    /**
+     * @return the sallaryPartnerLong
+     */
+    public Long getSallaryPartnerLong() {
+        return sallaryPartnerLong;
+    }
 
-	/**
-	 * @param sallaryPartnerLong
-	 *            the sallaryPartnerLong to set
-	 */
-	public void setSallaryPartnerLong(Long sallaryPartnerLong) {
-		this.sallaryPartnerLong = sallaryPartnerLong;
-	}
+    /**
+     * @param sallaryPartnerLong the sallaryPartnerLong to set
+     */
+    public void setSallaryPartnerLong(Long sallaryPartnerLong) {
+        this.sallaryPartnerLong = sallaryPartnerLong;
+    }
 
-	/**
-	 * @return the sallaryPartnerPerDayLong
-	 */
-	public Long getSallaryPartnerPerDayLong() {
-		return sallaryPartnerPerDayLong;
-	}
+    /**
+     * @return the sallaryPartnerPerDayLong
+     */
+    public Long getSallaryPartnerPerDayLong() {
+        return sallaryPartnerPerDayLong;
+    }
 
-	/**
-	 * @param sallaryPartnerPerDayLong
-	 *            the sallaryPartnerPerDayLong to set
-	 */
-	public void setSallaryPartnerPerDayLong(Long sallaryPartnerPerDayLong) {
-		this.sallaryPartnerPerDayLong = sallaryPartnerPerDayLong;
-	}
+    /**
+     * @param sallaryPartnerPerDayLong the sallaryPartnerPerDayLong to set
+     */
+    public void setSallaryPartnerPerDayLong(Long sallaryPartnerPerDayLong) {
+        this.sallaryPartnerPerDayLong = sallaryPartnerPerDayLong;
+    }
 
-	/**
-	 * @return the sallaryLong
-	 */
-	public Long getSallaryLong() {
-		return sallaryLong;
-	}
+    /**
+     * @return the sallaryLong
+     */
+    public Long getSallaryLong() {
+        return sallaryLong;
+    }
 
-	/**
-	 * @param sallaryLong
-	 *            the sallaryLong to set
-	 */
-	public void setSallaryLong(Long sallaryLong) {
-		this.sallaryLong = sallaryLong;
-	}
+    /**
+     * @param sallaryLong the sallaryLong to set
+     */
+    public void setSallaryLong(Long sallaryLong) {
+        this.sallaryLong = sallaryLong;
+    }
 }

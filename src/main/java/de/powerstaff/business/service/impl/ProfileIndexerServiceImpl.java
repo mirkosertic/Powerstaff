@@ -40,6 +40,11 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.util.NumericUtils;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.search.FullTextSession;
+import org.hibernate.search.Search;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,7 +52,6 @@ import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.FreelancerDAO;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerProfile;
-import de.powerstaff.business.service.LuceneService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ProfileIndexerService;
 import de.powerstaff.business.service.ProfileSearchService;
@@ -71,15 +75,17 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 
 	private PowerstaffSystemParameterService systemParameterService;
 
-	private LuceneService luceneService;
-
 	private FreelancerDAO freelancerDAO;
-
-	private boolean running;
 
 	private ProfileSearchService profileSearchService;
 
-	private static String toIndexFormat(Date aValue) {
+    private SessionFactory sessionFactory;
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
+    private static String toIndexFormat(Date aValue) {
 		if (aValue == null) {
 			return "";
 		}
@@ -110,10 +116,6 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 		this.systemParameterService = systemParameterService;
 	}
 
-	public void setLuceneService(LuceneService luceneService) {
-		this.luceneService = luceneService;
-	}
-
 	public void setProfileSearchService(
 			ProfileSearchService profileSearchService) {
 		this.profileSearchService = profileSearchService;
@@ -123,57 +125,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 
 		logger.logInfo("Processing deleted or updated files");
 
-		try {
-
-			IndexReader reader = luceneService.getIndexReader();
-			IndexWriter writer = luceneService.getIndexWriter();
-
-			for (int i = 0; i < reader.maxDoc(); i++) {
-
-				if (!reader.isDeleted(i)) {
-					Document document = reader.document(i);
-					File file = new File(document.get(PATH));
-					if (!file.exists()
-							|| !("" + file.lastModified()).equals(document
-									.get(MODIFIED))) {
-
-						logger.logInfo("Deleting file " + file.toString()
-								+ " from index as it was modified");
-
-						writer.deleteDocuments(createQueryForFile(file));
-					}
-				}
-			}
-
-			luceneService.shutdownIndexWriter(false);
-
-		} catch (Exception e) {
-
-			logger.logError("Error on execution", e);
-
-		}
-
 		logger.logInfo("Done with deleted or updated files");
-	}
-
-	private Query createQueryForFile(File file) throws ParseException {
-		Analyzer theAnalyzer = new KeywordAnalyzer();
-		QueryParser theParser = LuceneUtils
-				.createQueryParser(PATH, theAnalyzer);
-
-		Query theQuery = theParser.parse("\""
-				+ file.toString().replace("\\", "\\\\") + "\"");
-		return theQuery;
-	}
-
-	private Query createQueryForFreelancerId(long aFreelancerId)
-			throws ParseException {
-		Analyzer theAnalyzer = new KeywordAnalyzer();
-		QueryParser theParser = LuceneUtils.createQueryParser(FREELANCERID,
-				theAnalyzer);
-
-		Query theQuery = theParser.parse("\"" + aFreelancerId + "\"");
-		return theQuery;
 	}
 
 	/**
@@ -181,11 +133,6 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 	 */
 	@Transactional(propagation = Propagation.NEVER)
 	public void runIndexer() {
-
-		// Läuft der indexer bereits ?
-		if (this.running) {
-			return;
-		}
 
 		if (!systemParameterService.isIndexingEnabled()) {
 			logger.logInfo("Indexing disabled");
@@ -197,7 +144,6 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 		serviceLogger.logStart(SERVICE_ID, "");
 
 		// Jetzt läuft er
-		this.running = true;
 
 		long theStartTime = System.currentTimeMillis();
 
@@ -211,309 +157,38 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 				logger.logInfo("Deleted document removal is disabled");
 			}
 
-			File sourcePath = new File(systemParameterService
-					.getIndexerSourcePath());
-			if ((sourcePath.exists()) && (sourcePath.isDirectory())) {
-
-				IndexWriter writer = luceneService.getIndexWriter();
-
-				indexDocs(writer, sourcePath, sourcePath.toString(), 0);
-
-			} else {
-				logger.logDebug("Source path " + sourcePath
-						+ " does not exists");
-			}
 		} catch (Exception ex) {
 
 			logger.logError("Error on indexing", ex);
 
 		} finally {
 
-			try {
-				luceneService.shutdownIndexWriter(true);
-			} catch (Exception e) {
-				logger.logError("Error on shutdown of index writer", e);
-			}
-
 			theStartTime = System.currentTimeMillis() - theStartTime;
 
 			logger.logInfo("Indexing finished");
 
 			serviceLogger.logEnd(SERVICE_ID, "Dauer = " + theStartTime + "ms");
-
-			this.running = false;
 		}
-	}
-
-    private void addField(Document aDocument, String aFieldname, Long aLongValue, Field.Store aStoreValue, Field.Index aIndexValue) {
-        if (aLongValue != null) {
-            addField(aDocument, aFieldname, toIndexFormat(aLongValue), aStoreValue, aIndexValue);
-        }
-    }
-
-    private void addField(Document aDocument, String aFieldname, Date aDateValue, Field.Store aStoreValue, Field.Index aIndexValue) {
-        if (aDateValue != null) {
-            addField(aDocument, aFieldname, toIndexFormat(aDateValue), aStoreValue, aIndexValue);
-        }
-    }
-
-    private void addField(Document aDocument, String aFieldname, boolean aBooleanValue, Field.Store aStoreValue, Field.Index aIndexValue) {
-        addField(aDocument, aFieldname, toIndexFormat(aBooleanValue), aStoreValue, aIndexValue);
-    }
-
-    private void addField(Document aDocument, String aFieldname, String aStringValue, Field.Store aStoreValue, Field.Index aIndexValue) {
-        if (!StringUtils.isEmpty(aStringValue)) {
-            aDocument.add(new Field(aFieldname, aStringValue, aStoreValue, aIndexValue));
-        }
-    }
-
-	private void processFile(IndexWriter aWriter, File aFile,
-			String aBaseFileName) {
-
-		synchronized (this) {
-			try {
-
-				// First, try to detect if the file exists
-				Searcher theSearcher = luceneService.getIndexSearcher();
-				Query theQuery = createQueryForFile(aFile);
-				TopDocs theDocs = theSearcher.search(theQuery, 10);
-				if (theDocs.totalHits > 0) {
-
-					logger.logDebug("Ignoring file " + aFile
-							+ " as it seems to be duplicate");
-
-					return;
-				}
-
-				DocumentReader theDocumentReader = readerFactory
-						.getDocumentReaderForFile(aFile);
-				if (theDocumentReader != null) {
-
-					// Try to get the coding
-					String theCode = aFile.getName().substring(
-							"Profil ".length()).trim();
-					int p = theCode.lastIndexOf(".");
-					if (p > 0) {
-						theCode = theCode.substring(0, p);
-					}
-
-					String theStrippedPath = aFile.toString().substring(
-							aBaseFileName.length() + 1);
-
-					theCode = theCode.trim();
-
-					try {
-
-						logger.logDebug("Adding file " + aFile + " to index");
-
-						Document doc = new Document();
-						ReadResult theResult = theDocumentReader
-								.getContent(aFile);
-
-						addField(doc, PATH, aFile.getPath(),
-								Field.Store.YES, Field.Index.NOT_ANALYZED);
-						addField(doc, CODE, theCode, Field.Store.YES,
-								Field.Index.NOT_ANALYZED);
-						addField(doc, UNIQUE_ID, UUID.randomUUID()
-								.toString(), Field.Store.YES,
-								Field.Index.NOT_ANALYZED);
-						addField(doc, STRIPPEDPATH, theStrippedPath,
-								Field.Store.YES, Field.Index.NOT_ANALYZED);
-						addField(doc, MODIFIED, "" + aFile.lastModified(),
-								Field.Store.YES, Field.Index.NO);
-						addField(doc, INDEXINGTIME, System.currentTimeMillis(), Field.Store.YES,
-								Field.Index.NO);
-						addField(doc, ORIG_CONTENT, theResult.getContent(),
-								Field.Store.YES, Field.Index.NOT_ANALYZED);
-						addField(doc, SHACHECKSUM, DigestUtils
-								.shaHex(theResult.getContent()),
-								Field.Store.YES, Field.Index.NOT_ANALYZED);
-						doc.add(new Field(CONTENT, new StringReader(theResult
-								.getContent())));
-
-						Freelancer theFreelancer = freelancerDAO
-								.findByCodeReal(theCode);
-
-						if (theFreelancer != null) {
-							addField(doc, NAME1, theFreelancer.getName1(),
-									Field.Store.YES, Field.Index.NOT_ANALYZED);
-							addField(doc, NAME2, theFreelancer.getName2(),
-									Field.Store.YES, Field.Index.NOT_ANALYZED);
-							addField(doc, FREELANCERID, "" + theFreelancer.getId(), Field.Store.YES,
-									Field.Index.NOT_ANALYZED);
-							addField(doc, PLZ, theFreelancer.getPlz(),
-									Field.Store.YES, Field.Index.NOT_ANALYZED);
-							addField(doc, VERFUEGBARKEIT, theFreelancer
-											.getAvailabilityAsDate(),
-									Field.Store.YES, Field.Index.NOT_ANALYZED);
-							addField(doc, STUNDENSATZ,theFreelancer
-											.getSallaryLong(),
-									Field.Store.YES, Field.Index.NOT_ANALYZED);
-
-							addField(doc, HASMATCHINGRECORD,
-									true, Field.Store.YES,
-									Field.Index.NOT_ANALYZED);
-
-							freelancerDAO.detach(theFreelancer);
-						} else {
-							addField(doc, HASMATCHINGRECORD,
-									false, Field.Store.YES,
-									Field.Index.NOT_ANALYZED);
-						}
-
-						aWriter.addDocument(doc);
-
-					} catch (Exception ex) {
-
-						logger.logInfo("Error on indexing file " + aFile
-								+ " : " + ex.getMessage());
-						logger.logDebug("Error on indexing file " + aFile, ex);
-					}
-				} else {
-
-					logger.logDebug("Cannot index file " + aFile
-							+ " as there is no DocumentReader.");
-
-				}
-
-			} catch (Exception e) {
-				logger
-						.logError("General error on indexing on file " + aFile,
-								e);
-			}
-		}
-
-	}
-
-	private int indexDocs(IndexWriter aWriter, File aFile, String aBaseFile,
-			int aCounter) throws IOException {
-
-		// do not try to index files that cannot be read
-		if (aFile.canRead()) {
-
-			if (aFile.isDirectory()) {
-
-				logger.logInfo("Scanning directory " + aFile);
-
-				String[] files = aFile.list();
-				// an IO error could occur
-				if (files != null) {
-					for (int i = 0; i < files.length; i++) {
-						aCounter += indexDocs(aWriter,
-								new File(aFile, files[i]), aBaseFile, 0);
-					}
-				}
-			} else {
-
-				// Ok, here we go
-
-				// Only try to index filex with a given valid profile name !!
-				String fileName = aFile.toString();
-				logger.logDebug("Found file " + fileName);
-
-				int p = fileName.lastIndexOf(File.separator);
-				if (p >= 0) {
-					fileName = fileName.substring(p + 1);
-				}
-
-				// Is it valid ?
-				if (fileName.startsWith("Profil ")) {
-
-					aCounter = aCounter + 1;
-
-					// Ok, the profile is valid
-					// It can be indexed
-					processFile(aWriter, aFile, aBaseFile);
-
-				} else {
-
-					// it is not a valid file
-					// Log this information
-
-					logger.logDebug("File is not a valid profile");
-				}
-			}
-		}
-		return aCounter;
 	}
 
 	public void setServiceLogger(ServiceLoggerService serviceLogger) {
 		this.serviceLogger = serviceLogger;
 	}
 
+    @Transactional
 	public void rebuildIndex() {
-		File sourcePath = new File(systemParameterService
-				.getIndexerSourcePath());
-		if ((sourcePath.exists()) && (sourcePath.isDirectory())) {
+        Session theSession = sessionFactory.getCurrentSession();
+        FullTextSession theFt = Search.getFullTextSession(theSession);
+        try {
+            theFt.purgeAll(Freelancer.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-			try {
-				luceneService.createNewIndex();
-				luceneService.shutdownIndexWriter(false);
-
-			} catch (Exception e) {
-				logger.logError("Unable to rebuild index", e);
-			}
-		}
-	}
-
-	@Override
-	public synchronized void refresh(Freelancer aFreelancer) {
-		synchronized (this) {
-			try {
-
-				readerFactory.initialize();
-
-				logger.logInfo("Refreshing index for freelancer "
-						+ aFreelancer.getId());
-
-				List<FreelancerProfile> theProfiles = null;
-				if (!StringUtils.isEmpty(aFreelancer.getCode())) {
-					theProfiles = profileSearchService.findProfiles(aFreelancer
-							.getCode());
-				}
-
-				IndexWriter theWriter = luceneService.getIndexWriter();
-
-				logger.logInfo("Deleting documents for freelancer");
-
-				theWriter
-						.deleteDocuments(createQueryForFreelancerId(aFreelancer
-								.getId()));
-
-				String sourcePath = systemParameterService
-						.getIndexerSourcePath();
-
-				luceneService.forceNewIndexReader();
-
-				if (theProfiles != null) {
-					for (FreelancerProfile theProfile : theProfiles) {
-						File theFileOnServer = new File(theProfile
-								.getFileNameOnServer());
-						if (theFileOnServer.exists()) {
-
-							processFile(theWriter, theFileOnServer, sourcePath);
-
-						} else {
-							logger
-									.logInfo("Cannot add profile to index as it does not exist anymore "
-											+ theFileOnServer);
-						}
-					}
-				}
-
-				luceneService.forceNewIndexReader();
-
-			} catch (Exception e) {
-				logger
-						.logError("Error while refreshing index for freelancer code "
-								+ aFreelancer.getCode());
-			} finally {
-				try {
-					luceneService.shutdownIndexWriter(false);
-				} catch (Exception e) {
-					logger.logError("Error shutting down index writer");
-				}
-			}
-		}
+        try {
+            theFt.createIndexer(Freelancer.class).startAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 }

@@ -35,8 +35,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <property name="jndiName" value="java:comp/env/powerstaff/indexcronexpression"/>
     </bean>
 
-    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="datasource"/>
+    <bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory">
+            <ref local="sessionFactory"/>
+        </property>
     </bean>
 
     <tx:annotation-driven transaction-manager="txManager" order="200"/>
@@ -76,6 +78,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
                 <prop key="hibernate.jdbc.use_streams_for_binary">
                     true
                 </prop>
+                <prop key="hibernate.search.default.directory_provider">filesystem</prop>
+                <prop key="hibernate.search.default.indexBase">D:\Temp\hibernatesearch</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="javax.persistence.validation.mode">none</prop>
                 <prop key="hibernate.validator.apply_to_ddl">false</prop>
@@ -243,10 +247,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <!--
          Definition der Services
       -->
-    <bean id="luceneService" class="de.powerstaff.business.service.impl.LuceneServiceImpl">
-        <property name="systemParameterService" ref="systemParameterService"/>
-    </bean
-            >
     <bean id="additinalDataService" class="de.powerstaff.business.service.impl.AdditionalDataServiceImpl">
         <property name="additionalDataDAO" ref="additionalDataDAO"/>
     </bean>
@@ -269,7 +269,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <bean id="freelancerService" class="de.powerstaff.business.service.impl.FreelancerServiceImpl">
         <property name="freelancerDAO" ref="freelancerDAO"/>
         <property name="systemParameterService" ref="systemParameterService"/>
-        <property name="profileIndexerService" ref="profileIndexerService"/>
     </bean>
 
     <bean id="statistikService" class="de.powerstaff.business.service.impl.StatistikServiceImpl">
@@ -288,7 +287,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
                   ref="systemParameterService"/>
         <property name="profileSearchDAO"
                   ref="profileSearchDAO"/>
-        <property name="luceneService" ref="luceneService"/>
+        <property name="sessionFactory"
+                  ref="sessionFactory"/>
+        <property name="documentReaderFactory"
+                  ref="readerFactory"/>
     </bean>
 
     <bean id="serviceLoggerService"
@@ -296,18 +298,18 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <property name="serviceLoggerDAO" ref="serviceLoggerDAO"/>
     </bean>
 
+    <bean id="readerFactory" class="de.powerstaff.business.service.impl.reader.DocumentReaderFactory">
+        <property name="systemParameterService" ref="systemParameterService"/>
+    </bean>
+
     <bean id="profileIndexerService"
           class="de.powerstaff.business.service.impl.ProfileIndexerServiceImpl">
         <property name="serviceLogger" ref="serviceLoggerService"/>
+        <property name="sessionFactory" ref="sessionFactory"/>
         <property name="systemParameterService" ref="systemParameterService"/>
-        <property name="luceneService" ref="luceneService"/>
         <property name="freelancerDAO" ref="freelancerDAO"/>
         <property name="profileSearchService" ref="profileSearchService"/>
-        <property name="readerFactory">
-            <bean class="de.powerstaff.business.service.impl.reader.DocumentReaderFactory">
-                <property name="systemParameterService" ref="systemParameterService"/>
-            </bean>
-        </property>
+        <property name="readerFactory" ref="readerFactory"/>
     </bean>
 
     <bean id="webSyncService"
@@ -329,7 +331,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <bean id="wrongDataService"
           class="de.powerstaff.business.service.impl.WrongDataServiceImpl">
         <property name="systemParameterService" ref="systemParameterService"/>
-        <property name="luceneService" ref="luceneService"/>
         <property name="freelancerDao" ref="freelancerDAO"/>
         <property name="websiteDao" ref="websiteDAO"/>
     </bean>
@@ -372,14 +373,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         </property>
     </bean>
 
-    <bean id="rebuildIndexJobDetail"
-          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        <property name="targetObject" ref="luceneService"/>
-        <property name="targetMethod">
-            <value>createNewIndex</value>
-        </property>
-    </bean>
-
     <bean id="wrongDataCronTrigger"
           class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="wrongDataJobDetail"/>
@@ -404,14 +397,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         </property>
     </bean>
 
-    <bean id="rebuildIndexCronTrigger"
-          class="org.springframework.scheduling.quartz.CronTriggerBean">
-        <property name="jobDetail" ref="rebuildIndexJobDetail"/>
-        <property name="cronExpression">
-            <value>0 20 0 1/1 * ? *</value>
-        </property>
-    </bean>
-
     <bean
             class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
@@ -420,7 +405,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
                 <ref bean="webSyncPerMinuteCronTrigger"/>
                 <ref bean="newsletterPerMinuteCronTrigger"/>
                 <ref bean="wrongDataCronTrigger"/>
-                <ref bean="rebuildIndexCronTrigger"/>
             </list>
         </property>
     </bean>
@@ -428,15 +412,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <bean class="org.springframework.jmx.export.MBeanExporter">
         <property name="beans">
             <map>
-                <entry key="powerstaff:name=HibernateStatistics">
-                    <bean class="org.hibernate.jmx.StatisticsService">
-                        <property name="sessionFactory"
-                                  ref="sessionFactory"/>
-                        <property name="statisticsEnabled">
-                            <value>true</value>
-                        </property>
-                    </bean>
-                </entry>
                 <entry key="powerstaff:name=Log4JConfiguration">
                     <bean
                             class="org.apache.log4j.jmx.HierarchyDynamicMBean"/>
