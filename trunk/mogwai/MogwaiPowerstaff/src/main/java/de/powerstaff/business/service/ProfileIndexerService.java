@@ -37,7 +37,7 @@ public interface ProfileIndexerService extends Service,
 
     String CODE = "code";
 
-    String UNIQUE_ID = "UNIQUEID";
+    String UNIQUE_ID = "id";
 
 	String NAME1 = "name1";
 
@@ -45,9 +45,9 @@ public interface ProfileIndexerService extends Service,
 
 	String PLZ = "plz";
 
-	String VERFUEGBARKEIT = "verfuegbarkeit";
+	String VERFUEGBARKEIT = "availabilityAsDate";
 
-	String STUNDENSATZ = "stundensatz";
+	String STUNDENSATZ = "sallaryLong";
 
     String HASMATCHINGRECORD = "HASMATCHINGRECORD";
 

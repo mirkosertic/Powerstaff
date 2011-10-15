@@ -86,9 +86,6 @@ public class ProfileBackingBean extends
 		getData().setSearchResult(
 				new PagedListDataModel<ProfileSearchEntry>(getPageSize()) {
 
-					/**
-					 * 
-					 */
 					private static final long serialVersionUID = 1L;
 
 					@Override

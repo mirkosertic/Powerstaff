@@ -34,7 +34,6 @@ public class FreelancerFieldBridge implements FieldBridge {
 
         StringBuilder theContent = new StringBuilder();
         addField(aDocument, ProfileIndexerService.NUM_PROFILES, "" + theProfiles.size(), Field.Store.YES, Field.Index.NOT_ANALYZED);
-        addField(aDocument, ProfileIndexerService.UNIQUE_ID, "" + UUID.randomUUID().toString(), Field.Store.YES, Field.Index.NOT_ANALYZED);
 
         int count = 0;
         for (FreelancerProfile theProfile : theProfiles) {
