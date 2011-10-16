@@ -18,7 +18,7 @@ public class StartupServletContextListener implements ServletContextListener{
         DomainHelper.getInstance().registerApplicationContext(theContext);
 
         ProfileIndexerService theService = (ProfileIndexerService) theContext.getBean("profileIndexerService");
-        theService.rebuildIndex();
+        //theService.rebuildIndex();
     }
 
     @Override

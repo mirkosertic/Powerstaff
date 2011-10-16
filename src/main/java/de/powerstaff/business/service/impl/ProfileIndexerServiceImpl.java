@@ -129,22 +129,23 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 
         try {
 
-            int theBatchSize = 100;
+            int theFetchSize = 100;
+            int theLogCount = theFetchSize * 10;
 
             Session theHibernateSession = sessionFactory.getCurrentSession();
+            FullTextSession theFT = Search.getFullTextSession(theHibernateSession);
 
-            Criteria theCriteria = theHibernateSession.createCriteria(Freelancer.class);
-            theCriteria.setFetchSize(theBatchSize);
-            ScrollableResults theResults = theCriteria.scroll(ScrollMode.FORWARD_ONLY);
+            org.hibernate.Query theQuery = theHibernateSession.createQuery("from Freelancer");
+            theQuery.setFetchSize(theFetchSize);
+            ScrollableResults theResults = theQuery.scroll(ScrollMode.FORWARD_ONLY);
             int counter = 0;
             while (theResults.next()) {
-                System.out.println("Processing "+counter);
                 Freelancer theFreelancer = (Freelancer) theResults.get(0);
 
                 boolean needsToUpdate = true;
 
-                /*TermQuery theQuery = new TermQuery(new Term("id", "" + theFreelancer.getId()));
-                FullTextQuery theHibernateQuery = theSession.createFullTextQuery(theQuery, Freelancer.class);
+                TermQuery theTermQuery = new TermQuery(new Term("id", "" + theFreelancer.getId()));
+                FullTextQuery theHibernateQuery = theFT.createFullTextQuery(theTermQuery, Freelancer.class);
                 theHibernateQuery.setProjection(FullTextQuery.DOCUMENT);
 
                 for (Object theSingleEntity : theHibernateQuery.list()) {
@@ -153,19 +154,41 @@ public class ProfileIndexerServiceImpl extends LogableService implements
                     Object[] theRow = (Object[]) theSingleEntity;
                     Document theDocument = (Document) theRow[0];
 
-                }*/
+                    long theNumberOfProfiles = Integer.parseInt(theDocument.get(ProfileIndexerService.NUM_PROFILES));
+                    List<FreelancerProfile> theProfiles = profileSearchService.loadProfilesFor(theFreelancer);
+                    if (theNumberOfProfiles != theProfiles.size()) {
+                        needsToUpdate = true;
+                    } else {
+                        for (int i=1;i<=theNumberOfProfiles;i++) {
+                            String theFileName = theDocument.get(ProfileIndexerService.PROFILE_PATH_PREFIX+i);
+                            File theFileOnServer = new File(theFileName);
+                            if (theFileOnServer.exists()) {
+                                long theModification = Long.parseLong(theDocument.get(ProfileIndexerService.PROFILE_MODIFICATION_PREFIX+i));
+                                if (theModification != theFileOnServer.lastModified()) {
+                                    needsToUpdate = true;
+                                }
+                            } else {
+                                needsToUpdate = true;
+                            }
+                        }
+                    }
+
+                }
 
                 if (needsToUpdate) {
                     logger.logInfo("Updating freelancer "+theFreelancer.getId()+" as it seems to be new or changed");
-                    //theSession.index(theFreelancer);
+                    theFT.index(theFreelancer);
                 }
 
-                if (counter % theBatchSize == 0) {
-
+                if (counter % theLogCount == 0) {
                     logger.logInfo("Processing record "+ counter);
+                }
 
-                    //theHibernateSession.flushToIndexes();
-                    theHibernateSession.clear();
+                if (counter % theFetchSize == 0) {
+
+                    logger.logDebug("Flushing session and index");
+                    theFT.flushToIndexes();
+                    theFT.clear();
                 }
                 counter++;
             }
@@ -190,6 +213,9 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 
     @Transactional
     public void rebuildIndex() {
+
+        logger.logInfo("Rebuilding index");
+
         Session theSession = sessionFactory.getCurrentSession();
         FullTextSession theFt = Search.getFullTextSession(theSession);
 
@@ -202,5 +228,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements
         }
         theFt.flushToIndexes();
         theFt.flush();
+
+        logger.logInfo("Rebuilding index finished");
     }
 }
