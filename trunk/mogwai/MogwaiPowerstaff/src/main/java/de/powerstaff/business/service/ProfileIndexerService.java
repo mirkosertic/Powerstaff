@@ -31,8 +31,6 @@ public interface ProfileIndexerService extends Service,
 
     String PROFILE_CHECKSUM_PREFIX = "PROFILE_CHECKSUM_";
 
-	String STRIPPEDPATH = "STRIPPEDPATH";
-
     String CONTENT = "CONTENT";
 
     String CODE = "code";
@@ -48,8 +46,4 @@ public interface ProfileIndexerService extends Service,
 	String VERFUEGBARKEIT = "availabilityAsDate";
 
 	String STUNDENSATZ = "sallaryLong";
-
-    String HASMATCHINGRECORD = "HASMATCHINGRECORD";
-
-	String SHACHECKSUM = "SHACHECKSUM";
 }

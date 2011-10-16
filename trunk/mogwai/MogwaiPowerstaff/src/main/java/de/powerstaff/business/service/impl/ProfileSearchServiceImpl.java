@@ -59,8 +59,6 @@ public class ProfileSearchServiceImpl extends LogableService implements
         BooleanQuery.setMaxClauseCount(8192);
     }
 
-    private FreelancerService freelancerService;
-
     private PowerstaffSystemParameterService systemParameterService;
 
     private ProfileSearchDAO profileSearchDAO;
@@ -69,6 +67,12 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
     private DocumentReaderFactory documentReaderFactory;
 
+    private FSCache filesystemSearchCache;
+
+    public void setFilesystemSearchCache(FSCache filesystemSearchCache) {
+        this.filesystemSearchCache = filesystemSearchCache;
+    }
+
     public void setDocumentReaderFactory(DocumentReaderFactory documentReaderFactory) {
         this.documentReaderFactory = documentReaderFactory;
     }
@@ -76,10 +80,6 @@ public class ProfileSearchServiceImpl extends LogableService implements
     public void setSystemParameterService(
             PowerstaffSystemParameterService systemParameterService) {
         this.systemParameterService = systemParameterService;
-    }
-
-    public void setFreelancerService(FreelancerService freelancerService) {
-        this.freelancerService = freelancerService;
     }
 
     public void setProfileSearchDAO(ProfileSearchDAO profileSearchDAO) {
@@ -327,58 +327,6 @@ public class ProfileSearchServiceImpl extends LogableService implements
     public int getPageSize() {
         return systemParameterService.getMaxSearchResult();
     }
-
-    private class FSCache {
-
-        static final int TTL_IN_SECONDS = 60;
-        static final String PROFIL_PREFIX = "profil ";
-
-        long lastupdate;
-        Map<String,Set<File>> fileCache = new HashMap<String,Set<File>>();
-
-        boolean needsRefresh() {
-            return lastupdate < System.currentTimeMillis() - (1000 * TTL_IN_SECONDS);
-        }
-
-        void refresh() {
-            refresh(new File(systemParameterService.getIndexerSourcePath()));
-
-        }
-
-        void refresh(File aFile) {
-            for (File theFile : aFile.listFiles()) {
-                if (theFile.isDirectory()) {
-                    refresh(theFile);
-                } else {
-                    String theName = theFile.getName().toLowerCase();
-                    int p = theName.lastIndexOf(".");
-                    if (p>0) {
-                        theName = theName.substring(0, p);
-                    }
-                    if (theName.startsWith(PROFIL_PREFIX)) {
-                        String theCode = theName.substring(PROFIL_PREFIX.length());
-                        registerFileForCode(theFile, theCode);
-                    }
-                }
-            }
-            lastupdate = System.currentTimeMillis();
-        }
-
-        void registerFileForCode(File aFile, String aCode) {
-            Set<File> theFileSet = fileCache.get(aCode);
-            if (theFileSet == null) {
-                theFileSet = new HashSet<File>();
-                fileCache.put(aCode, theFileSet);
-            }
-            theFileSet.add(aFile);
-        }
-
-        Set<File> getFilesForCode(String aCode) {
-            return fileCache.get(aCode);
-        }
-    }
-
-    private FSCache filesystemSearchCache = new FSCache();
 
 
     @Override

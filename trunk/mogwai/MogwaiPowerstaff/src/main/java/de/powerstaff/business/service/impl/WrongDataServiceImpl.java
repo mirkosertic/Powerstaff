@@ -1,71 +1,66 @@
+/**
+ * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+ */
 package de.powerstaff.business.service.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.TopDocs;
-
 import de.mogwai.common.business.service.impl.LogableService;
-import de.powerstaff.business.dao.FreelancerDAO;
 import de.powerstaff.business.dao.WebsiteDAO;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerContact;
 import de.powerstaff.business.entity.NewsletterMail;
+import de.powerstaff.business.service.FSCache;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
-import de.powerstaff.business.service.ProfileIndexerService;
 import de.powerstaff.business.service.WrongDataService;
+import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.*;
 
 public class WrongDataServiceImpl extends LogableService implements
         WrongDataService {
 
     private PowerstaffSystemParameterService systemParameterService;
 
-    private FreelancerDAO freelancerDao;
+    private SessionFactory sessionFactory;
 
     private WebsiteDAO websiteDao;
+
+    private FSCache fsCache;
 
     public void setSystemParameterService(
             PowerstaffSystemParameterService systemParameterService) {
         this.systemParameterService = systemParameterService;
     }
 
-    public void setFreelancerDao(FreelancerDAO freelancerDao) {
-        this.freelancerDao = freelancerDao;
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
+    public void setFsCache(FSCache fsCache) {
+        this.fsCache = fsCache;
     }
 
     public void setWebsiteDao(WebsiteDAO websiteDao) {
         this.websiteDao = websiteDao;
-    }
-
-    private String listFilesFor(String aField, String aValue,
-                                IndexSearcher aSearcher) throws IOException {
-        StringBuilder theResult = new StringBuilder();
-        Query theQuery = new TermQuery(new Term(aField, aValue));
-        TopDocs theDocs = aSearcher.search(theQuery, 100);
-        for (ScoreDoc theDoc : theDocs.scoreDocs) {
-
-            Document theDocument = aSearcher.doc(theDoc.doc);
-            if (theResult.length() > 0) {
-                theResult = theResult.append(";");
-            }
-            theResult.append(theDocument
-                    .get(ProfileIndexerService.STRIPPEDPATH));
-        }
-
-        return theResult.toString();
     }
 
     private String saveString(String aValue) {
@@ -75,139 +70,50 @@ public class WrongDataServiceImpl extends LogableService implements
         return aValue;
     }
 
-    @Override
-    public void run() throws Exception {
+    private void processFreelancer(File aReportFile) throws FileNotFoundException, ParseException {
 
-        logger.logInfo("Starting reporting for wrong data");
-
-        File theReportFile = new File(systemParameterService
-                .getWrongDataReportDir());
-        File theDBOhneProfil = new File(theReportFile,
+        File theDBOhneProfil = new File(aReportFile,
                 "Freiberufler_mit_Code_ohne_Profil.csv");
-        File theProfileOhneDB = new File(theReportFile,
-                "Profile_ohne_Datenbankeintrag.csv");
-        File theProfileDoppelterCode = new File(theReportFile,
-                "Profile_Kodierung_doppelt.csv");
-        File theProfileDoppelterInhalt = new File(theReportFile,
-                "Profile_doppelter_Inhalt.csv");
-        File theFreelancerOhneNewsletter = new File(theReportFile,
+        File theFreelancerOhneNewsletter = new File(aReportFile,
                 "Freiberufler_ohne_Newsletter.csv");
-        File theFreelancerMitHomepageOhneKontakt = new File(theReportFile,
+        File theFreelancerMitHomepageOhneKontakt = new File(aReportFile,
                 "Freiberufler_mit_Homepage_ohne_Kontakt.csv");
-        File theFreelancerForNewsletter = new File(theReportFile,
+        File theFreelancerForNewsletter = new File(aReportFile,
                 "Freiberufler_für_Newsletter.csv");
-
-        Set<String> theKnownCodes = new HashSet<String>();
-        Set<String> theKnownContent = new HashSet<String>();
+        File theProfileOhneDB = new File(aReportFile,
+                "Profile_ohne_Datenbankeintrag.csv");
+        File theProfileDoppelterCode = new File(aReportFile,
+                "Profile_Kodierung_doppelt.csv");
 
         PrintWriter theDBOhneProfilWriter = null;
-        PrintWriter theProfileOhneDBWriter = null;
-        PrintWriter theProfileDoppelterCodeWriter = null;
-        PrintWriter theProfileDoppelterInhaltWriter = null;
         PrintWriter theFreelancerOhneNewsletterWriter = null;
         PrintWriter theFreelancerMitHomepageOhneKontaktWriter = null;
         PrintWriter theFreelancerForNewsletterWriter = null;
+        PrintWriter theProfileOhneDBWriter = null;
+        PrintWriter theProfileDoppelterCodeWriter = null;
 
         try {
 
-            theDBOhneProfilWriter = new PrintWriter(theDBOhneProfil);
-            theProfileOhneDBWriter = new PrintWriter(theProfileOhneDB);
             theProfileDoppelterCodeWriter = new PrintWriter(
                     theProfileDoppelterCode);
-            theProfileDoppelterInhaltWriter = new PrintWriter(
-                    theProfileDoppelterInhalt);
+
+            theDBOhneProfilWriter = new PrintWriter(theDBOhneProfil);
             theFreelancerOhneNewsletterWriter = new PrintWriter(
                     theFreelancerOhneNewsletter);
             theFreelancerMitHomepageOhneKontaktWriter = new PrintWriter(
                     theFreelancerMitHomepageOhneKontakt);
             theFreelancerForNewsletterWriter = new PrintWriter(
                     theFreelancerForNewsletter);
+            theProfileOhneDBWriter = new PrintWriter(theProfileOhneDB);
 
-            theProfileDoppelterCodeWriter.println("Kodierung;Dateinamen");
-            theProfileDoppelterInhaltWriter.println("Kodierung;Dateinamen");
-            theProfileOhneDBWriter.println("Kodierung;Dateinamen");
             theDBOhneProfilWriter.println("Kodierung;Name;Vorname");
             theFreelancerOhneNewsletterWriter
                     .println("Kodierung;Name;Vorname;Mail");
             theFreelancerMitHomepageOhneKontaktWriter
                     .println("Kodierung;Name;Vorname;Homepage");
             theFreelancerForNewsletterWriter.println("Kürzel;Name;Vorname;eMail;Eintrag in Kreditor;Verfügbarkeit;Homepage;letzter Kontakt");
-
-            Set<String> theCodesFromDB = freelancerDao.getKnownCodesFromDB();
-
-            IndexReader theReader = null;
-            IndexSearcher theSearcher = null;
-
-            for (int i = 0; i < theReader.numDocs(); i++) {
-
-                if (i % 100 == 0) {
-                    logger.logInfo("Done with " + i + " documents");
-                }
-
-                if (!theReader.isDeleted(i)) {
-                    Document theDocument = theReader.document(i);
-
-                    String theCode = theDocument
-                            .get(ProfileIndexerService.CODE);
-                    String theContent = theDocument
-                            .get(ProfileIndexerService.SHACHECKSUM);
-                    String theMarchingRecord = theDocument
-                            .get(ProfileIndexerService.HASMATCHINGRECORD);
-
-                    theCodesFromDB.remove(theCode);
-
-                    if (!theKnownCodes.contains(theCode)) {
-                        theKnownCodes.add(theCode);
-                    } else {
-                        // Doppelter Code
-                        theProfileDoppelterCodeWriter.println(theCode
-                                + ";"
-                                + listFilesFor(ProfileIndexerService.CODE,
-                                theCode, theSearcher));
-
-                    }
-
-                    if (!theKnownContent.contains(theContent)) {
-                        theKnownContent.add(theContent);
-                    } else {
-                        theProfileDoppelterInhaltWriter.println(theCode
-                                + ";"
-                                + listFilesFor(
-                                ProfileIndexerService.SHACHECKSUM,
-                                theContent, theSearcher));
-                    }
-
-                    if (!theMarchingRecord.equals("true")) {
-                        // Kein Datensatz
-                        theProfileOhneDBWriter
-                                .println(theCode
-                                        + ";"
-                                        + theDocument
-                                        .get(ProfileIndexerService.STRIPPEDPATH));
-                    }
-                }
-            }
-
-            int count = 0;
-            for (String theCode : theCodesFromDB) {
-
-                count++;
-                if (count % 100 == 0) {
-                    logger.logInfo("Done with " + count + " codes");
-                }
-
-                Freelancer theFreelancer = freelancerDao
-                        .findByCodeReal(theCode);
-                if (theFreelancer != null) {
-                    theDBOhneProfilWriter.println(theCode + ";"
-                            + theFreelancer.getName1() + ";"
-                            + theFreelancer.getName2());
-
-                    freelancerDao.detach(theFreelancer);
-                } else {
-                    theDBOhneProfilWriter.println(theCode);
-                }
-            }
+            theProfileOhneDBWriter.println("Kodierung;Dateinamen");
+            theProfileDoppelterCodeWriter.println("Kodierung;Dateinamen");
 
             boolean newsletterEnabled = systemParameterService
                     .isNewsletterEnabled();
@@ -226,10 +132,36 @@ public class WrongDataServiceImpl extends LogableService implements
 
             }
 
-            count = 0;
-            for (Iterator theIt = freelancerDao.getAllIterator(); theIt
-                    .hasNext();) {
-                Freelancer theFreelancer = (Freelancer) theIt.next();
+            Session theSession = sessionFactory.getCurrentSession();
+            int theFetchSize = 100;
+            int theLogCount = theFetchSize * 10;
+
+            Query theQuery = theSession.createQuery("from Freelancer");
+            theQuery.setFetchSize(theFetchSize);
+            ScrollableResults theResults = theQuery.scroll(ScrollMode.FORWARD_ONLY);
+            int counter = 0;
+
+            Set<String> theKnownCodes = new HashSet<String>();
+
+            while (theResults.next()) {
+                Freelancer theFreelancer = (Freelancer) theResults.get(0);
+
+                if (fsCache.needsRefresh()) {
+                    fsCache.refresh();
+                }
+
+                String theCode = theFreelancer.getCode();
+                if (!StringUtils.isEmpty(theCode)) {
+                    theCode = theCode.toLowerCase();
+                    theKnownCodes.add(theCode);
+
+                    Set<File> theFiles = fsCache.getFilesForCode(theCode);
+                    if ((theFiles == null || theFiles.size() == 0)) {
+                        theDBOhneProfilWriter.println(theCode + ";"
+                                + theFreelancer.getName1() + ";"
+                                + theFreelancer.getName2());
+                    }
+                }
 
                 String theLastContact = theFreelancer.getLastContact();
 
@@ -334,24 +266,134 @@ public class WrongDataServiceImpl extends LogableService implements
 
                 }
 
-                freelancerDao.detach(theFreelancer);
+                if (counter % theLogCount == 0) {
+                    logger.logInfo("Processing record " + counter);
+                }
 
-                count++;
-                if (count % 100 == 0) {
-                    logger.logInfo("Done with " + count + " freelancer");
+                if (counter % theFetchSize == 0) {
+
+                    logger.logDebug("Flushing session");
+                    theSession.clear();
+                }
+                counter++;
+            }
+
+            Set<String> theCodesFromFiles = new HashSet<String>();
+            theCodesFromFiles.addAll(fsCache.getKnownCodes());
+            for (String theCode : theCodesFromFiles) {
+                Set<File> theFiles = fsCache.getFilesForCode(theCode);
+                if (theFiles != null && theFiles.size() > 1) {
+                    // Doppelter Code
+                    StringBuilder theBuilder = new StringBuilder();
+                    for (File theFile : theFiles) {
+                        if (theBuilder.length() > 0) {
+                            theBuilder.append(";");
+                        }
+                        theBuilder.append(theFile.toString());
+                    }
+                    theProfileDoppelterCodeWriter.println(theCode
+                            + ";"
+                            + theBuilder);
                 }
             }
+
+            theCodesFromFiles.removeAll(theKnownCodes);
+
+            for (String theCode : theCodesFromFiles) {
+                Set<File> theFiles = fsCache.getFilesForCode(theCode);
+                if (theFiles != null) {
+                    for (File theFile : theFiles) {
+                        theProfileOhneDBWriter
+                                .println(theCode
+                                        + ";"
+                                        + theFile);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logger.logError("Error processing freelancer", e);
         } finally {
-
-            logger.logInfo("Finished");
-
             IOUtils.closeQuietly(theDBOhneProfilWriter);
-            IOUtils.closeQuietly(theProfileDoppelterCodeWriter);
-            IOUtils.closeQuietly(theProfileDoppelterInhaltWriter);
-            IOUtils.closeQuietly(theProfileOhneDBWriter);
             IOUtils.closeQuietly(theFreelancerOhneNewsletterWriter);
             IOUtils.closeQuietly(theFreelancerMitHomepageOhneKontaktWriter);
             IOUtils.closeQuietly(theFreelancerForNewsletterWriter);
+            IOUtils.closeQuietly(theProfileOhneDBWriter);
+            IOUtils.closeQuietly(theProfileDoppelterCodeWriter);
         }
+    }
+
+    private void processFiles(File aReportFile) {
+        File theProfileDoppelterInhalt = new File(aReportFile,
+                "Profile_doppelter_Inhalt.csv");
+
+        PrintWriter theProfileDoppelterInhaltWriter = null;
+
+        try {
+            theProfileDoppelterInhaltWriter = new PrintWriter(
+                    theProfileDoppelterInhalt);
+
+            theProfileDoppelterInhaltWriter.println("Dateinamen");
+
+            Map<String, Set<File>> theHashes = new HashMap<String, Set<File>>();
+
+            Set<String> theCodesFromFiles = new HashSet<String>();
+            theCodesFromFiles.addAll(fsCache.getKnownCodes());
+
+            for (String theCode : theCodesFromFiles) {
+                Set<File> theFiles = fsCache.getFilesForCode(theCode);
+                if (theFiles != null) {
+                    for (File theFile : theFiles) {
+                        InputStream theStream = null;
+                        try {
+                            theStream = new FileInputStream(theFile);
+                            String theHash = DigestUtils.sha256Hex(theStream);
+
+                            Set<File> theFilesForHash = theHashes.get(theHash);
+                            if (theFilesForHash == null) {
+                                theFilesForHash = new HashSet<File>();
+                                theHashes.put(theHash, theFilesForHash);
+                            }
+                            theFilesForHash.add(theFile);
+                        } catch (Exception e) {
+                            logger.logError("Error scanning file "+theFile, e);
+                        } finally {
+                            IOUtils.closeQuietly(theStream);
+                        }
+                    }
+                }
+            }
+
+            for (Map.Entry<String, Set<File>> theEntry : theHashes.entrySet()) {
+                if (theEntry.getValue().size() > 1) {
+                    StringBuilder theBuilder = new StringBuilder();
+                    for (File theFile : theEntry.getValue()) {
+                        if (theBuilder.length() > 0) {
+                            theBuilder.append(";");
+                        }
+                        theBuilder.append(theFile.toString());
+                    }
+                    theProfileDoppelterInhaltWriter.println(theBuilder);
+                }
+            }
+
+        } catch (Exception e) {
+            logger.logError("Error processing files", e);
+        } finally {
+            IOUtils.closeQuietly(theProfileDoppelterInhaltWriter);
+        }
+    }
+
+    @Override
+    public void run() throws Exception {
+
+        logger.logInfo("Starting reporting for wrong data");
+
+        File theReportFile = new File(systemParameterService
+                .getWrongDataReportDir());
+
+        processFreelancer(theReportFile);
+        processFiles(theReportFile);
+
+        logger.logInfo("Finished");
     }
 }
