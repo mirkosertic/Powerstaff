@@ -29,10 +29,6 @@ public interface PowerstaffSystemParameterService extends Service {
 
 	void setIndexerNetworkDir(String aValue);
 
-	String getIndexerPath();
-
-	void setIndexerPath(String aValue);
-
 	String getIndexerSourcePath();
 
 	void setIndexerSourcePath(String aValue);

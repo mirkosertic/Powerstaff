@@ -82,7 +82,7 @@ public class ProfileBackingBean extends
 		this.profileSearchService = profileSearchService;
 	}
 
-	private void initializeDataModel() {
+	public void initializeDataModel() {
 		getData().setSearchResult(
 				new PagedListDataModel<ProfileSearchEntry>(getPageSize()) {
 
@@ -148,7 +148,7 @@ public class ProfileBackingBean extends
 	public void commandSearch() {
 		try {
 			profileSearchService
-					.saveSearchRequest(getData().getSearchRequest());
+					.saveSearchRequest(getData().getSearchRequest(), true);
 
 			initializeDataModel();
 
@@ -210,21 +210,21 @@ public class ProfileBackingBean extends
 	public void commandSortByName1() {
 		getData().getSearchRequest().setSortierung(ProfileIndexerService.NAME1);
 
-		profileSearchService.saveSearchRequest(getData().getSearchRequest());
+		profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
 		initializeDataModel();
 	}
 
 	public void commandSortByName2() {
 		getData().getSearchRequest().setSortierung(ProfileIndexerService.NAME2);
 
-		profileSearchService.saveSearchRequest(getData().getSearchRequest());
+		profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
 		initializeDataModel();
 	}
 
 	public void commandSortByPLZ() {
 		getData().getSearchRequest().setSortierung(ProfileIndexerService.PLZ);
 
-		profileSearchService.saveSearchRequest(getData().getSearchRequest());
+		profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
 		initializeDataModel();
 	}
 
@@ -232,7 +232,7 @@ public class ProfileBackingBean extends
 		getData().getSearchRequest().setSortierung(
 				ProfileIndexerService.STUNDENSATZ);
 
-		profileSearchService.saveSearchRequest(getData().getSearchRequest());
+		profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
 		initializeDataModel();
 	}
 
@@ -240,14 +240,14 @@ public class ProfileBackingBean extends
 		getData().getSearchRequest().setSortierung(
 				ProfileIndexerService.VERFUEGBARKEIT);
 
-		profileSearchService.saveSearchRequest(getData().getSearchRequest());
+		profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
 		initializeDataModel();
 	}
 
 	public void commandSortByCode() {
 		getData().getSearchRequest().setSortierung(ProfileIndexerService.CODE);
 
-		profileSearchService.saveSearchRequest(getData().getSearchRequest());
+		profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
 		initializeDataModel();
 	}
 

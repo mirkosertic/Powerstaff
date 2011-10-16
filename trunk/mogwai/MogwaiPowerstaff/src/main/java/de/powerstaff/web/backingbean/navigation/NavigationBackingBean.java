@@ -16,37 +16,26 @@ public class NavigationBackingBean extends BackingBean {
     private PartnerBackingBean partnerBackingBean;
     private ProjectBackingBean projectBackingBean;
     private CustomerBackingBean customerBackingBean;
-
-    public FreelancerBackingBean getFreelancerBackingBean() {
-        return freelancerBackingBean;
-    }
+    private ProfileBackingBean profileBackingBean;
 
     public void setFreelancerBackingBean(FreelancerBackingBean freelancerBackingBean) {
         this.freelancerBackingBean = freelancerBackingBean;
-    }
-
-    public PartnerBackingBean getPartnerBackingBean() {
-        return partnerBackingBean;
     }
 
     public void setPartnerBackingBean(PartnerBackingBean partnerBackingBean) {
         this.partnerBackingBean = partnerBackingBean;
     }
 
-    public ProjectBackingBean getProjectBackingBean() {
-        return projectBackingBean;
-    }
-
     public void setProjectBackingBean(ProjectBackingBean projectBackingBean) {
         this.projectBackingBean = projectBackingBean;
     }
 
-    public CustomerBackingBean getCustomerBackingBean() {
-        return customerBackingBean;
-    }
-
     public void setCustomerBackingBean(CustomerBackingBean customerBackingBean) {
         this.customerBackingBean = customerBackingBean;
+    }
+
+    public void setProfileBackingBean(ProfileBackingBean profileBackingBean) {
+        this.profileBackingBean = profileBackingBean;
     }
 
     public String commandFreelancer() {
@@ -65,11 +54,12 @@ public class NavigationBackingBean extends BackingBean {
     }
 
     public String commandProjekte() {
+        projectBackingBean.reload();
         return "PROJEKT_STAMMDATEN";
     }
 
     public String commandProfile() {
-        projectBackingBean.reload();
+        profileBackingBean.initializeDataModel();
         return "PROFILE_STAMMDATEN";
     }
 

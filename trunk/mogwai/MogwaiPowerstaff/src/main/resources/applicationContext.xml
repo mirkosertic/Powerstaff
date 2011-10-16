@@ -67,17 +67,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <property name="entityInterceptor" ref="auditInterceptor"/>
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.show_sql">
-                    false
-                </prop>
-                <prop key="hibernate.dialect">
-                    ${kias.database.dialect}
-                </prop>
-                <prop key="hibernate.jdbc.use_streams_for_binary">
-                    true
-                </prop>
+                <prop key="hibernate.show_sql">${kias.hibernate.showsql}</prop>
+                <prop key="hibernate.dialect">${kias.database.dialect}</prop>
+                <prop key="hibernate.jdbc.use_streams_for_binary">true</prop>
                 <prop key="hibernate.search.default.directory_provider">filesystem</prop>
-                <prop key="hibernate.search.default.indexBase">D:\Temp\hibernatesearch</prop>
+                <prop key="hibernate.search.default.indexBase">${kias.index.dir}</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <prop key="javax.persistence.validation.mode">none</prop>
                 <prop key="hibernate.validator.apply_to_ddl">false</prop>

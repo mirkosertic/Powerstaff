@@ -91,10 +91,7 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">
-								<h:commandLink action="#{profileBackingBean.commandSortByName1}">
-									<h:outputText value="Name1"/>
-									<a4j:support event="onclick"/>
-								</h:commandLink>
+								<a4j:commandLink value="Name1" action="#{profileBackingBean.commandSortByName1}"/>
 							</f:facet>
 							<h:outputText value="#{row.freelancer.name1}" styleClass="#{row.freelancer.contactforbidden?'kontaktsperre':''}"/>
 							<h:panelGroup rendered="#{!empty row.freelancer.gulpNameContact}">
@@ -107,37 +104,25 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">
-								<h:commandLink action="#{profileBackingBean.commandSortByName2}">
-									<h:outputText value="Name2"/>
-									<a4j:support event="onclick"/>
-								</h:commandLink>
+                                <a4j:commandLink value="Name2" action="#{profileBackingBean.commandSortByName2}"/>
 							</f:facet>
 							<h:outputText value="#{row.freelancer.name2}" styleClass="#{row.freelancer.contactforbidden?'kontaktsperre':''}"/>
 						</h:column>
 						<h:column>
 							<f:facet name="header">
-								<h:commandLink action="#{profileBackingBean.commandSortByPLZ}">
-									<h:outputText value="Plz"/>
-									<a4j:support event="onclick"/>
-								</h:commandLink>
+								<a4j:commandLink value="Plz" action="#{profileBackingBean.commandSortByPLZ}"/>
 							</f:facet>
 							<h:outputText value="#{row.freelancer.plz}"/>
 						</h:column>
 						<h:column>
 							<f:facet name="header">
-								<h:commandLink action="#{profileBackingBean.commandSortBySatz}">
-									<h:outputText value="Satz"/>
-									<a4j:support event="onclick"/>
-								</h:commandLink>
+								<a4j:commandLink value="Satz" action="#{profileBackingBean.commandSortBySatz}"/>
 							</f:facet>
 							<h:outputText value="#{row.freelancer.stundensatz}"/>
 						</h:column>
 						<h:column>
 							<f:facet name="header">
-								<h:commandLink action="#{profileBackingBean.commandSortByVerf}">
-									<h:outputText value="Verf."/>
-									<a4j:support event="onclick"/>
-								</h:commandLink>
+								<a4j:commandLink value="Verf." action="#{profileBackingBean.commandSortByVerf}"/>
 							</f:facet>
 							<h:outputText value="#{row.freelancer.availability}">
 								<f:converter converterId="dateConverter"/>
@@ -145,10 +130,7 @@
 						</h:column>
 						<h:column>
 							<f:facet name="header">
-								<h:commandLink action="#{profileBackingBean.commandSortByCode}">
-									<h:outputText value="Code"/>
-									<a4j:support event="onclick"/>
-								</h:commandLink>
+								<a4j:commandLink value="Code" action="#{profileBackingBean.commandSortByCode}"/>
 							</f:facet>
 							<h:outputText value="#{row.code}"/>
 						</h:column>
