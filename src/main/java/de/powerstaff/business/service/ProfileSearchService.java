@@ -31,7 +31,7 @@ public interface ProfileSearchService extends Service {
 
 	ProfileSearchRequest getLastSearchRequest() throws Exception;
 
-	void saveSearchRequest(ProfileSearchRequest searchRequest);
+	void saveSearchRequest(ProfileSearchRequest searchRequest, boolean cleanup);
 
 	DataPage<ProfileSearchEntry> findProfileDataPage(
 			ProfileSearchRequest aRequest, int startRow, int pageSize)

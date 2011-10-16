@@ -147,7 +147,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
     }
 
     @Override
-    public void saveSearchRequest(ProfileSearchRequest searchRequest) {
+    public void saveSearchRequest(ProfileSearchRequest searchRequest, boolean cleanup) {
         User theUser = (User) UserContextHolder.getUserContext()
                 .getAuthenticatable();
 
@@ -161,7 +161,9 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
         copySearchRequestInto(searchRequest, theSearch);
 
-        theSearch.getProfilesToIgnore().clear();
+        if (cleanup) {
+            theSearch.getProfilesToIgnore().clear();
+        }
 
         profileSearchDAO.save(theSearch);
     }
@@ -229,8 +231,12 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
         Sort theSort = null;
         if (!StringUtils.isEmpty(aRequest.getSortierung())) {
+            int theSortType = SortField.STRING;
+            if (ProfileIndexerService.STUNDENSATZ.equals(aRequest.getSortierung())) {
+                theSortType = SortField.LONG;
+            }
             theSort = new Sort(new SortField(aRequest.getSortierung(),
-                    SortField.STRING));
+                    theSortType));
         }
 
         Filter theFilter = null;
