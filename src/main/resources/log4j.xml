@@ -8,7 +8,7 @@
 	-->
 	<appender name="file_debug" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File"
-			value="${jboss.server.home.dir}/log/powerstaff_debug_log.txt" />
+			value="${catalina.home}/logs/powerstaff_debug_log.txt" />
 		<param name="Append" value="true" />
 		<!-- Taeglicher Rollover -->
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
@@ -30,7 +30,7 @@
 	-->
 	<appender name="file_error" class="org.apache.log4j.DailyRollingFileAppender">
 		<param name="File"
-			value="${jboss.server.home.dir}/log/powerstaff_error_log.txt" />
+			value="${catalina.home}/logs/powerstaff_error_log.txt" />
 		<param name="Append" value="true" />
 		<!-- Taeglicher Rollover -->
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />

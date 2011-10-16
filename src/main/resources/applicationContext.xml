@@ -272,9 +272,12 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <property name="systemParameterDao" ref="systemParameterDAO"/>
     </bean>
 
+    <bean id="fsCache" class="de.powerstaff.business.service.FSCache">
+        <property name="systemParameterService" ref="systemParameterService"/>
+    </bean>
+
     <bean id="profileSearchService"
           class="de.powerstaff.business.service.impl.ProfileSearchServiceImpl">
-        <property name="freelancerService" ref="freelancerService"/>
         <property name="systemParameterService"
                   ref="systemParameterService"/>
         <property name="profileSearchDAO"
@@ -283,6 +286,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
                   ref="sessionFactory"/>
         <property name="documentReaderFactory"
                   ref="readerFactory"/>
+        <property name="filesystemSearchCache" ref="fsCache"/>
     </bean>
 
     <bean id="serviceLoggerService"
@@ -299,7 +303,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <property name="serviceLogger" ref="serviceLoggerService"/>
         <property name="sessionFactory" ref="sessionFactory"/>
         <property name="systemParameterService" ref="systemParameterService"/>
-        <property name="freelancerDAO" ref="freelancerDAO"/>
         <property name="profileSearchService" ref="profileSearchService"/>
         <property name="readerFactory" ref="readerFactory"/>
     </bean>
@@ -323,8 +326,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <bean id="wrongDataService"
           class="de.powerstaff.business.service.impl.WrongDataServiceImpl">
         <property name="systemParameterService" ref="systemParameterService"/>
-        <property name="freelancerDao" ref="freelancerDAO"/>
         <property name="websiteDao" ref="websiteDAO"/>
+        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="fsCache" ref="fsCache"/>
     </bean>
 
     <bean id="indexerJobDetail"

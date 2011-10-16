@@ -17,51 +17,28 @@
  */
 package de.powerstaff.business.service.impl;
 
-import de.powerstaff.business.dto.ProfileSearchEntry;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.KeywordAnalyzer;
-import org.apache.lucene.document.DateTools;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.DateTools.Resolution;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.queryParser.QueryParser;
-import org.apache.lucene.search.*;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.util.NumericUtils;
-import org.hibernate.*;
-import org.hibernate.bytecode.buildtime.Logger;
-import org.hibernate.search.FullTextQuery;
-import org.hibernate.search.FullTextSession;
-import org.hibernate.search.MassIndexer;
-import org.hibernate.search.Search;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import de.mogwai.common.business.service.impl.LogableService;
-import de.powerstaff.business.dao.FreelancerDAO;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerProfile;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ProfileIndexerService;
 import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.business.service.ServiceLoggerService;
-import de.powerstaff.business.service.impl.reader.DocumentReader;
 import de.powerstaff.business.service.impl.reader.DocumentReaderFactory;
-import de.powerstaff.business.service.impl.reader.ReadResult;
+import java.io.File;
+import java.util.List;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.TermQuery;
+import org.hibernate.ScrollMode;
+import org.hibernate.ScrollableResults;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.search.FullTextQuery;
+import org.hibernate.search.FullTextSession;
+import org.hibernate.search.MassIndexer;
+import org.hibernate.search.Search;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author Mirko Sertic
@@ -78,18 +55,12 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 
     private PowerstaffSystemParameterService systemParameterService;
 
-    private FreelancerDAO freelancerDAO;
-
     private ProfileSearchService profileSearchService;
 
     private SessionFactory sessionFactory;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-    }
-
-    public void setFreelancerDAO(FreelancerDAO freelancerDAO) {
-        this.freelancerDAO = freelancerDAO;
     }
 
     public void setReaderFactory(DocumentReaderFactory readerFactory) {
