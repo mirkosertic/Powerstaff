@@ -1,0 +1,1 @@
+select name1, name2, code as kodierung from freelancer group by kodierung having count(kodierung) > 1 order by name1
