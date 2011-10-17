@@ -106,7 +106,7 @@ public class WrongDataServiceImpl extends LogableService implements
                     theFreelancerForNewsletter);
             theProfileOhneDBWriter = new PrintWriter(theProfileOhneDB);
 
-            theDBOhneProfilWriter.println("Kodierung;Name;Vorname");
+            theDBOhneProfilWriter.println("Kodierung;Name;Vorname;Kreditor");
             theFreelancerOhneNewsletterWriter
                     .println("Kodierung;Name;Vorname;Mail");
             theFreelancerMitHomepageOhneKontaktWriter
@@ -158,8 +158,8 @@ public class WrongDataServiceImpl extends LogableService implements
                     Set<File> theFiles = fsCache.getFilesForCode(theCode);
                     if ((theFiles == null || theFiles.size() == 0)) {
                         theDBOhneProfilWriter.println(theCode + ";"
-                                + theFreelancer.getName1() + ";"
-                                + theFreelancer.getName2());
+                                + saveString(theFreelancer.getName1()) + ";"
+                                + saveString(theFreelancer.getName2()) + ";" + saveString(theFreelancer.getKreditorNr()));
                     }
                 }
 
