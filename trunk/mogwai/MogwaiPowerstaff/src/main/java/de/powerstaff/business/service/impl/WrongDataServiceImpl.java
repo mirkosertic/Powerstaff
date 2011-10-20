@@ -146,10 +146,6 @@ public class WrongDataServiceImpl extends LogableService implements
             while (theResults.next()) {
                 Freelancer theFreelancer = (Freelancer) theResults.get(0);
 
-                if (fsCache.needsRefresh()) {
-                    fsCache.refresh();
-                }
-
                 String theCode = theFreelancer.getCode();
                 if (!StringUtils.isEmpty(theCode)) {
                     theCode = theCode.toLowerCase();
