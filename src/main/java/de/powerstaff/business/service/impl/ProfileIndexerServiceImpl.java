@@ -18,6 +18,7 @@
 package de.powerstaff.business.service.impl;
 
 import de.mogwai.common.business.service.impl.LogableService;
+import de.mogwai.common.logging.Logger;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerProfile;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
@@ -30,10 +31,7 @@ import java.util.List;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.TermQuery;
-import org.hibernate.ScrollMode;
-import org.hibernate.ScrollableResults;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.MassIndexer;
@@ -58,6 +56,8 @@ public class ProfileIndexerServiceImpl extends LogableService implements
     private ProfileSearchService profileSearchService;
 
     private SessionFactory sessionFactory;
+
+    private boolean running;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -88,6 +88,14 @@ public class ProfileIndexerServiceImpl extends LogableService implements
             return;
         }
 
+        if (running) {
+            logger.logInfo("Indexing already running");
+        }
+
+        running = true;
+
+        logger.logInfo("Running indexing");
+
         readerFactory.initialize();
 
         serviceLogger.logStart(SERVICE_ID, "");
@@ -95,8 +103,6 @@ public class ProfileIndexerServiceImpl extends LogableService implements
         // Jetzt läuft er
 
         long theStartTime = System.currentTimeMillis();
-
-        logger.logInfo("Running indexing");
 
         try {
 
@@ -125,20 +131,24 @@ public class ProfileIndexerServiceImpl extends LogableService implements
                     Object[] theRow = (Object[]) theSingleEntity;
                     Document theDocument = (Document) theRow[0];
 
-                    long theNumberOfProfiles = Integer.parseInt(theDocument.get(ProfileIndexerService.NUM_PROFILES));
+                    long theNumberOfProfiles = Long.parseLong(theDocument.get(ProfileIndexerService.NUM_PROFILES));
                     List<FreelancerProfile> theProfiles = profileSearchService.loadProfilesFor(theFreelancer);
                     if (theNumberOfProfiles != theProfiles.size()) {
+                        logger.logInfo("Updating freelancer " + theFreelancer.getId() + " as the number of profiles changed from "+ theNumberOfProfiles+" to "+theProfiles.size());
                         needsToUpdate = true;
                     } else {
-                        for (int i=1;i<=theNumberOfProfiles;i++) {
-                            String theFileName = theDocument.get(ProfileIndexerService.PROFILE_PATH_PREFIX+i);
+                        for (int i = 1; i <= theNumberOfProfiles; i++) {
+                            String theFileName = theDocument.get(ProfileIndexerService.PROFILE_PATH_PREFIX + i);
                             File theFileOnServer = new File(theFileName);
                             if (theFileOnServer.exists()) {
-                                long theModification = Long.parseLong(theDocument.get(ProfileIndexerService.PROFILE_MODIFICATION_PREFIX+i));
-                                if (theModification != theFileOnServer.lastModified()) {
+                                long theModification = Long.parseLong(theDocument.get(ProfileIndexerService.PROFILE_MODIFICATION_PREFIX + i));
+                                long theLastModified = theFileOnServer.lastModified() / 1000;
+                                if (theModification != theLastModified) {
+                                    logger.logInfo("Updating freelancer " + theFreelancer.getId() + " as profile " + theFileOnServer + " was modified");
                                     needsToUpdate = true;
                                 }
                             } else {
+                                logger.logInfo("Updating freelancer " + theFreelancer.getId() + " as profile " + theFileOnServer + " seems to be deleted");
                                 needsToUpdate = true;
                             }
                         }
@@ -147,12 +157,11 @@ public class ProfileIndexerServiceImpl extends LogableService implements
                 }
 
                 if (needsToUpdate) {
-                    logger.logInfo("Updating freelancer "+theFreelancer.getId()+" as it seems to be new or changed");
                     theFT.index(theFreelancer);
                 }
 
                 if (counter % theLogCount == 0) {
-                    logger.logInfo("Processing record "+ counter);
+                    logger.logInfo("Processing record " + counter);
                 }
 
                 if (counter % theFetchSize == 0) {
@@ -160,6 +169,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements
                     logger.logDebug("Flushing session and index");
                     theFT.flushToIndexes();
                     theFT.clear();
+                    theHibernateSession.clear();
                 }
                 counter++;
             }
@@ -175,6 +185,8 @@ public class ProfileIndexerServiceImpl extends LogableService implements
             logger.logInfo("Indexing finished");
 
             serviceLogger.logEnd(SERVICE_ID, "Dauer = " + theStartTime + "ms");
+
+            running = false;
         }
     }
 
@@ -191,6 +203,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements
         FullTextSession theFt = Search.getFullTextSession(theSession);
 
         MassIndexer theIndexer = theFt.createIndexer(Freelancer.class);
+        theIndexer.threadsToLoadObjects(1);
         try {
             theIndexer.purgeAllOnStart(true);
             theIndexer.startAndWait();
@@ -199,6 +212,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements
         }
         theFt.flushToIndexes();
         theFt.flush();
+        theSession.flush();
 
         logger.logInfo("Rebuilding index finished");
     }

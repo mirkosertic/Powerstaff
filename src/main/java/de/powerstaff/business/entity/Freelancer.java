@@ -25,7 +25,7 @@ import org.hibernate.search.annotations.*;
 
 @Indexed
 @ClassBridge(name="freelancer", impl = FreelancerFieldBridge.class)
-//@Analyzer(impl = ProfileAnalyzer.class)
+@Analyzer(impl = ProfileAnalyzer.class)
 public class Freelancer extends Person<FreelancerContact, FreelancerHistory>
         implements UDFSupport {
 
@@ -33,7 +33,6 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory>
 
     private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
     private String workplace;
 
     @Field(index = Index.UN_TOKENIZED, store = Store.YES)
@@ -47,46 +46,30 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory>
     @Field(index = Index.UN_TOKENIZED, store = Store.YES)
     private String code;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
     private String contactPerson;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
     private String contactType;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
     private String contactReason;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
     private String lastContact;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
     private String skills;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
     private String gulpID;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
     private boolean showAgain;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
-    @NumericField
     private Long sallaryPerDayLong;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
     private String sallaryComment;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
-    @NumericField
     private Integer status;
 
     private Partner partner;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
-    @NumericField
     private Long sallaryPartnerLong;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
-    @NumericField
     private Long sallaryPartnerPerDayLong;
 
     private Set<ProjectPosition> projects = new HashSet<ProjectPosition>();

@@ -33,6 +33,8 @@ public interface ProfileIndexerService extends Service,
 
     String CONTENT = "CONTENT";
 
+    String ORIG_CONTENT = "ORIGCONTENT";
+
     String CODE = "code";
 
     String UNIQUE_ID = "id";

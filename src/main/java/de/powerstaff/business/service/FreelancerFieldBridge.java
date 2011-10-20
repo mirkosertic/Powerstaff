@@ -50,13 +50,15 @@ public class FreelancerFieldBridge implements FieldBridge {
         theReaderFactory.initialize();
 
         StringBuilder theContent = new StringBuilder();
+        theContent.append(theFreelancer.getSkills()).append(" ");
         addField(aDocument, ProfileIndexerService.NUM_PROFILES, "" + theProfiles.size(), Field.Store.YES, Field.Index.NOT_ANALYZED);
 
         int count = 0;
         for (FreelancerProfile theProfile : theProfiles) {
             count++;
             addField(aDocument, ProfileIndexerService.PROFILE_PATH_PREFIX + count, theProfile.getFileOnserver().toString(), Field.Store.YES, Field.Index.NOT_ANALYZED);
-            addField(aDocument, ProfileIndexerService.PROFILE_MODIFICATION_PREFIX + count, "" + theProfile.getFileOnserver().lastModified(), Field.Store.YES, Field.Index.NOT_ANALYZED);
+            long theLastModified = theProfile.getFileOnserver().lastModified() / 1000;
+            addField(aDocument, ProfileIndexerService.PROFILE_MODIFICATION_PREFIX + count, "" + theLastModified, Field.Store.YES, Field.Index.NOT_ANALYZED);
             DocumentReader theReader = theReaderFactory.getDocumentReaderForFile(theProfile.getFileOnserver());
             if (theReader != null) {
                 try {

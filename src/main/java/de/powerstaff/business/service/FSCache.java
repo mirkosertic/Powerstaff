@@ -17,73 +17,149 @@
  */
 package de.powerstaff.business.service;
 
+import de.mogwai.common.logging.Logger;
 import java.io.File;
 import java.util.*;
+import org.springframework.beans.factory.InitializingBean;
 
-public class FSCache {
+public class FSCache implements InitializingBean {
 
-    private static final int TTL_IN_SECONDS = 60;
+    private static final Logger LOGGER = new Logger(FSCache.class);
+
     private static final String PROFIL_PREFIX = "profil ";
+    private static final int SLEEP_IN_MS = 1000 * 60 * 10; // 10 Minuten
 
     private PowerstaffSystemParameterService systemParameterService;
-    private long lastupdate;
     private Map<String, Set<File>> fileCache = new HashMap<String, Set<File>>();
+    private Set<File> directoriesToWatch = new HashSet<File>();
+
+    private class DirectoryScannerThread extends Thread {
+
+        private File directory;
+        private File[] lastRunFiles;
+
+        private DirectoryScannerThread(File aDirectory) {
+            directory = aDirectory;
+            setName("Directory Scanner for " + aDirectory);
+        }
+
+        @Override
+        public void run() {
+            while (!interrupted()) {
+
+                LOGGER.logInfo("Scanning directory " + directoriesToWatch);
+
+                if (lastRunFiles != null) {
+                    for (File theFile : lastRunFiles) {
+                        if (!theFile.exists()) {
+                            LOGGER.logInfo("File was deleted in the meantime : " + theFile);
+                            removeFromCache(theFile);
+                        }
+                    }
+                }
+
+                File[] theCurrentContent = directory.listFiles();
+                for (File theSingleFile : theCurrentContent) {
+                    if (!theSingleFile.isDirectory()) {
+                        processFile(theSingleFile);
+                    }
+                }
+
+                lastRunFiles = theCurrentContent;
+
+                LOGGER.logInfo("Scanning finished of " + directory);
+
+                try {
+                    sleep(SLEEP_IN_MS);
+                } catch (Exception e) {
+                    LOGGER.logError("Error sleeping ", e);
+                }
+            }
+        }
+    }
+
+    public FSCache() {
+    }
 
     public void setSystemParameterService(PowerstaffSystemParameterService systemParameterService) {
         this.systemParameterService = systemParameterService;
     }
 
-    public boolean needsRefresh() {
-        synchronized (PROFIL_PREFIX) {
-            return lastupdate < System.currentTimeMillis() - (1000 * TTL_IN_SECONDS);
-        }
-    }
-
-    public void refresh() {
+    protected void initialize() {
         synchronized (PROFIL_PREFIX) {
             fileCache.clear();
             refresh(new File(systemParameterService.getIndexerSourcePath()));
         }
+    }
 
+    protected void processFile(File aFile) {
+        String theName = aFile.getName().toLowerCase();
+        int p = theName.lastIndexOf(".");
+        if (p > 0) {
+            theName = theName.substring(0, p);
+        }
+        if (theName.startsWith(PROFIL_PREFIX)) {
+            String theCode = theName.substring(PROFIL_PREFIX.length());
+            registerFileForCode(aFile, theCode);
+        }
     }
 
     private void refresh(File aFile) {
+        directoriesToWatch.add(aFile);
         for (File theFile : aFile.listFiles()) {
             if (theFile.isDirectory()) {
                 refresh(theFile);
             } else {
-                String theName = theFile.getName().toLowerCase();
-                int p = theName.lastIndexOf(".");
-                if (p > 0) {
-                    theName = theName.substring(0, p);
-                }
-                if (theName.startsWith(PROFIL_PREFIX)) {
-                    String theCode = theName.substring(PROFIL_PREFIX.length());
-                    registerFileForCode(theFile, theCode);
-                }
+                processFile(aFile);
             }
         }
-        lastupdate = System.currentTimeMillis();
+    }
+
+    protected void removeFromCache(File aFile) {
+        synchronized (PROFIL_PREFIX) {
+            for (Map.Entry<String, Set<File>> theEntry : fileCache.entrySet()) {
+                theEntry.getValue().remove(aFile);
+            }
+        }
     }
 
     private void registerFileForCode(File aFile, String aCode) {
-        Set<File> theFileSet = fileCache.get(aCode);
-        if (theFileSet == null) {
-            theFileSet = new HashSet<File>();
-            fileCache.put(aCode, theFileSet);
+        synchronized (PROFIL_PREFIX) {
+            Set<File> theFileSet = fileCache.get(aCode);
+            if (theFileSet == null) {
+                theFileSet = new HashSet<File>();
+                fileCache.put(aCode, theFileSet);
+            }
+            if (!theFileSet.contains(aFile)) {
+                LOGGER.logInfo("Adding new file to cache " + aFile);
+                theFileSet.add(aFile);
+            }
         }
-        theFileSet.add(aFile);
     }
 
     public Set<File> getFilesForCode(String aCode) {
         synchronized (PROFIL_PREFIX) {
-            return fileCache.get(aCode);
+            Set<File> theResult = new HashSet<File>();
+            Set<File> theFiles = fileCache.get(aCode);
+            if (theFiles != null) {
+                theResult.addAll(theFiles);
+            }
+            return theResult;
         }
     }
 
     public Collection<? extends String> getKnownCodes() {
         synchronized (PROFIL_PREFIX) {
             return new HashSet<String>(fileCache.keySet());
+        }
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        initialize();
+        for (File theDirectory : directoriesToWatch) {
+            DirectoryScannerThread theScanner = new DirectoryScannerThread(theDirectory);
+            theScanner.start();
         }
     }
 }

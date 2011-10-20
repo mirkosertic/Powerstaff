@@ -34,7 +34,6 @@ public class Person<T extends Contact, H extends HistoryEntity> extends
 
 	private static final long serialVersionUID = 1255375037203457359L;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private String titel;
 
     @Field(index = Index.UN_TOKENIZED, store = Store.YES)
@@ -43,41 +42,31 @@ public class Person<T extends Contact, H extends HistoryEntity> extends
     @Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private String name2;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private String company;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private String street;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private String country;
 
     @Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private String plz;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private String city;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private String nationalitaet;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private String geburtsdatum;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private String comments;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private boolean contactforbidden;
 
 	private Set<T> contacts = new HashSet<T>();
 
 	private Set<H> history = new HashSet<H>();
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private String kreditorNr;
 
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
 	private String debitorNr;
 
 	public Person() {

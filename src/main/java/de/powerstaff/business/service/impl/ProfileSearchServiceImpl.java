@@ -18,19 +18,27 @@
 package de.powerstaff.business.service.impl;
 
 import de.mogwai.common.business.service.impl.LogableService;
+import de.mogwai.common.logging.Logger;
 import de.mogwai.common.usercontext.UserContextHolder;
 import de.powerstaff.business.dao.ProfileSearchDAO;
 import de.powerstaff.business.dto.*;
 import de.powerstaff.business.entity.*;
 import de.powerstaff.business.lucene.analysis.ProfileAnalyzerFactory;
-import de.powerstaff.business.service.*;
+import de.powerstaff.business.service.FSCache;
+import de.powerstaff.business.service.PowerstaffSystemParameterService;
+import de.powerstaff.business.service.ProfileIndexerService;
+import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.business.service.impl.reader.DocumentReader;
 import de.powerstaff.business.service.impl.reader.DocumentReaderFactory;
 import de.powerstaff.business.service.impl.reader.ReadResult;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CachingTokenFilter;
@@ -39,13 +47,11 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.*;
-import org.apache.lucene.search.Filter;
-import org.apache.lucene.search.Query;
 import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SpanGradientFormatter;
-import org.hibernate.*;
+import org.hibernate.SessionFactory;
 import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
@@ -59,6 +65,8 @@ public class ProfileSearchServiceImpl extends LogableService implements
         BooleanQuery.setMaxClauseCount(8192);
     }
 
+    private static final Logger LOGGER = new Logger(ProfileSearchServiceImpl.class);
+
     private PowerstaffSystemParameterService systemParameterService;
 
     private ProfileSearchDAO profileSearchDAO;
@@ -67,10 +75,10 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
     private DocumentReaderFactory documentReaderFactory;
 
-    private FSCache filesystemSearchCache;
+    private FSCache fileSystemCache;
 
-    public void setFilesystemSearchCache(FSCache filesystemSearchCache) {
-        this.filesystemSearchCache = filesystemSearchCache;
+    public void setFileSystemCache(FSCache fileSystemCache) {
+        this.fileSystemCache = fileSystemCache;
     }
 
     public void setDocumentReaderFactory(DocumentReaderFactory documentReaderFactory) {
@@ -184,7 +192,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
                     theContent.append(theResultString).append(" ");
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    LOGGER.logError("Error accessing file " + theProfile.getFileOnserver(), e);
                 }
 
             }
@@ -335,12 +343,8 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
         if (aFreelancer != null && aFreelancer.getCode() != null) {
 
-            if (filesystemSearchCache.needsRefresh()) {
-                filesystemSearchCache.refresh();
-            }
-
             String theCode = aFreelancer.getCode().trim().toLowerCase();
-            Set<File> theFilesForCode = filesystemSearchCache.getFilesForCode(theCode);
+            Set<File> theFilesForCode = fileSystemCache.getFilesForCode(theCode);
 
             if (theFilesForCode != null) {
 

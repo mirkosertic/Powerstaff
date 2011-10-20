@@ -284,9 +284,8 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
                   ref="profileSearchDAO"/>
         <property name="sessionFactory"
                   ref="sessionFactory"/>
-        <property name="documentReaderFactory"
-                  ref="readerFactory"/>
-        <property name="filesystemSearchCache" ref="fsCache"/>
+        <property name="fileSystemCache" ref="fsCache"/>
+        <property name="documentReaderFactory" ref="readerFactory"/>
     </bean>
 
     <bean id="serviceLoggerService"
