@@ -49,7 +49,7 @@
 			<one-to-many class="FreelancerContact"/>
 		</set>
 
-		<set name="history" cascade="all-delete-orphan" order-by="creationDate DESC" fetch="join">
+		<set name="history" cascade="all-delete-orphan" order-by="creationDate DESC" fetch="select" lazy="true">
 			<key column="freelancer_id"/>
 			<one-to-many class="FreelancerHistory"/>
 		</set>
@@ -58,12 +58,12 @@
 			<column name="partner_id"/>
 		</many-to-one>  
 
-		<set name="projects" cascade="all-delete-orphan" fetch="join">
+		<set name="projects" cascade="all-delete-orphan" fetch="select" lazy="true">
 			<key column="freelancer_id"/>
 			<one-to-many class="ProjectPosition" />
 		</set>
 		
-		<map name="udf" table="freelancer_udf" cascade="all-delete-orphan" fetch="join">
+		<map name="udf" table="freelancer_udf" cascade="all-delete-orphan" fetch="select" lazy="true">
 			<key column="freelancer_id" foreign-key="freelancer_udf_fk1"/>
 			<map-key type="string" length="255" column="name"/>
 			<composite-element class="UserDefinedField">
