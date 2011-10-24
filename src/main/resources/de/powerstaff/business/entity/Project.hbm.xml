@@ -50,7 +50,7 @@
 			<one-to-many class="ProjectHistory"/>
 		</list>
 		
-		<map name="udf" table="project_udf" cascade="all-delete-orphan" fetch="join">
+		<map name="udf" table="project_udf" cascade="all-delete-orphan" fetch="select" lazy="true">
 			<key column="project_id" foreign-key="project_udf_fk1"/>
 			<map-key type="string" length="255" column="name"/>
 			<composite-element class="UserDefinedField">

@@ -109,6 +109,11 @@
 			<param-value>/de/mogwai/common/web/resources</param-value>
 		</init-param>
 	</filter>
+
+    <filter>
+        <filter-name>openSessionInView</filter-name>
+        <filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+    </filter>
 	
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
@@ -116,6 +121,11 @@
 			org.springframework.web.filter.DelegatingFilterProxy
 		</filter-class>
 	</filter>
+
+    <filter-mapping>
+        <filter-name>openSessionInView</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
