@@ -176,30 +176,6 @@ public class ProfileSearchServiceImpl extends LogableService implements
         profileSearchDAO.save(theSearch);
     }
 
-    private String getOriginalContentFor(Freelancer aFreelancer) {
-        List<FreelancerProfile> theProfiles = loadProfilesFor(aFreelancer);
-
-        documentReaderFactory.initialize();
-
-        StringBuilder theContent = new StringBuilder();
-
-        for (FreelancerProfile theProfile : theProfiles) {
-            DocumentReader theReader = documentReaderFactory.getDocumentReaderForFile(theProfile.getFileOnserver());
-            if (theReader != null) {
-                try {
-                    ReadResult theResult = theReader.getContent(theProfile.getFileOnserver());
-                    String theResultString = theResult.getContent();
-
-                    theContent.append(theResultString).append(" ");
-                } catch (Exception e) {
-                    LOGGER.logError("Error accessing file " + theProfile.getFileOnserver(), e);
-                }
-
-            }
-        }
-        return theContent.toString();
-    }
-
     @Override
     public DataPage<ProfileSearchEntry> findProfileDataPage(
             ProfileSearchRequest aRequest, int startRow, int pageSize)
@@ -304,7 +280,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
             theDetail.setContacts(new ArrayList<FreelancerContact>(
                     theFreelancer.getContacts()));
 
-            String theContent = getOriginalContentFor(theFreelancer);
+            String theContent = theDocument.get(ProfileIndexerService.ORIG_CONTENT);
             theEntry.setHighlightResult(getHighlightedSearchResult(theAnalyzer,
                     theHighlighter, theContent, theQuery));
 

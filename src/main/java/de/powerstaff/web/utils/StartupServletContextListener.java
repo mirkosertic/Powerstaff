@@ -17,6 +17,7 @@
  */
 package de.powerstaff.web.utils;
 
+import com.sun.servicetag.SystemEnvironment;
 import de.powerstaff.business.service.DomainHelper;
 import de.powerstaff.business.service.ProfileIndexerService;
 import javax.servlet.ServletContextEvent;
@@ -33,8 +34,10 @@ public class StartupServletContextListener implements ServletContextListener{
 
         DomainHelper.getInstance().registerApplicationContext(theContext);
 
-        ProfileIndexerService theService = (ProfileIndexerService) theContext.getBean("profileIndexerService");
-        theService.rebuildIndex();
+        //if ("true".equals(System.getProperty("reindexOnStartup"))) {
+            ProfileIndexerService theService = (ProfileIndexerService) theContext.getBean("profileIndexerService");
+            theService.rebuildIndex();
+        //}
     }
 
     @Override

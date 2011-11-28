@@ -80,5 +80,6 @@ public class FreelancerFieldBridge implements FieldBridge {
         String theStringContent = theContent.toString();
 
         aDocument.add(new Field(ProfileIndexerService.CONTENT, new StringReader(theStringContent)));
+        aDocument.add(new Field(ProfileIndexerService.ORIG_CONTENT, theStringContent, Field.Store.YES, Field.Index.NOT_ANALYZED));
     }
 }
