@@ -21,6 +21,12 @@
 		<f:view>
 			<rich:dragIndicator id="indicator"/>
 			<a4j:log/>
+            <script language="JavaScript">
+                 A4J.AJAX.onError = function(req, status, message) {
+                    window.alert("Error Processing Ajax Request, Status : "+status+" Message : " + message);
+                 }
+            </script>
+
 			<h:form id="form">
 				<a4j:include viewId="/login.xhtml"/>
                 <!--
