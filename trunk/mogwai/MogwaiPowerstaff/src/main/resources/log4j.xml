@@ -58,7 +58,13 @@
 		<appender-ref ref="file_debug" />
 	</logger> -->
 
-    <logger name="org.apache.myfaces.orchestra.conversation.spring.SpringConversationScope">
+    <logger name="org.apache.myfaces.orchestra.conversation.spring.AbstractSpringOrchestraScope">
+        <level value="DEBUG" />
+        <appender-ref ref="stdout" />
+        <appender-ref ref="file_debug" />
+    </logger>
+
+    <logger name="org.apache.myfaces.orchestra.conversation.spring.AbstractSpringOrchestraScope">
         <level value="DEBUG" />
         <appender-ref ref="stdout" />
         <appender-ref ref="file_debug" />
