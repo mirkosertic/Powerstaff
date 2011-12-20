@@ -11,7 +11,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
             <map>
                 <entry key="conversation.access">
                     <bean class="org.apache.myfaces.orchestra.conversation.spring.SpringConversationScope">
-                        <property name="timeout" value="-1"/>
                         <property name="lifetime" value="access"/>
                     </bean>
                 </entry>
