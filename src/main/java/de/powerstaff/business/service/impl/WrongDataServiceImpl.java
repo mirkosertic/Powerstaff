@@ -25,15 +25,17 @@ import de.powerstaff.business.entity.NewsletterMail;
 import de.powerstaff.business.service.FSCache;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.WrongDataService;
+import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBeanDataModel;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.*;
+
 import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
-import org.hibernate.*;
 
 public class WrongDataServiceImpl extends LogableService implements
         WrongDataService {
@@ -92,6 +94,8 @@ public class WrongDataServiceImpl extends LogableService implements
         PrintWriter theProfileOhneDBWriter = null;
         PrintWriter theProfileDoppelterCodeWriter = null;
 
+        FreelancerBackingBeanDataModel theModel = new FreelancerBackingBeanDataModel();
+
         try {
 
             theProfileDoppelterCodeWriter = new PrintWriter(
@@ -111,7 +115,7 @@ public class WrongDataServiceImpl extends LogableService implements
                     .println("Kodierung;Name;Vorname;Mail");
             theFreelancerMitHomepageOhneKontaktWriter
                     .println("Kodierung;Name;Vorname;Homepage");
-            theFreelancerForNewsletterWriter.println("Kürzel;Name;Vorname;eMail;Eintrag in Kreditor;Verfügbarkeit;Homepage;letzter Kontakt");
+            theFreelancerForNewsletterWriter.println("Kürzel;Name;Vorname;eMail;Eintrag in Kreditor;Verfügbarkeit;Homepage;letzter Kontakt;Status;Xink;Gulp");
             theProfileOhneDBWriter.println("Kodierung;Dateinamen");
             theProfileDoppelterCodeWriter.println("Kodierung;Dateinamen");
 
@@ -178,6 +182,20 @@ public class WrongDataServiceImpl extends LogableService implements
                             theWeb = theContact.getValue();
                         }
                     }
+                    String theGulp = "";
+                    for (FreelancerContact theContact : theWebContacts) {
+                        if (StringUtils.isEmpty(theWeb) && "Gulp".equalsIgnoreCase(theContact.getType().getDescription())) {
+                            theGulp = theContact.getValue();
+                        }
+                    }
+
+                    String theXing = "";
+                    for (FreelancerContact theContact : theWebContacts) {
+                        if (StringUtils.isEmpty(theWeb) && "Xing".equalsIgnoreCase(theContact.getType().getDescription())) {
+                            theXing = theContact.getValue();
+                        }
+                    }
+
 
                     String theAvailable = "";
                     Date theAvailability = theFreelancer.getAvailabilityAsDate();
@@ -200,6 +218,12 @@ public class WrongDataServiceImpl extends LogableService implements
                     theFreelancerForNewsletterWriter.print(saveString(theWeb));
                     theFreelancerForNewsletterWriter.print(";");
                     theFreelancerForNewsletterWriter.print(saveString(theFreelancer.getLastContact()));
+                    theFreelancerForNewsletterWriter.print(";");
+                    theFreelancerForNewsletterWriter.print(saveString(theModel.getStatusAsString(theFreelancer.getStatus())));
+                    theFreelancerForNewsletterWriter.print(";");
+                    theFreelancerForNewsletterWriter.print(saveString(theXing));
+                    theFreelancerForNewsletterWriter.print(";");
+                    theFreelancerForNewsletterWriter.print(saveString(theGulp));
                     theFreelancerForNewsletterWriter.println();
                 }
 
@@ -351,7 +375,7 @@ public class WrongDataServiceImpl extends LogableService implements
                             }
                             theFilesForHash.add(theFile);
                         } catch (Exception e) {
-                            logger.logError("Error scanning file "+theFile, e);
+                            logger.logError("Error scanning file " + theFile, e);
                         } finally {
                             IOUtils.closeQuietly(theStream);
                         }

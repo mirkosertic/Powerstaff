@@ -1,20 +1,20 @@
 <f:subview id="contextmenu"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:b="http://mogwai.sourceforge.net/layout"
-    xmlns:a4j="http://richfaces.org/a4j">
-	<b:gridBagLayout rows="p,2,p,2,p" cols="100">
-		<b:cell x="1" y="1">
-			<h:outputText value="Stammdaten" styleClass="menuitemSelected"/>
-		</b:cell>
-		
-		<b:cell x="1" y="3">
-			<b:commandLink action="#{customerBackingBean.commandHistorie}" immediate="true" styleClass="menuitem">
-				<h:outputText value="Kontakthistorie" />
-				<a4j:support event="onclick"
-					onsubmit="if (!checkForChangedData()) {return false;}"/>
-			</b:commandLink>		
-		</b:cell>
-		
-	</b:gridBagLayout>
+           xmlns:f="http://java.sun.com/jsf/core"
+           xmlns:h="http://java.sun.com/jsf/html"
+           xmlns:b="http://mogwai.sourceforge.net/layout"
+           xmlns:a4j="http://richfaces.org/a4j">
+    <b:gridBagLayout rows="p,2,p,2,p" cols="100">
+        <b:cell x="1" y="1">
+            <h:outputText value="Stammdaten" styleClass="menuitemSelected"/>
+        </b:cell>
+
+        <b:cell x="1" y="3">
+            <b:commandLink action="#{customerBackingBean.commandHistorie}" immediate="true" styleClass="menuitem">
+                <h:outputText value="Kontakthistorie"/>
+                <a4j:support eventsQueue="powerstaff" event="onclick"
+                             onsubmit="if (!checkForChangedData()) {return false;}"/>
+            </b:commandLink>
+        </b:cell>
+
+    </b:gridBagLayout>
 </f:subview>

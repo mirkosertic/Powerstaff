@@ -1,423 +1,429 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:b="http://mogwai.sourceforge.net/layout"
-    xmlns:a4j="http://richfaces.org/a4j"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:rich="http://richfaces.org/rich" template="/template/powerstaff.xhtml">
-	<ui:define name="mainmenu">
-		<ui:include src="/include/mainmenu.xhtml"/>
-	</ui:define>
-	<ui:define name="contextmenu">
-		<ui:include src="/include/project/projectmenu1.xhtml"/>
-	</ui:define>
-	<ui:define name="content">
-		<b:title title="Projekt - Stammdaten"/>
-		<f:subview id="project_core">
-			<b:gridBagLayout id="x" rows="p,10" cols="100,p">
-				<b:cell y="1" x="1">
-					<h:outputText styleClass="title" value="Projekt"/>
-				</b:cell>
-				
-				<b:cell y="1" x="2">
-					<a4j:status>				
-						<f:facet name="start">
-							<b:image source="images/rotate2.gif" width="20" height="20"/>
-						</f:facet>
-					</a4j:status>
-				</b:cell>
-			</b:gridBagLayout>
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://mogwai.sourceforge.net/layout"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:rich="http://richfaces.org/rich" template="/template/powerstaff.xhtml">
+<ui:define name="mainmenu">
+    <ui:include src="/include/mainmenu.xhtml"/>
+</ui:define>
+<ui:define name="contextmenu">
+    <ui:include src="/include/project/projectmenu1.xhtml"/>
+</ui:define>
+<ui:define name="content">
+<b:title title="Projekt - Stammdaten"/>
+<f:subview id="project_core">
+<b:gridBagLayout id="x" rows="p,10" cols="100,p">
+    <b:cell y="1" x="1">
+        <h:outputText styleClass="title" value="Projekt"/>
+    </b:cell>
 
-			<b:gridBagLayout cols="400,10,400" rows="30,10,1,p" id="menu">
-				<b:cell x="1" y="1" width="3">
-					<b:titledBox label="Menu">
-						<b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,80,50,20,right:*"
-							rows="20,2,20">
-							<b:cell x="1" y="1">
-								<b:commandLink title="Erster Datensatz" action="#{projectBackingBean.commandFirst}">
-									<b:image source="/images/first.gif" />
-									<a4j:support event="onclick"
-										reRender="#{projectBackingBean.data.changedComponents}" 
-										onsubmit="if (!checkForChangedData()) {return false;}"
-										oncomplete="clearChanged()"/>
-								</b:commandLink>
-							</b:cell>
-							<b:cell x="2" y="1">
-								<b:commandLink title="Vorheriger Datensatz" action="#{projectBackingBean.commandPrior}">
-									<b:image source="/images/prior.gif" />
-									<a4j:support event="onclick"
-										reRender="#{projectBackingBean.data.changedComponents}"
-										onsubmit="if (!checkForChangedData()) {return false;}"
-										oncomplete="clearChanged()"/>
-								</b:commandLink>
-							</b:cell>
-							<b:cell x="3" y="1">
-								<b:commandLink title="Nächster Datensatz" action="#{projectBackingBean.commandNext}">
-									<b:image source="/images/next.gif" />
-									<a4j:support event="onclick"
-										reRender="#{projectBackingBean.data.changedComponents}" 
-										onsubmit="if (!checkForChangedData()) {return false;}"
-										oncomplete="clearChanged()"/>
-								</b:commandLink>
-							</b:cell>
-							<b:cell x="4" y="1">
-								<b:commandLink title="Letzter Datensatz" action="#{projectBackingBean.commandLast}">
-									<b:image source="/images/last.gif" />
-									<a4j:support event="onclick"
-										reRender="#{projectBackingBean.data.changedComponents}"
-										onsubmit="if (!checkForChangedData()) {return false;}"
-										oncomplete="clearChanged()"/>
-								</b:commandLink>
-							</b:cell>
-							<b:cell x="6" y="1">
-								<b:commandLink title="Neuer Datensatz" action="#{projectBackingBean.commandNew}">
-									<b:image source="/images/new.gif" />
-									<a4j:support event="onclick"
-										reRender="#{projectBackingBean.data.changedComponents}" 
-										onsubmit="if (!checkForChangedData()) {return false;}"
-										oncomplete="clearChanged()"/>
-								</b:commandLink>
-							</b:cell>
-							<b:cell x="7" y="1">
-								<b:commandLink title="Speichern" action="#{projectBackingBean.commandSave}">
-									<b:image source="/images/update.gif" />
-									<a4j:support event="onclick"
-										reRender="#{projectBackingBean.data.changedComponents}" 
-										oncomplete="clearChanged()"/>
-								</b:commandLink>
-							</b:cell>
-							<b:cell x="9" y="1">
-								<a4j:commandLink title="Löschen" action="#{projectBackingBean.commandDelete}" onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick löschen?')) {return false;}" reRender="#{projectBackingBean.data.changedComponents}" oncomplete="clearChanged()">
-									<b:image source="/images/delete.gif" />
-								</a4j:commandLink>
-							</b:cell>
-							<b:cell x="11" y="1">
-								<b:commandLink title="Suchen" action="#{projectBackingBean.commandSearch}">
-									<b:image source="/images/search.gif" />
-									<a4j:support event="onclick"
-										reRender="#{projectBackingBean.data.changedComponents}" 
-										oncomplete="clearChanged()"/>
-								</b:commandLink>
-							</b:cell>
-							<b:cell x="12" y="1" valign="middle" align="right">
-								<b:label id="gehezu" label="Gehe zu #"/>
-							</b:cell>
-							<b:cell x="13" y="1" >
-								<b:numberinputfield id="recordnumber" labelComponentId="gehezu" value="#{projectBackingBean.data.recordNumber}"/>
-							</b:cell>
-							<b:cell x="14" y="1">
-								<b:commandLink title="Springe zu Datensatz" action="#{projectBackingBean.commandJumpToRecord}">
-									<b:image source="/images/search.gif" />
-									<a4j:support event="onclick"
-										reRender="#{projectBackingBean.data.changedComponents}" 
-										oncomplete="clearChanged()"/>
-								</b:commandLink>
-							</b:cell>							
-							<b:cell x="15" y="1" align="right">
-								<a4j:outputPanel ajaxRendered="true">
-									<h:outputText value="#{projectBackingBean.recordInfo}"/>
-								</a4j:outputPanel>
-							</b:cell>
+    <b:cell y="1" x="2">
+        <a4j:status>
+            <f:facet name="start">
+                <b:image source="images/rotate2.gif" width="20" height="20"/>
+            </f:facet>
+        </a4j:status>
+    </b:cell>
+</b:gridBagLayout>
 
-							<b:cell x="12" y="3" align="right" width="4">
-								<a4j:outputPanel ajaxRendered="true">
-									<h:outputText value="#{projectBackingBean.data.entity}">
-										<f:converter converterId="auditInformationConverter" />
-									</h:outputText>
-								</a4j:outputPanel>
-							</b:cell>
-						</b:gridBagLayout>
-					</b:titledBox>
-				</b:cell>
-				
-				<b:cell x="1" y="3" width="3">
-					<ui:include src="/include/messages.xhtml"/>
-				</b:cell>
+<b:gridBagLayout cols="400,10,400" rows="30,10,1,p" id="menu">
+<b:cell x="1" y="1" width="3">
+    <b:titledBox label="Menu">
+        <b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,80,50,20,right:*"
+                         rows="20,2,20">
+            <b:cell x="1" y="1">
+                <b:commandLink title="Erster Datensatz" action="#{projectBackingBean.commandFirst}">
+                    <b:image source="/images/first.gif"/>
+                    <a4j:support eventsQueue="powerstaff" event="onclick"
+                                 reRender="#{projectBackingBean.data.changedComponents}"
+                                 onsubmit="if (!checkForChangedData()) {return false;}"
+                                 oncomplete="clearChanged()"/>
+                </b:commandLink>
+            </b:cell>
+            <b:cell x="2" y="1">
+                <b:commandLink title="Vorheriger Datensatz" action="#{projectBackingBean.commandPrior}">
+                    <b:image source="/images/prior.gif"/>
+                    <a4j:support eventsQueue="powerstaff" event="onclick"
+                                 reRender="#{projectBackingBean.data.changedComponents}"
+                                 onsubmit="if (!checkForChangedData()) {return false;}"
+                                 oncomplete="clearChanged()"/>
+                </b:commandLink>
+            </b:cell>
+            <b:cell x="3" y="1">
+                <b:commandLink title="Nächster Datensatz" action="#{projectBackingBean.commandNext}">
+                    <b:image source="/images/next.gif"/>
+                    <a4j:support eventsQueue="powerstaff" event="onclick"
+                                 reRender="#{projectBackingBean.data.changedComponents}"
+                                 onsubmit="if (!checkForChangedData()) {return false;}"
+                                 oncomplete="clearChanged()"/>
+                </b:commandLink>
+            </b:cell>
+            <b:cell x="4" y="1">
+                <b:commandLink title="Letzter Datensatz" action="#{projectBackingBean.commandLast}">
+                    <b:image source="/images/last.gif"/>
+                    <a4j:support eventsQueue="powerstaff" event="onclick"
+                                 reRender="#{projectBackingBean.data.changedComponents}"
+                                 onsubmit="if (!checkForChangedData()) {return false;}"
+                                 oncomplete="clearChanged()"/>
+                </b:commandLink>
+            </b:cell>
+            <b:cell x="6" y="1">
+                <b:commandLink title="Neuer Datensatz" action="#{projectBackingBean.commandNew}">
+                    <b:image source="/images/new.gif"/>
+                    <a4j:support eventsQueue="powerstaff" event="onclick"
+                                 reRender="#{projectBackingBean.data.changedComponents}"
+                                 onsubmit="if (!checkForChangedData()) {return false;}"
+                                 oncomplete="clearChanged()"/>
+                </b:commandLink>
+            </b:cell>
+            <b:cell x="7" y="1">
+                <b:commandLink title="Speichern" action="#{projectBackingBean.commandSave}">
+                    <b:image source="/images/update.gif"/>
+                    <a4j:support eventsQueue="powerstaff" event="onclick"
+                                 reRender="#{projectBackingBean.data.changedComponents}"
+                                 oncomplete="clearChanged()"/>
+                </b:commandLink>
+            </b:cell>
+            <b:cell x="9" y="1">
+                <a4j:commandLink title="Löschen" action="#{projectBackingBean.commandDelete}"
+                                 onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick löschen?')) {return false;}"
+                                 reRender="#{projectBackingBean.data.changedComponents}" oncomplete="clearChanged()">
+                    <b:image source="/images/delete.gif"/>
+                </a4j:commandLink>
+            </b:cell>
+            <b:cell x="11" y="1">
+                <b:commandLink title="Suchen" action="#{projectBackingBean.commandSearch}">
+                    <b:image source="/images/search.gif"/>
+                    <a4j:support eventsQueue="powerstaff" event="onclick"
+                                 reRender="#{projectBackingBean.data.changedComponents}"
+                                 oncomplete="clearChanged()"/>
+                </b:commandLink>
+            </b:cell>
+            <b:cell x="12" y="1" valign="middle" align="right">
+                <b:label id="gehezu" label="Gehe zu #"/>
+            </b:cell>
+            <b:cell x="13" y="1">
+                <b:numberinputfield id="recordnumber" labelComponentId="gehezu"
+                                    value="#{projectBackingBean.data.recordNumber}"/>
+            </b:cell>
+            <b:cell x="14" y="1">
+                <b:commandLink title="Springe zu Datensatz" action="#{projectBackingBean.commandJumpToRecord}">
+                    <b:image source="/images/search.gif"/>
+                    <a4j:support eventsQueue="powerstaff" event="onclick"
+                                 reRender="#{projectBackingBean.data.changedComponents}"
+                                 oncomplete="clearChanged()"/>
+                </b:commandLink>
+            </b:cell>
+            <b:cell x="15" y="1" align="right">
+                <a4j:outputPanel ajaxRendered="true">
+                    <h:outputText value="#{projectBackingBean.recordInfo}"/>
+                </a4j:outputPanel>
+            </b:cell>
 
-				<b:cell x="1" y="4">
-					<b:gridBagLayout rows="p,10,p,10,p" cols="*" id="stammdaten">
-						<b:cell x="1" y="1">
-							<b:titledBox label="Stammdaten">
+            <b:cell x="12" y="3" align="right" width="4">
+                <a4j:outputPanel ajaxRendered="true">
+                    <h:outputText value="#{projectBackingBean.data.entity}">
+                        <f:converter converterId="auditInformationConverter"/>
+                    </h:outputText>
+                </a4j:outputPanel>
+            </b:cell>
+        </b:gridBagLayout>
+    </b:titledBox>
+</b:cell>
 
-								<b:gridBagLayout cols="2,100,2,*,2,20,2"
-									rows="2,p,2,p,2,p,2,p,2,p,2,p,2,p,2,80,2,80,2,p,2,p,2,p,2">
+<b:cell x="1" y="3" width="3">
+    <ui:include src="/include/messages.xhtml"/>
+</b:cell>
 
-									<b:cell x="2" y="2">
-										<b:label id="kundelabel" label="Ansprechpartner" />
-									</b:cell>
-									<b:cell x="4" y="2" width="2">
-										<a4j:outputPanel ajaxRendered="true">
-											<h:outputText value="#{projectBackingBean.data.entity.contactPerson}">
-												<f:converter converterId="personConverter" />
-											</h:outputText>
-										</a4j:outputPanel>
-									</b:cell>
-									<b:cell x="6" y="2">
-										<b:commandLink action="#{projectBackingBean.commandShowCustomer}">
-											<b:image source="/images/next.gif" />
-											<a4j:support event="onclick"
-												reRender="#{projectBackingBean.data.changedComponents}" />
-										</b:commandLink>
-									</b:cell>
+<b:cell x="1" y="4">
+    <b:gridBagLayout rows="p,10,p,10,p" cols="*" id="stammdaten">
+        <b:cell x="1" y="1">
+            <b:titledBox label="Stammdaten">
 
-									<b:cell x="2" y="4">
-										<b:label id="datumlabel" label="Datum" />
-									</b:cell>
-									<b:cell x="4" y="4" width="3">
-										<rich:calendar value="#{projectBackingBean.data.entity.entryDate}"
-													   datePattern="dd.MM.yyyy"
-													   inputStyle="width:270px;"
-													   cellWidth="34px"
-													   onchanged="markChanged()">
-										</rich:calendar>
-									</b:cell>
+                <b:gridBagLayout cols="2,100,2,*,2,20,2"
+                                 rows="2,p,2,p,2,p,2,p,2,p,2,p,2,p,2,80,2,80,2,p,2,p,2,p,2">
 
-									<b:cell x="2" y="6">
-										<b:label id="projektnummerlabel" label="Projektnummer" />
-									</b:cell>
-									<b:cell x="4" y="6" width="3">
-										<b:inputfield
-											value="#{projectBackingBean.data.entity.projectNumber}"
-											labelComponentId="projektnummerlabel" />
-									</b:cell>
+                    <b:cell x="2" y="2">
+                        <b:label id="kundelabel" label="Ansprechpartner"/>
+                    </b:cell>
+                    <b:cell x="4" y="2" width="2">
+                        <a4j:outputPanel ajaxRendered="true">
+                            <h:outputText value="#{projectBackingBean.data.entity.contactPerson}">
+                                <f:converter converterId="personConverter"/>
+                            </h:outputText>
+                        </a4j:outputPanel>
+                    </b:cell>
+                    <b:cell x="6" y="2">
+                        <b:commandLink action="#{projectBackingBean.commandShowCustomer}">
+                            <b:image source="/images/next.gif"/>
+                            <a4j:support eventsQueue="powerstaff" event="onclick"
+                                         reRender="#{projectBackingBean.data.changedComponents}"/>
+                        </b:commandLink>
+                    </b:cell>
 
-									<b:cell x="2" y="8">
-										<b:label id="arbeitsortlabel" label="Arbeitsort" />
-									</b:cell>
-									<b:cell x="4" y="8" width="3">
-										<b:inputfield
-											value="#{projectBackingBean.data.entity.workplace}"
-											labelComponentId="arbeitsortlabel" />
-									</b:cell>
+                    <b:cell x="2" y="4">
+                        <b:label id="datumlabel" label="Datum"/>
+                    </b:cell>
+                    <b:cell x="4" y="4" width="3">
+                        <rich:calendar value="#{projectBackingBean.data.entity.entryDate}"
+                                       datePattern="dd.MM.yyyy"
+                                       inputStyle="width:270px;"
+                                       cellWidth="34px"
+                                       onchanged="markChanged()"
+                                       eventsQueue="powerstaff">
+                        </rich:calendar>
+                    </b:cell>
 
-									<b:cell x="2" y="10">
-										<b:label id="startlabel" label="Start" />
-									</b:cell>
-									<b:cell x="4" y="10" width="3">
-										<rich:calendar value="#{projectBackingBean.data.entity.startDate}"
-													   datePattern="dd.MM.yyyy"
-													   inputStyle="width:270px;"
-													   cellWidth="34px"
-													   onchanged="markChanged()">
-										</rich:calendar>
-									</b:cell>
+                    <b:cell x="2" y="6">
+                        <b:label id="projektnummerlabel" label="Projektnummer"/>
+                    </b:cell>
+                    <b:cell x="4" y="6" width="3">
+                        <b:inputfield
+                                value="#{projectBackingBean.data.entity.projectNumber}"
+                                labelComponentId="projektnummerlabel"/>
+                    </b:cell>
 
-									<b:cell x="2" y="12">
-										<b:label id="dauerlabel" label="Dauer" />
-									</b:cell>
-									<b:cell x="4" y="12" width="3">
-										<b:inputfield
-											value="#{projectBackingBean.data.entity.duration}"
-											labelComponentId="dauerlabel" />
-									</b:cell>
+                    <b:cell x="2" y="8">
+                        <b:label id="arbeitsortlabel" label="Arbeitsort"/>
+                    </b:cell>
+                    <b:cell x="4" y="8" width="3">
+                        <b:inputfield
+                                value="#{projectBackingBean.data.entity.workplace}"
+                                labelComponentId="arbeitsortlabel"/>
+                    </b:cell>
 
-									<b:cell x="2" y="14">
-										<b:label id="bezeichnunglabel" label="Bezeichnung" />
-									</b:cell>
-									<b:cell x="4" y="14" width="3">
-										<b:inputfield
-											value="#{projectBackingBean.data.entity.descriptionShort}"
-											labelComponentId="bezeichnunglabel" />
-									</b:cell>
+                    <b:cell x="2" y="10">
+                        <b:label id="startlabel" label="Start"/>
+                    </b:cell>
+                    <b:cell x="4" y="10" width="3">
+                        <rich:calendar value="#{projectBackingBean.data.entity.startDate}"
+                                       datePattern="dd.MM.yyyy"
+                                       inputStyle="width:270px;"
+                                       cellWidth="34px"
+                                       onchanged="markChanged()"
+                                       eventsQueue="powerstaff">
+                        </rich:calendar>
+                    </b:cell>
 
-									<b:cell x="2" y="16" valign="top">
-										<b:label id="beschreibunglabel" label="Aufgabe" />
-									</b:cell>
-									<b:cell x="4" y="16" width="3">
-										<b:textarea
-											value="#{projectBackingBean.data.entity.descriptionLong}"
-											labelComponentId="beschreibunglabel" />
-									</b:cell>
+                    <b:cell x="2" y="12">
+                        <b:label id="dauerlabel" label="Dauer"/>
+                    </b:cell>
+                    <b:cell x="4" y="12" width="3">
+                        <b:inputfield
+                                value="#{projectBackingBean.data.entity.duration}"
+                                labelComponentId="dauerlabel"/>
+                    </b:cell>
 
-									<b:cell x="2" y="18" valign="top">
-										<b:label id="skillslabel" label="Skills" />
-									</b:cell>
-									<b:cell x="4" y="18" width="3">
-										<b:textarea
-											value="#{projectBackingBean.data.entity.skills}"
-											labelComponentId="skillslabel" />
-									</b:cell>
-									
-									<b:cell x="2" y="20">
-										<b:label id="stundensatzvklabel" label="Stundensatz VK" />
-									</b:cell>
-									<b:cell x="4" y="20" width="3">
-										<b:numberinputfield
-											value="#{projectBackingBean.data.entity.stundensatzVK}"
-											labelComponentId="stundensatzvklabel" />
-									</b:cell>
-									
-									<b:cell x="2" y="22">
-										<b:label id="status_label" label="Status" />
-									</b:cell>
-									<b:cell x="4" y="22" width="3">
-										<b:combobox
-											value="#{projectBackingBean.data.entity.status}" id="status"
-											values="#{projectBackingBean.data.status}"
-											nullable="false"
-											labelComponentId="status_label" 
-											/>
-									</b:cell>
+                    <b:cell x="2" y="14">
+                        <b:label id="bezeichnunglabel" label="Bezeichnung"/>
+                    </b:cell>
+                    <b:cell x="4" y="14" width="3">
+                        <b:inputfield
+                                value="#{projectBackingBean.data.entity.descriptionShort}"
+                                labelComponentId="bezeichnunglabel"/>
+                    </b:cell>
 
-									<b:cell x="4" y="24" width="3">
-										<b:checkbox label="Sichtbar auf Webseite"
-											value="#{projectBackingBean.data.entity.visibleOnWebSite}"
-											 />
-									</b:cell>
+                    <b:cell x="2" y="16" valign="top">
+                        <b:label id="beschreibunglabel" label="Aufgabe"/>
+                    </b:cell>
+                    <b:cell x="4" y="16" width="3">
+                        <b:textarea
+                                value="#{projectBackingBean.data.entity.descriptionLong}"
+                                labelComponentId="beschreibunglabel"/>
+                    </b:cell>
 
-								</b:gridBagLayout>
+                    <b:cell x="2" y="18" valign="top">
+                        <b:label id="skillslabel" label="Skills"/>
+                    </b:cell>
+                    <b:cell x="4" y="18" width="3">
+                        <b:textarea
+                                value="#{projectBackingBean.data.entity.skills}"
+                                labelComponentId="skillslabel"/>
+                    </b:cell>
 
+                    <b:cell x="2" y="20">
+                        <b:label id="stundensatzvklabel" label="Stundensatz VK"/>
+                    </b:cell>
+                    <b:cell x="4" y="20" width="3">
+                        <b:numberinputfield
+                                value="#{projectBackingBean.data.entity.stundensatzVK}"
+                                labelComponentId="stundensatzvklabel"/>
+                    </b:cell>
 
-							</b:titledBox>
-						</b:cell>
+                    <b:cell x="2" y="22">
+                        <b:label id="status_label" label="Status"/>
+                    </b:cell>
+                    <b:cell x="4" y="22" width="3">
+                        <b:combobox
+                                value="#{projectBackingBean.data.entity.status}" id="status"
+                                values="#{projectBackingBean.data.status}"
+                                nullable="false"
+                                labelComponentId="status_label"
+                                />
+                    </b:cell>
 
-					</b:gridBagLayout>
-				</b:cell>
-				
-				<b:cell x="3" y="4">
-				
-				<b:gridBagLayout rows="p,10,p,10,p,10,p" cols="*" id="adresse">
-						<b:cell x="1" y="1">
-							<b:titledBox label="Adresse Ansprechpartner">
+                    <b:cell x="4" y="24" width="3">
+                        <b:checkbox label="Sichtbar auf Webseite"
+                                    value="#{projectBackingBean.data.entity.visibleOnWebSite}"
+                                />
+                    </b:cell>
 
-								<b:gridBagLayout cols="2,100,2,30,2,50,2,*,2"
-									rows="2,p,2,p,2,p,2,p,2,p,2">
-
-									<b:cell x="2" y="2">
-										<b:label id="vornamelabel" label="Name" />
-									</b:cell>
-									<b:cell x="4" y="2" width="5">
-										<b:inputfield
-											value="#{projectBackingBean.data.entity.contactPerson.name1}"
-											id="vorname" labelComponentId="vornamelabel" 
-											disabled="true"/>
-									</b:cell>
-
-									<b:cell x="2" y="4">
-										<b:label id="nachname_label" label="Vorname" />
-									</b:cell>
-									<b:cell x="4" y="4" width="5">
-										<b:inputfield
-											value="#{projectBackingBean.data.entity.contactPerson.name2}"
-											id="nachname" labelComponentId="nachname_label" 
-											disabled="true"/>
-									</b:cell>
-
-									<b:cell x="2" y="6">
-										<b:label id="firma_label" label="Firma" />
-									</b:cell>
-									<b:cell x="4" y="6" width="5">
-										<b:inputfield
-											value="#{projectBackingBean.data.entity.contactPerson.company}"
-											id="firma" labelComponentId="firma_label" 
-											disabled="true"/>
-									</b:cell>
-
-									<b:cell x="2" y="8">
-										<b:label id="strasse_label" label="Strasse" />
-									</b:cell>
-									<b:cell x="4" y="8" width="5">
-										<b:inputfield
-											value="#{projectBackingBean.data.entity.contactPerson.street}"
-											id="strasse" labelComponentId="strasse_label" 
-											disabled="true"/>
-									</b:cell>
-
-									<b:cell x="2" y="10">
-										<b:label id="plzort_label" label="Land Plz/Ort" />
-									</b:cell>
-
-									<b:cell x="4" y="10">
-										<b:inputfield value="#{projectBackingBean.data.entity.contactPerson.country}"
-											id="country" labelComponentId="plzort_label" 
-											disabled="true"/>
-									</b:cell>
-
-									<b:cell x="6" y="10">
-										<b:inputfield value="#{projectBackingBean.data.entity.contactPerson.plz}"
-											id="plz" labelComponentId="plzort_label" 
-											disabled="true"/>
-									</b:cell>
-
-									<b:cell x="8" y="10">
-										<b:inputfield
-											value="#{projectBackingBean.data.entity.contactPerson.city}" id="ort"
-											labelComponentId="plz_ort_label" 
-											disabled="true"/>
-									</b:cell>
-								</b:gridBagLayout>
+                </b:gridBagLayout>
 
 
-							</b:titledBox>
-						</b:cell>
-						
-						<b:cell x="1" y="3">
-							<b:titledBox label="Kontaktinformationen Ansprechpartner" id="contact">
+            </b:titledBox>
+        </b:cell>
 
-								<b:gridBagLayout cols="2,200,2,*,2,20,2"
-									rows="2,p,2">
+    </b:gridBagLayout>
+</b:cell>
 
-									<b:cell x="2" y="2" width="5">
-										<b:table id="kontakttable" cols="80,*,20" var="row" value="#{projectBackingBean.data.contacts}" showHeader="false" useStyles="false">
-											<h:column>
-												<f:facet name="header">
-													<h:outputText value="Art"/>
-												</f:facet>
-												<h:outputText value="#{row.type.description}"/>
-											</h:column>
-											<h:column>
-												<f:facet name="header">
-													<h:outputText value="Wert"/>
-												</f:facet>
-												<h:outputText value="#{row}" escape="false">
-													<f:converter converterId="contactConverter" />
-												</h:outputText>
-											</h:column>
-										</b:table>
-									</b:cell>
+<b:cell x="3" y="4">
 
-								</b:gridBagLayout>
-							</b:titledBox>
-						</b:cell>
-						
-						<b:cell x="1" y="5">
-							<b:titledBox label="Kodierung">
+    <b:gridBagLayout rows="p,10,p,10,p,10,p" cols="*" id="adresse">
+        <b:cell x="1" y="1">
+            <b:titledBox label="Adresse Ansprechpartner">
 
-								<b:gridBagLayout cols="2,100,2,*,2" rows="2,p,2,p,2">
+                <b:gridBagLayout cols="2,100,2,30,2,50,2,*,2"
+                                 rows="2,p,2,p,2,p,2,p,2,p,2">
 
-									<b:cell x="2" y="2">
-										<b:label id="debitor_label" label="Debitor" />
-									</b:cell>
-									<b:cell x="4" y="2">
-										<b:inputfield
-											value="#{projectBackingBean.data.entity.contactPerson.debitorNr}"
-											id="debitor" labelComponentId="debitor_label" disabled="true"/>
-									</b:cell>
+                    <b:cell x="2" y="2">
+                        <b:label id="vornamelabel" label="Name"/>
+                    </b:cell>
+                    <b:cell x="4" y="2" width="5">
+                        <b:inputfield
+                                value="#{projectBackingBean.data.entity.contactPerson.name1}"
+                                id="vorname" labelComponentId="vornamelabel"
+                                disabled="true"/>
+                    </b:cell>
 
-									<b:cell x="2" y="4">
-										<b:label id="kreditor_label" label="Kreditor" />
-									</b:cell>
-									<b:cell x="4" y="4">
-										<b:inputfield
-											value="#{projectBackingBean.data.entity.contactPerson.kreditorNr}"
-											id="kreditor" labelComponentId="kreditor_label" disabled="true"/>
-									</b:cell>
+                    <b:cell x="2" y="4">
+                        <b:label id="nachname_label" label="Vorname"/>
+                    </b:cell>
+                    <b:cell x="4" y="4" width="5">
+                        <b:inputfield
+                                value="#{projectBackingBean.data.entity.contactPerson.name2}"
+                                id="nachname" labelComponentId="nachname_label"
+                                disabled="true"/>
+                    </b:cell>
 
-								</b:gridBagLayout>
+                    <b:cell x="2" y="6">
+                        <b:label id="firma_label" label="Firma"/>
+                    </b:cell>
+                    <b:cell x="4" y="6" width="5">
+                        <b:inputfield
+                                value="#{projectBackingBean.data.entity.contactPerson.company}"
+                                id="firma" labelComponentId="firma_label"
+                                disabled="true"/>
+                    </b:cell>
 
-							</b:titledBox>
-						</b:cell>
-						
-						
-					</b:gridBagLayout>
-				
-				</b:cell>
-			</b:gridBagLayout>
-			
-		</f:subview>
-		
-		<a4j:outputPanel ajaxRendered="true">
-			<rich:jQuery selector=":input:not(:hidden)" query="change(function() {markChanged();})"/>
-		</a4j:outputPanel>
-	</ui:define>
+                    <b:cell x="2" y="8">
+                        <b:label id="strasse_label" label="Strasse"/>
+                    </b:cell>
+                    <b:cell x="4" y="8" width="5">
+                        <b:inputfield
+                                value="#{projectBackingBean.data.entity.contactPerson.street}"
+                                id="strasse" labelComponentId="strasse_label"
+                                disabled="true"/>
+                    </b:cell>
+
+                    <b:cell x="2" y="10">
+                        <b:label id="plzort_label" label="Land Plz/Ort"/>
+                    </b:cell>
+
+                    <b:cell x="4" y="10">
+                        <b:inputfield value="#{projectBackingBean.data.entity.contactPerson.country}"
+                                      id="country" labelComponentId="plzort_label"
+                                      disabled="true"/>
+                    </b:cell>
+
+                    <b:cell x="6" y="10">
+                        <b:inputfield value="#{projectBackingBean.data.entity.contactPerson.plz}"
+                                      id="plz" labelComponentId="plzort_label"
+                                      disabled="true"/>
+                    </b:cell>
+
+                    <b:cell x="8" y="10">
+                        <b:inputfield
+                                value="#{projectBackingBean.data.entity.contactPerson.city}" id="ort"
+                                labelComponentId="plz_ort_label"
+                                disabled="true"/>
+                    </b:cell>
+                </b:gridBagLayout>
+
+
+            </b:titledBox>
+        </b:cell>
+
+        <b:cell x="1" y="3">
+            <b:titledBox label="Kontaktinformationen Ansprechpartner" id="contact">
+
+                <b:gridBagLayout cols="2,200,2,*,2,20,2"
+                                 rows="2,p,2">
+
+                    <b:cell x="2" y="2" width="5">
+                        <b:table id="kontakttable" cols="80,*,20" var="row" value="#{projectBackingBean.data.contacts}"
+                                 showHeader="false" useStyles="false">
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Art"/>
+                                </f:facet>
+                                <h:outputText value="#{row.type.description}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Wert"/>
+                                </f:facet>
+                                <h:outputText value="#{row}" escape="false">
+                                    <f:converter converterId="contactConverter"/>
+                                </h:outputText>
+                            </h:column>
+                        </b:table>
+                    </b:cell>
+
+                </b:gridBagLayout>
+            </b:titledBox>
+        </b:cell>
+
+        <b:cell x="1" y="5">
+            <b:titledBox label="Kodierung">
+
+                <b:gridBagLayout cols="2,100,2,*,2" rows="2,p,2,p,2">
+
+                    <b:cell x="2" y="2">
+                        <b:label id="debitor_label" label="Debitor"/>
+                    </b:cell>
+                    <b:cell x="4" y="2">
+                        <b:inputfield
+                                value="#{projectBackingBean.data.entity.contactPerson.debitorNr}"
+                                id="debitor" labelComponentId="debitor_label" disabled="true"/>
+                    </b:cell>
+
+                    <b:cell x="2" y="4">
+                        <b:label id="kreditor_label" label="Kreditor"/>
+                    </b:cell>
+                    <b:cell x="4" y="4">
+                        <b:inputfield
+                                value="#{projectBackingBean.data.entity.contactPerson.kreditorNr}"
+                                id="kreditor" labelComponentId="kreditor_label" disabled="true"/>
+                    </b:cell>
+
+                </b:gridBagLayout>
+
+            </b:titledBox>
+        </b:cell>
+
+
+    </b:gridBagLayout>
+
+</b:cell>
+</b:gridBagLayout>
+
+</f:subview>
+
+<a4j:outputPanel ajaxRendered="true">
+    <rich:jQuery selector=":input:not(:hidden)" query="change(function() {markChanged();})"/>
+</a4j:outputPanel>
+</ui:define>
 </ui:composition>	

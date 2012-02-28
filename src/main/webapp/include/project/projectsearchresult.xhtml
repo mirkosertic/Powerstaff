@@ -1,111 +1,111 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:b="http://mogwai.sourceforge.net/layout"
-    xmlns:a4j="http://richfaces.org/a4j"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:rich="http://richfaces.org/rich" template="/template/powerstaff.xhtml">
-	<ui:define name="mainmenu">
-		<ui:include src="/include/mainmenu.xhtml"/>
-	</ui:define>
-	<ui:define name="contextmenu">
-		<ui:include src="/include/project/projectmenu1.xhtml"/>
-	</ui:define>
-	<ui:define name="content">
-		<b:title title="Projekt - Suchergebnisse"/>
-		<f:subview id="project_searchresult">
-			<b:gridBagLayout id="x" rows="p,10" cols="100,p">
-				<b:cell y="1" x="1">
-					<h:outputText styleClass="title" value="Projekt Suchergebnisse"/>
-				</b:cell>
-				
-				<b:cell y="1" x="2">
-					<a4j:status>				
-						<f:facet name="start">
-							<b:image source="images/rotate2.gif" width="20" height="20"/>
-						</f:facet>
-					</a4j:status>
-				</b:cell>
-			</b:gridBagLayout>
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://mogwai.sourceforge.net/layout"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:rich="http://richfaces.org/rich" template="/template/powerstaff.xhtml">
+    <ui:define name="mainmenu">
+        <ui:include src="/include/mainmenu.xhtml"/>
+    </ui:define>
+    <ui:define name="contextmenu">
+        <ui:include src="/include/project/projectmenu1.xhtml"/>
+    </ui:define>
+    <ui:define name="content">
+        <b:title title="Projekt - Suchergebnisse"/>
+        <f:subview id="project_searchresult">
+            <b:gridBagLayout id="x" rows="p,10" cols="100,p">
+                <b:cell y="1" x="1">
+                    <h:outputText styleClass="title" value="Projekt Suchergebnisse"/>
+                </b:cell>
 
-			<b:gridBagLayout cols="810" rows="30,10,1,p">
-				<b:cell x="1" y="1">
-					<b:titledBox label="Menu">
-						<b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,right:*"
-							rows="20">
-							<b:cell x="1" y="1">
-								<b:commandLink action="#{projectBackingBean.commandBack}">
-									<b:image source="/images/back.gif" />
-									<a4j:support event="onclick"
-										reRender="#{projectBackingBean.data.changedComponents}" />
-								</b:commandLink>
-							</b:cell>
-						</b:gridBagLayout>
-					</b:titledBox>
-				</b:cell>
-				
-				<b:cell x="1" y="3">
-					<ui:include src="/include/messages.xhtml"/>
-				</b:cell>
+                <b:cell y="1" x="2">
+                    <a4j:status>
+                        <f:facet name="start">
+                            <b:image source="images/rotate2.gif" width="20" height="20"/>
+                        </f:facet>
+                    </a4j:status>
+                </b:cell>
+            </b:gridBagLayout>
 
-				<b:cell x="1" y="4">
-					<b:table var="row" value="#{projectBackingBean.data.searchResult}" cols="20,70,80,80,70,230,260">
-						<h:column>
-							<f:facet name="header">
-							</f:facet>
-							<b:commandLink action="#{projectBackingBean.commandSelectSearchResult}">
-								<b:image source="/images/select.gif" />
-								<a4j:support event="onclick"/>
-							</b:commandLink> 
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Nummer"/>
-							</f:facet>
-							<h:outputText value="#{row.projectNumber}"/>
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Start"/>
-							</f:facet>
-							<h:outputText value="#{row.startDate}">
-								<f:converter converterId="dateConverter"/>
-							</h:outputText>
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Dauer"/>
-							</f:facet>
-							<h:outputText value="#{row.duration}"/>
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Status"/>
-							</f:facet>
-							<h:outputText value="#{projectBackingBean.data.searchResultRowProjectStatus}"/>
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Kunde"/>
-							</f:facet>
-							<h:outputText value="#{row.customer}" rendered="#{!empty row.customer}">
-								<f:converter converterId="personConverter"/>
-							</h:outputText>
-							<h:outputText value="#{row.partner}" rendered="#{!empty row.partner}">
-								<f:converter converterId="personConverter"/>
-							</h:outputText>
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Bezeichnung"/>
-							</f:facet>
-							<h:outputText value="#{row.descriptionShort}"/>
-						</h:column>
-					</b:table>
-				</b:cell>
-		
-			</b:gridBagLayout>
-			
-		</f:subview>			
-	</ui:define>
+            <b:gridBagLayout cols="810" rows="30,10,1,p">
+                <b:cell x="1" y="1">
+                    <b:titledBox label="Menu">
+                        <b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,right:*"
+                                         rows="20">
+                            <b:cell x="1" y="1">
+                                <b:commandLink action="#{projectBackingBean.commandBack}">
+                                    <b:image source="/images/back.gif"/>
+                                    <a4j:support eventsQueue="powerstaff" event="onclick"
+                                                 reRender="#{projectBackingBean.data.changedComponents}"/>
+                                </b:commandLink>
+                            </b:cell>
+                        </b:gridBagLayout>
+                    </b:titledBox>
+                </b:cell>
+
+                <b:cell x="1" y="3">
+                    <ui:include src="/include/messages.xhtml"/>
+                </b:cell>
+
+                <b:cell x="1" y="4">
+                    <b:table var="row" value="#{projectBackingBean.data.searchResult}" cols="20,70,80,80,70,230,260">
+                        <h:column>
+                            <f:facet name="header">
+                            </f:facet>
+                            <b:commandLink action="#{projectBackingBean.commandSelectSearchResult}">
+                                <b:image source="/images/select.gif"/>
+                                <a4j:support eventsQueue="powerstaff" event="onclick"/>
+                            </b:commandLink>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nummer"/>
+                            </f:facet>
+                            <h:outputText value="#{row.projectNumber}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Start"/>
+                            </f:facet>
+                            <h:outputText value="#{row.startDate}">
+                                <f:converter converterId="dateConverter"/>
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Dauer"/>
+                            </f:facet>
+                            <h:outputText value="#{row.duration}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Status"/>
+                            </f:facet>
+                            <h:outputText value="#{projectBackingBean.data.searchResultRowProjectStatus}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Kunde"/>
+                            </f:facet>
+                            <h:outputText value="#{row.customer}" rendered="#{!empty row.customer}">
+                                <f:converter converterId="personConverter"/>
+                            </h:outputText>
+                            <h:outputText value="#{row.partner}" rendered="#{!empty row.partner}">
+                                <f:converter converterId="personConverter"/>
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Bezeichnung"/>
+                            </f:facet>
+                            <h:outputText value="#{row.descriptionShort}"/>
+                        </h:column>
+                    </b:table>
+                </b:cell>
+
+            </b:gridBagLayout>
+
+        </f:subview>
+    </ui:define>
 </ui:composition>	
