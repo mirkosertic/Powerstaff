@@ -115,7 +115,7 @@ public class WrongDataServiceImpl extends LogableService implements
                     .println("Kodierung;Name;Vorname;Mail");
             theFreelancerMitHomepageOhneKontaktWriter
                     .println("Kodierung;Name;Vorname;Homepage");
-            theFreelancerForNewsletterWriter.println("Kürzel;Name;Vorname;eMail;Eintrag in Kreditor;Verfügbarkeit;Homepage;letzter Kontakt;Status;Xink;Gulp");
+            theFreelancerForNewsletterWriter.println("Kürzel;Name;Vorname;eMail;Eintrag in Kreditor;Verfügbarkeit;Homepage;letzter Kontakt;Status;Xing;Gulp");
             theProfileOhneDBWriter.println("Kodierung;Dateinamen");
             theProfileDoppelterCodeWriter.println("Kodierung;Dateinamen");
 
