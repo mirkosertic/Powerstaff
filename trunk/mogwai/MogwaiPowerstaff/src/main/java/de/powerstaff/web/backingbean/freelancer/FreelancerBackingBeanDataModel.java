@@ -4,6 +4,7 @@ import de.mogwai.common.utils.KeyValuePair;
 import de.mogwai.common.web.utils.CollectionDataModel;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerProfile;
+import de.powerstaff.business.entity.ProjectPosition;
 import de.powerstaff.web.backingbean.PersonEditorBackingBeanDataModel;
 
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ public class FreelancerBackingBeanDataModel extends
     private CollectionDataModel<FreelancerProfile> profiles = new CollectionDataModel<FreelancerProfile>();
 
     private List<KeyValuePair<Integer, String>> status = new ArrayList<KeyValuePair<Integer, String>>();
+
+    private ProjectPosition currentProjectPosition = new ProjectPosition();
 
     public FreelancerBackingBeanDataModel() {
         init();
@@ -70,5 +73,13 @@ public class FreelancerBackingBeanDataModel extends
      */
     public List getStatus() {
         return status;
+    }
+
+    public ProjectPosition getCurrentProjectPosition() {
+        return currentProjectPosition;
+    }
+
+    public void setCurrentProjectPosition(ProjectPosition currentProjectPosition) {
+        this.currentProjectPosition = currentProjectPosition;
     }
 }

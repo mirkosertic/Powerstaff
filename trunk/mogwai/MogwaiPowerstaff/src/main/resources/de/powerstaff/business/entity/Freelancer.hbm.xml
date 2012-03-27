@@ -1,83 +1,78 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC
-	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="de.powerstaff.business.entity" default-lazy="false">
-  <class name="Freelancer" table="freelancer">
+    <class name="Freelancer" table="freelancer">
 
-		<id name="id" column="id">
-	        <generator class="identity"/>
-   		</id>
-	
-		<property column="creationDate" name="creationDate"/>
-		<property column="creationUser" name="creationUserID"/>
-		<property column="changedDate" name="lastModificationDate"/>
-		<property column="changedUser" name="lastModificationUserID"/>
-		
-		<property name="name1"/>
-		<property name="name2" />
-		<property name="company"/>
-		<property name="street"/>
-		<property name="country"/>
-		<property name="plz"/>
-		<property name="city"/>
-		<property name="comments" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
-		<property name="contactforbidden"/>
-		<property name="workplace"/>
-		<property name="availabilityAsDate"/>
-		<property name="code"/>
-		<property name="contactPerson"/>
-		<property name="contactType"/>
-		<property name="contactReason"/>
-		<property name="lastContact"/>
-		<property name="skills"  type="org.springframework.orm.hibernate3.support.ClobStringType"/>
-		<property name="gulpID"/>
-		<property name="showAgain"/>
-		<property name="sallaryPartnerLong"/>
-		<property name="sallaryPartnerPerDayLong"/>
-		<property name="sallaryPerDayLong"/>
-		<property name="sallaryLong"/>
-		<property name="sallaryComment" type="org.springframework.orm.hibernate3.support.ClobStringType"/>		
-		<property name="status"/>
-		
-		<property name="titel"/>
-		<property name="nationalitaet"/>
-		<property name="geburtsdatum"/>		
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
 
-		<set name="contacts" cascade="all-delete-orphan" order-by="value" fetch="join">
-			<key column="freelancer_id"/>
-			<one-to-many class="FreelancerContact"/>
-		</set>
+        <property column="creationDate" name="creationDate"/>
+        <property column="creationUser" name="creationUserID"/>
+        <property column="changedDate" name="lastModificationDate"/>
+        <property column="changedUser" name="lastModificationUserID"/>
 
-		<set name="history" cascade="all-delete-orphan" order-by="creationDate DESC" fetch="select" lazy="true">
-			<key column="freelancer_id"/>
-			<one-to-many class="FreelancerHistory"/>
-		</set>
-		
-		<many-to-one name="partner" class="Partner">
-			<column name="partner_id"/>
-		</many-to-one>  
+        <property name="name1"/>
+        <property name="name2"/>
+        <property name="company"/>
+        <property name="street"/>
+        <property name="country"/>
+        <property name="plz"/>
+        <property name="city"/>
+        <property name="comments" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+        <property name="contactforbidden"/>
+        <property name="workplace"/>
+        <property name="availabilityAsDate"/>
+        <property name="code"/>
+        <property name="contactPerson"/>
+        <property name="contactType"/>
+        <property name="contactReason"/>
+        <property name="lastContact"/>
+        <property name="skills" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+        <property name="gulpID"/>
+        <property name="showAgain"/>
+        <property name="sallaryPartnerLong"/>
+        <property name="sallaryPartnerPerDayLong"/>
+        <property name="sallaryPerDayLong"/>
+        <property name="sallaryLong"/>
+        <property name="sallaryComment" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+        <property name="status"/>
 
-		<set name="projects" cascade="all-delete-orphan" fetch="select" lazy="true">
-			<key column="freelancer_id"/>
-			<one-to-many class="ProjectPosition" />
-		</set>
-		
-		<map name="udf" table="freelancer_udf" cascade="all-delete-orphan" fetch="select" lazy="true">
-			<key column="freelancer_id" foreign-key="freelancer_udf_fk1"/>
-			<map-key type="string" length="255" column="name"/>
-			<composite-element class="UserDefinedField">
-				<property name="booleanValue" column="booleanvalue"/>
-				<property name="dateValue" column="datevalue"/>
-				<property name="intValue" column="intvalue"/>
-				<property name="longValue" column="longvalue"/>
-				<property name="stringValue" column="stringValue" length="255"/>
-				<property name="longStringValue" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
-			</composite-element>
-		</map>
-		
-		<property name="debitorNr"/>
-		<property name="kreditorNr"/>
-	
-  </class>
+        <property name="titel"/>
+        <property name="nationalitaet"/>
+        <property name="geburtsdatum"/>
+
+        <set name="contacts" cascade="all-delete-orphan" order-by="value" fetch="join">
+            <key column="freelancer_id"/>
+            <one-to-many class="FreelancerContact"/>
+        </set>
+
+        <set name="history" cascade="all-delete-orphan" order-by="creationDate DESC" fetch="select" lazy="true">
+            <key column="freelancer_id"/>
+            <one-to-many class="FreelancerHistory"/>
+        </set>
+
+        <many-to-one name="partner" class="Partner">
+            <column name="partner_id"/>
+        </many-to-one>
+
+        <map name="udf" table="freelancer_udf" cascade="all-delete-orphan" fetch="select" lazy="true">
+            <key column="freelancer_id" foreign-key="freelancer_udf_fk1"/>
+            <map-key type="string" length="255" column="name"/>
+            <composite-element class="UserDefinedField">
+                <property name="booleanValue" column="booleanvalue"/>
+                <property name="dateValue" column="datevalue"/>
+                <property name="intValue" column="intvalue"/>
+                <property name="longValue" column="longvalue"/>
+                <property name="stringValue" column="stringValue" length="255"/>
+                <property name="longStringValue" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+            </composite-element>
+        </map>
+
+        <property name="debitorNr"/>
+        <property name="kreditorNr"/>
+
+    </class>
 </hibernate-mapping>

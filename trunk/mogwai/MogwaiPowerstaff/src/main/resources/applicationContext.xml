@@ -86,6 +86,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <property name="mappingLocations">
             <list>
                 <value>
+                    classpath:/de/powerstaff/business/entity/ProjectPositionStatus.hbm.xml
+                </value>
+                <value>
                     classpath:/de/powerstaff/business/entity/Freelancer.hbm.xml
                 </value>
                 <value>
@@ -123,6 +126,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
                 </value>
                 <value>
                     classpath:/de/powerstaff/business/entity/ProjectPosition.hbm.xml
+                </value>
+                <value>
+                    classpath:/de/powerstaff/business/entity/ProjectSearch.hbm.xml
                 </value>
                 <value>
                     classpath:/de/powerstaff/business/entity/User.hbm.xml

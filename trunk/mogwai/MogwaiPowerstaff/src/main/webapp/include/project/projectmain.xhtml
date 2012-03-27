@@ -14,9 +14,12 @@
 <ui:define name="content">
 <b:title title="Projekt - Stammdaten"/>
 <f:subview id="project_core">
-<b:gridBagLayout id="x" rows="p,10" cols="100,p">
+<b:gridBagLayout id="x" rows="p,10" cols="500,p">
     <b:cell y="1" x="1">
-        <h:outputText styleClass="title" value="Projekt"/>
+        <h:panelGrid columns="2">
+            <h:outputText styleClass="title" value="Projekt"/>
+            <ui:include src="/include/context.xhtml"/>
+        </h:panelGrid>
     </b:cell>
 
     <b:cell y="1" x="2">
@@ -419,6 +422,71 @@
 
 </b:cell>
 </b:gridBagLayout>
+
+<b:table var="row" value="#{projectBackingBean.data.savedSearches}" cols="770,20,20">
+    <h:column>
+        <f:facet name="header">
+            <h:outputText value="Gespeicherte Suchen"/>
+        </f:facet>
+        <h:outputText value="#{row.profileContent}"/>
+    </h:column>
+    <h:column>
+        <b:commandLink action="#{projectBackingBean.commandDeleteSavedSearch}">
+            <b:image source="/images/delete.gif"/>
+            <a4j:support eventsQueue="powerstaff" event="onclick"/>
+        </b:commandLink>
+    </h:column>
+    <h:column>
+        <b:commandLink action="#{projectBackingBean.commandOpenSavedSearch}">
+            <b:image source="/images/select.gif"/>
+            <a4j:support eventsQueue="powerstaff" event="onclick"/>
+        </b:commandLink>
+    </h:column>
+</b:table>
+
+<br/>
+<br/>
+
+<a4j:outputPanel ajaxRendered="true">
+    <b:table var="row" value="#{projectBackingBean.data.positions}" cols="250,120,200,200,20,20">
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Freiberufler"/>
+            </f:facet>
+            <h:outputText value="#{projectBackingBean.positionFreelancerDescription}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Status"/>
+            </f:facet>
+            <h:outputText value="#{row.status.description}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Konditionen"/>
+            </f:facet>
+            <h:outputText value="#{row.conditions}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Kommentar"/>
+            </f:facet>
+            <h:outputText value="#{row.comment}"/>
+        </h:column>
+        <h:column>
+            <b:commandLink action="#{projectBackingBean.commandDeletePosition}">
+                <b:image source="/images/delete.gif"/>
+                <a4j:support eventsQueue="powerstaff" event="onclick"/>
+            </b:commandLink>
+        </h:column>
+        <h:column>
+            <b:commandLink action="#{projectBackingBean.commandOpenPosition}">
+                <b:image source="/images/select.gif"/>
+                <a4j:support eventsQueue="powerstaff" event="onclick"/>
+            </b:commandLink>
+        </h:column>
+    </b:table>
+</a4j:outputPanel>
 
 </f:subview>
 

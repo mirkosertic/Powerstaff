@@ -10,11 +10,11 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
         extends EntityEditorBackingBean<V> {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7505086677065098879L;
+     *
+     */
+    private static final long serialVersionUID = -7505086677065098879L;
 
-	private static final Logger LOGGER = new Logger(NavigatingBackingBean.class);
+    private static final Logger LOGGER = new Logger(NavigatingBackingBean.class);
 
     protected S entityService;
 
@@ -22,6 +22,7 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
         T theEntity = (T) getData().getEntity();
         if (theEntity != null && theEntity.getId() != null) {
             getData().setEntity(entityService.findByPrimaryKey(theEntity.getId()));
+            afterNavigation();
         }
     }
 
@@ -33,8 +34,7 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
     }
 
     /**
-     * @param entityService
-     *                the entityService to set
+     * @param entityService the entityService to set
      */
     public void setEntityService(S entityService) {
         this.entityService = entityService;

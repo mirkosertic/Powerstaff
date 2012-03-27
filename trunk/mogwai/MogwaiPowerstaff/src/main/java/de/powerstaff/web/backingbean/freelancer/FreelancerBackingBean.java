@@ -1,55 +1,59 @@
 /**
  * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 package de.powerstaff.web.backingbean.freelancer;
 
-import java.util.List;
-import java.util.Vector;
-
 import de.mogwai.common.command.EditEntityCommand;
 import de.mogwai.common.command.UpdateModelCommand;
 import de.mogwai.common.logging.Logger;
 import de.mogwai.common.web.utils.JSFMessageUtils;
-import de.mogwai.common.web.utils.UpdateModelInfo;
 import de.powerstaff.business.dto.ProfileSearchInfoDetail;
-import de.powerstaff.business.entity.Freelancer;
-import de.powerstaff.business.entity.FreelancerContact;
-import de.powerstaff.business.entity.FreelancerHistory;
-import de.powerstaff.business.entity.FreelancerProfile;
-import de.powerstaff.business.entity.Partner;
+import de.powerstaff.business.entity.*;
 import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.ProfileSearchService;
+import de.powerstaff.business.service.ProjectService;
+import de.powerstaff.web.backingbean.ContextUtils;
 import de.powerstaff.web.backingbean.PersonEditorBackingBean;
 import de.powerstaff.web.backingbean.partner.PartnerBackingBean;
 
+import java.util.List;
+
 public class FreelancerBackingBean
-		extends
-		PersonEditorBackingBean<Freelancer, FreelancerBackingBeanDataModel, FreelancerService> {
+        extends
+        PersonEditorBackingBean<Freelancer, FreelancerBackingBeanDataModel, FreelancerService> {
 
-	private static final long serialVersionUID = 1951906917491517234L;
+    private static final long serialVersionUID = 1951906917491517234L;
 
-	private static final Logger LOGGER = new Logger(FreelancerBackingBean.class);
+    private static final Logger LOGGER = new Logger(FreelancerBackingBean.class);
 
-	private transient ProfileSearchService profileSearchService;
+    private transient ProfileSearchService profileSearchService;
 
     private PartnerBackingBean partnerBackingBean;
 
-    public PartnerBackingBean getPartnerBackingBean() {
-        return partnerBackingBean;
+    private ContextUtils contextUtils;
+
+    private ProjectService projectService;
+
+    public void setProjectService(ProjectService projectService) {
+        this.projectService = projectService;
+    }
+
+    public void setContextUtils(ContextUtils contextUtils) {
+        this.contextUtils = contextUtils;
     }
 
     public void setPartnerBackingBean(PartnerBackingBean partnerBackingBean) {
@@ -57,102 +61,147 @@ public class FreelancerBackingBean
     }
 
     @Override
-	protected FreelancerBackingBeanDataModel createDataModel() {
-		return new FreelancerBackingBeanDataModel();
-	}
+    protected FreelancerBackingBeanDataModel createDataModel() {
+        return new FreelancerBackingBeanDataModel();
+    }
 
-	/**
-	 * @return the profileSearchService
-	 */
-	public ProfileSearchService getProfileSearchService() {
-		return profileSearchService;
-	}
+    /**
+     * @return the profileSearchService
+     */
+    public ProfileSearchService getProfileSearchService() {
+        return profileSearchService;
+    }
 
-	/**
-	 * @param profileSearchService
-	 *            the profileSearchService to set
-	 */
-	public void setProfileSearchService(
-			ProfileSearchService profileSearchService) {
-		this.profileSearchService = profileSearchService;
-	}
+    /**
+     * @param profileSearchService the profileSearchService to set
+     */
+    public void setProfileSearchService(
+            ProfileSearchService profileSearchService) {
+        this.profileSearchService = profileSearchService;
+    }
 
-	public List<String> getCodeSuggestion(Object aSuggest) {
-		return entityService.getCodeSuggestions((String) aSuggest);
-	}
+    public List<String> getCodeSuggestion(Object aSuggest) {
+        return entityService.getCodeSuggestions((String) aSuggest);
+    }
 
-	@Override
-	protected void afterNavigation() {
-		super.afterNavigation();
+    @Override
+    protected void afterNavigation() {
+        super.afterNavigation();
 
-        getData().getProfiles().setWrappedData(profileSearchService.loadProfilesFor(getData().getEntity()));
-	}
+        Freelancer theFreelancer = getData().getEntity();
 
-	@Override
-	protected Freelancer createNew() {
-		return new Freelancer();
-	}
+        getData().getProfiles().setWrappedData(profileSearchService.loadProfilesFor(theFreelancer));
+        getData().setCurrentProjectPosition(new ProjectPosition());
 
-	public String commandShowPartner() {
-		Partner thePartner = getData().getEntity().getPartner();
-		if (thePartner != null) {
-			partnerBackingBean.updateModel(new EditEntityCommand<Freelancer>(getData().getEntity()));
-			return "PARTNER_STAMMDATEN";
-		}
-		return null;
-	}
+        Project theCurrentProject = contextUtils.getCurrentProject();
+        if (theCurrentProject != null && theFreelancer.getId() != null) {
+            for (ProjectPosition thePosition : theCurrentProject.getPositions()) {
+                if (thePosition.getFreelancerId() == theFreelancer.getId().longValue()) {
+                    getData().setCurrentProjectPosition(thePosition);
+                }
+            }
+        }
+    }
 
-	@Override
-	public void updateModel(UpdateModelCommand aInfo) {
-		super.updateModel(aInfo);
-		if (aInfo instanceof EditEntityCommand) {
-			EditEntityCommand theCommand = (EditEntityCommand) aInfo;
+    @Override
+    protected Freelancer createNew() {
+        return new Freelancer();
+    }
 
-			init();
-			if (theCommand.getValue() instanceof ProfileSearchInfoDetail) {
+    @Override
+    public void commandDelete() {
+        Freelancer theFreelancer = getData().getEntity();
 
-				ProfileSearchInfoDetail theDetails = (ProfileSearchInfoDetail) theCommand
-						.getValue();
-				Freelancer theFreelancer = (Freelancer) entityService
-						.findByPrimaryKey(theDetails.getId());
+        super.commandDelete();
+    }
+
+    @Override
+    public void commandSave() {
+        Project theCurrentProject = contextUtils.getCurrentProject();
+        if (theCurrentProject != null) {
+            ProjectPosition thePosition = getData().getCurrentProjectPosition();
+            if (thePosition.getId() == null) {
+                theCurrentProject.addPosition(thePosition);
+                thePosition.setFreelancerId(getData().getEntity().getId());
+            } else {
+                for (ProjectPosition thePersistentPos : theCurrentProject.getPositions()) {
+                    if (thePersistentPos.equals(thePosition)) {
+                        thePersistentPos.setComment(thePosition.getComment());
+                        thePersistentPos.setConditions(thePosition.getConditions());
+                        thePersistentPos.setStatus(thePosition.getStatus());
+                    }
+                }
+            }
+            projectService.save(theCurrentProject);
+        }
+
+        super.commandSave();
+    }
+
+    public String commandShowPartner() {
+        Partner thePartner = getData().getEntity().getPartner();
+        if (thePartner != null) {
+            partnerBackingBean.updateModel(new EditEntityCommand<Freelancer>(getData().getEntity()));
+            return "PARTNER_STAMMDATEN";
+        }
+        return null;
+    }
+
+    @Override
+    public void updateModel(UpdateModelCommand aInfo) {
+        super.updateModel(aInfo);
+        if (aInfo instanceof EditEntityCommand) {
+            EditEntityCommand theCommand = (EditEntityCommand) aInfo;
+
+            init();
+            if (theCommand.getValue() instanceof ProfileSearchInfoDetail) {
+
+                ProfileSearchInfoDetail theDetails = (ProfileSearchInfoDetail) theCommand
+                        .getValue();
+                Freelancer theFreelancer = (Freelancer) entityService
+                        .findByPrimaryKey(theDetails.getId());
                 if (theFreelancer != null) {
-				    getData().setEntity(theFreelancer);
+                    getData().setEntity(theFreelancer);
                 } else {
                     // Freelancer wurde gelöscht, wir springen zu einem neuen Eintrag
                     JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);
                     commandNew();
                 }
-			}
+            }
 
-			if (theCommand.getValue() instanceof Freelancer) {
-				Freelancer theDetails = (Freelancer) theCommand.getValue();
-				Freelancer theFreelancer = entityService
-						.findByPrimaryKey(theDetails.getId());
-				getData().setEntity(theFreelancer);
-			}
+            if (theCommand.getValue() instanceof Freelancer) {
+                Freelancer theDetails = (Freelancer) theCommand.getValue();
+                Freelancer theFreelancer = entityService
+                        .findByPrimaryKey(theDetails.getId());
+                getData().setEntity(theFreelancer);
+            }
 
-			afterNavigation();
-		}
-	}
+            afterNavigation();
+        }
+    }
 
-	public String getProfileOpenCommand() {
-		FreelancerProfile theProfile = (FreelancerProfile) getData()
-				.getProfiles().getRowData();
-		if (theProfile.isWordProfile()) {
-			return "return openWordFile('"
-					+ theProfile.getFileName().replace("\\", "\\\\") + "')";
-		}
-		return "return openTextFile('"
-				+ theProfile.getFileName().replace("\\", "\\\\") + "')";
-	}
+    public String getProfileOpenCommand() {
+        FreelancerProfile theProfile = (FreelancerProfile) getData()
+                .getProfiles().getRowData();
+        if (theProfile.isWordProfile()) {
+            return "return openWordFile('"
+                    + theProfile.getFileName().replace("\\", "\\\\") + "')";
+        }
+        return "return openTextFile('"
+                + theProfile.getFileName().replace("\\", "\\\\") + "')";
+    }
 
-	@Override
-	protected FreelancerContact createNewContact() {
-		return new FreelancerContact();
-	}
+    @Override
+    protected FreelancerContact createNewContact() {
+        return new FreelancerContact();
+    }
 
-	@Override
-	protected FreelancerHistory createNewHistory() {
-		return new FreelancerHistory();
-	}
+    @Override
+    protected FreelancerHistory createNewHistory() {
+        return new FreelancerHistory();
+    }
+
+    public boolean isAssignedToCurrentProject() {
+        return getData().getCurrentProjectPosition() != null && getData().getEntity().getId() != null;
+    }
 }
