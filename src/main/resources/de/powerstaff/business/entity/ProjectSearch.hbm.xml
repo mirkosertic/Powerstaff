@@ -3,7 +3,7 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="de.powerstaff.business.entity" default-lazy="false">
-    <class name="ProjectPosition" table="project_position">
+    <class name="ProjectSearch" table="project_search">
 
         <id name="id" column="id">
             <generator class="identity"/>
@@ -14,14 +14,20 @@
         <property column="changedDate" name="lastModificationDate"/>
         <property column="changedUser" name="lastModificationUserID"/>
 
-        <many-to-one name="status" class="ProjectPositionStatus" not-null="true">
-            <column name="status_id"/>
+        <many-to-one name="user" class="User">
+            <column name="user_id"/>
         </many-to-one>
 
-        <property name="comment" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
-        <property name="conditions" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+        <property name="profileContent"/>
+        <property name="plz"/>
+        <property name="stundensatzVon"/>
+        <property name="stundensatzBis"/>
+        <property name="sortierung"/>
 
-        <property name="freelancerId" column="freelancer_id" not-null="true"/>
+        <set name="profilesToIgnore" table="projectsearchignore">
+            <key column="projectsearch_id" not-null="true"></key>
+            <element column="documentid" type="string"></element>
+        </set>
 
     </class>
 </hibernate-mapping>

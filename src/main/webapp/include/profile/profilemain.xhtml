@@ -14,9 +14,12 @@
     <ui:define name="content">
         <b:title title="Profilsuche"/>
         <f:subview id="profilesearch">
-            <b:gridBagLayout id="x" rows="p,10" cols="100,p">
+            <b:gridBagLayout id="x" rows="p,10" cols="500,p">
                 <b:cell y="1" x="1">
-                    <h:outputText styleClass="title" value="Profilsuche"/>
+                    <h:panelGrid columns="2">
+                        <h:outputText styleClass="title" value="Profilsuche"/>
+                        <ui:include src="/include/context.xhtml"/>
+                    </h:panelGrid>
                 </b:cell>
 
                 <b:cell y="1" x="2">

@@ -1,40 +1,47 @@
 package de.powerstaff.web.backingbean.project;
 
-import java.util.Collection;
-
 import de.mogwai.common.command.EditEntityCommand;
 import de.mogwai.common.command.UpdateModelCommand;
 import de.mogwai.common.web.utils.JSFMessageUtils;
-import de.mogwai.common.web.utils.UpdateModelInfo;
 import de.powerstaff.business.dao.GenericSearchResult;
-import de.powerstaff.business.entity.Customer;
-import de.powerstaff.business.entity.Partner;
-import de.powerstaff.business.entity.Project;
+import de.powerstaff.business.entity.*;
 import de.powerstaff.business.service.FreelancerService;
-import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.business.service.ProjectService;
 import de.powerstaff.business.service.TooManySearchResults;
+import de.powerstaff.web.backingbean.ContextUtils;
 import de.powerstaff.web.backingbean.NavigatingBackingBean;
 import de.powerstaff.web.backingbean.customer.CustomerBackingBean;
+import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 import de.powerstaff.web.backingbean.partner.PartnerBackingBean;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBackingBeanDataModel, ProjectService> {
 
-	private static final long serialVersionUID = 8688601363580323078L;
+    private static final long serialVersionUID = 8688601363580323078L;
 
     private CustomerBackingBean customerBackingBean;
     private PartnerBackingBean partnerBackingBean;
+    private FreelancerBackingBean freelancerBackingBean;
+    private ContextUtils contextUtils;
+    private FreelancerService freelancerService;
 
-    public PartnerBackingBean getPartnerBackingBean() {
-        return partnerBackingBean;
+    public void setFreelancerBackingBean(FreelancerBackingBean freelancerBackingBean) {
+        this.freelancerBackingBean = freelancerBackingBean;
+    }
+
+    public void setFreelancerService(FreelancerService freelancerService) {
+        this.freelancerService = freelancerService;
+    }
+
+    public void setContextUtils(ContextUtils contextUtils) {
+        this.contextUtils = contextUtils;
     }
 
     public void setPartnerBackingBean(PartnerBackingBean partnerBackingBean) {
         this.partnerBackingBean = partnerBackingBean;
-    }
-
-    public CustomerBackingBean getCustomerBackingBean() {
-        return customerBackingBean;
     }
 
     public void setCustomerBackingBean(CustomerBackingBean customerBackingBean) {
@@ -48,12 +55,12 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
 
     public String commandSearch() {
 
-        Collection<GenericSearchResult> theResult = null;
+        Collection<GenericSearchResult> theResult;
         try {
             theResult = entityService.performQBESearch(getData().getEntity());
         } catch (TooManySearchResults e) {
             theResult = e.getResult();
-            JSFMessageUtils.addGlobalErrorMessage(MSG_ZUVIELESUCHERGEBNISSE);            
+            JSFMessageUtils.addGlobalErrorMessage(MSG_ZUVIELESUCHERGEBNISSE);
         }
 
         if (theResult.size() < 1) {
@@ -133,7 +140,7 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
     public void updateModel(UpdateModelCommand aInfo) {
         super.updateModel(aInfo);
         if (aInfo instanceof EditEntityCommand) {
-            
+
             EditEntityCommand theCommand = (EditEntityCommand) aInfo;
 
             init();
@@ -141,10 +148,10 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
             Project theProject = new Project();
             if (theCommand.getValue() instanceof Customer) {
                 theProject.setCustomer((Customer) theCommand.getValue());
-            } 
+            }
             if (theCommand.getValue() instanceof Partner) {
                 theProject.setPartner((Partner) theCommand.getValue());
-            } 
+            }
 
             getData().setEntity(theProject);
             afterNavigation();
@@ -159,5 +166,51 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
     @Override
     protected void afterNavigation() {
         super.afterNavigation();
-   }
+
+        Project theCurrentProject = getData().getEntity();
+
+        contextUtils.setCurrentProject(theCurrentProject);
+
+        List<ProjectPosition> thePositions = new ArrayList();
+        thePositions.addAll(theCurrentProject.getPositions());
+
+        getData().getPositions().setWrappedData(thePositions);
+
+        List<ProjectSearch> theSearches = new ArrayList<ProjectSearch>();
+        theSearches.addAll(theCurrentProject.getSearches());
+
+        getData().getSavedSearches().setWrappedData(theSearches);
+    }
+
+    public String commandOpenPosition() {
+        ProjectPosition thePositionToNavigate = (ProjectPosition) getData().getPositions().getRowData();
+
+        Freelancer theFreelancer = freelancerService.findByPrimaryKey(thePositionToNavigate.getFreelancerId());
+        freelancerBackingBean.updateModel(new EditEntityCommand<Freelancer>(theFreelancer));
+        return "FREELANCER_STAMMDATEN";
+    }
+
+    public void commandDeletePosition() {
+        try {
+
+            Project theCurrentProject = getData().getEntity();
+            ProjectPosition thePositionToDelete = (ProjectPosition) getData().getPositions().getRowData();
+            theCurrentProject.getPositions().remove(thePositionToDelete);
+
+            entityService.save(theCurrentProject);
+
+            JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
+
+            afterNavigation();
+
+        } catch (Exception e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMLOESCHEN);
+        }
+    }
+
+    public String getPositionFreelancerDescription() {
+        ProjectPosition thePosition = (ProjectPosition) getData().getPositions().getRowData();
+        Freelancer theFreelancer = freelancerService.findByPrimaryKey(thePosition.getFreelancerId());
+        return theFreelancer.getName1() + " " + theFreelancer.getName2();
+    }
 }

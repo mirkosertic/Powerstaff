@@ -1,67 +1,72 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC
-	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="de.powerstaff.business.entity" default-lazy="false">
-  <class name="Project" table="project">
+    <class name="Project" table="project">
 
-		<id name="id" column="id">
-	        <generator class="identity"/>
-		</id>
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
 
-		<property column="creationDate" name="creationDate"/>
-		<property column="creationUser" name="creationUserID"/>
-		<property column="changedDate" name="lastModificationDate"/>
-		<property column="changedUser" name="lastModificationUserID"/>
-		
-		<property name="projectNumber"/>
-		<property name="workplace"/>
-		<property name="duration"/>
-		<property name="descriptionShort"/>
-		<property name="descriptionLong" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
-		<property name="skills" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
-		<property name="visibleOnWebSite"/>
-		<property name="status">
-			<column name="status" default="1"></column>
-		</property>
-		<property name="entryDate"/>
-		<property name="startDate"/>
-		<property name="stundensatzVK"/>
-		
-		<property name="debitorNr"/>
-		<property name="kreditorNr"/>		
-		
-		<set name="positions" cascade="all-delete-orphan" inverse="true" fetch="join">
-			<key column="project_id"/>
-			<one-to-many class="ProjectPosition"/>
-		</set>
+        <property column="creationDate" name="creationDate"/>
+        <property column="creationUser" name="creationUserID"/>
+        <property column="changedDate" name="lastModificationDate"/>
+        <property column="changedUser" name="lastModificationUserID"/>
 
-		<many-to-one name="customer" class="Customer" cascade="none">
-			<column name="customer_id" not-null="false"/>
-		</many-to-one>  
+        <property name="projectNumber"/>
+        <property name="workplace"/>
+        <property name="duration"/>
+        <property name="descriptionShort"/>
+        <property name="descriptionLong" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+        <property name="skills" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+        <property name="visibleOnWebSite"/>
+        <property name="status">
+            <column name="status" default="1"></column>
+        </property>
+        <property name="entryDate"/>
+        <property name="startDate"/>
+        <property name="stundensatzVK"/>
 
-		<many-to-one name="partner" class="Partner" cascade="none">
-			<column name="partner_id" not-null="false"/>
-		</many-to-one>  
+        <property name="debitorNr"/>
+        <property name="kreditorNr"/>
 
-		<list name="history" cascade="all-delete-orphan" fetch="join">
-			<key column="project_id"/>
-			<index column="position"/>
-			<one-to-many class="ProjectHistory"/>
-		</list>
-		
-		<map name="udf" table="project_udf" cascade="all-delete-orphan" fetch="select" lazy="true">
-			<key column="project_id" foreign-key="project_udf_fk1"/>
-			<map-key type="string" length="255" column="name"/>
-			<composite-element class="UserDefinedField">
-				<property name="booleanValue" column="booleanvalue"/>
-				<property name="dateValue" column="datevalue"/>
-				<property name="intValue" column="intvalue"/>
-				<property name="longValue" column="longvalue"/>
-				<property name="stringValue" column="stringValue" length="255"/>
-				<property name="longStringValue" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
-			</composite-element>
-		</map>
+        <set name="positions" cascade="all-delete-orphan,save-update" fetch="join">
+            <key column="project_id"/>
+            <one-to-many class="ProjectPosition"/>
+        </set>
 
-  </class>
+        <set name="searches" cascade="all-delete-orphan" inverse="true" fetch="join">
+            <key column="project_id"/>
+            <one-to-many class="ProjectSearch"/>
+        </set>
+
+        <many-to-one name="customer" class="Customer" cascade="none" fetch="select">
+            <column name="customer_id" not-null="false"/>
+        </many-to-one>
+
+        <many-to-one name="partner" class="Partner" cascade="none" fetch="select">
+            <column name="partner_id" not-null="false"/>
+        </many-to-one>
+
+        <list name="history" cascade="all-delete-orphan" fetch="select">
+            <key column="project_id"/>
+            <index column="position"/>
+            <one-to-many class="ProjectHistory"/>
+        </list>
+
+        <map name="udf" table="project_udf" cascade="all-delete-orphan" fetch="select" lazy="true">
+            <key column="project_id" foreign-key="project_udf_fk1"/>
+            <map-key type="string" length="255" column="name"/>
+            <composite-element class="UserDefinedField">
+                <property name="booleanValue" column="booleanvalue"/>
+                <property name="dateValue" column="datevalue"/>
+                <property name="intValue" column="intvalue"/>
+                <property name="longValue" column="longvalue"/>
+                <property name="stringValue" column="stringValue" length="255"/>
+                <property name="longStringValue" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+            </composite-element>
+        </map>
+
+    </class>
 </hibernate-mapping>

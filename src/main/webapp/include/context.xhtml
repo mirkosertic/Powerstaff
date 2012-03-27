@@ -1,0 +1,15 @@
+<f:subview id="contextmenu"
+           xmlns:f="http://java.sun.com/jsf/core"
+           xmlns:h="http://java.sun.com/jsf/html"
+           xmlns:b="http://mogwai.sourceforge.net/layout"
+           xmlns:a4j="http://richfaces.org/a4j">
+    <a4j:outputPanel ajaxRendered="true" style="white-space: nowrap;">
+        <f:subview id="projectincontext" rendered="#{contextUtils.contextSet}">
+            <h:outputText value="      Aktuelles Projekt : #{contextUtils.currrentProjectDescription}     "/>
+            <h:commandLink action="#{contextUtils.commandClear}">
+                <b:image source="/images/delete.gif"/>
+                <a4j:support eventsQueue="powerstaff" event="onclick"/>
+            </h:commandLink>
+        </f:subview>
+    </a4j:outputPanel>
+</f:subview>

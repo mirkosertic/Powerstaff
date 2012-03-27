@@ -19,12 +19,15 @@ package de.powerstaff.business.entity;
 
 import de.powerstaff.business.lucene.analysis.ProfileAnalyzer;
 import de.powerstaff.business.service.FreelancerFieldBridge;
-import java.util.*;
-import javax.persistence.Column;
 import org.hibernate.search.annotations.*;
 
+import javax.persistence.Column;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 @Indexed
-@ClassBridge(name="freelancer", impl = FreelancerFieldBridge.class)
+@ClassBridge(name = "freelancer", impl = FreelancerFieldBridge.class)
 @Analyzer(impl = ProfileAnalyzer.class)
 public class Freelancer extends Person<FreelancerContact, FreelancerHistory>
         implements UDFSupport {
@@ -71,16 +74,6 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory>
     private Long sallaryPartnerLong;
 
     private Long sallaryPartnerPerDayLong;
-
-    private Set<ProjectPosition> projects = new HashSet<ProjectPosition>();
-
-    public Set<ProjectPosition> getProjects() {
-        return projects;
-    }
-
-    public void setProjects(Set<ProjectPosition> orders) {
-        this.projects = orders;
-    }
 
     public Freelancer() {
     }

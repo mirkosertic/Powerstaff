@@ -1,42 +1,35 @@
 /**
  * Mogwai KIAS. Copyright (C) 2002 The Mogwai Project.
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 package de.powerstaff.business.entity;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
+import de.mogwai.common.business.entity.AuditableEntity;
 
 import javax.persistence.Column;
-
-import de.mogwai.common.business.entity.AuditableEntity;
+import java.util.*;
 
 public class Project extends AuditableEntity implements UDFSupport {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = -5246378338479768068L;
+     *
+     */
+    private static final long serialVersionUID = -5246378338479768068L;
 
-	private Date entryDate;
+    private Date entryDate;
 
     private String projectNumber;
 
@@ -49,27 +42,29 @@ public class Project extends AuditableEntity implements UDFSupport {
     private String descriptionShort;
 
     private String descriptionLong;
-    
+
     private String skills;
-    
+
     private boolean visibleOnWebSite;
-    
+
     private int status = 1;
-    
+
     private Long stundensatzVK;
 
     private Customer customer;
-    
+
     private Partner partner;
-    
+
     private String kreditorNr;
-    
+
     private String debitorNr;
 
     private Set<ProjectPosition> positions = new HashSet<ProjectPosition>();
 
+    private Set<ProjectSearch> searches = new HashSet<ProjectSearch>();
+
     private List<ProjectHistory> history = new Vector<ProjectHistory>();
-    
+
     private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
 
     public String getDescriptionLong() {
@@ -239,7 +234,7 @@ public class Project extends AuditableEntity implements UDFSupport {
     public void setPartner(Partner partner) {
         this.partner = partner;
     }
-    
+
     public Person getContactPerson() {
         if (customer != null) {
             return customer;
@@ -273,5 +268,21 @@ public class Project extends AuditableEntity implements UDFSupport {
      */
     public void setDebitorNr(String debitorNr) {
         this.debitorNr = debitorNr;
+    }
+
+    public Set<ProjectSearch> getSearches() {
+        return searches;
+    }
+
+    public void setSearches(Set<ProjectSearch> searches) {
+        this.searches = searches;
+    }
+
+    public void addPosition(ProjectPosition aPosition) {
+        positions.add(aPosition);
+    }
+
+    public void removePosition(ProjectPosition aPosition) {
+        positions.remove(aPosition);
     }
 }

@@ -1,27 +1,33 @@
 package de.powerstaff.web.backingbean.project;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.mogwai.common.utils.KeyValuePair;
 import de.mogwai.common.web.utils.CollectionDataModel;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.Contact;
 import de.powerstaff.business.entity.Project;
+import de.powerstaff.business.entity.ProjectPosition;
+import de.powerstaff.business.entity.ProjectSearch;
 import de.powerstaff.web.backingbean.NavigatingBackingBeanDataModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<Project> {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4432968696961074056L;
+     *
+     */
+    private static final long serialVersionUID = -4432968696961074056L;
 
-	private CollectionDataModel<GenericSearchResult> searchResult = new CollectionDataModel<GenericSearchResult>();
+    private CollectionDataModel<GenericSearchResult> searchResult = new CollectionDataModel<GenericSearchResult>();
 
     private List<KeyValuePair> status = new ArrayList<KeyValuePair>();
 
     private CollectionDataModel<Contact> contacts;
+
+    private CollectionDataModel<ProjectPosition> positions = new CollectionDataModel<ProjectPosition>();
+
+    private CollectionDataModel<ProjectSearch> savedSearches = new CollectionDataModel<ProjectSearch>();
 
     public ProjectBackingBeanDataModel() {
         status.add(new KeyValuePair<Integer, String>(1, "Offen"));
@@ -76,8 +82,7 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
     }
 
     /**
-     * @param status
-     *                the status to set
+     * @param status the status to set
      */
     public void setStatus(List status) {
         this.status = status;
@@ -91,10 +96,25 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
     }
 
     /**
-     * @param contacts
-     *                the contacts to set
+     * @param contacts the contacts to set
      */
     public void setContacts(CollectionDataModel<Contact> contacts) {
         this.contacts = contacts;
+    }
+
+    public CollectionDataModel<ProjectPosition> getPositions() {
+        return positions;
+    }
+
+    public void setPositions(CollectionDataModel<ProjectPosition> positions) {
+        this.positions = positions;
+    }
+
+    public CollectionDataModel<ProjectSearch> getSavedSearches() {
+        return savedSearches;
+    }
+
+    public void setSavedSearches(CollectionDataModel<ProjectSearch> savedSearches) {
+        this.savedSearches = savedSearches;
     }
 }
