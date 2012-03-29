@@ -12,11 +12,11 @@
         <ui:include src="/include/freelancer/freelancermenu2.xhtml"/>
     </ui:define>
     <ui:define name="content">
-        <b:title title="Freiberufler - Kontakthistorie"/>
+        <b:title title="Freiberufler - Historie"/>
         <f:subview id="freelancer_contacthistory">
             <b:gridBagLayout rows="p,10" cols="200,p">
                 <b:cell y="1" x="1">
-                    <h:outputText styleClass="title" value="Freiberufler Kontakthistorie"/>
+                    <h:outputText styleClass="title" value="Freiberufler Historie"/>
                 </b:cell>
 
                 <b:cell y="1" x="2">
@@ -105,6 +105,51 @@
                 </b:cell>
 
             </b:gridBagLayout>
+
+            <h3>Eingesetzt oder zugeordnet in folgenden Projekten:</h3>
+
+            <a4j:outputPanel ajaxRendered="true">
+                <b:table var="row" value="#{freelancerBackingBean.data.positions}" cols="210,100,80,120,100,200,20,20">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Projekt"/>
+                        </f:facet>
+                        <h:outputText value="#{row.project.projectNumber} #{row.project.descriptionShort}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Zugeordnet von"/>
+                        </f:facet>
+                        <h:outputText value="#{row.creationUserID}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="am"/>
+                        </f:facet>
+                        <h:outputText value="#{row.creationDate}">
+                            <f:converter converterId="dateConverter"/>
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Status"/>
+                        </f:facet>
+                        <h:outputText value="#{row.status.description}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Konditionen"/>
+                        </f:facet>
+                        <h:outputText value="#{row.conditions}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Kommentar"/>
+                        </f:facet>
+                        <h:outputText value="#{row.comment}"/>
+                    </h:column>
+                </b:table>
+            </a4j:outputPanel>
         </f:subview>
     </ui:define>
-</ui:composition>	
+</ui:composition>

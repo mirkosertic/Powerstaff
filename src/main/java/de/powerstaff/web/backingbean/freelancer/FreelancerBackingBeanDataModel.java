@@ -21,6 +21,8 @@ public class FreelancerBackingBeanDataModel extends
 
     private ProjectPosition currentProjectPosition = new ProjectPosition();
 
+    private CollectionDataModel<ProjectPosition> positions = new CollectionDataModel<ProjectPosition>();
+
     public FreelancerBackingBeanDataModel() {
         init();
     }
@@ -81,5 +83,13 @@ public class FreelancerBackingBeanDataModel extends
 
     public void setCurrentProjectPosition(ProjectPosition currentProjectPosition) {
         this.currentProjectPosition = currentProjectPosition;
+    }
+
+    public CollectionDataModel<ProjectPosition> getPositions() {
+        return positions;
+    }
+
+    public void setPositions(CollectionDataModel<ProjectPosition> positions) {
+        this.positions = positions;
     }
 }

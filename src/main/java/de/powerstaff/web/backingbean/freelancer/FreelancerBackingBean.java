@@ -30,6 +30,8 @@ import de.powerstaff.web.backingbean.ContextUtils;
 import de.powerstaff.web.backingbean.PersonEditorBackingBean;
 import de.powerstaff.web.backingbean.partner.PartnerBackingBean;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class FreelancerBackingBean
@@ -101,6 +103,12 @@ public class FreelancerBackingBean
                 }
             }
         }
+
+        if (theFreelancer.getId() != null) {
+            getData().getPositions().setWrappedData(entityService.findPositionsFor(theFreelancer));
+        } else {
+            getData().getPositions().setWrappedData(new ArrayList<ProjectPosition>());
+        }
     }
 
     @Override
@@ -145,6 +153,13 @@ public class FreelancerBackingBean
             return "PARTNER_STAMMDATEN";
         }
         return null;
+    }
+
+    public List<ProjectPositionStatus> getPositionStatus() {
+        List<ProjectPositionStatus> theResult = new ArrayList();
+        theResult.addAll(projectService.getAvailablePositionStatus());
+        Collections.sort(theResult);
+        return theResult;
     }
 
     @Override

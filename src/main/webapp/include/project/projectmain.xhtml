@@ -16,10 +16,7 @@
 <f:subview id="project_core">
 <b:gridBagLayout id="x" rows="p,10" cols="500,p">
     <b:cell y="1" x="1">
-        <h:panelGrid columns="2">
-            <h:outputText styleClass="title" value="Projekt"/>
-            <ui:include src="/include/context.xhtml"/>
-        </h:panelGrid>
+        <h:outputText styleClass="title" value="Projekt"/>
     </b:cell>
 
     <b:cell y="1" x="2">
@@ -448,12 +445,26 @@
 <br/>
 
 <a4j:outputPanel ajaxRendered="true">
-    <b:table var="row" value="#{projectBackingBean.data.positions}" cols="250,120,200,200,20,20">
+    <b:table var="row" value="#{projectBackingBean.data.positions}" cols="170,100,80,120,100,200,20,20">
         <h:column>
             <f:facet name="header">
                 <h:outputText value="Freiberufler"/>
             </f:facet>
             <h:outputText value="#{projectBackingBean.positionFreelancerDescription}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Zugeordnet von"/>
+            </f:facet>
+            <h:outputText value="#{row.creationUserID}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="am"/>
+            </f:facet>
+            <h:outputText value="#{row.creationDate}">
+                <f:converter converterId="dateConverter"/>
+            </h:outputText>
         </h:column>
         <h:column>
             <f:facet name="header">

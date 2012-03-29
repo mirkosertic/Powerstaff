@@ -21,6 +21,7 @@ import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dao.ProjectDAO;
 import de.powerstaff.business.entity.Project;
+import de.powerstaff.business.entity.ProjectPositionStatus;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ProjectService;
 import de.powerstaff.business.service.RecordInfo;
@@ -105,5 +106,10 @@ public class ProjectServiceImpl extends LogableService implements ProjectService
 
     public Project findByRecordNumber(Long aNumber) {
         return projectDAO.findByRecordNumber(aNumber);
+    }
+
+    @Override
+    public Collection<? extends ProjectPositionStatus> getAvailablePositionStatus() {
+        return projectDAO.getAvailablePositionStatus();
     }
 }
