@@ -18,6 +18,11 @@
 package de.powerstaff.business.service;
 
 import de.powerstaff.business.entity.Project;
+import de.powerstaff.business.entity.ProjectPositionStatus;
+
+import java.util.Collection;
 
 public interface ProjectService extends NavigatingService<Project> {
+
+    Collection<? extends ProjectPositionStatus> getAvailablePositionStatus();
 }

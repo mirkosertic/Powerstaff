@@ -19,7 +19,7 @@ package de.powerstaff.business.entity;
 
 import de.mogwai.common.business.entity.Entity;
 
-public class ProjectPositionStatus extends Entity {
+public class ProjectPositionStatus extends Entity implements Comparable<ProjectPositionStatus> {
 
     private String description;
 
@@ -39,5 +39,15 @@ public class ProjectPositionStatus extends Entity {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    @Override
+    public int compareTo(ProjectPositionStatus o) {
+        return description.compareTo(o.getDescription());
+    }
+
+    @Override
+    public String toString() {
+        return description;
     }
 }

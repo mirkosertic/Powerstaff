@@ -2,78 +2,72 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
 <log4j:configuration>
 
-	<!--
-		Konfiguration der Fileausgabe. Level DEBUG bis INFO werden in
-		steze_debug_log.txt geschrieben.
-	-->
-	<appender name="file_debug" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File"
-			value="${catalina.home}/logs/powerstaff_debug_log.txt" />
-		<param name="Append" value="true" />
-		<!-- Taeglicher Rollover -->
-		<param name="DatePattern" value="'.'yyyy-MM-dd" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d [%t] %c%n%-5p: [%x] %m%n" />
-		</layout>
+    <!--
+         Konfiguration der Fileausgabe. Level DEBUG bis INFO werden in
+         steze_debug_log.txt geschrieben.
+     -->
+    <appender name="file_debug" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File"
+               value="${catalina.home}/logs/powerstaff_debug_log.txt"/>
+        <param name="Append" value="true"/>
+        <!-- Taeglicher Rollover -->
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %c%n%-5p: [%x] %m%n"/>
+        </layout>
 
-		<!-- Level DEBUG bis INFO werden ausgegeben -->
-		<filter class="org.apache.log4j.varia.LevelRangeFilter">
-			<param name="LevelMin" value="DEBUG" />
-			<param name="LevelMax" value="INFO" />
-			<param name="AcceptOnMatch" value="true" />
-		</filter>
-	</appender>
+        <!-- Level DEBUG bis INFO werden ausgegeben -->
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="DEBUG"/>
+            <param name="LevelMax" value="INFO"/>
+            <param name="AcceptOnMatch" value="true"/>
+        </filter>
+    </appender>
 
-	<!--
-		Konfiguration der Fileausgabe. Level WARN bis FATAL werden in
-		steze_error_log.txt geschrieben.
-	-->
-	<appender name="file_error" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File"
-			value="${catalina.home}/logs/powerstaff_error_log.txt" />
-		<param name="Append" value="true" />
-		<!-- Taeglicher Rollover -->
-		<param name="DatePattern" value="'.'yyyy-MM-dd" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d [%t] %c%n%-5p: [%x] %m%n" />
-		</layout>
+    <!--
+         Konfiguration der Fileausgabe. Level WARN bis FATAL werden in
+         steze_error_log.txt geschrieben.
+     -->
+    <appender name="file_error" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File"
+               value="${catalina.home}/logs/powerstaff_error_log.txt"/>
+        <param name="Append" value="true"/>
+        <!-- Taeglicher Rollover -->
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %c%n%-5p: [%x] %m%n"/>
+        </layout>
 
-		<!-- Level WARN bis FATAL werden ausgegeben -->
-		<filter class="org.apache.log4j.varia.LevelRangeFilter">
-			<param name="LevelMin" value="WARN" />
-			<param name="LevelMax" value="FATAL" />
-			<param name="AcceptOnMatch" value="true" />
-		</filter>
-	</appender>
+        <!-- Level WARN bis FATAL werden ausgegeben -->
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="WARN"/>
+            <param name="LevelMax" value="FATAL"/>
+            <param name="AcceptOnMatch" value="true"/>
+        </filter>
+    </appender>
 
-	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d [%t] %c%n%-5p: [%x] %m%n" />
-		</layout>
-	</appender>
+    <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %c%n%-5p: [%x] %m%n"/>
+        </layout>
+    </appender>
 
-	<!-- <logger name="org.springframework.transaction">
-		<level value="DEBUG" />
-		<appender-ref ref="stdout" />
-		<appender-ref ref="file_debug" />
-	</logger> -->
+    <!-- <logger name="org.springframework.transaction">
+         <level value="DEBUG" />
+         <appender-ref ref="stdout" />
+         <appender-ref ref="file_debug" />
+     </logger> -->
 
-    <logger name="org.apache.myfaces.orchestra.conversation.spring.AbstractSpringOrchestraScope">
-        <level value="DEBUG" />
-        <appender-ref ref="stdout" />
-        <appender-ref ref="file_debug" />
+    <logger name="org.apache.myfaces.orchestra.conversation.spring.SpringConversationScope">
+        <level value="DEBUG"/>
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="file_debug"/>
     </logger>
 
-    <logger name="org.apache.myfaces.orchestra.conversation.spring.AbstractSpringOrchestraScope">
-        <level value="DEBUG" />
-        <appender-ref ref="stdout" />
-        <appender-ref ref="file_debug" />
-    </logger>
-
-	<root>
-		<priority value="INFO" />
-		<appender-ref ref="file_debug" />
-		<appender-ref ref="file_error" />
-		<appender-ref ref="stdout" />
-	</root>
+    <root>
+        <priority value="INFO"/>
+        <appender-ref ref="file_debug"/>
+        <appender-ref ref="file_error"/>
+        <appender-ref ref="stdout"/>
+    </root>
 </log4j:configuration>

@@ -13,6 +13,7 @@ import de.powerstaff.web.backingbean.NavigatingBackingBean;
 import de.powerstaff.web.backingbean.customer.CustomerBackingBean;
 import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 import de.powerstaff.web.backingbean.partner.PartnerBackingBean;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -211,6 +212,25 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
     public String getPositionFreelancerDescription() {
         ProjectPosition thePosition = (ProjectPosition) getData().getPositions().getRowData();
         Freelancer theFreelancer = freelancerService.findByPrimaryKey(thePosition.getFreelancerId());
-        return theFreelancer.getName1() + " " + theFreelancer.getName2();
+        StringBuilder theBuilder = new StringBuilder();
+        if (!StringUtils.isEmpty(theFreelancer.getName1())) {
+            theBuilder.append(theFreelancer.getName1());
+        }
+        if (!StringUtils.isEmpty(theFreelancer.getName2())) {
+            if (theBuilder.length() > 0) {
+                theBuilder.append(" ");
+            }
+            theBuilder.append(theFreelancer.getName2());
+        }
+        if (!StringUtils.isEmpty(theFreelancer.getCode())) {
+            if (theBuilder.length() > 0) {
+                theBuilder.append(" ");
+            }
+            theBuilder.append("(");
+            theBuilder.append(theFreelancer.getCode());
+            theBuilder.append(")");
+        }
+
+        return theBuilder.toString();
     }
 }

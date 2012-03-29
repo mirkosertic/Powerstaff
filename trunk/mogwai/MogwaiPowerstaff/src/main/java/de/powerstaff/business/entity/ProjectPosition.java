@@ -19,7 +19,7 @@ package de.powerstaff.business.entity;
 
 import de.mogwai.common.business.entity.AuditableEntity;
 
-public class ProjectPosition extends AuditableEntity {
+public class ProjectPosition extends AuditableEntity implements Comparable<ProjectPosition> {
 
     private static final long serialVersionUID = 3748584707902354798L;
 
@@ -30,6 +30,8 @@ public class ProjectPosition extends AuditableEntity {
     private String conditions;
 
     private String comment;
+
+    private Project project;
 
     public long getFreelancerId() {
         return freelancerId;
@@ -61,5 +63,20 @@ public class ProjectPosition extends AuditableEntity {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    @Override
+    public int compareTo(ProjectPosition o) {
+        return getCreationDate().compareTo(o.getCreationDate());
+
+
     }
 }

@@ -31,7 +31,7 @@
         <property name="debitorNr"/>
         <property name="kreditorNr"/>
 
-        <set name="positions" cascade="all-delete-orphan,save-update" fetch="join">
+        <set name="positions" cascade="all-delete-orphan,save-update" fetch="join" inverse="true">
             <key column="project_id"/>
             <one-to-many class="ProjectPosition"/>
         </set>

@@ -380,6 +380,11 @@
                 <b:label id="project_status" label="Status"/>
             </b:cell>
             <b:cell x="4" y="2">
+                <b:combobox
+                        value="#{freelancerBackingBean.data.currentProjectPosition.status}"
+                        values="#{freelancerBackingBean.positionStatus}"
+                        nullable="true"
+                        id="positionstatus"/>
             </b:cell>
 
             <b:cell x="2" y="4">

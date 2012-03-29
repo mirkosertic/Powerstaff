@@ -18,6 +18,10 @@
             <column name="status_id"/>
         </many-to-one>
 
+        <many-to-one name="project" class="Project" not-null="true">
+            <column name="project_id"/>
+        </many-to-one>
+
         <property name="comment" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
         <property name="conditions" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
 
