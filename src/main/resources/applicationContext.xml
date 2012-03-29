@@ -128,9 +128,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
                     classpath:/de/powerstaff/business/entity/ProjectPosition.hbm.xml
                 </value>
                 <value>
-                    classpath:/de/powerstaff/business/entity/ProjectSearch.hbm.xml
-                </value>
-                <value>
                     classpath:/de/powerstaff/business/entity/User.hbm.xml
                 </value>
                 <value>
@@ -291,7 +288,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         <property name="sessionFactory"
                   ref="sessionFactory"/>
         <property name="fileSystemCache" ref="fsCache"/>
-        <property name="documentReaderFactory" ref="readerFactory"/>
     </bean>
 
     <bean id="serviceLoggerService"

@@ -34,7 +34,7 @@
             <b:gridBagLayout cols="400,10,400" rows="30,10,1,p" id="menu">
                 <b:cell x="1" y="1" width="3">
                     <b:titledBox label="Profilsuche">
-                        <b:gridBagLayout cols="1,150,2,*,2,20,2"
+                        <b:gridBagLayout cols="1,150,2,*,2,20,40,20,2"
                                          rows="2,p,2">
                             <b:cell x="2" y="2">
                                 <b:label id="labelsuche" label="Profilinhalt"/>
@@ -45,6 +45,15 @@
                                               required="true"/>
                             </b:cell>
                             <b:cell x="6" y="2">
+                                <b:commandLink title="Suchen und dem Projekt zuordnen"
+                                               action="#{profileBackingBean.commandSaveToProject}"
+                                               rendered="#{contextUtils.contextSet}">
+                                    <b:image source="/images/update.gif"/>
+                                    <a4j:support eventsQueue="powerstaff" event="onclick"
+                                                 reRender="input"/>
+                                </b:commandLink>
+                            </b:cell>
+                            <b:cell x="8" y="2">
                                 <b:commandLink title="Suchen" action="#{profileBackingBean.commandSearch}"
                                                actionKey="13"
                                                keySensitive="true">

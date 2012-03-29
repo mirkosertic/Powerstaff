@@ -6,7 +6,7 @@ import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.Contact;
 import de.powerstaff.business.entity.Project;
 import de.powerstaff.business.entity.ProjectPosition;
-import de.powerstaff.business.entity.ProjectSearch;
+import de.powerstaff.business.entity.SavedProfileSearch;
 import de.powerstaff.web.backingbean.NavigatingBackingBeanDataModel;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
 
     private CollectionDataModel<ProjectPosition> positions = new CollectionDataModel<ProjectPosition>();
 
-    private CollectionDataModel<ProjectSearch> savedSearches = new CollectionDataModel<ProjectSearch>();
+    private CollectionDataModel<SavedProfileSearch> savedSearches = new CollectionDataModel<SavedProfileSearch>();
 
     public ProjectBackingBeanDataModel() {
         status.add(new KeyValuePair<Integer, String>(1, "Offen"));
@@ -110,11 +110,11 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
         this.positions = positions;
     }
 
-    public CollectionDataModel<ProjectSearch> getSavedSearches() {
+    public CollectionDataModel<SavedProfileSearch> getSavedSearches() {
         return savedSearches;
     }
 
-    public void setSavedSearches(CollectionDataModel<ProjectSearch> savedSearches) {
+    public void setSavedSearches(CollectionDataModel<SavedProfileSearch> savedSearches) {
         this.savedSearches = savedSearches;
     }
 }

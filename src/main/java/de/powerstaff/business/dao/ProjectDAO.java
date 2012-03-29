@@ -19,6 +19,7 @@ package de.powerstaff.business.dao;
 
 import de.powerstaff.business.entity.Project;
 import de.powerstaff.business.entity.ProjectPositionStatus;
+import de.powerstaff.business.entity.SavedProfileSearch;
 
 import java.util.Collection;
 import java.util.List;
@@ -32,4 +33,6 @@ public interface ProjectDAO extends NavigatingDAO<Project> {
     List<Project> getActiveProjects();
 
     Collection<? extends ProjectPositionStatus> getAvailablePositionStatus();
+
+    Collection<SavedProfileSearch> getSavedSearchesFor(Project aProject);
 }

@@ -19,10 +19,15 @@ package de.powerstaff.business.service;
 
 import de.powerstaff.business.entity.Project;
 import de.powerstaff.business.entity.ProjectPositionStatus;
+import de.powerstaff.business.entity.SavedProfileSearch;
 
 import java.util.Collection;
 
 public interface ProjectService extends NavigatingService<Project> {
 
     Collection<? extends ProjectPositionStatus> getAvailablePositionStatus();
+
+    Collection<SavedProfileSearch> getSavedSearchesFor(Project aProject);
+
+    void deleteSavedSearch(SavedProfileSearch aSearch);
 }

@@ -420,31 +420,8 @@
 </b:cell>
 </b:gridBagLayout>
 
-<b:table var="row" value="#{projectBackingBean.data.savedSearches}" cols="770,20,20">
-    <h:column>
-        <f:facet name="header">
-            <h:outputText value="Gespeicherte Suchen"/>
-        </f:facet>
-        <h:outputText value="#{row.profileContent}"/>
-    </h:column>
-    <h:column>
-        <b:commandLink action="#{projectBackingBean.commandDeleteSavedSearch}">
-            <b:image source="/images/delete.gif"/>
-            <a4j:support eventsQueue="powerstaff" event="onclick"/>
-        </b:commandLink>
-    </h:column>
-    <h:column>
-        <b:commandLink action="#{projectBackingBean.commandOpenSavedSearch}">
-            <b:image source="/images/select.gif"/>
-            <a4j:support eventsQueue="powerstaff" event="onclick"/>
-        </b:commandLink>
-    </h:column>
-</b:table>
-
-<br/>
-<br/>
-
 <a4j:outputPanel ajaxRendered="true">
+
     <b:table var="row" value="#{projectBackingBean.data.positions}" cols="170,100,80,120,100,200,20,20">
         <h:column>
             <f:facet name="header">
@@ -497,6 +474,30 @@
             </b:commandLink>
         </h:column>
     </b:table>
+
+    <br/>
+
+    <b:table var="row" value="#{projectBackingBean.data.savedSearches}" cols="770,20,20">
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Gespeicherte Suchen"/>
+            </f:facet>
+            <h:outputText value="#{row.profileContent}"/>
+        </h:column>
+        <h:column>
+            <b:commandLink action="#{projectBackingBean.commandDeleteSavedSearch}">
+                <b:image source="/images/delete.gif"/>
+                <a4j:support eventsQueue="powerstaff" event="onclick"/>
+            </b:commandLink>
+        </h:column>
+        <h:column>
+            <b:commandLink action="#{projectBackingBean.commandOpenSavedSearch}">
+                <b:image source="/images/select.gif"/>
+                <a4j:support eventsQueue="powerstaff" event="onclick"/>
+            </b:commandLink>
+        </h:column>
+    </b:table>
+
 </a4j:outputPanel>
 
 </f:subview>
