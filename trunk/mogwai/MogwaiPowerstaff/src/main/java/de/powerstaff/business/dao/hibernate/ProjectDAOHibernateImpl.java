@@ -21,9 +21,11 @@ import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dao.ProjectDAO;
 import de.powerstaff.business.entity.Project;
 import de.powerstaff.business.entity.ProjectPositionStatus;
+import de.powerstaff.business.entity.SavedProfileSearch;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
 import java.sql.SQLException;
@@ -91,6 +93,19 @@ public class ProjectDAOHibernateImpl extends NavigatingDAOHibernateImpl<Project>
                 return theResult;
             }
 
+        });
+    }
+
+    @Override
+    public Collection<SavedProfileSearch> getSavedSearchesFor(final Project aProject) {
+        return (Collection<SavedProfileSearch>) getHibernateTemplate().execute(new HibernateCallback() {
+
+            public Object doInHibernate(Session aSession) {
+
+                Criteria theCriteria = aSession.createCriteria(SavedProfileSearch.class);
+                theCriteria.add(Restrictions.eq("project", aProject));
+                return theCriteria.list();
+            }
         });
     }
 }

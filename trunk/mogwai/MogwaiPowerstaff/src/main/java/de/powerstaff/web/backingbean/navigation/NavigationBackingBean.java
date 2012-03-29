@@ -6,11 +6,10 @@ import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 import de.powerstaff.web.backingbean.partner.PartnerBackingBean;
 import de.powerstaff.web.backingbean.profile.ProfileBackingBean;
 import de.powerstaff.web.backingbean.project.ProjectBackingBean;
-import de.powerstaff.web.backingbean.statistik.StatistikBackingBean;
 
 public class NavigationBackingBean extends BackingBean {
 
-	private static final long serialVersionUID = -2068461554004949119L;
+    private static final long serialVersionUID = -2068461554004949119L;
 
     private FreelancerBackingBean freelancerBackingBean;
     private PartnerBackingBean partnerBackingBean;
@@ -59,7 +58,7 @@ public class NavigationBackingBean extends BackingBean {
     }
 
     public String commandProfile() {
-        profileBackingBean.initializeDataModel();
+        profileBackingBean.resetNavigation();
         return "PROFILE_STAMMDATEN";
     }
 

@@ -13,10 +13,12 @@ import de.powerstaff.web.backingbean.NavigatingBackingBean;
 import de.powerstaff.web.backingbean.customer.CustomerBackingBean;
 import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 import de.powerstaff.web.backingbean.partner.PartnerBackingBean;
+import de.powerstaff.web.backingbean.profile.ProfileBackingBean;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBackingBeanDataModel, ProjectService> {
@@ -26,8 +28,13 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
     private CustomerBackingBean customerBackingBean;
     private PartnerBackingBean partnerBackingBean;
     private FreelancerBackingBean freelancerBackingBean;
+    private ProfileBackingBean profileBackingBean;
     private ContextUtils contextUtils;
     private FreelancerService freelancerService;
+
+    public void setProfileBackingBean(ProfileBackingBean profileBackingBean) {
+        this.profileBackingBean = profileBackingBean;
+    }
 
     public void setFreelancerBackingBean(FreelancerBackingBean freelancerBackingBean) {
         this.freelancerBackingBean = freelancerBackingBean;
@@ -177,8 +184,11 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
 
         getData().getPositions().setWrappedData(thePositions);
 
-        List<ProjectSearch> theSearches = new ArrayList<ProjectSearch>();
-        theSearches.addAll(theCurrentProject.getSearches());
+        List<SavedProfileSearch> theSearches = new ArrayList<SavedProfileSearch>();
+        if (theCurrentProject.getId() != null) {
+            theSearches.addAll(entityService.getSavedSearchesFor(theCurrentProject));
+        }
+        Collections.sort(theSearches);
 
         getData().getSavedSearches().setWrappedData(theSearches);
     }
@@ -207,6 +217,29 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
         } catch (Exception e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMLOESCHEN);
         }
+    }
+
+    public void commandDeleteSavedSearch() {
+        try {
+
+            SavedProfileSearch theSearch = (SavedProfileSearch) getData().getSavedSearches().getRowData();
+
+            entityService.deleteSavedSearch(theSearch);
+
+            JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
+
+            afterNavigation();
+
+        } catch (Exception e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMLOESCHEN);
+        }
+    }
+
+    public String commandOpenSavedSearch() {
+        SavedProfileSearch theSearch = (SavedProfileSearch) getData().getSavedSearches().getRowData();
+
+        profileBackingBean.updateModel(new EditEntityCommand<SavedProfileSearch>(theSearch));
+        return "PROFILE_STAMMDATEN";
     }
 
     public String getPositionFreelancerDescription() {

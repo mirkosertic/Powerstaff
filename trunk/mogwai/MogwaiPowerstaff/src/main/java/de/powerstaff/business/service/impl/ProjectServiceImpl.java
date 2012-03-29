@@ -22,6 +22,7 @@ import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dao.ProjectDAO;
 import de.powerstaff.business.entity.Project;
 import de.powerstaff.business.entity.ProjectPositionStatus;
+import de.powerstaff.business.entity.SavedProfileSearch;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ProjectService;
 import de.powerstaff.business.service.RecordInfo;
@@ -36,24 +37,10 @@ public class ProjectServiceImpl extends LogableService implements ProjectService
     private PowerstaffSystemParameterService systemParameterService;
 
     /**
-     * @return the projectDAO
-     */
-    public ProjectDAO getProjectDAO() {
-        return projectDAO;
-    }
-
-    /**
      * @param projectDAO the projectDAO to set
      */
     public void setProjectDAO(ProjectDAO projectDAO) {
         this.projectDAO = projectDAO;
-    }
-
-    /**
-     * @return the systemParameterService
-     */
-    public PowerstaffSystemParameterService getSystemParameterService() {
-        return systemParameterService;
     }
 
     /**
@@ -111,5 +98,15 @@ public class ProjectServiceImpl extends LogableService implements ProjectService
     @Override
     public Collection<? extends ProjectPositionStatus> getAvailablePositionStatus() {
         return projectDAO.getAvailablePositionStatus();
+    }
+
+    @Override
+    public Collection<SavedProfileSearch> getSavedSearchesFor(Project aProject) {
+        return projectDAO.getSavedSearchesFor(aProject);
+    }
+
+    @Override
+    public void deleteSavedSearch(SavedProfileSearch aSearch) {
+        projectDAO.delete(aSearch);
     }
 }

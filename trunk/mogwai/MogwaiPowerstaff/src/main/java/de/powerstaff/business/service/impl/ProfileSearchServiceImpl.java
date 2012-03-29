@@ -18,7 +18,6 @@
 package de.powerstaff.business.service.impl;
 
 import de.mogwai.common.business.service.impl.LogableService;
-import de.mogwai.common.logging.Logger;
 import de.mogwai.common.usercontext.UserContextHolder;
 import de.powerstaff.business.dao.ProfileSearchDAO;
 import de.powerstaff.business.dto.*;
@@ -28,17 +27,6 @@ import de.powerstaff.business.service.FSCache;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ProfileIndexerService;
 import de.powerstaff.business.service.ProfileSearchService;
-import de.powerstaff.business.service.impl.reader.DocumentReader;
-import de.powerstaff.business.service.impl.reader.DocumentReaderFactory;
-import de.powerstaff.business.service.impl.reader.ReadResult;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CachingTokenFilter;
@@ -56,6 +44,15 @@ import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 /**
  * @author Mirko Sertic
  */
@@ -65,24 +62,16 @@ public class ProfileSearchServiceImpl extends LogableService implements
         BooleanQuery.setMaxClauseCount(8192);
     }
 
-    private static final Logger LOGGER = new Logger(ProfileSearchServiceImpl.class);
-
     private PowerstaffSystemParameterService systemParameterService;
 
     private ProfileSearchDAO profileSearchDAO;
 
     private SessionFactory sessionFactory;
 
-    private DocumentReaderFactory documentReaderFactory;
-
     private FSCache fileSystemCache;
 
     public void setFileSystemCache(FSCache fileSystemCache) {
         this.fileSystemCache = fileSystemCache;
-    }
-
-    public void setDocumentReaderFactory(DocumentReaderFactory documentReaderFactory) {
-        this.documentReaderFactory = documentReaderFactory;
     }
 
     public void setSystemParameterService(
@@ -105,6 +94,8 @@ public class ProfileSearchServiceImpl extends LogableService implements
         aDestination.setStundensatzVon(aSource.getStundensatzVon());
         aDestination.setStundensatzBis(aSource.getStundensatzBis());
         aDestination.setSortierung(aSource.getSortierung());
+        aDestination.setProject(aSource.getProject());
+        aDestination.setId(aSource.getId());
     }
 
     private Query getRealQuery(ProfileSearchRequest aRequest, Analyzer aAnalyzer)
@@ -142,8 +133,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
         User theUser = (User) UserContextHolder.getUserContext()
                 .getAuthenticatable();
 
-        SavedProfileSearch theSearch = profileSearchDAO
-                .getSavedSearchFor(theUser);
+        SavedProfileSearch theSearch = profileSearchDAO.getSavedSearchFor(theUser);
         if (theSearch == null) {
             return null;
         }
@@ -159,8 +149,15 @@ public class ProfileSearchServiceImpl extends LogableService implements
         User theUser = (User) UserContextHolder.getUserContext()
                 .getAuthenticatable();
 
-        SavedProfileSearch theSearch = profileSearchDAO
-                .getSavedSearchFor(theUser);
+        SavedProfileSearch theSearch = null;
+
+        if (searchRequest.getId() != null) {
+            theSearch = profileSearchDAO.getSavedSearchById(searchRequest.getId());
+        }
+
+        if (theSearch == null) {
+            theSearch = profileSearchDAO.getSavedSearchFor(theUser);
+        }
 
         if (theSearch == null) {
             theSearch = new SavedProfileSearch();
@@ -181,12 +178,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
             ProfileSearchRequest aRequest, int startRow, int pageSize)
             throws Exception {
 
-        User theUser = (User) UserContextHolder.getUserContext()
-                .getAuthenticatable();
-
-        SavedProfileSearch theSearch = profileSearchDAO
-                .getSavedSearchFor(theUser);
-
+        SavedProfileSearch theSearch = profileSearchDAO.getSavedSearchById(aRequest.getId());
 
         Analyzer theAnalyzer = ProfileAnalyzerFactory.createAnalyzer();
 
@@ -294,13 +286,9 @@ public class ProfileSearchServiceImpl extends LogableService implements
     }
 
     @Override
-    public void removeSavedSearchEntry(String aDocumentId) {
+    public void removeSavedSearchEntry(ProfileSearchRequest searchRequest, String aDocumentId) {
 
-        User theUser = (User) UserContextHolder.getUserContext()
-                .getAuthenticatable();
-
-        SavedProfileSearch theSearch = profileSearchDAO
-                .getSavedSearchFor(theUser);
+        SavedProfileSearch theSearch = profileSearchDAO.getSavedSearchById(searchRequest.getId());
 
         theSearch.getProfilesToIgnore().add(aDocumentId);
 
@@ -351,5 +339,12 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
         }
         return theProfiles;
+    }
+
+    @Override
+    public ProfileSearchRequest getSearchRequestFor(SavedProfileSearch aSearch) {
+        ProfileSearchRequest theSearch = new ProfileSearchRequest();
+        copySearchRequestInto(aSearch, theSearch);
+        return theSearch;
     }
 }

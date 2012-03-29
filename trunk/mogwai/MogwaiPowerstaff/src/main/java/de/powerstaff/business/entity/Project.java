@@ -61,8 +61,6 @@ public class Project extends AuditableEntity implements UDFSupport {
 
     private Set<ProjectPosition> positions = new HashSet<ProjectPosition>();
 
-    private Set<ProjectSearch> searches = new HashSet<ProjectSearch>();
-
     private List<ProjectHistory> history = new Vector<ProjectHistory>();
 
     private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
@@ -268,14 +266,6 @@ public class Project extends AuditableEntity implements UDFSupport {
      */
     public void setDebitorNr(String debitorNr) {
         this.debitorNr = debitorNr;
-    }
-
-    public Set<ProjectSearch> getSearches() {
-        return searches;
-    }
-
-    public void setSearches(Set<ProjectSearch> searches) {
-        this.searches = searches;
     }
 
     public void addPosition(ProjectPosition aPosition) {

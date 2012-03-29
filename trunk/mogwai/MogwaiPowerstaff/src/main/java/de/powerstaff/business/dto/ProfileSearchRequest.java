@@ -1,114 +1,130 @@
 /**
  * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 package de.powerstaff.business.dto;
 
+import de.mogwai.common.business.dto.DataTransferObject;
+import de.powerstaff.business.entity.Project;
 import org.apache.commons.lang.StringUtils;
 
-import de.mogwai.common.business.dto.DataTransferObject;
-
 public class ProfileSearchRequest extends DataTransferObject implements
-		SearchRequestSupport {
+        SearchRequestSupport {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4589784445090293497L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -4589784445090293497L;
 
-	private String profileContent = "";
+    private String profileContent = "";
 
-	private String plz;
+    private String plz;
 
-	private Long stundensatzVon;
+    private Long stundensatzVon;
 
-	private Long stundensatzBis;
+    private Long stundensatzBis;
 
-	private String sortierung;
+    private String sortierung;
 
-	/**
-	 * @return the profileContent
-	 */
-	public String getProfileContent() {
-		return profileContent;
-	}
+    private Project project;
 
-	/**
-	 * @param profileContent
-	 *            the profileContent to set
-	 */
-	public void setProfileContent(String profileContent) {
-		this.profileContent = profileContent;
-	}
+    private Long id;
 
-	public boolean isExtendedSearch() {
-		return (!StringUtils.isEmpty(plz)) || (stundensatzVon != null)
-				|| (stundensatzBis != null);
-	}
+    /**
+     * @return the profileContent
+     */
+    public String getProfileContent() {
+        return profileContent;
+    }
 
-	/**
-	 * @return the plz
-	 */
-	public String getPlz() {
-		return plz;
-	}
+    /**
+     * @param profileContent the profileContent to set
+     */
+    public void setProfileContent(String profileContent) {
+        this.profileContent = profileContent;
+    }
 
-	/**
-	 * @param plz
-	 *            the plz to set
-	 */
-	public void setPlz(String plz) {
-		this.plz = plz;
-	}
+    public boolean isExtendedSearch() {
+        return (!StringUtils.isEmpty(plz)) || (stundensatzVon != null)
+                || (stundensatzBis != null);
+    }
 
-	/**
-	 * @return the stundensatzVon
-	 */
-	public Long getStundensatzVon() {
-		return stundensatzVon;
-	}
+    /**
+     * @return the plz
+     */
+    public String getPlz() {
+        return plz;
+    }
 
-	/**
-	 * @param stundensatzVon
-	 *            the stundensatzVon to set
-	 */
-	public void setStundensatzVon(Long stundensatzVon) {
-		this.stundensatzVon = stundensatzVon;
-	}
+    /**
+     * @param plz the plz to set
+     */
+    public void setPlz(String plz) {
+        this.plz = plz;
+    }
 
-	/**
-	 * @return the stundensatzBis
-	 */
-	public Long getStundensatzBis() {
-		return stundensatzBis;
-	}
+    /**
+     * @return the stundensatzVon
+     */
+    public Long getStundensatzVon() {
+        return stundensatzVon;
+    }
 
-	/**
-	 * @param stundensatzBis
-	 *            the stundensatzBis to set
-	 */
-	public void setStundensatzBis(Long stundensatzBis) {
-		this.stundensatzBis = stundensatzBis;
-	}
+    /**
+     * @param stundensatzVon the stundensatzVon to set
+     */
+    public void setStundensatzVon(Long stundensatzVon) {
+        this.stundensatzVon = stundensatzVon;
+    }
 
-	public String getSortierung() {
-		return sortierung;
-	}
+    /**
+     * @return the stundensatzBis
+     */
+    public Long getStundensatzBis() {
+        return stundensatzBis;
+    }
 
-	public void setSortierung(String sortierung) {
-		this.sortierung = sortierung;
-	}
+    /**
+     * @param stundensatzBis the stundensatzBis to set
+     */
+    public void setStundensatzBis(Long stundensatzBis) {
+        this.stundensatzBis = stundensatzBis;
+    }
+
+    public String getSortierung() {
+        return sortierung;
+    }
+
+    public void setSortierung(String sortierung) {
+        this.sortierung = sortierung;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
