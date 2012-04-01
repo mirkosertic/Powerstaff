@@ -1,6 +1,6 @@
 /**
  * Copyright 2002 - 2007 the Mogwai Project.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,17 +16,17 @@
  */
 package de.mogwai.common.web.component.common;
 
-import java.util.Vector;
-
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-
 import de.mogwai.common.web.component.DynamicContentComponent;
 import de.mogwai.common.web.component.layout.GridbagLayoutSizeDefinitionVector;
 
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.el.ValueBinding;
+import java.util.Vector;
+
 /**
  * Table component.
- * 
+ *
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:32:13 $
  */
@@ -41,6 +41,8 @@ public class TableComponent extends TableComponentBase implements DynamicContent
     public static final String GROUPHEADER_FACET = "groupHeader";
 
     public static final String HEADER_VAR_ATTRIBUTE = "groupHeader";
+
+    public static final String ROWSTYLE_ATTRIBUTE = "rowStyle";
 
     private GridbagLayoutSizeDefinitionVector cols;
 
@@ -91,6 +93,18 @@ public class TableComponent extends TableComponentBase implements DynamicContent
         theState.add(super.saveState(aContext));
         theState.add(cols);
         return theState.toArray();
+    }
+
+    public String getRowStyle() {
+        ValueBinding theBinding = getValueBinding(ROWSTYLE_ATTRIBUTE);
+        if (theBinding == null) {
+            return null;
+        }
+        String theValue = (String) theBinding.getValue(getFacesContext());
+        if (theValue == null) {
+            return null;
+        }
+        return theValue;
     }
 
 }

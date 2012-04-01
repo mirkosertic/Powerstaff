@@ -447,19 +447,23 @@
             <f:facet name="header">
                 <h:outputText value="Status"/>
             </f:facet>
-            <h:outputText value="#{row.status.description}"/>
+            <b:combobox
+                    value="#{row.status}"
+                    values="#{projectBackingBean.positionStatus}"
+                    nullable="true"
+                    id="positionstatus"/>
         </h:column>
         <h:column>
             <f:facet name="header">
                 <h:outputText value="Konditionen"/>
             </f:facet>
-            <h:outputText value="#{row.conditions}"/>
+            <b:inputfield value="#{row.conditions}"/>
         </h:column>
         <h:column>
             <f:facet name="header">
                 <h:outputText value="Kommentar"/>
             </f:facet>
-            <h:outputText value="#{row.comment}"/>
+            <b:textarea value="#{row.comment}"/>
         </h:column>
         <h:column>
             <b:commandLink action="#{projectBackingBean.commandDeletePosition}">
