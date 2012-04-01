@@ -275,4 +275,13 @@ public class Project extends AuditableEntity implements UDFSupport {
     public void removePosition(ProjectPosition aPosition) {
         positions.remove(aPosition);
     }
+
+    public ProjectPositionStatus findStatusFor(long aFreelancerId) {
+        for (ProjectPosition thePosition : positions) {
+            if (thePosition.getFreelancerId() == aFreelancerId) {
+                return thePosition.getStatus();
+            }
+        }
+        return null;
+    }
 }

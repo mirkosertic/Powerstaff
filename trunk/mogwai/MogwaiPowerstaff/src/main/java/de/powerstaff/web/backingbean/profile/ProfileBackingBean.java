@@ -26,6 +26,8 @@ import de.powerstaff.business.dto.DataPage;
 import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.dto.ProfileSearchRequest;
+import de.powerstaff.business.entity.Project;
+import de.powerstaff.business.entity.ProjectPositionStatus;
 import de.powerstaff.business.entity.SavedProfileSearch;
 import de.powerstaff.business.service.ProfileIndexerService;
 import de.powerstaff.business.service.ProfileSearchService;
@@ -296,5 +298,17 @@ public class ProfileBackingBean extends
 
             initializeFor(theResult);
         }
+    }
+
+    public String getRowStyleForProfile() {
+        ProfileSearchEntry theEntry = (ProfileSearchEntry) getData().getSearchResult().getRowData();
+        Project theCurrentProject = contextUtils.getCurrentProject();
+        if (theCurrentProject != null) {
+            ProjectPositionStatus theStatus = theCurrentProject.findStatusFor(theEntry.getFreelancer().getId());
+            if (theStatus != null) {
+                return "background-color:" + theStatus.getColor();
+            }
+        }
+        return null;
     }
 }

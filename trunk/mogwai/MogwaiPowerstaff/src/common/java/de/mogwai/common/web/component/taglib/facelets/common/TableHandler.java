@@ -1,6 +1,6 @@
 /**
  * Copyright 2002 - 2007 the Mogwai Project.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,25 +16,26 @@
  */
 package de.mogwai.common.web.component.taglib.facelets.common;
 
-import javax.faces.component.UIComponent;
-
 import com.sun.facelets.FaceletContext;
 import com.sun.facelets.tag.MetaRuleset;
 import com.sun.facelets.tag.TagAttribute;
 import com.sun.facelets.tag.jsf.ComponentConfig;
-
 import de.mogwai.common.web.component.common.TableComponent;
 import de.mogwai.common.web.component.layout.GridbagLayoutSizeDefinitionVector;
 import de.mogwai.common.web.component.taglib.facelets.BaseComponentHandler;
 
+import javax.faces.component.UIComponent;
+
 public class TableHandler extends BaseComponentHandler {
 
     private final TagAttribute cols;
+    private final TagAttribute rowStyle;
 
     public TableHandler(ComponentConfig aConfig) {
         super(aConfig);
 
         cols = getRequiredAttribute("cols");
+        rowStyle = getAttribute("rowStyke");
     }
 
     @Override
