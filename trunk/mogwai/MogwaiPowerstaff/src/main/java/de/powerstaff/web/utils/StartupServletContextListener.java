@@ -17,15 +17,15 @@
  */
 package de.powerstaff.web.utils;
 
-import com.sun.servicetag.SystemEnvironment;
 import de.powerstaff.business.service.DomainHelper;
 import de.powerstaff.business.service.ProfileIndexerService;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-public class StartupServletContextListener implements ServletContextListener{
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
+public class StartupServletContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent aEvent) {
@@ -35,8 +35,8 @@ public class StartupServletContextListener implements ServletContextListener{
         DomainHelper.getInstance().registerApplicationContext(theContext);
 
         //if ("true".equals(System.getProperty("reindexOnStartup"))) {
-            ProfileIndexerService theService = (ProfileIndexerService) theContext.getBean("profileIndexerService");
-            theService.rebuildIndex();
+        ProfileIndexerService theService = (ProfileIndexerService) theContext.getBean("profileIndexerService");
+        //theService.rebuildIndex();
         //}
     }
 

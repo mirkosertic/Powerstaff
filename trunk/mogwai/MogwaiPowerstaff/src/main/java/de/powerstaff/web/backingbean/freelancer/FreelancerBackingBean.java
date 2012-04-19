@@ -129,6 +129,7 @@ public class FreelancerBackingBean
         if (theCurrentProject != null) {
             ProjectPosition thePosition = getData().getCurrentProjectPosition();
             if (thePosition.getId() == null) {
+                thePosition.setProject(theCurrentProject);
                 theCurrentProject.addPosition(thePosition);
                 thePosition.setFreelancerId(getData().getEntity().getId());
             } else {
@@ -173,7 +174,7 @@ public class FreelancerBackingBean
 
                 ProfileSearchInfoDetail theDetails = (ProfileSearchInfoDetail) theCommand
                         .getValue();
-                Freelancer theFreelancer = (Freelancer) entityService
+                Freelancer theFreelancer = entityService
                         .findByPrimaryKey(theDetails.getId());
                 if (theFreelancer != null) {
                     getData().setEntity(theFreelancer);

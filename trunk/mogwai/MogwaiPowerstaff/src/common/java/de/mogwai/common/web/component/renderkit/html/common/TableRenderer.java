@@ -22,6 +22,7 @@ import de.mogwai.common.web.component.common.TableComponent;
 import de.mogwai.common.web.component.layout.GridBagLayoutUtils;
 import de.mogwai.common.web.component.layout.GridbagLayoutSizeDefinitionVector;
 import de.mogwai.common.web.component.renderkit.html.BaseRenderer;
+import org.apache.commons.lang.StringUtils;
 import org.apache.myfaces.shared_impl.renderkit.RendererUtils;
 
 import javax.faces.component.UIColumn;
@@ -345,17 +346,17 @@ public class TableRenderer extends BaseRenderer {
                     // theWriter.writeAttribute("width", theWidth, null);
 
                     String theRowStyle = theTableComponent.getRowStyle();
-                    if (theRowStyle == null) {
-                        if (theTableComponent.isUseStyles()) {
-                            String theClass = (theRowCounter % 2) == 0 ? "mogwaiTableCellEven"
-                                    : "mogwaiTableCellOdd";
-                            if (i == theColumns.size() - 1) {
-                                theClass += "Last";
-                            }
 
-                            theWriter.writeAttribute("class", theClass, null);
+                    if (theTableComponent.isUseStyles()) {
+                        String theClass = (theRowCounter % 2) == 0 ? "mogwaiTableCellEven"
+                                : "mogwaiTableCellOdd";
+                        if (i == theColumns.size() - 1) {
+                            theClass += "Last";
                         }
-                    } else {
+
+                        theWriter.writeAttribute("class", theClass, null);
+                    }
+                    if (!StringUtils.isEmpty(theRowStyle)) {
                         theWriter.writeAttribute("style", theRowStyle, null);
                     }
 
