@@ -95,7 +95,10 @@ public class ProfileSearchServiceImpl extends LogableService implements
         aDestination.setStundensatzBis(aSource.getStundensatzBis());
         aDestination.setSortierung(aSource.getSortierung());
         aDestination.setProject(aSource.getProject());
-        aDestination.setId(aSource.getId());
+        // Watch for already persistent hibernate id's
+        if (aDestination.getId() == null) {
+            aDestination.setId(aSource.getId());
+        }
     }
 
     private Query getRealQuery(ProfileSearchRequest aRequest, Analyzer aAnalyzer)

@@ -1,6 +1,6 @@
 /**
  * Copyright 2002 - 2007 the Mogwai Project.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -18,12 +18,12 @@ package de.mogwai.common.web.enums;
 
 /**
  * Enumeration für diverse kurze Messages.
- * 
+ *
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:38:42 $
  */
 public enum MessageResult {
 
-	OK, CANCEL;
+    OK, CANCEL
 
 }

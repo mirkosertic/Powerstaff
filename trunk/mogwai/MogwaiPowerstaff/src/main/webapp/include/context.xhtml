@@ -5,11 +5,11 @@
            xmlns:a4j="http://richfaces.org/a4j">
     <a4j:outputPanel ajaxRendered="true" style="white-space: nowrap;">
         <f:subview id="projectincontext" rendered="#{contextUtils.contextSet}">
-            <h:outputText value="      Aktuelles Projekt : #{contextUtils.currrentProjectDescription}     "/>
-            <h:commandLink action="#{contextUtils.commandClear}">
+            <h:outputText value="      Aktuelles Projekt : #{contextUtils.currrentProjectDescription}"/>
+            <b:commandLink action="#{contextUtils.commandClear}" immediate="true">
                 <b:image source="/images/delete.gif"/>
                 <a4j:support eventsQueue="powerstaff" event="onclick"/>
-            </h:commandLink>
+            </b:commandLink>
         </f:subview>
     </a4j:outputPanel>
 </f:subview>

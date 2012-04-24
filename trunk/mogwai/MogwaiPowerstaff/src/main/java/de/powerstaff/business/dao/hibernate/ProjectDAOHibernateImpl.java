@@ -104,6 +104,7 @@ public class ProjectDAOHibernateImpl extends NavigatingDAOHibernateImpl<Project>
 
                 Criteria theCriteria = aSession.createCriteria(SavedProfileSearch.class);
                 theCriteria.add(Restrictions.eq("project", aProject));
+                theCriteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
                 return theCriteria.list();
             }
         });
