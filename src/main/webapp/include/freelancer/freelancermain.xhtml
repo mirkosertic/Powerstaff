@@ -372,42 +372,44 @@
 </b:cell>
 
 <b:cell x="1" y="9">
-    <b:titledBox label="Projektinformation" rendered="#{contextUtils.contextSet}">
+    <a4j:outputPanel ajaxRendered="true">
+        <b:titledBox label="Projektinformation" rendered="#{contextUtils.contextSet}">
 
-        <b:gridBagLayout cols="2,100,2,*,2" rows="2,p,2,p,2,50,2">
+            <b:gridBagLayout cols="2,100,2,*,2" rows="2,p,2,p,2,50,2">
 
-            <b:cell x="2" y="2">
-                <b:label id="project_status" label="Status"/>
-            </b:cell>
-            <b:cell x="4" y="2">
-                <b:combobox
-                        value="#{freelancerBackingBean.data.currentProjectPosition.status}"
-                        values="#{freelancerBackingBean.positionStatus}"
-                        nullable="true"
-                        id="positionstatus"/>
-            </b:cell>
+                <b:cell x="2" y="2">
+                    <b:label id="project_status" label="Status"/>
+                </b:cell>
+                <b:cell x="4" y="2">
+                    <b:combobox
+                            value="#{freelancerBackingBean.data.currentProjectPosition.status}"
+                            values="#{freelancerBackingBean.positionStatus}"
+                            nullable="true"
+                            id="positionstatus"/>
+                </b:cell>
 
-            <b:cell x="2" y="4">
-                <b:label id="project_kontitionen" label="Konditionen"/>
-            </b:cell>
-            <b:cell x="4" y="4">
-                <b:inputfield
-                        value="#{freelancerBackingBean.data.currentProjectPosition.conditions}"
-                        id="project_konditionen_input" labelComponentId="project_kontitionen"/>
-            </b:cell>
+                <b:cell x="2" y="4">
+                    <b:label id="project_kontitionen" label="Konditionen"/>
+                </b:cell>
+                <b:cell x="4" y="4">
+                    <b:inputfield
+                            value="#{freelancerBackingBean.data.currentProjectPosition.conditions}"
+                            id="project_konditionen_input" labelComponentId="project_kontitionen"/>
+                </b:cell>
 
-            <b:cell x="2" y="6">
-                <b:label id="project_comments" label="Kommentar"/>
-            </b:cell>
-            <b:cell x="4" y="6">
-                <b:textarea
-                        value="#{freelancerBackingBean.data.currentProjectPosition.comment}"
-                        id="project_comment_input" labelComponentId="project_comments"/>
-            </b:cell>
+                <b:cell x="2" y="6">
+                    <b:label id="project_comments" label="Kommentar"/>
+                </b:cell>
+                <b:cell x="4" y="6">
+                    <b:textarea
+                            value="#{freelancerBackingBean.data.currentProjectPosition.comment}"
+                            id="project_comment_input" labelComponentId="project_comments"/>
+                </b:cell>
 
-        </b:gridBagLayout>
+            </b:gridBagLayout>
 
-    </b:titledBox>
+        </b:titledBox>
+    </a4j:outputPanel>
 </b:cell>
 
 </b:gridBagLayout>
