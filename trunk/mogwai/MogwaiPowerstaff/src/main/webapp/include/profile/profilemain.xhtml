@@ -45,13 +45,15 @@
                                               required="true"/>
                             </b:cell>
                             <b:cell x="6" y="2">
-                                <b:commandLink title="Suchen und dem Projekt zuordnen"
-                                               action="#{profileBackingBean.commandSaveToProject}"
-                                               rendered="#{contextUtils.contextSet}">
-                                    <b:image source="/images/update.gif"/>
-                                    <a4j:support eventsQueue="powerstaff" event="onclick"
-                                                 reRender="input"/>
-                                </b:commandLink>
+                                <a4j:outputPanel ajaxRendered="true">
+                                    <b:commandLink title="Suchen und dem Projekt zuordnen"
+                                                   action="#{profileBackingBean.commandSaveToProject}"
+                                                   rendered="#{contextUtils.contextSet}">
+                                        <b:image source="/images/update.gif"/>
+                                        <a4j:support eventsQueue="powerstaff" event="onclick"
+                                                     reRender="input"/>
+                                    </b:commandLink>
+                                </a4j:outputPanel>
                             </b:cell>
                             <b:cell x="8" y="2">
                                 <b:commandLink title="Suchen" action="#{profileBackingBean.commandSearch}"
