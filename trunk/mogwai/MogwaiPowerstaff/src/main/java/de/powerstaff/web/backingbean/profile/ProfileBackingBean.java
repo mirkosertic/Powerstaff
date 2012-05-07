@@ -134,22 +134,39 @@ public class ProfileBackingBean extends
 
             initializeDataModel();
         }
+    }
 
+    public void commandClearContext() {
+        contextUtils.commandClearContext();
+        getData().setInitialized(false);
+        resetNavigation();
     }
 
     @Override
     public void resetNavigation() {
-        super.resetNavigation();
+        if (!getData().isInitialized()) {
+            super.resetNavigation();
 
-        try {
-            ProfileSearchRequest theResult = profileSearchService
-                    .getLastSearchRequest();
+            try {
+                ProfileSearchRequest theResult = profileSearchService
+                        .getLastSearchRequest();
 
-            initializeFor(theResult);
-        } catch (Exception e) {
-            JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE,
-                    e.getMessage());
-            LOGGER.logError("Fehler bei Profilsuche", e);
+                initializeFor(theResult);
+            } catch (Exception e) {
+                JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE,
+                        e.getMessage());
+                LOGGER.logError("Fehler bei Profilsuche", e);
+            }
+
+            getData().setInitialized(true);
+        } else {
+            try {
+                initializeFor(getData().getSearchRequest());
+            } catch (Exception e) {
+                JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE,
+                        e.getMessage());
+                LOGGER.logError("Fehler bei Profilsuche", e);
+            }
         }
     }
 

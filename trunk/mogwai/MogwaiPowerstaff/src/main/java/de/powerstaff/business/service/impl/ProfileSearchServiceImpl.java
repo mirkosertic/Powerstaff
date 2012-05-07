@@ -174,12 +174,41 @@ public class ProfileSearchServiceImpl extends LogableService implements
         }
 
         profileSearchDAO.save(theSearch);
+
+        // If the search was for a project, it will also be saved as the last search for a user
+        if (theSearch.getProject() != null) {
+
+            boolean isNew = false;
+            SavedProfileSearch theSearchForUser = profileSearchDAO.getSavedSearchFor(theUser);
+            if (theSearchForUser == null) {
+                theSearchForUser = new SavedProfileSearch();
+                theSearchForUser.setUser(theUser);
+                isNew = true;
+            } else {
+                if (cleanup) {
+                    theSearch.getProfilesToIgnore().clear();
+                }
+            }
+
+            copySearchRequestInto(searchRequest, theSearchForUser);
+            if (isNew) {
+                // Auf keinen Fall die bereits existierende Id vom SavedSearchRequest pro projekt übernehmen!
+                theSearchForUser.setId(null);
+            }
+
+            profileSearchDAO.save(theSearchForUser);
+        }
     }
 
     @Override
     public DataPage<ProfileSearchEntry> findProfileDataPage(
             ProfileSearchRequest aRequest, int startRow, int pageSize)
             throws Exception {
+
+        if (aRequest.getId() == null) {
+            // Kann passieren, wenn die Suche das erste mal aufgerufen wird
+            return new DataPage<ProfileSearchEntry>(0, 0, new ArrayList<ProfileSearchEntry>());
+        }
 
         SavedProfileSearch theSearch = profileSearchDAO.getSavedSearchById(aRequest.getId());
 
