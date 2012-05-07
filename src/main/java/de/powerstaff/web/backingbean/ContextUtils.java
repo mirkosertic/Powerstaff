@@ -27,7 +27,7 @@ public class ContextUtils {
         return FacesContext.getCurrentInstance().getExternalContext().getSessionMap().containsKey(SESSION_ID);
     }
 
-    public void commandClear() {
+    public void commandClearContext() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove(SESSION_ID);
     }
 
