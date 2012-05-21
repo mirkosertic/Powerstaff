@@ -27,6 +27,7 @@ import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.entity.Project;
+import de.powerstaff.business.entity.ProjectPosition;
 import de.powerstaff.business.entity.ProjectPositionStatus;
 import de.powerstaff.business.entity.SavedProfileSearch;
 import de.powerstaff.business.service.ProfileIndexerService;
@@ -37,8 +38,11 @@ import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 import de.powerstaff.web.utils.PagedListDataModel;
 
 import javax.faces.component.StateHolder;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileBackingBean extends
         WrappingBackingBean<ProfileBackingBeanDataModel> implements
@@ -311,11 +315,29 @@ public class ProfileBackingBean extends
         }
     }
 
+    private static final String POSITION_CACHE_ID = "PositionCache";
+
+    public ProjectPositionStatus findStatusFor(long aFreelancerId, Project aProject) {
+
+        ExternalContext theContext = FacesContext.getCurrentInstance().getExternalContext();
+
+        Map<Long, ProjectPositionStatus> theStatusCache = (Map<Long, ProjectPositionStatus>) theContext.getRequestParameterMap().get(POSITION_CACHE_ID);
+        if (theStatusCache == null) {
+            theStatusCache = new HashMap<Long, ProjectPositionStatus>();
+            for (ProjectPosition thePosition : aProject.getPositions()) {
+                theStatusCache.put(thePosition.getFreelancerId(), thePosition.getStatus());
+            }
+            theContext.getRequestParameterMap().put(POSITION_CACHE_ID, theStatusCache);
+        }
+        return theStatusCache.get(aFreelancerId);
+    }
+
+
     public String getRowStyleForProfile() {
         ProfileSearchEntry theEntry = (ProfileSearchEntry) getData().getSearchResult().getRowData();
         Project theCurrentProject = contextUtils.getCurrentProject();
         if (theCurrentProject != null) {
-            ProjectPositionStatus theStatus = theCurrentProject.findStatusFor(theEntry.getFreelancer().getId());
+            ProjectPositionStatus theStatus = findStatusFor(theEntry.getFreelancer().getId(), theCurrentProject);
             if (theStatus != null) {
                 return "background-color:" + theStatus.getColor();
             }
