@@ -24,9 +24,6 @@ import java.util.*;
 
 public class Project extends AuditableEntity implements UDFSupport {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -5246378338479768068L;
 
     private Date entryDate;
@@ -274,14 +271,5 @@ public class Project extends AuditableEntity implements UDFSupport {
 
     public void removePosition(ProjectPosition aPosition) {
         positions.remove(aPosition);
-    }
-
-    public ProjectPositionStatus findStatusFor(long aFreelancerId) {
-        for (ProjectPosition thePosition : positions) {
-            if (thePosition.getFreelancerId() == aFreelancerId) {
-                return thePosition.getStatus();
-            }
-        }
-        return null;
     }
 }
