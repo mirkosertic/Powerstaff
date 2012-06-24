@@ -38,7 +38,6 @@ import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 import de.powerstaff.web.utils.PagedListDataModel;
 
 import javax.faces.component.StateHolder;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -319,16 +318,15 @@ public class ProfileBackingBean extends
 
     public ProjectPositionStatus findStatusFor(long aFreelancerId, Project aProject) {
 
-        ExternalContext theContext = FacesContext.getCurrentInstance().getExternalContext();
-
-        Map<Long, ProjectPositionStatus> theStatusCache = (Map<Long, ProjectPositionStatus>) theContext.getRequestParameterMap().get(POSITION_CACHE_ID);
+        Map<Long, ProjectPositionStatus> theStatusCache = (Map<Long, ProjectPositionStatus>) ContextUtils.getCurrentCache().get(POSITION_CACHE_ID);
         if (theStatusCache == null) {
             theStatusCache = new HashMap<Long, ProjectPositionStatus>();
             for (ProjectPosition thePosition : aProject.getPositions()) {
                 theStatusCache.put(thePosition.getFreelancerId(), thePosition.getStatus());
             }
-            theContext.getRequestParameterMap().put(POSITION_CACHE_ID, theStatusCache);
+            ContextUtils.getCurrentCache().put(POSITION_CACHE_ID, theStatusCache);
         }
+
         return theStatusCache.get(aFreelancerId);
     }
 

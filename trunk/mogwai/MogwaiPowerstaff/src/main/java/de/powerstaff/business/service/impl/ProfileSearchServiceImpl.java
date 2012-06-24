@@ -196,6 +196,9 @@ public class ProfileSearchServiceImpl extends LogableService implements
                 theSearchForUser.setId(null);
             }
 
+            // Keine Zuordnung zu einem Projekt!
+            theSearchForUser.setProject(null);
+
             profileSearchDAO.save(theSearchForUser);
         }
     }

@@ -29,6 +29,7 @@ import de.powerstaff.business.service.ProjectService;
 import de.powerstaff.web.backingbean.ContextUtils;
 import de.powerstaff.web.backingbean.PersonEditorBackingBean;
 import de.powerstaff.web.backingbean.partner.PartnerBackingBean;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -129,9 +130,12 @@ public class FreelancerBackingBean
         if (theCurrentProject != null) {
             ProjectPosition thePosition = getData().getCurrentProjectPosition();
             if (thePosition.getId() == null) {
-                thePosition.setProject(theCurrentProject);
-                theCurrentProject.addPosition(thePosition);
-                thePosition.setFreelancerId(getData().getEntity().getId());
+                // Position ist noch nicht persistent, wird aber erst dem Projekt zugeordnet, wenn auch was eingetragen wurde
+                if (!StringUtils.isEmpty(thePosition.getComment()) || (!StringUtils.isEmpty(thePosition.getConditions())) || thePosition.getStatus() != null) {
+                    thePosition.setProject(theCurrentProject);
+                    theCurrentProject.addPosition(thePosition);
+                    thePosition.setFreelancerId(getData().getEntity().getId());
+                }
             } else {
                 for (ProjectPosition thePersistentPos : theCurrentProject.getPositions()) {
                     if (thePersistentPos.equals(thePosition)) {
