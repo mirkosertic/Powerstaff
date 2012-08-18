@@ -1,40 +1,37 @@
 /**
  * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 package de.powerstaff.business.service.impl;
 
-import java.util.Collection;
-
 import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.CustomerDAO;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Customer;
-import de.powerstaff.business.service.CustomerService;
-import de.powerstaff.business.service.PowerstaffSystemParameterService;
-import de.powerstaff.business.service.RecordInfo;
-import de.powerstaff.business.service.TooManySearchResults;
+import de.powerstaff.business.service.*;
+
+import java.util.Collection;
 
 public class CustomerServiceImpl extends LogableService implements CustomerService {
 
     private CustomerDAO customerDAO;
-    
+
     private PowerstaffSystemParameterService systemParameterService;
-    
+
     /**
      * @return the customerDAO
      */
@@ -43,13 +40,12 @@ public class CustomerServiceImpl extends LogableService implements CustomerServi
     }
 
     /**
-     * @param customerDAO
-     *                the customerDAO to set
+     * @param customerDAO the customerDAO to set
      */
     public void setCustomerDAO(CustomerDAO customerDAO) {
         this.customerDAO = customerDAO;
     }
-    
+
     /**
      * @return the systemParameterService
      */
@@ -65,7 +61,11 @@ public class CustomerServiceImpl extends LogableService implements CustomerServi
     }
 
     public void delete(Customer aEntity) {
-        customerDAO.delete(aEntity);
+        try {
+            customerDAO.delete(aEntity);
+        } catch (ReferenceExistsException e) {
+            // Kann hier nicht passiere
+        }
     }
 
     public Customer findByPrimaryKey(Long aId) {

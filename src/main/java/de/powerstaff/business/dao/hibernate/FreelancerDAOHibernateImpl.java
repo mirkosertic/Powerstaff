@@ -24,11 +24,13 @@ import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.ProjectPosition;
+import de.powerstaff.business.service.ReferenceExistsException;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
@@ -223,5 +225,28 @@ public class FreelancerDAOHibernateImpl extends
                 return theResult;
             }
         });
+    }
+
+    @Override
+    public void delete(final Object aEntity) throws ReferenceExistsException {
+
+        // Freiberufler dürfen nicht gelöscht werden, wenn sie bereits einem Projekt zugewiesen sind.
+        boolean exists = getHibernateTemplate().execute(new HibernateCallback<Boolean>() {
+            @Override
+            public Boolean doInHibernate(Session aSession) throws HibernateException, SQLException {
+                Freelancer theFreelancer = (Freelancer) aEntity;
+                Criteria theCriteria = aSession.createCriteria(ProjectPosition.class);
+                theCriteria.add(Restrictions.eq("freelancerId", theFreelancer.getId()));
+                theCriteria.setProjection(Projections.count("id"));
+                Long theCount = (Long) theCriteria.uniqueResult();
+                return theCount != 0;
+            }
+        });
+
+        if (exists) {
+            throw new ReferenceExistsException();
+        }
+
+        super.delete(aEntity);
     }
 }

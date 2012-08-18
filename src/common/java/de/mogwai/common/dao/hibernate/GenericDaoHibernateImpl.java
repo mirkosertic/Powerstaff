@@ -1,6 +1,6 @@
 /**
  * Copyright 2002 - 2007 the Mogwai Project.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,37 +16,37 @@
  */
 package de.mogwai.common.dao.hibernate;
 
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-
 import de.mogwai.common.dao.DAO;
+import de.powerstaff.business.service.ReferenceExistsException;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
  * Hibernate Implementation des generischen Data Access Objects.
- * 
+ *
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:25:22 $
  */
 public abstract class GenericDaoHibernateImpl extends HibernateDaoSupport
-		implements DAO {
+        implements DAO {
 
-	public Object getById(Class entityClass, Long id) {
+    public Object getById(Class entityClass, Long id) {
 
-		return getHibernateTemplate().get(entityClass, id);
-	}
+        return getHibernateTemplate().get(entityClass, id);
+    }
 
-	public void save(Object entity) {
+    public void save(Object entity) {
 
-		getHibernateTemplate().saveOrUpdate(entity);
-		getHibernateTemplate().flush();
-	}
+        getHibernateTemplate().saveOrUpdate(entity);
+        getHibernateTemplate().flush();
+    }
 
-	public void delete(Object entity) {
+    public void delete(Object entity) throws ReferenceExistsException {
 
-		getHibernateTemplate().delete(entity);
-		getHibernateTemplate().flush();
-	}
+        getHibernateTemplate().delete(entity);
+        getHibernateTemplate().flush();
+    }
 
-	public void detach(Object aObject) {
-		getHibernateTemplate().evict(aObject);
-	}
+    public void detach(Object aObject) {
+        getHibernateTemplate().evict(aObject);
+    }
 }

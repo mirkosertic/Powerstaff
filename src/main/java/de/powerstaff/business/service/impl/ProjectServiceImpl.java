@@ -23,10 +23,7 @@ import de.powerstaff.business.dao.ProjectDAO;
 import de.powerstaff.business.entity.Project;
 import de.powerstaff.business.entity.ProjectPositionStatus;
 import de.powerstaff.business.entity.SavedProfileSearch;
-import de.powerstaff.business.service.PowerstaffSystemParameterService;
-import de.powerstaff.business.service.ProjectService;
-import de.powerstaff.business.service.RecordInfo;
-import de.powerstaff.business.service.TooManySearchResults;
+import de.powerstaff.business.service.*;
 
 import java.util.Collection;
 
@@ -51,7 +48,11 @@ public class ProjectServiceImpl extends LogableService implements ProjectService
     }
 
     public void delete(Project aEntity) {
-        projectDAO.delete(aEntity);
+        try {
+            projectDAO.delete(aEntity);
+        } catch (ReferenceExistsException e) {
+            // Kann hier nicht passieren
+        }
     }
 
     public Project findByPrimaryKey(Long aId) {
@@ -107,6 +108,10 @@ public class ProjectServiceImpl extends LogableService implements ProjectService
 
     @Override
     public void deleteSavedSearch(SavedProfileSearch aSearch) {
-        projectDAO.delete(aSearch);
+        try {
+            projectDAO.delete(aSearch);
+        } catch (ReferenceExistsException e) {
+            // Kann hier nicht passieren
+        }
     }
 }
