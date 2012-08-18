@@ -1,23 +1,21 @@
 /**
  * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 package de.powerstaff.business.service.impl;
-
-import java.util.Collection;
 
 import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.GenericSearchResult;
@@ -25,15 +23,14 @@ import de.powerstaff.business.dao.PartnerDAO;
 import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.Partner;
-import de.powerstaff.business.service.PartnerService;
-import de.powerstaff.business.service.PowerstaffSystemParameterService;
-import de.powerstaff.business.service.RecordInfo;
-import de.powerstaff.business.service.TooManySearchResults;
+import de.powerstaff.business.service.*;
+
+import java.util.Collection;
 
 public class PartnerServiceImpl extends LogableService implements PartnerService {
 
     private PartnerDAO partnerDAO;
-    
+
     private PowerstaffSystemParameterService systemParameterService;
 
     /**
@@ -44,8 +41,7 @@ public class PartnerServiceImpl extends LogableService implements PartnerService
     }
 
     /**
-     * @param partnerDAO
-     *                the partnerDAO to set
+     * @param partnerDAO the partnerDAO to set
      */
     public void setPartnerDAO(PartnerDAO partnerDAO) {
         this.partnerDAO = partnerDAO;
@@ -66,7 +62,11 @@ public class PartnerServiceImpl extends LogableService implements PartnerService
     }
 
     public void delete(Freelancer aEntity) {
-        partnerDAO.delete(aEntity);
+        try {
+            partnerDAO.delete(aEntity);
+        } catch (ReferenceExistsException e) {
+            // Kann hier nicht passieren
+        }
     }
 
     public Partner findByPrimaryKey(Long aId) {
@@ -107,7 +107,11 @@ public class PartnerServiceImpl extends LogableService implements PartnerService
     }
 
     public void delete(Partner aObject) {
-        partnerDAO.delete(aObject);
+        try {
+            partnerDAO.delete(aObject);
+        } catch (ReferenceExistsException e) {
+            // Kann hier nicht passieren
+        }
     }
 
     public Partner findByRecordNumber(Long aNumber) {

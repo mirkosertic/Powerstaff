@@ -25,10 +25,7 @@ import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.ProjectPosition;
-import de.powerstaff.business.service.FreelancerService;
-import de.powerstaff.business.service.PowerstaffSystemParameterService;
-import de.powerstaff.business.service.RecordInfo;
-import de.powerstaff.business.service.TooManySearchResults;
+import de.powerstaff.business.service.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -53,7 +50,7 @@ public class FreelancerServiceImpl extends LogableService implements
         return freelancerDAO.findByCode(code);
     }
 
-    public void delete(Freelancer aEntity) {
+    public void delete(Freelancer aEntity) throws ReferenceExistsException {
         freelancerDAO.delete(aEntity);
     }
 

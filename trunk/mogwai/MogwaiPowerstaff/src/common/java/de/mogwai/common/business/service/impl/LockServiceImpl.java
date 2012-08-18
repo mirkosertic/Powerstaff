@@ -1,6 +1,6 @@
 /**
  * Copyright 2002 - 2007 the Mogwai Project.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,18 +16,19 @@
  */
 package de.mogwai.common.business.service.impl;
 
-import java.sql.Timestamp;
-
 import de.mogwai.common.business.entity.Entity;
 import de.mogwai.common.business.entity.LockEntry;
 import de.mogwai.common.business.service.LockService;
 import de.mogwai.common.business.service.ObjectLockedException;
 import de.mogwai.common.dao.LockServiceDao;
 import de.mogwai.common.usercontext.UserContextHolder;
+import de.powerstaff.business.service.ReferenceExistsException;
+
+import java.sql.Timestamp;
 
 /**
  * Implementation des LockService.
- * 
+ *
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:27:33 $
  */
@@ -45,9 +46,8 @@ public class LockServiceImpl extends LogableService implements LockService {
 
     /**
      * Überprüfung, ob ein LockEntry von der aktuellen Session gesperrt wurde.
-     * 
-     * @param aEntry
-     *                das LockEntry
+     *
+     * @param aEntry das LockEntry
      * @return true wenn ja, sonst false
      */
     protected boolean lockedByCurrentUser(LockEntry aEntry) {
@@ -107,7 +107,11 @@ public class LockServiceImpl extends LogableService implements LockService {
         LockEntry theEntry = lockServiceDao.getLockEntryFor(aEntity);
 
         if (lockedByCurrentUser(theEntry)) {
-            lockServiceDao.delete(theEntry);
+            try {
+                lockServiceDao.delete(theEntry);
+            } catch (ReferenceExistsException e) {
+                // Kann hier nicht passieren
+            }
         } else {
             throw new ObjectLockedException(aEntity, theEntry.getLockUser(), theEntry.getLockDate());
         }
