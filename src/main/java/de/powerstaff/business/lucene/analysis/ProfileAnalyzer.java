@@ -24,7 +24,7 @@ public class ProfileAnalyzer extends Analyzer {
 
 	public ProfileAnalyzer() {
 		URL theUrl = getClass().getResource(
-				"/de/powerstaff/business/lucene/analysis/Stoplist.txt");
+                "/de/powerstaff/business/lucene/analysis/Stoplist.txt");
 		try {
 			stopSet = WordlistLoader.getWordSet(new InputStreamReader(theUrl
 					.openStream()));

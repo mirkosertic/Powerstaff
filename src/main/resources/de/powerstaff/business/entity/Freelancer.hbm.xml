@@ -9,6 +9,10 @@
             <generator class="identity"/>
         </id>
 
+        <version name="version" type="java.lang.Long">
+            <column name="db_version" default="0" not-null="true"/>
+        </version>
+
         <property column="creationDate" name="creationDate"/>
         <property column="creationUser" name="creationUserID"/>
         <property column="changedDate" name="lastModificationDate"/>
