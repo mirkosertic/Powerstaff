@@ -88,6 +88,11 @@
     </welcome-file-list>
 
     <filter>
+      <filter-name>Pretty Filter</filter-name>
+      <filter-class>com.ocpsoft.pretty.PrettyFilter</filter-class>
+    </filter>
+
+    <filter>
         <filter-name>MyFacesExtensionsFilter</filter-name>
         <filter-class>
             org.apache.myfaces.webapp.filter.ExtensionsFilter
@@ -132,6 +137,14 @@
             org.springframework.web.filter.DelegatingFilterProxy
         </filter-class>
     </filter>
+
+    <filter-mapping>
+	    <filter-name>Pretty Filter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	    <dispatcher>REQUEST</dispatcher>
+	    <dispatcher>FORWARD</dispatcher>
+	    <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
 
     <filter-mapping>
         <filter-name>changeheader</filter-name>
