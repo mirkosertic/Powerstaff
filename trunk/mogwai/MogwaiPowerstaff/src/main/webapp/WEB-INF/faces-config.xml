@@ -5,15 +5,13 @@
 
     <application>
         <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
-        <variable-resolver>
-            de.mogwai.common.web.resolver.BeanInitingVariableResolver
-        </variable-resolver>
-        <navigation-handler>
+        <variable-resolver>org.springframework.web.jsf.DelegatingVariableResolver</variable-resolver>
+        <!--<navigation-handler>
             de.mogwai.common.web.navigation.NavigationHandler
-        </navigation-handler>
-        <action-listener>
+        </navigation-handler>-->
+        <!--<action-listener>
             de.mogwai.common.web.actionlistener.ValidatingActionListener
-        </action-listener>
+        </action-listener>-->
         <locale-config>
             <default-locale>de</default-locale>
             <supported-locale>de</supported-locale>

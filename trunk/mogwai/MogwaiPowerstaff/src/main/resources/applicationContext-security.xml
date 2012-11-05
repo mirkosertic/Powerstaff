@@ -23,7 +23,7 @@
 	<bean id="startPageFilter"
 		class="de.powerstaff.web.filter.RedirectToStartPageFilter">
 		<security:custom-filter before="SWITCH_USER_FILTER" />
-		<property name="startPage" value="/index.faces" />
+		<property name="startPage" value="/login" />
 	</bean>
 
 	<bean id="disableProxyFilter"
@@ -66,7 +66,7 @@
 		<security:intercept-url pattern="/style/**" filters="none" />
 		<security:intercept-url pattern="/include/**" access="ROLE_USER" />
 		<security:intercept-url pattern="/**" access="ROLE_USER, ROLE_ANONYMOUS" />
-		<security:form-login login-page="/index.faces" />
+		<security:form-login login-page="/login" />
 		<security:anonymous />
 		<security:logout />
 		<security:remember-me />

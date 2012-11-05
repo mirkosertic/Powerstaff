@@ -5,22 +5,26 @@
 	http://ocpsoft.com/xml/ns/prettyfaces/pretty-1.0.xsd">
     <url-mapping id="login">
         <pattern>/login</pattern>
-        <view-id>/faces/login.jsf</view-id>
+        <view-id>/login.faces</view-id>
     </url-mapping>
-    <url-mapping id="home">
-        <pattern>/home</pattern>
-        <query-param name="displayWelcomeMessage">#{homeBean.displayWelcomeMessage}</query-param>
-        <view-id>#{homeBean.getViewPath}</view-id>
+    <url-mapping id="freelancer">
+        <pattern>/freelancer/#{freelancerBackingBean.data.currentFreelancerId}</pattern>
+        <view-id>/include/freelancer/freelancermain.faces</view-id>
+        <action onPostback="false">#{freelancerBackingBean.loadFreelancer}</action>
     </url-mapping>
-    <url-mapping id="viewStory">
-        <pattern>/story/#{myBean.currentStoryId}/</pattern>
-        <query-param name="commentText" decode="false">#{myBean.commentText}</query-param>
-        <view-id>/faces/story/viewStory.jsf</view-id>
-        <action onPostback="false">#{myBean.loadStory}</action>
+    <url-mapping id="partner">
+        <pattern>/partner/#{partnerBackingBean.data.currentPartnerId}</pattern>
+        <view-id>/include/partner/partnermain.faces</view-id>
+        <action onPostback="false">#{partnerBackingBean.loadPartner}</action>
     </url-mapping>
-    <url-mapping id="viewComment">
-        <pattern>/story/#{myBean.currentStoryId}/#{myBean.commentId}</pattern>
-        <view-id>/faces/story/comment.jsf</view-id>
-        <action>#{myBean.loadComment}</action>
+    <url-mapping id="customer">
+        <pattern>/customer/#{customerBackingBean.data.currentCustomerId}</pattern>
+        <view-id>/include/customer/customermain.faces</view-id>
+        <action onPostback="false">#{customerBackingBean.loadCustomer}</action>
+    </url-mapping>
+    <url-mapping id="project">
+        <pattern>/project/#{projectBackingBean.data.currentProjectId}</pattern>
+        <view-id>/include/project/projectmain.faces</view-id>
+        <action onPostback="false">#{projectBackingBean.loadProject}</action>
     </url-mapping>
 </pretty-config>
