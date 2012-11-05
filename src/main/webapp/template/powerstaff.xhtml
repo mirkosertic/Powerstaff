@@ -1,77 +1,116 @@
-<table width="100%" border="0" cellspacing="0" cellpadding="0"
- xmlns="http://www.w3.org/1999/xhtml"
- xmlns:ui="http://java.sun.com/jsf/facelets"
- xmlns:b="http://mogwai.sourceforge.net/layout"
- xmlns:a4j="http://richfaces.org/a4j"
- xmlns:rich="http://richfaces.org/rich">
-	<tr height="20">
-		<td class="lightgray" width="20">
-			<img src="images/spacer.gif" width="20" height="1" />
-		</td>
-		<td class="darkgray whitetext padding" width="180"></td>
-		<td class="lightgray" width="20">
-			<img src="images/spacer.gif" width="20" height="1" />
-		</td>
-		<td class="lightgray" valign="top">
-			<ui:insert name="mainmenu" />
-		</td>
-		<td class="lightgray" width="20" valign="top" rowspan="3">
-			<!-- <b:image source="/images/mclogo.gif" height="70" /> -->		
-		</td>
-	</tr>
-	<tr height="20">
-		<td class="white"></td>
-		<td class="lightgray">
-			<img src="images/spacer.gif" width="180" height="1" />
-		</td>
-		<td class="white"></td>
-		<td class="white"></td>
-	</tr>
-	<tr height="20">
-		<td class="white"></td>
-		<td class="white"></td>
-		<td class="white"></td>
-		<td class="white"></td>
-	</tr>
-	<tr>
-		<td class="white"></td>
-		<td class="white">
-			<table width="100%" cellspacing="0" cellpadding="0" border="0">
-				<tr height="160">
-					<td class="green padding">
-						<ui:insert name="contextmenu" />
-					</td>
-				</tr>
-				<tr height="20">
-					<td></td>
-				</tr>
-				<tr height="211">
-					<td background="images/architecture.jpg"></td>
-				</tr>
-				<tr height="20">
-					<td></td>
-				</tr>
-				<tr height="100">
-					<td class="darkgray whitetext padding text">
-						Mogwai PowerStaff 4.1
-						<br />
-						(c) 2002-2011 Project Mogwai
-					</td>
-				</tr>
-			</table>
-			
-			<br/><br/>
-			<div id="changedmarker" style="visibility:hidden; color:red; font-weight:bold; text-align:center;">
-				<img src="images/icon_warndreieck.gif"/><br/>
-				Ungespeicherte Daten!
-			</div>
-		</td>
-		<td class="white"></td>
-		<td class="white padding content">
-			<br />
-			<ui:include src="/include/scripts.xhtml"/>
-			<ui:insert name="content" />
-		</td>
-		<td class="white"></td>
-	</tr>
-</table>
+<?xml version="1.0" encoding="iso-8859-1"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://mogwai.sourceforge.net/layout"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+	<head>
+		<title><ui:insert name="pagetitle" /></title>
+        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta http-equiv="cache-control" content="no-cache"/>
+		<meta http-equiv="pragma" content="no-cache"/>
+		<b:link href="style/site.css" rel="stylesheet" type="text/css"/>
+		<b:link href="style/mogwailayout.css" rel="stylesheet" type="text/css"/>
+		<b:script src="resource/mogwailayout.js" type="text/javascript"/>
+		<b:script src="script/powerstaff.js" type="text/javascript"/>
+	</head>
+	<body marginwidth="0" marginheight="0" topmargin="0" leftmargin="0"
+		rightmargin="0" bottommargin="0">
+		<f:view>
+			<rich:dragIndicator id="indicator"/>
+			<a4j:log/>
+            <script language="JavaScript">
+                 A4J.AJAX.onError = function(req, status, message) {
+                    window.alert("Error Processing Ajax Request, Status : "+status+" Message : " + message);
+                 }
+            </script>
+
+			<h:form id="form">
+
+                <ui:include src="/include/scripts.xhtml"/>
+
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr height="20">
+                        <td class="lightgray" width="20">
+                            <b:image source="images/spacer.gif" width="20" height="1" />
+                        </td>
+                        <td class="darkgray whitetext padding" width="180"></td>
+                        <td class="lightgray" width="20">
+                            <b:image source="images/spacer.gif" width="20" height="1" />
+                        </td>
+                        <td class="lightgray" valign="top">
+                            <ui:insert name="mainmenu" />
+                        </td>
+                        <td class="lightgray" width="20" valign="top" rowspan="3">
+                            <!-- <b:image source="/images/mclogo.gif" height="70" /> -->
+                        </td>
+                    </tr>
+                    <tr height="20">
+                        <td class="white"></td>
+                        <td class="lightgray">
+                            <b:image source="images/spacer.gif" width="180" height="1" />
+                        </td>
+                        <td class="white"></td>
+                        <td class="white"></td>
+                    </tr>
+                    <tr height="20">
+                        <td class="white"></td>
+                        <td class="white"></td>
+                        <td class="white"></td>
+                        <td class="white"></td>
+                    </tr>
+                    <tr>
+                        <td class="white"></td>
+                        <td class="white">
+                            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                <tr height="160">
+                                    <td class="green padding">
+                                        <ui:insert name="contextmenu" />
+                                    </td>
+                                </tr>
+                                <tr height="20">
+                                    <td></td>
+                                </tr>
+                                <tr height="211">
+                                    <td>
+                                        <b:image source="images/architecture.jpg"/>
+                                    </td>
+                                </tr>
+                                <tr height="20">
+                                    <td></td>
+                                </tr>
+                                <tr height="100">
+                                    <td class="darkgray whitetext padding text">
+                                        Mogwai PowerStaff 5.0
+                                        <br />
+                                        (c) 2002-2012 Project Mogwai
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <br/><br/>
+                            <div id="changedmarker" style="visibility:hidden; color:red; font-weight:bold; text-align:center;">
+                                <b:image source="images/icon_warndreieck.gif"/><br/>
+                                Ungespeicherte Daten!
+                            </div>
+                        </td>
+                        <td class="white"></td>
+                        <td class="white padding content">
+                            <br />
+                            <ui:insert name="content" />
+                        </td>
+                        <td class="white"></td>
+                    </tr>
+                </table>
+
+                <!--
+                    Bug Fixing JQuery since IE7
+                -->
+                <input type="hidden" name="form:_idcl" value=""/>
+			</h:form>
+		</f:view>
+	</body>
+</html>

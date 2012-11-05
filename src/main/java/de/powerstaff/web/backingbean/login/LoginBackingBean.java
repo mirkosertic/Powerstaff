@@ -20,6 +20,8 @@ package de.powerstaff.web.backingbean.login;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import de.powerstaff.web.backingbean.NavigatingBackingBean;
+import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 import org.springframework.security.ui.WebAuthenticationDetails;
 
 import de.mogwai.common.business.service.LoginException;
@@ -39,27 +41,33 @@ public class LoginBackingBean extends
 
 	private static final Logger LOGGER = new Logger(LoginBackingBean.class);
 
+    private FreelancerBackingBean freelancerBackingBean;
+
 	@Override
 	protected LoginBackingBeanDataModel createDataModel() {
 		return new LoginBackingBeanDataModel();
-	}
-
-	public LoginService getLoginService() {
-		return loginService;
 	}
 
 	public void setLoginService(LoginService loginService) {
 		this.loginService = loginService;
 	}
 
-	public String commandLogin() {
+    public void setFreelancerBackingBean(FreelancerBackingBean freelancerBackingBean) {
+        this.freelancerBackingBean = freelancerBackingBean;
+    }
+
+    public String commandLogin() {
 		try {
 			HttpServletRequest theRequest = (HttpServletRequest) FacesContext
 					.getCurrentInstance().getExternalContext().getRequest();
 			loginService.login(getData().getUsername(),
 					getData().getPassword(), new WebAuthenticationDetails(
 							theRequest));
-			return "INDEX";
+
+            freelancerBackingBean.getData().setCurrentFreelancerId(NavigatingBackingBean.NEW_RECORD_ID);
+
+            // Redirect auf die leere Freelancer Seite
+            return "pretty:freelancer";
 		} catch (LoginException e) {
 			LOGGER.logError("Fehler beim Login", e);
 			JSFMessageUtils.addGlobalErrorMessage(MSG_FALSCHESLOGIN);

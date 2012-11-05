@@ -74,6 +74,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     <bean name="loginBackingBean" class="de.powerstaff.web.backingbean.login.LoginBackingBean"
           scope="conversation.access">
         <property name="loginService" ref="loginService"/>
+        <property name="freelancerBackingBean" ref="freelancerBackingBean"/>
     </bean>
 
     <bean name="statistikBackingBean" class="de.powerstaff.web.backingbean.statistik.StatistikBackingBean"

@@ -224,4 +224,14 @@ public class FreelancerBackingBean
     public boolean isAssignedToCurrentProject() {
         return getData().getCurrentProjectPosition() != null && getData().getEntity().getId() != null;
     }
+
+    public void loadFreelancer() {
+        if (NEW_RECORD_ID.equals(getData().getCurrentFreelancerId())) {
+            commandNew();
+        } else {
+            Freelancer theFreelancer = entityService
+                    .findByPrimaryKey(Long.parseLong(getData().getCurrentFreelancerId()));
+            getData().setEntity(theFreelancer);
+        }
+    }
 }

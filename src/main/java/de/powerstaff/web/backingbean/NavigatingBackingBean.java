@@ -10,6 +10,8 @@ import de.powerstaff.business.service.ReferenceExistsException;
 public abstract class NavigatingBackingBean<T extends Entity, V extends NavigatingBackingBeanDataModel, S extends NavigatingService<T>>
         extends EntityEditorBackingBean<V> {
 
+    public final static String NEW_RECORD_ID = "neu";
+
     private static final long serialVersionUID = -7505086677065098879L;
 
     private static final Logger LOGGER = new Logger(NavigatingBackingBean.class);

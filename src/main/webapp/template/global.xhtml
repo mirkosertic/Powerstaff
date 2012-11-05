@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:b="http://mogwai.sourceforge.net/layout"
+      xmlns:rich="http://richfaces.org/rich">
+	<head>
+		<title><ui:insert name="pagetitle" /></title>
+        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta http-equiv="cache-control" content="no-cache"/>
+		<meta http-equiv="pragma" content="no-cache"/>
+		<b:link href="style/site.css" rel="stylesheet" type="text/css"/>
+		<b:link href="style/mogwailayout.css" rel="stylesheet" type="text/css"/>
+		<b:script src="resource/mogwailayout.js" type="text/javascript"/>
+		<b:script src="script/powerstaff.js" type="text/javascript"/>
+	</head>
+	<body marginwidth="0" marginheight="0" topmargin="0" leftmargin="0"
+		rightmargin="0" bottommargin="0">
+		<f:view>
+			<rich:dragIndicator id="indicator"/>
+			<a4j:log/>
+            <script language="JavaScript">
+                 A4J.AJAX.onError = function(req, status, message) {
+                    window.alert("Error Processing Ajax Request, Status : "+status+" Message : " + message);
+                 }
+            </script>
+
+			<h:form id="form">
+
+                <ui:include src="/include/scripts.xhtml"/>
+
+                <ui:insert name="formcontent" />
+
+                <!--
+                    Bug Fixing JQuery since IE7
+                -->
+                <input type="hidden" name="form:_idcl" value=""/>
+			</h:form>
+		</f:view>
+	</body>
+</html>
