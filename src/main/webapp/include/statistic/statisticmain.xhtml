@@ -23,7 +23,7 @@
                 <b:cell y="1" x="2">
                     <a4j:status>
                         <f:facet name="start">
-                            <b:image source="images/rotate2.gif" width="20" height="20"/>
+                            <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20" height="20"/>
                         </f:facet>
                     </a4j:status>
                 </b:cell>
@@ -67,7 +67,7 @@
                                 <b:commandLink title="Suchen"
                                                action="#{statistikBackingBean.commandSearch}" actionKey="13"
                                                keySensitive="true">
-                                    <b:image source="/images/search.gif"/>
+                                    <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
                                     <a4j:support eventsQueue="powerstaff" event="onclick"/>
                                 </b:commandLink>
                             </b:cell>

@@ -30,10 +30,11 @@ import de.powerstaff.business.dto.KontakthistorieEntry;
 import de.powerstaff.business.service.AdditionalDataService;
 import de.powerstaff.business.service.StatisticService;
 import de.powerstaff.web.backingbean.MessageConstants;
+import org.springframework.beans.factory.InitializingBean;
 
 public class StatistikBackingBean extends
 		WrappingBackingBean<StatistikBackingBeanDataModel> implements
-		MessageConstants, StateHolder {
+		MessageConstants, StateHolder, InitializingBean {
 
 	private static final long serialVersionUID = -3411470666529912902L;
 
@@ -49,8 +50,7 @@ public class StatistikBackingBean extends
 	}
 
 	@Override
-	public void init() {
-		super.init();
+	public void afterPropertiesSet() {
 		if (getData() != null) {
 			getData().setViewRoot(null);
 		} else {

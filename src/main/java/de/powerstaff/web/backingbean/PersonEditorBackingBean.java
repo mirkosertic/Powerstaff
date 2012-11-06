@@ -58,8 +58,8 @@ public abstract class PersonEditorBackingBean<T extends Person, V extends Person
 	}
 
 	@Override
-	public void init() {
-		super.init();
+	public void afterPropertiesSet() {
+		super.afterPropertiesSet();
 
 		getData().setContactTypes(additinalDataService.getContactTypes());
 		getData().setHistoryTypes(additinalDataService.getHistoryTypes());

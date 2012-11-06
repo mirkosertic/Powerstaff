@@ -22,7 +22,7 @@
     <b:cell y="1" x="2">
         <a4j:status>
             <f:facet name="start">
-                <b:image source="images/rotate2.gif" width="20" height="20"/>
+                <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20" height="20"/>
             </f:facet>
         </a4j:status>
     </b:cell>
@@ -35,7 +35,7 @@
                          rows="20,2,20">
             <b:cell x="1" y="1">
                 <b:commandLink title="Erster Datensatz" action="#{customerBackingBean.commandFirst}">
-                    <b:image source="/images/first.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/first.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                  reRender="#{customerBackingBean.data.changedComponents}"
                                  onsubmit="if (!checkForChangedData()) {return false;}"
@@ -44,7 +44,7 @@
             </b:cell>
             <b:cell x="2" y="1">
                 <b:commandLink title="Vorheriger Datensatz" action="#{customerBackingBean.commandPrior}">
-                    <b:image source="/images/prior.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/prior.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                  reRender="#{customerBackingBean.data.changedComponents}"
                                  onsubmit="if (!checkForChangedData()) {return false;}"
@@ -53,7 +53,7 @@
             </b:cell>
             <b:cell x="3" y="1">
                 <b:commandLink title="Nächster Datensatz" action="#{customerBackingBean.commandNext}">
-                    <b:image source="/images/next.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/next.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                  reRender="#{customerBackingBean.data.changedComponents}"
                                  onsubmit="if (!checkForChangedData()) {return false;}"
@@ -62,7 +62,7 @@
             </b:cell>
             <b:cell x="4" y="1">
                 <b:commandLink title="Letzter Datensatz" action="#{customerBackingBean.commandLast}">
-                    <b:image source="/images/last.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/last.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                  reRender="#{customerBackingBean.data.changedComponents}"
                                  onsubmit="if (!checkForChangedData()) {return false;}"
@@ -71,7 +71,7 @@
             </b:cell>
             <b:cell x="6" y="1">
                 <b:commandLink title="Neuer Datensatz" action="#{customerBackingBean.commandNew}">
-                    <b:image source="/images/new.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/new.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                  reRender="#{customerBackingBean.data.changedComponents}"
                                  onsubmit="if (!checkForChangedData()) {return false;}"
@@ -80,7 +80,7 @@
             </b:cell>
             <b:cell x="7" y="1">
                 <b:commandLink title="Speichern" action="#{customerBackingBean.commandSave}">
-                    <b:image source="/images/update.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/update.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                  reRender="#{customerBackingBean.data.changedComponents}"
                                  oncomplete="clearChanged()"/>
@@ -90,12 +90,12 @@
                 <a4j:commandLink title="Löschen" action="#{customerBackingBean.commandDelete}"
                                  onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick löschen?')) {return false;}"
                                  reRender="#{customerBackingBean.data.changedComponents}" oncomplete="clearChanged()">
-                    <b:image source="/images/delete.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                 </a4j:commandLink>
             </b:cell>
             <b:cell x="11" y="1">
                 <b:commandLink title="Suchen" action="#{customerBackingBean.commandSearch}">
-                    <b:image source="/images/search.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                  reRender="#{customerBackingBean.data.changedComponents}"
                                  oncomplete="clearChanged()"/>
@@ -103,7 +103,7 @@
             </b:cell>
             <b:cell x="13" y="1">
                 <b:commandLink title="Neues Projekt erfassen" action="#{customerBackingBean.commandNewProject}">
-                    <b:image source="/images/newproject.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/newproject.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                  reRender="#{customerBackingBean.data.changedComponents}"
                                  oncomplete="clearChanged()"/>
@@ -118,7 +118,7 @@
             </b:cell>
             <b:cell x="16" y="1">
                 <b:commandLink title="Springe zu Datensatz" action="#{customerBackingBean.commandJumpToRecord}">
-                    <b:image source="/images/search.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                  reRender="#{customerBackingBean.data.changedComponents}"
                                  oncomplete="clearChanged()"/>
@@ -274,7 +274,7 @@
                             <h:column>
                                 <b:commandLink title="Kontaktinformation löschen"
                                                action="#{customerBackingBean.commandDeleteContact}">
-                                    <b:image source="/images/delete.gif"/>
+                                    <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                                  reRender="kontakttable"
                                                  oncomplete="markChanged()"/>
@@ -298,7 +298,7 @@
                     <b:cell x="6" y="8" valign="middle">
                         <b:commandLink title="Kontaktinformation hinzufügen"
                                        action="#{customerBackingBean.commandAddContact}">
-                            <b:image source="images/add.gif"/>
+                            <img src="${facesContext.externalContext.requestContextPath}/images/add.gif"/>
                             <a4j:support eventsQueue="powerstaff" event="onclick"
                                          reRender="#{customerBackingBean.data.changedComponents}"
                                          oncomplete="markChanged()"/>

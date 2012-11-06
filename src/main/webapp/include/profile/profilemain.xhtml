@@ -23,7 +23,7 @@
                                 <h:outputText
                                         value="      Aktuelles Projekt : #{contextUtils.currrentProjectDescription}"/>
                                 <b:commandLink action="#{profileBackingBean.commandClearContext}" immediate="true">
-                                    <b:image source="/images/delete.gif"/>
+                                    <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                                     <a4j:support eventsQueue="powerstaff" event="onclick"/>
                                 </b:commandLink>
                             </f:subview>
@@ -34,7 +34,7 @@
                 <b:cell y="1" x="2">
                     <a4j:status>
                         <f:facet name="start">
-                            <b:image source="images/rotate2.gif" width="20" height="20"/>
+                            <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20" height="20"/>
                         </f:facet>
                     </a4j:status>
                 </b:cell>
@@ -58,7 +58,7 @@
                                     <b:commandLink title="Suchen und dem Projekt zuordnen"
                                                    action="#{profileBackingBean.commandSaveToProject}"
                                                    rendered="#{contextUtils.contextSet}">
-                                        <b:image source="/images/update.gif"/>
+                                        <img src="${facesContext.externalContext.requestContextPath}/images/update.gif"/>
                                         <a4j:support eventsQueue="powerstaff" event="onclick"
                                                      reRender="input"/>
                                     </b:commandLink>
@@ -68,7 +68,7 @@
                                 <b:commandLink title="Suchen" action="#{profileBackingBean.commandSearch}"
                                                actionKey="13"
                                                keySensitive="true">
-                                    <b:image source="/images/search.gif"/>
+                                    <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
                                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                                  reRender="input"/>
                                 </b:commandLink>
@@ -118,7 +118,7 @@
                                 <b:commandLink title="Springe zur Freiberufler - Ansicht"
                                                rendered="#{!empty row.freelancer.id}"
                                                action="#{profileBackingBean.commandSelectSearchResult}">
-                                    <b:image source="/images/select.gif"/>
+                                    <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
                                     <a4j:support eventsQueue="powerstaff" event="onclick"/>
                                 </b:commandLink>
                             </h:column>
@@ -178,7 +178,7 @@
                             <h:column>
                                 <a4j:commandLink title="Eintrag aus Suche löschen"
                                                  action="#{profileBackingBean.commandDeleteSearchEntry}">
-                                    <b:image source="/images/delete.gif"/>
+                                    <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                                 </a4j:commandLink>
                             </h:column>
                         </b:table>

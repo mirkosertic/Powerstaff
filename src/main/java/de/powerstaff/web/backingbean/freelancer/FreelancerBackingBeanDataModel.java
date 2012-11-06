@@ -23,18 +23,8 @@ public class FreelancerBackingBeanDataModel extends
 
     private CollectionDataModel<ProjectPosition> positions = new CollectionDataModel<ProjectPosition>();
 
-    private String currentFreelancerId;
-
     public FreelancerBackingBeanDataModel() {
         init();
-    }
-
-    public String getCurrentFreelancerId() {
-        return currentFreelancerId;
-    }
-
-    public void setCurrentFreelancerId(String currentFreelancerId) {
-        this.currentFreelancerId = currentFreelancerId;
     }
 
     public FreelancerBackingBeanDataModel(Freelancer aFreelancer) {

@@ -12,10 +12,10 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<meta http-equiv="cache-control" content="no-cache"/>
 		<meta http-equiv="pragma" content="no-cache"/>
-		<b:link href="style/site.css" rel="stylesheet" type="text/css"/>
-		<b:link href="style/mogwailayout.css" rel="stylesheet" type="text/css"/>
-		<b:script src="resource/mogwailayout.js" type="text/javascript"/>
-		<b:script src="script/powerstaff.js" type="text/javascript"/>
+		<link href="${facesContext.externalContext.requestContextPath}/style/site.css" rel="stylesheet" type="text/css"/>
+		<link href="${facesContext.externalContext.requestContextPath}/style/mogwailayout.css" rel="stylesheet" type="text/css"/>
+		<script src="${facesContext.externalContext.requestContextPath}/resource/mogwailayout.js" type="text/javascript"/>
+		<script src="${facesContext.externalContext.requestContextPath}/script/powerstaff.js" type="text/javascript"/>
 	</head>
 	<body marginwidth="0" marginheight="0" topmargin="0" leftmargin="0"
 		rightmargin="0" bottommargin="0">
@@ -35,11 +35,11 @@
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr height="20">
                         <td class="lightgray" width="20">
-                            <b:image source="images/spacer.gif" width="20" height="1" />
+                            <img src="${facesContext.externalContext.requestContextPath}/images/spacer.gif" width="20" height="1" />
                         </td>
                         <td class="darkgray whitetext padding" width="180"></td>
                         <td class="lightgray" width="20">
-                            <b:image source="images/spacer.gif" width="20" height="1" />
+                            <img src="${facesContext.externalContext.requestContextPath}/images/spacer.gif" width="20" height="1" />
                         </td>
                         <td class="lightgray" valign="top">
                             <ui:insert name="mainmenu" />
@@ -51,7 +51,7 @@
                     <tr height="20">
                         <td class="white"></td>
                         <td class="lightgray">
-                            <b:image source="images/spacer.gif" width="180" height="1" />
+                            <img src="${facesContext.externalContext.requestContextPath}/images/spacer.gif" width="180" height="1" />
                         </td>
                         <td class="white"></td>
                         <td class="white"></td>
@@ -76,7 +76,7 @@
                                 </tr>
                                 <tr height="211">
                                     <td>
-                                        <b:image source="images/architecture.jpg"/>
+                                        <img src="${facesContext.externalContext.requestContextPath}/images/architecture.jpg"/>
                                     </td>
                                 </tr>
                                 <tr height="20">
@@ -93,7 +93,7 @@
 
                             <br/><br/>
                             <div id="changedmarker" style="visibility:hidden; color:red; font-weight:bold; text-align:center;">
-                                <b:image source="images/icon_warndreieck.gif"/><br/>
+                                <img src="${facesContext.externalContext.requestContextPath}/images/icon_warndreieck.gif"/><br/>
                                 Ungespeicherte Daten!
                             </div>
                         </td>

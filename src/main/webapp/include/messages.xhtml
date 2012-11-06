@@ -1,18 +1,15 @@
 <f:subview id="mainmenu"
     xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:b="http://mogwai.sourceforge.net/layout"
-    xmlns:a4j="http://richfaces.org/a4j"
     xmlns:rich="http://richfaces.org/rich">
     <rich:messages var="message">
     	<f:facet name="errorMarker">
-    		<b:image source="/images/error.gif"/>
+    		<img src="${facesContext.externalContext.requestContextPath}/images/error.gif"/>
     	</f:facet>
     	<f:facet name="warnMarker">
-    		<b:image source="/images/error.gif"/>
+    		<img src="${facesContext.externalContext.requestContextPath}/images/error.gif"/>
     	</f:facet>
     	<f:facet name="infoMarker">
-    		<b:image source="/images/information.gif"/>
+    		<img src="${facesContext.externalContext.requestContextPath}/images/information.gif"/>
     	</f:facet>
     </rich:messages>
 </f:subview>

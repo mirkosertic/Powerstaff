@@ -36,6 +36,7 @@ import de.powerstaff.web.backingbean.ContextUtils;
 import de.powerstaff.web.backingbean.MessageConstants;
 import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 import de.powerstaff.web.utils.PagedListDataModel;
+import org.springframework.beans.factory.InitializingBean;
 
 import javax.faces.component.StateHolder;
 import javax.faces.context.FacesContext;
@@ -45,7 +46,7 @@ import java.util.Map;
 
 public class ProfileBackingBean extends
         WrappingBackingBean<ProfileBackingBeanDataModel> implements
-        MessageConstants, StateHolder {
+        MessageConstants, StateHolder, InitializingBean {
 
     private static final long serialVersionUID = -5802587658636877536L;
 
@@ -71,8 +72,7 @@ public class ProfileBackingBean extends
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void afterPropertiesSet() {
         if (getData() != null) {
             getData().setViewRoot(null);
         } else {

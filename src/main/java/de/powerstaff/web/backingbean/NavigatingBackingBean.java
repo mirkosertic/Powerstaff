@@ -10,8 +10,6 @@ import de.powerstaff.business.service.ReferenceExistsException;
 public abstract class NavigatingBackingBean<T extends Entity, V extends NavigatingBackingBeanDataModel, S extends NavigatingService<T>>
         extends EntityEditorBackingBean<V> {
 
-    public final static String NEW_RECORD_ID = "neu";
-
     private static final long serialVersionUID = -7505086677065098879L;
 
     private static final Logger LOGGER = new Logger(NavigatingBackingBean.class);
@@ -23,19 +21,12 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
         if (theEntity != null && theEntity.getId() != null) {
             getData().setEntity(entityService.findByPrimaryKey(theEntity.getId()));
             afterNavigation();
+        } else {
+            getData().setCurrentEntityId(NavigatingBackingBeanDataModel.NEW_ENTITY_ID);
+            afterNavigation();
         }
     }
 
-    /**
-     * @return the entityService
-     */
-    public S getEntityService() {
-        return entityService;
-    }
-
-    /**
-     * @param entityService the entityService to set
-     */
     public void setEntityService(S entityService) {
         this.entityService = entityService;
     }
@@ -130,4 +121,18 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
         return "Neu";
     }
 
+    /**
+     * Wird von PrettyFaces aufgerufen, wenn die BackingBean mit den Werten aus der REST-URL befüllt wurde.
+     *
+     * Ist also eine PageAction, um die Initialbefüllung der BackingBean vorzunehmen.
+     */
+    public void loadEntity() {
+        if (EntityEditorBackingBeanDataModel.NEW_ENTITY_ID.equals(getData().getCurrentEntityId())) {
+            commandNew();
+        } else {
+            Entity theEntity = entityService
+                    .findByPrimaryKey(Long.parseLong(getData().getCurrentEntityId()));
+            getData().setEntity(theEntity);
+        }
+    }
 }

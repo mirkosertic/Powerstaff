@@ -36,6 +36,7 @@ import de.mogwai.common.business.service.EnumItemCategoryService;
 import de.mogwai.common.business.service.EnumItemService;
 import de.mogwai.common.web.model.EnumItemMultiLanguageSelectItem;
 import de.mogwai.common.web.utils.EnumItemMultiLanguageSelectItemList;
+import org.springframework.beans.factory.InitializingBean;
 
 /**
  * Backing Bean für EnumItems bzw. JSF-SelectItems, welche EnumItems beinhalten.
@@ -45,7 +46,7 @@ import de.mogwai.common.web.utils.EnumItemMultiLanguageSelectItemList;
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:17:09 $
  */
-public abstract class EnumItemBackingBean extends BackingBean {
+public abstract class EnumItemBackingBean extends BackingBean implements InitializingBean {
 
 	/**
 	 * 
@@ -192,22 +193,6 @@ public abstract class EnumItemBackingBean extends BackingBean {
 		}
 		return new EnumItemMultiLanguageSelectItemList(
 				this.selectItemCategoryMapDE.get(enumItemCategoryEnum.getId()));
-	}
-
-	/**
-	 * Löscht den "Cache", so dass die EnumItem-Maps beim nächsten Zugriff
-	 * wieder ab Datenbank gelesen werden. Die Methode ist aufzurufen, wenn auf
-	 * der Datenbank Mutationen durchgeführt wurden (Stammdatenverwaltung).
-	 */
-	@Override
-	public void init() {
-
-		super.init();
-
-		this.enumItemMap = null;
-		this.defaultEnumItemMap = null;
-		this.selectItemCategoryMapDE = null;
-		this.selectItemCategoryMapFR = null;
 	}
 
 	/**

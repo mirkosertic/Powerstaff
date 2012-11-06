@@ -19,7 +19,6 @@ package de.powerstaff.web.backingbean.freelancer;
 
 import de.mogwai.common.command.EditEntityCommand;
 import de.mogwai.common.command.UpdateModelCommand;
-import de.mogwai.common.logging.Logger;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.entity.*;
@@ -40,8 +39,6 @@ public class FreelancerBackingBean
         PersonEditorBackingBean<Freelancer, FreelancerBackingBeanDataModel, FreelancerService> {
 
     private static final long serialVersionUID = 1951906917491517234L;
-
-    private static final Logger LOGGER = new Logger(FreelancerBackingBean.class);
 
     private transient ProfileSearchService profileSearchService;
 
@@ -66,13 +63,6 @@ public class FreelancerBackingBean
     @Override
     protected FreelancerBackingBeanDataModel createDataModel() {
         return new FreelancerBackingBeanDataModel();
-    }
-
-    /**
-     * @return the profileSearchService
-     */
-    public ProfileSearchService getProfileSearchService() {
-        return profileSearchService;
     }
 
     /**
@@ -173,7 +163,7 @@ public class FreelancerBackingBean
         if (aInfo instanceof EditEntityCommand) {
             EditEntityCommand theCommand = (EditEntityCommand) aInfo;
 
-            init();
+            afterPropertiesSet();
             if (theCommand.getValue() instanceof ProfileSearchInfoDetail) {
 
                 ProfileSearchInfoDetail theDetails = (ProfileSearchInfoDetail) theCommand
@@ -223,15 +213,5 @@ public class FreelancerBackingBean
 
     public boolean isAssignedToCurrentProject() {
         return getData().getCurrentProjectPosition() != null && getData().getEntity().getId() != null;
-    }
-
-    public void loadFreelancer() {
-        if (NEW_RECORD_ID.equals(getData().getCurrentFreelancerId())) {
-            commandNew();
-        } else {
-            Freelancer theFreelancer = entityService
-                    .findByPrimaryKey(Long.parseLong(getData().getCurrentFreelancerId()));
-            getData().setEntity(theFreelancer);
-        }
     }
 }

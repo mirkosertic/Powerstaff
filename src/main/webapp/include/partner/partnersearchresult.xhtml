@@ -22,7 +22,7 @@
                 <b:cell y="1" x="2">
                     <a4j:status>
                         <f:facet name="start">
-                            <b:image source="images/rotate2.gif" width="20" height="20"/>
+                            <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20" height="20"/>
                         </f:facet>
                     </a4j:status>
                 </b:cell>
@@ -35,7 +35,7 @@
                                          rows="20">
                             <b:cell x="1" y="1">
                                 <b:commandLink title="Zurück" action="#{partnerBackingBean.commandBack}">
-                                    <b:image source="/images/back.gif"/>
+                                    <img src="${facesContext.externalContext.requestContextPath}/images/back.gif"/>
                                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                                  reRender="#{partnerBackingBean.data.changedComponents}"/>
                                 </b:commandLink>
@@ -55,7 +55,7 @@
                             </f:facet>
                             <b:commandLink title="Datensatz anzeigen"
                                            action="#{partnerBackingBean.commandSelectSearchResult}">
-                                <b:image source="/images/select.gif"/>
+                                <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
                                 <a4j:support eventsQueue="powerstaff" event="onclick"/>
                             </b:commandLink>
                         </h:column>
