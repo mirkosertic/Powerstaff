@@ -20,14 +20,29 @@
         <view-id>/include/freelancer/freelancermain.faces</view-id>
         <action onPostback="false">#{freelancerBackingBean.loadEntity}</action>
     </url-mapping>
+    <url-mapping id="freelancerhistory">
+        <pattern>/freelancer/#{freelancerBackingBean.data.currentEntityId}/history</pattern>
+        <view-id>/include/freelancer/freelancerhistory.faces</view-id>
+        <action onPostback="false">#{freelancerBackingBean.loadEntity}</action>
+    </url-mapping>
     <url-mapping id="partnermain">
         <pattern>/partner/#{partnerBackingBean.data.currentEntityId}/main</pattern>
         <view-id>/include/partner/partnermain.faces</view-id>
         <action onPostback="false">#{partnerBackingBean.loadEntity}</action>
     </url-mapping>
+    <url-mapping id="partnerhistory">
+        <pattern>/partner/#{partnerBackingBean.data.currentEntityId}/history</pattern>
+        <view-id>/include/partner/partnerhistory.faces</view-id>
+        <action onPostback="false">#{partnerBackingBean.loadEntity}</action>
+    </url-mapping>
     <url-mapping id="customermain">
         <pattern>/customer/#{customerBackingBean.data.currentEntityId}/main</pattern>
         <view-id>/include/customer/customermain.faces</view-id>
+        <action onPostback="false">#{customerBackingBean.loadEntity}</action>
+    </url-mapping>
+    <url-mapping id="customerhistory">
+        <pattern>/customer/#{customerBackingBean.data.currentEntityId}/history</pattern>
+        <view-id>/include/customer/customerhistory.faces</view-id>
         <action onPostback="false">#{customerBackingBean.loadEntity}</action>
     </url-mapping>
     <url-mapping id="projectmain">

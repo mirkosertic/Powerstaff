@@ -1,13 +1,12 @@
 package de.powerstaff.web.converter;
 
-import java.text.CharacterIterator;
-import java.text.StringCharacterIterator;
+import org.apache.commons.lang.NotImplementedException;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-
-import org.apache.commons.lang.NotImplementedException;
+import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
 
 public class TextConverter implements Converter {
 

@@ -61,6 +61,16 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
         return new ProjectBackingBeanDataModel();
     }
 
+    @Override
+    protected String getNavigationIDPrefix() {
+        return "project";
+    }
+
+    public String commandProjectRegistry() {
+        reload();
+        return "pretty:" + getNavigationIDPrefix() + "main";
+    }
+
     public String commandSearch() {
 
         Collection<GenericSearchResult> theResult;
@@ -95,16 +105,17 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
     }
 
     @Override
-    public void commandSave() {
+    public String commandSave() {
         try {
             if (getData().getEntity().getContactPerson() != null) {
-                super.commandSave();
+                return super.commandSave();
             } else {
                 JSFMessageUtils.addGlobalErrorMessage(MSG_KEINKUNDE);
             }
         } catch (Exception e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMSPEICHERN, e.getMessage());
         }
+        return null;
     }
 
     public String commandBack() {

@@ -22,15 +22,15 @@ import de.powerstaff.business.entity.FreelancerProfile;
 import de.powerstaff.business.service.impl.reader.DocumentReader;
 import de.powerstaff.business.service.impl.reader.DocumentReaderFactory;
 import de.powerstaff.business.service.impl.reader.ReadResult;
-import java.io.StringReader;
-import java.util.List;
-import java.util.UUID;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.hibernate.search.bridge.FieldBridge;
 import org.hibernate.search.bridge.LuceneOptions;
+
+import java.io.StringReader;
+import java.util.List;
 
 public class FreelancerFieldBridge implements FieldBridge {
 

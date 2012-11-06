@@ -1,11 +1,10 @@
 package de.powerstaff.web.utils;
 
-import java.util.Comparator;
-
-import org.apache.commons.collections.comparators.ReverseComparator;
-
 import de.mogwai.common.business.entity.AuditableEntity;
 import de.powerstaff.business.entity.Contact;
+import org.apache.commons.collections.comparators.ReverseComparator;
+
+import java.util.Comparator;
 
 public final class Comparators {
 

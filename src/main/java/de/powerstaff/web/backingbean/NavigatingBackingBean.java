@@ -31,55 +31,77 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
         this.entityService = entityService;
     }
 
-    public void commandFirst() {
+    protected abstract String getNavigationIDPrefix();
 
-        T theEntity = (T) entityService.findFirst();
-        getData().setEntity(theEntity);
-        afterNavigation();
+    public String commandFirst() {
+
+        T theEntity = entityService.findFirst();
+        if (theEntity != null) {
+            getData().setEntity(theEntity);
+        } else {
+            getData().setCurrentEntityId(NavigatingBackingBeanDataModel.NEW_ENTITY_ID);
+        }
+        return "pretty:" + getNavigationIDPrefix() + "main";
     }
 
-    public void commandPrior() {
+    public String commandPrior() {
 
         T theCurrent = (T) getData().getEntity();
 
-        T theEntity = (T) entityService.findPrior(theCurrent);
-        getData().setEntity(theEntity);
-        afterNavigation();
+        T theEntity = entityService.findPrior(theCurrent);
+        if (theEntity != null) {
+            getData().setEntity(theEntity);
+        } else {
+            getData().setCurrentEntityId(NavigatingBackingBeanDataModel.NEW_ENTITY_ID);
+        }
+        return "pretty:" + getNavigationIDPrefix() + "main";
     }
 
-    public void commandNext() {
+    public String commandNext() {
 
         T theCurrent = (T) getData().getEntity();
 
         T theEntity = entityService.findNext(theCurrent);
-        getData().setEntity(theEntity);
-        afterNavigation();
+        if (theEntity != null) {
+            getData().setEntity(theEntity);
+        } else {
+            getData().setCurrentEntityId(NavigatingBackingBeanDataModel.NEW_ENTITY_ID);
+        }
+        return "pretty:" + getNavigationIDPrefix() + "main";
     }
 
-    public void commandLast() {
+    public String commandLast() {
 
-        T theEntity = (T) entityService.findLast();
-        getData().setEntity(theEntity);
-        afterNavigation();
+        T theEntity = entityService.findLast();
+
+        if (theEntity != null) {
+            getData().setEntity(theEntity);
+        } else {
+            getData().setCurrentEntityId(NavigatingBackingBeanDataModel.NEW_ENTITY_ID);
+        }
+        return "pretty:" + getNavigationIDPrefix() + "main";
     }
 
     protected abstract T createNew();
 
-    public void commandNew() {
+    public String commandNew() {
         getData().setEntity(createNew());
-        afterNavigation();
+        getData().setCurrentEntityId(NavigatingBackingBeanDataModel.NEW_ENTITY_ID);
+
+        return "pretty:" + getNavigationIDPrefix() + "main";
     }
 
     protected void afterNavigation() {
         getData().setRecordNumber(null);
     }
 
-    public void commandDelete() {
+    public String commandDelete() {
 
         try {
             entityService.delete((T) getData().getEntity());
-            commandNext();
             JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
+
+            return commandNext();
 
         } catch (ReferenceExistsException e) {
 
@@ -91,25 +113,32 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
             LOGGER.logError("Fehler beim Löschen", e);
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMLOESCHEN);
         }
+        return null;
     }
 
-    public void commandSave() {
+    public String commandSave() {
         try {
             entityService.save((T) getData().getEntity());
-            afterNavigation();
+            getData().setCurrentEntityId(getData().getEntity().getId().toString());
+
             JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
+
+            return "pretty:" + getNavigationIDPrefix() + "main";
         } catch (Exception e) {
 
             LOGGER.logError("Fehler beim Speichern", e);
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMSPEICHERN, e.getMessage());
         }
+        return null;
     }
 
-    public void commandJumpToRecord() {
+    public String commandJumpToRecord() {
 
         T theEntity = entityService.findByRecordNumber(getData().getRecordNumber());
         getData().setEntity(theEntity);
-        afterNavigation();
+        getData().setCurrentEntityId(theEntity.getId().toString());
+
+        return "pretty:" + getNavigationIDPrefix() + "main";
     }
 
     public String getRecordInfo() {
@@ -123,7 +152,7 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
 
     /**
      * Wird von PrettyFaces aufgerufen, wenn die BackingBean mit den Werten aus der REST-URL befüllt wurde.
-     *
+     * <p/>
      * Ist also eine PageAction, um die Initialbefüllung der BackingBean vorzunehmen.
      */
     public void loadEntity() {
@@ -132,7 +161,12 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
         } else {
             Entity theEntity = entityService
                     .findByPrimaryKey(Long.parseLong(getData().getCurrentEntityId()));
-            getData().setEntity(theEntity);
+            if (theEntity != null) {
+                getData().setEntity(theEntity);
+            } else {
+                commandNew();
+            }
         }
+        afterNavigation();
     }
 }

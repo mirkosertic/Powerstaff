@@ -1,26 +1,21 @@
 /**
  * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 package de.powerstaff.business.service.impl;
-
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
@@ -28,161 +23,160 @@ import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.MultiPhraseQuery;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.WildcardQuery;
-import org.apache.lucene.search.WildcardTermEnum;
+import org.apache.lucene.search.*;
 import org.apache.lucene.search.BooleanClause.Occur;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GoogleStyleQueryParser {
 
-	public static final char SPACE = ' ';
+    public static final char SPACE = ' ';
 
-	public static final char DOUBLEQUOTES = '\"';
+    public static final char DOUBLEQUOTES = '\"';
 
-	public static final String EMPTY = "";
+    public static final String EMPTY = "";
 
-	private char delimiter;
+    private char delimiter;
 
-	private IndexReader reader;
+    private IndexReader reader;
 
-	public GoogleStyleQueryParser(IndexReader aReader) {
-		this(aReader, SPACE);
-	}
+    public GoogleStyleQueryParser(IndexReader aReader) {
+        this(aReader, SPACE);
+    }
 
-	public GoogleStyleQueryParser(IndexReader aReader, char aDelimiter) {
-		delimiter = aDelimiter;
-		reader = aReader;
-	}
+    public GoogleStyleQueryParser(IndexReader aReader, char aDelimiter) {
+        delimiter = aDelimiter;
+        reader = aReader;
+    }
 
-	protected boolean isWildcardTerm(String aTerm) {
-		if ((aTerm.startsWith("*") || (aTerm.endsWith("*")))) {
-			return true;
-		}
+    protected boolean isWildcardTerm(String aTerm) {
+        if ((aTerm.startsWith("*") || (aTerm.endsWith("*")))) {
+            return true;
+        }
         if ((aTerm.startsWith("%") || (aTerm.endsWith("%")))) {
             return true;
         }
-		return false;
-	}
-
-    protected String getCorrectedWildcardTerm(String aTerm) {
-        return aTerm.replace("%","*");
+        return false;
     }
 
-	protected void addWildcardOrTermQueries(String aTerm, BooleanQuery aQuery,
-			String aField, Analyzer aAnalyzer) throws IOException {
+    protected String getCorrectedWildcardTerm(String aTerm) {
+        return aTerm.replace("%", "*");
+    }
 
-		Query theTempQuery;
+    protected void addWildcardOrTermQueries(String aTerm, BooleanQuery aQuery,
+                                            String aField, Analyzer aAnalyzer) throws IOException {
 
-		TokenStream theTokenStream = aAnalyzer.tokenStream(aField,
-				new StringReader(aTerm));
-		while (theTokenStream.incrementToken()) {
+        Query theTempQuery;
 
-			TermAttribute theTermAttribute = theTokenStream
-					.getAttribute(TermAttribute.class);
+        TokenStream theTokenStream = aAnalyzer.tokenStream(aField,
+                new StringReader(aTerm));
+        while (theTokenStream.incrementToken()) {
 
-			String theTokenText = theTermAttribute.term();
+            TermAttribute theTermAttribute = theTokenStream
+                    .getAttribute(TermAttribute.class);
 
-			if (isWildcardTerm(aTerm)) {
-				theTempQuery = new WildcardQuery(new Term(aField, getCorrectedWildcardTerm(aTerm)));
-			} else {
-				theTempQuery = new TermQuery(new Term(aField, theTokenText));
-			}
-			aQuery.add(theTempQuery, Occur.MUST);
-		}
-	}
+            String theTokenText = theTermAttribute.term();
 
-	protected void addPhraseQuery(String aTerm, BooleanQuery aQuery,
-			String aField, Analyzer aAnalyzer) throws IOException {
+            if (isWildcardTerm(aTerm)) {
+                theTempQuery = new WildcardQuery(new Term(aField, getCorrectedWildcardTerm(aTerm)));
+            } else {
+                theTempQuery = new TermQuery(new Term(aField, theTokenText));
+            }
+            aQuery.add(theTempQuery, Occur.MUST);
+        }
+    }
 
-		MultiPhraseQuery thePhraseQuery = new MultiPhraseQuery();
+    protected void addPhraseQuery(String aTerm, BooleanQuery aQuery,
+                                  String aField, Analyzer aAnalyzer) throws IOException {
 
-		TokenStream theTokenStream = aAnalyzer.tokenStream(aField,
-				new StringReader(aTerm));
-		while (theTokenStream.incrementToken()) {
+        MultiPhraseQuery thePhraseQuery = new MultiPhraseQuery();
 
-			TermAttribute theTermAttribute = theTokenStream
-					.getAttribute(TermAttribute.class);
+        TokenStream theTokenStream = aAnalyzer.tokenStream(aField,
+                new StringReader(aTerm));
+        while (theTokenStream.incrementToken()) {
 
-			String theTokenText = theTermAttribute.term();
+            TermAttribute theTermAttribute = theTokenStream
+                    .getAttribute(TermAttribute.class);
 
-			Term theTerm = new Term(aField, theTokenText);
+            String theTokenText = theTermAttribute.term();
 
-			if (!isWildcardTerm(theTokenText)) {
-				thePhraseQuery.add(theTerm);
-			} else {
+            Term theTerm = new Term(aField, theTokenText);
+
+            if (!isWildcardTerm(theTokenText)) {
+                thePhraseQuery.add(theTerm);
+            } else {
                 Term theWildcardTerm = new Term(theTerm.field(), getCorrectedWildcardTerm(theTerm.text()));
-				WildcardTermEnum theEnum = new WildcardTermEnum(reader, theWildcardTerm);
-				try {
-					List<Term> theTerms = new ArrayList<Term>();
-					do {
-						theTerms.add(theEnum.term());
-					} while (theEnum.next());
-					thePhraseQuery.add(theTerms.toArray(new Term[0]));
-				} finally {
-					theEnum.close();
-				}
-			}
-		}
+                WildcardTermEnum theEnum = new WildcardTermEnum(reader, theWildcardTerm);
+                try {
+                    List<Term> theTerms = new ArrayList<Term>();
+                    do {
+                        theTerms.add(theEnum.term());
+                    } while (theEnum.next());
+                    thePhraseQuery.add(theTerms.toArray(new Term[0]));
+                } finally {
+                    theEnum.close();
+                }
+            }
+        }
 
-		aQuery.add(thePhraseQuery, Occur.MUST);
-	}
+        aQuery.add(thePhraseQuery, Occur.MUST);
+    }
 
-	public Query parseQuery(String aQueryString, Analyzer aAnalyzer,
-			String aField) throws ParseException, IOException {
+    public Query parseQuery(String aQueryString, Analyzer aAnalyzer,
+                            String aField) throws ParseException, IOException {
 
-		BooleanQuery theQuery = new BooleanQuery(true);
+        BooleanQuery theQuery = new BooleanQuery(true);
 
-		aQueryString = aQueryString.trim();
-		while (aQueryString.length() > 0) {
-			int p = aQueryString.indexOf(DOUBLEQUOTES);
-			if (p == 0) {
-				int theEnd = aQueryString.indexOf(DOUBLEQUOTES, p + 1);
-				if (theEnd > p) {
-					String theToken = aQueryString.substring(1, theEnd);
+        aQueryString = aQueryString.trim();
+        while (aQueryString.length() > 0) {
+            int p = aQueryString.indexOf(DOUBLEQUOTES);
+            if (p == 0) {
+                int theEnd = aQueryString.indexOf(DOUBLEQUOTES, p + 1);
+                if (theEnd > p) {
+                    String theToken = aQueryString.substring(1, theEnd);
 
-					addPhraseQuery(theToken, theQuery, aField, aAnalyzer);
+                    addPhraseQuery(theToken, theQuery, aField, aAnalyzer);
 
-					if (aQueryString.length() > theEnd) {
-						aQueryString = aQueryString.substring(theEnd + 1)
-								.trim();
-					} else {
-						aQueryString = EMPTY;
-					}
-				} else {
-					throw new ParseException(
-							"Query error: missing double quotes");
-				}
+                    if (aQueryString.length() > theEnd) {
+                        aQueryString = aQueryString.substring(theEnd + 1)
+                                .trim();
+                    } else {
+                        aQueryString = EMPTY;
+                    }
+                } else {
+                    throw new ParseException(
+                            "Query error: missing double quotes");
+                }
 
-			} else {
-				p = aQueryString.indexOf(delimiter);
-				if (p > 0) {
-					String theToken = aQueryString.substring(0, p);
+            } else {
+                p = aQueryString.indexOf(delimiter);
+                if (p > 0) {
+                    String theToken = aQueryString.substring(0, p);
 
-					addWildcardOrTermQueries(theToken, theQuery, aField,
-							aAnalyzer);
+                    addWildcardOrTermQueries(theToken, theQuery, aField,
+                            aAnalyzer);
 
-					aQueryString = aQueryString.substring(p + 1).trim();
+                    aQueryString = aQueryString.substring(p + 1).trim();
 
-				} else {
-					String theToken = aQueryString;
+                } else {
+                    String theToken = aQueryString;
 
-					addWildcardOrTermQueries(theToken, theQuery, aField,
-							aAnalyzer);
+                    addWildcardOrTermQueries(theToken, theQuery, aField,
+                            aAnalyzer);
 
-					aQueryString = EMPTY;
-				}
-			}
-		}
+                    aQueryString = EMPTY;
+                }
+            }
+        }
 
-		BooleanClause[] theClausses = theQuery.getClauses();
-		if ((theClausses != null) && (theClausses.length == 1)) {
-			return theClausses[0].getQuery();
-		}
+        BooleanClause[] theClausses = theQuery.getClauses();
+        if ((theClausses != null) && (theClausses.length == 1)) {
+            return theClausses[0].getQuery();
+        }
 
-		return theQuery;
-	}
+        return theQuery;
+    }
 }

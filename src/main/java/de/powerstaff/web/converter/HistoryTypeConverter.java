@@ -1,13 +1,12 @@
 package de.powerstaff.web.converter;
 
+import de.powerstaff.business.entity.HistoryType;
+import de.powerstaff.web.backingbean.MessageConstants;
+import org.apache.commons.lang.NotImplementedException;
+
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-
-import org.apache.commons.lang.NotImplementedException;
-
-import de.powerstaff.business.entity.HistoryType;
-import de.powerstaff.web.backingbean.MessageConstants;
 
 public class HistoryTypeConverter implements Converter, MessageConstants {
 

@@ -3,37 +3,37 @@
            xmlns:h="http://java.sun.com/jsf/html"
            xmlns:b="http://mogwai.sourceforge.net/layout"
            xmlns:a4j="http://richfaces.org/a4j">
-    <b:commandLink action="#{navigationBackingBean.commandFreelancer}" immediate="true" styleClass="menuitem2">
+    <b:commandLink action="#{freelancerBackingBean.commandFreelancerRegistry}" immediate="true" styleClass="menuitem2">
         <h:outputText value="Freiberufler"/>
         <a4j:support eventsQueue="powerstaff" event="onclick" id="click1"
                      onsubmit="if (!checkForChangedData()) {return false;}"/>
     </b:commandLink>
     <f:verbatim>|</f:verbatim>
-    <b:commandLink action="#{navigationBackingBean.commandProfile}" immediate="true" styleClass="menuitem2">
+    <b:commandLink action="#{profileBackingBean.commandProfileRegistry}" immediate="true" styleClass="menuitem2">
         <h:outputText value="Profilsuche"/>
         <a4j:support eventsQueue="powerstaff" event="onclick" id="click2"
                      onsubmit="if (!checkForChangedData()) {return false;}"/>
     </b:commandLink>
     <f:verbatim>|</f:verbatim>
-    <b:commandLink action="#{navigationBackingBean.commandPartner}" immediate="true" styleClass="menuitem2">
+    <b:commandLink action="#{partnerBackingBean.commandPartnerRegistry}" immediate="true" styleClass="menuitem2">
         <h:outputText value="Gesch&#228;ftspartner"/>
         <a4j:support eventsQueue="powerstaff" event="onclick" id="click3"
                      onsubmit="if (!checkForChangedData()) {return false;}"/>
     </b:commandLink>
     <f:verbatim>|</f:verbatim>
-    <b:commandLink action="#{navigationBackingBean.commandCustomer}" immediate="true" styleClass="menuitem2">
+    <b:commandLink action="#{customerBackingBean.commandCustomerRegistry}" immediate="true" styleClass="menuitem2">
         <h:outputText value="Kunden"/>
         <a4j:support eventsQueue="powerstaff" event="onclick" id="click4"
                      onsubmit="if (!checkForChangedData()) {return false;}"/>
     </b:commandLink>
     <f:verbatim>|</f:verbatim>
-    <b:commandLink action="#{navigationBackingBean.commandProjekte}" immediate="true" styleClass="menuitem2">
+    <b:commandLink action="#{projectBackingBean.commandProjectRegistry}" immediate="true" styleClass="menuitem2">
         <h:outputText value="Projekte"/>
         <a4j:support eventsQueue="powerstaff" event="onclick" id="click5"
                      onsubmit="if (!checkForChangedData()) {return false;}"/>
     </b:commandLink>
     <f:verbatim>|</f:verbatim>
-    <b:commandLink action="#{navigationBackingBean.commandStatistik}" immediate="true" styleClass="menuitem2">
+    <b:commandLink action="#{statistikBackingBean.commandStatisticsModule}" immediate="true" styleClass="menuitem2">
         <h:outputText value="Statistik"/>
         <a4j:support eventsQueue="powerstaff" event="onclick" id="click6"
                      onsubmit="if (!checkForChangedData()) {return false;}"/>

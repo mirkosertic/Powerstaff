@@ -60,17 +60,24 @@ public class FreelancerBackingBean
         this.partnerBackingBean = partnerBackingBean;
     }
 
+    public String commandFreelancerRegistry() {
+        reload();
+        return "pretty:" + getNavigationIDPrefix() + "main";
+    }
+
     @Override
     protected FreelancerBackingBeanDataModel createDataModel() {
         return new FreelancerBackingBeanDataModel();
     }
 
-    /**
-     * @param profileSearchService the profileSearchService to set
-     */
     public void setProfileSearchService(
             ProfileSearchService profileSearchService) {
         this.profileSearchService = profileSearchService;
+    }
+
+    @Override
+    protected String getNavigationIDPrefix() {
+        return "freelancer";
     }
 
     public List<String> getCodeSuggestion(Object aSuggest) {
@@ -108,14 +115,7 @@ public class FreelancerBackingBean
     }
 
     @Override
-    public void commandDelete() {
-        Freelancer theFreelancer = getData().getEntity();
-
-        super.commandDelete();
-    }
-
-    @Override
-    public void commandSave() {
+    public String commandSave() {
         Project theCurrentProject = contextUtils.getCurrentProject();
         if (theCurrentProject != null) {
             ProjectPosition thePosition = getData().getCurrentProjectPosition();
@@ -138,7 +138,7 @@ public class FreelancerBackingBean
             projectService.save(theCurrentProject);
         }
 
-        super.commandSave();
+        return super.commandSave();
     }
 
     public String commandShowPartner() {
