@@ -1,20 +1,18 @@
 package de.powerstaff.web.backingbean;
 
-import java.util.ArrayList;
+import de.mogwai.common.web.backingbean.WrappingBackingBean;
+import org.springframework.beans.factory.InitializingBean;
 
 import javax.faces.component.StateHolder;
 import javax.faces.context.FacesContext;
-
-import de.mogwai.common.command.ResetNavigationInfo;
-import de.mogwai.common.web.backingbean.WrappingBackingBean;
-import org.springframework.beans.factory.InitializingBean;
+import java.util.ArrayList;
 
 public abstract class EntityEditorBackingBean<T extends EntityEditorBackingBeanDataModel> extends
         WrappingBackingBean<T> implements MessageConstants, StateHolder, InitializingBean {
 
-	private static final long serialVersionUID = -2457744179297229854L;
+    private static final long serialVersionUID = -2457744179297229854L;
 
-	@Override
+    @Override
     public void afterPropertiesSet() {
         setData(createDataModel());
     }

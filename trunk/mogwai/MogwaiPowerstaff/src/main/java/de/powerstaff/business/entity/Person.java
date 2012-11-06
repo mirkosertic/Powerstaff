@@ -1,251 +1,245 @@
 /**
  * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 package de.powerstaff.business.entity;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.Column;
-
 import de.mogwai.common.business.entity.AuditableEntity;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Store;
 
+import javax.persistence.Column;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class Person<T extends Contact, H extends HistoryEntity> extends
-		AuditableEntity {
+        AuditableEntity {
 
-	private static final long serialVersionUID = 1255375037203457359L;
+    private static final long serialVersionUID = 1255375037203457359L;
 
-	private String titel;
-
-    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
-	private String name1;
+    private String titel;
 
     @Field(index = Index.UN_TOKENIZED, store = Store.YES)
-	private String name2;
-
-	private String company;
-
-	private String street;
-
-	private String country;
+    private String name1;
 
     @Field(index = Index.UN_TOKENIZED, store = Store.YES)
-	private String plz;
+    private String name2;
 
-	private String city;
+    private String company;
 
-	private String nationalitaet;
+    private String street;
 
-	private String geburtsdatum;
+    private String country;
 
-	private String comments;
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    private String plz;
 
-	private boolean contactforbidden;
+    private String city;
 
-	private Set<T> contacts = new HashSet<T>();
+    private String nationalitaet;
 
-	private Set<H> history = new HashSet<H>();
+    private String geburtsdatum;
 
-	private String kreditorNr;
+    private String comments;
 
-	private String debitorNr;
+    private boolean contactforbidden;
 
-	public Person() {
-	}
+    private Set<T> contacts = new HashSet<T>();
 
-	@Column(length = 255)
-	public String getCity() {
-		return city;
-	}
+    private Set<H> history = new HashSet<H>();
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    private String kreditorNr;
 
-	public String getComments() {
-		return comments;
-	}
+    private String debitorNr;
 
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
+    public Person() {
+    }
 
-	@Column(length = 255)
-	public String getCompany() {
-		return company;
-	}
+    @Column(length = 255)
+    public String getCity() {
+        return city;
+    }
 
-	public void setCompany(String company) {
-		this.company = company;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public boolean isContactforbidden() {
-		return contactforbidden;
-	}
+    public String getComments() {
+        return comments;
+    }
 
-	public void setContactforbidden(boolean contactforbidden) {
-		this.contactforbidden = contactforbidden;
-	}
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
 
-	@Column(length = 255)
-	public String getCountry() {
-		return country;
-	}
+    @Column(length = 255)
+    public String getCompany() {
+        return company;
+    }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public void setCompany(String company) {
+        this.company = company;
+    }
 
-	public Set<T> getContacts() {
-		return contacts;
-	}
+    public boolean isContactforbidden() {
+        return contactforbidden;
+    }
 
-	public void setContacts(Set<T> kontakte) {
-		this.contacts = kontakte;
-	}
+    public void setContactforbidden(boolean contactforbidden) {
+        this.contactforbidden = contactforbidden;
+    }
 
-	@Column(length = 255)
-	public String getName1() {
-		return name1;
-	}
+    @Column(length = 255)
+    public String getCountry() {
+        return country;
+    }
 
-	public void setName1(String name1) {
-		this.name1 = name1;
-	}
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
-	@Column(length = 255)
-	public String getName2() {
-		return name2;
-	}
+    public Set<T> getContacts() {
+        return contacts;
+    }
 
-	public void setName2(String name2) {
-		this.name2 = name2;
-	}
+    public void setContacts(Set<T> kontakte) {
+        this.contacts = kontakte;
+    }
 
-	@Column(length = 255)
-	public String getPlz() {
-		return plz;
-	}
+    @Column(length = 255)
+    public String getName1() {
+        return name1;
+    }
 
-	public void setPlz(String plz) {
-		this.plz = plz;
-	}
+    public void setName1(String name1) {
+        this.name1 = name1;
+    }
 
-	@Column(length = 255)
-	public String getStreet() {
-		return street;
-	}
+    @Column(length = 255)
+    public String getName2() {
+        return name2;
+    }
 
-	public void setStreet(String street) {
-		this.street = street;
-	}
+    public void setName2(String name2) {
+        this.name2 = name2;
+    }
 
-	public Set<H> getHistory() {
-		return history;
-	}
+    @Column(length = 255)
+    public String getPlz() {
+        return plz;
+    }
 
-	public void setHistory(Set<H> history) {
-		this.history = history;
-	}
+    public void setPlz(String plz) {
+        this.plz = plz;
+    }
 
-	/**
-	 * @return the kreditorNr
-	 */
-	@Column(length = 255)
-	public String getKreditorNr() {
-		return kreditorNr;
-	}
+    @Column(length = 255)
+    public String getStreet() {
+        return street;
+    }
 
-	/**
-	 * @param kreditorNr
-	 *            the kreditorNr to set
-	 */
-	public void setKreditorNr(String kreditorNr) {
-		this.kreditorNr = kreditorNr;
-	}
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
-	/**
-	 * @return the debitorNr
-	 */
-	@Column(length = 255)
-	public String getDebitorNr() {
-		return debitorNr;
-	}
+    public Set<H> getHistory() {
+        return history;
+    }
 
-	/**
-	 * @param debitorNr
-	 *            the debitorNr to set
-	 */
-	public void setDebitorNr(String debitorNr) {
-		this.debitorNr = debitorNr;
-	}
+    public void setHistory(Set<H> history) {
+        this.history = history;
+    }
 
-	/**
-	 * @return the titel
-	 */
-	@Column(length = 255)
-	public String getTitel() {
-		return titel;
-	}
+    /**
+     * @return the kreditorNr
+     */
+    @Column(length = 255)
+    public String getKreditorNr() {
+        return kreditorNr;
+    }
 
-	/**
-	 * @param titel
-	 *            the titel to set
-	 */
-	public void setTitel(String titel) {
-		this.titel = titel;
-	}
+    /**
+     * @param kreditorNr the kreditorNr to set
+     */
+    public void setKreditorNr(String kreditorNr) {
+        this.kreditorNr = kreditorNr;
+    }
 
-	/**
-	 * @return the nationalitaet
-	 */
-	@Column(length = 255)
-	public String getNationalitaet() {
-		return nationalitaet;
-	}
+    /**
+     * @return the debitorNr
+     */
+    @Column(length = 255)
+    public String getDebitorNr() {
+        return debitorNr;
+    }
 
-	/**
-	 * @param nationalitaet
-	 *            the nationalitaet to set
-	 */
-	public void setNationalitaet(String nationalitaet) {
-		this.nationalitaet = nationalitaet;
-	}
+    /**
+     * @param debitorNr the debitorNr to set
+     */
+    public void setDebitorNr(String debitorNr) {
+        this.debitorNr = debitorNr;
+    }
 
-	/**
-	 * @return the geburtsdatum
-	 */
-	@Column(length = 255)
-	public String getGeburtsdatum() {
-		return geburtsdatum;
-	}
+    /**
+     * @return the titel
+     */
+    @Column(length = 255)
+    public String getTitel() {
+        return titel;
+    }
 
-	/**
-	 * @param geburtsdatum
-	 *            the geburtsdatum to set
-	 */
-	public void setGeburtsdatum(String geburtsdatum) {
-		this.geburtsdatum = geburtsdatum;
-	}
+    /**
+     * @param titel the titel to set
+     */
+    public void setTitel(String titel) {
+        this.titel = titel;
+    }
+
+    /**
+     * @return the nationalitaet
+     */
+    @Column(length = 255)
+    public String getNationalitaet() {
+        return nationalitaet;
+    }
+
+    /**
+     * @param nationalitaet the nationalitaet to set
+     */
+    public void setNationalitaet(String nationalitaet) {
+        this.nationalitaet = nationalitaet;
+    }
+
+    /**
+     * @return the geburtsdatum
+     */
+    @Column(length = 255)
+    public String getGeburtsdatum() {
+        return geburtsdatum;
+    }
+
+    /**
+     * @param geburtsdatum the geburtsdatum to set
+     */
+    public void setGeburtsdatum(String geburtsdatum) {
+        this.geburtsdatum = geburtsdatum;
+    }
 
     public List<T> getEMailContacts() {
         List<T> theResult = new ArrayList<T>();

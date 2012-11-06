@@ -18,15 +18,6 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         </property>
     </bean>
 
-    <bean name="navigationBackingBean" class="de.powerstaff.web.backingbean.navigation.NavigationBackingBean"
-          scope="request">
-        <property name="customerBackingBean" ref="customerBackingBean"/>
-        <property name="freelancerBackingBean" ref="freelancerBackingBean"/>
-        <property name="partnerBackingBean" ref="partnerBackingBean"/>
-        <property name="projectBackingBean" ref="projectBackingBean"/>
-        <property name="profileBackingBean" ref="profileBackingBean"/>
-    </bean>
-
     <bean name="freelancerBackingBean" class="de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean"
           scope="conversation.access">
         <property name="additinalDataService" ref="additinalDataService"/>

@@ -1,25 +1,21 @@
 /**
  * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 package de.powerstaff.web.backingbean;
-
-import java.util.Collection;
-
-import org.apache.commons.lang.StringUtils;
 
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.dao.GenericSearchResult;
@@ -31,171 +27,162 @@ import de.powerstaff.business.service.AdditionalDataService;
 import de.powerstaff.business.service.PersonService;
 import de.powerstaff.business.service.TooManySearchResults;
 import de.powerstaff.web.utils.Comparators;
+import org.apache.commons.lang.StringUtils;
+
+import java.util.Collection;
 
 public abstract class PersonEditorBackingBean<T extends Person, V extends PersonEditorBackingBeanDataModel<T>, S extends PersonService<T>>
-		extends NavigatingBackingBean<T, V, S> {
+        extends NavigatingBackingBean<T, V, S> {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6719464867736964872L;
-	private AdditionalDataService additinalDataService;
+    private static final long serialVersionUID = -6719464867736964872L;
 
-	/**
-	 * @return the additinalDataService
-	 */
-	public AdditionalDataService getAdditinalDataService() {
-		return additinalDataService;
-	}
+    private AdditionalDataService additinalDataService;
 
-	/**
-	 * @param additinalDataService
-	 *            the additinalDataService to set
-	 */
-	public void setAdditinalDataService(
-			AdditionalDataService additinalDataService) {
-		this.additinalDataService = additinalDataService;
-	}
+    public void setAdditinalDataService(
+            AdditionalDataService additinalDataService) {
+        this.additinalDataService = additinalDataService;
+    }
 
-	@Override
-	public void afterPropertiesSet() {
-		super.afterPropertiesSet();
+    @Override
+    public void afterPropertiesSet() {
+        super.afterPropertiesSet();
 
-		getData().setContactTypes(additinalDataService.getContactTypes());
-		getData().setHistoryTypes(additinalDataService.getHistoryTypes());
+        getData().setContactTypes(additinalDataService.getContactTypes());
+        getData().setHistoryTypes(additinalDataService.getHistoryTypes());
 
-		commandNew();
-	}
+        commandNew();
+    }
 
-	public String commandSearch() {
+    public String commandSearch() {
 
-		Collection<GenericSearchResult> theResult = null;
-		try {
-			String theContactValue = getData().getNewContactValue();
-			ContactType theContactType = getData().getNewContactType();
-			if (!StringUtils.isEmpty(theContactValue)
-					&& (theContactType != null)) {
-				theResult = entityService.performSearchByContact(
-						theContactValue, theContactType);
-			} else {
-				theResult = entityService.performQBESearch(getData()
-						.getEntity());
-			}
-		} catch (TooManySearchResults e) {
-			theResult = e.getResult();
-			JSFMessageUtils.addGlobalErrorMessage(MSG_ZUVIELESUCHERGEBNISSE);
-		}
+        Collection<GenericSearchResult> theResult;
+        try {
+            String theContactValue = getData().getNewContactValue();
+            ContactType theContactType = getData().getNewContactType();
+            if (!StringUtils.isEmpty(theContactValue)
+                    && (theContactType != null)) {
+                theResult = entityService.performSearchByContact(
+                        theContactValue, theContactType);
+            } else {
+                theResult = entityService.performQBESearch(getData()
+                        .getEntity());
+            }
+        } catch (TooManySearchResults e) {
+            theResult = e.getResult();
+            JSFMessageUtils.addGlobalErrorMessage(MSG_ZUVIELESUCHERGEBNISSE);
+        }
 
-		if (theResult.size() < 1) {
-			JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);
-			return null;
-		}
+        if (theResult.size() < 1) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);
+            return null;
+        }
 
-		if (theResult.size() == 1) {
+        if (theResult.size() == 1) {
 
-			GenericSearchResult theResult2 = (GenericSearchResult) theResult
-					.iterator().next();
-			getData().setEntity(
-					entityService.findByPrimaryKey((Long) theResult2
-							.get(GenericSearchResult.OBJECT_ID_KEY)));
+            GenericSearchResult theResult2 = (GenericSearchResult) theResult
+                    .iterator().next();
+            getData().setEntity(
+                    entityService.findByPrimaryKey((Long) theResult2
+                            .get(GenericSearchResult.OBJECT_ID_KEY)));
 
-			afterNavigation();
-			return null;
-		}
+            afterNavigation();
+            return null;
+        }
 
-		getData().getSearchResult().setWrappedData(theResult);
-		return "SEARCHRESULT";
-	}
+        getData().getSearchResult().setWrappedData(theResult);
+        return "SEARCHRESULT";
+    }
 
-	protected abstract Contact createNewContact();
+    protected abstract Contact createNewContact();
 
-	protected abstract HistoryEntity createNewHistory();
+    protected abstract HistoryEntity createNewHistory();
 
-	public void commandAddContact() {
+    public void commandAddContact() {
 
-		if (StringUtils.isEmpty(getData().getNewContactValue())) {
+        if (StringUtils.isEmpty(getData().getNewContactValue())) {
 
-			JSFMessageUtils.addGlobalErrorMessage(MSG_KEINE_KONTAKTINFOS);
-			return;
-		}
+            JSFMessageUtils.addGlobalErrorMessage(MSG_KEINE_KONTAKTINFOS);
+            return;
+        }
 
-		PersonEditorBackingBeanDataModel<T> theModel = getData();
+        PersonEditorBackingBeanDataModel<T> theModel = getData();
 
-		T thePerson = theModel.getEntity();
+        T thePerson = theModel.getEntity();
 
-		Contact theContact = createNewContact();
-		theContact.setType(theModel.getNewContactType());
-		theContact.setValue(theModel.getNewContactValue());
+        Contact theContact = createNewContact();
+        theContact.setType(theModel.getNewContactType());
+        theContact.setValue(theModel.getNewContactValue());
 
-		thePerson.getContacts().add(theContact);
+        thePerson.getContacts().add(theContact);
 
-		theModel.setEntity(thePerson);
-	}
+        theModel.setEntity(thePerson);
+    }
 
-	public void commandDeleteContact() {
+    public void commandDeleteContact() {
 
-		PersonEditorBackingBeanDataModel<T> theModel = getData();
+        PersonEditorBackingBeanDataModel<T> theModel = getData();
 
-		T thePerson = theModel.getEntity();
+        T thePerson = theModel.getEntity();
 
-		Contact theContact = (Contact) theModel.getContacts().getRowData();
-		thePerson.getContacts().remove(theContact);
+        Contact theContact = (Contact) theModel.getContacts().getRowData();
+        thePerson.getContacts().remove(theContact);
 
-		theModel.setEntity(thePerson);
-	}
+        theModel.setEntity(thePerson);
+    }
 
-	public void commandAddNewHistoryEntry() {
+    public void commandAddNewHistoryEntry() {
 
-		HistoryEntity theHistory = createNewHistory();
-		theHistory.setDescription(getData().getNewHistoryEntry());
-		theHistory.setType(getData().getNewHistoryType());
+        HistoryEntity theHistory = createNewHistory();
+        theHistory.setDescription(getData().getNewHistoryEntry());
+        theHistory.setType(getData().getNewHistoryType());
 
-		T thePerson = getData().getEntity();
-		thePerson.getHistory().add(theHistory);
+        T thePerson = getData().getEntity();
+        thePerson.getHistory().add(theHistory);
 
-		entityService.save(thePerson);
+        entityService.save(thePerson);
 
-		getData().setNewHistoryEntry(null);
-		getData().setEntity(thePerson);
+        getData().setNewHistoryEntry(null);
+        getData().setEntity(thePerson);
 
-		JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
-	}
+        JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
+    }
 
-	public void commandDeleteHistoryEntry() {
+    public void commandDeleteHistoryEntry() {
 
-		HistoryEntity theHistory = (HistoryEntity) getData().getHistory()
-				.getRowData();
-		getData().getHistory().remove(theHistory);
+        HistoryEntity theHistory = (HistoryEntity) getData().getHistory()
+                .getRowData();
+        getData().getHistory().remove(theHistory);
 
-		T thePerson = getData().getEntity();
-		entityService.save(thePerson);
+        T thePerson = getData().getEntity();
+        entityService.save(thePerson);
 
-		getData().setEntity(thePerson);
-		getData().getHistory().sort(Comparators.INVERSECREATIONDATECOMPARATOR);
+        getData().setEntity(thePerson);
+        getData().getHistory().sort(Comparators.INVERSECREATIONDATECOMPARATOR);
 
-		JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
-	}
+        JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
+    }
 
-	public String commandSelectSearchResult() {
+    public String commandSelectSearchResult() {
 
-		GenericSearchResult theResult = (GenericSearchResult) getData()
-				.getSearchResult().getRowData();
-		T theEntity = entityService.findByPrimaryKey((Long) theResult
-				.get(GenericSearchResult.OBJECT_ID_KEY));
-		getData().setEntity(theEntity);
-		afterNavigation();
-		return "STAMMDATEN";
-	}
+        GenericSearchResult theResult = (GenericSearchResult) getData()
+                .getSearchResult().getRowData();
+        T theEntity = entityService.findByPrimaryKey((Long) theResult
+                .get(GenericSearchResult.OBJECT_ID_KEY));
+        getData().setEntity(theEntity);
+        getData().setCurrentEntityId(theEntity.getId().toString());
 
-	public String commandBack() {
-		return "STAMMDATEN";
-	}
+        return "pretty:" + getNavigationIDPrefix() + "main";
+    }
 
-	public String commandStammdaten() {
-		return "STAMMDATEN";
-	}
+    public String commandBack() {
+        return "pretty:" + getNavigationIDPrefix() + "main";
+    }
 
-	public String commandHistorie() {
-		return "HISTORIE";
-	}
+    public String commandStammdaten() {
+        return "pretty:" + getNavigationIDPrefix() + "main";
+    }
+
+    public String commandHistorie() {
+        return "pretty:" + getNavigationIDPrefix() + "history";
+    }
 }

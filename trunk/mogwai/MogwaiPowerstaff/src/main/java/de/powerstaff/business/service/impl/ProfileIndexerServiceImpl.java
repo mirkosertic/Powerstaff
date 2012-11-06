@@ -18,7 +18,6 @@
 package de.powerstaff.business.service.impl;
 
 import de.mogwai.common.business.service.impl.LogableService;
-import de.mogwai.common.logging.Logger;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerProfile;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
@@ -26,17 +25,21 @@ import de.powerstaff.business.service.ProfileIndexerService;
 import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.business.service.ServiceLoggerService;
 import de.powerstaff.business.service.impl.reader.DocumentReaderFactory;
-import java.io.File;
-import java.util.List;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.TermQuery;
-import org.hibernate.*;
+import org.hibernate.ScrollMode;
+import org.hibernate.ScrollableResults;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.MassIndexer;
 import org.hibernate.search.Search;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * @author Mirko Sertic
@@ -134,7 +137,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements
                     long theNumberOfProfiles = Long.parseLong(theDocument.get(ProfileIndexerService.NUM_PROFILES));
                     List<FreelancerProfile> theProfiles = profileSearchService.loadProfilesFor(theFreelancer);
                     if (theNumberOfProfiles != theProfiles.size()) {
-                        logger.logInfo("Updating freelancer " + theFreelancer.getId() + " as the number of profiles changed from "+ theNumberOfProfiles+" to "+theProfiles.size());
+                        logger.logInfo("Updating freelancer " + theFreelancer.getId() + " as the number of profiles changed from " + theNumberOfProfiles + " to " + theProfiles.size());
                         needsToUpdate = true;
                     } else {
                         for (int i = 1; i <= theNumberOfProfiles; i++) {

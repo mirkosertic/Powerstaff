@@ -1,16 +1,16 @@
 /**
  * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
@@ -21,107 +21,107 @@ import de.mogwai.common.business.service.Service;
 
 public interface PowerstaffSystemParameterService extends Service {
 
-	String getWrongDataReportDir();
+    String getWrongDataReportDir();
 
-	void setWrongDataReportDir(String aValue);
+    void setWrongDataReportDir(String aValue);
 
-	String getIndexerNetworkDir();
+    String getIndexerNetworkDir();
 
-	void setIndexerNetworkDir(String aValue);
+    void setIndexerNetworkDir(String aValue);
 
-	String getIndexerSourcePath();
+    String getIndexerSourcePath();
 
-	void setIndexerSourcePath(String aValue);
+    void setIndexerSourcePath(String aValue);
 
-	int getNewsletterBatchCount();
+    int getNewsletterBatchCount();
 
-	void setNewsletterBatchCount(int aValue);
+    void setNewsletterBatchCount(int aValue);
 
-	int getNewsletterMaxThreadCount();
+    int getNewsletterMaxThreadCount();
 
-	void setNewsletterMaxThreadCount(int aValue);
+    void setNewsletterMaxThreadCount(int aValue);
 
-	boolean isNewsletterSendDelta();
+    boolean isNewsletterSendDelta();
 
-	void setNewsletterSendDelta(boolean aValue);
+    void setNewsletterSendDelta(boolean aValue);
 
-	String getNewsletterSender();
+    String getNewsletterSender();
 
-	void setNewsletterSender(String aValue);
+    void setNewsletterSender(String aValue);
 
-	int getNewsletterSleepIntervall();
+    int getNewsletterSleepIntervall();
 
-	void setNewsletterSleepIntervall(int aValue);
+    void setNewsletterSleepIntervall(int aValue);
 
-	String getNewsletterSubject();
+    String getNewsletterSubject();
 
-	void setNewsletterSubject(String aValue);
+    void setNewsletterSubject(String aValue);
 
-	String getNewsletterTemplate();
+    String getNewsletterTemplate();
 
-	void setNewsletterTemplate(String aValue);
+    void setNewsletterTemplate(String aValue);
 
-	String getSmtpHost();
+    String getSmtpHost();
 
-	void setSmtpHost(String aValue);
+    void setSmtpHost(String aValue);
 
-	int getSmtpPort();
+    int getSmtpPort();
 
-	void setSmtpPort(int aValue);
+    void setSmtpPort(int aValue);
 
-	String getSmtpPwd();
+    String getSmtpPwd();
 
-	void setSmtpPwd(String aValue);
+    void setSmtpPwd(String aValue);
 
-	String getSmtpUser();
+    String getSmtpUser();
 
-	void setSmtpUser(String aValue);
+    void setSmtpUser(String aValue);
 
-	boolean isNewsletterEnabled();
+    boolean isNewsletterEnabled();
 
-	void setNewsletterEnabled(boolean aValue);
+    void setNewsletterEnabled(boolean aValue);
 
-	boolean isWebSyncEnabled();
+    boolean isWebSyncEnabled();
 
-	void setWebSyncEnabled(boolean aValue);
+    void setWebSyncEnabled(boolean aValue);
 
-	boolean isIndexingEnabled();
+    boolean isIndexingEnabled();
 
-	void setIndexingEnabled(boolean aValue);
+    void setIndexingEnabled(boolean aValue);
 
-	int getMaxSearchResult();
+    int getMaxSearchResult();
 
-	void setMaxSearchResult(int aValue);
+    void setMaxSearchResult(int aValue);
 
-	/**
-	 * @return True if the DOC Format is enabled for indexing
-	 */
-	boolean isDOCFormatEnabled();
+    /**
+     * @return True if the DOC Format is enabled for indexing
+     */
+    boolean isDOCFormatEnabled();
 
-	void setDOCFormatEnabled(boolean aValue);
+    void setDOCFormatEnabled(boolean aValue);
 
-	/**
-	 * @return True if the DOCX Format is enabled for indexing
-	 */
-	boolean isDOCXFormatEnabled();
+    /**
+     * @return True if the DOCX Format is enabled for indexing
+     */
+    boolean isDOCXFormatEnabled();
 
-	void setDOCXFormatEnabled(boolean aValue);
+    void setDOCXFormatEnabled(boolean aValue);
 
-	/**
-	 * @return True if the TXT Format is enabled for indexing
-	 */
-	boolean isTXTFormatEnabled();
+    /**
+     * @return True if the TXT Format is enabled for indexing
+     */
+    boolean isTXTFormatEnabled();
 
-	void setTXTFormatEnabled(boolean aValue);
+    void setTXTFormatEnabled(boolean aValue);
 
-	/**
-	 * @return True if the PDF Format is enabled for indexing
-	 */
-	boolean isPDFFormatEnabled();
+    /**
+     * @return True if the PDF Format is enabled for indexing
+     */
+    boolean isPDFFormatEnabled();
 
-	void setPDFFormatEnabled(boolean aValue);
+    void setPDFFormatEnabled(boolean aValue);
 
-	String getStartDateForNotInNewsletter();
+    String getStartDateForNotInNewsletter();
 
-	void setStartDateForNotInNewsletter(String aValue);
+    void setStartDateForNotInNewsletter(String aValue);
 }

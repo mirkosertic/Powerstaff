@@ -1,35 +1,35 @@
 /**
  * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 package de.powerstaff.business.dto;
 
-import java.util.Date;
-
 import de.mogwai.common.business.dto.DataTransferObject;
 import de.powerstaff.business.entity.HistoryType;
+
+import java.util.Date;
 
 public class KontakthistorieEntry extends DataTransferObject {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5648351697219539516L;
+     *
+     */
+    private static final long serialVersionUID = 5648351697219539516L;
 
-	private Date datum;
+    private Date datum;
 
     private String name1;
 
@@ -51,8 +51,7 @@ public class KontakthistorieEntry extends DataTransferObject {
     }
 
     /**
-     * @param datum
-     *                the datum to set
+     * @param datum the datum to set
      */
     public void setDatum(Date datum) {
         this.datum = datum;
@@ -66,8 +65,7 @@ public class KontakthistorieEntry extends DataTransferObject {
     }
 
     /**
-     * @param name1
-     *                the name1 to set
+     * @param name1 the name1 to set
      */
     public void setName1(String name1) {
         this.name1 = name1;
@@ -81,8 +79,7 @@ public class KontakthistorieEntry extends DataTransferObject {
     }
 
     /**
-     * @param name2
-     *                the name2 to set
+     * @param name2 the name2 to set
      */
     public void setName2(String name2) {
         this.name2 = name2;
@@ -96,8 +93,7 @@ public class KontakthistorieEntry extends DataTransferObject {
     }
 
     /**
-     * @param code
-     *                the code to set
+     * @param code the code to set
      */
     public void setCode(String code) {
         this.code = code;
@@ -111,8 +107,7 @@ public class KontakthistorieEntry extends DataTransferObject {
     }
 
     /**
-     * @param userid
-     *                the userid to set
+     * @param userid the userid to set
      */
     public void setUserid(String userid) {
         this.userid = userid;
@@ -126,8 +121,7 @@ public class KontakthistorieEntry extends DataTransferObject {
     }
 
     /**
-     * @param type
-     *                the type to set
+     * @param type the type to set
      */
     public void setType(HistoryType type) {
         this.type = type;
@@ -141,8 +135,7 @@ public class KontakthistorieEntry extends DataTransferObject {
     }
 
     /**
-     * @param description
-     *                the description to set
+     * @param description the description to set
      */
     public void setDescription(String description) {
         this.description = description;

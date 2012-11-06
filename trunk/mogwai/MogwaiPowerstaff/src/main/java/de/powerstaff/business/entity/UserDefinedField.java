@@ -1,22 +1,22 @@
 package de.powerstaff.business.entity;
 
-import java.util.Date;
-
 import de.mogwai.common.business.entity.AuditableEntity;
+
+import java.util.Date;
 
 /**
  * A user defined field.
- * 
+ *
  * @author msertic
  */
 public class UserDefinedField extends AuditableEntity {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 6428209739024154852L;
+     *
+     */
+    private static final long serialVersionUID = 6428209739024154852L;
 
-	private boolean booleanValue;
+    private boolean booleanValue;
 
     private Date dateValue;
 

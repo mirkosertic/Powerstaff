@@ -5,11 +5,11 @@ import de.mogwai.common.business.entity.AuditableEntity;
 public class HistoryEntity extends AuditableEntity {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7898243996666931512L;
+     *
+     */
+    private static final long serialVersionUID = -7898243996666931512L;
 
-	private String description;
+    private String description;
 
     private HistoryType type;
 

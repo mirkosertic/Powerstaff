@@ -1,24 +1,21 @@
 /**
  * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 package de.powerstaff.business.service.impl;
-
-import java.text.SimpleDateFormat;
-import java.util.Collection;
 
 import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.ProjectDAO;
@@ -28,6 +25,9 @@ import de.powerstaff.business.entity.WebProject;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ServiceLoggerService;
 import de.powerstaff.business.service.WebSyncService;
+
+import java.text.SimpleDateFormat;
+import java.util.Collection;
 
 public class WebSyncServiceImpl extends LogableService implements WebSyncService {
 
@@ -49,8 +49,7 @@ public class WebSyncServiceImpl extends LogableService implements WebSyncService
     }
 
     /**
-     * @param projectDAO
-     *                the projectDAO to set
+     * @param projectDAO the projectDAO to set
      */
     public void setProjectDAO(ProjectDAO projectDAO) {
         this.projectDAO = projectDAO;
@@ -72,8 +71,7 @@ public class WebSyncServiceImpl extends LogableService implements WebSyncService
     }
 
     /**
-     * @param systemParameterService
-     *                the systemParameterService to set
+     * @param systemParameterService the systemParameterService to set
      */
     public void setSystemParameterService(PowerstaffSystemParameterService systemParameterService) {
         this.systemParameterService = systemParameterService;
@@ -158,7 +156,7 @@ public class WebSyncServiceImpl extends LogableService implements WebSyncService
                 } else {
                     websiteDAO.saveOrUpdate(theWebProject);
                 }
-                    
+
             }
 
             serviceLogger.logEnd(SERVICE_ID, "");

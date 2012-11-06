@@ -1,15 +1,13 @@
 package de.powerstaff.web.converter;
 
-import java.text.SimpleDateFormat;
+import de.mogwai.common.business.entity.AuditableEntity;
+import de.mogwai.common.web.ResourceBundleManager;
+import org.apache.commons.lang.NotImplementedException;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-
-import org.apache.commons.lang.NotImplementedException;
-
-import de.mogwai.common.business.entity.AuditableEntity;
-import de.mogwai.common.web.ResourceBundleManager;
+import java.text.SimpleDateFormat;
 
 public class CreationAuditInformationConverter implements Converter {
 
