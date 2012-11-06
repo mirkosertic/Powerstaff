@@ -24,6 +24,7 @@ import de.mogwai.common.web.utils.UpdateModelInfo;
 import de.powerstaff.business.entity.Customer;
 import de.powerstaff.business.entity.CustomerContact;
 import de.powerstaff.business.entity.HistoryEntity;
+import de.powerstaff.business.entity.Partner;
 import de.powerstaff.business.service.CustomerService;
 import de.powerstaff.web.backingbean.PersonEditorBackingBean;
 import de.powerstaff.web.backingbean.project.ProjectBackingBean;
@@ -33,10 +34,6 @@ public class CustomerBackingBean extends PersonEditorBackingBean<Customer, Custo
 	private static final long serialVersionUID = -1019229554217528125L;
 
     private ProjectBackingBean projectBackingBean;
-
-    public ProjectBackingBean getProjectBackingBean() {
-        return projectBackingBean;
-    }
 
     public void setProjectBackingBean(ProjectBackingBean projectBackingBean) {
         this.projectBackingBean = projectBackingBean;
@@ -64,7 +61,8 @@ public class CustomerBackingBean extends PersonEditorBackingBean<Customer, Custo
         super.updateModel(aInfo);
         if (aInfo instanceof EditEntityCommand) {
             EditEntityCommand<Customer> theCommand = (EditEntityCommand<Customer>) aInfo;
-            init();
+
+            afterPropertiesSet();
             Customer theEntity = (Customer) entityService.findByPrimaryKey(theCommand.getValue().getId());
             getData().setEntity(theEntity);
 

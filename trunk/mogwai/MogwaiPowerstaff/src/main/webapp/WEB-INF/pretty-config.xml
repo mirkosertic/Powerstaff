@@ -7,24 +7,32 @@
         <pattern>/login</pattern>
         <view-id>/login.faces</view-id>
     </url-mapping>
-    <url-mapping id="freelancer">
-        <pattern>/freelancer/#{freelancerBackingBean.data.currentFreelancerId}</pattern>
+    <url-mapping id="profilemain">
+        <pattern>/profilesearch/</pattern>
+        <view-id>/include/profile/profilemain.faces</view-id>
+    </url-mapping>
+    <url-mapping id="statisticmain">
+        <pattern>/statistic/</pattern>
+        <view-id>/include/statistic/statisticmain.faces</view-id>
+    </url-mapping>
+    <url-mapping id="freelancermain">
+        <pattern>/freelancer/#{freelancerBackingBean.data.currentEntityId}/main</pattern>
         <view-id>/include/freelancer/freelancermain.faces</view-id>
-        <action onPostback="false">#{freelancerBackingBean.loadFreelancer}</action>
+        <action onPostback="false">#{freelancerBackingBean.loadEntity}</action>
     </url-mapping>
-    <url-mapping id="partner">
-        <pattern>/partner/#{partnerBackingBean.data.currentPartnerId}</pattern>
+    <url-mapping id="partnermain">
+        <pattern>/partner/#{partnerBackingBean.data.currentEntityId}/main</pattern>
         <view-id>/include/partner/partnermain.faces</view-id>
-        <action onPostback="false">#{partnerBackingBean.loadPartner}</action>
+        <action onPostback="false">#{partnerBackingBean.loadEntity}</action>
     </url-mapping>
-    <url-mapping id="customer">
-        <pattern>/customer/#{customerBackingBean.data.currentCustomerId}</pattern>
+    <url-mapping id="customermain">
+        <pattern>/customer/#{customerBackingBean.data.currentEntityId}/main</pattern>
         <view-id>/include/customer/customermain.faces</view-id>
-        <action onPostback="false">#{customerBackingBean.loadCustomer}</action>
+        <action onPostback="false">#{customerBackingBean.loadEntity}</action>
     </url-mapping>
-    <url-mapping id="project">
-        <pattern>/project/#{projectBackingBean.data.currentProjectId}</pattern>
+    <url-mapping id="projectmain">
+        <pattern>/project/#{projectBackingBean.data.currentEntityId}/main</pattern>
         <view-id>/include/project/projectmain.faces</view-id>
-        <action onPostback="false">#{projectBackingBean.loadProject}</action>
+        <action onPostback="false">#{projectBackingBean.loadEntity}</action>
     </url-mapping>
 </pretty-config>

@@ -20,6 +20,7 @@ package de.powerstaff.web.backingbean.login;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
+import de.powerstaff.web.backingbean.EntityEditorBackingBeanDataModel;
 import de.powerstaff.web.backingbean.NavigatingBackingBean;
 import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 import org.springframework.security.ui.WebAuthenticationDetails;
@@ -64,10 +65,10 @@ public class LoginBackingBean extends
 					getData().getPassword(), new WebAuthenticationDetails(
 							theRequest));
 
-            freelancerBackingBean.getData().setCurrentFreelancerId(NavigatingBackingBean.NEW_RECORD_ID);
+            freelancerBackingBean.getData().setCurrentEntityId(EntityEditorBackingBeanDataModel.NEW_ENTITY_ID);
 
             // Redirect auf die leere Freelancer Seite
-            return "pretty:freelancer";
+            return "pretty:freelancermain";
 		} catch (LoginException e) {
 			LOGGER.logError("Fehler beim Login", e);
 			JSFMessageUtils.addGlobalErrorMessage(MSG_FALSCHESLOGIN);

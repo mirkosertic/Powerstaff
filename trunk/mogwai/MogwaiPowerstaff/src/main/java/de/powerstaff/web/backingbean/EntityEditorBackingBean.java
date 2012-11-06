@@ -7,25 +7,22 @@ import javax.faces.context.FacesContext;
 
 import de.mogwai.common.command.ResetNavigationInfo;
 import de.mogwai.common.web.backingbean.WrappingBackingBean;
+import org.springframework.beans.factory.InitializingBean;
 
 public abstract class EntityEditorBackingBean<T extends EntityEditorBackingBeanDataModel> extends
-        WrappingBackingBean<T> implements MessageConstants, StateHolder {
+        WrappingBackingBean<T> implements MessageConstants, StateHolder, InitializingBean {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = -2457744179297229854L;
 
 	@Override
-    public void init() {
-        super.init();
+    public void afterPropertiesSet() {
         setData(createDataModel());
     }
 
     @Override
     public void resetNavigation() {
         super.resetNavigation();
-        init();
+        afterPropertiesSet();
     }
 
     public boolean isTransient() {

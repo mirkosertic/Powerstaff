@@ -39,27 +39,27 @@ public class NavigationBackingBean extends BackingBean {
 
     public String commandFreelancer() {
         freelancerBackingBean.reload();
-        return "FREELANCER_STAMMDATEN";
+        return "pretty:freelancermain";
     }
 
     public String commandPartner() {
         partnerBackingBean.reload();
-        return "PARTNER_STAMMDATEN";
+        return "pretty:partnermain";
     }
 
     public String commandCustomer() {
         customerBackingBean.reload();
-        return "CUSTOMER_STAMMDATEN";
+        return "pretty:customermain";
     }
 
     public String commandProjekte() {
         projectBackingBean.reload();
-        return "PROJEKT_STAMMDATEN";
+        return "pretty:projectmain";
     }
 
     public String commandProfile() {
         profileBackingBean.resetNavigation();
-        return "PROFILE_STAMMDATEN";
+        return "pretty:profilemain";
     }
 
     public String commandStatistik() {

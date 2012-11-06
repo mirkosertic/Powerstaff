@@ -33,15 +33,13 @@ import de.mogwai.common.web.utils.Validatable;
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:17:10 $
  */
-public abstract class BackingBean implements Initable, Navigatable, Updateable,
+public abstract class BackingBean implements Navigatable, Updateable,
 		Validatable, Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6152673765217442475L;
-
-	private boolean initialized;
 
 	/**
 	 * Refresh Action - Methode.
@@ -55,34 +53,7 @@ public abstract class BackingBean implements Initable, Navigatable, Updateable,
 		return ActionOutcome.SUCCESS.value();
 	}
 
-	/**
-	 * @see de.mogwai.common.utils.Initable#init()
-	 */
-	public void init() {
-
-		initialized = true;
-	}
-
-	/**
-	 * @see de.mogwai.common.utils.Initable#forceInitialization()
-	 */
-	public void forceInitialization() {
-		initialized = false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean isInitialized() {
-		return initialized;
-	}
-
-	public void setInitialized(boolean aStatus) {
-		initialized = aStatus;
-	}
-
 	public void resetNavigation() {
-		forceInitialization();
 	}
 
 	public void updateModel(UpdateModelCommand aInfo) {

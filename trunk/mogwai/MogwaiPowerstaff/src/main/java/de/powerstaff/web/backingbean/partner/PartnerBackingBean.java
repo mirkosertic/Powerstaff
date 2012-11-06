@@ -51,10 +51,6 @@ public class PartnerBackingBean
         this.projectBackingBean = projectBackingBean;
     }
 
-    public FreelancerBackingBean getFreelancerBackingBean() {
-        return freelancerBackingBean;
-    }
-
     public void setFreelancerBackingBean(FreelancerBackingBean freelancerBackingBean) {
         this.freelancerBackingBean = freelancerBackingBean;
     }
@@ -62,13 +58,6 @@ public class PartnerBackingBean
     @Override
 	protected PartnerBackingBeanDataModel createDataModel() {
 		return new PartnerBackingBeanDataModel();
-	}
-
-	/**
-	 * @return the freelancerService
-	 */
-	public FreelancerService getFreelancerService() {
-		return freelancerService;
 	}
 
 	/**
@@ -96,7 +85,7 @@ public class PartnerBackingBean
 		super.updateModel(aInfo);
 		if (aInfo instanceof EditEntityCommand) {
 
-			init();
+			afterPropertiesSet();
 
 			EditEntityCommand theCommand = (EditEntityCommand) aInfo;
 			if (theCommand.getValue() instanceof Freelancer) {

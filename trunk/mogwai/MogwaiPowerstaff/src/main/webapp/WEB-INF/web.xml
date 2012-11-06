@@ -139,6 +139,11 @@
     </filter>
 
     <filter-mapping>
+        <filter-name>openSessionInView</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
 	    <filter-name>Pretty Filter</filter-name>
 	    <url-pattern>/*</url-pattern>
 	    <dispatcher>REQUEST</dispatcher>
@@ -148,11 +153,6 @@
 
     <filter-mapping>
         <filter-name>changeheader</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <filter-mapping>
-        <filter-name>openSessionInView</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 

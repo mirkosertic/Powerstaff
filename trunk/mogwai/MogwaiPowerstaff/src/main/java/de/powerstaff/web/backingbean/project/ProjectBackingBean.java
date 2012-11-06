@@ -89,8 +89,8 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
     }
 
     @Override
-    public void init() {
-        super.init();
+    public void afterPropertiesSet() {
+        super.afterPropertiesSet();
         commandNew();
     }
 
@@ -151,7 +151,7 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
 
             EditEntityCommand theCommand = (EditEntityCommand) aInfo;
 
-            init();
+            afterPropertiesSet();
 
             Project theProject = new Project();
             if (theCommand.getValue() instanceof Customer) {

@@ -25,7 +25,7 @@
                 <f:subview id="projectincontext" rendered="#{contextUtils.contextSet}">
                     <h:outputText value="      Aktuelles Projekt : #{contextUtils.currrentProjectDescription}"/>
                     <b:commandLink action="#{contextUtils.commandClearContext}" immediate="true">
-                        <b:image source="/images/delete.gif"/>
+                        <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                         <a4j:support eventsQueue="powerstaff" event="onclick"/>
                     </b:commandLink>
                 </f:subview>
@@ -36,7 +36,7 @@
     <b:cell y="1" x="2">
         <a4j:status>
             <f:facet name="start">
-                <b:image source="images/rotate2.gif" width="20" height="20"/>
+                <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20" height="20"/>
             </f:facet>
         </a4j:status>
     </b:cell>
@@ -49,7 +49,7 @@
                          rows="20,2,20">
             <b:cell x="1" y="1">
                 <b:commandLink title="Erster Datensatz" action="#{freelancerBackingBean.commandFirst}">
-                    <b:image source="/images/first.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/first.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                  reRender="#{freelancerBackingBean.data.changedComponents}"
                                  onsubmit="if (!checkForChangedData()) {return false;}"
@@ -58,7 +58,7 @@
             </b:cell>
             <b:cell x="2" y="1">
                 <b:commandLink title="Vorheriger Datensatz" action="#{freelancerBackingBean.commandPrior}">
-                    <b:image source="/images/prior.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/prior.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                  reRender="#{freelancerBackingBean.data.changedComponents}"
                                  onsubmit="if (!checkForChangedData()) {return false;};"
@@ -67,7 +67,7 @@
             </b:cell>
             <b:cell x="3" y="1">
                 <b:commandLink title="Nächster Datensatz" action="#{freelancerBackingBean.commandNext}">
-                    <b:image source="/images/next.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/next.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                  reRender="#{freelancerBackingBean.data.changedComponents}"
                                  onsubmit="if (!checkForChangedData()) {return false;}"
@@ -76,7 +76,7 @@
             </b:cell>
             <b:cell x="4" y="1">
                 <b:commandLink title="Letzter Datensatz" action="#{freelancerBackingBean.commandLast}">
-                    <b:image source="/images/last.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/last.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                  reRender="#{freelancerBackingBean.data.changedComponents}"
                                  onsubmit="if (!checkForChangedData()) {return false;}"
@@ -85,7 +85,7 @@
             </b:cell>
             <b:cell x="6" y="1">
                 <b:commandLink title="Neuer Datensatz" action="#{freelancerBackingBean.commandNew}">
-                    <b:image source="/images/new.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/new.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                  reRender="#{freelancerBackingBean.data.changedComponents}"
                                  onsubmit="if (!checkForChangedData()) {return false;}"
@@ -94,7 +94,7 @@
             </b:cell>
             <b:cell x="7" y="1">
                 <b:commandLink title="Speichern" action="#{freelancerBackingBean.commandSave}">
-                    <b:image source="/images/update.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/update.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                  reRender="#{freelancerBackingBean.data.changedComponents}"
                                  oncomplete="clearChanged()"/>
@@ -104,12 +104,12 @@
                 <a4j:commandLink title="Löschen" action="#{freelancerBackingBean.commandDelete}"
                                  onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick löschen?')) {return false;}"
                                  reRender="#{freelancerBackingBean.data.changedComponents}" oncomplete="clearChanged()">
-                    <b:image source="/images/delete.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                 </a4j:commandLink>
             </b:cell>
             <b:cell x="11" y="1">
                 <b:commandLink title="Suchen" action="#{freelancerBackingBean.commandSearch}">
-                    <b:image source="/images/search.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                  reRender="#{freelancerBackingBean.data.changedComponents}"
                                  oncomplete="clearChanged()"/>
@@ -124,7 +124,7 @@
             </b:cell>
             <b:cell x="14" y="1">
                 <b:commandLink title="Springe zu Datensatz" action="#{freelancerBackingBean.commandJumpToRecord}">
-                    <b:image source="/images/search.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                  reRender="#{freelancerBackingBean.data.changedComponents}"
                                  onsubmit="if (!checkForChangedData()) {return false;}"
@@ -281,7 +281,7 @@
                     <h:column>
                         <b:commandLink title="Kontaktinformation löschen"
                                        action="#{freelancerBackingBean.commandDeleteContact}">
-                            <b:image source="/images/delete.gif"/>
+                            <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                             <a4j:support eventsQueue="powerstaff" event="onclick"
                                          reRender="kontakttable"
                                          onsubmit="markChanged()"/>
@@ -305,7 +305,7 @@
             <b:cell x="6" y="8" valign="middle">
                 <b:commandLink title="Kontaktinformation hinzufügen"
                                action="#{freelancerBackingBean.commandAddContact}">
-                    <b:image source="images/add.gif"/>
+                    <img src="${facesContext.externalContext.requestContextPath}/images/add.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                  reRender="#{freelancerBackingBean.data.changedComponents}"
                                  onsubmit="markChanged()"/>
@@ -486,7 +486,7 @@
                     <b:cell x="6" y="10">
                         <b:commandLink title="Springe zur Partner - Ansicht"
                                        action="#{freelancerBackingBean.commandShowPartner}">
-                            <b:image source="/images/next.gif"/>
+                            <img src="${facesContext.externalContext.requestContextPath}/images/next.gif"/>
                             <a4j:support eventsQueue="powerstaff" event="onclick"
                                          reRender="#{freelancerBackingBean.data.changedComponents}"/>
                         </b:commandLink>
@@ -598,9 +598,9 @@
                             <b:cell x="2" y="2" align="center">
                                 <h:commandLink title="#{row.infotext}"
                                                onclick="#{freelancerBackingBean.profileOpenCommand}">
-                                    <b:image source="/images/word.gif" rendered="#{row.wordProfile}"/>
-                                    <b:image source="/images/textfile.png" rendered="#{row.textProfile}"/>
-                                    <b:image source="/images/word.gif" rendered="#{row.otherFormat}"/>
+                                    <h:graphicImage value="/images/word.gif" rendered="#{row.wordProfile}"/>
+                                    <h:graphicImage value="/images/textfile.png" rendered="#{row.textProfile}"/>
+                                    <h:graphicImage value="/images/word.gif" rendered="#{row.otherFormat}"/>
                                 </h:commandLink>
                             </b:cell>
                             <b:cell x="2" y="3" align="center">

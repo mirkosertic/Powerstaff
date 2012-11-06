@@ -14,9 +14,6 @@ import java.util.List;
 
 public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<Project> {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -4432968696961074056L;
 
     private CollectionDataModel<GenericSearchResult> searchResult = new CollectionDataModel<GenericSearchResult>();
