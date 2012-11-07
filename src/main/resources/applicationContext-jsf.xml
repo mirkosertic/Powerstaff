@@ -4,72 +4,42 @@
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <import resource="classpath*:/META-INF/spring-orchestra-init.xml"/>
-
-    <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
-        <property name="scopes">
-            <map>
-                <entry key="conversation.access">
-                    <bean class="org.apache.myfaces.orchestra.conversation.spring.SpringConversationScope">
-                        <property name="lifetime" value="access"/>
-                    </bean>
-                </entry>
-            </map>
-        </property>
-    </bean>
-
-    <bean name="freelancerBackingBean" class="de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean"
-          scope="conversation.access">
+    <bean name="freelancerBackingBean" class="de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean" scope="request">
         <property name="additinalDataService" ref="additinalDataService"/>
         <property name="profileSearchService" ref="profileSearchService"/>
         <property name="entityService" ref="freelancerService"/>
-        <property name="partnerBackingBean" ref="partnerBackingBean"/>
         <property name="contextUtils" ref="contextUtils"/>
         <property name="projectService" ref="projectService"/>
     </bean>
 
-    <bean name="customerBackingBean" class="de.powerstaff.web.backingbean.customer.CustomerBackingBean"
-          scope="conversation.access">
+    <bean name="customerBackingBean" class="de.powerstaff.web.backingbean.customer.CustomerBackingBean" scope="request">
         <property name="additinalDataService" ref="additinalDataService"/>
         <property name="entityService" ref="customerService"/>
-        <property name="projectBackingBean" ref="projectBackingBean"/>
     </bean>
 
-    <bean name="partnerBackingBean" class="de.powerstaff.web.backingbean.partner.PartnerBackingBean"
-          scope="conversation.access">
+    <bean name="partnerBackingBean" class="de.powerstaff.web.backingbean.partner.PartnerBackingBean" scope="request">
         <property name="additinalDataService" ref="additinalDataService"/>
         <property name="entityService" ref="partnerService"/>
         <property name="freelancerService" ref="freelancerService"/>
-        <property name="freelancerBackingBean" ref="freelancerBackingBean"/>
-        <property name="projectBackingBean" ref="projectBackingBean"/>
     </bean>
 
-    <bean name="projectBackingBean" class="de.powerstaff.web.backingbean.project.ProjectBackingBean"
-          scope="conversation.access">
+    <bean name="projectBackingBean" class="de.powerstaff.web.backingbean.project.ProjectBackingBean" scope="request">
         <property name="entityService" ref="projectService"/>
-        <property name="customerBackingBean" ref="customerBackingBean"/>
-        <property name="freelancerBackingBean" ref="freelancerBackingBean"/>
-        <property name="partnerBackingBean" ref="partnerBackingBean"/>
         <property name="contextUtils" ref="contextUtils"/>
         <property name="freelancerService" ref="freelancerService"/>
-        <property name="profileBackingBean" ref="profileBackingBean"/>
     </bean>
 
-    <bean name="profileBackingBean" class="de.powerstaff.web.backingbean.profile.ProfileBackingBean"
-          scope="conversation.access">
+    <bean name="profileBackingBean" class="de.powerstaff.web.backingbean.profile.ProfileBackingBean" scope="request">
         <property name="profileSearchService" ref="profileSearchService"/>
-        <property name="freelancerBackingBean" ref="freelancerBackingBean"/>
         <property name="contextUtils" ref="contextUtils"/>
     </bean>
 
-    <bean name="loginBackingBean" class="de.powerstaff.web.backingbean.login.LoginBackingBean"
-          scope="conversation.access">
+    <bean name="loginBackingBean" class="de.powerstaff.web.backingbean.login.LoginBackingBean" scope="request">
         <property name="loginService" ref="loginService"/>
         <property name="freelancerBackingBean" ref="freelancerBackingBean"/>
     </bean>
 
-    <bean name="statistikBackingBean" class="de.powerstaff.web.backingbean.statistik.StatistikBackingBean"
-          scope="conversation.access">
+    <bean name="statistikBackingBean" class="de.powerstaff.web.backingbean.statistik.StatistikBackingBean" scope="request">
         <property name="additionalDataService" ref="additinalDataService"/>
         <property name="statisticService" ref="statistikService"/>
     </bean>

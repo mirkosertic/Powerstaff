@@ -60,11 +60,6 @@
     </listener>
 
     <listener>
-        <listener-class>org.apache.myfaces.orchestra.conversation.servlet.ConversationManagerSessionListener
-        </listener-class>
-    </listener>
-
-    <listener>
         <listener-class>de.powerstaff.web.utils.StartupServletContextListener</listener-class>
     </listener>
 
