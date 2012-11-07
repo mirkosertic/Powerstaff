@@ -5,6 +5,10 @@
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:rich="http://richfaces.org/rich" template="/template/powerstaff.xhtml">
+    <ui:define name="pagetitle">
+        <h:outputText
+                value="Historie #{freelancerBackingBean.data.entity.name1} #{freelancerBackingBean.data.entity.name2}"/>
+    </ui:define>
     <ui:define name="mainmenu">
         <ui:include src="/include/mainmenu.xhtml"/>
     </ui:define>
@@ -12,7 +16,6 @@
         <ui:include src="/include/freelancer/freelancermenu2.xhtml"/>
     </ui:define>
     <ui:define name="content">
-        <b:title title="Freiberufler - Historie"/>
         <f:subview id="freelancer_contacthistory">
             <b:gridBagLayout rows="p,10" cols="200,p">
                 <b:cell y="1" x="1">
@@ -22,7 +25,8 @@
                 <b:cell y="1" x="2">
                     <a4j:status>
                         <f:facet name="start">
-                            <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20" height="20"/>
+                            <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20"
+                                 height="20"/>
                         </f:facet>
                     </a4j:status>
                 </b:cell>
@@ -51,8 +55,6 @@
                             <b:cell x="5" y="6">
                                 <b:commandButton sizeToGridBag="true" value="Erfassen"
                                                  action="#{freelancerBackingBean.commandAddNewHistoryEntry}">
-                                    <a4j:support eventsQueue="powerstaff" event="onclick"
-                                                 reRender="input,history"/>
                                 </b:commandButton>
                             </b:cell>
                         </b:gridBagLayout>
@@ -68,12 +70,10 @@
                         <h:column>
                             <f:facet name="header">
                             </f:facet>
-                            <b:commandLink title="Eintrag löschen" immediate="true"
+                            <h:commandLink title="Eintrag löschen" immediate="true"
                                            action="#{freelancerBackingBean.commandDeleteHistoryEntry}">
                                 <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
-                                <a4j:support eventsQueue="powerstaff" event="onclick"
-                                             reRender="history"/>
-                            </b:commandLink>
+                            </h:commandLink>
                         </h:column>
                         <h:column>
                             <f:facet name="header">
@@ -108,48 +108,46 @@
 
             <h3>Eingesetzt oder zugeordnet in folgenden Projekten:</h3>
 
-            <a4j:outputPanel ajaxRendered="true">
-                <b:table var="row" value="#{freelancerBackingBean.data.positions}" cols="210,100,80,120,100,200,20,20">
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Projekt"/>
-                        </f:facet>
-                        <h:outputText value="#{row.project.projectNumber} #{row.project.descriptionShort}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Zugeordnet von"/>
-                        </f:facet>
-                        <h:outputText value="#{row.creationUserID}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="am"/>
-                        </f:facet>
-                        <h:outputText value="#{row.creationDate}">
-                            <f:converter converterId="dateConverter"/>
-                        </h:outputText>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Status"/>
-                        </f:facet>
-                        <h:outputText value="#{row.status.description}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Konditionen"/>
-                        </f:facet>
-                        <h:outputText value="#{row.conditions}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Kommentar"/>
-                        </f:facet>
-                        <h:outputText value="#{row.comment}"/>
-                    </h:column>
-                </b:table>
-            </a4j:outputPanel>
+            <b:table var="row" value="#{freelancerBackingBean.data.positions}" cols="210,100,80,120,100,200,20,20">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Projekt"/>
+                    </f:facet>
+                    <h:outputText value="#{row.project.projectNumber} #{row.project.descriptionShort}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Zugeordnet von"/>
+                    </f:facet>
+                    <h:outputText value="#{row.creationUserID}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="am"/>
+                    </f:facet>
+                    <h:outputText value="#{row.creationDate}">
+                        <f:converter converterId="dateConverter"/>
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Status"/>
+                    </f:facet>
+                    <h:outputText value="#{row.status.description}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Konditionen"/>
+                    </f:facet>
+                    <h:outputText value="#{row.conditions}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Kommentar"/>
+                    </f:facet>
+                    <h:outputText value="#{row.comment}"/>
+                </h:column>
+            </b:table>
         </f:subview>
     </ui:define>
 </ui:composition>

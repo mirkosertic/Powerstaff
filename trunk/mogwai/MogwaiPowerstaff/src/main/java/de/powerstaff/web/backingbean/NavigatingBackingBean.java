@@ -41,6 +41,7 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
         } else {
             getData().setCurrentEntityId(NavigatingBackingBeanDataModel.NEW_ENTITY_ID);
         }
+        afterNavigation();
         return "pretty:" + getNavigationIDPrefix() + "main";
     }
 
@@ -54,6 +55,7 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
         } else {
             getData().setCurrentEntityId(NavigatingBackingBeanDataModel.NEW_ENTITY_ID);
         }
+        afterNavigation();
         return "pretty:" + getNavigationIDPrefix() + "main";
     }
 
@@ -67,6 +69,7 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
         } else {
             getData().setCurrentEntityId(NavigatingBackingBeanDataModel.NEW_ENTITY_ID);
         }
+        afterNavigation();
         return "pretty:" + getNavigationIDPrefix() + "main";
     }
 
@@ -79,6 +82,7 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
         } else {
             getData().setCurrentEntityId(NavigatingBackingBeanDataModel.NEW_ENTITY_ID);
         }
+        afterNavigation();
         return "pretty:" + getNavigationIDPrefix() + "main";
     }
 
@@ -87,6 +91,8 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
     public String commandNew() {
         getData().setEntity(createNew());
         getData().setCurrentEntityId(NavigatingBackingBeanDataModel.NEW_ENTITY_ID);
+
+        afterNavigation();
 
         return "pretty:" + getNavigationIDPrefix() + "main";
     }
