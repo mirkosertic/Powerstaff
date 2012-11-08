@@ -85,10 +85,6 @@ public class StatistikBackingBean extends
         this.additionalDataService = additionalDataService;
     }
 
-    public String commandStatisticsModule() {
-        return "pretty:profilemain";
-    }
-
     public void commandSearch() {
         try {
 

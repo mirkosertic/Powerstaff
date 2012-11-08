@@ -27,7 +27,6 @@ import de.powerstaff.business.entity.PartnerHistory;
 import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.PartnerService;
 import de.powerstaff.web.backingbean.PersonEditorBackingBean;
-import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 import de.powerstaff.web.backingbean.project.ProjectBackingBean;
 
 public class PartnerBackingBean
@@ -38,16 +37,10 @@ public class PartnerBackingBean
 
     private transient FreelancerService freelancerService;
 
-    private FreelancerBackingBean freelancerBackingBean;
-
     private ProjectBackingBean projectBackingBean;
 
     public void setProjectBackingBean(ProjectBackingBean projectBackingBean) {
         this.projectBackingBean = projectBackingBean;
-    }
-
-    public void setFreelancerBackingBean(FreelancerBackingBean freelancerBackingBean) {
-        this.freelancerBackingBean = freelancerBackingBean;
     }
 
     @Override
@@ -62,23 +55,6 @@ public class PartnerBackingBean
     @Override
     protected String getNavigationIDPrefix() {
         return "partner";
-    }
-
-    public String commandFreiberufler() {
-        return "FREIBERUFLER";
-    }
-
-    public String commandPartnerRegistry() {
-        reload();
-        return "pretty:" + getNavigationIDPrefix() + "main";
-    }
-
-    public String commandSelectFreelancer() {
-
-        Freelancer theFreelancer = (Freelancer) getData().getFreelancer()
-                .getRowData();
-        freelancerBackingBean.updateModel(new EditEntityCommand<Freelancer>(theFreelancer));
-        return "FREELANCER_STAMMDATEN";
     }
 
     @Override
@@ -144,12 +120,6 @@ public class PartnerBackingBean
     public String commandPrior() {
         getData().setOriginalFreelancer(null);
         return super.commandPrior();
-    }
-
-    public String commandJumpToFreelancer() {
-        freelancerBackingBean.updateModel(new EditEntityCommand<Freelancer>(getData()
-                .getOriginalFreelancer()));
-        return "FREELANCER_STAMMDATEN";
     }
 
     public void commandAddFreelancer() {

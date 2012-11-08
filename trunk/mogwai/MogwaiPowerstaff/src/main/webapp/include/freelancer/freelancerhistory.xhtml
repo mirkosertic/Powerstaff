@@ -16,138 +16,136 @@
         <ui:include src="/include/freelancer/freelancermenu2.xhtml"/>
     </ui:define>
     <ui:define name="content">
-        <f:subview id="freelancer_contacthistory">
-            <b:gridBagLayout rows="p,10" cols="200,p">
-                <b:cell y="1" x="1">
-                    <h:outputText styleClass="title" value="Freiberufler Historie"/>
-                </b:cell>
+        <b:gridBagLayout rows="p,10" cols="200,p">
+            <b:cell y="1" x="1">
+                <h:outputText styleClass="title" value="Freiberufler Historie"/>
+            </b:cell>
 
-                <b:cell y="1" x="2">
-                    <a4j:status>
-                        <f:facet name="start">
-                            <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20"
-                                 height="20"/>
+            <b:cell y="1" x="2">
+                <a4j:status>
+                    <f:facet name="start">
+                        <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20"
+                             height="20"/>
+                    </f:facet>
+                </a4j:status>
+            </b:cell>
+        </b:gridBagLayout>
+
+        <b:gridBagLayout cols="810" rows="10,p,1,p,p" id="menu">
+
+            <b:cell x="1" y="1">
+                <b:titledBox label="Neuen Eintrag erfassen" id="input">
+                    <b:gridBagLayout cols="2,50,200,*,100,2"
+                                     rows="2,p,2,100,2,p,2">
+                        <b:cell x="2" y="2">
+                            <b:label id="typ" label="Typ"/>
+                            <b:label id="text" label="Text" rendered="false"/>
+                        </b:cell>
+                        <b:cell x="3" y="2">
+                            <b:combobox labelComponentId="typ" value="#{freelancerBackingBean.data.newHistoryType}"
+                                        values="#{freelancerBackingBean.data.historyTypes}" nullable="false">
+                                <f:converter converterId="historyTypeConverter"/>
+                            </b:combobox>
+                        </b:cell>
+                        <b:cell x="2" y="4" width="4">
+                            <b:textarea labelComponentId="text" required="true"
+                                        value="#{freelancerBackingBean.data.newHistoryEntry}"/>
+                        </b:cell>
+                        <b:cell x="5" y="6">
+                            <b:commandButton sizeToGridBag="true" value="Erfassen"
+                                             action="#{freelancerBackingBean.commandAddNewHistoryEntry}">
+                            </b:commandButton>
+                        </b:cell>
+                    </b:gridBagLayout>
+                </b:titledBox>
+            </b:cell>
+
+            <b:cell x="1" y="4">
+                <ui:include src="/include/messages.xhtml"/>
+            </b:cell>
+
+            <b:cell x="1" y="5">
+                <b:table id="history" cols="20,790" var="row" value="#{freelancerBackingBean.data.history}">
+                    <h:column>
+                        <f:facet name="header">
                         </f:facet>
-                    </a4j:status>
-                </b:cell>
-            </b:gridBagLayout>
+                        <h:commandLink title="Eintrag löschen" immediate="true"
+                                       action="#{freelancerBackingBean.commandDeleteHistoryEntry}">
+                            <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
+                        </h:commandLink>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Historie"/>
+                        </f:facet>
+                        <b:gridBagLayout cols="590,200" rows="p,2,p">
 
-            <b:gridBagLayout cols="810" rows="10,p,1,p,p" id="menu">
-
-                <b:cell x="1" y="1">
-                    <b:titledBox label="Neuen Eintrag erfassen" id="input">
-                        <b:gridBagLayout cols="2,50,200,*,100,2"
-                                         rows="2,p,2,100,2,p,2">
-                            <b:cell x="2" y="2">
-                                <b:label id="typ" label="Typ"/>
-                                <b:label id="text" label="Text" rendered="false"/>
+                            <b:cell x="1" y="1">
+                                <h:outputText value="#{row}">
+                                    <f:converter converterId="creationAuditInformationConverter"/>
+                                </h:outputText>
                             </b:cell>
-                            <b:cell x="3" y="2">
-                                <b:combobox labelComponentId="typ" value="#{freelancerBackingBean.data.newHistoryType}"
-                                            values="#{freelancerBackingBean.data.historyTypes}" nullable="false">
+
+                            <b:cell x="2" y="1">
+                                <h:outputText value="#{row.type}">
                                     <f:converter converterId="historyTypeConverter"/>
-                                </b:combobox>
+                                </h:outputText>
                             </b:cell>
-                            <b:cell x="2" y="4" width="4">
-                                <b:textarea labelComponentId="text" required="true"
-                                            value="#{freelancerBackingBean.data.newHistoryEntry}"/>
+
+                            <b:cell x="1" y="3" width="2">
+                                <h:outputText value="#{row.description}" escape="false">
+                                    <f:converter converterId="textConverter"/>
+                                </h:outputText>
                             </b:cell>
-                            <b:cell x="5" y="6">
-                                <b:commandButton sizeToGridBag="true" value="Erfassen"
-                                                 action="#{freelancerBackingBean.commandAddNewHistoryEntry}">
-                                </b:commandButton>
-                            </b:cell>
+
                         </b:gridBagLayout>
-                    </b:titledBox>
-                </b:cell>
+                    </h:column>
+                </b:table>
+            </b:cell>
 
-                <b:cell x="1" y="4">
-                    <ui:include src="/include/messages.xhtml"/>
-                </b:cell>
+        </b:gridBagLayout>
 
-                <b:cell x="1" y="5">
-                    <b:table id="history" cols="20,790" var="row" value="#{freelancerBackingBean.data.history}">
-                        <h:column>
-                            <f:facet name="header">
-                            </f:facet>
-                            <h:commandLink title="Eintrag löschen" immediate="true"
-                                           action="#{freelancerBackingBean.commandDeleteHistoryEntry}">
-                                <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
-                            </h:commandLink>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Historie"/>
-                            </f:facet>
-                            <b:gridBagLayout cols="590,200" rows="p,2,p">
+        <h3>Eingesetzt oder zugeordnet in folgenden Projekten:</h3>
 
-                                <b:cell x="1" y="1">
-                                    <h:outputText value="#{row}">
-                                        <f:converter converterId="creationAuditInformationConverter"/>
-                                    </h:outputText>
-                                </b:cell>
-
-                                <b:cell x="2" y="1">
-                                    <h:outputText value="#{row.type}">
-                                        <f:converter converterId="historyTypeConverter"/>
-                                    </h:outputText>
-                                </b:cell>
-
-                                <b:cell x="1" y="3" width="2">
-                                    <h:outputText value="#{row.description}" escape="false">
-                                        <f:converter converterId="textConverter"/>
-                                    </h:outputText>
-                                </b:cell>
-
-                            </b:gridBagLayout>
-                        </h:column>
-                    </b:table>
-                </b:cell>
-
-            </b:gridBagLayout>
-
-            <h3>Eingesetzt oder zugeordnet in folgenden Projekten:</h3>
-
-            <b:table var="row" value="#{freelancerBackingBean.data.positions}" cols="210,100,80,120,100,200,20,20">
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Projekt"/>
-                    </f:facet>
-                    <h:outputText value="#{row.project.projectNumber} #{row.project.descriptionShort}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Zugeordnet von"/>
-                    </f:facet>
-                    <h:outputText value="#{row.creationUserID}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="am"/>
-                    </f:facet>
-                    <h:outputText value="#{row.creationDate}">
-                        <f:converter converterId="dateConverter"/>
-                    </h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Status"/>
-                    </f:facet>
-                    <h:outputText value="#{row.status.description}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Konditionen"/>
-                    </f:facet>
-                    <h:outputText value="#{row.conditions}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Kommentar"/>
-                    </f:facet>
-                    <h:outputText value="#{row.comment}"/>
-                </h:column>
-            </b:table>
-        </f:subview>
+        <b:table var="row" value="#{freelancerBackingBean.data.positions}" cols="210,100,80,120,100,200,20,20">
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Projekt"/>
+                </f:facet>
+                <h:outputText value="#{row.project.projectNumber} #{row.project.descriptionShort}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Zugeordnet von"/>
+                </f:facet>
+                <h:outputText value="#{row.creationUserID}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="am"/>
+                </f:facet>
+                <h:outputText value="#{row.creationDate}">
+                    <f:converter converterId="dateConverter"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Status"/>
+                </f:facet>
+                <h:outputText value="#{row.status.description}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Konditionen"/>
+                </f:facet>
+                <h:outputText value="#{row.conditions}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Kommentar"/>
+                </f:facet>
+                <h:outputText value="#{row.comment}"/>
+            </h:column>
+        </b:table>
     </ui:define>
 </ui:composition>

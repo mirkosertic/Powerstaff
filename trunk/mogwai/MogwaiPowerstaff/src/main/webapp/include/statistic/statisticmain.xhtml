@@ -6,6 +6,9 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:rich="http://richfaces.org/rich"
                 template="/template/powerstaff.xhtml">
+    <ui:define name="pagetitle">
+        <h:outputText value="Statistik Kontakthistorie"/>
+    </ui:define>
     <ui:define name="mainmenu">
         <ui:include src="/include/mainmenu.xhtml"/>
     </ui:define>
@@ -13,131 +16,128 @@
         <ui:include src="/include/statistic/statisticmenu1.xhtml"/>
     </ui:define>
     <ui:define name="content">
-        <b:title title="Kontakthistorie"/>
-        <f:subview id="statistic_contacthistory">
-            <b:gridBagLayout id="x" rows="p,10" cols="100,p">
-                <b:cell y="1" x="1">
-                    <h:outputText styleClass="title" value="Kontakthistorie"/>
-                </b:cell>
+        <b:gridBagLayout id="x" rows="p,10" cols="100,p">
+            <b:cell y="1" x="1">
+                <h:outputText styleClass="title" value="Kontakthistorie"/>
+            </b:cell>
 
-                <b:cell y="1" x="2">
-                    <a4j:status>
-                        <f:facet name="start">
-                            <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20" height="20"/>
-                        </f:facet>
-                    </a4j:status>
-                </b:cell>
-            </b:gridBagLayout>
+            <b:cell y="1" x="2">
+                <a4j:status>
+                    <f:facet name="start">
+                        <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20"
+                             height="20"/>
+                    </f:facet>
+                </a4j:status>
+            </b:cell>
+        </b:gridBagLayout>
 
-            <b:gridBagLayout cols="800" rows="30,10,1,p" id="menu">
-                <b:cell x="1" y="1">
-                    <b:titledBox label="Profilsuche">
-                        <b:gridBagLayout cols="1,150,2,200,*,20,2" rows="2,p,2,p,2,p,2">
-                            <b:cell x="2" y="2">
-                                <b:label id="datumvon" label="Datum von"/>
-                            </b:cell>
-                            <b:cell x="4" y="2">
-                                <rich:calendar value="#{statistikBackingBean.data.datumVon}"
-                                               datePattern="dd.MM.yyyy" inputStyle="width:100px;"
-                                               cellWidth="34px"
-                                               eventsQueue="powerstaff">
-                                </rich:calendar>
-                            </b:cell>
+        <b:gridBagLayout cols="800" rows="30,10,1,p" id="menu">
+            <b:cell x="1" y="1">
+                <b:titledBox label="Profilsuche">
+                    <b:gridBagLayout cols="1,150,2,200,*,20,2" rows="2,p,2,p,2,p,2">
+                        <b:cell x="2" y="2">
+                            <b:label id="datumvon" label="Datum von"/>
+                        </b:cell>
+                        <b:cell x="4" y="2">
+                            <rich:calendar value="#{statistikBackingBean.data.datumVon}"
+                                           datePattern="dd.MM.yyyy" inputStyle="width:100px;"
+                                           cellWidth="34px"
+                                           eventsQueue="powerstaff">
+                            </rich:calendar>
+                        </b:cell>
 
-                            <b:cell x="2" y="4">
-                                <b:label id="datumbis" label="Datum bis"/>
-                            </b:cell>
-                            <b:cell x="4" y="4">
-                                <rich:calendar value="#{statistikBackingBean.data.datumBis}"
-                                               datePattern="dd.MM.yyyy" inputStyle="width:100px;"
-                                               cellWidth="34px"
-                                               eventsQueue="powerstaff">
-                                </rich:calendar>
-                            </b:cell>
+                        <b:cell x="2" y="4">
+                            <b:label id="datumbis" label="Datum bis"/>
+                        </b:cell>
+                        <b:cell x="4" y="4">
+                            <rich:calendar value="#{statistikBackingBean.data.datumBis}"
+                                           datePattern="dd.MM.yyyy" inputStyle="width:100px;"
+                                           cellWidth="34px"
+                                           eventsQueue="powerstaff">
+                            </rich:calendar>
+                        </b:cell>
 
-                            <b:cell x="2" y="6">
-                                <b:label id="benutzer" label="Kontaktperson"/>
-                            </b:cell>
-                            <b:cell x="4" y="6">
-                                <b:combobox labelComponentId="benutzer" value="#{statistikBackingBean.data.benutzer}"
-                                            nullable="true" values="#{statistikBackingBean.data.benutzerListe}"/>
-                            </b:cell>
+                        <b:cell x="2" y="6">
+                            <b:label id="benutzer" label="Kontaktperson"/>
+                        </b:cell>
+                        <b:cell x="4" y="6">
+                            <b:combobox labelComponentId="benutzer" value="#{statistikBackingBean.data.benutzer}"
+                                        nullable="true" values="#{statistikBackingBean.data.benutzerListe}"/>
+                        </b:cell>
 
-                            <b:cell x="6" y="6">
-                                <b:commandLink title="Suchen"
-                                               action="#{statistikBackingBean.commandSearch}" actionKey="13"
-                                               keySensitive="true">
-                                    <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
-                                    <a4j:support eventsQueue="powerstaff" event="onclick"/>
-                                </b:commandLink>
-                            </b:cell>
-                        </b:gridBagLayout>
-                    </b:titledBox>
-                </b:cell>
+                        <b:cell x="6" y="6">
+                            <b:commandLink title="Suchen"
+                                           action="#{statistikBackingBean.commandSearch}" actionKey="13"
+                                           keySensitive="true">
+                                <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
+                                <a4j:support eventsQueue="powerstaff" event="onclick"/>
+                            </b:commandLink>
+                        </b:cell>
+                    </b:gridBagLayout>
+                </b:titledBox>
+            </b:cell>
 
-                <b:cell x="1" y="3">
-                    <ui:include src="/include/messages.xhtml"/>
-                </b:cell>
+            <b:cell x="1" y="3">
+                <ui:include src="/include/messages.xhtml"/>
+            </b:cell>
 
-                <b:cell x="1" y="4">
-                    <a4j:outputPanel ajaxRendered="true">
+            <b:cell x="1" y="4">
+                <a4j:outputPanel ajaxRendered="true">
 
-                        <b:table rendered="#{statistikBackingBean.data.searchResultSize > 0}" var="row"
-                                 value="#{statistikBackingBean.data.searchResult}" cols="70,50,100,100,80,80,320">
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Datum"/>
-                                </f:facet>
-                                <h:outputText value="#{row.datum}">
-                                    <f:converter converterId="dateConverter"/>
-                                </h:outputText>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="CV-Nr"/>
-                                </f:facet>
-                                <h:outputText value="#{row.code}"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Vorname"/>
-                                </f:facet>
-                                <h:outputText value="#{row.name2}"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Name"/>
-                                </f:facet>
-                                <h:outputText value="#{row.name1}"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Typ"/>
-                                </f:facet>
-                                <h:outputText value="#{row.type}">
-                                    <f:converter converterId="historyTypeConverter"/>
-                                </h:outputText>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="K-Person"/>
-                                </f:facet>
-                                <h:outputText value="#{row.userid}"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Text"/>
-                                </f:facet>
-                                <h:outputText value="#{row.description}" escape="false">
-                                    <f:converter converterId="textConverter"/>
-                                </h:outputText>
-                            </h:column>
-                        </b:table>
-                    </a4j:outputPanel>
-                </b:cell>
+                    <b:table rendered="#{statistikBackingBean.data.searchResultSize > 0}" var="row"
+                             value="#{statistikBackingBean.data.searchResult}" cols="70,50,100,100,80,80,320">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Datum"/>
+                            </f:facet>
+                            <h:outputText value="#{row.datum}">
+                                <f:converter converterId="dateConverter"/>
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="CV-Nr"/>
+                            </f:facet>
+                            <h:outputText value="#{row.code}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Vorname"/>
+                            </f:facet>
+                            <h:outputText value="#{row.name2}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Name"/>
+                            </f:facet>
+                            <h:outputText value="#{row.name1}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Typ"/>
+                            </f:facet>
+                            <h:outputText value="#{row.type}">
+                                <f:converter converterId="historyTypeConverter"/>
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="K-Person"/>
+                            </f:facet>
+                            <h:outputText value="#{row.userid}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Text"/>
+                            </f:facet>
+                            <h:outputText value="#{row.description}" escape="false">
+                                <f:converter converterId="textConverter"/>
+                            </h:outputText>
+                        </h:column>
+                    </b:table>
+                </a4j:outputPanel>
+            </b:cell>
 
-            </b:gridBagLayout>
-
-        </f:subview>
+        </b:gridBagLayout>
     </ui:define>
 </ui:composition>

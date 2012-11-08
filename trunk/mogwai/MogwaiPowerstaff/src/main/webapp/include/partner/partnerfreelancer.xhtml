@@ -4,7 +4,12 @@
                 xmlns:b="http://mogwai.sourceforge.net/layout"
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:pretty="http://ocpsoft.com/prettyfaces"
                 xmlns:rich="http://richfaces.org/rich" template="/template/powerstaff.xhtml">
+    <ui:define name="pagetitle">
+        <h:outputText
+                value="Freelancer #{partnerBackingBean.data.entity.name1} #{partnerBackingBean.data.entity.name2}"/>
+    </ui:define>
     <ui:define name="mainmenu">
         <ui:include src="/include/mainmenu.xhtml"/>
     </ui:define>
@@ -12,101 +17,98 @@
         <ui:include src="/include/partner/partnermenu3.xhtml"/>
     </ui:define>
     <ui:define name="content">
-        <b:title title="Geschäftspartner - Freiberufler"/>
-        <f:subview id="partnerfreelancer">
-            <b:gridBagLayout rows="p,10" cols="200,p">
-                <b:cell y="1" x="1">
-                    <h:outputText styleClass="title" value="Geschäftspartner Freiberufler"/>
-                </b:cell>
+        <b:gridBagLayout rows="p,10" cols="200,p">
+            <b:cell y="1" x="1">
+                <h:outputText styleClass="title" value="Geschäftspartner Freiberufler"/>
+            </b:cell>
 
-                <b:cell y="1" x="2">
-                    <a4j:status>
-                        <f:facet name="start">
-                            <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20" height="20"/>
+            <b:cell y="1" x="2">
+                <a4j:status>
+                    <f:facet name="start">
+                        <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20"
+                             height="20"/>
+                    </f:facet>
+                </a4j:status>
+            </b:cell>
+        </b:gridBagLayout>
+
+        <b:gridBagLayout cols="810" rows="10,p,p,10,p" id="menu">
+
+            <b:cell x="1" y="2">
+                <ui:include src="/include/messages.xhtml"/>
+            </b:cell>
+
+            <b:cell x="1" y="3">
+                <b:gridBagLayout rows="p" cols="130,2,80,2,80">
+                    <b:cell x="1" y="1">
+                        <b:label id="labelcode" label="Freiberufler - Code"/>
+                    </b:cell>
+                    <b:cell x="3" y="1">
+                        <b:inputfield labelComponentId="labelcode" value="#{partnerBackingBean.data.codeToAdd}"
+                                      required="true"/>
+                    </b:cell>
+                    <b:cell x="5" y="1">
+                        <b:commandButton value="Zuordnen" sizeToGridBag="true"
+                                         action="#{partnerBackingBean.commandAddFreelancer}">
+                            <a4j:support eventsQueue="powerstaff" event="onclick" reRender="partnerliste"/>
+                        </b:commandButton>
+                    </b:cell>
+                </b:gridBagLayout>
+            </b:cell>
+
+            <b:cell x="1" y="5">
+                <b:table id="partnerliste" var="row" value="#{partnerBackingBean.data.freelancer}"
+                         cols="20,150,150,130,100,240,20">
+                    <h:column>
+                        <f:facet name="header">
                         </f:facet>
-                    </a4j:status>
-                </b:cell>
-            </b:gridBagLayout>
+                        <pretty:link mappingId="freelancermain" title="Datensatz anzeigen">
+                            <f:param value="#{row.id}"/>
+                            <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
+                        </pretty:link>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Name1"/>
+                        </f:facet>
+                        <h:outputText value="#{row.name1}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Name2"/>
+                        </f:facet>
+                        <h:outputText value="#{row.name2}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Verfügbarkeit"/>
+                        </f:facet>
+                        <h:outputText value="#{row.availabilityAsDate}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Stundensatz"/>
+                        </f:facet>
+                        <h:outputText value="#{row.sallaryLong}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Skills"/>
+                        </f:facet>
+                        <h:outputText value="#{row.skills}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                        </f:facet>
+                        <b:commandLink title="Zuordnung löschen"
+                                       action="#{partnerBackingBean.commandRemoveFreelancer}" immediate="true">
+                            <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
+                            <a4j:support eventsQueue="powerstaff" event="onclick" reRender="partnerliste"/>
+                        </b:commandLink>
+                    </h:column>
 
-            <b:gridBagLayout cols="810" rows="10,p,p,10,p" id="menu">
-
-                <b:cell x="1" y="2">
-                    <ui:include src="/include/messages.xhtml"/>
-                </b:cell>
-
-                <b:cell x="1" y="3">
-                    <b:gridBagLayout rows="p" cols="130,2,80,2,80">
-                        <b:cell x="1" y="1">
-                            <b:label id="labelcode" label="Freiberufler - Code"/>
-                        </b:cell>
-                        <b:cell x="3" y="1">
-                            <b:inputfield labelComponentId="labelcode" value="#{partnerBackingBean.data.codeToAdd}"
-                                          required="true"/>
-                        </b:cell>
-                        <b:cell x="5" y="1">
-                            <b:commandButton value="Zuordnen" sizeToGridBag="true"
-                                             action="#{partnerBackingBean.commandAddFreelancer}">
-                                <a4j:support eventsQueue="powerstaff" event="onclick" reRender="partnerliste"/>
-                            </b:commandButton>
-                        </b:cell>
-                    </b:gridBagLayout>
-                </b:cell>
-
-                <b:cell x="1" y="5">
-                    <b:table id="partnerliste" var="row" value="#{partnerBackingBean.data.freelancer}"
-                             cols="20,150,150,130,100,240,20">
-                        <h:column>
-                            <f:facet name="header">
-                            </f:facet>
-                            <b:commandLink title="Datensatz anzeigen"
-                                           action="#{partnerBackingBean.commandSelectFreelancer}" immediate="true">
-                                <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
-                                <a4j:support eventsQueue="powerstaff" event="onclick"/>
-                            </b:commandLink>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Name1"/>
-                            </f:facet>
-                            <h:outputText value="#{row.name1}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Name2"/>
-                            </f:facet>
-                            <h:outputText value="#{row.name2}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Verfügbarkeit"/>
-                            </f:facet>
-                            <h:outputText value="#{row.availabilityAsDate}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Stundensatz"/>
-                            </f:facet>
-                            <h:outputText value="#{row.sallaryLong}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Skills"/>
-                            </f:facet>
-                            <h:outputText value="#{row.skills}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                            </f:facet>
-                            <b:commandLink title="Zuordnung löschen"
-                                           action="#{partnerBackingBean.commandRemoveFreelancer}" immediate="true">
-                                <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
-                                <a4j:support eventsQueue="powerstaff" event="onclick" reRender="partnerliste"/>
-                            </b:commandLink>
-                        </h:column>
-
-                    </b:table>
-                </b:cell>
-            </b:gridBagLayout>
-        </f:subview>
+                </b:table>
+            </b:cell>
+        </b:gridBagLayout>
     </ui:define>
 </ui:composition>	

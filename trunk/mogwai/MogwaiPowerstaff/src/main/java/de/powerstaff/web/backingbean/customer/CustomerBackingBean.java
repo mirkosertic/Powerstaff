@@ -47,11 +47,6 @@ public class CustomerBackingBean extends PersonEditorBackingBean<Customer, Custo
         return "customer";
     }
 
-    public String commandCustomerRegistry() {
-        reload();
-        return "pretty:" + getNavigationIDPrefix() + "main";
-    }
-
     public String commandNewProject() {
 
         Customer theCustomer = getData().getEntity();

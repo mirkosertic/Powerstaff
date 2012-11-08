@@ -1,41 +1,34 @@
-<f:subview id="mainmenu"
+<f:subview id="topmenu"
            xmlns:f="http://java.sun.com/jsf/core"
            xmlns:h="http://java.sun.com/jsf/html"
            xmlns:b="http://mogwai.sourceforge.net/layout"
-           xmlns:a4j="http://richfaces.org/a4j">
-    <b:commandLink action="#{freelancerBackingBean.commandFreelancerRegistry}" immediate="true" styleClass="menuitem2">
+           xmlns:a4j="http://richfaces.org/a4j" xmlns:pretty="http://ocpsoft.com/prettyfaces">
+    <pretty:link mappingId="freelancermain" styleClass="menuitem2"
+                 onclick="if (!checkForChangedData()) {return false;}">
+        <f:param value="new"/>
         <h:outputText value="Freiberufler"/>
-        <a4j:support eventsQueue="powerstaff" event="onclick" id="click1"
-                     onsubmit="if (!checkForChangedData()) {return false;}"/>
-    </b:commandLink>
+    </pretty:link>
     <f:verbatim>|</f:verbatim>
-    <b:commandLink action="#{profileBackingBean.commandProfileRegistry}" immediate="true" styleClass="menuitem2">
+    <pretty:link mappingId="profilemain" styleClass="menuitem2" onclick="if (!checkForChangedData()) {return false;}">
         <h:outputText value="Profilsuche"/>
-        <a4j:support eventsQueue="powerstaff" event="onclick" id="click2"
-                     onsubmit="if (!checkForChangedData()) {return false;}"/>
-    </b:commandLink>
+    </pretty:link>
     <f:verbatim>|</f:verbatim>
-    <b:commandLink action="#{partnerBackingBean.commandPartnerRegistry}" immediate="true" styleClass="menuitem2">
+    <pretty:link mappingId="partnermain" styleClass="menuitem2" onclick="if (!checkForChangedData()) {return false;}">
+        <f:param value="new"/>
         <h:outputText value="Gesch&#228;ftspartner"/>
-        <a4j:support eventsQueue="powerstaff" event="onclick" id="click3"
-                     onsubmit="if (!checkForChangedData()) {return false;}"/>
-    </b:commandLink>
+    </pretty:link>
     <f:verbatim>|</f:verbatim>
-    <b:commandLink action="#{customerBackingBean.commandCustomerRegistry}" immediate="true" styleClass="menuitem2">
+    <pretty:link mappingId="customermain" styleClass="menuitem2" onclick="if (!checkForChangedData()) {return false;}">
+        <f:param value="new"/>
         <h:outputText value="Kunden"/>
-        <a4j:support eventsQueue="powerstaff" event="onclick" id="click4"
-                     onsubmit="if (!checkForChangedData()) {return false;}"/>
-    </b:commandLink>
+    </pretty:link>
     <f:verbatim>|</f:verbatim>
-    <b:commandLink action="#{projectBackingBean.commandProjectRegistry}" immediate="true" styleClass="menuitem2">
+    <pretty:link mappingId="projectmain" styleClass="menuitem2" onclick="if (!checkForChangedData()) {return false;}">
+        <f:param value="new"/>
         <h:outputText value="Projekte"/>
-        <a4j:support eventsQueue="powerstaff" event="onclick" id="click5"
-                     onsubmit="if (!checkForChangedData()) {return false;}"/>
-    </b:commandLink>
+    </pretty:link>
     <f:verbatim>|</f:verbatim>
-    <b:commandLink action="#{statistikBackingBean.commandStatisticsModule}" immediate="true" styleClass="menuitem2">
+    <pretty:link mappingId="statisticmain" styleClass="menuitem2" onclick="if (!checkForChangedData()) {return false;}">
         <h:outputText value="Statistik"/>
-        <a4j:support eventsQueue="powerstaff" event="onclick" id="click6"
-                     onsubmit="if (!checkForChangedData()) {return false;}"/>
-    </b:commandLink>
+    </pretty:link>
 </f:subview>

@@ -10,9 +10,6 @@ import de.powerstaff.business.service.ProjectService;
 import de.powerstaff.business.service.TooManySearchResults;
 import de.powerstaff.web.backingbean.ContextUtils;
 import de.powerstaff.web.backingbean.NavigatingBackingBean;
-import de.powerstaff.web.backingbean.customer.CustomerBackingBean;
-import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
-import de.powerstaff.web.backingbean.partner.PartnerBackingBean;
 import de.powerstaff.web.backingbean.profile.ProfileBackingBean;
 import org.apache.commons.lang.StringUtils;
 
@@ -25,19 +22,12 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
 
     private static final long serialVersionUID = 8688601363580323078L;
 
-    private CustomerBackingBean customerBackingBean;
-    private PartnerBackingBean partnerBackingBean;
-    private FreelancerBackingBean freelancerBackingBean;
     private ProfileBackingBean profileBackingBean;
     private ContextUtils contextUtils;
     private FreelancerService freelancerService;
 
     public void setProfileBackingBean(ProfileBackingBean profileBackingBean) {
         this.profileBackingBean = profileBackingBean;
-    }
-
-    public void setFreelancerBackingBean(FreelancerBackingBean freelancerBackingBean) {
-        this.freelancerBackingBean = freelancerBackingBean;
     }
 
     public void setFreelancerService(FreelancerService freelancerService) {
@@ -48,14 +38,6 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
         this.contextUtils = contextUtils;
     }
 
-    public void setPartnerBackingBean(PartnerBackingBean partnerBackingBean) {
-        this.partnerBackingBean = partnerBackingBean;
-    }
-
-    public void setCustomerBackingBean(CustomerBackingBean customerBackingBean) {
-        this.customerBackingBean = customerBackingBean;
-    }
-
     @Override
     protected ProjectBackingBeanDataModel createDataModel() {
         return new ProjectBackingBeanDataModel();
@@ -64,11 +46,6 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
     @Override
     protected String getNavigationIDPrefix() {
         return "project";
-    }
-
-    public String commandProjectRegistry() {
-        reload();
-        return "pretty:" + getNavigationIDPrefix() + "main";
     }
 
     public String commandSearch() {
@@ -115,43 +92,6 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
         } catch (Exception e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMSPEICHERN, e.getMessage());
         }
-        return null;
-    }
-
-    public String commandBack() {
-        return "PROJEKT_STAMMDATEN";
-    }
-
-    public String commandStammdaten() {
-        return "PROJEKT_STAMMDATEN";
-    }
-
-    public String commandSelectSearchResult() {
-
-        GenericSearchResult theResult = (GenericSearchResult) getData().getSearchResult().getRowData();
-        Project theEntity = entityService.findByPrimaryKey((Long) theResult.get(GenericSearchResult.OBJECT_ID_KEY));
-        getData().setEntity(theEntity);
-
-        afterNavigation();
-        return "PROJEKT_STAMMDATEN";
-    }
-
-    public String commandShowCustomer() {
-        Customer theCustomer = getData().getEntity().getCustomer();
-        if (theCustomer != null) {
-
-            customerBackingBean.updateModel(new EditEntityCommand<Customer>(theCustomer));
-            return "CUSTOMER_STAMMDATEN";
-        }
-
-        Partner thePartner = getData().getEntity().getPartner();
-        if (thePartner != null) {
-
-            partnerBackingBean.updateModel(new EditEntityCommand<Partner>(thePartner));
-            return "PARTNER_STAMMDATEN";
-        }
-
-        JSFMessageUtils.addGlobalErrorMessage(MSG_KEINKUNDE);
         return null;
     }
 
@@ -202,14 +142,6 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
         Collections.sort(theSearches);
 
         getData().getSavedSearches().setWrappedData(theSearches);
-    }
-
-    public String commandOpenPosition() {
-        ProjectPosition thePositionToNavigate = (ProjectPosition) getData().getPositions().getRowData();
-
-        Freelancer theFreelancer = freelancerService.findByPrimaryKey(thePositionToNavigate.getFreelancerId());
-        freelancerBackingBean.updateModel(new EditEntityCommand<Freelancer>(theFreelancer));
-        return "FREELANCER_STAMMDATEN";
     }
 
     public void commandDeletePosition() {

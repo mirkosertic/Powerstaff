@@ -4,7 +4,12 @@
                 xmlns:b="http://mogwai.sourceforge.net/layout"
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:rich="http://richfaces.org/rich" template="/template/powerstaff.xhtml">
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:pretty="http://ocpsoft.com/prettyfaces"
+                template="/template/powerstaff.xhtml">
+<ui:define name="pagetitle">
+    <h:outputText value="Stammdaten #{projectBackingBean.data.entity.projectNumber}"/>
+</ui:define>
 <ui:define name="mainmenu">
     <ui:include src="/include/mainmenu.xhtml"/>
 </ui:define>
@@ -12,8 +17,6 @@
     <ui:include src="/include/project/projectmenu1.xhtml"/>
 </ui:define>
 <ui:define name="content">
-<b:title title="Projekt - Stammdaten"/>
-<f:subview id="project_core">
 <b:gridBagLayout id="x" rows="p,10" cols="500,p">
     <b:cell y="1" x="1">
         <h:outputText styleClass="title" value="Projekt"/>
@@ -22,7 +25,8 @@
     <b:cell y="1" x="2">
         <a4j:status>
             <f:facet name="start">
-                <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20" height="20"/>
+                <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20"
+                     height="20"/>
             </f:facet>
         </a4j:status>
     </b:cell>
@@ -34,72 +38,50 @@
         <b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,80,50,20,right:*"
                          rows="20,2,20">
             <b:cell x="1" y="1">
-                <b:commandLink title="Erster Datensatz" action="#{projectBackingBean.commandFirst}">
+                <h:commandLink title="Erster Datensatz" action="#{projectBackingBean.commandFirst}"
+                               onclick="if (!checkForChangedData()) {return false;}">
                     <img src="${facesContext.externalContext.requestContextPath}/images/first.gif"/>
-                    <a4j:support eventsQueue="powerstaff" event="onclick"
-                                 reRender="#{projectBackingBean.data.changedComponents}"
-                                 onsubmit="if (!checkForChangedData()) {return false;}"
-                                 oncomplete="clearChanged()"/>
-                </b:commandLink>
+                </h:commandLink>
             </b:cell>
             <b:cell x="2" y="1">
-                <b:commandLink title="Vorheriger Datensatz" action="#{projectBackingBean.commandPrior}">
+                <h:commandLink title="Vorheriger Datensatz" action="#{projectBackingBean.commandPrior}"
+                               onclick="if (!checkForChangedData()) {return false;}">
                     <img src="${facesContext.externalContext.requestContextPath}//images/prior.gif"/>
-                    <a4j:support eventsQueue="powerstaff" event="onclick"
-                                 reRender="#{projectBackingBean.data.changedComponents}"
-                                 onsubmit="if (!checkForChangedData()) {return false;}"
-                                 oncomplete="clearChanged()"/>
-                </b:commandLink>
+                </h:commandLink>
             </b:cell>
             <b:cell x="3" y="1">
-                <b:commandLink title="Nächster Datensatz" action="#{projectBackingBean.commandNext}">
+                <h:commandLink title="Nächster Datensatz" action="#{projectBackingBean.commandNext}"
+                               onclick="if (!checkForChangedData()) {return false;}">
                     <img src="${facesContext.externalContext.requestContextPath}/images/next.gif"/>
-                    <a4j:support eventsQueue="powerstaff" event="onclick"
-                                 reRender="#{projectBackingBean.data.changedComponents}"
-                                 onsubmit="if (!checkForChangedData()) {return false;}"
-                                 oncomplete="clearChanged()"/>
-                </b:commandLink>
+                </h:commandLink>
             </b:cell>
             <b:cell x="4" y="1">
-                <b:commandLink title="Letzter Datensatz" action="#{projectBackingBean.commandLast}">
+                <h:commandLink title="Letzter Datensatz" action="#{projectBackingBean.commandLast}"
+                               onclick="if (!checkForChangedData()) {return false;}">
                     <img src="${facesContext.externalContext.requestContextPath}/images/last.gif"/>
-                    <a4j:support eventsQueue="powerstaff" event="onclick"
-                                 reRender="#{projectBackingBean.data.changedComponents}"
-                                 onsubmit="if (!checkForChangedData()) {return false;}"
-                                 oncomplete="clearChanged()"/>
-                </b:commandLink>
+                </h:commandLink>
             </b:cell>
             <b:cell x="6" y="1">
-                <b:commandLink title="Neuer Datensatz" action="#{projectBackingBean.commandNew}">
+                <h:commandLink title="Neuer Datensatz" action="#{projectBackingBean.commandNew}"
+                               onclick="if (!checkForChangedData()) {return false;}">
                     <img src="${facesContext.externalContext.requestContextPath}/images/new.gif"/>
-                    <a4j:support eventsQueue="powerstaff" event="onclick"
-                                 reRender="#{projectBackingBean.data.changedComponents}"
-                                 onsubmit="if (!checkForChangedData()) {return false;}"
-                                 oncomplete="clearChanged()"/>
-                </b:commandLink>
+                </h:commandLink>
             </b:cell>
             <b:cell x="7" y="1">
-                <b:commandLink title="Speichern" action="#{projectBackingBean.commandSave}">
+                <h:commandLink title="Speichern" action="#{projectBackingBean.commandSave}">
                     <img src="${facesContext.externalContext.requestContextPath}/images/update.gif"/>
-                    <a4j:support eventsQueue="powerstaff" event="onclick"
-                                 reRender="#{projectBackingBean.data.changedComponents}"
-                                 oncomplete="clearChanged()"/>
-                </b:commandLink>
+                </h:commandLink>
             </b:cell>
             <b:cell x="9" y="1">
-                <a4j:commandLink title="Löschen" action="#{projectBackingBean.commandDelete}"
-                                 onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick löschen?')) {return false;}"
-                                 reRender="#{projectBackingBean.data.changedComponents}" oncomplete="clearChanged()">
+                <h:commandLink title="Löschen" action="#{projectBackingBean.commandDelete}"
+                               onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick löschen?')) {return false;}">
                     <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
-                </a4j:commandLink>
+                </h:commandLink>
             </b:cell>
             <b:cell x="11" y="1">
-                <b:commandLink title="Suchen" action="#{projectBackingBean.commandSearch}">
+                <h:commandLink title="Suchen" action="#{projectBackingBean.commandSearch}">
                     <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
-                    <a4j:support eventsQueue="powerstaff" event="onclick"
-                                 reRender="#{projectBackingBean.data.changedComponents}"
-                                 oncomplete="clearChanged()"/>
-                </b:commandLink>
+                </h:commandLink>
             </b:cell>
             <b:cell x="12" y="1" valign="middle" align="right">
                 <b:label id="gehezu" label="Gehe zu #"/>
@@ -109,25 +91,18 @@
                                     value="#{projectBackingBean.data.recordNumber}"/>
             </b:cell>
             <b:cell x="14" y="1">
-                <b:commandLink title="Springe zu Datensatz" action="#{projectBackingBean.commandJumpToRecord}">
+                <h:commandLink title="Springe zu Datensatz" action="#{projectBackingBean.commandJumpToRecord}">
                     <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
-                    <a4j:support eventsQueue="powerstaff" event="onclick"
-                                 reRender="#{projectBackingBean.data.changedComponents}"
-                                 oncomplete="clearChanged()"/>
-                </b:commandLink>
+                </h:commandLink>
             </b:cell>
             <b:cell x="15" y="1" align="right">
-                <a4j:outputPanel ajaxRendered="true">
-                    <h:outputText value="#{projectBackingBean.recordInfo}"/>
-                </a4j:outputPanel>
+                <h:outputText value="#{projectBackingBean.recordInfo}"/>
             </b:cell>
 
             <b:cell x="12" y="3" align="right" width="4">
-                <a4j:outputPanel ajaxRendered="true">
-                    <h:outputText value="#{projectBackingBean.data.entity}">
-                        <f:converter converterId="auditInformationConverter"/>
-                    </h:outputText>
-                </a4j:outputPanel>
+                <h:outputText value="#{projectBackingBean.data.entity}">
+                    <f:converter converterId="auditInformationConverter"/>
+                </h:outputText>
             </b:cell>
         </b:gridBagLayout>
     </b:titledBox>
@@ -156,11 +131,18 @@
                         </a4j:outputPanel>
                     </b:cell>
                     <b:cell x="6" y="2">
-                        <b:commandLink action="#{projectBackingBean.commandShowCustomer}">
-                            <img src="${facesContext.externalContext.requestContextPath}/images/next.gif"/>
-                            <a4j:support eventsQueue="powerstaff" event="onclick"
-                                         reRender="#{projectBackingBean.data.changedComponents}"/>
-                        </b:commandLink>
+                        <f:subview id="linkcustomer" rendered="#{!empty projectBackingBean.data.entity.customer.id}">
+                            <pretty:link mappingId="customermain">
+                                <f:param value="#{projectBackingBean.data.entity.customer.id}"/>
+                                <img src="${facesContext.externalContext.requestContextPath}/images/next.gif"/>
+                            </pretty:link>
+                        </f:subview>
+                        <f:subview id="linkpartner" rendered="#{!empty projectBackingBean.data.entity.partner.id}">
+                            <pretty:link mappingId="partnermain">
+                                <f:param value="#{projectBackingBean.data.entity.partner.id}"/>
+                                <img src="${facesContext.externalContext.requestContextPath}/images/next.gif"/>
+                            </pretty:link>
+                        </f:subview>
                     </b:cell>
 
                     <b:cell x="2" y="4">
@@ -472,10 +454,10 @@
             </b:commandLink>
         </h:column>
         <h:column>
-            <b:commandLink action="#{projectBackingBean.commandOpenPosition}">
+            <pretty:link mappingId="freelancermain">
+                <f:param value="#{row.freelancerId}"/>
                 <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
-                <a4j:support eventsQueue="powerstaff" event="onclick"/>
-            </b:commandLink>
+            </pretty:link>
         </h:column>
     </b:table>
 
@@ -495,16 +477,13 @@
             </b:commandLink>
         </h:column>
         <h:column>
-            <b:commandLink action="#{projectBackingBean.commandOpenSavedSearch}">
+            <h:commandLink action="#{projectBackingBean.commandOpenSavedSearch}">
                 <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
-                <a4j:support eventsQueue="powerstaff" event="onclick"/>
-            </b:commandLink>
+            </h:commandLink>
         </h:column>
     </b:table>
 
 </a4j:outputPanel>
-
-</f:subview>
 
 <a4j:outputPanel ajaxRendered="true">
     <rich:jQuery selector=":input:not(:hidden)" query="change(function() {markChanged();})"/>

@@ -2,14 +2,15 @@
            xmlns:f="http://java.sun.com/jsf/core"
            xmlns:h="http://java.sun.com/jsf/html"
            xmlns:b="http://mogwai.sourceforge.net/layout"
-           xmlns:a4j="http://richfaces.org/a4j">
+           xmlns:a4j="http://richfaces.org/a4j"
+           xmlns:pretty="http://ocpsoft.com/prettyfaces">
     <b:gridBagLayout rows="p,2,p,2,p" cols="100">
         <b:cell x="1" y="1">
-            <b:commandLink action="#{freelancerBackingBean.commandStammdaten}" immediate="true" styleClass="menuitem">
+            <pretty:link mappingId="freelancermain" styleClass="menuitem"
+                         onclick="if (!checkForChangedData()) {return false;}">
+                <f:param value="#{freelancerBackingBean.data.currentEntityId}"/>
                 <h:outputText value="Stammdaten"/>
-                <a4j:support eventsQueue="powerstaff" event="onclick"
-                             onsubmit="if (!checkForChangedData()) {return false;}"/>
-            </b:commandLink>
+            </pretty:link>
         </b:cell>
 
         <b:cell x="1" y="3">

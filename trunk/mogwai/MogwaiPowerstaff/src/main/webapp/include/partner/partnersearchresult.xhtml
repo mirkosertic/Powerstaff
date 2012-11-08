@@ -4,7 +4,13 @@
                 xmlns:b="http://mogwai.sourceforge.net/layout"
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:rich="http://richfaces.org/rich" template="/template/powerstaff.xhtml">
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:pretty="http://ocpsoft.com/prettyfaces"
+                template="/template/powerstaff.xhtml">
+    <ui:define name="pagetitle">
+        <h:outputText
+                value="Suchergebnisse"/>
+    </ui:define>
     <ui:define name="mainmenu">
         <ui:include src="/include/mainmenu.xhtml"/>
     </ui:define>
@@ -22,7 +28,8 @@
                 <b:cell y="1" x="2">
                     <a4j:status>
                         <f:facet name="start">
-                            <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20" height="20"/>
+                            <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20"
+                                 height="20"/>
                         </f:facet>
                     </a4j:status>
                 </b:cell>
@@ -34,11 +41,10 @@
                         <b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,right:*"
                                          rows="20">
                             <b:cell x="1" y="1">
-                                <b:commandLink title="Zurück" action="#{partnerBackingBean.commandBack}">
+                                <pretty:link mappingId="partnermain" title="Zurück">
+                                    <f:param value="#{partnerBackingBean.data.currentEntityId}"/>
                                     <img src="${facesContext.externalContext.requestContextPath}/images/back.gif"/>
-                                    <a4j:support eventsQueue="powerstaff" event="onclick"
-                                                 reRender="#{partnerBackingBean.data.changedComponents}"/>
-                                </b:commandLink>
+                                </pretty:link>
                             </b:cell>
                         </b:gridBagLayout>
                     </b:titledBox>
@@ -53,11 +59,10 @@
                         <h:column>
                             <f:facet name="header">
                             </f:facet>
-                            <b:commandLink title="Datensatz anzeigen"
-                                           action="#{partnerBackingBean.commandSelectSearchResult}">
+                            <pretty:link mappingId="partnermain" title="Datensatz anzeigen">
+                                <f:param value="#{row.ID}"/>
                                 <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
-                                <a4j:support eventsQueue="powerstaff" event="onclick"/>
-                            </b:commandLink>
+                            </pretty:link>
                         </h:column>
                         <h:column>
                             <f:facet name="header">
