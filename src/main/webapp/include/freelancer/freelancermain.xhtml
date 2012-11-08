@@ -4,9 +4,11 @@
                 xmlns:b="http://mogwai.sourceforge.net/layout"
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:pretty="http://ocpsoft.com/prettyfaces"
                 xmlns:rich="http://richfaces.org/rich" template="/template/powerstaff.xhtml">
 <ui:define name="pagetitle">
-    <h:outputText value="Stammdaten #{freelancerBackingBean.data.entity.name1} #{freelancerBackingBean.data.entity.name2}"/>
+    <h:outputText
+            value="Stammdaten #{freelancerBackingBean.data.entity.name1} #{freelancerBackingBean.data.entity.name2}"/>
 </ui:define>
 <ui:define name="mainmenu">
     <ui:include src="/include/mainmenu.xhtml"/>
@@ -15,7 +17,6 @@
     <ui:include src="/include/freelancer/freelancermenu1.xhtml"/>
 </ui:define>
 <ui:define name="content">
-<f:subview id="freelancer_core">
 <b:gridBagLayout id="x" rows="p,10" cols="500,p">
     <b:cell y="1" x="1">
         <h:panelGroup>
@@ -277,7 +278,7 @@
                                action="#{freelancerBackingBean.commandAddContact}">
                     <img src="${facesContext.externalContext.requestContextPath}/images/add.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
-                                 reRender="#{freelancerBackingBean.data.changedComponents}"
+                                 reRender="contact"
                                  onsubmit="markChanged()"/>
                 </b:commandLink>
             </b:cell>
@@ -445,19 +446,18 @@
                         <b:label id="partner_label" label="Ges.P."/>
                     </b:cell>
                     <b:cell x="4" y="10">
-                        <a4j:outputPanel ajaxRendered="true">
-                            <h:outputText value="#{freelancerBackingBean.data.entity.partner}">
-                                <f:converter converterId="personConverter"/>
-                            </h:outputText>
-                        </a4j:outputPanel>
+                        <h:outputText value="#{freelancerBackingBean.data.entity.partner}">
+                            <f:converter converterId="personConverter"/>
+                        </h:outputText>
                     </b:cell>
                     <b:cell x="6" y="10">
-                        <h:commandLink title="Springe zur Partner - Ansicht"
-                                       action="#{freelancerBackingBean.commandShowPartner}">
-                            <img src="${facesContext.externalContext.requestContextPath}/images/next.gif"/>
-                        </h:commandLink>
+                        <f:subview id="partnernav" rendered="#{!empty freelancerBackingBean.data.entity.partner}">
+                            <pretty:link mappingId="partnermain" title="Springe zur Partner - Ansicht">
+                                <f:param value="#{freelancerBackingBean.data.entity.partner.id}"/>
+                                <img src="${facesContext.externalContext.requestContextPath}/images/next.gif"/>
+                            </pretty:link>
+                        </f:subview>
                     </b:cell>
-
 
                     <b:cell x="2" y="12">
                         <b:label id="stdsatz_p_label" label="Stds. Partner"/>
@@ -582,8 +582,6 @@
 </b:cell>
 
 </b:gridBagLayout>
-
-</f:subview>
 
 <a4j:outputPanel ajaxRendered="true">
     <rich:jQuery selector=":input:not(:hidden)" query="change(function() {markChanged();})"/>

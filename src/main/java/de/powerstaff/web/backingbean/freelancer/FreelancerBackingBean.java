@@ -27,7 +27,6 @@ import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.business.service.ProjectService;
 import de.powerstaff.web.backingbean.ContextUtils;
 import de.powerstaff.web.backingbean.PersonEditorBackingBean;
-import de.powerstaff.web.backingbean.partner.PartnerBackingBean;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
@@ -42,8 +41,6 @@ public class FreelancerBackingBean
 
     private transient ProfileSearchService profileSearchService;
 
-    private PartnerBackingBean partnerBackingBean;
-
     private ContextUtils contextUtils;
 
     private ProjectService projectService;
@@ -54,15 +51,6 @@ public class FreelancerBackingBean
 
     public void setContextUtils(ContextUtils contextUtils) {
         this.contextUtils = contextUtils;
-    }
-
-    public void setPartnerBackingBean(PartnerBackingBean partnerBackingBean) {
-        this.partnerBackingBean = partnerBackingBean;
-    }
-
-    public String commandFreelancerRegistry() {
-        reload();
-        return "pretty:" + getNavigationIDPrefix() + "main";
     }
 
     @Override
@@ -139,15 +127,6 @@ public class FreelancerBackingBean
         }
 
         return super.commandSave();
-    }
-
-    public String commandShowPartner() {
-        Partner thePartner = getData().getEntity().getPartner();
-        if (thePartner != null) {
-            partnerBackingBean.updateModel(new EditEntityCommand<Freelancer>(getData().getEntity()));
-            return "PARTNER_STAMMDATEN";
-        }
-        return null;
     }
 
     public List<ProjectPositionStatus> getPositionStatus() {

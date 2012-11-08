@@ -85,11 +85,6 @@ public class ProfileBackingBean extends
         this.profileSearchService = profileSearchService;
     }
 
-    public String commandProfileRegistry() {
-        resetNavigation();
-        return "pretty:profilemain";
-    }
-
     public void initializeDataModel() {
         getData().setSearchResult(
                 new PagedListDataModel<ProfileSearchEntry>(getPageSize()) {

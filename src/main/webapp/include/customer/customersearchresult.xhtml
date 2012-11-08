@@ -4,7 +4,13 @@
                 xmlns:b="http://mogwai.sourceforge.net/layout"
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:rich="http://richfaces.org/rich" template="/template/powerstaff.xhtml">
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:pretty="http://ocpsoft.com/prettyfaces"
+                template="/template/powerstaff.xhtml">
+    <ui:define name="pagetitle">
+        <h:outputText
+                value="Suchergebnisse"/>
+    </ui:define>
     <ui:define name="mainmenu">
         <ui:include src="/include/mainmenu.xhtml"/>
     </ui:define>
@@ -12,88 +18,82 @@
         <ui:include src="/include/customer/customermenu1.xhtml"/>
     </ui:define>
     <ui:define name="content">
-        <b:title title="Kunden - Suchergebnisse"/>
-        <f:subview id="customer_searchresult">
-            <b:gridBagLayout id="x" rows="p,10" cols="100,p">
-                <b:cell y="1" x="1">
-                    <h:outputText styleClass="title" value="Kunden Suchergebnisse"/>
-                </b:cell>
+        <b:gridBagLayout id="x" rows="p,10" cols="100,p">
+            <b:cell y="1" x="1">
+                <h:outputText styleClass="title" value="Kunden Suchergebnisse"/>
+            </b:cell>
 
-                <b:cell y="1" x="2">
-                    <a4j:status>
-                        <f:facet name="start">
-                            <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20" height="20"/>
+            <b:cell y="1" x="2">
+                <a4j:status>
+                    <f:facet name="start">
+                        <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20"
+                             height="20"/>
+                    </f:facet>
+                </a4j:status>
+            </b:cell>
+        </b:gridBagLayout>
+
+        <b:gridBagLayout cols="810" rows="30,10,1,p">
+            <b:cell x="1" y="1">
+                <b:titledBox label="Menu">
+                    <b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,right:*"
+                                     rows="20">
+                        <b:cell x="1" y="1">
+                            <pretty:link mappingId="customermain" title="Zurück">
+                                <f:param value="#{customerBackingBean.data.currentEntityId}"/>
+                                <img src="${facesContext.externalContext.requestContextPath}/images/back.gif"/>
+                            </pretty:link>
+                        </b:cell>
+                    </b:gridBagLayout>
+                </b:titledBox>
+            </b:cell>
+
+            <b:cell x="1" y="3">
+                <ui:include src="/include/messages.xhtml"/>
+            </b:cell>
+
+            <b:cell x="1" y="4">
+                <b:table var="row" value="#{customerBackingBean.data.searchResult}" cols="20,150,150,130,100,260">
+                    <h:column>
+                        <f:facet name="header">
                         </f:facet>
-                    </a4j:status>
-                </b:cell>
-            </b:gridBagLayout>
-
-            <b:gridBagLayout cols="810" rows="30,10,1,p">
-                <b:cell x="1" y="1">
-                    <b:titledBox label="Menu">
-                        <b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,right:*"
-                                         rows="20">
-                            <b:cell x="1" y="1">
-                                <b:commandLink title="Zurück" action="#{customerBackingBean.commandBack}">
-                                    <img src="${facesContext.externalContext.requestContextPath}/images/back.gif"/>
-                                    <a4j:support eventsQueue="powerstaff" event="onclick"
-                                                 reRender="#{customerBackingBean.data.changedComponents}"/>
-                                </b:commandLink>
-                            </b:cell>
-                        </b:gridBagLayout>
-                    </b:titledBox>
-                </b:cell>
-
-                <b:cell x="1" y="3">
-                    <ui:include src="/include/messages.xhtml"/>
-                </b:cell>
-
-                <b:cell x="1" y="4">
-                    <b:table var="row" value="#{customerBackingBean.data.searchResult}" cols="20,150,150,130,100,260">
-                        <h:column>
-                            <f:facet name="header">
-                            </f:facet>
-                            <b:commandLink title="Datensatz anzeigen"
-                                           action="#{customerBackingBean.commandSelectSearchResult}">
-                                <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
-                                <a4j:support eventsQueue="powerstaff" event="onclick"/>
-                            </b:commandLink>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Name1"/>
-                            </f:facet>
-                            <h:outputText value="#{row.name1}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Name2"/>
-                            </f:facet>
-                            <h:outputText value="#{row.name2}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Firma"/>
-                            </f:facet>
-                            <h:outputText value="#{row.company}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Stadt"/>
-                            </f:facet>
-                            <h:outputText value="#{row.city}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Kommentar"/>
-                            </f:facet>
-                            <h:outputText value="#{row.comments}"/>
-                        </h:column>
-                    </b:table>
-                </b:cell>
-
-            </b:gridBagLayout>
-
-        </f:subview>
+                        <pretty:link mappingId="customermain" title="Datensatz anzeigen">
+                            <f:param value="#{row.ID}"/>
+                            <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
+                        </pretty:link>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Name1"/>
+                        </f:facet>
+                        <h:outputText value="#{row.name1}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Name2"/>
+                        </f:facet>
+                        <h:outputText value="#{row.name2}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Firma"/>
+                        </f:facet>
+                        <h:outputText value="#{row.company}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Stadt"/>
+                        </f:facet>
+                        <h:outputText value="#{row.city}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Kommentar"/>
+                        </f:facet>
+                        <h:outputText value="#{row.comments}"/>
+                    </h:column>
+                </b:table>
+            </b:cell>
+        </b:gridBagLayout>
     </ui:define>
 </ui:composition>	

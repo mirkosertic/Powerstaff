@@ -161,28 +161,4 @@ public abstract class PersonEditorBackingBean<T extends Person, V extends Person
 
         JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
     }
-
-    public String commandSelectSearchResult() {
-
-        GenericSearchResult theResult = (GenericSearchResult) getData()
-                .getSearchResult().getRowData();
-        T theEntity = entityService.findByPrimaryKey((Long) theResult
-                .get(GenericSearchResult.OBJECT_ID_KEY));
-        getData().setEntity(theEntity);
-        getData().setCurrentEntityId(theEntity.getId().toString());
-
-        return "pretty:" + getNavigationIDPrefix() + "main";
-    }
-
-    public String commandBack() {
-        return "pretty:" + getNavigationIDPrefix() + "main";
-    }
-
-    public String commandStammdaten() {
-        return "pretty:" + getNavigationIDPrefix() + "main";
-    }
-
-    public String commandHistorie() {
-        return "pretty:" + getNavigationIDPrefix() + "history";
-    }
 }

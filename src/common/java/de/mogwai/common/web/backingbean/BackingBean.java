@@ -1,6 +1,6 @@
 /**
  * Copyright 2002 - 2007 the Mogwai Project.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,50 +16,41 @@
  */
 package de.mogwai.common.web.backingbean;
 
-import java.io.Serializable;
-
-import javax.faces.context.FacesContext;
-
-import de.mogwai.common.command.ResetNavigationInfo;
 import de.mogwai.common.command.UpdateModelCommand;
-import de.mogwai.common.utils.Initable;
 import de.mogwai.common.utils.Navigatable;
 import de.mogwai.common.web.utils.Updateable;
-import de.mogwai.common.web.utils.Validatable;
+
+import java.io.Serializable;
 
 /**
  * Oberklasse für alle Backing Beans.
- * 
+ *
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:17:10 $
  */
 public abstract class BackingBean implements Navigatable, Updateable,
-		Validatable, Serializable {
+        Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6152673765217442475L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -6152673765217442475L;
 
-	/**
-	 * Refresh Action - Methode.
-	 * 
-	 * Kann überschrieben werden, um ein spezialisiertes Verhalten beim Refresh
-	 * zu erzeugen. Per Default macht diese Methode nichts.
-	 * 
-	 * @return das SUCCESS outcome.
-	 */
-	public String refresh() {
-		return ActionOutcome.SUCCESS.value();
-	}
+    /**
+     * Refresh Action - Methode.
+     * <p/>
+     * Kann überschrieben werden, um ein spezialisiertes Verhalten beim Refresh
+     * zu erzeugen. Per Default macht diese Methode nichts.
+     *
+     * @return das SUCCESS outcome.
+     */
+    public String refresh() {
+        return ActionOutcome.SUCCESS.value();
+    }
 
-	public void resetNavigation() {
-	}
+    public void resetNavigation() {
+    }
 
-	public void updateModel(UpdateModelCommand aInfo) {
-	}
-
-    public boolean validate(FacesContext aContext) {
-		return true;
-	}
+    public void updateModel(UpdateModelCommand aInfo) {
+    }
 }

@@ -1,6 +1,6 @@
 /**
  * Copyright 2002 - 2007 the Mogwai Project.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,12 +16,10 @@
  */
 package de.mogwai.common.utils;
 
-import de.mogwai.common.command.ResetNavigationInfo;
-
 /**
  * Interface for navigatable backing beans, eg. beans that have a navigation and
  * a navigation state.
- * 
+ *
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:33:36 $
  */

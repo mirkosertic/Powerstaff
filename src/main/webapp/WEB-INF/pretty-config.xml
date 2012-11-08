@@ -35,6 +35,11 @@
         <view-id>/include/partner/partnerhistory.faces</view-id>
         <action>#{partnerBackingBean.loadEntity}</action>
     </url-mapping>
+    <url-mapping id="partnerfreelancer">
+        <pattern>/partner/#{partnerBackingBean.data.currentEntityId}/freelancer</pattern>
+        <view-id>/include/partner/partnerfreelancer.faces</view-id>
+        <action>#{partnerBackingBean.loadEntity}</action>
+    </url-mapping>
     <url-mapping id="customermain">
         <pattern>/customer/#{customerBackingBean.data.currentEntityId}/main</pattern>
         <view-id>/include/customer/customermain.faces</view-id>
