@@ -24,7 +24,6 @@ import de.mogwai.common.web.backingbean.WrappingBackingBean;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.dto.DataPage;
 import de.powerstaff.business.dto.ProfileSearchEntry;
-import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.entity.Project;
 import de.powerstaff.business.entity.ProjectPosition;
@@ -34,7 +33,6 @@ import de.powerstaff.business.service.ProfileIndexerService;
 import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.web.backingbean.ContextUtils;
 import de.powerstaff.web.backingbean.MessageConstants;
-import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
 import de.powerstaff.web.utils.PagedListDataModel;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -54,16 +52,10 @@ public class ProfileBackingBean extends
 
     private transient ProfileSearchService profileSearchService;
 
-    private FreelancerBackingBean freelancerBackingBean;
-
     private ContextUtils contextUtils;
 
     public void setContextUtils(ContextUtils contextUtils) {
         this.contextUtils = contextUtils;
-    }
-
-    public void setFreelancerBackingBean(FreelancerBackingBean freelancerBackingBean) {
-        this.freelancerBackingBean = freelancerBackingBean;
     }
 
     @Override
@@ -213,13 +205,6 @@ public class ProfileBackingBean extends
         }
     }
 
-    public String commandSelectSearchResult() {
-        freelancerBackingBean.updateModel(new EditEntityCommand<ProfileSearchInfoDetail>(
-                ((ProfileSearchEntry) getData().getSearchResult()
-                        .getRowData()).getFreelancer()));
-        return "FREELANCER_STAMMDATEN";
-    }
-
     public void commandDeleteSearchEntry() {
 
         ProfileSearchEntry theEntry = (ProfileSearchEntry) getData()
@@ -341,5 +326,8 @@ public class ProfileBackingBean extends
             }
         }
         return null;
+    }
+
+    public void loadData() {
     }
 }

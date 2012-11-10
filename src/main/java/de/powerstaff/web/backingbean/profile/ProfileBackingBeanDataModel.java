@@ -39,6 +39,10 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 
     private boolean initialized;
 
+    private String type;
+
+    private String id;
+
     /**
      * @return the searchRequest
      */
@@ -97,5 +101,21 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 
     public void setInitialized(boolean initialized) {
         this.initialized = initialized;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

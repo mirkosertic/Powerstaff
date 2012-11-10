@@ -1,7 +1,10 @@
 package de.powerstaff.web.backingbean;
 
 import de.powerstaff.business.entity.Project;
+import de.powerstaff.business.entity.User;
 import de.powerstaff.business.service.ProjectService;
+import org.springframework.security.context.SecurityContext;
+import org.springframework.security.context.SecurityContextHolder;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -15,10 +18,6 @@ public class ContextUtils {
     private ProjectService projectService;
 
     private static ThreadLocal<Map<String, Object>> REQUESTCACHE = new ThreadLocal<Map<String, Object>>();
-
-    public ProjectService getProjectService() {
-        return projectService;
-    }
 
     public void setProjectService(ProjectService projectService) {
         this.projectService = projectService;
@@ -69,5 +68,12 @@ public class ContextUtils {
 
     public static void cleanupCache() {
         REQUESTCACHE.remove();
+    }
+
+    public String getCurrentUserId() {
+        SecurityContext theContext = SecurityContextHolder.getContext();
+        User theUser = (User) theContext.getAuthentication().getPrincipal();
+        ;
+        return theUser.getUserId();
     }
 }
