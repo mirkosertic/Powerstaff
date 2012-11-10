@@ -8,8 +8,9 @@
         <view-id>/login.faces</view-id>
     </url-mapping>
     <url-mapping id="profilemain">
-        <pattern>/profilesearch/</pattern>
+        <pattern>/profilesearch/#{profileBackingBean.data.type}/#{profileBackingBean.data.id}</pattern>
         <view-id>/include/profile/profilemain.faces</view-id>
+        <action onPostback="false">#{projectBackingBean.loadData}</action>
     </url-mapping>
     <url-mapping id="statisticmain">
         <pattern>/statistic/</pattern>

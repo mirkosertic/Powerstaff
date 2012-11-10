@@ -10,6 +10,8 @@
     </pretty:link>
     <f:verbatim>|</f:verbatim>
     <pretty:link mappingId="profilemain" styleClass="menuitem2" onclick="if (!checkForChangedData()) {return false;}">
+        <f:param value="user"/>
+        <f:param value="#{contextUtils.currentUserId}"/>
         <h:outputText value="Profilsuche"/>
     </pretty:link>
     <f:verbatim>|</f:verbatim>

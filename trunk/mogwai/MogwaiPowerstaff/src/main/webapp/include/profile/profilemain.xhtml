@@ -4,7 +4,12 @@
                 xmlns:b="http://mogwai.sourceforge.net/layout"
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:rich="http://richfaces.org/rich" template="/template/powerstaff.xhtml">
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:pretty="http://ocpsoft.com/prettyfaces"
+                template="/template/powerstaff.xhtml">
+    <ui:define name="pagetitle">
+        <h:outputText value="Profilsuche"/>
+    </ui:define>
     <ui:define name="mainmenu">
         <ui:include src="/include/mainmenu.xhtml"/>
     </ui:define>
@@ -12,187 +17,185 @@
         <ui:include src="/include/profile/profilemenu1.xhtml"/>
     </ui:define>
     <ui:define name="content">
-        <b:title title="Profilsuche"/>
-        <f:subview id="profilesearch">
-            <b:gridBagLayout id="x" rows="p,10" cols="500,p">
-                <b:cell y="1" x="1">
-                    <h:panelGrid columns="2">
-                        <h:outputText styleClass="title" value="Profilsuche"/>
-                        <a4j:outputPanel ajaxRendered="true" style="white-space: nowrap;">
-                            <f:subview id="projectincontext" rendered="#{contextUtils.contextSet}">
-                                <h:outputText
-                                        value="      Aktuelles Projekt : #{contextUtils.currrentProjectDescription}"/>
-                                <b:commandLink action="#{profileBackingBean.commandClearContext}" immediate="true">
-                                    <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
-                                    <a4j:support eventsQueue="powerstaff" event="onclick"/>
-                                </b:commandLink>
-                            </f:subview>
-                        </a4j:outputPanel>
-                    </h:panelGrid>
-                </b:cell>
+        <b:saveState value="#{projectBackingBean}"/>
 
-                <b:cell y="1" x="2">
-                    <a4j:status>
-                        <f:facet name="start">
-                            <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20" height="20"/>
-                        </f:facet>
-                    </a4j:status>
-                </b:cell>
-            </b:gridBagLayout>
+        <b:gridBagLayout id="x" rows="p,10" cols="500,p">
+            <b:cell y="1" x="1">
+                <h:panelGrid columns="2">
+                    <h:outputText styleClass="title" value="Profilsuche"/>
+                    <a4j:outputPanel ajaxRendered="true" style="white-space: nowrap;">
+                        <f:subview id="projectincontext" rendered="#{contextUtils.contextSet}">
+                            <h:outputText
+                                    value="      Aktuelles Projekt : #{contextUtils.currrentProjectDescription}"/>
+                            <b:commandLink action="#{profileBackingBean.commandClearContext}" immediate="true">
+                                <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
+                                <a4j:support eventsQueue="powerstaff" event="onclick"/>
+                            </b:commandLink>
+                        </f:subview>
+                    </a4j:outputPanel>
+                </h:panelGrid>
+            </b:cell>
 
-            <b:gridBagLayout cols="400,10,400" rows="30,10,1,p" id="menu">
-                <b:cell x="1" y="1" width="3">
-                    <b:titledBox label="Profilsuche">
-                        <b:gridBagLayout cols="1,150,2,*,2,20,40,20,2"
-                                         rows="2,p,2">
-                            <b:cell x="2" y="2">
-                                <b:label id="labelsuche" label="Profilinhalt"/>
-                            </b:cell>
-                            <b:cell x="4" y="2">
-                                <b:inputfield labelComponentId="labelsuche" id="input"
-                                              value="#{profileBackingBean.data.searchRequest.profileContent}"
-                                              required="true"/>
-                            </b:cell>
-                            <b:cell x="6" y="2">
-                                <a4j:outputPanel ajaxRendered="true">
-                                    <b:commandLink title="Suchen und dem Projekt zuordnen"
-                                                   action="#{profileBackingBean.commandSaveToProject}"
-                                                   rendered="#{contextUtils.contextSet}">
-                                        <img src="${facesContext.externalContext.requestContextPath}/images/update.gif"/>
-                                        <a4j:support eventsQueue="powerstaff" event="onclick"
-                                                     reRender="input"/>
-                                    </b:commandLink>
-                                </a4j:outputPanel>
-                            </b:cell>
-                            <b:cell x="8" y="2">
-                                <b:commandLink title="Suchen" action="#{profileBackingBean.commandSearch}"
-                                               actionKey="13"
-                                               keySensitive="true">
-                                    <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
+            <b:cell y="1" x="2">
+                <a4j:status>
+                    <f:facet name="start">
+                        <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20"
+                             height="20"/>
+                    </f:facet>
+                </a4j:status>
+            </b:cell>
+        </b:gridBagLayout>
+
+        <b:gridBagLayout cols="400,10,400" rows="30,10,1,p" id="menu">
+            <b:cell x="1" y="1" width="3">
+                <b:titledBox label="Profilsuche">
+                    <b:gridBagLayout cols="1,150,2,*,2,20,40,20,2"
+                                     rows="2,p,2">
+                        <b:cell x="2" y="2">
+                            <b:label id="labelsuche" label="Profilinhalt"/>
+                        </b:cell>
+                        <b:cell x="4" y="2">
+                            <b:inputfield labelComponentId="labelsuche" id="input"
+                                          value="#{profileBackingBean.data.searchRequest.profileContent}"
+                                          required="true"/>
+                        </b:cell>
+                        <b:cell x="6" y="2">
+                            <a4j:outputPanel ajaxRendered="true">
+                                <b:commandLink title="Suchen und dem Projekt zuordnen"
+                                               action="#{profileBackingBean.commandSaveToProject}"
+                                               rendered="#{contextUtils.contextSet}">
+                                    <img src="${facesContext.externalContext.requestContextPath}/images/update.gif"/>
                                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                                  reRender="input"/>
                                 </b:commandLink>
-                            </b:cell>
-                        </b:gridBagLayout>
-                        <b:gridBagLayout cols="1,148,2,50,30,50,2" rows="10,p,2,p">
-                            <b:cell x="2" y="2">
-                                <b:label id="labelStundensatz" label="Stundensatz"/>
-                            </b:cell>
-                            <b:cell x="4" y="2">
-                                <b:numberinputfield labelComponentId="labelStundensatz"
-                                                    value="#{profileBackingBean.data.searchRequest.stundensatzVon}"/>
-                            </b:cell>
-                            <b:cell x="5" y="2" align="center">
-                                <b:label label="bis" addColon="false"/>
-                            </b:cell>
-                            <b:cell x="6" y="2">
-                                <b:numberinputfield labelComponentId="labelStundensatz"
-                                                    value="#{profileBackingBean.data.searchRequest.stundensatzBis}"/>
-                            </b:cell>
+                            </a4j:outputPanel>
+                        </b:cell>
+                        <b:cell x="8" y="2">
+                            <b:commandLink title="Suchen" action="#{profileBackingBean.commandSearch}"
+                                           actionKey="13"
+                                           keySensitive="true">
+                                <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
+                                <a4j:support eventsQueue="powerstaff" event="onclick"
+                                             reRender="input"/>
+                            </b:commandLink>
+                        </b:cell>
+                    </b:gridBagLayout>
+                    <b:gridBagLayout cols="1,148,2,50,30,50,2" rows="10,p,2,p">
+                        <b:cell x="2" y="2">
+                            <b:label id="labelStundensatz" label="Stundensatz"/>
+                        </b:cell>
+                        <b:cell x="4" y="2">
+                            <b:numberinputfield labelComponentId="labelStundensatz"
+                                                value="#{profileBackingBean.data.searchRequest.stundensatzVon}"/>
+                        </b:cell>
+                        <b:cell x="5" y="2" align="center">
+                            <b:label label="bis" addColon="false"/>
+                        </b:cell>
+                        <b:cell x="6" y="2">
+                            <b:numberinputfield labelComponentId="labelStundensatz"
+                                                value="#{profileBackingBean.data.searchRequest.stundensatzBis}"/>
+                        </b:cell>
 
-                            <b:cell x="2" y="4">
-                                <b:label id="labelPlz" label="Plz"/>
-                            </b:cell>
-                            <b:cell x="4" y="4">
-                                <b:inputfield labelComponentId="labelStundensatz"
-                                              value="#{profileBackingBean.data.searchRequest.plz}"/>
-                            </b:cell>
+                        <b:cell x="2" y="4">
+                            <b:label id="labelPlz" label="Plz"/>
+                        </b:cell>
+                        <b:cell x="4" y="4">
+                            <b:inputfield labelComponentId="labelStundensatz"
+                                          value="#{profileBackingBean.data.searchRequest.plz}"/>
+                        </b:cell>
 
-                        </b:gridBagLayout>
-                    </b:titledBox>
-                </b:cell>
+                    </b:gridBagLayout>
+                </b:titledBox>
+            </b:cell>
 
-                <b:cell x="1" y="3" width="3">
-                    <ui:include src="/include/messages.xhtml"/>
-                </b:cell>
+            <b:cell x="1" y="3" width="3">
+                <ui:include src="/include/messages.xhtml"/>
+            </b:cell>
 
-                <b:cell x="1" y="4" width="3">
-                    <a4j:outputPanel ajaxRendered="true">
-                        <b:table id="datatable" rendered="#{profileBackingBean.data.searchResultSize > 0}" var="row"
-                                 value="#{profileBackingBean.data.searchResult}" cols="20,130,70,50,30,70,60,360,20"
-                                 rows="#{profileBackingBean.pageSize}"
-                                 rowStyle="#{profileBackingBean.rowStyleForProfile}">
-                            <h:column>
-                                <f:facet name="header">
-                                </f:facet>
-                                <b:commandLink title="Springe zur Freiberufler - Ansicht"
-                                               rendered="#{!empty row.freelancer.id}"
-                                               action="#{profileBackingBean.commandSelectSearchResult}">
-                                    <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
-                                    <a4j:support eventsQueue="powerstaff" event="onclick"/>
-                                </b:commandLink>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <a4j:commandLink value="Name1" action="#{profileBackingBean.commandSortByName1}"/>
-                                </f:facet>
-                                <h:outputText value="#{row.freelancer.name1}"
-                                              styleClass="#{row.freelancer.contactforbidden?'kontaktsperre':''}"/>
-                                <h:panelGroup rendered="#{!empty row.freelancer.gulpNameContact}">
-                                    <br/>
-                                    <h:outputText value="Gulp : " escape="false"/>
-                                    <h:outputText value="#{row.freelancer.gulpNameContact}" escape="false">
-                                        <f:converter converterId="contactConverter"/>
-                                    </h:outputText>
-                                </h:panelGroup>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <a4j:commandLink value="Name2" action="#{profileBackingBean.commandSortByName2}"/>
-                                </f:facet>
-                                <h:outputText value="#{row.freelancer.name2}"
-                                              styleClass="#{row.freelancer.contactforbidden?'kontaktsperre':''}"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <a4j:commandLink value="Plz" action="#{profileBackingBean.commandSortByPLZ}"/>
-                                </f:facet>
-                                <h:outputText value="#{row.freelancer.plz}"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <a4j:commandLink value="Satz" action="#{profileBackingBean.commandSortBySatz}"/>
-                                </f:facet>
-                                <h:outputText value="#{row.freelancer.stundensatz}"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <a4j:commandLink value="Verf." action="#{profileBackingBean.commandSortByVerf}"/>
-                                </f:facet>
-                                <h:outputText value="#{row.freelancer.availability}">
-                                    <f:converter converterId="dateConverter"/>
-                                </h:outputText>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <a4j:commandLink value="Code" action="#{profileBackingBean.commandSortByCode}"/>
-                                </f:facet>
-                                <h:outputText value="#{row.code}"/>
-                            </h:column>
-                            <h:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Skills"/>
-                                </f:facet>
-                                <h:outputText value="#{row.highlightResult}" escape="false"/>
-                            </h:column>
-                            <h:column>
-                                <a4j:commandLink title="Eintrag aus Suche löschen"
-                                                 action="#{profileBackingBean.commandDeleteSearchEntry}">
-                                    <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
-                                </a4j:commandLink>
-                            </h:column>
-                        </b:table>
-                        <rich:datascroller for="datatable" id="datascroller" maxPages="8" pageIndexVar="pageIndex"
-                                           pagesVar="pages" binding="#{profileBackingBean.data.dataScroller}">
-                            <f:facet name="pages">
-                                <h:outputText value="#{pageIndex} / #{pages}"/>
+            <b:cell x="1" y="4" width="3">
+                <a4j:outputPanel ajaxRendered="true">
+                    <b:table id="datatable" rendered="#{profileBackingBean.data.searchResultSize > 0}" var="row"
+                             value="#{profileBackingBean.data.searchResult}" cols="20,130,70,50,30,70,60,360,20"
+                             rows="#{profileBackingBean.pageSize}"
+                             rowStyle="#{profileBackingBean.rowStyleForProfile}">
+                        <h:column>
+                            <f:facet name="header">
                             </f:facet>
-                        </rich:datascroller>
-                    </a4j:outputPanel>
-                </b:cell>
+                            <pretty:link mappingId="freelancermain" title="Springe zur Freiberufler - Ansicht">
+                                <f:param value="#{row.freelancer.id}"/>
+                                <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
+                            </pretty:link>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <a4j:commandLink value="Name1" action="#{profileBackingBean.commandSortByName1}"/>
+                            </f:facet>
+                            <h:outputText value="#{row.freelancer.name1}"
+                                          styleClass="#{row.freelancer.contactforbidden?'kontaktsperre':''}"/>
+                            <h:panelGroup rendered="#{!empty row.freelancer.gulpNameContact}">
+                                <br/>
+                                <h:outputText value="Gulp : " escape="false"/>
+                                <h:outputText value="#{row.freelancer.gulpNameContact}" escape="false">
+                                    <f:converter converterId="contactConverter"/>
+                                </h:outputText>
+                            </h:panelGroup>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <a4j:commandLink value="Name2" action="#{profileBackingBean.commandSortByName2}"/>
+                            </f:facet>
+                            <h:outputText value="#{row.freelancer.name2}"
+                                          styleClass="#{row.freelancer.contactforbidden?'kontaktsperre':''}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <a4j:commandLink value="Plz" action="#{profileBackingBean.commandSortByPLZ}"/>
+                            </f:facet>
+                            <h:outputText value="#{row.freelancer.plz}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <a4j:commandLink value="Satz" action="#{profileBackingBean.commandSortBySatz}"/>
+                            </f:facet>
+                            <h:outputText value="#{row.freelancer.stundensatz}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <a4j:commandLink value="Verf." action="#{profileBackingBean.commandSortByVerf}"/>
+                            </f:facet>
+                            <h:outputText value="#{row.freelancer.availability}">
+                                <f:converter converterId="dateConverter"/>
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <a4j:commandLink value="Code" action="#{profileBackingBean.commandSortByCode}"/>
+                            </f:facet>
+                            <h:outputText value="#{row.code}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Skills"/>
+                            </f:facet>
+                            <h:outputText value="#{row.highlightResult}" escape="false"/>
+                        </h:column>
+                        <h:column>
+                            <a4j:commandLink title="Eintrag aus Suche löschen"
+                                             action="#{profileBackingBean.commandDeleteSearchEntry}">
+                                <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
+                            </a4j:commandLink>
+                        </h:column>
+                    </b:table>
+                    <rich:datascroller for="datatable" id="datascroller" maxPages="8" pageIndexVar="pageIndex"
+                                       pagesVar="pages" binding="#{profileBackingBean.data.dataScroller}">
+                        <f:facet name="pages">
+                            <h:outputText value="#{pageIndex} / #{pages}"/>
+                        </f:facet>
+                    </rich:datascroller>
+                </a4j:outputPanel>
+            </b:cell>
 
-            </b:gridBagLayout>
+        </b:gridBagLayout>
 
-        </f:subview>
     </ui:define>
 </ui:composition>	
