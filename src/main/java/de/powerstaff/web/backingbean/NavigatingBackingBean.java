@@ -16,17 +16,6 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
 
     protected S entityService;
 
-    public void reload() {
-        T theEntity = (T) getData().getEntity();
-        if (theEntity != null && theEntity.getId() != null) {
-            getData().setEntity(entityService.findByPrimaryKey(theEntity.getId()));
-            afterNavigation();
-        } else {
-            getData().setCurrentEntityId(NavigatingBackingBeanDataModel.NEW_ENTITY_ID);
-            afterNavigation();
-        }
-    }
-
     public void setEntityService(S entityService) {
         this.entityService = entityService;
     }
