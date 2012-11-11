@@ -1,26 +1,20 @@
 package de.mogwai.common.web.filter;
 
-import java.io.IOException;
-
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-
-import org.apache.log4j.NDC;
-
+import de.mogwai.common.usercontext.Authenticatable;
 import de.mogwai.common.usercontext.UserContext;
 import de.mogwai.common.usercontext.UserContextHolder;
-import de.mogwai.common.web.sessionlistener.UserContextWebConstants;
+import org.apache.log4j.NDC;
+
+import javax.servlet.*;
+import java.io.IOException;
 
 /**
  * Filter, um den aktuellen Benutzer im Log4J NDC zu setzen.
- * 
+ *
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:19:08 $
  */
-public class PromoteUserIDToLog4JNDCFilter extends BaseFilter implements UserContextWebConstants {
+public class PromoteUserIDToLog4JNDCFilter extends BaseFilter {
 
     /**
      * {@inheritDoc}
@@ -45,7 +39,8 @@ public class PromoteUserIDToLog4JNDCFilter extends BaseFilter implements UserCon
         UserContext theContext = UserContextHolder.getUserContext();
         String theUserId = aRequest.getRemoteAddr();
         if ((theContext != null) && (theContext.getAuthenticatable() != null)) {
-            theUserId += " / " + theContext.getAuthenticatable().getUserId();
+            Authenticatable theUser = theContext.getAuthenticatable();
+            theUserId += " / " + theUser.getUserId();
         }
 
         try {

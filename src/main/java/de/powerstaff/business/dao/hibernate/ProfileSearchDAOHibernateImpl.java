@@ -20,7 +20,6 @@ package de.powerstaff.business.dao.hibernate;
 import de.mogwai.common.dao.hibernate.GenericDaoHibernateImpl;
 import de.powerstaff.business.dao.ProfileSearchDAO;
 import de.powerstaff.business.entity.SavedProfileSearch;
-import de.powerstaff.business.entity.User;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -28,14 +27,13 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 
 public class ProfileSearchDAOHibernateImpl extends GenericDaoHibernateImpl implements ProfileSearchDAO {
 
-    public SavedProfileSearch getSavedSearchFor(final User aUser) {
+    public SavedProfileSearch getSavedSearchForUser(final String aUsername) {
         return (SavedProfileSearch) getHibernateTemplate().execute(new HibernateCallback() {
 
             public Object doInHibernate(Session aSession) {
 
                 Criteria theCriteria = aSession.createCriteria(SavedProfileSearch.class);
-                theCriteria.add(Restrictions.eq("user", aUser));
-                theCriteria.add(Restrictions.isNull("project"));
+                theCriteria.createAlias("user", "u").add(Restrictions.eq("u.name", aUsername)).add(Restrictions.isNull("project"));
                 for (Object theRow : theCriteria.list()) {
                     return theRow;
                 }

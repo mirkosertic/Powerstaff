@@ -19,11 +19,10 @@ package de.powerstaff.business.dao;
 
 import de.mogwai.common.dao.DAO;
 import de.powerstaff.business.entity.SavedProfileSearch;
-import de.powerstaff.business.entity.User;
 
 public interface ProfileSearchDAO extends DAO {
 
-    SavedProfileSearch getSavedSearchFor(User aUser);
+    SavedProfileSearch getSavedSearchForUser(String aUserId);
 
     SavedProfileSearch getSavedSearchById(Long aId);
 }

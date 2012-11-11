@@ -10,44 +10,27 @@ import org.springframework.security.event.authorization.AuthorizationFailureEven
 
 /**
  * ApplicationListener für Authentifizierungsmeldungen
- * 
+ * <p/>
  * Authentifizierungmeldungen werden hier abgefangen, und an einen
  * AuthenticationListener delegiert.
- * 
+ *
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:35:39 $
  */
 public class AuthenticationApplicationListener implements ApplicationListener {
-    
-    private AuthenticationListener authenticationListener;
-    
-    /**
-     * Gibt den Wert des Attributs <code>authenticationListener</code> zurück.
-     * 
-     * @return Wert des Attributs authenticationListener.
-     */
-    public AuthenticationListener getAuthenticationListener() {
-        return authenticationListener;
-    }
 
-    /**
-     * Setzt den Wert des Attributs <code>authenticationListener</code>.
-     * 
-     * @param authenticationListener Wert für das Attribut authenticationListener.
-     */
+    private AuthenticationListener authenticationListener;
+
     public void setAuthenticationListener(AuthenticationListener authenticationListener) {
         this.authenticationListener = authenticationListener;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public void onApplicationEvent(ApplicationEvent aEvent) {
         if (aEvent instanceof AuthorizationFailureEvent) {
-            
+
             // Zugriff verboten
             AuthorizationFailureEvent theEvent = (AuthorizationFailureEvent) aEvent;
-            
+
             authenticationListener.handleAuthorizationFailureEvent(theEvent);
         }
         if (aEvent instanceof AuthenticationFailureBadCredentialsEvent) {
@@ -57,7 +40,7 @@ public class AuthenticationApplicationListener implements ApplicationListener {
 
             authenticationListener.handleBadCredentialsEvent(theEvent);
         }
-        
+
         if (aEvent instanceof AuthenticationFailureLockedEvent) {
 
             AuthenticationFailureLockedEvent theEvent = (AuthenticationFailureLockedEvent) aEvent;
@@ -65,7 +48,7 @@ public class AuthenticationApplicationListener implements ApplicationListener {
             authenticationListener.handleAuthenticationLockedEvent(theEvent);
 
         }
-        
+
         if (aEvent instanceof AuthenticationSuccessEvent) {
 
             // Eine erfolgreiche Anmeldung
@@ -73,6 +56,6 @@ public class AuthenticationApplicationListener implements ApplicationListener {
 
             authenticationListener.handleAuthenticationSuccessEvent(theEvent);
         }
-        
+
     }
 }

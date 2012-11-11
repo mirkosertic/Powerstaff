@@ -23,13 +23,10 @@ import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerProfile;
-import de.powerstaff.business.entity.SavedProfileSearch;
 
 import java.util.List;
 
 public interface ProfileSearchService extends Service {
-
-    ProfileSearchRequest getLastSearchRequest() throws Exception;
 
     void saveSearchRequest(ProfileSearchRequest searchRequest, boolean cleanup);
 
@@ -43,5 +40,7 @@ public interface ProfileSearchService extends Service {
 
     List<FreelancerProfile> loadProfilesFor(Freelancer aFreelancer);
 
-    ProfileSearchRequest getSearchRequestFor(SavedProfileSearch aSearch);
+    ProfileSearchRequest getSearchRequestForUser(String aUsername);
+
+    ProfileSearchRequest getSearchRequest(long aSearchRequestId);
 }

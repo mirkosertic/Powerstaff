@@ -23,21 +23,19 @@ import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.web.utils.PagedListDataModel;
 import org.richfaces.component.UIDatascroller;
 
-import javax.faces.component.UIComponent;
-
 public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
+
+    public static final String TYPE_USER = "user";
+
+    public static final String TYPE_SEARCH = "search";
 
     private static final long serialVersionUID = 8778198734206433965L;
 
     private ProfileSearchRequest searchRequest = new ProfileSearchRequest();
 
-    private transient UIComponent viewRoot;
-
     private transient PagedListDataModel<ProfileSearchEntry> searchResult;
 
     private transient UIDatascroller dataScroller;
-
-    private boolean initialized;
 
     private String type;
 
@@ -55,20 +53,6 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
      */
     public void setSearchRequest(ProfileSearchRequest searchRequest) {
         this.searchRequest = searchRequest;
-    }
-
-    /**
-     * @return the viewRoot
-     */
-    public UIComponent getViewRoot() {
-        return viewRoot;
-    }
-
-    /**
-     * @param viewRoot the viewRoot to set
-     */
-    public void setViewRoot(UIComponent viewRoot) {
-        this.viewRoot = viewRoot;
     }
 
     public PagedListDataModel<ProfileSearchEntry> getSearchResult() {
@@ -93,14 +77,6 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 
     public void setDataScroller(UIDatascroller dataScroller) {
         this.dataScroller = dataScroller;
-    }
-
-    public boolean isInitialized() {
-        return initialized;
-    }
-
-    public void setInitialized(boolean initialized) {
-        this.initialized = initialized;
     }
 
     public String getType() {

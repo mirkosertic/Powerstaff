@@ -1,75 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:security="http://www.springframework.org/schema/security"
-	xmlns="http://www.springframework.org/schema/beans"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
               http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.2.xsd
               http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-	<security:authentication-manager alias="authenticationManager" />
+    <security:authentication-manager alias="authenticationManager"/>
 
-	<security:authentication-provider
-		user-service-ref="userDetailsService">
-		<security:password-encoder hash="plaintext" />
-	</security:authentication-provider>
+    <security:authentication-provider
+            user-service-ref="userDetailsService">
+        <security:password-encoder hash="plaintext"/>
+    </security:authentication-provider>
 
-	<bean id="userDetailsService"
-		class="de.powerstaff.business.service.impl.PowerstaffUserDetailsServiceImpl">
-		<property name="authenticationDAO"
-			ref="authenticationDAO" />
-	</bean>
-	
-	<bean id="startPageFilter"
-		class="de.powerstaff.web.filter.RedirectToStartPageFilter">
-		<security:custom-filter before="SWITCH_USER_FILTER" />
-		<property name="startPage" value="/login" />
-	</bean>
+    <bean id="userDetailsService"
+          class="de.powerstaff.business.service.impl.PowerstaffUserDetailsServiceImpl">
+        <property name="authenticationDAO"
+                  ref="authenticationDAO"/>
+    </bean>
 
-	<bean id="disableProxyFilter"
-		class="de.mogwai.common.web.filter.DisableProxyFilter">
-		<security:custom-filter
-			before="AUTHENTICATION_PROCESSING_FILTER" />
-	</bean>
+    <bean id="startPageFilter"
+          class="de.powerstaff.web.filter.RedirectToStartPageFilter">
+        <security:custom-filter before="SWITCH_USER_FILTER"/>
+        <property name="startPage" value="/login"/>
+    </bean>
 
-	<bean id="securityContextToUserContextFilter"
-		class="de.mogwai.common.web.filter.SecurityContextToUserContextFilter">
-		<security:custom-filter
-			after="AUTHENTICATION_PROCESSING_FILTER" />
-	</bean>
+    <bean id="disableProxyFilter"
+          class="de.mogwai.common.web.filter.DisableProxyFilter">
+        <security:custom-filter
+                before="AUTHENTICATION_PROCESSING_FILTER"/>
+    </bean>
 
-	<bean id="promoteUserIDToLog4JNDCFilter"
-		class="de.mogwai.common.web.filter.PromoteUserIDToLog4JNDCFilter">
-		<security:custom-filter after="SWITCH_USER_FILTER" />
-	</bean>
+    <bean id="securityContextToUserContextFilter"
+          class="de.mogwai.common.web.filter.SecurityContextToUserContextFilter">
+        <security:custom-filter
+                after="AUTHENTICATION_PROCESSING_FILTER"/>
+    </bean>
 
-	<bean id="loginService"
-		class="de.mogwai.common.business.service.impl.LoginServiceImpl">
-		<property name="authenticationManager"
-			ref="authenticationManager" />
-	</bean>
+    <bean id="promoteUserIDToLog4JNDCFilter"
+          class="de.mogwai.common.web.filter.PromoteUserIDToLog4JNDCFilter">
+        <security:custom-filter after="SWITCH_USER_FILTER"/>
+    </bean>
 
-	<bean id="authenticationListener"
-		class="de.powerstaff.business.service.impl.AuthenticationListenerImpl">
-	</bean>
+    <bean id="loginService"
+          class="de.mogwai.common.business.service.impl.LoginServiceImpl">
+        <property name="authenticationManager"
+                  ref="authenticationManager"/>
+    </bean>
 
-	<bean id="authenticationApplicationListener"
-		class="de.mogwai.common.security.AuthenticationApplicationListener">
-		<property name="authenticationListener"
-			ref="authenticationListener" />
-	</bean>
+    <bean id="authenticationListener"
+          class="de.powerstaff.business.service.impl.AuthenticationListenerImpl">
+    </bean>
 
-	<security:http>
-		<security:intercept-url pattern="/resource/**" filters="none" />	
-		<security:intercept-url pattern="/images/**" filters="none" />
-		<security:intercept-url pattern="/script/**" filters="none" />
-		<security:intercept-url pattern="/style/**" filters="none" />
-		<security:intercept-url pattern="/include/**" access="ROLE_USER" />
-		<security:intercept-url pattern="/**" access="ROLE_USER, ROLE_ANONYMOUS" />
-		<security:form-login login-page="/login" />
-		<security:anonymous />
-		<security:logout />
-		<security:remember-me />
-	</security:http>
+    <bean id="authenticationApplicationListener"
+          class="de.mogwai.common.security.AuthenticationApplicationListener">
+        <property name="authenticationListener"
+                  ref="authenticationListener"/>
+    </bean>
+
+    <security:http>
+        <security:intercept-url pattern="/resource/**" filters="none"/>
+        <security:intercept-url pattern="/images/**" filters="none"/>
+        <security:intercept-url pattern="/script/**" filters="none"/>
+        <security:intercept-url pattern="/style/**" filters="none"/>
+        <security:intercept-url pattern="/include/**" access="ROLE_USER"/>
+        <security:intercept-url pattern="/profilesearch/**" access="ROLE_USER"/>
+        <security:intercept-url pattern="/statistic/**" access="ROLE_USER"/>
+        <security:intercept-url pattern="/freelancer/**" access="ROLE_USER"/>
+        <security:intercept-url pattern="/partner/**" access="ROLE_USER"/>
+        <security:intercept-url pattern="/customer/**" access="ROLE_USER"/>
+        <security:intercept-url pattern="/project/**" access="ROLE_USER"/>
+        <security:intercept-url pattern="/**" access="ROLE_USER, ROLE_ANONYMOUS"/>
+        <security:form-login login-page="/login"/>
+        <security:anonymous/>
+        <security:remember-me/>
+    </security:http>
 
 </beans>
