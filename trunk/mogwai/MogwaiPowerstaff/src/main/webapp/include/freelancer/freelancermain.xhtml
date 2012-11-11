@@ -29,7 +29,7 @@
                 <h:outputText value="      Aktuelles Projekt : #{contextUtils.currrentProjectDescription}"/>
                 <b:commandLink action="#{contextUtils.commandClearContext}" immediate="true">
                     <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
-                    <a4j:support eventsQueue="powerstaff" event="onclick"/>
+                    <a4j:support eventsQueue="powerstaff" event="onclick" reRender="projectincontext"/>
                 </b:commandLink>
             </f:subview>
         </h:panelGroup>

@@ -1,6 +1,6 @@
 /**
  * Copyright 2002 - 2007 the Mogwai Project.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,22 +16,18 @@
  */
 package de.mogwai.common.web.phaselistener;
 
-import javax.faces.context.FacesContext;
+import de.mogwai.common.logging.Logger;
+
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.ServletRequest;
 
-import de.mogwai.common.logging.Logger;
-
 public class TrackerPhaseListener implements PhaseListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4017505684182951105L;
+    private static final long serialVersionUID = 4017505684182951105L;
 
-	private static final Logger LOGGER = new Logger(TrackerPhaseListener.class);
+    private static final Logger LOGGER = new Logger(TrackerPhaseListener.class);
 
     private ThreadLocal<Long> start = new ThreadLocal<Long>();
 

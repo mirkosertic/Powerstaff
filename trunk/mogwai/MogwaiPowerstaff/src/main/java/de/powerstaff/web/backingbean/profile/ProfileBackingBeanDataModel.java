@@ -19,7 +19,7 @@ package de.powerstaff.web.backingbean.profile;
 
 import de.mogwai.common.web.backingbean.BackingBeanDataModel;
 import de.powerstaff.business.dto.ProfileSearchEntry;
-import de.powerstaff.business.dto.ProfileSearchRequest;
+import de.powerstaff.business.entity.SavedProfileSearch;
 import de.powerstaff.web.utils.PagedListDataModel;
 import org.richfaces.component.UIDatascroller;
 
@@ -29,9 +29,11 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 
     public static final String TYPE_SEARCH = "search";
 
+    public final static String NEW_ENTITY_ID = "new";
+
     private static final long serialVersionUID = 8778198734206433965L;
 
-    private ProfileSearchRequest searchRequest = new ProfileSearchRequest();
+    private SavedProfileSearch searchRequest = new SavedProfileSearch();
 
     private transient PagedListDataModel<ProfileSearchEntry> searchResult;
 
@@ -41,18 +43,22 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 
     private String id;
 
-    /**
-     * @return the searchRequest
-     */
-    public ProfileSearchRequest getSearchRequest() {
+    public SavedProfileSearch getSearchRequest() {
         return searchRequest;
     }
 
-    /**
-     * @param searchRequest the searchRequest to set
-     */
-    public void setSearchRequest(ProfileSearchRequest searchRequest) {
+    public void setSearchRequest(SavedProfileSearch searchRequest) {
         this.searchRequest = searchRequest;
+        if (searchRequest.getProject() != null) {
+            type = TYPE_SEARCH;
+        } else {
+            type = TYPE_USER;
+        }
+        if (searchRequest.getId() != null) {
+            id = searchRequest.getId().toString();
+        } else {
+            id = NEW_ENTITY_ID;
+        }
     }
 
     public PagedListDataModel<ProfileSearchEntry> getSearchResult() {

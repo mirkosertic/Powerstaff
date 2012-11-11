@@ -14,6 +14,12 @@ import java.util.List;
 
 public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<Project> {
 
+    public final static String TYPE_CUSTOMER = "customer";
+
+    public final static String TYPE_PARTNER = "partner";
+
+    public final static String TYPE_UNKNOWN = "unknown";
+
     private static final long serialVersionUID = -4432968696961074056L;
 
     private CollectionDataModel<GenericSearchResult> searchResult = new CollectionDataModel<GenericSearchResult>();
@@ -25,6 +31,10 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
     private CollectionDataModel<ProjectPosition> positions = new CollectionDataModel<ProjectPosition>();
 
     private CollectionDataModel<SavedProfileSearch> savedSearches = new CollectionDataModel<SavedProfileSearch>();
+
+    private String currentType;
+
+    private String currentTypeId;
 
     public ProjectBackingBeanDataModel() {
         status.add(new KeyValuePair<Integer, String>(1, "Offen"));
@@ -45,10 +55,6 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
         return null;
     }
 
-    public ProjectBackingBeanDataModel(Project aProject) {
-        super(aProject);
-    }
-
     @Override
     protected void initialize() {
         setEntity(new Project());
@@ -57,6 +63,18 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
     @Override
     public void setEntity(Project aValue) {
         super.setEntity(aValue);
+
+        currentType = TYPE_UNKNOWN;
+        currentTypeId = NEW_ENTITY_ID;
+        if (aValue.getCustomer() != null) {
+            currentType = TYPE_CUSTOMER;
+            currentTypeId = aValue.getCustomer().getId().toString();
+        }
+        if (aValue.getPartner() != null) {
+            currentType = TYPE_PARTNER;
+            currentTypeId = aValue.getPartner().getId().toString();
+        }
+
         if (aValue.getContactPerson() != null) {
             contacts = new CollectionDataModel<Contact>(getEntity().getContactPerson().getContacts());
         } else {
@@ -64,37 +82,22 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
         }
     }
 
-    /**
-     * @return the searchResult
-     */
     public CollectionDataModel<GenericSearchResult> getSearchResult() {
         return searchResult;
     }
 
-    /**
-     * @return the status
-     */
     public List getStatus() {
         return status;
     }
 
-    /**
-     * @param status the status to set
-     */
     public void setStatus(List status) {
         this.status = status;
     }
 
-    /**
-     * @return the contacts
-     */
     public CollectionDataModel<Contact> getContacts() {
         return contacts;
     }
 
-    /**
-     * @param contacts the contacts to set
-     */
     public void setContacts(CollectionDataModel<Contact> contacts) {
         this.contacts = contacts;
     }
@@ -113,5 +116,21 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
 
     public void setSavedSearches(CollectionDataModel<SavedProfileSearch> savedSearches) {
         this.savedSearches = savedSearches;
+    }
+
+    public String getCurrentType() {
+        return currentType;
+    }
+
+    public void setCurrentType(String currentType) {
+        this.currentType = currentType;
+    }
+
+    public String getCurrentTypeId() {
+        return currentTypeId;
+    }
+
+    public void setCurrentTypeId(String currentTypeId) {
+        this.currentTypeId = currentTypeId;
     }
 }

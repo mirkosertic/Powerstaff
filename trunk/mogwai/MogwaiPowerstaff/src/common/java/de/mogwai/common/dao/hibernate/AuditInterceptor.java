@@ -16,6 +16,7 @@
  */
 package de.mogwai.common.dao.hibernate;
 
+import de.mogwai.common.usercontext.UserContext;
 import de.mogwai.common.usercontext.UserContextHolder;
 import de.powerstaff.business.entity.User;
 import org.hibernate.EmptyInterceptor;
@@ -61,7 +62,11 @@ public class AuditInterceptor extends EmptyInterceptor {
 
     public boolean onSave(Object aEntity, Serializable aID, Object[] aStates, String[] aPropertyNames, Type[] aTypes) {
 
-        User theCurrentUser = (User) UserContextHolder.getUserContext().getAuthenticatable();
+        User theCurrentUser = null;
+        UserContext theUserContext = UserContextHolder.getUserContext();
+        if (theUserContext != null) {
+            theCurrentUser = (User) theUserContext.getAuthenticatable();
+        }
 
         if (theCurrentUser != null) {
 
@@ -93,7 +98,11 @@ public class AuditInterceptor extends EmptyInterceptor {
     public boolean onFlushDirty(Object aEntity, Serializable aID, Object[] aCurrentState, Object[] aPreviousState,
                                 String[] aPropertyNames, Type[] aTypes) {
 
-        User theCurrentUser = (User) UserContextHolder.getUserContext().getAuthenticatable();
+        User theCurrentUser = null;
+        UserContext theUserContext = UserContextHolder.getUserContext();
+        if (theUserContext != null) {
+            theCurrentUser = (User) theUserContext.getAuthenticatable();
+        }
 
         if (theCurrentUser != null) {
 

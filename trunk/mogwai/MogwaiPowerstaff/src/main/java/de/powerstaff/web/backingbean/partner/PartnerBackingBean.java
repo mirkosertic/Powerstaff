@@ -17,8 +17,6 @@
  */
 package de.powerstaff.web.backingbean.partner;
 
-import de.mogwai.common.command.EditEntityCommand;
-import de.mogwai.common.command.UpdateModelCommand;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.Partner;
@@ -27,7 +25,6 @@ import de.powerstaff.business.entity.PartnerHistory;
 import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.PartnerService;
 import de.powerstaff.web.backingbean.PersonEditorBackingBean;
-import de.powerstaff.web.backingbean.project.ProjectBackingBean;
 
 public class PartnerBackingBean
         extends
@@ -36,12 +33,6 @@ public class PartnerBackingBean
     private static final long serialVersionUID = -5789495052412740906L;
 
     private transient FreelancerService freelancerService;
-
-    private ProjectBackingBean projectBackingBean;
-
-    public void setProjectBackingBean(ProjectBackingBean projectBackingBean) {
-        this.projectBackingBean = projectBackingBean;
-    }
 
     @Override
     protected PartnerBackingBeanDataModel createDataModel() {
@@ -55,36 +46,6 @@ public class PartnerBackingBean
     @Override
     protected String getNavigationIDPrefix() {
         return "partner";
-    }
-
-    @Override
-    public void updateModel(UpdateModelCommand aInfo) {
-        super.updateModel(aInfo);
-        if (aInfo instanceof EditEntityCommand) {
-
-            afterPropertiesSet();
-
-            EditEntityCommand theCommand = (EditEntityCommand) aInfo;
-            if (theCommand.getValue() instanceof Freelancer) {
-
-                Freelancer theFreelancer = (Freelancer) theCommand.getValue();
-                Partner theOldPartner = theFreelancer.getPartner();
-
-                Partner thePartner = (Partner) entityService
-                        .findByPrimaryKey(theOldPartner.getId());
-                getData().setEntity(thePartner);
-                afterNavigation();
-
-                getData().setOriginalFreelancer(theFreelancer);
-            } else {
-                Partner thePartner = (Partner) theCommand.getValue();
-
-                thePartner = (Partner) entityService
-                        .findByPrimaryKey(thePartner.getId());
-                getData().setEntity(thePartner);
-                afterNavigation();
-            }
-        }
     }
 
     @Override
@@ -166,17 +127,5 @@ public class PartnerBackingBean
     @Override
     protected PartnerHistory createNewHistory() {
         return new PartnerHistory();
-    }
-
-    public String commandNewProject() {
-
-        Partner thePartner = getData().getEntity();
-        if (thePartner.getId() == null) {
-            JSFMessageUtils.addGlobalErrorMessage(MSG_KEINPARTNER);
-            return null;
-        }
-
-        projectBackingBean.updateModel(new EditEntityCommand<Partner>(thePartner));
-        return "PROJEKT_STAMMDATEN";
     }
 }

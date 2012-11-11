@@ -10,7 +10,7 @@
     <url-mapping id="profilemain">
         <pattern>/profilesearch/#{profileBackingBean.data.type}/#{profileBackingBean.data.id}</pattern>
         <view-id>/include/profile/profilemain.faces</view-id>
-        <action onPostback="false">#{profileBackingBean.loadData}</action>
+        <action>#{profileBackingBean.loadData}</action>
     </url-mapping>
     <url-mapping id="statisticmain">
         <pattern>/statistic/</pattern>
@@ -52,8 +52,10 @@
         <action>#{customerBackingBean.loadEntity}</action>
     </url-mapping>
     <url-mapping id="projectmain">
-        <pattern>/project/#{projectBackingBean.data.currentEntityId}/main</pattern>
+        <pattern>
+            /project/#{projectBackingBean.data.currentType}/#{projectBackingBean.data.currentTypeId}/#{projectBackingBean.data.currentEntityId}/main
+        </pattern>
         <view-id>/include/project/projectmain.faces</view-id>
-        <action>#{projectBackingBean.loadEntity}</action>
+        <action onPostback="false">#{projectBackingBean.loadEntity}</action>
     </url-mapping>
 </pretty-config>

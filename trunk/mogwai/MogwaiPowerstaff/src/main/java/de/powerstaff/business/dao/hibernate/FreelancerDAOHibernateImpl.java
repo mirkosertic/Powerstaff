@@ -20,10 +20,10 @@ package de.powerstaff.business.dao.hibernate;
 import de.powerstaff.business.dao.FreelancerDAO;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dto.ProfileSearchInfoDetail;
-import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.ProjectPosition;
+import de.powerstaff.business.entity.SavedProfileSearch;
 import de.powerstaff.business.service.ReferenceExistsException;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
@@ -62,7 +62,7 @@ public class FreelancerDAOHibernateImpl extends
         return Freelancer.class;
     }
 
-    public List<String> findCodesBy(final ProfileSearchRequest request) {
+    public List<String> findCodesBy(final SavedProfileSearch request) {
         return (List<String>) getHibernateTemplate().execute(
                 new HibernateCallback() {
 
