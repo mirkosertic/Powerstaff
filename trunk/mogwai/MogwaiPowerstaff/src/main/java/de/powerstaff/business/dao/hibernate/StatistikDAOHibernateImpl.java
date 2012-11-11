@@ -64,7 +64,7 @@ public class StatistikDAOHibernateImpl extends GenericDaoHibernateImpl
                         }
                         if (aBenutzer != null) {
                             theRestrictions.add(Restrictions.eq(
-                                    "h.creationUserID", aBenutzer.getUserId()));
+                                    "h.creationUserID", aBenutzer.getUsername()));
                         }
 
                         // Freiberufler

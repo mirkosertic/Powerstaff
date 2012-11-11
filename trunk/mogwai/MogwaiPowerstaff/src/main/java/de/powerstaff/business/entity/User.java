@@ -23,11 +23,8 @@ import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.userdetails.UserDetails;
 
-public class User extends AuditableEntity implements Authenticatable, UserDetails {
+public class User extends AuditableEntity implements UserDetails, Authenticatable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1984356742823703755L;
 
     private String name;
@@ -61,12 +58,13 @@ public class User extends AuditableEntity implements Authenticatable, UserDetail
     }
 
     @Override
-    public String toString() {
-        return name;
-    }
-
     public String getUserId() {
         return getName();
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     public GrantedAuthority[] getAuthorities() {

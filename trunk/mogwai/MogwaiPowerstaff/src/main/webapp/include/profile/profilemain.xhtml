@@ -21,19 +21,17 @@
 
         <b:gridBagLayout id="x" rows="p,10" cols="500,p">
             <b:cell y="1" x="1">
-                <h:panelGrid columns="2">
+                <h:panelGroup>
                     <h:outputText styleClass="title" value="Profilsuche"/>
-                    <a4j:outputPanel ajaxRendered="true" style="white-space: nowrap;">
-                        <f:subview id="projectincontext" rendered="#{contextUtils.contextSet}">
-                            <h:outputText
-                                    value="      Aktuelles Projekt : #{contextUtils.currrentProjectDescription}"/>
-                            <b:commandLink action="#{profileBackingBean.commandClearContext}" immediate="true">
-                                <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
-                                <a4j:support eventsQueue="powerstaff" event="onclick"/>
-                            </b:commandLink>
-                        </f:subview>
-                    </a4j:outputPanel>
-                </h:panelGrid>
+
+                    <f:subview id="projectincontext" rendered="#{contextUtils.contextSet}">
+                        <h:outputText value="      Aktuelles Projekt : #{contextUtils.currrentProjectDescription}"/>
+                        <b:commandLink action="#{contextUtils.commandClearContext}" immediate="true">
+                            <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
+                            <a4j:support eventsQueue="powerstaff" event="onclick"/>
+                        </b:commandLink>
+                    </f:subview>
+                </h:panelGroup>
             </b:cell>
 
             <b:cell y="1" x="2">

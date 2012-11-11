@@ -95,10 +95,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
         aDestination.setStundensatzBis(aSource.getStundensatzBis());
         aDestination.setSortierung(aSource.getSortierung());
         aDestination.setProject(aSource.getProject());
-        // Watch for already persistent hibernate id's
-        if (aDestination.getId() == null) {
-            aDestination.setId(aSource.getId());
-        }
+        aDestination.setId(aSource.getId());
     }
 
     private Query getRealQuery(ProfileSearchRequest aRequest, Analyzer aAnalyzer)
@@ -131,35 +128,42 @@ public class ProfileSearchServiceImpl extends LogableService implements
                 "&nbsp;...&nbsp;");
     }
 
-    public ProfileSearchRequest getLastSearchRequest() throws Exception {
+    public ProfileSearchRequest getSearchRequestForUser(String aUserId) {
 
-        User theUser = (User) UserContextHolder.getUserContext()
-                .getAuthenticatable();
-
-        SavedProfileSearch theSearch = profileSearchDAO.getSavedSearchFor(theUser);
-        if (theSearch == null) {
-            return null;
-        }
+        SavedProfileSearch theSearch = profileSearchDAO.getSavedSearchForUser(aUserId);
 
         ProfileSearchRequest theRequest = new ProfileSearchRequest();
-        copySearchRequestInto(theSearch, theRequest);
+        if (theSearch != null) {
+            copySearchRequestInto(theSearch, theRequest);
+        } else {
+            // Neuen Eintrag erzeugen
+            User theUser = (User) UserContextHolder.getUserContext().getAuthenticatable();
+            theSearch.setUser(theUser);
+        }
+
+        return theRequest;
+    }
+
+    public ProfileSearchRequest getSearchRequest(long aSearchRequestId) {
+        SavedProfileSearch theSearch = profileSearchDAO.getSavedSearchById(aSearchRequestId);
+
+        ProfileSearchRequest theRequest = new ProfileSearchRequest();
+        if (theSearch != null) {
+            copySearchRequestInto(theSearch, theRequest);
+        }
 
         return theRequest;
     }
 
     @Override
     public void saveSearchRequest(ProfileSearchRequest searchRequest, boolean cleanup) {
-        User theUser = (User) UserContextHolder.getUserContext()
-                .getAuthenticatable();
+
+        User theUser = (User) UserContextHolder.getUserContext().getAuthenticatable();
 
         SavedProfileSearch theSearch = null;
 
         if (searchRequest.getId() != null) {
             theSearch = profileSearchDAO.getSavedSearchById(searchRequest.getId());
-        }
-
-        if (theSearch == null) {
-            theSearch = profileSearchDAO.getSavedSearchFor(theUser);
         }
 
         if (theSearch == null) {
@@ -179,7 +183,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
         if (theSearch.getProject() != null) {
 
             boolean isNew = false;
-            SavedProfileSearch theSearchForUser = profileSearchDAO.getSavedSearchFor(theUser);
+            SavedProfileSearch theSearchForUser = profileSearchDAO.getSavedSearchForUser(theUser.getUsername());
             if (theSearchForUser == null) {
                 theSearchForUser = new SavedProfileSearch();
                 theSearchForUser.setUser(theUser);
@@ -374,12 +378,5 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
         }
         return theProfiles;
-    }
-
-    @Override
-    public ProfileSearchRequest getSearchRequestFor(SavedProfileSearch aSearch) {
-        ProfileSearchRequest theSearch = new ProfileSearchRequest();
-        copySearchRequestInto(aSearch, theSearch);
-        return theSearch;
     }
 }

@@ -30,16 +30,6 @@ public class AdditionalDataServiceImpl extends LogableService implements Additio
 
     private AdditionalDataDAO additionalDataDAO;
 
-    /**
-     * @return the additionalDataDAO
-     */
-    public AdditionalDataDAO getAdditionalDataDAO() {
-        return additionalDataDAO;
-    }
-
-    /**
-     * @param additionalDataDAO the additionalDataDAO to set
-     */
     public void setAdditionalDataDAO(AdditionalDataDAO additionalDataDAO) {
         this.additionalDataDAO = additionalDataDAO;
     }

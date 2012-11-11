@@ -30,16 +30,6 @@ public class StatistikServiceImpl implements StatisticService {
 
     private StatistikDAO statistikDAO;
 
-    /**
-     * @return the statistikDAO
-     */
-    public StatistikDAO getStatistikDAO() {
-        return statistikDAO;
-    }
-
-    /**
-     * @param statistikDAO the statistikDAO to set
-     */
     public void setStatistikDAO(StatistikDAO statistikDAO) {
         this.statistikDAO = statistikDAO;
     }

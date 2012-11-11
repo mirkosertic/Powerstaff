@@ -83,8 +83,8 @@
     </welcome-file-list>
 
     <filter>
-      <filter-name>Pretty Filter</filter-name>
-      <filter-class>com.ocpsoft.pretty.PrettyFilter</filter-class>
+        <filter-name>Pretty Filter</filter-name>
+        <filter-class>com.ocpsoft.pretty.PrettyFilter</filter-class>
     </filter>
 
     <filter>
@@ -139,20 +139,20 @@
     </filter-mapping>
 
     <filter-mapping>
-	    <filter-name>Pretty Filter</filter-name>
-	    <url-pattern>/*</url-pattern>
-	    <dispatcher>REQUEST</dispatcher>
-	    <dispatcher>FORWARD</dispatcher>
-	    <dispatcher>ERROR</dispatcher>
-    </filter-mapping>
-
-    <filter-mapping>
-        <filter-name>changeheader</filter-name>
+        <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
     <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-name>Pretty Filter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>changeheader</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
@@ -173,5 +173,4 @@
         <filter-name>MyFacesExtensionsFilter</filter-name>
         <url-pattern>*.faces</url-pattern>
     </filter-mapping>
-
 </web-app>

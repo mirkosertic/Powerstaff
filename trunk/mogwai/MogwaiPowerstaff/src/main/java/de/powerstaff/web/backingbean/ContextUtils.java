@@ -1,10 +1,10 @@
 package de.powerstaff.web.backingbean;
 
+import de.mogwai.common.usercontext.UserContext;
+import de.mogwai.common.usercontext.UserContextHolder;
 import de.powerstaff.business.entity.Project;
 import de.powerstaff.business.entity.User;
 import de.powerstaff.business.service.ProjectService;
-import org.springframework.security.context.SecurityContext;
-import org.springframework.security.context.SecurityContextHolder;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -71,9 +71,14 @@ public class ContextUtils {
     }
 
     public String getCurrentUserId() {
-        SecurityContext theContext = SecurityContextHolder.getContext();
-        User theUser = (User) theContext.getAuthentication().getPrincipal();
-        ;
-        return theUser.getUserId();
+
+        UserContext theContext = UserContextHolder.getUserContext();
+        if (theContext != null) {
+            User theUser = (User) UserContextHolder.getUserContext().getAuthenticatable();
+            if (theUser != null) {
+                return theUser.getUserId();
+            }
+        }
+        return "";
     }
 }

@@ -17,8 +17,6 @@
  */
 package de.powerstaff.web.backingbean.profile;
 
-import de.mogwai.common.command.EditEntityCommand;
-import de.mogwai.common.command.UpdateModelCommand;
 import de.mogwai.common.logging.Logger;
 import de.mogwai.common.web.backingbean.WrappingBackingBean;
 import de.mogwai.common.web.utils.JSFMessageUtils;
@@ -28,7 +26,6 @@ import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.entity.Project;
 import de.powerstaff.business.entity.ProjectPosition;
 import de.powerstaff.business.entity.ProjectPositionStatus;
-import de.powerstaff.business.entity.SavedProfileSearch;
 import de.powerstaff.business.service.ProfileIndexerService;
 import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.web.backingbean.ContextUtils;
@@ -65,11 +62,7 @@ public class ProfileBackingBean extends
 
     @Override
     public void afterPropertiesSet() {
-        if (getData() != null) {
-            getData().setViewRoot(null);
-        } else {
-            setData(createDataModel());
-        }
+        setData(createDataModel());
     }
 
     public void setProfileSearchService(
@@ -128,40 +121,6 @@ public class ProfileBackingBean extends
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), true);
 
             initializeDataModel();
-        }
-    }
-
-    public void commandClearContext() {
-        contextUtils.commandClearContext();
-        getData().setInitialized(false);
-        resetNavigation();
-    }
-
-    @Override
-    public void resetNavigation() {
-        if (!getData().isInitialized()) {
-            super.resetNavigation();
-
-            try {
-                ProfileSearchRequest theResult = profileSearchService
-                        .getLastSearchRequest();
-
-                initializeFor(theResult);
-            } catch (Exception e) {
-                JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE,
-                        e.getMessage());
-                LOGGER.logError("Fehler bei Profilsuche", e);
-            }
-
-            getData().setInitialized(true);
-        } else {
-            try {
-                initializeFor(getData().getSearchRequest());
-            } catch (Exception e) {
-                JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE,
-                        e.getMessage());
-                LOGGER.logError("Fehler bei Profilsuche", e);
-            }
         }
     }
 
@@ -285,20 +244,6 @@ public class ProfileBackingBean extends
         return profileSearchService.getPageSize();
     }
 
-    @Override
-    public void updateModel(UpdateModelCommand aInfo) {
-        super.updateModel(aInfo);
-        if (aInfo instanceof EditEntityCommand) {
-
-            EditEntityCommand theCommand = (EditEntityCommand) aInfo;
-
-            SavedProfileSearch theSearch = (SavedProfileSearch) theCommand.getValue();
-            ProfileSearchRequest theResult = profileSearchService.getSearchRequestFor(theSearch);
-
-            initializeFor(theResult);
-        }
-    }
-
     private static final String POSITION_CACHE_ID = "PositionCache";
 
     public ProjectPositionStatus findStatusFor(long aFreelancerId, Project aProject) {
@@ -329,5 +274,23 @@ public class ProfileBackingBean extends
     }
 
     public void loadData() {
+
+        try {
+            if (ProfileBackingBeanDataModel.TYPE_USER.equals(getData().getType())) {
+                ProfileSearchRequest theResult = profileSearchService
+                        .getSearchRequestForUser(getData().getId());
+
+                initializeFor(theResult);
+            }
+            if (ProfileBackingBeanDataModel.TYPE_SEARCH.equals(getData().getType())) {
+                ProfileSearchRequest theResult = profileSearchService.getSearchRequest(Long.parseLong(getData().getId()));
+                initializeFor(theResult);
+            }
+        } catch (Exception e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE,
+                    e.getMessage());
+            LOGGER.logError("Fehler bei Profilsuche", e);
+        }
+
     }
 }
