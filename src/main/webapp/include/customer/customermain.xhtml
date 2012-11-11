@@ -4,7 +4,9 @@
                 xmlns:b="http://mogwai.sourceforge.net/layout"
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:rich="http://richfaces.org/rich" template="/template/powerstaff.xhtml">
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:pretty="http://ocpsoft.com/prettyfaces"
+                template="/template/powerstaff.xhtml">
 <ui:define name="pagetitle">
     <h:outputText value="Stammdaten #{customerBackingBean.data.entity.name1} #{customerBackingBean.data.entity.name2}"/>
 </ui:define>
@@ -85,9 +87,12 @@
                 </h:commandLink>
             </b:cell>
             <b:cell x="13" y="1">
-                <h:commandLink title="Neues Projekt erfassen" action="#{customerBackingBean.commandNewProject}">
+                <pretty:link mappingId="projectmain" onclick="if (!checkForChangedData()) {return false;}">
+                    <f:param value="customer"/>
+                    <f:param value="#{customerBackingBean.data.currentEntityId}"/>
+                    <f:param value="new"/>
                     <img src="${facesContext.externalContext.requestContextPath}/images/newproject.gif"/>
-                </h:commandLink>
+                </pretty:link>
             </b:cell>
             <b:cell x="14" y="1" valign="middle" align="right">
                 <b:label id="gehezu" label="Gehe zu #"/>
@@ -338,4 +343,4 @@
     <rich:jQuery selector=":input:not(:hidden)" query="change(function() {markChanged();})"/>
 </a4j:outputPanel>
 </ui:define>
-</ui:composition>	
+</ui:composition>

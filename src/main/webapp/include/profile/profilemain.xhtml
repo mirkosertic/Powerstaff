@@ -17,7 +17,7 @@
         <ui:include src="/include/profile/profilemenu1.xhtml"/>
     </ui:define>
     <ui:define name="content">
-        <b:saveState value="#{projectBackingBean}"/>
+        <b:saveState value="#{profileBackingBean}"/>
 
         <b:gridBagLayout id="x" rows="p,10" cols="500,p">
             <b:cell y="1" x="1">
@@ -28,7 +28,7 @@
                         <h:outputText value="      Aktuelles Projekt : #{contextUtils.currrentProjectDescription}"/>
                         <b:commandLink action="#{contextUtils.commandClearContext}" immediate="true">
                             <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
-                            <a4j:support eventsQueue="powerstaff" event="onclick"/>
+                            <a4j:support eventsQueue="powerstaff" event="onclick" reRender="projectincontext"/>
                         </b:commandLink>
                     </f:subview>
                 </h:panelGroup>
@@ -59,23 +59,19 @@
                         </b:cell>
                         <b:cell x="6" y="2">
                             <a4j:outputPanel ajaxRendered="true">
-                                <b:commandLink title="Suchen und dem Projekt zuordnen"
+                                <h:commandLink title="Suchen und dem Projekt zuordnen"
                                                action="#{profileBackingBean.commandSaveToProject}"
                                                rendered="#{contextUtils.contextSet}">
                                     <img src="${facesContext.externalContext.requestContextPath}/images/update.gif"/>
-                                    <a4j:support eventsQueue="powerstaff" event="onclick"
-                                                 reRender="input"/>
-                                </b:commandLink>
+                                </h:commandLink>
                             </a4j:outputPanel>
                         </b:cell>
                         <b:cell x="8" y="2">
-                            <b:commandLink title="Suchen" action="#{profileBackingBean.commandSearch}"
+                            <h:commandLink title="Suchen" action="#{profileBackingBean.commandSearch}"
                                            actionKey="13"
                                            keySensitive="true">
                                 <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
-                                <a4j:support eventsQueue="powerstaff" event="onclick"
-                                             reRender="input"/>
-                            </b:commandLink>
+                            </h:commandLink>
                         </b:cell>
                     </b:gridBagLayout>
                     <b:gridBagLayout cols="1,148,2,50,30,50,2" rows="10,p,2,p">

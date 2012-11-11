@@ -20,27 +20,27 @@ package de.powerstaff.business.service;
 import de.mogwai.common.business.service.Service;
 import de.powerstaff.business.dto.DataPage;
 import de.powerstaff.business.dto.ProfileSearchEntry;
-import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerProfile;
+import de.powerstaff.business.entity.SavedProfileSearch;
 
 import java.util.List;
 
 public interface ProfileSearchService extends Service {
 
-    void saveSearchRequest(ProfileSearchRequest searchRequest, boolean cleanup);
+    void saveSearchRequest(SavedProfileSearch searchRequest, boolean cleanup);
 
     DataPage<ProfileSearchEntry> findProfileDataPage(
-            ProfileSearchRequest aRequest, int startRow, int pageSize)
+            SavedProfileSearch aRequest, int startRow, int pageSize)
             throws Exception;
 
-    void removeSavedSearchEntry(ProfileSearchRequest searchRequest, String aDocumentId);
+    void removeSavedSearchEntry(SavedProfileSearch searchRequest, String aDocumentId);
 
     int getPageSize();
 
     List<FreelancerProfile> loadProfilesFor(Freelancer aFreelancer);
 
-    ProfileSearchRequest getSearchRequestForUser(String aUsername);
+    SavedProfileSearch getSearchRequestForUser(String aUsername);
 
-    ProfileSearchRequest getSearchRequest(long aSearchRequestId);
+    SavedProfileSearch getSearchRequest(long aSearchRequestId);
 }

@@ -20,7 +20,9 @@ package de.powerstaff.business.service.impl;
 import de.mogwai.common.business.service.impl.LogableService;
 import de.mogwai.common.usercontext.UserContextHolder;
 import de.powerstaff.business.dao.ProfileSearchDAO;
-import de.powerstaff.business.dto.*;
+import de.powerstaff.business.dto.DataPage;
+import de.powerstaff.business.dto.ProfileSearchEntry;
+import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.entity.*;
 import de.powerstaff.business.lucene.analysis.ProfileAnalyzerFactory;
 import de.powerstaff.business.service.FSCache;
@@ -87,18 +89,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
         this.sessionFactory = sessionFactory;
     }
 
-    private void copySearchRequestInto(SearchRequestSupport aSource,
-                                       SearchRequestSupport aDestination) {
-        aDestination.setProfileContent(aSource.getProfileContent());
-        aDestination.setPlz(aSource.getPlz());
-        aDestination.setStundensatzVon(aSource.getStundensatzVon());
-        aDestination.setStundensatzBis(aSource.getStundensatzBis());
-        aDestination.setSortierung(aSource.getSortierung());
-        aDestination.setProject(aSource.getProject());
-        aDestination.setId(aSource.getId());
-    }
-
-    private Query getRealQuery(ProfileSearchRequest aRequest, Analyzer aAnalyzer)
+    private Query getRealQuery(SavedProfileSearch aRequest, Analyzer aAnalyzer)
             throws IOException, ParseException {
 
         BooleanQuery theQuery = new BooleanQuery();
@@ -128,59 +119,27 @@ public class ProfileSearchServiceImpl extends LogableService implements
                 "&nbsp;...&nbsp;");
     }
 
-    public ProfileSearchRequest getSearchRequestForUser(String aUserId) {
-
-        SavedProfileSearch theSearch = profileSearchDAO.getSavedSearchForUser(aUserId);
-
-        ProfileSearchRequest theRequest = new ProfileSearchRequest();
-        if (theSearch != null) {
-            copySearchRequestInto(theSearch, theRequest);
-        } else {
-            // Neuen Eintrag erzeugen
-            User theUser = (User) UserContextHolder.getUserContext().getAuthenticatable();
-            theSearch.setUser(theUser);
-        }
-
-        return theRequest;
+    public SavedProfileSearch getSearchRequestForUser(String aUserId) {
+        return profileSearchDAO.getSavedSearchForUser(aUserId);
     }
 
-    public ProfileSearchRequest getSearchRequest(long aSearchRequestId) {
-        SavedProfileSearch theSearch = profileSearchDAO.getSavedSearchById(aSearchRequestId);
-
-        ProfileSearchRequest theRequest = new ProfileSearchRequest();
-        if (theSearch != null) {
-            copySearchRequestInto(theSearch, theRequest);
-        }
-
-        return theRequest;
+    public SavedProfileSearch getSearchRequest(long aSearchRequestId) {
+        return profileSearchDAO.getSavedSearchById(aSearchRequestId);
     }
 
     @Override
-    public void saveSearchRequest(ProfileSearchRequest searchRequest, boolean cleanup) {
+    public void saveSearchRequest(SavedProfileSearch searchRequest, boolean cleanup) {
 
         User theUser = (User) UserContextHolder.getUserContext().getAuthenticatable();
 
-        SavedProfileSearch theSearch = null;
-
-        if (searchRequest.getId() != null) {
-            theSearch = profileSearchDAO.getSavedSearchById(searchRequest.getId());
-        }
-
-        if (theSearch == null) {
-            theSearch = new SavedProfileSearch();
-            theSearch.setUser(theUser);
-        }
-
-        copySearchRequestInto(searchRequest, theSearch);
-
         if (cleanup) {
-            theSearch.getProfilesToIgnore().clear();
+            searchRequest.getProfilesToIgnore().clear();
         }
 
-        profileSearchDAO.save(theSearch);
+        profileSearchDAO.save(searchRequest);
 
         // If the search was for a project, it will also be saved as the last search for a user
-        if (theSearch.getProject() != null) {
+        if (searchRequest.getProject() != null) {
 
             boolean isNew = false;
             SavedProfileSearch theSearchForUser = profileSearchDAO.getSavedSearchForUser(theUser.getUsername());
@@ -190,11 +149,17 @@ public class ProfileSearchServiceImpl extends LogableService implements
                 isNew = true;
             } else {
                 if (cleanup) {
-                    theSearch.getProfilesToIgnore().clear();
+                    searchRequest.getProfilesToIgnore().clear();
                 }
             }
 
-            copySearchRequestInto(searchRequest, theSearchForUser);
+            theSearchForUser.setPlz(searchRequest.getPlz());
+            theSearchForUser.setProfileContent(searchRequest.getProfileContent());
+            theSearchForUser.setSortierung(searchRequest.getSortierung());
+            theSearchForUser.setStundensatzVon(searchRequest.getStundensatzVon());
+            theSearchForUser.setStundensatzBis(searchRequest.getStundensatzBis());
+            theSearchForUser.getProfilesToIgnore().addAll(searchRequest.getProfilesToIgnore());
+
             if (isNew) {
                 // Auf keinen Fall die bereits existierende Id vom SavedSearchRequest pro projekt übernehmen!
                 theSearchForUser.setId(null);
@@ -209,7 +174,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
     @Override
     public DataPage<ProfileSearchEntry> findProfileDataPage(
-            ProfileSearchRequest aRequest, int startRow, int pageSize)
+            SavedProfileSearch aRequest, int startRow, int pageSize)
             throws Exception {
 
         if (aRequest.getId() == null) {
@@ -325,7 +290,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
     }
 
     @Override
-    public void removeSavedSearchEntry(ProfileSearchRequest searchRequest, String aDocumentId) {
+    public void removeSavedSearchEntry(SavedProfileSearch searchRequest, String aDocumentId) {
 
         SavedProfileSearch theSearch = profileSearchDAO.getSavedSearchById(searchRequest.getId());
 

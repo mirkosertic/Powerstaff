@@ -480,9 +480,11 @@
             </b:commandLink>
         </h:column>
         <h:column>
-            <h:commandLink action="#{projectBackingBean.commandOpenSavedSearch}">
+            <pretty:link mappingId="profilemain">
+                <f:param value="search"/>
+                <f:param value="#{row.id}"/>
                 <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
-            </h:commandLink>
+            </pretty:link>
         </h:column>
     </b:table>
 
@@ -492,4 +494,4 @@
     <rich:jQuery selector=":input:not(:hidden)" query="change(function() {markChanged();})"/>
 </a4j:outputPanel>
 </ui:define>
-</ui:composition>	
+</ui:composition>

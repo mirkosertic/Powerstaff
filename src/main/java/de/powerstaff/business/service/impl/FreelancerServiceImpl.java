@@ -21,10 +21,10 @@ import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.FreelancerDAO;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dto.ProfileSearchInfoDetail;
-import de.powerstaff.business.dto.ProfileSearchRequest;
 import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.ProjectPosition;
+import de.powerstaff.business.entity.SavedProfileSearch;
 import de.powerstaff.business.service.*;
 
 import java.util.Collection;
@@ -102,7 +102,7 @@ public class FreelancerServiceImpl extends LogableService implements
     }
 
     public List<String> findFreelancerCodesByExtended(
-            ProfileSearchRequest request) {
+            SavedProfileSearch request) {
         return freelancerDAO.findCodesBy(request);
     }
 

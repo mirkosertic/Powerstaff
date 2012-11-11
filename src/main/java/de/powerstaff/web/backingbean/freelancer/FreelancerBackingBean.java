@@ -17,10 +17,6 @@
  */
 package de.powerstaff.web.backingbean.freelancer;
 
-import de.mogwai.common.command.EditEntityCommand;
-import de.mogwai.common.command.UpdateModelCommand;
-import de.mogwai.common.web.utils.JSFMessageUtils;
-import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.entity.*;
 import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.ProfileSearchService;
@@ -136,38 +132,6 @@ public class FreelancerBackingBean
         return theResult;
     }
 
-    @Override
-    public void updateModel(UpdateModelCommand aInfo) {
-        super.updateModel(aInfo);
-        if (aInfo instanceof EditEntityCommand) {
-            EditEntityCommand theCommand = (EditEntityCommand) aInfo;
-
-            afterPropertiesSet();
-            if (theCommand.getValue() instanceof ProfileSearchInfoDetail) {
-
-                ProfileSearchInfoDetail theDetails = (ProfileSearchInfoDetail) theCommand
-                        .getValue();
-                Freelancer theFreelancer = entityService
-                        .findByPrimaryKey(theDetails.getId());
-                if (theFreelancer != null) {
-                    getData().setEntity(theFreelancer);
-                } else {
-                    // Freelancer wurde gelöscht, wir springen zu einem neuen Eintrag
-                    JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);
-                    commandNew();
-                }
-            }
-
-            if (theCommand.getValue() instanceof Freelancer) {
-                Freelancer theDetails = (Freelancer) theCommand.getValue();
-                Freelancer theFreelancer = entityService
-                        .findByPrimaryKey(theDetails.getId());
-                getData().setEntity(theFreelancer);
-            }
-
-            afterNavigation();
-        }
-    }
 
     public String getProfileOpenCommand() {
         FreelancerProfile theProfile = (FreelancerProfile) getData()

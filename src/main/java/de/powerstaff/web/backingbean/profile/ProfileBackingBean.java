@@ -17,15 +17,14 @@
  */
 package de.powerstaff.web.backingbean.profile;
 
+import com.ocpsoft.pretty.util.FacesStateUtils;
 import de.mogwai.common.logging.Logger;
+import de.mogwai.common.usercontext.UserContextHolder;
 import de.mogwai.common.web.backingbean.WrappingBackingBean;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.dto.DataPage;
 import de.powerstaff.business.dto.ProfileSearchEntry;
-import de.powerstaff.business.dto.ProfileSearchRequest;
-import de.powerstaff.business.entity.Project;
-import de.powerstaff.business.entity.ProjectPosition;
-import de.powerstaff.business.entity.ProjectPositionStatus;
+import de.powerstaff.business.entity.*;
 import de.powerstaff.business.service.ProfileIndexerService;
 import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.web.backingbean.ContextUtils;
@@ -99,24 +98,28 @@ public class ProfileBackingBean extends
         }
     }
 
-    private void initializeFor(ProfileSearchRequest aRequest) {
+    private void initializeFor(SavedProfileSearch aRequest, boolean aIsInit) {
         if (aRequest != null) {
             getData().setSearchRequest(aRequest);
 
             initializeDataModel();
 
-            int theTotalResult = getData().getSearchResult().getRowCount();
+            if (!aIsInit || (aIsInit && !new FacesStateUtils().isPostback())) {
+                int theTotalResult = getData().getSearchResult().getRowCount();
 
-            if (theTotalResult == 0) {
-                JSFMessageUtils
-                        .addGlobalErrorMessage(MSG_KEINEPROFILEGEFUNDEN);
-            } else {
-                JSFMessageUtils.addGlobalInfoMessage(MSG_PROFILEGEFUNDEN,
-                        "" + theTotalResult);
+                if (theTotalResult == 0) {
+                    JSFMessageUtils
+                            .addGlobalErrorMessage(MSG_KEINEPROFILEGEFUNDEN);
+                } else {
+                    JSFMessageUtils.addGlobalInfoMessage(MSG_PROFILEGEFUNDEN,
+                            "" + theTotalResult);
+                }
             }
         } else {
 
-            getData().setSearchRequest(new ProfileSearchRequest());
+            SavedProfileSearch theSearch = new SavedProfileSearch();
+            theSearch.setUser((User) UserContextHolder.getUserContext().getAuthenticatable());
+            getData().setSearchRequest(theSearch);
 
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), true);
 
@@ -124,21 +127,32 @@ public class ProfileBackingBean extends
         }
     }
 
-    public void commandSaveToProject() {
+    public String commandSaveToProject() {
         try {
 
-            ProfileSearchRequest theRequest = getData().getSearchRequest();
+            SavedProfileSearch theRequest = getData().getSearchRequest();
+
+            theRequest = (SavedProfileSearch) theRequest.clone();
             theRequest.setProject(contextUtils.getCurrentProject());
+            theRequest.setUser((User) UserContextHolder.getUserContext().getAuthenticatable());
 
             profileSearchService
-                    .saveSearchRequest(getData().getSearchRequest(), false);
+                    .saveSearchRequest(theRequest, false);
+
+            // Wir haben jetzt einen neuen Eintrag
+            getData().setSearchRequest(theRequest);
 
             JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
+
+            // Redirect auf die URL des neuen Eintrags
+            return "pretty:profilemain";
+
         } catch (Exception e) {
 
             LOGGER.logError("Fehler beim Speichern", e);
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMSPEICHERN, e.getMessage());
         }
+        return null;
     }
 
     public void commandSearch() {
@@ -146,16 +160,7 @@ public class ProfileBackingBean extends
             profileSearchService
                     .saveSearchRequest(getData().getSearchRequest(), true);
 
-            initializeDataModel();
-
-            int theTotalResult = getData().getSearchResult().getRowCount();
-
-            if (theTotalResult == 0) {
-                JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEPROFILEGEFUNDEN);
-            } else {
-                JSFMessageUtils.addGlobalInfoMessage(MSG_PROFILEGEFUNDEN, ""
-                        + theTotalResult);
-            }
+            initializeFor(getData().getSearchRequest(), false);
 
         } catch (Exception e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE,
@@ -277,14 +282,14 @@ public class ProfileBackingBean extends
 
         try {
             if (ProfileBackingBeanDataModel.TYPE_USER.equals(getData().getType())) {
-                ProfileSearchRequest theResult = profileSearchService
+                SavedProfileSearch theResult = profileSearchService
                         .getSearchRequestForUser(getData().getId());
 
-                initializeFor(theResult);
+                initializeFor(theResult, true);
             }
             if (ProfileBackingBeanDataModel.TYPE_SEARCH.equals(getData().getType())) {
-                ProfileSearchRequest theResult = profileSearchService.getSearchRequest(Long.parseLong(getData().getId()));
-                initializeFor(theResult);
+                SavedProfileSearch theResult = profileSearchService.getSearchRequest(Long.parseLong(getData().getId()));
+                initializeFor(theResult, true);
             }
         } catch (Exception e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE,

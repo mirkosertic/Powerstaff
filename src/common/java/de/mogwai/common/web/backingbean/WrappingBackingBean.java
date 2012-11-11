@@ -1,6 +1,6 @@
 /**
  * Copyright 2002 - 2007 the Mogwai Project.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,37 +16,31 @@
  */
 package de.mogwai.common.web.backingbean;
 
-import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
-
-import de.mogwai.common.web.utils.ValidateModalDataCommand;
-
 /**
  * Basisklasse für eine MVC - Struktur innerhalb der JSF - Anwendung.
- * 
+ * <p/>
  * Ein Backing - Bean ist der Controller, er reagiert auf Benutzerereignisse.
  * Ein WrappingBackingBean erweitert den Controller um ein Datenmodell, welches
  * die Daten und den aktuellen Zustand der View speichert. Die View sind die JSP -
  * Seiten, welche über das WrappingBackingBean und die Methode getData() auf das
  * Datenmodell zugreifen können und die Daten somit darstellen.
- * 
+ *
+ * @param <T> Typ des Datenmodells, welches and die BackingBean gebunden
+ *            wird
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:17:07 $
- * @param <T>
- *                Typ des Datenmodells, welches and die BackingBean gebunden
- *                wird
  */
 public abstract class WrappingBackingBean<T extends BackingBeanDataModel> extends BackingBean {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = -6493790613060807490L;
-	private T dataModel;
+     *
+     */
+    private static final long serialVersionUID = -6493790613060807490L;
+    private T dataModel;
 
     /**
      * Constructor.
-     * 
+     * <p/>
      * Dieser Constructor ruft die abstrakte Methode createDataModel auf, welche
      * von Unterklassen des WrappingBackingBean implementiert werden müssen. Das
      * Datenmodell wird über diesen Aufruf somit auf einen Default
@@ -58,7 +52,7 @@ public abstract class WrappingBackingBean<T extends BackingBeanDataModel> extend
 
     /**
      * Methode zum erzeugen eines neuen Datenmodells.
-     * 
+     *
      * @return das neu erzeugte Datenmodell
      */
     protected abstract T createDataModel();

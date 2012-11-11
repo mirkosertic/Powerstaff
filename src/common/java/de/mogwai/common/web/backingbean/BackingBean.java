@@ -16,9 +16,7 @@
  */
 package de.mogwai.common.web.backingbean;
 
-import de.mogwai.common.command.UpdateModelCommand;
 import de.mogwai.common.utils.Navigatable;
-import de.mogwai.common.web.utils.Updateable;
 
 import java.io.Serializable;
 
@@ -28,29 +26,10 @@ import java.io.Serializable;
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:17:10 $
  */
-public abstract class BackingBean implements Navigatable, Updateable,
-        Serializable {
+public abstract class BackingBean implements Navigatable, Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -6152673765217442475L;
 
-    /**
-     * Refresh Action - Methode.
-     * <p/>
-     * Kann überschrieben werden, um ein spezialisiertes Verhalten beim Refresh
-     * zu erzeugen. Per Default macht diese Methode nichts.
-     *
-     * @return das SUCCESS outcome.
-     */
-    public String refresh() {
-        return ActionOutcome.SUCCESS.value();
-    }
-
     public void resetNavigation() {
-    }
-
-    public void updateModel(UpdateModelCommand aInfo) {
     }
 }

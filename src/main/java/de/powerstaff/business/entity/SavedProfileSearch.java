@@ -18,7 +18,6 @@
 package de.powerstaff.business.entity;
 
 import de.mogwai.common.business.entity.AuditableEntity;
-import de.powerstaff.business.dto.SearchRequestSupport;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,11 +28,8 @@ import java.util.Set;
  * @author msertic
  */
 public class SavedProfileSearch extends AuditableEntity implements
-        SearchRequestSupport, Comparable<SavedProfileSearch> {
+        Comparable<SavedProfileSearch>, Cloneable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 8205335843201371353L;
 
     private User user;
@@ -149,5 +145,17 @@ public class SavedProfileSearch extends AuditableEntity implements
     @Override
     public int compareTo(SavedProfileSearch o) {
         return getCreationDate().compareTo(o.getCreationDate());
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        SavedProfileSearch theNewObject = new SavedProfileSearch();
+        theNewObject.profileContent = profileContent;
+        theNewObject.plz = plz;
+        theNewObject.stundensatzVon = stundensatzVon;
+        theNewObject.stundensatzBis = stundensatzBis;
+        theNewObject.sortierung = sortierung;
+        theNewObject.profilesToIgnore.addAll(profilesToIgnore);
+        return theNewObject;
     }
 }

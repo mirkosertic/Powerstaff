@@ -1,16 +1,12 @@
 package de.powerstaff.web.backingbean.project;
 
-import de.mogwai.common.command.EditEntityCommand;
-import de.mogwai.common.command.UpdateModelCommand;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.*;
-import de.powerstaff.business.service.FreelancerService;
-import de.powerstaff.business.service.ProjectService;
-import de.powerstaff.business.service.TooManySearchResults;
+import de.powerstaff.business.service.*;
 import de.powerstaff.web.backingbean.ContextUtils;
+import de.powerstaff.web.backingbean.EntityEditorBackingBeanDataModel;
 import de.powerstaff.web.backingbean.NavigatingBackingBean;
-import de.powerstaff.web.backingbean.profile.ProfileBackingBean;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
@@ -22,16 +18,21 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
 
     private static final long serialVersionUID = 8688601363580323078L;
 
-    private ProfileBackingBean profileBackingBean;
     private ContextUtils contextUtils;
     private FreelancerService freelancerService;
-
-    public void setProfileBackingBean(ProfileBackingBean profileBackingBean) {
-        this.profileBackingBean = profileBackingBean;
-    }
+    private CustomerService customerService;
+    private PartnerService partnerService;
 
     public void setFreelancerService(FreelancerService freelancerService) {
         this.freelancerService = freelancerService;
+    }
+
+    public void setCustomerService(CustomerService customerService) {
+        this.customerService = customerService;
+    }
+
+    public void setPartnerService(PartnerService partnerService) {
+        this.partnerService = partnerService;
     }
 
     public void setContextUtils(ContextUtils contextUtils) {
@@ -96,28 +97,6 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
     }
 
     @Override
-    public void updateModel(UpdateModelCommand aInfo) {
-        super.updateModel(aInfo);
-        if (aInfo instanceof EditEntityCommand) {
-
-            EditEntityCommand theCommand = (EditEntityCommand) aInfo;
-
-            afterPropertiesSet();
-
-            Project theProject = new Project();
-            if (theCommand.getValue() instanceof Customer) {
-                theProject.setCustomer((Customer) theCommand.getValue());
-            }
-            if (theCommand.getValue() instanceof Partner) {
-                theProject.setPartner((Partner) theCommand.getValue());
-            }
-
-            getData().setEntity(theProject);
-            afterNavigation();
-        }
-    }
-
-    @Override
     protected Project createNew() {
         return new Project();
     }
@@ -178,13 +157,6 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
         }
     }
 
-    public String commandOpenSavedSearch() {
-        SavedProfileSearch theSearch = (SavedProfileSearch) getData().getSavedSearches().getRowData();
-
-        profileBackingBean.updateModel(new EditEntityCommand<SavedProfileSearch>(theSearch));
-        return "PROFILE_STAMMDATEN";
-    }
-
     public String getPositionFreelancerDescription() {
         ProjectPosition thePosition = (ProjectPosition) getData().getPositions().getRowData();
         Freelancer theFreelancer = freelancerService.findByPrimaryKey(thePosition.getFreelancerId());
@@ -215,5 +187,28 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
         theResult.addAll(entityService.getAvailablePositionStatus());
         Collections.sort(theResult);
         return theResult;
+    }
+
+    @Override
+    public void loadEntity() {
+
+        String theCurrentType = getData().getCurrentType();
+        String theCurrentTypeId = getData().getCurrentTypeId();
+
+        super.loadEntity();
+
+        getData().setCurrentType(theCurrentType);
+        getData().setCurrentTypeId(theCurrentTypeId);
+
+        if (EntityEditorBackingBeanDataModel.NEW_ENTITY_ID.equals(getData().getCurrentEntityId())) {
+            if (ProjectBackingBeanDataModel.TYPE_CUSTOMER.equals(getData().getCurrentType())) {
+                Customer theCustomer = customerService.findByPrimaryKey(Long.parseLong(getData().getCurrentTypeId()));
+                getData().getEntity().setCustomer(theCustomer);
+            }
+            if (ProjectBackingBeanDataModel.TYPE_PARTNER.equals(getData().getCurrentType())) {
+                Partner thePartner = partnerService.findByPrimaryKey(Long.parseLong(getData().getCurrentTypeId()));
+                getData().getEntity().setPartner(thePartner);
+            }
+        }
     }
 }

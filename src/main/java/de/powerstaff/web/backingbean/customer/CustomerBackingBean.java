@@ -17,25 +17,15 @@
  */
 package de.powerstaff.web.backingbean.customer;
 
-import de.mogwai.common.command.EditEntityCommand;
-import de.mogwai.common.command.UpdateModelCommand;
-import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.entity.Customer;
 import de.powerstaff.business.entity.CustomerContact;
 import de.powerstaff.business.entity.HistoryEntity;
 import de.powerstaff.business.service.CustomerService;
 import de.powerstaff.web.backingbean.PersonEditorBackingBean;
-import de.powerstaff.web.backingbean.project.ProjectBackingBean;
 
 public class CustomerBackingBean extends PersonEditorBackingBean<Customer, CustomerBackingBeanDataModel, CustomerService> {
 
     private static final long serialVersionUID = -1019229554217528125L;
-
-    private ProjectBackingBean projectBackingBean;
-
-    public void setProjectBackingBean(ProjectBackingBean projectBackingBean) {
-        this.projectBackingBean = projectBackingBean;
-    }
 
     @Override
     protected CustomerBackingBeanDataModel createDataModel() {
@@ -45,32 +35,6 @@ public class CustomerBackingBean extends PersonEditorBackingBean<Customer, Custo
     @Override
     protected String getNavigationIDPrefix() {
         return "customer";
-    }
-
-    public String commandNewProject() {
-
-        Customer theCustomer = getData().getEntity();
-        if (theCustomer.getId() == null) {
-            JSFMessageUtils.addGlobalErrorMessage(MSG_KEINKUNDE);
-            return null;
-        }
-
-        projectBackingBean.updateModel(new EditEntityCommand<Customer>(theCustomer));
-        return "PROJEKT_STAMMDATEN";
-    }
-
-    @Override
-    public void updateModel(UpdateModelCommand aInfo) {
-        super.updateModel(aInfo);
-        if (aInfo instanceof EditEntityCommand) {
-            EditEntityCommand<Customer> theCommand = (EditEntityCommand<Customer>) aInfo;
-
-            afterPropertiesSet();
-            Customer theEntity = entityService.findByPrimaryKey(theCommand.getValue().getId());
-            getData().setEntity(theEntity);
-
-            afterNavigation();
-        }
     }
 
     @Override
