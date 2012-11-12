@@ -130,6 +130,9 @@ public class GoogleStyleQueryParser {
 
         BooleanQuery theQuery = new BooleanQuery(true);
 
+        if (aQueryString == null) {
+            aQueryString = "";
+        }
         aQueryString = aQueryString.trim();
         while (aQueryString.length() > 0) {
             int p = aQueryString.indexOf(DOUBLEQUOTES);

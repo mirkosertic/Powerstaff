@@ -2,6 +2,7 @@ package de.powerstaff.web.backingbean.project;
 
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.dao.GenericSearchResult;
+import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.entity.*;
 import de.powerstaff.business.service.*;
 import de.powerstaff.web.backingbean.ContextUtils;
@@ -22,6 +23,11 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
     private FreelancerService freelancerService;
     private CustomerService customerService;
     private PartnerService partnerService;
+    private ProfileSearchService profileSearchService;
+
+    public void setProfileSearchService(ProfileSearchService profileSearchService) {
+        this.profileSearchService = profileSearchService;
+    }
 
     public void setFreelancerService(FreelancerService freelancerService) {
         this.freelancerService = freelancerService;
@@ -210,5 +216,9 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
                 getData().getEntity().setPartner(thePartner);
             }
         }
+    }
+
+    public List<ProfileSearchEntry> getSimilarFreelancer() {
+        return profileSearchService.getSimilarFreelancer(getData().getEntity());
     }
 }

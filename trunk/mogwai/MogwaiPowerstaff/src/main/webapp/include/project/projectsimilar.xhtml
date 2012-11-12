@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://mogwai.sourceforge.net/layout"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:pretty="http://ocpsoft.com/prettyfaces"
+                template="/template/powerstaff.xhtml">
+    <ui:define name="pagetitle">
+        <h:outputText value="Passende Profile f&#252;r #{projectBackingBean.data.entity.projectNumber}"/>
+    </ui:define>
+    <ui:define name="mainmenu">
+        <ui:include src="/include/mainmenu.xhtml"/>
+    </ui:define>
+    <ui:define name="contextmenu">
+        <ui:include src="/include/project/projectmenu2.xhtml"/>
+    </ui:define>
+    <ui:define name="content">
+
+        <b:gridBagLayout rows="p,10" cols="200,p">
+            <b:cell y="1" x="1">
+                <h:outputText styleClass="title"
+                              value="Passende Profile f&#252;r #{projectBackingBean.data.entity.projectNumber}"/>
+            </b:cell>
+
+            <b:cell y="1" x="2">
+                <a4j:status>
+                    <f:facet name="start">
+                        <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20"
+                             height="20"/>
+                    </f:facet>
+                </a4j:status>
+            </b:cell>
+        </b:gridBagLayout>
+
+        <b:gridBagLayout cols="810" rows="30,10,1,p">
+            <b:cell x="1" y="1">
+                <b:titledBox label="Menu">
+                    <b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,right:*"
+                                     rows="20">
+                        <b:cell x="1" y="1">
+                            <pretty:link mappingId="projectmain" title="Zurück">
+                                <f:param value="#{projectBackingBean.data.currentType}"/>
+                                <f:param value="#{projectBackingBean.data.currentTypeId}"/>
+                                <f:param value="#{projectBackingBean.data.currentEntityId}"/>
+                                <img src="${facesContext.externalContext.requestContextPath}/images/back.gif"/>
+                            </pretty:link>
+                        </b:cell>
+                    </b:gridBagLayout>
+                </b:titledBox>
+            </b:cell>
+
+            <b:cell x="1" y="3">
+                <ui:include src="/include/messages.xhtml"/>
+            </b:cell>
+
+            <b:cell x="1" y="4">
+                <b:table id="datatable" var="row"
+                         value="#{projectBackingBean.similarFreelancer}" cols="20,130,70,50,30,70,60,*">
+                    <h:column>
+                        <f:facet name="header">
+                        </f:facet>
+                        <pretty:link mappingId="freelancermain" title="Springe zur Freiberufler - Ansicht">
+                            <f:param value="#{row.freelancer.id}"/>
+                            <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
+                        </pretty:link>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <a4j:commandLink value="Name1" action="#{profileBackingBean.commandSortByName1}"/>
+                        </f:facet>
+                        <h:outputText value="#{row.freelancer.name1}"
+                                      styleClass="#{row.freelancer.contactforbidden?'kontaktsperre':''}"/>
+                        <h:panelGroup rendered="#{!empty row.freelancer.gulpNameContact}">
+                            <br/>
+                            <h:outputText value="Gulp : " escape="false"/>
+                            <h:outputText value="#{row.freelancer.gulpNameContact}" escape="false">
+                                <f:converter converterId="contactConverter"/>
+                            </h:outputText>
+                        </h:panelGroup>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <a4j:commandLink value="Name2" action="#{profileBackingBean.commandSortByName2}"/>
+                        </f:facet>
+                        <h:outputText value="#{row.freelancer.name2}"
+                                      styleClass="#{row.freelancer.contactforbidden?'kontaktsperre':''}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <a4j:commandLink value="Plz" action="#{profileBackingBean.commandSortByPLZ}"/>
+                        </f:facet>
+                        <h:outputText value="#{row.freelancer.plz}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <a4j:commandLink value="Satz" action="#{profileBackingBean.commandSortBySatz}"/>
+                        </f:facet>
+                        <h:outputText value="#{row.freelancer.stundensatz}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <a4j:commandLink value="Verf." action="#{profileBackingBean.commandSortByVerf}"/>
+                        </f:facet>
+                        <h:outputText value="#{row.freelancer.availability}">
+                            <f:converter converterId="dateConverter"/>
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <a4j:commandLink value="Code" action="#{profileBackingBean.commandSortByCode}"/>
+                        </f:facet>
+                        <h:outputText value="#{row.code}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Skills"/>
+                        </f:facet>
+                        <h:outputText value="#{row.highlightResult}" escape="false"/>
+                    </h:column>
+                </b:table>
+            </b:cell>
+
+        </b:gridBagLayout>
+    </ui:define>
+</ui:composition>

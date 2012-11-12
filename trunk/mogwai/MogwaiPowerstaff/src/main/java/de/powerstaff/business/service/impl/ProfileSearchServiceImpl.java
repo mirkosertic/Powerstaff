@@ -33,6 +33,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CachingTokenFilter;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.search.BooleanClause.Occur;
@@ -41,10 +42,13 @@ import org.apache.lucene.search.highlight.Highlighter;
 import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SpanGradientFormatter;
+import org.apache.lucene.search.similar.MoreLikeThis;
 import org.hibernate.SessionFactory;
 import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
+import org.hibernate.search.SearchFactory;
+import org.hibernate.search.store.DirectoryProvider;
 
 import java.io.File;
 import java.io.IOException;
@@ -182,8 +186,6 @@ public class ProfileSearchServiceImpl extends LogableService implements
             return new DataPage<ProfileSearchEntry>(0, 0, new ArrayList<ProfileSearchEntry>());
         }
 
-        SavedProfileSearch theSearch = profileSearchDAO.getSavedSearchById(aRequest.getId());
-
         Analyzer theAnalyzer = ProfileAnalyzerFactory.createAnalyzer();
 
         FullTextSession theSession = Search.getFullTextSession(sessionFactory.getCurrentSession());
@@ -199,8 +201,8 @@ public class ProfileSearchServiceImpl extends LogableService implements
         BooleanQuery theRealQuery = new BooleanQuery();
         theRealQuery.add(theQuery, Occur.MUST);
 
-        if (theSearch != null) {
-            for (String theId : theSearch.getProfilesToIgnore()) {
+        if (aRequest != null) {
+            for (String theId : aRequest.getProfilesToIgnore()) {
                 theRealQuery.add(new TermQuery(new Term(
                         ProfileIndexerService.UNIQUE_ID, theId)),
                         Occur.MUST_NOT);
@@ -259,34 +261,39 @@ public class ProfileSearchServiceImpl extends LogableService implements
             Object[] theRow = (Object[]) theSingleEntity;
             Freelancer theFreelancer = (Freelancer) theRow[0];
             Document theDocument = (Document) theRow[1];
-            ProfileSearchEntry theEntry = new ProfileSearchEntry();
-            theEntry.setCode(theFreelancer.getCode());
-            theEntry.setDocumentId("" + theFreelancer.getId());
-
-            ProfileSearchInfoDetail theDetail = new ProfileSearchInfoDetail();
-            theDetail.setId(theFreelancer.getId());
-            theDetail.setName1(theFreelancer.getName1());
-            theDetail.setName2(theFreelancer.getName2());
-            theDetail.setAvailability(theFreelancer
-                    .getAvailabilityAsDate());
-            theDetail.setPlz(theFreelancer.getPlz());
-            theDetail.setStundensatz(theFreelancer.getSallaryLong());
-            theDetail.setContactforbidden(theFreelancer
-                    .isContactforbidden());
-            theDetail.setContacts(new ArrayList<FreelancerContact>(
-                    theFreelancer.getContacts()));
-
-            String theContent = theDocument.get(ProfileIndexerService.ORIG_CONTENT);
-            theEntry.setHighlightResult(getHighlightedSearchResult(theAnalyzer,
-                    theHighlighter, theContent, theQuery));
-
-            theEntry.setFreelancer(theDetail);
+            ProfileSearchEntry theEntry = createResultEntry(theAnalyzer, theQuery, theHighlighter, theFreelancer, theDocument);
 
             theResult.add(theEntry);
         }
 
         return new DataPage<ProfileSearchEntry>(theHibernateQuery.getResultSize(), theStart,
                 theResult);
+    }
+
+    private ProfileSearchEntry createResultEntry(Analyzer aAnalyzer, Query aQuery, Highlighter aHighlighter, Freelancer aFreelancer, Document aDocument) throws IOException, InvalidTokenOffsetsException {
+        ProfileSearchEntry theEntry = new ProfileSearchEntry();
+        theEntry.setCode(aFreelancer.getCode());
+        theEntry.setDocumentId("" + aFreelancer.getId());
+
+        ProfileSearchInfoDetail theDetail = new ProfileSearchInfoDetail();
+        theDetail.setId(aFreelancer.getId());
+        theDetail.setName1(aFreelancer.getName1());
+        theDetail.setName2(aFreelancer.getName2());
+        theDetail.setAvailability(aFreelancer
+                .getAvailabilityAsDate());
+        theDetail.setPlz(aFreelancer.getPlz());
+        theDetail.setStundensatz(aFreelancer.getSallaryLong());
+        theDetail.setContactforbidden(aFreelancer
+                .isContactforbidden());
+        theDetail.setContacts(new ArrayList<FreelancerContact>(
+                aFreelancer.getContacts()));
+
+        String theContent = aDocument.get(ProfileIndexerService.ORIG_CONTENT);
+        theEntry.setHighlightResult(getHighlightedSearchResult(aAnalyzer,
+                aHighlighter, theContent, aQuery));
+
+        theEntry.setFreelancer(theDetail);
+        return theEntry;
     }
 
     @Override
@@ -343,5 +350,127 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
         }
         return theProfiles;
+    }
+
+    @Override
+    public List<ProfileSearchEntry> getSimilarFreelancer(Freelancer aFreelancer) {
+        List<ProfileSearchEntry> theResult = new ArrayList<ProfileSearchEntry>();
+        if (aFreelancer != null && aFreelancer.getId() != null) {
+
+            FullTextSession theSession = Search.getFullTextSession(sessionFactory.getCurrentSession());
+            SearchFactory theSearchFactory = theSession.getSearchFactory();
+
+            Analyzer theAnalyzer = ProfileAnalyzerFactory.createAnalyzer();
+
+            DirectoryProvider theFreeelancerProvider = theSearchFactory.getDirectoryProviders(Freelancer.class)[0];
+
+            IndexReader theIndexReader = null;
+
+            try {
+                theIndexReader = theSearchFactory.getReaderProvider().openReader(theFreeelancerProvider);
+
+                MoreLikeThis theMoreLikeThis = new MoreLikeThis(theIndexReader);
+
+                // Zuerst den Freiberufler raussuchen
+                Query theQuery = new TermQuery(new Term(ProfileIndexerService.UNIQUE_ID, aFreelancer.getId().toString()));
+                FullTextQuery theHibernateQuery = theSession.createFullTextQuery(theQuery, Freelancer.class);
+                theHibernateQuery.setProjection(FullTextQuery.THIS, FullTextQuery.DOCUMENT);
+
+                for (Object theSingleEntity : theHibernateQuery.list()) {
+                    Object[] theRow = (Object[]) theSingleEntity;
+                    Freelancer theFreelancer = (Freelancer) theRow[0];
+                    Document theDocument = (Document) theRow[1];
+
+                    theMoreLikeThis.setMinDocFreq(1);
+                    theMoreLikeThis.setMinTermFreq(1);
+                    theMoreLikeThis.setAnalyzer(theAnalyzer);
+                    theMoreLikeThis.setFieldNames(new String[]{ProfileIndexerService.CONTENT});
+                    Query theMltQuery = theMoreLikeThis.like(new StringReader(theDocument.get(ProfileIndexerService.ORIG_CONTENT)));
+
+                    FullTextQuery theMoreLikeThisQuery = theSession.createFullTextQuery(theMltQuery, Freelancer.class);
+                    theMoreLikeThisQuery.setProjection(FullTextQuery.THIS, FullTextQuery.DOCUMENT, FullTextQuery.SCORE);
+                    theMoreLikeThisQuery.setMaxResults(50);
+
+                    Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(
+                            1, "#000000", "#0000FF", null, null), new QueryScorer(theMltQuery));
+
+                    for (Object theSingleMltEntry : theMoreLikeThisQuery.list()) {
+                        Object[] theMltRow = (Object[]) theSingleMltEntry;
+                        Freelancer theMltFreelancer = (Freelancer) theMltRow[0];
+                        Document theMltDocument = (Document) theMltRow[1];
+                        Float theMltScore = (Float) theMltRow[2];
+
+                        if (theMltFreelancer != theFreelancer) {
+                            // Einen gefunden
+                            ProfileSearchEntry theEntry = createResultEntry(theAnalyzer, theMltQuery, theHighlighter, theMltFreelancer, theMltDocument);
+                            theResult.add(theEntry);
+                        }
+                    }
+
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            } finally {
+                if (theIndexReader != null) {
+                    theSearchFactory.getReaderProvider().closeReader(theIndexReader);
+                }
+            }
+
+        }
+        return theResult;
+    }
+
+    @Override
+    public List<ProfileSearchEntry> getSimilarFreelancer(Project aProject) {
+        List<ProfileSearchEntry> theResult = new ArrayList<ProfileSearchEntry>();
+        if (aProject != null && aProject.getId() != null) {
+
+            FullTextSession theSession = Search.getFullTextSession(sessionFactory.getCurrentSession());
+            SearchFactory theSearchFactory = theSession.getSearchFactory();
+
+            Analyzer theAnalyzer = ProfileAnalyzerFactory.createAnalyzer();
+
+            DirectoryProvider theFreeelancerProvider = theSearchFactory.getDirectoryProviders(Freelancer.class)[0];
+
+            IndexReader theIndexReader = null;
+
+            try {
+                theIndexReader = theSearchFactory.getReaderProvider().openReader(theFreeelancerProvider);
+
+                MoreLikeThis theMoreLikeThis = new MoreLikeThis(theIndexReader);
+
+                theMoreLikeThis.setMinDocFreq(1);
+                theMoreLikeThis.setMinTermFreq(1);
+                theMoreLikeThis.setAnalyzer(theAnalyzer);
+                theMoreLikeThis.setFieldNames(new String[]{ProfileIndexerService.CONTENT});
+                Query theMltQuery = theMoreLikeThis.like(new StringReader(aProject.getDescriptionShort() + " " + aProject.getDescriptionLong() + " " + aProject.getSkills()));
+
+                FullTextQuery theMoreLikeThisQuery = theSession.createFullTextQuery(theMltQuery, Freelancer.class);
+                theMoreLikeThisQuery.setProjection(FullTextQuery.THIS, FullTextQuery.DOCUMENT, FullTextQuery.SCORE);
+                theMoreLikeThisQuery.setMaxResults(50);
+
+                Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(
+                        1, "#000000", "#0000FF", null, null), new QueryScorer(theMltQuery));
+
+                for (Object theSingleMltEntry : theMoreLikeThisQuery.list()) {
+                    Object[] theMltRow = (Object[]) theSingleMltEntry;
+                    Freelancer theMltFreelancer = (Freelancer) theMltRow[0];
+                    Document theMltDocument = (Document) theMltRow[1];
+                    Float theMltScore = (Float) theMltRow[2];
+
+                    ProfileSearchEntry theEntry = createResultEntry(theAnalyzer, theMltQuery, theHighlighter, theMltFreelancer, theMltDocument);
+                    theResult.add(theEntry);
+                }
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            } finally {
+                if (theIndexReader != null) {
+                    theSearchFactory.getReaderProvider().closeReader(theIndexReader);
+                }
+            }
+
+        }
+        return theResult;
     }
 }
