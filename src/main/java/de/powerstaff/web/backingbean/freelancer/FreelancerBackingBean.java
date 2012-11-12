@@ -17,6 +17,7 @@
  */
 package de.powerstaff.web.backingbean.freelancer;
 
+import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.entity.*;
 import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.ProfileSearchService;
@@ -156,5 +157,9 @@ public class FreelancerBackingBean
 
     public boolean isAssignedToCurrentProject() {
         return getData().getCurrentProjectPosition() != null && getData().getEntity().getId() != null;
+    }
+
+    public List<ProfileSearchEntry> getSimilarFreelancer() {
+        return profileSearchService.getSimilarFreelancer(getData().getEntity());
     }
 }

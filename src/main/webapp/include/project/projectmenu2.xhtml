@@ -6,16 +6,16 @@
            xmlns:pretty="http://ocpsoft.com/prettyfaces">
     <b:gridBagLayout rows="p,2,p,2,p" cols="100">
         <b:cell x="1" y="1">
-            <h:outputText value="Stammdaten" styleClass="menuitemSelected"/>
-        </b:cell>
-
-        <b:cell x="1" y="3">
-            <pretty:link mappingId="projectsimilar" styleClass="menuitem">
+            <pretty:link mappingId="projectmain" styleClass="menuitem">
                 <f:param value="#{projectBackingBean.data.currentType}"/>
                 <f:param value="#{projectBackingBean.data.currentTypeId}"/>
                 <f:param value="#{projectBackingBean.data.currentEntityId}"/>
-                <h:outputText value="Passende Profile"/>
+                <h:outputText value="Stammdaten"/>
             </pretty:link>
+        </b:cell>
+
+        <b:cell x="1" y="3">
+            <h:outputText value="Passende Profile" styleClass="menuitemSelected"/>
         </b:cell>
 
     </b:gridBagLayout>

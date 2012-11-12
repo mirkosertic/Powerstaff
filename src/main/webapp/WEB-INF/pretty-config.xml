@@ -8,7 +8,7 @@
         <view-id>/login.faces</view-id>
     </url-mapping>
     <url-mapping id="profilemain">
-        <pattern>/profilesearch/#{profileBackingBean.data.type}/#{profileBackingBean.data.id}</pattern>
+        <pattern>/profilesearch/#{profileBackingBean.data.type}/#{profileBackingBean.data.id}/main</pattern>
         <view-id>/include/profile/profilemain.faces</view-id>
         <action>#{profileBackingBean.loadData}</action>
     </url-mapping>
@@ -19,6 +19,11 @@
     <url-mapping id="freelancermain">
         <pattern>/freelancer/#{freelancerBackingBean.data.currentEntityId}/main</pattern>
         <view-id>/include/freelancer/freelancermain.faces</view-id>
+        <action onPostback="false">#{freelancerBackingBean.loadEntity}</action>
+    </url-mapping>
+    <url-mapping id="freelancersimilar">
+        <pattern>/freelancer/#{freelancerBackingBean.data.currentEntityId}/similar</pattern>
+        <view-id>/include/freelancer/freelancersimilar.faces</view-id>
         <action onPostback="false">#{freelancerBackingBean.loadEntity}</action>
     </url-mapping>
     <url-mapping id="freelancerhistory">
@@ -56,6 +61,13 @@
             /project/#{projectBackingBean.data.currentType}/#{projectBackingBean.data.currentTypeId}/#{projectBackingBean.data.currentEntityId}/main
         </pattern>
         <view-id>/include/project/projectmain.faces</view-id>
+        <action onPostback="false">#{projectBackingBean.loadEntity}</action>
+    </url-mapping>
+    <url-mapping id="projectsimilar">
+        <pattern>
+            /project/#{projectBackingBean.data.currentType}/#{projectBackingBean.data.currentTypeId}/#{projectBackingBean.data.currentEntityId}/similar
+        </pattern>
+        <view-id>/include/project/projectsimilar.faces</view-id>
         <action onPostback="false">#{projectBackingBean.loadEntity}</action>
     </url-mapping>
 </pretty-config>

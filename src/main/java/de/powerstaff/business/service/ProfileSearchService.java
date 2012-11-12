@@ -22,6 +22,7 @@ import de.powerstaff.business.dto.DataPage;
 import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerProfile;
+import de.powerstaff.business.entity.Project;
 import de.powerstaff.business.entity.SavedProfileSearch;
 
 import java.util.List;
@@ -43,4 +44,8 @@ public interface ProfileSearchService extends Service {
     SavedProfileSearch getSearchRequestForUser(String aUsername);
 
     SavedProfileSearch getSearchRequest(long aSearchRequestId);
+
+    List<ProfileSearchEntry> getSimilarFreelancer(Freelancer aFreelancer);
+
+    List<ProfileSearchEntry> getSimilarFreelancer(Project aProject);
 }
