@@ -18,6 +18,9 @@
         <ui:include src="/include/customer/customermenu1.xhtml"/>
     </ui:define>
     <ui:define name="content">
+
+        <b:saveState value="#{customerBackingBean}"/>
+
         <b:gridBagLayout id="x" rows="p,10" cols="100,p">
             <b:cell y="1" x="1">
                 <h:outputText styleClass="title" value="Kunden Suchergebnisse"/>

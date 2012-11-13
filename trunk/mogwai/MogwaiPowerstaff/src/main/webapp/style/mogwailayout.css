@@ -58,7 +58,8 @@
 .mogwaiTextarea {
 	width: 100%;
     font-family:arial, helvetica, sans-serif;	
-	font-size: 13px;    
+	font-size: 13px;
+    resize: none;
 }
 
 .mogwaiTextareaDisabled {
@@ -68,6 +69,7 @@
 	width: 100%;
     font-family:arial, helvetica, sans-serif;
 	font-size: 13px;
+    resize: none;
 }
 
 .mogwaiCombobox {

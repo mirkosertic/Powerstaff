@@ -64,4 +64,42 @@
             de.powerstaff.web.converter.DateConverter
         </converter-class>
     </converter>
+
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>PROJEKT_SEARCHRESULT</from-outcome>
+            <to-view-id>/include/project/projectsearchresult.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/include/freelancer/*</from-view-id>
+        <navigation-case>
+            <from-outcome>SEARCHRESULT</from-outcome>
+            <to-view-id>
+                /include/freelancer/freelancersearchresult.xhtml
+            </to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/include/customer/*</from-view-id>
+        <navigation-case>
+            <from-outcome>SEARCHRESULT</from-outcome>
+            <to-view-id>
+                /include/customer/customersearchresult.xhtml
+            </to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/include/partner/*</from-view-id>
+        <navigation-case>
+            <from-outcome>SEARCHRESULT</from-outcome>
+            <to-view-id>
+                /include/partner/partnersearchresult.xhtml
+            </to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>

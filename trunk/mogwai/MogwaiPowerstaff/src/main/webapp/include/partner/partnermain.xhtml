@@ -77,7 +77,8 @@
             </b:cell>
             <b:cell x="9" y="1">
                 <h:commandLink title="Löschen" action="#{partnerBackingBean.commandDelete}"
-                               onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick löschen?')) {return false;}">
+                               onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick löschen?')) {return false;}"
+                               rendered="#{!empty partnerBackingBean.data.entity.id}">
                     <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                 </h:commandLink>
             </b:cell>
@@ -87,13 +88,15 @@
                 </h:commandLink>
             </b:cell>
             <b:cell x="13" y="1">
-                <pretty:link title="Neues Projekt erfassen" mappingId="projectmain"
-                             onclick="if (!checkForChangedData()) {return false;}">
-                    <f:param value="partner"/>
-                    <f:param value="#{partnerBackingBean.data.currentEntityId}"/>
-                    <f:param value="new"/>
-                    <img src="${facesContext.externalContext.requestContextPath}/images/newproject.gif"/>
-                </pretty:link>
+                <f:subview id="newprojectlink" rendered="#{!empty partnerBackingBean.data.entity.id}">
+                    <pretty:link title="Neues Projekt erfassen" mappingId="projectmain"
+                                 onclick="if (!checkForChangedData()) {return false;}">
+                        <f:param value="partner"/>
+                        <f:param value="#{partnerBackingBean.data.currentEntityId}"/>
+                        <f:param value="new"/>
+                        <img src="${facesContext.externalContext.requestContextPath}/images/newproject.gif"/>
+                    </pretty:link>
+                </f:subview>
             </b:cell>
             <b:cell x="14" y="1" valign="middle" align="right">
                 <b:label id="gehezu" label="Gehe zu #"/>

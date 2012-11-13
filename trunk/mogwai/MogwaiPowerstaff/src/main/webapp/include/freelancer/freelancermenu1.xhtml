@@ -10,19 +10,23 @@
         </b:cell>
 
         <b:cell x="1" y="3">
-            <pretty:link mappingId="freelancerhistory" onclick="if (!checkForChangedData()) {return false;}"
-                         styleClass="menuitem">
-                <f:param value="#{freelancerBackingBean.data.currentEntityId}"/>
-                <h:outputText value="Kontakthistorie"/>
-            </pretty:link>
+            <f:subview id="historylink" rendered="#{!empty freelancerBackingBean.data.entity.id}">
+                <pretty:link mappingId="freelancerhistory" onclick="if (!checkForChangedData()) {return false;}"
+                             styleClass="menuitem">
+                    <f:param value="#{freelancerBackingBean.data.currentEntityId}"/>
+                    <h:outputText value="Kontakthistorie"/>
+                </pretty:link>
+            </f:subview>
         </b:cell>
 
         <b:cell x="1" y="5">
-            <pretty:link mappingId="freelancersimilar" styleClass="menuitem"
-                         onclick="if (!checkForChangedData()) {return false;}">
-                <f:param value="#{freelancerBackingBean.data.currentEntityId}"/>
-                <h:outputText value="&#196;hnliche Profile"/>
-            </pretty:link>
+            <f:subview id="similarlink" rendered="#{!empty freelancerBackingBean.data.entity.id}">
+                <pretty:link mappingId="freelancersimilar" styleClass="menuitem"
+                             onclick="if (!checkForChangedData()) {return false;}">
+                    <f:param value="#{freelancerBackingBean.data.currentEntityId}"/>
+                    <h:outputText value="&#196;hnliche Profile"/>
+                </pretty:link>
+            </f:subview>
         </b:cell>
 
     </b:gridBagLayout>

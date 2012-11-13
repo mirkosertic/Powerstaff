@@ -86,7 +86,7 @@ public abstract class PersonEditorBackingBean<T extends Person, V extends Person
                             .get(GenericSearchResult.OBJECT_ID_KEY)));
 
             afterNavigation();
-            return null;
+            return "pretty:" + getNavigationIDPrefix() + "main";
         }
 
         getData().getSearchResult().setWrappedData(theResult);
