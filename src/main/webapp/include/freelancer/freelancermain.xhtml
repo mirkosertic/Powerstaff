@@ -87,7 +87,8 @@
             </b:cell>
             <b:cell x="9" y="1">
                 <h:commandLink title="Löschen" action="#{freelancerBackingBean.commandDelete}"
-                               onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick löschen?')) {return false;}">
+                               onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick löschen?')) {return false;}"
+                               rendered="#{!empty freelancerBackingBean.data.entity.id}">
                     <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                 </h:commandLink>
             </b:cell>

@@ -75,7 +75,7 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
             getData().setEntity(entityService.findByPrimaryKey((Long) theResult2.get(GenericSearchResult.OBJECT_ID_KEY)));
 
             afterNavigation();
-            return null;
+            return "pretty:" + getNavigationIDPrefix() + "main";
         }
 
         getData().getSearchResult().setWrappedData(theResult);
