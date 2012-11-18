@@ -4,7 +4,7 @@
            xmlns:b="http://mogwai.sourceforge.net/layout"
            xmlns:a4j="http://richfaces.org/a4j"
            xmlns:pretty="http://ocpsoft.com/prettyfaces">
-    <b:gridBagLayout rows="p,2,p,2,p" cols="100">
+    <b:gridBagLayout rows="p,2,p,2,p,2,p" cols="100">
         <b:cell x="1" y="1">
             <pretty:link mappingId="partnermain" styleClass="menuitem"
                          onclick="if (!checkForChangedData()) {return false;}">
@@ -26,5 +26,16 @@
                 </pretty:link>
             </f:subview>
         </b:cell>
+
+        <b:cell x="1" y="7">
+            <f:subview id="projectslink" rendered="#{!empty partnerBackingBean.data.entity.id}">
+                <pretty:link mappingId="partnerproject" styleClass="menuitem"
+                             onclick="if (!checkForChangedData()) {return false;}">
+                    <f:param value="#{partnerBackingBean.data.currentEntityId}"/>
+                    <h:outputText value="Projekte"/>
+                </pretty:link>
+            </f:subview>
+        </b:cell>
+
     </b:gridBagLayout>
 </f:subview>

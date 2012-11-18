@@ -16,12 +16,14 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     <bean name="customerBackingBean" class="de.powerstaff.web.backingbean.customer.CustomerBackingBean" scope="request">
         <property name="additinalDataService" ref="additinalDataService"/>
         <property name="entityService" ref="customerService"/>
+        <property name="projectService" ref="projectService"/>
     </bean>
 
     <bean name="partnerBackingBean" class="de.powerstaff.web.backingbean.partner.PartnerBackingBean" scope="request">
         <property name="additinalDataService" ref="additinalDataService"/>
         <property name="entityService" ref="partnerService"/>
         <property name="freelancerService" ref="freelancerService"/>
+        <property name="projectService" ref="projectService"/>
     </bean>
 
     <bean name="projectBackingBean" class="de.powerstaff.web.backingbean.project.ProjectBackingBean" scope="request">

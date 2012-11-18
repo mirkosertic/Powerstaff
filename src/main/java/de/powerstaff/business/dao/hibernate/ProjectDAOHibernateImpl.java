@@ -19,12 +19,11 @@ package de.powerstaff.business.dao.hibernate;
 
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dao.ProjectDAO;
-import de.powerstaff.business.entity.Project;
-import de.powerstaff.business.entity.ProjectPositionStatus;
-import de.powerstaff.business.entity.SavedProfileSearch;
+import de.powerstaff.business.entity.*;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
@@ -105,6 +104,34 @@ public class ProjectDAOHibernateImpl extends NavigatingDAOHibernateImpl<Project>
                 Criteria theCriteria = aSession.createCriteria(SavedProfileSearch.class);
                 theCriteria.add(Restrictions.eq("project", aProject));
                 theCriteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+                return theCriteria.list();
+            }
+        });
+    }
+
+    @Override
+    public List<Project> findProjectsFor(final Customer aCustomer) {
+        return (List<Project>) getHibernateTemplate().execute(new HibernateCallback() {
+
+            public Object doInHibernate(Session aSession) {
+
+                Criteria theCriteria = aSession.createCriteria(Project.class);
+                theCriteria.add(Restrictions.eq("customer", aCustomer));
+                theCriteria.addOrder(Order.asc("projectNumber"));
+                return theCriteria.list();
+            }
+        });
+    }
+
+    @Override
+    public List<Project> findProjectsFor(final Partner aPartner) {
+        return (List<Project>) getHibernateTemplate().execute(new HibernateCallback() {
+
+            public Object doInHibernate(Session aSession) {
+
+                Criteria theCriteria = aSession.createCriteria(Project.class);
+                theCriteria.add(Restrictions.eq("partner", aPartner));
+                theCriteria.addOrder(Order.asc("projectNumber"));
                 return theCriteria.list();
             }
         });

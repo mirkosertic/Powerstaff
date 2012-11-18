@@ -46,6 +46,11 @@
         <view-id>/include/partner/partnerfreelancer.faces</view-id>
         <action>#{partnerBackingBean.loadEntity}</action>
     </url-mapping>
+    <url-mapping id="partnerproject">
+        <pattern>/partner/#{partnerBackingBean.data.currentEntityId}/projects</pattern>
+        <view-id>/include/partner/partnerprojects.faces</view-id>
+        <action>#{partnerBackingBean.loadEntity}</action>
+    </url-mapping>
     <url-mapping id="customermain">
         <pattern>/customer/#{customerBackingBean.data.currentEntityId}/main</pattern>
         <view-id>/include/customer/customermain.faces</view-id>
@@ -54,6 +59,11 @@
     <url-mapping id="customerhistory">
         <pattern>/customer/#{customerBackingBean.data.currentEntityId}/history</pattern>
         <view-id>/include/customer/customerhistory.faces</view-id>
+        <action>#{customerBackingBean.loadEntity}</action>
+    </url-mapping>
+    <url-mapping id="customerproject">
+        <pattern>/customer/#{customerBackingBean.data.currentEntityId}/projects</pattern>
+        <view-id>/include/customer/customerprojects.faces</view-id>
         <action>#{customerBackingBean.loadEntity}</action>
     </url-mapping>
     <url-mapping id="projectmain">

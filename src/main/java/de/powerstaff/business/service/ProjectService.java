@@ -17,11 +17,10 @@
  */
 package de.powerstaff.business.service;
 
-import de.powerstaff.business.entity.Project;
-import de.powerstaff.business.entity.ProjectPositionStatus;
-import de.powerstaff.business.entity.SavedProfileSearch;
+import de.powerstaff.business.entity.*;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface ProjectService extends NavigatingService<Project> {
 
@@ -30,4 +29,8 @@ public interface ProjectService extends NavigatingService<Project> {
     Collection<SavedProfileSearch> getSavedSearchesFor(Project aProject);
 
     void deleteSavedSearch(SavedProfileSearch aSearch);
+
+    List<Project> findProjectsFor(Customer aCustomer);
+
+    List<Project> findProjectsFor(Partner aPartner);
 }
