@@ -9,21 +9,19 @@
                 template="/template/powerstaff.xhtml">
     <ui:define name="pagetitle">
         <h:outputText
-                value="Suchergebnisse"/>
+                value="Projekte #{customerBackingBean.data.entity.name1} #{customerBackingBean.data.entity.name2}"/>
     </ui:define>
     <ui:define name="mainmenu">
         <ui:include src="/include/mainmenu.xhtml"/>
     </ui:define>
     <ui:define name="contextmenu">
-        <ui:include src="/include/project/projectmenu1.xhtml"/>
+        <ui:include src="/include/customer/customermenu3.xhtml"/>
     </ui:define>
     <ui:define name="content">
 
-        <b:saveState value="#{projectBackingBean}"/>
-
         <b:gridBagLayout id="x" rows="p,10" cols="100,p">
             <b:cell y="1" x="1">
-                <h:outputText styleClass="title" value="Projekt Suchergebnisse"/>
+                <h:outputText styleClass="title" value="Projekte von #{customerBackingBean.data.entity.name1} #{customerBackingBean.data.entity.name2}"/>
             </b:cell>
 
             <b:cell y="1" x="2">
@@ -42,10 +40,8 @@
                     <b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,right:*"
                                      rows="20">
                         <b:cell x="1" y="1">
-                            <pretty:link mappingId="projectmain" title="Zurück">
-                                <f:param value="#{projectBackingBean.data.currentType}"/>
-                                <f:param value="#{projectBackingBean.data.currentTypeId}"/>
-                                <f:param value="#{projectBackingBean.data.currentEntityId}"/>
+                            <pretty:link mappingId="customermain" title="Zurück">
+                                <f:param value="#{customerBackingBean.data.currentEntityId}"/>
                                 <img src="${facesContext.externalContext.requestContextPath}/images/back.gif"/>
                             </pretty:link>
                         </b:cell>
@@ -58,7 +54,7 @@
             </b:cell>
 
             <b:cell x="1" y="4">
-                <b:table var="row" value="#{projectBackingBean.data.searchResult}" cols="20,70,80,80,70,230,260">
+                <b:table var="row" value="#{customerBackingBean.currentProjects}" cols="20,70,80,80,230,330">
                     <h:column>
                         <f:facet name="header">
                         </f:facet>
@@ -66,7 +62,7 @@
                             <pretty:link mappingId="projectmain" title="Datensatz anzeigen">
                                 <f:param value="customer"/>
                                 <f:param value="#{row.customer.id}"/>
-                                <f:param value="#{row.ID}"/>
+                                <f:param value="#{row.id}"/>
                                 <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
                             </pretty:link>
                         </f:subview>
@@ -74,7 +70,7 @@
                             <pretty:link mappingId="projectmain" title="Datensatz anzeigen">
                                 <f:param value="partner"/>
                                 <f:param value="#{row.partner.id}"/>
-                                <f:param value="#{row.ID}"/>
+                                <f:param value="#{row.id}"/>
                                 <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
                             </pretty:link>
                         </f:subview>
@@ -98,12 +94,6 @@
                             <h:outputText value="Dauer"/>
                         </f:facet>
                         <h:outputText value="#{row.duration}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Status"/>
-                        </f:facet>
-                        <h:outputText value="#{projectBackingBean.data.searchResultRowProjectStatus}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">

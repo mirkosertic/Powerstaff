@@ -18,13 +18,13 @@
 package de.powerstaff.web.backingbean.partner;
 
 import de.mogwai.common.web.utils.JSFMessageUtils;
-import de.powerstaff.business.entity.Freelancer;
-import de.powerstaff.business.entity.Partner;
-import de.powerstaff.business.entity.PartnerContact;
-import de.powerstaff.business.entity.PartnerHistory;
+import de.powerstaff.business.entity.*;
 import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.PartnerService;
+import de.powerstaff.business.service.ProjectService;
 import de.powerstaff.web.backingbean.PersonEditorBackingBean;
+
+import java.util.List;
 
 public class PartnerBackingBean
         extends
@@ -33,6 +33,12 @@ public class PartnerBackingBean
     private static final long serialVersionUID = -5789495052412740906L;
 
     private transient FreelancerService freelancerService;
+
+    private ProjectService projectService;
+
+    public void setProjectService(ProjectService projectService) {
+        this.projectService = projectService;
+    }
 
     @Override
     protected PartnerBackingBeanDataModel createDataModel() {
@@ -127,5 +133,9 @@ public class PartnerBackingBean
     @Override
     protected PartnerHistory createNewHistory() {
         return new PartnerHistory();
+    }
+
+   public List<Project> getCurrentProjects() {
+        return projectService.findProjectsFor(getData().getEntity());
     }
 }

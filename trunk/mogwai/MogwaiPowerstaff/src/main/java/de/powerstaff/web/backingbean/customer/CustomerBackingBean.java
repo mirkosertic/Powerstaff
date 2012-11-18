@@ -20,12 +20,22 @@ package de.powerstaff.web.backingbean.customer;
 import de.powerstaff.business.entity.Customer;
 import de.powerstaff.business.entity.CustomerContact;
 import de.powerstaff.business.entity.HistoryEntity;
+import de.powerstaff.business.entity.Project;
 import de.powerstaff.business.service.CustomerService;
+import de.powerstaff.business.service.ProjectService;
 import de.powerstaff.web.backingbean.PersonEditorBackingBean;
+
+import java.util.List;
 
 public class CustomerBackingBean extends PersonEditorBackingBean<Customer, CustomerBackingBeanDataModel, CustomerService> {
 
     private static final long serialVersionUID = -1019229554217528125L;
+
+    private ProjectService projectService;
+
+    public void setProjectService(ProjectService projectService) {
+        this.projectService = projectService;
+    }
 
     @Override
     protected CustomerBackingBeanDataModel createDataModel() {
@@ -50,5 +60,9 @@ public class CustomerBackingBean extends PersonEditorBackingBean<Customer, Custo
     @Override
     protected HistoryEntity createNewHistory() {
         return new HistoryEntity();
+    }
+
+    public List<Project> getCurrentProjects() {
+        return projectService.findProjectsFor(getData().getEntity());
     }
 }

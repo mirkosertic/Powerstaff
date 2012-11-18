@@ -14,17 +14,17 @@
         </b:cell>
 
         <b:cell x="1" y="3">
-            <h:outputText value="Kontakthistorie" styleClass="menuitemSelected"/>
+            <f:subview id="historylink" rendered="#{!empty customerBackingBean.data.entity.id}">
+                <pretty:link mappingId="customerhistory" styleClass="menuitem"
+                             onclick="if (!checkForChangedData()) {return false;}">
+                    <f:param value="#{customerBackingBean.data.currentEntityId}"/>
+                    <h:outputText value="Kontakthistorie"/>
+                </pretty:link>
+            </f:subview>
         </b:cell>
 
         <b:cell x="1" y="5">
-            <f:subview id="projectlink" rendered="#{!empty customerBackingBean.data.entity.id}">
-                <pretty:link mappingId="customerproject" styleClass="menuitem"
-                             onclick="if (!checkForChangedData()) {return false;}">
-                    <f:param value="#{customerBackingBean.data.currentEntityId}"/>
-                    <h:outputText value="Projekte"/>
-                </pretty:link>
-            </f:subview>
+            <h:outputText value="Projekte" styleClass="menuitemSelected"/>
         </b:cell>
 
     </b:gridBagLayout>

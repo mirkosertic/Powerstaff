@@ -20,12 +20,11 @@ package de.powerstaff.business.service.impl;
 import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dao.ProjectDAO;
-import de.powerstaff.business.entity.Project;
-import de.powerstaff.business.entity.ProjectPositionStatus;
-import de.powerstaff.business.entity.SavedProfileSearch;
+import de.powerstaff.business.entity.*;
 import de.powerstaff.business.service.*;
 
 import java.util.Collection;
+import java.util.List;
 
 public class ProjectServiceImpl extends LogableService implements ProjectService {
 
@@ -33,16 +32,10 @@ public class ProjectServiceImpl extends LogableService implements ProjectService
 
     private PowerstaffSystemParameterService systemParameterService;
 
-    /**
-     * @param projectDAO the projectDAO to set
-     */
     public void setProjectDAO(ProjectDAO projectDAO) {
         this.projectDAO = projectDAO;
     }
 
-    /**
-     * @param systemParameterService the systemParameterService to set
-     */
     public void setSystemParameterService(PowerstaffSystemParameterService systemParameterService) {
         this.systemParameterService = systemParameterService;
     }
@@ -113,5 +106,15 @@ public class ProjectServiceImpl extends LogableService implements ProjectService
         } catch (ReferenceExistsException e) {
             // Kann hier nicht passieren
         }
+    }
+
+    @Override
+    public List<Project> findProjectsFor(Customer aCustomer) {
+        return projectDAO.findProjectsFor(aCustomer);
+    }
+
+    @Override
+    public List<Project> findProjectsFor(Partner aPartner) {
+        return projectDAO.findProjectsFor(aPartner);
     }
 }
