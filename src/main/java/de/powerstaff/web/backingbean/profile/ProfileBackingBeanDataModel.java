@@ -51,13 +51,14 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
         this.searchRequest = searchRequest;
         if (searchRequest.getProject() != null) {
             type = TYPE_SEARCH;
+            if (searchRequest.getId() != null) {
+                id = searchRequest.getId().toString();
+            } else {
+                id = NEW_ENTITY_ID;
+            }
         } else {
             type = TYPE_USER;
-        }
-        if (searchRequest.getId() != null) {
-            id = searchRequest.getId().toString();
-        } else {
-            id = NEW_ENTITY_ID;
+            id = searchRequest.getUser().getName();
         }
     }
 

@@ -282,6 +282,7 @@ public class ProfileBackingBean extends
 
         try {
             if (ProfileBackingBeanDataModel.TYPE_USER.equals(getData().getType())) {
+
                 SavedProfileSearch theResult = profileSearchService
                         .getSearchRequestForUser(getData().getId());
 

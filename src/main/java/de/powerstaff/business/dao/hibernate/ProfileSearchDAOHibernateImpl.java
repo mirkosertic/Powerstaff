@@ -20,6 +20,7 @@ package de.powerstaff.business.dao.hibernate;
 import de.mogwai.common.dao.hibernate.GenericDaoHibernateImpl;
 import de.powerstaff.business.dao.ProfileSearchDAO;
 import de.powerstaff.business.entity.SavedProfileSearch;
+import org.bouncycastle.asn1.isismtt.x509.Restriction;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -33,7 +34,7 @@ public class ProfileSearchDAOHibernateImpl extends GenericDaoHibernateImpl imple
             public Object doInHibernate(Session aSession) {
 
                 Criteria theCriteria = aSession.createCriteria(SavedProfileSearch.class);
-                theCriteria.createAlias("user", "u").add(Restrictions.eq("u.name", aUsername)).add(Restrictions.isNull("project"));
+                theCriteria.add(Restrictions.isNull("project")).createCriteria("user").add(Restrictions.eq("name", aUsername));
                 for (Object theRow : theCriteria.list()) {
                     return theRow;
                 }
