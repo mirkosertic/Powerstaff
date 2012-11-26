@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:b="http://mogwai.sourceforge.net/layout"
@@ -18,7 +18,7 @@
     <ui:define name="content">
         <b:gridBagLayout rows="p,10" cols="200,p">
             <b:cell y="1" x="1">
-                <h:outputText styleClass="title" value="Geschäftspartner Kontakthistorie"/>
+                <h:outputText styleClass="title" value="GeschÃ¤ftspartner Kontakthistorie"/>
             </b:cell>
 
             <b:cell y="1" x="2">
@@ -71,7 +71,7 @@
                     <h:column>
                         <f:facet name="header">
                         </f:facet>
-                        <b:commandLink title="Eintrag löschen" immediate="true"
+                        <b:commandLink title="Eintrag lÃ¶schen" immediate="true"
                                        action="#{partnerBackingBean.commandDeleteHistoryEntry}">
                             <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                             <a4j:support eventsQueue="powerstaff" event="onclick"

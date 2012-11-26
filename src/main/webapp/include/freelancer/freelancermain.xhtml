@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:b="http://mogwai.sourceforge.net/layout"
@@ -63,7 +63,7 @@
                 </h:commandLink>
             </b:cell>
             <b:cell x="3" y="1">
-                <h:commandLink title="Nächster Datensatz" action="#{freelancerBackingBean.commandNext}"
+                <h:commandLink title="NÃ¤chster Datensatz" action="#{freelancerBackingBean.commandNext}"
                                onclick="if (!checkForChangedData()) {return false;}">
                     <img src="${facesContext.externalContext.requestContextPath}/images/next.gif"/>
                 </h:commandLink>
@@ -86,8 +86,8 @@
                 </h:commandLink>
             </b:cell>
             <b:cell x="9" y="1">
-                <h:commandLink title="Löschen" action="#{freelancerBackingBean.commandDelete}"
-                               onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick löschen?')) {return false;}"
+                <h:commandLink title="LÃ¶schen" action="#{freelancerBackingBean.commandDelete}"
+                               onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick lÃ¶schen?')) {return false;}"
                                rendered="#{!empty freelancerBackingBean.data.entity.id}">
                     <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                 </h:commandLink>
@@ -202,7 +202,7 @@
             </b:cell>
 
             <b:cell x="2" y="14">
-                <b:label id="nationallabel" label="Nationalität"/>
+                <b:label id="nationallabel" label="NationalitÃ¤t"/>
             </b:cell>
             <b:cell x="4" y="14" width="5">
                 <b:inputfield
@@ -254,7 +254,7 @@
                         </h:outputText>
                     </h:column>
                     <h:column>
-                        <b:commandLink title="Kontaktinformation löschen"
+                        <b:commandLink title="Kontaktinformation lÃ¶schen"
                                        action="#{freelancerBackingBean.commandDeleteContact}">
                             <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                             <a4j:support eventsQueue="powerstaff" event="onclick"
@@ -278,7 +278,7 @@
                         id="kontaktwert"/>
             </b:cell>
             <b:cell x="6" y="8" valign="middle">
-                <b:commandLink title="Kontaktinformation hinzufügen"
+                <b:commandLink title="Kontaktinformation hinzufÃ¼gen"
                                action="#{freelancerBackingBean.commandAddContact}">
                     <img src="${facesContext.externalContext.requestContextPath}/images/add.gif"/>
                     <a4j:support eventsQueue="powerstaff" event="onclick"
@@ -401,7 +401,7 @@
 <b:cell x="3" y="4">
     <b:gridBagLayout rows="p,10,p,10,p,10,p" cols="*">
         <b:cell x="1" y="1">
-            <b:titledBox label="Verfügbarkeit">
+            <b:titledBox label="VerfÃ¼gbarkeit">
 
                 <b:gridBagLayout cols="2,100,2,*,2,20,2"
                                  rows="2,p,2,p,2,p,2,p,2,p,2,p,2,p,2,p,2">
@@ -416,7 +416,7 @@
                     </b:cell>
 
                     <b:cell x="2" y="4">
-                        <b:label id="verfuegbarkeit_label" label="Verfügbarkeit"/>
+                        <b:label id="verfuegbarkeit_label" label="VerfÃ¼gbarkeit"/>
                     </b:cell>
                     <b:cell x="4" y="4" width="3">
                         <rich:calendar value="#{freelancerBackingBean.data.entity.availabilityAsDate}"

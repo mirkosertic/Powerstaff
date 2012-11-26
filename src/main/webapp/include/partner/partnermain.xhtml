@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:b="http://mogwai.sourceforge.net/layout"
@@ -22,7 +22,7 @@
 
 <b:gridBagLayout id="x" rows="p,10" cols="100,p">
     <b:cell y="1" x="1">
-        <h:outputText styleClass="title" value="Geschäftspartner"/>
+        <h:outputText styleClass="title" value="GeschÃ¤ftspartner"/>
     </b:cell>
 
     <b:cell y="1" x="2">
@@ -53,7 +53,7 @@
                 </h:commandLink>
             </b:cell>
             <b:cell x="3" y="1">
-                <h:commandLink title="Nächster Datensatz" action="#{partnerBackingBean.commandNext}"
+                <h:commandLink title="NÃ¤chster Datensatz" action="#{partnerBackingBean.commandNext}"
                                onclick="if (!checkForChangedData()) {return false;}">
                     <img src="${facesContext.externalContext.requestContextPath}/images/next.gif"/>
                 </h:commandLink>
@@ -76,8 +76,8 @@
                 </h:commandLink>
             </b:cell>
             <b:cell x="9" y="1">
-                <h:commandLink title="Löschen" action="#{partnerBackingBean.commandDelete}"
-                               onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick löschen?')) {return false;}"
+                <h:commandLink title="LÃ¶schen" action="#{partnerBackingBean.commandDelete}"
+                               onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick lÃ¶schen?')) {return false;}"
                                rendered="#{!empty partnerBackingBean.data.entity.id}">
                     <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                 </h:commandLink>
@@ -112,7 +112,7 @@
             </b:cell>
             <b:cell x="17" y="1">
                 <h:commandLink rendered="#{!empty partnerBackingBean.data.originalFreelancer}"
-                               title="Zurück zum Freelancer" action="#{partnerBackingBean.commandJumpToFreelancer}"
+                               title="ZurÃ¼ck zum Freelancer" action="#{partnerBackingBean.commandJumpToFreelancer}"
                                immediate="true">
                     <img src="${facesContext.externalContext.requestContextPath}/images/back.gif"/>
                 </h:commandLink>
@@ -210,7 +210,7 @@
                     </b:cell>
 
                     <b:cell x="2" y="14">
-                        <b:label id="nationallabel" label="Nationalität"/>
+                        <b:label id="nationallabel" label="NationalitÃ¤t"/>
                     </b:cell>
                     <b:cell x="4" y="14" width="5">
                         <b:inputfield
@@ -263,7 +263,7 @@
                                 </h:outputText>
                             </h:column>
                             <h:column>
-                                <b:commandLink title="Kontaktinformation löschen"
+                                <b:commandLink title="Kontaktinformation lÃ¶schen"
                                                action="#{partnerBackingBean.commandDeleteContact}">
                                     <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                                     <a4j:support eventsQueue="powerstaff" event="onclick"
@@ -287,7 +287,7 @@
                                 id="kontaktwert"/>
                     </b:cell>
                     <b:cell x="6" y="8" valign="middle">
-                        <b:commandLink title="Kontaktinformation hinzufügen"
+                        <b:commandLink title="Kontaktinformation hinzufÃ¼gen"
                                        action="#{partnerBackingBean.commandAddContact}">
                             <img src="${facesContext.externalContext.requestContextPath}/images/add.gif"/>
                             <a4j:support eventsQueue="powerstaff" event="onclick"
