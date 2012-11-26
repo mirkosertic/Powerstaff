@@ -118,6 +118,7 @@ public class ProjectDAOHibernateImpl extends NavigatingDAOHibernateImpl<Project>
                 Criteria theCriteria = aSession.createCriteria(Project.class);
                 theCriteria.add(Restrictions.eq("customer", aCustomer));
                 theCriteria.addOrder(Order.asc("projectNumber"));
+                theCriteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
                 return theCriteria.list();
             }
         });
@@ -132,6 +133,7 @@ public class ProjectDAOHibernateImpl extends NavigatingDAOHibernateImpl<Project>
                 Criteria theCriteria = aSession.createCriteria(Project.class);
                 theCriteria.add(Restrictions.eq("partner", aPartner));
                 theCriteria.addOrder(Order.asc("projectNumber"));
+                theCriteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
                 return theCriteria.list();
             }
         });

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:b="http://mogwai.sourceforge.net/layout"
@@ -53,7 +53,7 @@
                 </h:commandLink>
             </b:cell>
             <b:cell x="3" y="1">
-                <h:commandLink title="Nächster Datensatz" action="#{customerBackingBean.commandNext}"
+                <h:commandLink title="NÃ¤chster Datensatz" action="#{customerBackingBean.commandNext}"
                                onclick="if (!checkForChangedData()) {return false;}">
                     <img src="${facesContext.externalContext.requestContextPath}/images/next.gif"/>
                 </h:commandLink>
@@ -76,8 +76,8 @@
                 </h:commandLink>
             </b:cell>
             <b:cell x="9" y="1">
-                <h:commandLink title="Löschen" action="#{customerBackingBean.commandDelete}"
-                               onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick löschen?')) {return false;}"
+                <h:commandLink title="LÃ¶schen" action="#{customerBackingBean.commandDelete}"
+                               onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick lÃ¶schen?')) {return false;}"
                                rendered="#{!empty customerBackingBean.data.entity.id}">
                     <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                 </h:commandLink>
@@ -202,7 +202,7 @@
                     </b:cell>
 
                     <b:cell x="2" y="14">
-                        <b:label id="nationallabel" label="Nationalität"/>
+                        <b:label id="nationallabel" label="NationalitÃ¤t"/>
                     </b:cell>
                     <b:cell x="4" y="14" width="5">
                         <b:inputfield
@@ -254,7 +254,7 @@
                                 </h:outputText>
                             </h:column>
                             <h:column>
-                                <b:commandLink title="Kontaktinformation löschen"
+                                <b:commandLink title="Kontaktinformation lÃ¶schen"
                                                action="#{customerBackingBean.commandDeleteContact}">
                                     <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                                     <a4j:support eventsQueue="powerstaff" event="onclick"
@@ -278,7 +278,7 @@
                                 id="kontaktwert"/>
                     </b:cell>
                     <b:cell x="6" y="8" valign="middle">
-                        <b:commandLink title="Kontaktinformation hinzufügen"
+                        <b:commandLink title="Kontaktinformation hinzufÃ¼gen"
                                        action="#{customerBackingBean.commandAddContact}">
                             <img src="${facesContext.externalContext.requestContextPath}/images/add.gif"/>
                             <a4j:support eventsQueue="powerstaff" event="onclick"
