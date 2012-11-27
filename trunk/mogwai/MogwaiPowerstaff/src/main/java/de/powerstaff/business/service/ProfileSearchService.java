@@ -29,13 +29,13 @@ import java.util.List;
 
 public interface ProfileSearchService extends Service {
 
-    void saveSearchRequest(SavedProfileSearch searchRequest, boolean cleanup);
+    void saveSearchRequest(SavedProfileSearch searchRequest, boolean cleanup) throws OptimisticLockException;
 
     DataPage<ProfileSearchEntry> findProfileDataPage(
             SavedProfileSearch aRequest, int startRow, int pageSize)
             throws Exception;
 
-    void removeSavedSearchEntry(SavedProfileSearch searchRequest, String aDocumentId);
+    void removeSavedSearchEntry(SavedProfileSearch searchRequest, String aDocumentId) throws OptimisticLockException;
 
     int getPageSize();
 

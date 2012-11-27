@@ -61,7 +61,7 @@ public class PartnerServiceImpl extends LogableService implements PartnerService
         this.systemParameterService = systemParameterService;
     }
 
-    public void delete(Freelancer aEntity) {
+    public void delete(Freelancer aEntity) throws OptimisticLockException {
         try {
             partnerDAO.delete(aEntity);
         } catch (ReferenceExistsException e) {
@@ -102,11 +102,11 @@ public class PartnerServiceImpl extends LogableService implements PartnerService
         return theResult;
     }
 
-    public void save(Partner aObject) {
+    public void save(Partner aObject) throws OptimisticLockException {
         partnerDAO.save(aObject);
     }
 
-    public void delete(Partner aObject) {
+    public void delete(Partner aObject) throws OptimisticLockException {
         try {
             partnerDAO.delete(aObject);
         } catch (ReferenceExistsException e) {

@@ -16,6 +16,7 @@
  */
 package de.mogwai.common.dao;
 
+import de.powerstaff.business.service.OptimisticLockException;
 import de.powerstaff.business.service.ReferenceExistsException;
 
 /**
@@ -41,20 +42,14 @@ public interface DAO {
      *
      * @param entity zu speicherndes Geschäftsobjekt.
      */
-    void save(Object entity);
+    void save(Object entity) throws OptimisticLockException;
 
     /**
      * Löscht ein Geschäftsobjekt.
      *
      * @param entity zu löschendes Geschäftsobjekt.
      * @throws ReferenceExistsException wird geworfen, falls abhängige Daten existieren sollten.
+     * @throws OptimisticLockException wird geworfen, falls der Datensatz zwischenzeitlich geändert wurde.
      */
-    void delete(Object entity) throws ReferenceExistsException;
-
-    /**
-     * Detach object from session.
-     *
-     * @param aObject
-     */
-    void detach(Object aObject);
+    void delete(Object entity) throws ReferenceExistsException, OptimisticLockException;
 }

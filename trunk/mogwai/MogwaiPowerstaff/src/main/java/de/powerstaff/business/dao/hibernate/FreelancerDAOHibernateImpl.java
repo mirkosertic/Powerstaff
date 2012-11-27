@@ -24,6 +24,7 @@ import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.ProjectPosition;
 import de.powerstaff.business.entity.SavedProfileSearch;
+import de.powerstaff.business.service.OptimisticLockException;
 import de.powerstaff.business.service.ReferenceExistsException;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
@@ -228,7 +229,7 @@ public class FreelancerDAOHibernateImpl extends
     }
 
     @Override
-    public void delete(final Object aEntity) throws ReferenceExistsException {
+    public void delete(final Object aEntity) throws ReferenceExistsException, OptimisticLockException {
 
         // Freiberufler dürfen nicht gelöscht werden, wenn sie bereits einem Projekt zugewiesen sind.
         boolean exists = getHibernateTemplate().execute(new HibernateCallback<Boolean>() {

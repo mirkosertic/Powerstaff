@@ -60,7 +60,7 @@ public class CustomerServiceImpl extends LogableService implements CustomerServi
         this.systemParameterService = systemParameterService;
     }
 
-    public void delete(Customer aEntity) {
+    public void delete(Customer aEntity) throws OptimisticLockException {
         try {
             customerDAO.delete(aEntity);
         } catch (ReferenceExistsException e) {
@@ -101,7 +101,7 @@ public class CustomerServiceImpl extends LogableService implements CustomerServi
         return theResult;
     }
 
-    public void save(Customer aObject) {
+    public void save(Customer aObject) throws OptimisticLockException {
         customerDAO.save(aObject);
     }
 

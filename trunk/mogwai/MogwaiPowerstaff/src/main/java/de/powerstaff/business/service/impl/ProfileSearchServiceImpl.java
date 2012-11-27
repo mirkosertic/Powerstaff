@@ -19,16 +19,14 @@ package de.powerstaff.business.service.impl;
 
 import de.mogwai.common.business.service.impl.LogableService;
 import de.mogwai.common.usercontext.UserContextHolder;
+import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.dao.ProfileSearchDAO;
 import de.powerstaff.business.dto.DataPage;
 import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.entity.*;
 import de.powerstaff.business.lucene.analysis.ProfileAnalyzerFactory;
-import de.powerstaff.business.service.FSCache;
-import de.powerstaff.business.service.PowerstaffSystemParameterService;
-import de.powerstaff.business.service.ProfileIndexerService;
-import de.powerstaff.business.service.ProfileSearchService;
+import de.powerstaff.business.service.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.CachingTokenFilter;
@@ -132,15 +130,13 @@ public class ProfileSearchServiceImpl extends LogableService implements
     }
 
     @Override
-    public void saveSearchRequest(SavedProfileSearch searchRequest, boolean cleanup) {
+    public void saveSearchRequest(SavedProfileSearch searchRequest, boolean cleanup) throws OptimisticLockException {
 
         User theUser = (User) UserContextHolder.getUserContext().getAuthenticatable();
 
         if (cleanup) {
             searchRequest.getProfilesToIgnore().clear();
         }
-
-        profileSearchDAO.save(searchRequest);
 
         // If the search was for a project, it will also be saved as the last search for a user
         if (searchRequest.getProject() != null) {
@@ -297,7 +293,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
     }
 
     @Override
-    public void removeSavedSearchEntry(SavedProfileSearch searchRequest, String aDocumentId) {
+    public void removeSavedSearchEntry(SavedProfileSearch searchRequest, String aDocumentId) throws OptimisticLockException {
 
         SavedProfileSearch theSearch = profileSearchDAO.getSavedSearchById(searchRequest.getId());
 

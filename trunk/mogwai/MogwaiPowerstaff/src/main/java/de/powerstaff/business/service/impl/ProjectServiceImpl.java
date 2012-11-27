@@ -40,7 +40,7 @@ public class ProjectServiceImpl extends LogableService implements ProjectService
         this.systemParameterService = systemParameterService;
     }
 
-    public void delete(Project aEntity) {
+    public void delete(Project aEntity) throws OptimisticLockException {
         try {
             projectDAO.delete(aEntity);
         } catch (ReferenceExistsException e) {
@@ -81,7 +81,7 @@ public class ProjectServiceImpl extends LogableService implements ProjectService
         return theResult;
     }
 
-    public void save(Project aObject) {
+    public void save(Project aObject) throws OptimisticLockException {
         projectDAO.save(aObject);
     }
 
@@ -100,7 +100,7 @@ public class ProjectServiceImpl extends LogableService implements ProjectService
     }
 
     @Override
-    public void deleteSavedSearch(SavedProfileSearch aSearch) {
+    public void deleteSavedSearch(SavedProfileSearch aSearch) throws OptimisticLockException {
         try {
             projectDAO.delete(aSearch);
         } catch (ReferenceExistsException e) {

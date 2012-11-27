@@ -28,7 +28,7 @@ public interface ProjectService extends NavigatingService<Project> {
 
     Collection<SavedProfileSearch> getSavedSearchesFor(Project aProject);
 
-    void deleteSavedSearch(SavedProfileSearch aSearch);
+    void deleteSavedSearch(SavedProfileSearch aSearch) throws OptimisticLockException;
 
     List<Project> findProjectsFor(Customer aCustomer);
 
