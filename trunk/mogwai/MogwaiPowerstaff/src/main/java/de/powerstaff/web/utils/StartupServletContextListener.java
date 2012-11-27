@@ -36,7 +36,7 @@ public class StartupServletContextListener implements ServletContextListener {
 
         //if ("true".equals(System.getProperty("reindexOnStartup"))) {
         ProfileIndexerService theService = (ProfileIndexerService) theContext.getBean("profileIndexerService");
-        //theService.rebuildIndex();
+        theService.rebuildIndex();
         //}
     }
 

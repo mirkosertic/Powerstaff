@@ -25,12 +25,33 @@
         <h:outputText value="Kunden"/>
     </pretty:link>
     <f:verbatim>|</f:verbatim>
-    <pretty:link mappingId="projectmain" styleClass="menuitem2" onclick="if (!checkForChangedData()) {return false;}">
-        <f:param value="unknown"/>
-        <f:param value="new"/>
-        <f:param value="new"/>
-        <h:outputText value="Projekte"/>
-    </pretty:link>
+    <f:subview id="linknewproject" rendered="#{!contextUtils.contextSet}">
+        <pretty:link mappingId="projectmain" styleClass="menuitem2"
+                     onclick="if (!checkForChangedData()) {return false;}">
+            <f:param value="unknown"/>
+            <f:param value="new"/>
+            <f:param value="new"/>
+            <h:outputText value="Projekte"/>
+        </pretty:link>
+    </f:subview>
+    <f:subview id="linkprojectcustomer" rendered="#{contextUtils.contextSet and !(empty contextUtils.currentProject.customer)}">
+        <pretty:link mappingId="projectmain" styleClass="menuitem2"
+                     onclick="if (!checkForChangedData()) {return false;}">
+            <f:param value="customer"/>
+            <f:param value="#{contextUtils.currentProject.customer.id}"/>
+            <f:param value="#{contextUtils.currentProject.id}"/>
+            <h:outputText value="Projekte"/>
+        </pretty:link>
+    </f:subview>
+    <f:subview id="linkprojectpartner" rendered="#{contextUtils.contextSet and !(empty contextUtils.currentProject.partner)}">
+        <pretty:link mappingId="projectmain" styleClass="menuitem2"
+                     onclick="if (!checkForChangedData()) {return false;}">
+            <f:param value="partner"/>
+            <f:param value="#{contextUtils.currentProject.partner.id}"/>
+            <f:param value="#{contextUtils.currentProject.id}"/>
+            <h:outputText value="Projekte"/>
+        </pretty:link>
+    </f:subview>
     <f:verbatim>|</f:verbatim>
     <pretty:link mappingId="statisticmain" styleClass="menuitem2" onclick="if (!checkForChangedData()) {return false;}">
         <h:outputText value="Statistik"/>

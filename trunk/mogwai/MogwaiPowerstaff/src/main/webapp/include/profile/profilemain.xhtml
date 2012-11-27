@@ -26,10 +26,9 @@
 
                     <f:subview id="projectincontext" rendered="#{contextUtils.contextSet}">
                         <h:outputText value="      Aktuelles Projekt : #{contextUtils.currrentProjectDescription}"/>
-                        <b:commandLink action="#{contextUtils.commandClearContext}" immediate="true">
+                        <h:commandLink action="#{contextUtils.commandClearContext}" immediate="true">
                             <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
-                            <a4j:support eventsQueue="powerstaff" event="onclick" reRender="projectincontext"/>
-                        </b:commandLink>
+                        </h:commandLink>
                     </f:subview>
                 </h:panelGroup>
             </b:cell>
