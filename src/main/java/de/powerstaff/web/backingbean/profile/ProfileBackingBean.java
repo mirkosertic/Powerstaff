@@ -25,6 +25,7 @@ import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.dto.DataPage;
 import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.entity.*;
+import de.powerstaff.business.service.OptimisticLockException;
 import de.powerstaff.business.service.ProfileIndexerService;
 import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.web.backingbean.ContextUtils;
@@ -98,7 +99,7 @@ public class ProfileBackingBean extends
         }
     }
 
-    private void initializeFor(SavedProfileSearch aRequest, boolean aIsInit) {
+    private void initializeFor(SavedProfileSearch aRequest, boolean aIsInit) throws OptimisticLockException {
         if (aRequest != null) {
             getData().setSearchRequest(aRequest);
 
@@ -174,11 +175,15 @@ public class ProfileBackingBean extends
         ProfileSearchEntry theEntry = (ProfileSearchEntry) getData()
                 .getSearchResult().getRowData();
 
-        profileSearchService.removeSavedSearchEntry(getData().getSearchRequest(), theEntry.getDocumentId());
+        try {
+            profileSearchService.removeSavedSearchEntry(getData().getSearchRequest(), theEntry.getDocumentId());
 
-        initializeDataModel();
+            initializeDataModel();
 
-        JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
+            JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
+        } catch (OptimisticLockException e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
+        }
     }
 
     public boolean isTransient() {
@@ -204,45 +209,69 @@ public class ProfileBackingBean extends
     public void commandSortByName1() {
         getData().getSearchRequest().setSortierung(ProfileIndexerService.NAME1);
 
-        profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
-        initializeDataModel();
+        try {
+            profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
+            initializeDataModel();
+        } catch (OptimisticLockException e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
+        }
     }
 
     public void commandSortByName2() {
         getData().getSearchRequest().setSortierung(ProfileIndexerService.NAME2);
 
-        profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
-        initializeDataModel();
+        try {
+            profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
+            initializeDataModel();
+        } catch (OptimisticLockException e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
+        }
     }
 
     public void commandSortByPLZ() {
         getData().getSearchRequest().setSortierung(ProfileIndexerService.PLZ);
 
-        profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
-        initializeDataModel();
+        try {
+            profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
+            initializeDataModel();
+        } catch (OptimisticLockException e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
+        }
     }
 
     public void commandSortBySatz() {
         getData().getSearchRequest().setSortierung(
                 ProfileIndexerService.STUNDENSATZ);
 
-        profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
-        initializeDataModel();
+        try {
+            profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
+            initializeDataModel();
+        } catch (OptimisticLockException e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
+        }
     }
 
     public void commandSortByVerf() {
         getData().getSearchRequest().setSortierung(
                 ProfileIndexerService.VERFUEGBARKEIT);
 
-        profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
-        initializeDataModel();
+        try {
+            profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
+            initializeDataModel();
+        } catch (OptimisticLockException e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
+        }
     }
 
     public void commandSortByCode() {
         getData().getSearchRequest().setSortierung(ProfileIndexerService.CODE);
 
-        profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
-        initializeDataModel();
+        try {
+            profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
+            initializeDataModel();
+        } catch (OptimisticLockException e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
+        }
     }
 
     public int getPageSize() {
@@ -292,11 +321,12 @@ public class ProfileBackingBean extends
                 SavedProfileSearch theResult = profileSearchService.getSearchRequest(Long.parseLong(getData().getId()));
                 initializeFor(theResult, true);
             }
+        } catch (OptimisticLockException e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         } catch (Exception e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE,
                     e.getMessage());
             LOGGER.logError("Fehler bei Profilsuche", e);
         }
-
-    }
+   }
 }

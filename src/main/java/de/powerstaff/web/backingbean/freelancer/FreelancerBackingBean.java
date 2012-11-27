@@ -17,9 +17,11 @@
  */
 package de.powerstaff.web.backingbean.freelancer;
 
+import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.entity.*;
 import de.powerstaff.business.service.FreelancerService;
+import de.powerstaff.business.service.OptimisticLockException;
 import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.business.service.ProjectService;
 import de.powerstaff.web.backingbean.ContextUtils;
@@ -101,29 +103,35 @@ public class FreelancerBackingBean
 
     @Override
     public String commandSave() {
-        Project theCurrentProject = contextUtils.getCurrentProject();
-        if (theCurrentProject != null) {
-            ProjectPosition thePosition = getData().getCurrentProjectPosition();
-            if (thePosition.getId() == null) {
-                // Position ist noch nicht persistent, wird aber erst dem Projekt zugeordnet, wenn auch was eingetragen wurde
-                if (!StringUtils.isEmpty(thePosition.getComment()) || (!StringUtils.isEmpty(thePosition.getConditions())) || thePosition.getStatus() != null) {
-                    thePosition.setProject(theCurrentProject);
-                    theCurrentProject.addPosition(thePosition);
-                    thePosition.setFreelancerId(getData().getEntity().getId());
-                }
-            } else {
-                for (ProjectPosition thePersistentPos : theCurrentProject.getPositions()) {
-                    if (thePersistentPos.equals(thePosition)) {
-                        thePersistentPos.setComment(thePosition.getComment());
-                        thePersistentPos.setConditions(thePosition.getConditions());
-                        thePersistentPos.setStatus(thePosition.getStatus());
+        try {
+            Project theCurrentProject = contextUtils.getCurrentProject();
+            if (theCurrentProject != null) {
+                ProjectPosition thePosition = getData().getCurrentProjectPosition();
+                if (thePosition.getId() == null) {
+                    // Position ist noch nicht persistent, wird aber erst dem Projekt zugeordnet, wenn auch was eingetragen wurde
+                    if (!StringUtils.isEmpty(thePosition.getComment()) || (!StringUtils.isEmpty(thePosition.getConditions())) || thePosition.getStatus() != null) {
+                        thePosition.setProject(theCurrentProject);
+                        theCurrentProject.addPosition(thePosition);
+                        thePosition.setFreelancerId(getData().getEntity().getId());
+                    }
+                } else {
+                    for (ProjectPosition thePersistentPos : theCurrentProject.getPositions()) {
+                        if (thePersistentPos.equals(thePosition)) {
+                            thePersistentPos.setComment(thePosition.getComment());
+                            thePersistentPos.setConditions(thePosition.getConditions());
+                            thePersistentPos.setStatus(thePosition.getStatus());
+                        }
                     }
                 }
+                projectService.save(theCurrentProject);
             }
-            projectService.save(theCurrentProject);
-        }
 
-        return super.commandSave();
+            return super.commandSave();
+
+        } catch (OptimisticLockException e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
+            return null;
+        }
     }
 
     public List<ProjectPositionStatus> getPositionStatus() {

@@ -20,6 +20,7 @@ package de.powerstaff.web.backingbean.partner;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.entity.*;
 import de.powerstaff.business.service.FreelancerService;
+import de.powerstaff.business.service.OptimisticLockException;
 import de.powerstaff.business.service.PartnerService;
 import de.powerstaff.business.service.ProjectService;
 import de.powerstaff.web.backingbean.PersonEditorBackingBean;
@@ -98,12 +99,16 @@ public class PartnerBackingBean
             Partner thePartner = getData().getEntity();
 
             theFreelancer.setPartner(thePartner);
-            freelancerService.save(theFreelancer);
+            try {
+                freelancerService.save(theFreelancer);
 
-            thePartner = entityService.findByPrimaryKey(thePartner.getId());
-            getData().setEntity(thePartner);
+                thePartner = entityService.findByPrimaryKey(thePartner.getId());
+                getData().setEntity(thePartner);
 
-            JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
+                JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
+            } catch (OptimisticLockException e) {
+                JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
+            }
         } else {
             JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);
         }
@@ -117,12 +122,16 @@ public class PartnerBackingBean
         Partner thePartner = getData().getEntity();
 
         theFreelancer.setPartner(null);
-        freelancerService.save(theFreelancer);
+        try {
+            freelancerService.save(theFreelancer);
 
-        thePartner = entityService.findByPrimaryKey(thePartner.getId());
-        getData().setEntity(thePartner);
+            thePartner = entityService.findByPrimaryKey(thePartner.getId());
+            getData().setEntity(thePartner);
 
-        JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
+            JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
+        } catch (OptimisticLockException e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
+        }
     }
 
     @Override
@@ -135,7 +144,7 @@ public class PartnerBackingBean
         return new PartnerHistory();
     }
 
-   public List<Project> getCurrentProjects() {
+    public List<Project> getCurrentProjects() {
         return projectService.findProjectsFor(getData().getEntity());
     }
 }

@@ -5,5 +5,5 @@ package de.powerstaff.business.service;
  * <p/>
  * This exception can be thrown upon object deletion.
  */
-public class ReferenceExistsException extends Exception {
+public class ReferenceExistsException extends RuntimeException {
 }

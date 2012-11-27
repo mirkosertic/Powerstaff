@@ -50,4 +50,6 @@ public interface MessageConstants {
     String MSG_ZUVIELESUCHERGEBNISSE = "message.zuvielesuchergebnisse";
 
     String DATE_FORMAT = "global.dateformat.short";
+
+    String MSG_CONCURRENTMODIFICATION = "message.concurrentmodification";
 }

@@ -4,6 +4,7 @@ import de.mogwai.common.business.entity.Entity;
 import de.mogwai.common.logging.Logger;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.service.NavigatingService;
+import de.powerstaff.business.service.OptimisticLockException;
 import de.powerstaff.business.service.RecordInfo;
 import de.powerstaff.business.service.ReferenceExistsException;
 
@@ -103,6 +104,8 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
             LOGGER.logError("Fehler beim Löschen", e);
             JSFMessageUtils.addGlobalErrorMessage(MSG_ESEXISTIERENABHAENGIGEDATEN);
 
+        } catch (OptimisticLockException e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         } catch (Exception e) {
 
             LOGGER.logError("Fehler beim Löschen", e);
@@ -119,6 +122,8 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
             JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
 
             return "pretty:" + getNavigationIDPrefix() + "main";
+        } catch (OptimisticLockException e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         } catch (Exception e) {
 
             LOGGER.logError("Fehler beim Speichern", e);

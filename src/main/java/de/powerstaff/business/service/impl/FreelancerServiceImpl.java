@@ -50,7 +50,7 @@ public class FreelancerServiceImpl extends LogableService implements
         return freelancerDAO.findByCode(code);
     }
 
-    public void delete(Freelancer aEntity) throws ReferenceExistsException {
+    public void delete(Freelancer aEntity) throws ReferenceExistsException, OptimisticLockException {
         freelancerDAO.delete(aEntity);
     }
 
@@ -89,7 +89,7 @@ public class FreelancerServiceImpl extends LogableService implements
         return theResult;
     }
 
-    public void save(Freelancer aObject) {
+    public void save(Freelancer aObject) throws OptimisticLockException {
         freelancerDAO.save(aObject);
     }
 

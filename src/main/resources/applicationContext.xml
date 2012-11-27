@@ -76,6 +76,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
                 <prop key="javax.persistence.validation.mode">none</prop>
                 <prop key="hibernate.validator.apply_to_ddl">false</prop>
                 <prop key="hibernate.validator.autoregister_listeners">false</prop>
+                <prop key="hibernate.connection.useUnicode">true</prop>
+                <prop key="hibernate.connection.characterEncoding">UTF-8</prop>
+                <prop key="hibernate.connection.charSet">UTF-8</prop>
             </props>
         </property>
         <property name="lobHandler">

@@ -17,7 +17,9 @@
 package de.mogwai.common.dao.hibernate;
 
 import de.mogwai.common.dao.DAO;
+import de.powerstaff.business.service.OptimisticLockException;
 import de.powerstaff.business.service.ReferenceExistsException;
+import org.springframework.orm.hibernate3.HibernateOptimisticLockingFailureException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
@@ -34,19 +36,23 @@ public abstract class GenericDaoHibernateImpl extends HibernateDaoSupport
         return getHibernateTemplate().get(entityClass, id);
     }
 
-    public void save(Object entity) {
+    public void save(Object entity) throws OptimisticLockException {
 
-        getHibernateTemplate().saveOrUpdate(entity);
-        getHibernateTemplate().flush();
+        try {
+            getHibernateTemplate().saveOrUpdate(entity);
+            getHibernateTemplate().flush();
+        } catch (HibernateOptimisticLockingFailureException e) {
+            throw new OptimisticLockException(e);
+        }
     }
 
-    public void delete(Object entity) throws ReferenceExistsException {
+    public void delete(Object entity) throws ReferenceExistsException, OptimisticLockException {
 
-        getHibernateTemplate().delete(entity);
-        getHibernateTemplate().flush();
-    }
-
-    public void detach(Object aObject) {
-        getHibernateTemplate().evict(aObject);
+        try {
+            getHibernateTemplate().delete(entity);
+            getHibernateTemplate().flush();
+        } catch (HibernateOptimisticLockingFailureException e) {
+            throw new OptimisticLockException(e);
+        }
     }
 }

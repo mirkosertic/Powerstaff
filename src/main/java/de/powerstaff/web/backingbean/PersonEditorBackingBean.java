@@ -24,6 +24,7 @@ import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.HistoryEntity;
 import de.powerstaff.business.entity.Person;
 import de.powerstaff.business.service.AdditionalDataService;
+import de.powerstaff.business.service.OptimisticLockException;
 import de.powerstaff.business.service.PersonService;
 import de.powerstaff.business.service.TooManySearchResults;
 import de.powerstaff.web.utils.Comparators;
@@ -139,12 +140,16 @@ public abstract class PersonEditorBackingBean<T extends Person, V extends Person
         T thePerson = getData().getEntity();
         thePerson.getHistory().add(theHistory);
 
-        entityService.save(thePerson);
+        try {
+            entityService.save(thePerson);
 
-        getData().setNewHistoryEntry(null);
-        getData().setEntity(thePerson);
+            getData().setNewHistoryEntry(null);
+            getData().setEntity(thePerson);
 
-        JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
+            JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
+        } catch (OptimisticLockException e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
+        }
     }
 
     public void commandDeleteHistoryEntry() {
@@ -154,11 +159,15 @@ public abstract class PersonEditorBackingBean<T extends Person, V extends Person
         getData().getHistory().remove(theHistory);
 
         T thePerson = getData().getEntity();
-        entityService.save(thePerson);
+        try {
+            entityService.save(thePerson);
 
-        getData().setEntity(thePerson);
-        getData().getHistory().sort(Comparators.INVERSECREATIONDATECOMPARATOR);
+            getData().setEntity(thePerson);
+            getData().getHistory().sort(Comparators.INVERSECREATIONDATECOMPARATOR);
 
-        JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
+            JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
+        } catch (OptimisticLockException e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
+        }
     }
 }

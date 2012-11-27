@@ -27,9 +27,9 @@ public interface NavigatingService<T extends Entity> extends Service {
 
     T findByPrimaryKey(Long id);
 
-    void save(T aBo);
+    void save(T aBo) throws OptimisticLockException;
 
-    void delete(T aBo) throws ReferenceExistsException;
+    void delete(T aBo) throws ReferenceExistsException, OptimisticLockException;
 
     T findFirst();
 
