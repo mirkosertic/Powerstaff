@@ -62,7 +62,7 @@
                     <h:column>
                         <f:facet name="header">
                         </f:facet>
-                        <pretty:link mappingId="freelancermain" title="Datensatz anzeigen">
+                        <pretty:link mappingId="freelancermain" title="Datensatz anzeigen" id="freelancermain">
                             <f:param value="#{row.id}"/>
                             <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
                         </pretty:link>
@@ -101,7 +101,8 @@
                         <f:facet name="header">
                         </f:facet>
                         <b:commandLink title="Zuordnung löschen"
-                                       action="#{partnerBackingBean.commandRemoveFreelancer}" immediate="true">
+                                       action="#{partnerBackingBean.commandRemoveFreelancer}" immediate="true"
+                                       id="deleteassignment">
                             <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                             <a4j:support eventsQueue="powerstaff" event="onclick" reRender="partnerliste"/>
                         </b:commandLink>

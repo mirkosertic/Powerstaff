@@ -70,12 +70,10 @@
                     <h:column>
                         <f:facet name="header">
                         </f:facet>
-                        <b:commandLink title="Eintrag löschen" immediate="true"
-                                       action="#{customerBackingBean.commandDeleteHistoryEntry}">
+                        <h:commandLink title="Eintrag löschen" immediate="true"
+                                       action="#{customerBackingBean.commandDeleteHistoryEntry}" id="deletehistoryentry">
                             <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
-                            <a4j:support eventsQueue="powerstaff" event="onclick"
-                                         reRender="history"/>
-                        </b:commandLink>
+                        </h:commandLink>
                     </h:column>
                     <h:column>
                         <f:facet name="header">

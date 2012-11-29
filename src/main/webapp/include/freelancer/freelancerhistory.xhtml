@@ -72,7 +72,8 @@
                         <f:facet name="header">
                         </f:facet>
                         <h:commandLink title="Eintrag löschen" immediate="true"
-                                       action="#{freelancerBackingBean.commandDeleteHistoryEntry}">
+                                       action="#{freelancerBackingBean.commandDeleteHistoryEntry}"
+                                       id="deletehistoryentry">
                             <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                         </h:commandLink>
                     </h:column>
@@ -115,7 +116,7 @@
                     <h:outputText value="Projekt"/>
                 </f:facet>
                 <f:subview id="customerlink" rendered="#{!empty row.project.customer}">
-                    <pretty:link mappingId="projectmain">
+                    <pretty:link mappingId="projectmain" id="projectmain_customer">
                         <f:param value="customer"/>
                         <f:param value="#{row.project.customer.id}"/>
                         <f:param value="#{row.project.id}"/>
@@ -124,7 +125,7 @@
                     </pretty:link>
                 </f:subview>
                 <f:subview id="partnerlink" rendered="#{!empty row.project.partner}">
-                    <pretty:link mappingId="projectmain">
+                    <pretty:link mappingId="projectmain" id="projectmain_partner">
                         <f:param value="partner"/>
                         <f:param value="#{row.project.partner.id}"/>
                         <f:param value="#{row.project.id}"/>

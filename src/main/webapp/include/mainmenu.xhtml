@@ -4,30 +4,30 @@
            xmlns:b="http://mogwai.sourceforge.net/layout"
            xmlns:a4j="http://richfaces.org/a4j" xmlns:pretty="http://ocpsoft.com/prettyfaces">
     <pretty:link mappingId="freelancermain" styleClass="menuitem2"
-                 onclick="if (!checkForChangedData()) {return false;}">
+                 onclick="if (!checkForChangedData()) {return false;}" id="freelancermain">
         <f:param value="new"/>
         <h:outputText value="Freiberufler"/>
     </pretty:link>
     <f:verbatim>|</f:verbatim>
-    <pretty:link mappingId="profilemain" styleClass="menuitem2" onclick="if (!checkForChangedData()) {return false;}">
+    <pretty:link mappingId="profilemain" styleClass="menuitem2" onclick="if (!checkForChangedData()) {return false;}" id="main_profiles">
         <f:param value="user"/>
         <f:param value="#{contextUtils.currentUserId}"/>
         <h:outputText value="Profilsuche"/>
     </pretty:link>
     <f:verbatim>|</f:verbatim>
-    <pretty:link mappingId="partnermain" styleClass="menuitem2" onclick="if (!checkForChangedData()) {return false;}">
+    <pretty:link mappingId="partnermain" styleClass="menuitem2" onclick="if (!checkForChangedData()) {return false;}" id="main_partnermain">
         <f:param value="new"/>
         <h:outputText value="Gesch&#228;ftspartner"/>
     </pretty:link>
     <f:verbatim>|</f:verbatim>
-    <pretty:link mappingId="customermain" styleClass="menuitem2" onclick="if (!checkForChangedData()) {return false;}">
+    <pretty:link mappingId="customermain" styleClass="menuitem2" onclick="if (!checkForChangedData()) {return false;}" id="main_customermain">
         <f:param value="new"/>
         <h:outputText value="Kunden"/>
     </pretty:link>
     <f:verbatim>|</f:verbatim>
     <f:subview id="linknewproject" rendered="#{!contextUtils.contextSet}">
         <pretty:link mappingId="projectmain" styleClass="menuitem2"
-                     onclick="if (!checkForChangedData()) {return false;}">
+                     onclick="if (!checkForChangedData()) {return false;}" id="main_projectmainnew">
             <f:param value="unknown"/>
             <f:param value="new"/>
             <f:param value="new"/>
@@ -36,7 +36,7 @@
     </f:subview>
     <f:subview id="linkprojectcustomer" rendered="#{contextUtils.contextSet and !(empty contextUtils.currentProject.customer)}">
         <pretty:link mappingId="projectmain" styleClass="menuitem2"
-                     onclick="if (!checkForChangedData()) {return false;}">
+                     onclick="if (!checkForChangedData()) {return false;}" id="main_projectmaincustomer">
             <f:param value="customer"/>
             <f:param value="#{contextUtils.currentProject.customer.id}"/>
             <f:param value="#{contextUtils.currentProject.id}"/>
@@ -45,7 +45,7 @@
     </f:subview>
     <f:subview id="linkprojectpartner" rendered="#{contextUtils.contextSet and !(empty contextUtils.currentProject.partner)}">
         <pretty:link mappingId="projectmain" styleClass="menuitem2"
-                     onclick="if (!checkForChangedData()) {return false;}">
+                     onclick="if (!checkForChangedData()) {return false;}" id="main_projectmainpartner">
             <f:param value="partner"/>
             <f:param value="#{contextUtils.currentProject.partner.id}"/>
             <f:param value="#{contextUtils.currentProject.id}"/>
@@ -53,7 +53,7 @@
         </pretty:link>
     </f:subview>
     <f:verbatim>|</f:verbatim>
-    <pretty:link mappingId="statisticmain" styleClass="menuitem2" onclick="if (!checkForChangedData()) {return false;}">
+    <pretty:link mappingId="statisticmain" styleClass="menuitem2" onclick="if (!checkForChangedData()) {return false;}" id="main_staticmain">
         <h:outputText value="Statistik"/>
     </pretty:link>
 </f:subview>

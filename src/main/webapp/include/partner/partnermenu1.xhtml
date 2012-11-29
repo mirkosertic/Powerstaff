@@ -12,7 +12,7 @@
         <b:cell x="1" y="3">
             <f:subview id="historylink" rendered="#{!empty partnerBackingBean.data.entity.id}">
                 <pretty:link mappingId="partnerhistory" styleClass="menuitem"
-                             onclick="if (!checkForChangedData()) {return false;}">
+                             onclick="if (!checkForChangedData()) {return false;}" id="partnerhistory">
                     <f:param value="#{partnerBackingBean.data.currentEntityId}"/>
                     <h:outputText value="Kontakthistorie"/>
                 </pretty:link>
@@ -22,7 +22,7 @@
         <b:cell x="1" y="5">
             <f:subview id="freelancerlink" rendered="#{!empty partnerBackingBean.data.entity.id}">
                 <pretty:link mappingId="partnerfreelancer" styleClass="menuitem"
-                             onclick="if (!checkForChangedData()) {return false;}">
+                             onclick="if (!checkForChangedData()) {return false;}" id="partnerfreelancer">
                     <f:param value="#{partnerBackingBean.data.currentEntityId}"/>
                     <h:outputText value="Freiberufler"/>
                 </pretty:link>
@@ -32,7 +32,7 @@
         <b:cell x="1" y="7">
             <f:subview id="projectslink" rendered="#{!empty partnerBackingBean.data.entity.id}">
                 <pretty:link mappingId="partnerproject" styleClass="menuitem"
-                             onclick="if (!checkForChangedData()) {return false;}">
+                             onclick="if (!checkForChangedData()) {return false;}" id="partnerproject">
                     <f:param value="#{partnerBackingBean.data.currentEntityId}"/>
                     <h:outputText value="Projekte"/>
                 </pretty:link>

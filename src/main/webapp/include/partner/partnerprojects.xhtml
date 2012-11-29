@@ -41,7 +41,7 @@
                                      rows="20">
                         <b:cell x="1" y="1">
                             <pretty:link mappingId="partnermain" title="Zurück">
-                                <f:param value="#{partnerBackingBean.data.currentEntityId}"/>
+                                <f:param value="#{partnerBackingBean.data.currentEntityId}" id="partnermain"/>
                                 <img src="${facesContext.externalContext.requestContextPath}/images/back.gif"/>
                             </pretty:link>
                         </b:cell>
@@ -59,7 +59,7 @@
                         <f:facet name="header">
                         </f:facet>
                         <f:subview id="linkproj1" rendered="#{!empty row.customer}">
-                            <pretty:link mappingId="projectmain" title="Datensatz anzeigen">
+                            <pretty:link mappingId="projectmain" title="Datensatz anzeigen" id="project_customer_link">
                                 <f:param value="customer"/>
                                 <f:param value="#{row.customer.id}"/>
                                 <f:param value="#{row.id}"/>
@@ -67,7 +67,7 @@
                             </pretty:link>
                         </f:subview>
                         <f:subview id="linkproj2" rendered="#{!empty row.partner}">
-                            <pretty:link mappingId="projectmain" title="Datensatz anzeigen">
+                            <pretty:link mappingId="projectmain" title="Datensatz anzeigen" id="project_partner_link">
                                 <f:param value="partner"/>
                                 <f:param value="#{row.partner.id}"/>
                                 <f:param value="#{row.id}"/>

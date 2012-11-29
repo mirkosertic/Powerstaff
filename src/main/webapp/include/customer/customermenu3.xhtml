@@ -7,7 +7,7 @@
     <b:gridBagLayout rows="p,2,p,2,p" cols="100">
         <b:cell x="1" y="1">
             <pretty:link mappingId="customermain" styleClass="menuitem"
-                         onclick="if (!checkForChangedData()) {return false;}">
+                         onclick="if (!checkForChangedData()) {return false;}" id="customermain">
                 <f:param value="#{customerBackingBean.data.currentEntityId}"/>
                 <h:outputText value="Stammdaten"/>
             </pretty:link>
@@ -16,7 +16,7 @@
         <b:cell x="1" y="3">
             <f:subview id="historylink" rendered="#{!empty customerBackingBean.data.entity.id}">
                 <pretty:link mappingId="customerhistory" styleClass="menuitem"
-                             onclick="if (!checkForChangedData()) {return false;}">
+                             onclick="if (!checkForChangedData()) {return false;}" id="customerhistory">
                     <f:param value="#{customerBackingBean.data.currentEntityId}"/>
                     <h:outputText value="Kontakthistorie"/>
                 </pretty:link>

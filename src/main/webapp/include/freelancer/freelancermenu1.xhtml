@@ -12,7 +12,7 @@
         <b:cell x="1" y="3">
             <f:subview id="historylink" rendered="#{!empty freelancerBackingBean.data.entity.id}">
                 <pretty:link mappingId="freelancerhistory" onclick="if (!checkForChangedData()) {return false;}"
-                             styleClass="menuitem">
+                             styleClass="menuitem" id="freelancerhistory">
                     <f:param value="#{freelancerBackingBean.data.currentEntityId}"/>
                     <h:outputText value="Kontakthistorie"/>
                 </pretty:link>
@@ -22,7 +22,7 @@
         <b:cell x="1" y="5">
             <f:subview id="similarlink" rendered="#{!empty freelancerBackingBean.data.entity.id}">
                 <pretty:link mappingId="freelancersimilar" styleClass="menuitem"
-                             onclick="if (!checkForChangedData()) {return false;}">
+                             onclick="if (!checkForChangedData()) {return false;}" id="freelancersimilar">
                     <f:param value="#{freelancerBackingBean.data.currentEntityId}"/>
                     <h:outputText value="&#196;hnliche Profile"/>
                 </pretty:link>
