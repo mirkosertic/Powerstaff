@@ -40,7 +40,7 @@
                     <b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,right:*"
                                      rows="20">
                         <b:cell x="1" y="1">
-                            <pretty:link mappingId="projectmain" title="Zurück">
+                            <pretty:link mappingId="projectmain" title="Zurück" id="projectmain">
                                 <f:param value="#{projectBackingBean.data.currentType}"/>
                                 <f:param value="#{projectBackingBean.data.currentTypeId}"/>
                                 <f:param value="#{projectBackingBean.data.currentEntityId}"/>
@@ -61,14 +61,14 @@
                     <h:column>
                         <f:facet name="header">
                         </f:facet>
-                        <pretty:link mappingId="freelancermain" title="Springe zur Freiberufler - Ansicht">
+                        <pretty:link mappingId="freelancermain" title="Springe zur Freiberufler - Ansicht" id="freelancerlink">
                             <f:param value="#{row.freelancer.id}"/>
                             <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
                         </pretty:link>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <a4j:commandLink value="Name1" action="#{profileBackingBean.commandSortByName1}"/>
+                            <h:outputText value="Name1"/>
                         </f:facet>
                         <h:outputText value="#{row.freelancer.name1}"
                                       styleClass="#{row.freelancer.contactforbidden?'kontaktsperre':''}"/>
@@ -82,26 +82,26 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <a4j:commandLink value="Name2" action="#{profileBackingBean.commandSortByName2}"/>
+                            <h:outputText value="Name2"/>
                         </f:facet>
                         <h:outputText value="#{row.freelancer.name2}"
                                       styleClass="#{row.freelancer.contactforbidden?'kontaktsperre':''}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <a4j:commandLink value="Plz" action="#{profileBackingBean.commandSortByPLZ}"/>
+                            <h:outputText value="Plz"/>
                         </f:facet>
                         <h:outputText value="#{row.freelancer.plz}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <a4j:commandLink value="Satz" action="#{profileBackingBean.commandSortBySatz}"/>
+                            <h:outputText value="Satz"/>
                         </f:facet>
                         <h:outputText value="#{row.freelancer.stundensatz}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <a4j:commandLink value="Verf." action="#{profileBackingBean.commandSortByVerf}"/>
+                            <h:outputText value="Verf."/>
                         </f:facet>
                         <h:outputText value="#{row.freelancer.availability}">
                             <f:converter converterId="dateConverter"/>
@@ -109,7 +109,7 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <a4j:commandLink value="Code" action="#{profileBackingBean.commandSortByCode}"/>
+                            <h:outputText value="Code"/>
                         </f:facet>
                         <h:outputText value="#{row.code}"/>
                     </h:column>

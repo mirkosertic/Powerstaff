@@ -26,7 +26,7 @@
 
                     <f:subview id="projectincontext" rendered="#{contextUtils.contextSet}">
                         <h:outputText value="      Aktuelles Projekt : #{contextUtils.currrentProjectDescription}"/>
-                        <h:commandLink action="#{contextUtils.commandClearContext}" immediate="true">
+                        <h:commandLink action="#{contextUtils.commandClearContext}" immediate="true" id="clearcontext">
                             <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                         </h:commandLink>
                     </f:subview>
@@ -60,7 +60,7 @@
                             <a4j:outputPanel ajaxRendered="true">
                                 <h:commandLink title="Suchen und dem Projekt zuordnen"
                                                action="#{profileBackingBean.commandSaveToProject}"
-                                               rendered="#{contextUtils.contextSet}">
+                                               rendered="#{contextUtils.contextSet}" id="savesearchtoproject">
                                     <img src="${facesContext.externalContext.requestContextPath}/images/update.gif"/>
                                 </h:commandLink>
                             </a4j:outputPanel>
@@ -68,7 +68,7 @@
                         <b:cell x="8" y="2">
                             <h:commandLink title="Suchen" action="#{profileBackingBean.commandSearch}"
                                            actionKey="13"
-                                           keySensitive="true">
+                                           keySensitive="true" id="search">
                                 <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
                             </h:commandLink>
                         </b:cell>
@@ -114,14 +114,14 @@
                         <h:column>
                             <f:facet name="header">
                             </f:facet>
-                            <pretty:link mappingId="freelancermain" title="Springe zur Freiberufler - Ansicht">
+                            <pretty:link mappingId="freelancermain" title="Springe zur Freiberufler - Ansicht" id="freelancerlink">
                                 <f:param value="#{row.freelancer.id}"/>
                                 <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
                             </pretty:link>
                         </h:column>
                         <h:column>
                             <f:facet name="header">
-                                <a4j:commandLink value="Name1" action="#{profileBackingBean.commandSortByName1}"/>
+                                <a4j:commandLink value="Name1" action="#{profileBackingBean.commandSortByName1}" id="sortbyname1"/>
                             </f:facet>
                             <h:outputText value="#{row.freelancer.name1}"
                                           styleClass="#{row.freelancer.contactforbidden?'kontaktsperre':''}"/>
@@ -135,26 +135,26 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">
-                                <a4j:commandLink value="Name2" action="#{profileBackingBean.commandSortByName2}"/>
+                                <a4j:commandLink value="Name2" action="#{profileBackingBean.commandSortByName2}" id="sortbyname2"/>
                             </f:facet>
                             <h:outputText value="#{row.freelancer.name2}"
                                           styleClass="#{row.freelancer.contactforbidden?'kontaktsperre':''}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">
-                                <a4j:commandLink value="Plz" action="#{profileBackingBean.commandSortByPLZ}"/>
+                                <a4j:commandLink value="Plz" action="#{profileBackingBean.commandSortByPLZ}" id="sortbyplz"/>
                             </f:facet>
                             <h:outputText value="#{row.freelancer.plz}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">
-                                <a4j:commandLink value="Satz" action="#{profileBackingBean.commandSortBySatz}"/>
+                                <a4j:commandLink value="Satz" action="#{profileBackingBean.commandSortBySatz}" id="sortbysatz"/>
                             </f:facet>
                             <h:outputText value="#{row.freelancer.stundensatz}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">
-                                <a4j:commandLink value="Verf." action="#{profileBackingBean.commandSortByVerf}"/>
+                                <a4j:commandLink value="Verf." action="#{profileBackingBean.commandSortByVerf}" id="sortbyverf"/>
                             </f:facet>
                             <h:outputText value="#{row.freelancer.availability}">
                                 <f:converter converterId="dateConverter"/>
@@ -162,7 +162,7 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">
-                                <a4j:commandLink value="Code" action="#{profileBackingBean.commandSortByCode}"/>
+                                <a4j:commandLink value="Code" action="#{profileBackingBean.commandSortByCode}" id="sortbycode"/>
                             </f:facet>
                             <h:outputText value="#{row.code}"/>
                         </h:column>
@@ -174,7 +174,7 @@
                         </h:column>
                         <h:column>
                             <a4j:commandLink title="Eintrag aus Suche löschen"
-                                             action="#{profileBackingBean.commandDeleteSearchEntry}">
+                                             action="#{profileBackingBean.commandDeleteSearchEntry}" id="removefromsearch">
                                 <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                             </a4j:commandLink>
                         </h:column>

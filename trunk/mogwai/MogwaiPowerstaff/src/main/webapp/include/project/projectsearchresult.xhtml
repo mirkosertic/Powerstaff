@@ -42,7 +42,7 @@
                     <b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,right:*"
                                      rows="20">
                         <b:cell x="1" y="1">
-                            <pretty:link mappingId="projectmain" title="Zurück">
+                            <pretty:link mappingId="projectmain" title="Zurück" id="projectmain">
                                 <f:param value="#{projectBackingBean.data.currentType}"/>
                                 <f:param value="#{projectBackingBean.data.currentTypeId}"/>
                                 <f:param value="#{projectBackingBean.data.currentEntityId}"/>
@@ -63,7 +63,7 @@
                         <f:facet name="header">
                         </f:facet>
                         <f:subview id="linkproj1" rendered="#{!empty row.customer}">
-                            <pretty:link mappingId="projectmain" title="Datensatz anzeigen">
+                            <pretty:link mappingId="projectmain" title="Datensatz anzeigen" id="link_customer_project">
                                 <f:param value="customer"/>
                                 <f:param value="#{row.customer.id}"/>
                                 <f:param value="#{row.ID}"/>
@@ -71,7 +71,7 @@
                             </pretty:link>
                         </f:subview>
                         <f:subview id="linkproj2" rendered="#{!empty row.partner}">
-                            <pretty:link mappingId="projectmain" title="Datensatz anzeigen">
+                            <pretty:link mappingId="projectmain" title="Datensatz anzeigen" id="link_partner_project">
                                 <f:param value="partner"/>
                                 <f:param value="#{row.partner.id}"/>
                                 <f:param value="#{row.ID}"/>

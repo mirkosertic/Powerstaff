@@ -12,7 +12,7 @@
         <b:cell x="1" y="3">
             <f:subview id="historylink" rendered="#{!empty customerBackingBean.data.entity.id}">
                 <pretty:link mappingId="customerhistory" styleClass="menuitem"
-                             onclick="if (!checkForChangedData()) {return false;}">
+                             onclick="if (!checkForChangedData()) {return false;}" id="customerhistory">
                     <f:param value="#{customerBackingBean.data.currentEntityId}"/>
                     <h:outputText value="Kontakthistorie"/>
                 </pretty:link>
@@ -22,7 +22,7 @@
         <b:cell x="1" y="5">
             <f:subview id="projectlink" rendered="#{!empty customerBackingBean.data.entity.id}">
                 <pretty:link mappingId="customerproject" styleClass="menuitem"
-                             onclick="if (!checkForChangedData()) {return false;}">
+                             onclick="if (!checkForChangedData()) {return false;}" id="customerproject">
                     <f:param value="#{customerBackingBean.data.currentEntityId}"/>
                     <h:outputText value="Projekte"/>
                 </pretty:link>

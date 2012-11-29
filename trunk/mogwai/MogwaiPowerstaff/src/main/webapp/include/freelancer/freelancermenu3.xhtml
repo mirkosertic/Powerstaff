@@ -7,7 +7,7 @@
     <b:gridBagLayout rows="p,2,p,2,p" cols="100">
         <b:cell x="1" y="1">
             <pretty:link mappingId="freelancermain" styleClass="menuitem"
-                         onclick="if (!checkForChangedData()) {return false;}">
+                         onclick="if (!checkForChangedData()) {return false;}" id="freelancermain">
                 <f:param value="#{freelancerBackingBean.data.currentEntityId}"/>
                 <h:outputText value="Stammdaten"/>
             </pretty:link>
@@ -16,7 +16,7 @@
         <b:cell x="1" y="3">
             <f:subview id="historylink" rendered="#{!empty freelancerBackingBean.data.entity.id}">
                 <pretty:link mappingId="freelancerhistory" onclick="if (!checkForChangedData()) {return false;}"
-                             styleClass="menuitem">
+                             styleClass="menuitem" id="freelancerhistory">
                     <f:param value="#{freelancerBackingBean.data.currentEntityId}"/>
                     <h:outputText value="Kontakthistorie"/>
                 </pretty:link>

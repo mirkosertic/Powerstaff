@@ -42,55 +42,56 @@
                          rows="20,2,20">
             <b:cell x="1" y="1">
                 <h:commandLink title="Erster Datensatz" action="#{partnerBackingBean.commandFirst}"
-                               onclick="if (!checkForChangedData()) {return false;}">
+                               onclick="if (!checkForChangedData()) {return false;}" id="firstrecord">
                     <img src="${facesContext.externalContext.requestContextPath}/images/first.gif"/>
                 </h:commandLink>
             </b:cell>
             <b:cell x="2" y="1">
                 <h:commandLink title="Vorheriger Datensatz" action="#{partnerBackingBean.commandPrior}"
-                               onclick="if (!checkForChangedData()) {return false;}">
+                               onclick="if (!checkForChangedData()) {return false;}" id="previousrecord">
                     <img src="${facesContext.externalContext.requestContextPath}/images/prior.gif"/>
                 </h:commandLink>
             </b:cell>
             <b:cell x="3" y="1">
                 <h:commandLink title="Nächster Datensatz" action="#{partnerBackingBean.commandNext}"
-                               onclick="if (!checkForChangedData()) {return false;}">
+                               onclick="if (!checkForChangedData()) {return false;}" id="nextrecord">
                     <img src="${facesContext.externalContext.requestContextPath}/images/next.gif"/>
                 </h:commandLink>
             </b:cell>
             <b:cell x="4" y="1">
                 <h:commandLink title="Letzter Datensatz" action="#{partnerBackingBean.commandLast}"
-                               onclick="if (!checkForChangedData()) {return false;}">
+                               onclick="if (!checkForChangedData()) {return false;}" id="lastrecord">
                     <img src="${facesContext.externalContext.requestContextPath}/images/last.gif"/>
                 </h:commandLink>
             </b:cell>
             <b:cell x="6" y="1">
                 <h:commandLink title="Neuer Datensatz" action="#{partnerBackingBean.commandNew}"
-                               onclick="if (!checkForChangedData()) {return false;}">
+                               onclick="if (!checkForChangedData()) {return false;}" id="newrecord">
                     <img src="${facesContext.externalContext.requestContextPath}/images/new.gif"/>
                 </h:commandLink>
             </b:cell>
             <b:cell x="7" y="1">
-                <h:commandLink title="Speichern" action="#{partnerBackingBean.commandSave}">
+                <h:commandLink title="Speichern" action="#{partnerBackingBean.commandSave}" id="saveRecord">
                     <img src="${facesContext.externalContext.requestContextPath}/images/update.gif"/>
                 </h:commandLink>
             </b:cell>
             <b:cell x="9" y="1">
                 <h:commandLink title="Löschen" action="#{partnerBackingBean.commandDelete}"
                                onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick löschen?')) {return false;}"
-                               rendered="#{!empty partnerBackingBean.data.entity.id}">
+                               rendered="#{!empty partnerBackingBean.data.entity.id}"
+                               id="deleteRecord">
                     <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                 </h:commandLink>
             </b:cell>
             <b:cell x="11" y="1">
-                <h:commandLink title="Suchen" action="#{partnerBackingBean.commandSearch}">
+                <h:commandLink title="Suchen" action="#{partnerBackingBean.commandSearch}" id="searchRecord">
                     <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
                 </h:commandLink>
             </b:cell>
             <b:cell x="13" y="1">
                 <f:subview id="newprojectlink" rendered="#{!empty partnerBackingBean.data.entity.id}">
                     <pretty:link title="Neues Projekt erfassen" mappingId="projectmain"
-                                 onclick="if (!checkForChangedData()) {return false;}">
+                                 onclick="if (!checkForChangedData()) {return false;}" id="projectmain">
                         <f:param value="partner"/>
                         <f:param value="#{partnerBackingBean.data.currentEntityId}"/>
                         <f:param value="new"/>
@@ -106,16 +107,11 @@
                                     value="#{partnerBackingBean.data.recordNumber}"/>
             </b:cell>
             <b:cell x="16" y="1">
-                <h:commandLink title="Springe zu Datensatz" action="#{partnerBackingBean.commandJumpToRecord}">
+                <h:commandLink title="Springe zu Datensatz" action="#{partnerBackingBean.commandJumpToRecord}" id="jumptorecord">
                     <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
                 </h:commandLink>
             </b:cell>
             <b:cell x="17" y="1">
-                <h:commandLink rendered="#{!empty partnerBackingBean.data.originalFreelancer}"
-                               title="Zurück zum Freelancer" action="#{partnerBackingBean.commandJumpToFreelancer}"
-                               immediate="true">
-                    <img src="${facesContext.externalContext.requestContextPath}/images/back.gif"/>
-                </h:commandLink>
             </b:cell>
 
             <b:cell x="19" y="1" align="right">
@@ -264,7 +260,7 @@
                             </h:column>
                             <h:column>
                                 <b:commandLink title="Kontaktinformation löschen"
-                                               action="#{partnerBackingBean.commandDeleteContact}">
+                                               action="#{partnerBackingBean.commandDeleteContact}" id="removecontactentry">
                                     <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                                     <a4j:support eventsQueue="powerstaff" event="onclick"
                                                  reRender="kontakttable"
@@ -288,7 +284,7 @@
                     </b:cell>
                     <b:cell x="6" y="8" valign="middle">
                         <b:commandLink title="Kontaktinformation hinzufügen"
-                                       action="#{partnerBackingBean.commandAddContact}">
+                                       action="#{partnerBackingBean.commandAddContact}" id="addcontactentry">
                             <img src="${facesContext.externalContext.requestContextPath}/images/add.gif"/>
                             <a4j:support eventsQueue="powerstaff" event="onclick"
                                          reRender="kontakttable,kontakttyp,kontaktwert"

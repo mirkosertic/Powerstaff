@@ -28,16 +28,10 @@ public class PartnerBackingBeanDataModel extends PersonEditorBackingBeanDataMode
 
     private CollectionDataModel<Freelancer> freelancer;
 
-    private Freelancer originalFreelancer;
-
     private String codeToAdd;
 
     public PartnerBackingBeanDataModel() {
 
-    }
-
-    public PartnerBackingBeanDataModel(Partner aPartner) {
-        super(aPartner);
     }
 
     @Override
@@ -50,14 +44,6 @@ public class PartnerBackingBeanDataModel extends PersonEditorBackingBeanDataMode
         super.setEntity(aValue);
         freelancer = new CollectionDataModel<Freelancer>(aValue.getFreelancer());
         codeToAdd = null;
-    }
-
-    public Freelancer getOriginalFreelancer() {
-        return originalFreelancer;
-    }
-
-    public void setOriginalFreelancer(Freelancer originalFreelancer) {
-        this.originalFreelancer = originalFreelancer;
     }
 
     /**

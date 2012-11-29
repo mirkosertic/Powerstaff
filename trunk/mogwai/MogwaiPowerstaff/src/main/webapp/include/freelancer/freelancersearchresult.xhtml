@@ -42,7 +42,7 @@
                     <b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,right:*"
                                      rows="20">
                         <b:cell x="1" y="1">
-                            <pretty:link mappingId="freelancermain" title="Zurück">
+                            <pretty:link mappingId="freelancermain" title="Zurück" id="freelancermain">
                                 <f:param value="#{freelancerBackingBean.data.currentEntityId}"/>
                                 <img src="${facesContext.externalContext.requestContextPath}/images/back.gif"/>
                             </pretty:link>
@@ -61,7 +61,7 @@
                     <h:column>
                         <f:facet name="header">
                         </f:facet>
-                        <pretty:link mappingId="freelancermain" title="Datensatz anzeigen">
+                        <pretty:link mappingId="freelancermain" title="Datensatz anzeigen" id="freelancerlink">
                             <f:param value="#{row.ID}"/>
                             <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
                         </pretty:link>

@@ -42,48 +42,48 @@
                          rows="20,2,20">
             <b:cell x="1" y="1">
                 <h:commandLink title="Erster Datensatz" action="#{projectBackingBean.commandFirst}"
-                               onclick="if (!checkForChangedData()) {return false;}">
+                               onclick="if (!checkForChangedData()) {return false;}" id="firstrecord">
                     <img src="${facesContext.externalContext.requestContextPath}/images/first.gif"/>
                 </h:commandLink>
             </b:cell>
             <b:cell x="2" y="1">
                 <h:commandLink title="Vorheriger Datensatz" action="#{projectBackingBean.commandPrior}"
-                               onclick="if (!checkForChangedData()) {return false;}">
+                               onclick="if (!checkForChangedData()) {return false;}" id="previousrecord">
                     <img src="${facesContext.externalContext.requestContextPath}//images/prior.gif"/>
                 </h:commandLink>
             </b:cell>
             <b:cell x="3" y="1">
                 <h:commandLink title="Nächster Datensatz" action="#{projectBackingBean.commandNext}"
-                               onclick="if (!checkForChangedData()) {return false;}">
+                               onclick="if (!checkForChangedData()) {return false;}" id="nextrecord">
                     <img src="${facesContext.externalContext.requestContextPath}/images/next.gif"/>
                 </h:commandLink>
             </b:cell>
             <b:cell x="4" y="1">
                 <h:commandLink title="Letzter Datensatz" action="#{projectBackingBean.commandLast}"
-                               onclick="if (!checkForChangedData()) {return false;}">
+                               onclick="if (!checkForChangedData()) {return false;}" id="lastrecord">
                     <img src="${facesContext.externalContext.requestContextPath}/images/last.gif"/>
                 </h:commandLink>
             </b:cell>
             <b:cell x="6" y="1">
                 <h:commandLink title="Neuer Datensatz" action="#{projectBackingBean.commandNew}"
-                               onclick="if (!checkForChangedData()) {return false;}">
+                               onclick="if (!checkForChangedData()) {return false;}" id="newrecord">
                     <img src="${facesContext.externalContext.requestContextPath}/images/new.gif"/>
                 </h:commandLink>
             </b:cell>
             <b:cell x="7" y="1">
-                <h:commandLink title="Speichern" action="#{projectBackingBean.commandSave}">
+                <h:commandLink title="Speichern" action="#{projectBackingBean.commandSave}" id="saverecord">
                     <img src="${facesContext.externalContext.requestContextPath}/images/update.gif"/>
                 </h:commandLink>
             </b:cell>
             <b:cell x="9" y="1">
                 <h:commandLink title="Löschen" action="#{projectBackingBean.commandDelete}"
                                onclick="if (!confirm('Wollen Sie diesen Datensatz wirklick löschen?')) {return false;}"
-                               rendered="#{!empty projectBackingBean.data.entity.id}">
+                               rendered="#{!empty projectBackingBean.data.entity.id}" id="deleterecord">
                     <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                 </h:commandLink>
             </b:cell>
             <b:cell x="11" y="1">
-                <h:commandLink title="Suchen" action="#{projectBackingBean.commandSearch}">
+                <h:commandLink title="Suchen" action="#{projectBackingBean.commandSearch}" id="searchrecord">
                     <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
                 </h:commandLink>
             </b:cell>
@@ -95,7 +95,7 @@
                                     value="#{projectBackingBean.data.recordNumber}"/>
             </b:cell>
             <b:cell x="14" y="1">
-                <h:commandLink title="Springe zu Datensatz" action="#{projectBackingBean.commandJumpToRecord}">
+                <h:commandLink title="Springe zu Datensatz" action="#{projectBackingBean.commandJumpToRecord}" id="jumptorecord">
                     <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
                 </h:commandLink>
             </b:cell>
@@ -136,13 +136,13 @@
                     </b:cell>
                     <b:cell x="6" y="2">
                         <f:subview id="linkcustomer" rendered="#{!empty projectBackingBean.data.entity.customer.id}">
-                            <pretty:link mappingId="customermain">
+                            <pretty:link mappingId="customermain" id="customerlink">
                                 <f:param value="#{projectBackingBean.data.entity.customer.id}"/>
                                 <img src="${facesContext.externalContext.requestContextPath}/images/next.gif"/>
                             </pretty:link>
                         </f:subview>
                         <f:subview id="linkpartner" rendered="#{!empty projectBackingBean.data.entity.partner.id}">
-                            <pretty:link mappingId="partnermain">
+                            <pretty:link mappingId="partnermain" id="partnerlink">
                                 <f:param value="#{projectBackingBean.data.entity.partner.id}"/>
                                 <img src="${facesContext.externalContext.requestContextPath}/images/next.gif"/>
                             </pretty:link>
@@ -452,13 +452,13 @@
             <b:textarea value="#{row.comment}"/>
         </h:column>
         <h:column>
-            <b:commandLink action="#{projectBackingBean.commandDeletePosition}">
+            <b:commandLink action="#{projectBackingBean.commandDeletePosition}" id="deletepostion">
                 <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                 <a4j:support eventsQueue="powerstaff" event="onclick"/>
             </b:commandLink>
         </h:column>
         <h:column>
-            <pretty:link mappingId="freelancermain">
+            <pretty:link mappingId="freelancermain" id="freelancerlink">
                 <f:param value="#{row.freelancerId}"/>
                 <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>
             </pretty:link>
@@ -475,13 +475,13 @@
             <h:outputText value="#{row.profileContent}"/>
         </h:column>
         <h:column>
-            <b:commandLink action="#{projectBackingBean.commandDeleteSavedSearch}">
+            <b:commandLink action="#{projectBackingBean.commandDeleteSavedSearch}" id="deletesavedsearch">
                 <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                 <a4j:support eventsQueue="powerstaff" event="onclick"/>
             </b:commandLink>
         </h:column>
         <h:column>
-            <pretty:link mappingId="profilemain">
+            <pretty:link mappingId="profilemain" id="savedprofilelink">
                 <f:param value="search"/>
                 <f:param value="#{row.id}"/>
                 <img src="${facesContext.externalContext.requestContextPath}/images/select.gif"/>

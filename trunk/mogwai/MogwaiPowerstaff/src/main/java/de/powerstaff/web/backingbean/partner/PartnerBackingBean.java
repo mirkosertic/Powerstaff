@@ -60,36 +60,6 @@ public class PartnerBackingBean
         return new Partner();
     }
 
-    @Override
-    public String commandFirst() {
-        getData().setOriginalFreelancer(null);
-        return super.commandFirst();
-    }
-
-    @Override
-    public String commandLast() {
-        getData().setOriginalFreelancer(null);
-        return super.commandLast();
-    }
-
-    @Override
-    public String commandNew() {
-        getData().setOriginalFreelancer(null);
-        return super.commandNew();
-    }
-
-    @Override
-    public String commandNext() {
-        getData().setOriginalFreelancer(null);
-        return super.commandNext();
-    }
-
-    @Override
-    public String commandPrior() {
-        getData().setOriginalFreelancer(null);
-        return super.commandPrior();
-    }
-
     public void commandAddFreelancer() {
 
         Freelancer theFreelancer = freelancerService

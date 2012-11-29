@@ -7,7 +7,7 @@
     <b:gridBagLayout rows="p,2,p,2,p" cols="100">
         <b:cell x="1" y="1">
             <pretty:link mappingId="freelancermain" styleClass="menuitem"
-                         onclick="if (!checkForChangedData()) {return false;}">
+                         onclick="if (!checkForChangedData()) {return false;}" id="freelancermain">
                 <f:param value="#{freelancerBackingBean.data.currentEntityId}"/>
                 <h:outputText value="Stammdaten"/>
             </pretty:link>
@@ -19,7 +19,7 @@
 
         <b:cell x="1" y="5">
             <pretty:link mappingId="freelancersimilar" styleClass="menuitem"
-                         onclick="if (!checkForChangedData()) {return false;}">
+                         onclick="if (!checkForChangedData()) {return false;}" id="freelancersimilar">
                 <f:param value="#{freelancerBackingBean.data.currentEntityId}"/>
                 <h:outputText value="&#196;hnliche Profile"/>
             </pretty:link>
