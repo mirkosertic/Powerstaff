@@ -21,15 +21,6 @@ public class LoginServiceImpl implements LoginService {
     private AuthenticationManager authenticationManager;
 
     /**
-     * Gibt den Wert des Attributs <code>authenticationManager</code> zurück.
-     * 
-     * @return Wert des Attributs authenticationManager.
-     */
-    public AuthenticationManager getAuthenticationManager() {
-        return authenticationManager;
-    }
-
-    /**
      * Setzt den Wert des Attributs <code>authenticationManager</code>.
      * 
      * @param authenticationManager
