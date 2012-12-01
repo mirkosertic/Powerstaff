@@ -40,15 +40,6 @@ public class SystemParameterServiceImpl extends LogableService implements System
     private SystemParameterDao systemParameterDao;
 
     /**
-     * Gibt den Wert des Attributs <code>systemParameterDao</code> zurück.
-     * 
-     * @return Wert des Attributs systemParameterDao.
-     */
-    public SystemParameterDao getSystemParameterDao() {
-        return systemParameterDao;
-    }
-
-    /**
      * Setzt den Wert des Attributs <code>systemParameterDao</code>.
      * 
      * @param systemParameterDao
