@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:9090/powerstaff" />
+<title>NewCustomer</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">NewCustomer</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/powerstaff/customer/538/main</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=form:topmenu:main_customermain</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='form:newrecord']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Neu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:titel_value</td>
+	<td>Titel</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:vorname_value</td>
+	<td>Name</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:nachname_value</td>
+	<td>Vorname</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:firma_value</td>
+	<td>Firma</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:strasse_value</td>
+	<td>Strasse</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:land_value</td>
+	<td>L</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:plz_value</td>
+	<td>PLZ</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:ort_value</td>
+	<td>Ort</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:nationalitaet_value</td>
+	<td>Nationalitaet</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:geburtstag_value</td>
+	<td>Geburtsdatum</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=form:kontaktsperre</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:debitor_value</td>
+	<td>Debitor</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:kreditor_value</td>
+	<td>Kreditor</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=form:kommentar</td>
+	<td>Kommentar</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Ungespeicherte Daten! </td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='form:saverecord']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:titel_value</td>
+	<td>Titel</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:vorname_value</td>
+	<td>Name</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:nachname_value</td>
+	<td>Vorname</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:firma_value</td>
+	<td>Firma</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:strasse_value</td>
+	<td>Strasse</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:land_value</td>
+	<td>L</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:plz_value</td>
+	<td>PLZ</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:ort_value</td>
+	<td>Ort</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:nationalitaet_value</td>
+	<td>Nationalitaet</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:geburtstag_value</td>
+	<td>Geburtsdatum</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:kontaktsperre</td>
+	<td>on</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:debitor_value</td>
+	<td>Debitor</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:kreditor_value</td>
+	<td>Kreditor</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>name=form:kommentar</td>
+	<td>Kommentar</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>name=form:kontakttyp</td>
+	<td>label=Fax</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:kontaktwert_value</td>
+	<td>12345</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[@id='form:addcontextentry']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='form:saverecord']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Erstellt </td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>bearbeitet </td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>12345</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[@id='form:kontakttable:0:deletecontactentry']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Ungespeicherte Daten! </td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='form:saverecord']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=form:contextmenu:historylink:customerhistory</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Kunden Kontakthistorie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=form:_id58</td>
+	<td>Kontakthistorie</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=form:_id60</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Daten wurden erfolgreich gespeichert</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Kontakthistorie</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='form:history:0:deletehistoryentry']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Daten wurden erfolgreich gelöscht </td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=form:contextmenu:projectlink:customerprojects</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Projekte von Name Vorname</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=form:contextmenu:customermain</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=form:contextmenu:historylink:customerhistory</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=form:contextmenu:customermain</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[@id='form:deleterecord']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertConfirmation</td>
+	<td>Wollen Sie diesen Datensatz wirklick löschen?</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

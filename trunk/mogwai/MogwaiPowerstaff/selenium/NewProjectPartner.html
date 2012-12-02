@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:9090/powerstaff" />
+<title>NewProjectPartner</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">NewProjectPartner</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/powerstaff/freelancer/new/main</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=form:topmenu:main_partnermain</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:vorname_value</td>
+	<td>Kroll</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='form:searchRecord']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:vorname_value</td>
+	<td>Kroll</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:nachname_value</td>
+	<td>Carsten</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='form:newprojectlink:projectmain']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Neu</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Kroll,Carsten</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//a[@id='form:linkpartner:partnerlink']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:vorname_value</td>
+	<td>Kroll</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:nachname_value</td>
+	<td>Carsten</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:firma_value</td>
+	<td>Kroll Consulting AG</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:strasse_value</td>
+	<td>Schenkendorfstraße 5</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:country_value</td>
+	<td>D</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:plz_value</td>
+	<td>65187</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:ort_value</td>
+	<td>Wiesbaden</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:_id101_value</td>
+	<td>projektnummer</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:_id104_value</td>
+	<td>arbeitsort</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:_id110_value</td>
+	<td>dauer</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:_id113_value</td>
+	<td>bezeichnung</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=form:_id116</td>
+	<td>aufgabe</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=form:_id119</td>
+	<td>skills</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:_id122_value</td>
+	<td>stundensatz</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Ungespeicherte Daten! </td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='form:saverecord']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>ungültiges Zahlenformat : Stundensatz VK </td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=form:_id122_value</td>
+	<td>80</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='form:saverecord']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:_id101_value</td>
+	<td>projektnummer</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:_id104_value</td>
+	<td>arbeitsort</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:_id110_value</td>
+	<td>dauer</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:_id113_value</td>
+	<td>bezeichnung</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>name=form:_id116</td>
+	<td>aufgabe</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>name=form:_id119</td>
+	<td>skills</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>id=form:_id122_value</td>
+	<td>80</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=form:contextmenu:similarlink:projectsimilar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=form:contextmenu:projectmain</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//a[@id='form:deleterecord']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertConfirmation</td>
+	<td>Wollen Sie diesen Datensatz wirklick löschen?</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>
