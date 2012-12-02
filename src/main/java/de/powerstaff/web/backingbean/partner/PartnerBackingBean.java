@@ -60,7 +60,7 @@ public class PartnerBackingBean
         return new Partner();
     }
 
-    public void commandAddFreelancer() {
+    public String commandAddFreelancer() {
 
         Freelancer theFreelancer = freelancerService
                 .findRealFreelancerByCode(getData().getCodeToAdd());
@@ -79,12 +79,15 @@ public class PartnerBackingBean
             } catch (OptimisticLockException e) {
                 JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
             }
-        } else {
-            JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);
+
+            return "pretty:" + getNavigationIDPrefix() + "freelancer";
         }
+
+        JSFMessageUtils.addGlobalErrorMessage(MSG_KEINEDATENGEFUNDEN);
+        return null;
     }
 
-    public void commandRemoveFreelancer() {
+    public String commandRemoveFreelancer() {
 
         Freelancer theFreelancer = (Freelancer) getData().getFreelancer()
                 .getRowData();
@@ -99,9 +102,12 @@ public class PartnerBackingBean
             getData().setEntity(thePartner);
 
             JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
+
+            return "pretty:" + getNavigationIDPrefix() + "freelancer";
         } catch (OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
+        return null;
     }
 
     @Override

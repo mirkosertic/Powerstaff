@@ -209,11 +209,11 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
         if (EntityEditorBackingBeanDataModel.NEW_ENTITY_ID.equals(getData().getCurrentEntityId())) {
             if (ProjectBackingBeanDataModel.TYPE_CUSTOMER.equals(getData().getCurrentType())) {
                 Customer theCustomer = customerService.findByPrimaryKey(Long.parseLong(getData().getCurrentTypeId()));
-                getData().getEntity().setCustomer(theCustomer);
+                getData().setCustomer(theCustomer);
             }
             if (ProjectBackingBeanDataModel.TYPE_PARTNER.equals(getData().getCurrentType())) {
                 Partner thePartner = partnerService.findByPrimaryKey(Long.parseLong(getData().getCurrentTypeId()));
-                getData().getEntity().setPartner(thePartner);
+                getData().setPartner(thePartner);
             }
         }
     }

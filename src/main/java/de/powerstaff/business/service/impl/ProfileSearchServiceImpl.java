@@ -170,6 +170,8 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
             profileSearchDAO.save(theSearchForUser);
         }
+
+        profileSearchDAO.save(searchRequest);
     }
 
     @Override

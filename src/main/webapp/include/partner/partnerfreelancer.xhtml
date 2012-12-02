@@ -17,6 +17,9 @@
         <ui:include src="/include/partner/partnermenu3.xhtml"/>
     </ui:define>
     <ui:define name="content">
+
+        <b:saveState value="#{partnerBackingBean}"/>
+
         <b:gridBagLayout rows="p,10" cols="200,p">
             <b:cell y="1" x="1">
                 <h:outputText styleClass="title" value="Geschäftspartner Freiberufler"/>
@@ -45,12 +48,11 @@
                     </b:cell>
                     <b:cell x="3" y="1">
                         <b:inputfield labelComponentId="labelcode" value="#{partnerBackingBean.data.codeToAdd}"
-                                      required="true"/>
+                                      required="true" id="freelancer_code"/>
                     </b:cell>
                     <b:cell x="5" y="1">
                         <b:commandButton value="Zuordnen" sizeToGridBag="true"
-                                         action="#{partnerBackingBean.commandAddFreelancer}">
-                            <a4j:support eventsQueue="powerstaff" event="onclick" reRender="partnerliste"/>
+                                         action="#{partnerBackingBean.commandAddFreelancer}" id="addfreelancer">
                         </b:commandButton>
                     </b:cell>
                 </b:gridBagLayout>
@@ -100,14 +102,12 @@
                     <h:column>
                         <f:facet name="header">
                         </f:facet>
-                        <b:commandLink title="Zuordnung löschen"
+                        <h:commandLink title="Zuordnung löschen"
                                        action="#{partnerBackingBean.commandRemoveFreelancer}" immediate="true"
                                        id="deleteassignment">
                             <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
-                            <a4j:support eventsQueue="powerstaff" event="onclick" reRender="partnerliste"/>
-                        </b:commandLink>
+                        </h:commandLink>
                     </h:column>
-
                 </b:table>
             </b:cell>
         </b:gridBagLayout>

@@ -3,10 +3,7 @@ package de.powerstaff.web.backingbean.project;
 import de.mogwai.common.utils.KeyValuePair;
 import de.mogwai.common.web.utils.CollectionDataModel;
 import de.powerstaff.business.dao.GenericSearchResult;
-import de.powerstaff.business.entity.Contact;
-import de.powerstaff.business.entity.Project;
-import de.powerstaff.business.entity.ProjectPosition;
-import de.powerstaff.business.entity.SavedProfileSearch;
+import de.powerstaff.business.entity.*;
 import de.powerstaff.web.backingbean.NavigatingBackingBeanDataModel;
 
 import java.util.ArrayList;
@@ -132,5 +129,15 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
 
     public void setCurrentTypeId(String currentTypeId) {
         this.currentTypeId = currentTypeId;
+    }
+
+    public void setCustomer(Customer aCustomer) {
+        getEntity().setCustomer(aCustomer);
+        contacts = new CollectionDataModel<Contact>(getEntity().getContactPerson().getContacts());
+    }
+
+    public void setPartner(Partner aPartner) {
+        getEntity().setPartner(aPartner);
+        contacts = new CollectionDataModel<Contact>(getEntity().getContactPerson().getContacts());
     }
 }
