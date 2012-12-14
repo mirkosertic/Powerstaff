@@ -106,7 +106,7 @@
             </b:cell>
 
             <b:cell x="1" y="4" width="3">
-                <a4j:outputPanel ajaxRendered="true">
+               <a4j:outputPanel ajaxRendered="true">
                     <b:table id="datatable" rendered="#{profileBackingBean.data.searchResultSize > 0}" var="row"
                              value="#{profileBackingBean.data.searchResult}" cols="20,130,70,50,30,70,60,360,20"
                              rows="#{profileBackingBean.pageSize}"
@@ -173,14 +173,14 @@
                             <h:outputText value="#{row.highlightResult}" escape="false"/>
                         </h:column>
                         <h:column>
-                            <a4j:commandLink title="Eintrag aus Suche löschen"
+                            <h:commandLink title="Eintrag aus Suche löschen"
                                              action="#{profileBackingBean.commandDeleteSearchEntry}" id="removefromsearch">
                                 <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
-                            </a4j:commandLink>
+                            </h:commandLink>
                         </h:column>
                     </b:table>
                     <rich:datascroller for="datatable" id="datascroller" maxPages="8" pageIndexVar="pageIndex"
-                                       pagesVar="pages" binding="#{profileBackingBean.data.dataScroller}">
+                                       pagesVar="pages" binding="#{profileBackingBean.data.dataScroller}" limitToList="datatable">
                         <f:facet name="pages">
                             <h:outputText value="#{pageIndex} / #{pages}"/>
                         </f:facet>
