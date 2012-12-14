@@ -70,6 +70,12 @@ public class ProfileBackingBean extends
         this.profileSearchService = profileSearchService;
     }
 
+    public void resetPagination() {
+        if (getData().getDataScroller() != null) {
+            getData().getDataScroller().setFirstRow(0);
+        }
+    }
+
     public void initializeDataModel() {
         getData().setSearchResult(
                 new PagedListDataModel<ProfileSearchEntry>(getPageSize()) {
@@ -94,9 +100,6 @@ public class ProfileBackingBean extends
                                 new ArrayList<ProfileSearchEntry>());
                     }
                 });
-        if (getData().getDataScroller() != null) {
-            getData().getDataScroller().setFirstRow(0);
-        }
     }
 
     private void initializeFor(SavedProfileSearch aRequest, boolean aIsInit) throws OptimisticLockException {
@@ -212,6 +215,9 @@ public class ProfileBackingBean extends
         try {
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
+
+            resetPagination();
+
         } catch (OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
@@ -223,6 +229,9 @@ public class ProfileBackingBean extends
         try {
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
+
+            resetPagination();
+
         } catch (OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
@@ -234,6 +243,9 @@ public class ProfileBackingBean extends
         try {
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
+
+            resetPagination();
+
         } catch (OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
@@ -246,6 +258,9 @@ public class ProfileBackingBean extends
         try {
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
+
+            resetPagination();
+
         } catch (OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
@@ -258,6 +273,9 @@ public class ProfileBackingBean extends
         try {
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
+
+            resetPagination();
+
         } catch (OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
@@ -269,6 +287,8 @@ public class ProfileBackingBean extends
         try {
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
+
+            resetPagination();
         } catch (OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
