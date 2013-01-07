@@ -255,31 +255,31 @@ public class Datenuebernahme {
 		Statement theReadAgainStatement = aConnection.createStatement();
 
 		// Geschäftlich
-		ContactType theTelGesContactType = new ContactType();
+		ContactType theTelGesContactType = new ContactType("");
 		theTelGesContactType.setId(CT_PHONE_GES);
-		ContactType theFaxGesContactType = new ContactType();
+		ContactType theFaxGesContactType = new ContactType("");
 		theFaxGesContactType.setId(CT_FAX_GES);
-		ContactType theMobileGesContactType = new ContactType();
+		ContactType theMobileGesContactType = new ContactType("");
 		theMobileGesContactType.setId(CT_MOBIL_GES);
-		ContactType theMailGesContactType = new ContactType();
+		ContactType theMailGesContactType = new ContactType("");
 		theMailGesContactType.setId(CT_MAIL_GES);
-		ContactType theWebGesContactType = new ContactType();
+		ContactType theWebGesContactType = new ContactType("");
 		theWebGesContactType.setId(CT_WEB_GES);
 
-		ContactType theTelPrivatContactType = new ContactType();
+		ContactType theTelPrivatContactType = new ContactType("");
 		theTelPrivatContactType.setId(CT_PHONE_PRIV);
-		ContactType theFaxPrivatContactType = new ContactType();
+		ContactType theFaxPrivatContactType = new ContactType("");
 		theFaxPrivatContactType.setId(CT_FAX_PRIV);
-		ContactType theMobilePrivatContactType = new ContactType();
+		ContactType theMobilePrivatContactType = new ContactType("");
 		theMobilePrivatContactType.setId(CT_MOBIL_PRIV);
-		ContactType theMailPrivatContactType = new ContactType();
+		ContactType theMailPrivatContactType = new ContactType("");
 		theMailPrivatContactType.setId(CT_MAIL_PRIV);
-		ContactType theWebPrivatContactType = new ContactType();
+		ContactType theWebPrivatContactType = new ContactType("");
 		theWebPrivatContactType.setId(CT_WEB_PRIV);
 
-		ContactType theGulpIDContactType = new ContactType();
+		ContactType theGulpIDContactType = new ContactType("");
 		theGulpIDContactType.setId(CT_GULPID);
-		ContactType theGulpNameContactType = new ContactType();
+		ContactType theGulpNameContactType = new ContactType("");
 		theGulpNameContactType.setId(CT_GULPNAME);
 
 		ResultSet theMitarbeiterResult = theSelectAdresse
@@ -536,15 +536,15 @@ public class Datenuebernahme {
 		Statement theHistoryStatement = aConnection.createStatement();
 		Statement theReadAgainStatement = aConnection.createStatement();
 
-		ContactType theTelContactType = new ContactType();
+		ContactType theTelContactType = new ContactType("");
 		theTelContactType.setId(CT_PHONE_GES);
-		ContactType theFaxContactType = new ContactType();
+		ContactType theFaxContactType = new ContactType("");
 		theFaxContactType.setId(CT_FAX_GES);
-		ContactType theMobileContactType = new ContactType();
+		ContactType theMobileContactType = new ContactType("");
 		theMobileContactType.setId(CT_MOBIL_GES);
-		ContactType theMailContactType = new ContactType();
+		ContactType theMailContactType = new ContactType("");
 		theMailContactType.setId(CT_MAIL_GES);
-		ContactType theWebContactType = new ContactType();
+		ContactType theWebContactType = new ContactType("");
 		theWebContactType.setId(CT_WEB_GES);
 
 		ResultSet theKundenResult = theKundenSelect
@@ -769,15 +769,15 @@ public class Datenuebernahme {
 		Statement theHistoryStatement = aConnection.createStatement();
 		Statement theReadAgainStatement = aConnection.createStatement();
 
-		ContactType theTelContactType = new ContactType();
+		ContactType theTelContactType = new ContactType("");
 		theTelContactType.setId(CT_PHONE_GES);
-		ContactType theFaxContactType = new ContactType();
+		ContactType theFaxContactType = new ContactType("");
 		theFaxContactType.setId(CT_FAX_GES);
-		ContactType theMobileContactType = new ContactType();
+		ContactType theMobileContactType = new ContactType("");
 		theMobileContactType.setId(CT_MOBIL_GES);
-		ContactType theMailContactType = new ContactType();
+		ContactType theMailContactType = new ContactType("");
 		theMailContactType.setId(CT_MAIL_GES);
-		ContactType theWebContactType = new ContactType();
+		ContactType theWebContactType = new ContactType("");
 		theWebContactType.setId(CT_WEB_GES);
 
 		ResultSet theKundenResult = theKundenSelect
@@ -997,15 +997,15 @@ public class Datenuebernahme {
 		thePersonalResult.close();
 		theFindPersonalStatenebt.close();
 
-		ContactType theTelContactType = new ContactType();
+		ContactType theTelContactType = new ContactType("");
 		theTelContactType.setId(CT_PHONE_GES);
-		ContactType theFaxContactType = new ContactType();
+		ContactType theFaxContactType = new ContactType("");
 		theFaxContactType.setId(CT_FAX_GES);
-		ContactType theMobileContactType = new ContactType();
+		ContactType theMobileContactType = new ContactType("");
 		theMobileContactType.setId(CT_MOBIL_GES);
-		ContactType theMailContactType = new ContactType();
+		ContactType theMailContactType = new ContactType("");
 		theMailContactType.setId(CT_MAIL_GES);
-		ContactType theWebContactType = new ContactType();
+		ContactType theWebContactType = new ContactType("");
 		theWebContactType.setId(CT_WEB_GES);
 
 		Statement theProjectStatement = aConnection.createStatement();

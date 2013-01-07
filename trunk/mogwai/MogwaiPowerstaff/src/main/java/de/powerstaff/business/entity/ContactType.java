@@ -37,6 +37,13 @@ public class ContactType extends AuditableEntity implements
 
     private boolean gulp;
 
+    ContactType() {
+    }
+
+    public ContactType(String aDescription) {
+        description = aDescription;
+    }
+
     public String getDescription() {
         return description;
     }
