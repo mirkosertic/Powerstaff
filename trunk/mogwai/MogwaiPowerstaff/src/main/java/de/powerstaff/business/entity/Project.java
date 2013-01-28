@@ -58,6 +58,8 @@ public class Project extends AuditableEntity implements UDFSupport {
 
     private Set<ProjectPosition> positions = new HashSet<ProjectPosition>();
 
+    private Set<ProjectFirstContact> firstContacts = new HashSet<ProjectFirstContact>();
+
     private List<ProjectHistory> history = new Vector<ProjectHistory>();
 
     private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
@@ -216,16 +218,10 @@ public class Project extends AuditableEntity implements UDFSupport {
         this.skills = skills;
     }
 
-    /**
-     * @return the partner
-     */
     public Partner getPartner() {
         return partner;
     }
 
-    /**
-     * @param partner the partner to set
-     */
     public void setPartner(Partner partner) {
         this.partner = partner;
     }
@@ -237,30 +233,18 @@ public class Project extends AuditableEntity implements UDFSupport {
         return partner;
     }
 
-    /**
-     * @return the kreditorNr
-     */
     public String getKreditorNr() {
         return kreditorNr;
     }
 
-    /**
-     * @param kreditorNr the kreditorNr to set
-     */
     public void setKreditorNr(String kreditorNr) {
         this.kreditorNr = kreditorNr;
     }
 
-    /**
-     * @return the debitorNr
-     */
     public String getDebitorNr() {
         return debitorNr;
     }
 
-    /**
-     * @param debitorNr the debitorNr to set
-     */
     public void setDebitorNr(String debitorNr) {
         this.debitorNr = debitorNr;
     }
@@ -271,5 +255,13 @@ public class Project extends AuditableEntity implements UDFSupport {
 
     public void removePosition(ProjectPosition aPosition) {
         positions.remove(aPosition);
+    }
+
+    public Set<ProjectFirstContact> getFirstContacts() {
+        return firstContacts;
+    }
+
+    public void setFirstContacts(Set<ProjectFirstContact> firstContacts) {
+        this.firstContacts = firstContacts;
     }
 }

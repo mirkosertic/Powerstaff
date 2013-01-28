@@ -33,6 +33,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <property name="customerService" ref="customerService"/>
         <property name="partnerService" ref="partnerService"/>
         <property name="profileSearchService" ref="profileSearchService"/>
+        <property name="additionalDataService" ref="additinalDataService"/>
     </bean>
 
     <bean name="profileBackingBean" class="de.powerstaff.web.backingbean.profile.ProfileBackingBean" scope="request">
