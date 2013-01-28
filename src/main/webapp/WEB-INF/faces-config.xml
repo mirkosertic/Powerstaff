@@ -24,6 +24,13 @@
     </converter>
 
     <converter>
+        <converter-id>projectFirstContactConverter</converter-id>
+        <converter-class>
+            de.powerstaff.web.converter.ProjectFirstContactConverter
+        </converter-class>
+    </converter>
+
+    <converter>
         <converter-id>historyTypeConverter</converter-id>
         <converter-class>
             de.powerstaff.web.converter.HistoryTypeConverter

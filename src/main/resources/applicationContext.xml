@@ -131,6 +131,9 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
                     classpath:/de/powerstaff/business/entity/ProjectPosition.hbm.xml
                 </value>
                 <value>
+                    classpath:/de/powerstaff/business/entity/ProjectFirstContact.hbm.xml
+                </value>
+                <value>
                     classpath:/de/powerstaff/business/entity/User.hbm.xml
                 </value>
                 <value>

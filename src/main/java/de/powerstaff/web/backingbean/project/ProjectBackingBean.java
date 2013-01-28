@@ -8,6 +8,7 @@ import de.powerstaff.business.service.*;
 import de.powerstaff.web.backingbean.ContextUtils;
 import de.powerstaff.web.backingbean.EntityEditorBackingBeanDataModel;
 import de.powerstaff.web.backingbean.NavigatingBackingBean;
+import de.powerstaff.web.backingbean.PersonEditorBackingBeanDataModel;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
     private CustomerService customerService;
     private PartnerService partnerService;
     private ProfileSearchService profileSearchService;
+    private AdditionalDataService additionalDataService;
 
     public void setProfileSearchService(ProfileSearchService profileSearchService) {
         this.profileSearchService = profileSearchService;
@@ -120,6 +122,11 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
 
         getData().getPositions().setWrappedData(thePositions);
 
+        List<ProjectFirstContact> theFirstContacts = new ArrayList<ProjectFirstContact>();
+        theFirstContacts.addAll(theCurrentProject.getFirstContacts());
+
+        getData().getFirstContactPositions().setWrappedData(theFirstContacts);
+
         List<SavedProfileSearch> theSearches = new ArrayList<SavedProfileSearch>();
         if (theCurrentProject.getId() != null) {
             theSearches.addAll(entityService.getSavedSearchesFor(theCurrentProject));
@@ -127,6 +134,8 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
         Collections.sort(theSearches);
 
         getData().getSavedSearches().setWrappedData(theSearches);
+
+        getData().setContactTypes(additionalDataService.getContactTypes());
     }
 
     public void commandDeletePosition() {
@@ -135,6 +144,24 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
             Project theCurrentProject = getData().getEntity();
             ProjectPosition thePositionToDelete = (ProjectPosition) getData().getPositions().getRowData();
             theCurrentProject.getPositions().remove(thePositionToDelete);
+
+            entityService.save(theCurrentProject);
+
+            JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
+
+            afterNavigation();
+
+        } catch (Exception e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMLOESCHEN);
+        }
+    }
+
+    public void commandDeleteFirstContact() {
+        try {
+
+            Project theCurrentProject = getData().getEntity();
+            ProjectFirstContact thePositionToDelete = (ProjectFirstContact) getData().getFirstContactPositions().getRowData();
+            theCurrentProject.getFirstContacts().remove(thePositionToDelete);
 
             entityService.save(theCurrentProject);
 
@@ -220,5 +247,33 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
 
     public List<ProfileSearchEntry> getSimilarFreelancer() {
         return profileSearchService.getSimilarFreelancer(getData().getEntity());
+    }
+
+    public void setAdditionalDataService(AdditionalDataService additionalDataService) {
+        this.additionalDataService = additionalDataService;
+    }
+
+    public void commandAddFirstContact() {
+
+        if (StringUtils.isEmpty(getData().getNewFirstContactValue())) {
+
+            JSFMessageUtils.addGlobalErrorMessage(MSG_KEINE_KONTAKTINFOS);
+            return;
+        }
+
+        ProjectBackingBeanDataModel theModel = getData();
+
+        Project theProject = theModel.getEntity();
+
+        ProjectFirstContact theContact = new ProjectFirstContact();
+        theContact.setName1(getData().getNewFirstContactName1());
+        theContact.setName2(getData().getNewFirstContactName2());
+        theContact.setContactType(getData().getNewFirstContactType());
+        theContact.setContactTypeValue(getData().getNewFirstContactValue());
+        theContact.setComment(getData().getNewFirstContactComment());
+
+        theProject.getFirstContacts().add(theContact);
+
+        getData().getFirstContactPositions().setWrappedData(new ArrayList(theProject.getFirstContacts()));
     }
 }

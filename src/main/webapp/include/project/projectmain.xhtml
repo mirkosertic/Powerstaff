@@ -406,6 +406,83 @@
 </b:cell>
 </b:gridBagLayout>
 
+<h3>Erstkontakte(Freiberufler nicht in Datenbank)</h3>
+
+<a4j:outputPanel ajaxRendered="true">
+    <b:table var="row" value="#{projectBackingBean.data.firstContactPositions}" cols="200,200,200,20,20" id="firstcontacts">
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Vorname"/>
+            </f:facet>
+            <h:outputText value="#{row.name1}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Name"/>
+            </f:facet>
+            <h:outputText value="#{row.name2}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Kontakt"/>
+            </f:facet>
+            <h:outputText value="#{row}" escape="false">
+                <f:converter converterId="projectFirstContactConverter"/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <b:commandLink action="#{projectBackingBean.commandDeleteFirstContact}" id="deletefirstcontact">
+                <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
+                <a4j:support eventsQueue="powerstaff" event="onclick"/>
+            </b:commandLink>
+        </h:column>
+        <h:column></h:column>
+    </b:table>
+    <b:gridBagLayout cols="80,150,80,150,80,150,20" rows="20,p,2">
+        <b:cell x="1" y="2">
+            <b:label id="label_vorname_neuer_kontakt" label="Vorname"/>
+        </b:cell>
+        <b:cell x="2" y="2">
+            <b:inputfield
+                    value="#{projectBackingBean.data.newFirstContactName1}"
+                    id="vorname_neuer_kontakt"/>
+        </b:cell>
+        <b:cell x="3" y="2">
+            <b:label id="label_name_neuer_kontakt" label="Name"/>
+        </b:cell>
+        <b:cell x="4" y="2">
+            <b:inputfield
+                    value="#{projectBackingBean.data.newFirstContactName2}"
+                    id="name_neuer_kontakt"/>
+        </b:cell>
+        <b:cell x="5" y="2">
+            <b:combobox
+                    value="#{projectBackingBean.data.newFirstContactType}"
+                    values="#{projectBackingBean.data.contactTypes}"
+                    nullable="false"
+                    id="neuer_kontakt_kontakttyp"/>
+        </b:cell>
+        <b:cell x="6" y="2">
+            <b:inputfield
+                    value="#{projectBackingBean.data.newFirstContactValue}"
+                    id="wert_neuer_kontakt"/>
+        </b:cell>
+        <b:cell x="7" y="2" valign="middle">
+            <b:commandLink title="Erstkontakt hinzufügen"
+                           action="#{projectBackingBean.commandAddFirstContact}"
+                           id="addfirstcontact">
+                <img src="${facesContext.externalContext.requestContextPath}/images/add.gif"/>
+                <a4j:support eventsQueue="powerstaff" event="onclick"
+                             reRender="firstcontacts"
+                             onsubmit="markChanged()"/>
+            </b:commandLink>
+        </b:cell>
+
+    </b:gridBagLayout>
+</a4j:outputPanel>
+
+<h3>Zugeordnete Freiberufler</h3>
+
 <a4j:outputPanel ajaxRendered="true">
 
     <b:table var="row" value="#{projectBackingBean.data.positions}" cols="170,100,80,120,100,200,20,20">

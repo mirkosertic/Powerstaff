@@ -7,6 +7,7 @@ import de.powerstaff.business.entity.*;
 import de.powerstaff.web.backingbean.NavigatingBackingBeanDataModel;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<Project> {
@@ -29,9 +30,23 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
 
     private CollectionDataModel<SavedProfileSearch> savedSearches = new CollectionDataModel<SavedProfileSearch>();
 
+    private CollectionDataModel<ProjectFirstContact> firstContactPositions = new CollectionDataModel<ProjectFirstContact>();
+
     private String currentType;
 
     private String currentTypeId;
+
+    private String newFirstContactName1;
+
+    private String newFirstContactName2;
+
+    private String newFirstContactValue;
+
+    private String newFirstContactComment;
+
+    private ContactType newFirstContactType;
+
+    private List<ContactType> contactTypes = new ArrayList<ContactType>();
 
     public ProjectBackingBeanDataModel() {
         status.add(new KeyValuePair<Integer, String>(1, "Offen"));
@@ -73,9 +88,15 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
         }
 
         if (aValue.getContactPerson() != null) {
-            contacts = new CollectionDataModel<Contact>(getEntity().getContactPerson().getContacts());
+            contacts = new CollectionDataModel<Contact>(aValue.getContactPerson().getContacts());
         } else {
             contacts = new CollectionDataModel<Contact>();
+        }
+
+        if (aValue.getFirstContacts() != null) {
+            firstContactPositions = new CollectionDataModel<ProjectFirstContact>(aValue.getFirstContacts());
+        } else {
+            firstContactPositions = new CollectionDataModel<ProjectFirstContact>();
         }
     }
 
@@ -139,5 +160,61 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
     public void setPartner(Partner aPartner) {
         getEntity().setPartner(aPartner);
         contacts = new CollectionDataModel<Contact>(getEntity().getContactPerson().getContacts());
+    }
+
+    public CollectionDataModel<ProjectFirstContact> getFirstContactPositions() {
+        return firstContactPositions;
+    }
+
+    public void setFirstContactPositions(CollectionDataModel<ProjectFirstContact> firstContactPositions) {
+        this.firstContactPositions = firstContactPositions;
+    }
+
+    public String getNewFirstContactName1() {
+        return newFirstContactName1;
+    }
+
+    public void setNewFirstContactName1(String newFirstContactName1) {
+        this.newFirstContactName1 = newFirstContactName1;
+    }
+
+    public String getNewFirstContactName2() {
+        return newFirstContactName2;
+    }
+
+    public void setNewFirstContactName2(String newFirstContactName2) {
+        this.newFirstContactName2 = newFirstContactName2;
+    }
+
+    public String getNewFirstContactValue() {
+        return newFirstContactValue;
+    }
+
+    public void setNewFirstContactValue(String newFirstContactValue) {
+        this.newFirstContactValue = newFirstContactValue;
+    }
+
+    public ContactType getNewFirstContactType() {
+        return newFirstContactType;
+    }
+
+    public void setNewFirstContactType(ContactType newFirstContactType) {
+        this.newFirstContactType = newFirstContactType;
+    }
+
+    public List<ContactType> getContactTypes() {
+        return contactTypes;
+    }
+
+    public void setContactTypes(List<ContactType> contactTypes) {
+        this.contactTypes = contactTypes;
+    }
+
+    public String getNewFirstContactComment() {
+        return newFirstContactComment;
+    }
+
+    public void setNewFirstContactComment(String newFirstContactComment) {
+        this.newFirstContactComment = newFirstContactComment;
     }
 }
