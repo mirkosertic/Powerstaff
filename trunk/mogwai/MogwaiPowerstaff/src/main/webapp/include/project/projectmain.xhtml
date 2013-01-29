@@ -409,7 +409,7 @@
 <h3>Erstkontakte(Freiberufler nicht in Datenbank)</h3>
 
 <a4j:outputPanel ajaxRendered="true">
-    <b:table var="row" value="#{projectBackingBean.data.firstContactPositions}" cols="200,200,200,20,20" id="firstcontacts">
+    <b:table var="row" value="#{projectBackingBean.data.firstContactPositions}" cols="200,200,100,80,200,200,20" id="firstcontacts">
         <h:column>
             <f:facet name="header">
                 <h:outputText value="Vorname"/>
@@ -424,6 +424,20 @@
         </h:column>
         <h:column>
             <f:facet name="header">
+                <h:outputText value="Zugeordnet von"/>
+            </f:facet>
+            <h:outputText value="#{row.creationUserID}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="am"/>
+            </f:facet>
+            <h:outputText value="#{row.creationDate}">
+                <f:converter converterId="dateConverter"/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
                 <h:outputText value="Kontakt"/>
             </f:facet>
             <h:outputText value="#{row}" escape="false">
@@ -431,14 +445,19 @@
             </h:outputText>
         </h:column>
         <h:column>
+            <f:facet name="header">
+                <h:outputText value="Kommentar"/>
+            </f:facet>
+            <b:textarea value="#{row.comment}"/>
+        </h:column>
+        <h:column>
             <b:commandLink action="#{projectBackingBean.commandDeleteFirstContact}" id="deletefirstcontact">
                 <img src="${facesContext.externalContext.requestContextPath}/images/delete.gif"/>
                 <a4j:support eventsQueue="powerstaff" event="onclick"/>
             </b:commandLink>
         </h:column>
-        <h:column></h:column>
     </b:table>
-    <b:gridBagLayout cols="80,150,80,150,80,150,20" rows="20,p,2">
+    <b:gridBagLayout cols="80,150,80,150,80,150,,80,160,20" rows="20,p,2">
         <b:cell x="1" y="2">
             <b:label id="label_vorname_neuer_kontakt" label="Vorname"/>
         </b:cell>
@@ -467,7 +486,15 @@
                     value="#{projectBackingBean.data.newFirstContactValue}"
                     id="wert_neuer_kontakt"/>
         </b:cell>
-        <b:cell x="7" y="2" valign="middle">
+        <b:cell x="7" y="2">
+            <b:label id="label_kommentar_neuer_kontakt" label="Kommentar"/>
+        </b:cell>
+        <b:cell x="8" y="2">
+            <b:textarea
+                    value="#{projectBackingBean.data.newFirstContactName2}"
+                    id="kommentar_neuer_kontakt"/>
+        </b:cell>
+        <b:cell x="9" y="2" valign="middle">
             <b:commandLink title="Erstkontakt hinzufügen"
                            action="#{projectBackingBean.commandAddFirstContact}"
                            id="addfirstcontact">
