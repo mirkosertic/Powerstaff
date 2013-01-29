@@ -1,5 +1,6 @@
 package de.powerstaff.web.backingbean.project;
 
+import de.mogwai.common.usercontext.UserContextHolder;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dto.ProfileSearchEntry;
@@ -266,6 +267,7 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
         Project theProject = theModel.getEntity();
 
         ProjectFirstContact theContact = new ProjectFirstContact();
+        theContact.setCreationUserID(UserContextHolder.getUserContext().getAuthenticatable().getUserId());
         theContact.setName1(getData().getNewFirstContactName1());
         theContact.setName2(getData().getNewFirstContactName2());
         theContact.setContactType(getData().getNewFirstContactType());
