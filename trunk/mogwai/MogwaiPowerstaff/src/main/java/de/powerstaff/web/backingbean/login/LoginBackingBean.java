@@ -21,6 +21,7 @@ import de.mogwai.common.business.service.LoginException;
 import de.mogwai.common.business.service.LoginService;
 import de.mogwai.common.logging.Logger;
 import de.mogwai.common.web.backingbean.WrappingBackingBean;
+import de.powerstaff.web.backingbean.XingConnectorBackingBean;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.web.backingbean.EntityEditorBackingBeanDataModel;
 import de.powerstaff.web.backingbean.MessageConstants;
@@ -42,9 +43,15 @@ public class LoginBackingBean extends
 
     private FreelancerBackingBean freelancerBackingBean;
 
+    private XingConnectorBackingBean xingConnectorBackingBean;
+
     @Override
     protected LoginBackingBeanDataModel createDataModel() {
         return new LoginBackingBeanDataModel();
+    }
+
+    public void setXingConnectorBackingBean(XingConnectorBackingBean xingConnectorBackingBean) {
+        this.xingConnectorBackingBean = xingConnectorBackingBean;
     }
 
     public void setLoginService(LoginService loginService) {
@@ -64,6 +71,12 @@ public class LoginBackingBean extends
                     theRequest));
 
             freelancerBackingBean.getData().setCurrentEntityId(EntityEditorBackingBeanDataModel.NEW_ENTITY_ID);
+
+            // Wenn der Xing Connector genutzt werden soll, muss zuerst eine Anmeldung erfolgen
+            if (getData().isLoginWithXing()) {
+                xingConnectorBackingBean.performXingAuthentication();
+                return null;
+            }
 
             // Redirect auf die leere Freelancer Seite
             return "pretty:freelancermain";

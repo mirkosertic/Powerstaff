@@ -7,6 +7,11 @@
         <pattern>/login</pattern>
         <view-id>/login.faces</view-id>
     </url-mapping>
+    <url-mapping id="xingcallback">
+        <pattern>/xingcallback</pattern>
+        <view-id>/login.faces</view-id>
+        <action>#{xingConnectorBackingBean.performCallback}</action>
+    </url-mapping>
     <url-mapping id="profilemain">
         <pattern>/profilesearch/#{profileBackingBean.data.type}/#{profileBackingBean.data.id}/main</pattern>
         <view-id>/include/profile/profilemain.faces</view-id>

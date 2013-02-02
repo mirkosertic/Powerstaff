@@ -44,6 +44,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     <bean name="loginBackingBean" class="de.powerstaff.web.backingbean.login.LoginBackingBean" scope="request">
         <property name="loginService" ref="loginService"/>
         <property name="freelancerBackingBean" ref="freelancerBackingBean"/>
+        <property name="xingConnectorBackingBean" ref="xingConnectorBackingBean"/>
     </bean>
 
     <bean name="statistikBackingBean" class="de.powerstaff.web.backingbean.statistik.StatistikBackingBean"
@@ -54,6 +55,11 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 
     <bean name="contextUtils" class="de.powerstaff.web.backingbean.ContextUtils">
         <property name="projectService" ref="projectService"/>
+    </bean>
+    
+    <bean name="xingConnectorBackingBean" class="de.powerstaff.web.backingbean.XingConnectorBackingBean">
+        <property name="consumerKey" value="83345b59b852c1dc042a"/>
+        <property name="consumerSecret" value="f6f6762fd1a586ee39b2dfb3a4e68354946a42a9"/>
     </bean>
 
 </beans>
