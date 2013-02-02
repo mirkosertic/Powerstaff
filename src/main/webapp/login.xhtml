@@ -17,7 +17,7 @@
                         <b:gridBagLayout cols="300" rows="p">
                             <b:cell x="1" y="1">
                                 <b:titledBox label="Powerstaff Anmeldung">
-                                    <b:gridBagLayout cols="2,100,2,*,2" rows="2,p,2,p,2,p,20,p,2">
+                                    <b:gridBagLayout cols="2,100,2,*,2" rows="2,p,2,p,2,p,2,p,20,p,2">
 
                                         <b:cell x="2" y="2" width="3">
                                             <a4j:status>
@@ -47,7 +47,11 @@
                                                           value="#{loginBackingBean.data.password}"/>
                                         </b:cell>
 
-                                        <b:cell x="2" y="8" width="3" align="center">
+                                        <b:cell x="4" y="8">
+                                            <b:checkbox value="#{loginBackingBean.data.loginWithXing}" label="Xing Anmeldung"/>
+                                        </b:cell>
+
+                                        <b:cell x="2" y="10" width="3" align="center">
                                             <b:commandButton value="Anmelden"
                                                              action="#{loginBackingBean.commandLogin}"
                                                              actionKey="13"

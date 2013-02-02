@@ -29,6 +29,8 @@ public class LoginBackingBeanDataModel extends BackingBeanDataModel {
 
     private String password;
 
+    private boolean loginWithXing;
+
     public String getPassword() {
         return password;
     }
@@ -44,5 +46,13 @@ public class LoginBackingBeanDataModel extends BackingBeanDataModel {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public boolean isLoginWithXing() {
+        return loginWithXing;
+    }
+
+    public void setLoginWithXing(boolean loginWithXing) {
+        this.loginWithXing = loginWithXing;
     }
 }
