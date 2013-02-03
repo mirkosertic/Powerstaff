@@ -47,6 +47,8 @@ public abstract class PersonEditorBackingBeanDataModel<T extends Person>
 
     private List<HistoryType> historyTypes;
 
+    private SocialInfo currentSocialInfo;
+
     protected PersonEditorBackingBeanDataModel() {
     }
 
@@ -66,6 +68,15 @@ public abstract class PersonEditorBackingBeanDataModel<T extends Person>
         history = new CollectionDataModel<FreelancerHistory>(getEntity()
                 .getHistory());
         history.sort(Comparators.INVERSECREATIONDATECOMPARATOR);
+        currentSocialInfo = null;
+    }
+
+    public SocialInfo getCurrentSocialInfo() {
+        return currentSocialInfo;
+    }
+
+    public void setCurrentSocialInfo(SocialInfo currentSocialInfo) {
+        this.currentSocialInfo = currentSocialInfo;
     }
 
     /**

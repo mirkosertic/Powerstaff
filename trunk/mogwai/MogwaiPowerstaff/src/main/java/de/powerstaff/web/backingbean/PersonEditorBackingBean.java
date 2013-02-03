@@ -39,9 +39,15 @@ public abstract class PersonEditorBackingBean<T extends Person, V extends Person
 
     private AdditionalDataService additinalDataService;
 
+    private XingConnectorBackingBean xingConnectorBackingBean;
+
     public void setAdditinalDataService(
             AdditionalDataService additinalDataService) {
         this.additinalDataService = additinalDataService;
+    }
+
+    public void setXingConnectorBackingBean(XingConnectorBackingBean xingConnectorBackingBean) {
+        this.xingConnectorBackingBean = xingConnectorBackingBean;
     }
 
     @Override
@@ -53,6 +59,16 @@ public abstract class PersonEditorBackingBean<T extends Person, V extends Person
 
         commandNew();
     }
+
+    public SocialInfo getSocialInfo() {
+        SocialInfo theResult = getData().getCurrentSocialInfo();
+        if (theResult == null) {
+            theResult = xingConnectorBackingBean.locatePersonData(getData().getEntity().getContacts());
+            getData().setCurrentSocialInfo(theResult);
+        }
+        return theResult;
+    }
+
 
     public String commandSearch() {
 

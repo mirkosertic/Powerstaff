@@ -11,6 +11,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <property name="entityService" ref="freelancerService"/>
         <property name="contextUtils" ref="contextUtils"/>
         <property name="projectService" ref="projectService"/>
+        <property name="xingConnectorBackingBean" ref="xingConnectorBackingBean"/>
     </bean>
 
     <bean name="customerBackingBean" class="de.powerstaff.web.backingbean.customer.CustomerBackingBean" scope="request">

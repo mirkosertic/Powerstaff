@@ -127,6 +127,10 @@
 
 <b:cell x="1" y="3" width="3">
     <ui:include src="/include/messages.xhtml"/>
+    <a4j:outputPanel id="socialInfo" rendered="#{xingConnectorBackingBean.authenticated}">
+        <h:graphicImage rendered="#{!empty freelancerBackingBean.socialInfo.imageUrl}" url="#{freelancerBackingBean.socialInfo.imageUrl}"/>
+        <h:outputText value="#{freelancerBackingBean.socialInfo.imageUrl}"/>
+    </a4j:outputPanel>
 </b:cell>
 
 <b:cell x="1" y="4">

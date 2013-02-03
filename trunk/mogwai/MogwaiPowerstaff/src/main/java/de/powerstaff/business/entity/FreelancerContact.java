@@ -19,8 +19,5 @@ package de.powerstaff.business.entity;
 
 public class FreelancerContact extends Contact {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -6041760577443120567L;
 }
