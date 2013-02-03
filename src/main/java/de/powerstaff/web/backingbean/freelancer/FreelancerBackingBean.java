@@ -26,6 +26,8 @@ import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.business.service.ProjectService;
 import de.powerstaff.web.backingbean.ContextUtils;
 import de.powerstaff.web.backingbean.PersonEditorBackingBean;
+import de.powerstaff.web.backingbean.SocialInfo;
+import de.powerstaff.web.backingbean.XingConnectorBackingBean;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;

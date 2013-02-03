@@ -1,19 +1,18 @@
 package de.powerstaff.web.backingbean;
 
-import net.oauth.OAuth;
-import net.oauth.OAuthAccessor;
-import net.oauth.OAuthConsumer;
-import net.oauth.OAuthServiceProvider;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.powerstaff.business.entity.Contact;
+import net.oauth.*;
 import net.oauth.client.OAuthClient;
 import net.oauth.client.httpclient3.HttpClient3;
+import org.apache.commons.io.IOUtils;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Connector zu Xing.
@@ -22,6 +21,8 @@ public class XingConnectorBackingBean {
 
     private static final String SESSIONDATA_SESSION_KEY = "OAuthSessionData";
 
+    private static final String API_BASE = "https://api.xing.com";
+
     private String consumerKey;
 
     private String consumerSecret;
@@ -29,6 +30,82 @@ public class XingConnectorBackingBean {
     private OAuthServiceProvider serviceProvider;
 
     private OAuthClient client;
+
+    public <T extends Contact> SocialInfo locatePersonData(Set<T> aContactList) {
+
+        SocialInfo theSocialInfo = new SocialInfo();
+
+        FacesContext theContext = FacesContext.getCurrentInstance();
+        HttpServletRequest theHttpRequest = (HttpServletRequest) theContext.getExternalContext().getRequest();
+        HttpSession theSession = theHttpRequest.getSession();
+
+        StringBuilder theBuilder = new StringBuilder();
+        for (T theContact : aContactList) {
+            if (theContact.getType().isEmail()) {
+                if (theBuilder.length() > 0) {
+                    theBuilder.append(",");
+                }
+                theBuilder.append(theContact.getValue());
+            }
+        }
+
+        if (theBuilder.length() > 0) {
+            // Es gibt KOntaktinfos.
+
+            // Suche nach Userids anhand der Mail adresse
+            Collection<OAuth.Parameter> theParameters = new ArrayList<OAuth.Parameter>();
+            theParameters.add(new OAuth.Parameter("emails", theBuilder.toString()));
+            try {
+                // Zuerst die UserIDs zusammensuchen
+                OAuthMessage theResult = client.invoke(getXingAccessor(theSession), "GET", API_BASE + "/v1/users/find_by_emails.json", theParameters);
+                Map<String, Object> theJSonResult = new ObjectMapper().readValue(theResult.getBodyAsStream(), HashMap.class);
+
+                StringBuilder theUserIds = new StringBuilder();
+
+                Map theResults = (Map) theJSonResult.get("results");
+                List<Map> theItems = (List<Map>) theResults.get("items");
+                for (Map theEntry : theItems) {
+                    String theMail = (String) theEntry.get("email");
+                    Map theUser = (Map) theEntry.get("user");
+                    if (theUser != null) {
+                        if (theUserIds.length() > 0) {
+                            theUserIds.append(",");
+                        }
+                        theUserIds.append(theUser.get("id"));
+                    }
+                }
+
+                // Und jetzt die Userinfos
+                if (theUserIds.length() > 0) {
+                    theSocialInfo.infoProvided = true;
+
+                    theParameters = new ArrayList<OAuth.Parameter>();
+
+                    theResult = client.invoke(getXingAccessor(theSession), "GET", API_BASE + "/v1/users/" + theUserIds, theParameters);
+                    theJSonResult = new ObjectMapper().readValue(theResult.getBodyAsStream(), HashMap.class);
+
+                    System.out.println(theJSonResult);
+
+                    List<Map> theUsers = (List<Map>) theJSonResult.get("users");
+                    if (theUsers != null) {
+                        for (Map theUser : theUsers) {
+                            Map thePhotoUrls = (Map) theUser.get("photo_urls");
+                            if (thePhotoUrls != null) {
+                                String theLargeURL = (String) thePhotoUrls.get("large");
+                                if (theLargeURL != null) {
+                                    theSocialInfo.setImageUrl(theLargeURL);
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return theSocialInfo;
+    }
 
     private static class SessionData {
         OAuthConsumer consumer;
@@ -39,8 +116,7 @@ public class XingConnectorBackingBean {
     }
 
     public XingConnectorBackingBean() {
-        String theAPIBase = "https://api.xing.com";
-        serviceProvider = new OAuthServiceProvider(theAPIBase + "/v1/request_token", theAPIBase + "/v1/authorize", theAPIBase + "/v1/access_token");
+        serviceProvider = new OAuthServiceProvider(API_BASE + "/v1/request_token", API_BASE + "/v1/authorize", API_BASE + "/v1/access_token");
         // Proxy Config nicht vergessen!!
         client = new OAuthClient(new HttpClient3());
     }
