@@ -409,18 +409,12 @@
 <h3>Erstkontakte(Freiberufler nicht in Datenbank)</h3>
 
 <a4j:outputPanel ajaxRendered="true">
-    <b:table var="row" value="#{projectBackingBean.data.firstContactPositions}" cols="200,200,100,80,200,200,20" id="firstcontacts">
-        <h:column>
-            <f:facet name="header">
-                <h:outputText value="Vorname"/>
-            </f:facet>
-            <h:outputText value="#{row.name1}"/>
-        </h:column>
+    <b:table var="row" value="#{projectBackingBean.data.firstContactPositions}" cols="150,100,80,400,200,20" id="firstcontacts">
         <h:column>
             <f:facet name="header">
                 <h:outputText value="Name"/>
             </f:facet>
-            <h:outputText value="#{row.name2}"/>
+            <h:outputText value="#{row.name1}"/>
         </h:column>
         <h:column>
             <f:facet name="header">
@@ -457,9 +451,9 @@
             </b:commandLink>
         </h:column>
     </b:table>
-    <b:gridBagLayout cols="80,150,80,150,80,150,,80,160,20" rows="20,p,2">
+    <b:gridBagLayout cols="80,150,80,150,80,160,20" rows="20,p,2">
         <b:cell x="1" y="2">
-            <b:label id="label_vorname_neuer_kontakt" label="Vorname"/>
+            <b:label id="label_vorname_neuer_kontakt" label="Name"/>
         </b:cell>
         <b:cell x="2" y="2">
             <b:inputfield
@@ -467,34 +461,26 @@
                     id="vorname_neuer_kontakt"/>
         </b:cell>
         <b:cell x="3" y="2">
-            <b:label id="label_name_neuer_kontakt" label="Name"/>
-        </b:cell>
-        <b:cell x="4" y="2">
-            <b:inputfield
-                    value="#{projectBackingBean.data.newFirstContactName2}"
-                    id="name_neuer_kontakt"/>
-        </b:cell>
-        <b:cell x="5" y="2">
             <b:combobox
                     value="#{projectBackingBean.data.newFirstContactType}"
                     values="#{projectBackingBean.data.contactTypes}"
                     nullable="false"
                     id="neuer_kontakt_kontakttyp"/>
         </b:cell>
-        <b:cell x="6" y="2">
+        <b:cell x="4" y="2">
             <b:inputfield
                     value="#{projectBackingBean.data.newFirstContactValue}"
                     id="wert_neuer_kontakt"/>
         </b:cell>
-        <b:cell x="7" y="2">
+        <b:cell x="5" y="2">
             <b:label id="label_kommentar_neuer_kontakt" label="Kommentar"/>
         </b:cell>
-        <b:cell x="8" y="2">
+        <b:cell x="6" y="2">
             <b:textarea
                     value="#{projectBackingBean.data.newFirstContactName2}"
                     id="kommentar_neuer_kontakt"/>
         </b:cell>
-        <b:cell x="9" y="2" valign="middle">
+        <b:cell x="7" y="2" valign="middle">
             <b:commandLink title="Erstkontakt hinzufügen"
                            action="#{projectBackingBean.commandAddFirstContact}"
                            id="addfirstcontact">

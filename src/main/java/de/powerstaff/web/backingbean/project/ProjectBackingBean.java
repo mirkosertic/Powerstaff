@@ -277,5 +277,10 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
         theProject.getFirstContacts().add(theContact);
 
         getData().getFirstContactPositions().setWrappedData(new ArrayList(theProject.getFirstContacts()));
+
+        getData().setNewFirstContactName1(null);
+        getData().setNewFirstContactName2(null);
+        getData().setNewFirstContactComment(null);
+        getData().setNewFirstContactValue(null);
     }
 }
