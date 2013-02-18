@@ -19,10 +19,6 @@ public class ProjectFirstContactConverter implements Converter {
         ContactType theType = theContact.getContactType();
 
         String theDisplayValue = theContact.getContactTypeValue();
-        if (theDisplayValue.length() > 35) {
-            theDisplayValue = theDisplayValue.substring(0, 25);
-            theDisplayValue += "...";
-        }
 
         if (theType != null) {
             if (theType.isWeb()) {
