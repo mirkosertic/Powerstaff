@@ -137,6 +137,13 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
         getData().getSavedSearches().setWrappedData(theSearches);
 
         getData().setContactTypes(additionalDataService.getContactTypes());
+
+        for (ContactType theType : getData().getContactTypes()) {
+            if (theType.getDescription().toLowerCase().contains("xing")) {
+                // Xing is vorauswahl
+                getData().setNewFirstContactType(theType);
+            }
+        }
     }
 
     public void commandDeletePosition() {
