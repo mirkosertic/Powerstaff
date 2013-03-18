@@ -219,6 +219,7 @@ public class FreelancerDAOHibernateImpl extends
 
                 Criteria theCriteria = aSession.createCriteria(ProjectPosition.class);
                 theCriteria.add(Restrictions.eq("freelancerId", aFreelancer.getId()));
+                theCriteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
                 theResult.addAll(theCriteria.list());
 
                 Collections.sort(theResult);
