@@ -18,11 +18,11 @@
         <property name="name2"/>
         <property name="contactTypeValue" not-null="true"/>
 
-        <many-to-one name="contactType" class="ContactType" not-null="true">
+        <many-to-one name="contactType" class="ContactType" not-null="true" fetch="join">
             <column name="type_id"/>
         </many-to-one>
 
-        <many-to-one name="matchingFreelancer" class="Freelancer">
+        <many-to-one name="matchingFreelancer" class="Freelancer" fetch="join">
             <column name="matching_freelancer_id"/>
         </many-to-one>
 

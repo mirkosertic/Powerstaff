@@ -48,6 +48,8 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
 
     private List<ContactType> contactTypes = new ArrayList<ContactType>();
 
+    private List<ProjectPositionStatus> positionStatuses = new ArrayList<ProjectPositionStatus>();
+
     public ProjectBackingBeanDataModel() {
         status.add(new KeyValuePair<Integer, String>(1, "Offen"));
         status.add(new KeyValuePair<Integer, String>(2, "Verloren"));
@@ -216,5 +218,13 @@ public class ProjectBackingBeanDataModel extends NavigatingBackingBeanDataModel<
 
     public void setNewFirstContactComment(String newFirstContactComment) {
         this.newFirstContactComment = newFirstContactComment;
+    }
+
+    public List<ProjectPositionStatus> getPositionStatuses() {
+        return positionStatuses;
+    }
+
+    public void setPositionStatuses(List<ProjectPositionStatus> positionStatuses) {
+        this.positionStatuses = positionStatuses;
     }
 }

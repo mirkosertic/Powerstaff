@@ -48,7 +48,7 @@
         <property name="nationalitaet"/>
         <property name="geburtsdatum"/>
 
-        <set name="contacts" cascade="all-delete-orphan" order-by="value" fetch="join">
+        <set name="contacts" cascade="all-delete-orphan" order-by="value" fetch="select" lazy="true">
             <key column="freelancer_id"/>
             <one-to-many class="FreelancerContact"/>
         </set>
@@ -58,7 +58,7 @@
             <one-to-many class="FreelancerHistory"/>
         </set>
 
-        <many-to-one name="partner" class="Partner">
+        <many-to-one name="partner" class="Partner" lazy="proxy">
             <column name="partner_id"/>
         </many-to-one>
 
