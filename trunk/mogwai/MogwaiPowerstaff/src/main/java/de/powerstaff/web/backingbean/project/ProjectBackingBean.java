@@ -223,10 +223,13 @@ public class ProjectBackingBean extends NavigatingBackingBean<Project, ProjectBa
         return theBuilder.toString();
     }
 
-    public List<ProjectPositionStatus> getPositionStatus() {
-        List<ProjectPositionStatus> theResult = new ArrayList();
-        theResult.addAll(entityService.getAvailablePositionStatus());
-        Collections.sort(theResult);
+    public synchronized List<ProjectPositionStatus> getPositionStatus() {
+        List<ProjectPositionStatus> theResult = getData().getPositionStatuses();
+        if (theResult.isEmpty()) {
+            theResult.addAll(entityService.getAvailablePositionStatus());
+            Collections.sort(theResult);
+            getData().setPositionStatuses(theResult);
+        }
         return theResult;
     }
 
