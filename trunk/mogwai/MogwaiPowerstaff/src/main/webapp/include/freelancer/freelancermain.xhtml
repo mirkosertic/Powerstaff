@@ -505,7 +505,7 @@
         <b:cell x="1" y="3">
             <b:titledBox label="Kodierung">
 
-                <b:gridBagLayout cols="2,100,2,*,2" rows="2,p,2,p,2,p,2,p,2,110,2">
+                <b:gridBagLayout cols="2,100,2,*,2" rows="2,p,2,p,2,p,2,p,2,p,2,p,2,p,2,p,2,110,2">
 
                     <b:cell x="2" y="2">
                         <b:label id="kodierung_label" label="Kodierung"/>
@@ -527,36 +527,184 @@
                     </b:cell>
 
                     <b:cell x="2" y="4">
-                        <b:label id="debitor_label" label="Debitor"/>
+                        <b:label id="schwerpunkte_label" label="Schwerpunkte"/>
                     </b:cell>
                     <b:cell x="4" y="4">
+                        <a4j:outputPanel id="tags_schwerpunkte">
+                            <div class="tags">
+                                <a4j:repeat value="#{freelancerBackingBean.data.tagsSchwerpunkte}" var="freelancertotag">
+                                    <div class="tag">
+                                        <pretty:link styleClass="text" mappingId="tagoverview" title="Zeige alle Freiberufler mit diesem Tag">
+                                            <f:param value="#{freelancertotag.tag.id}"/>
+                                            <h:outputText value="#{freelancertotag.tag.name}"/>
+                                        </pretty:link>
+                                        <a4j:commandLink styleClass="delete" action="#{freelancerBackingBean.removeTagSchwerpunkt}" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
+                                            <f:setPropertyActionListener value="#{freelancertotag.tag.id}" target="#{freelancerBackingBean.data.tagIdSchwerpunkt}"/>
+                                            <h:outputText value="X"/>
+                                        </a4j:commandLink>
+                                    </div>
+                                </a4j:repeat>
+
+                                <h:inputText value="#{freelancerBackingBean.data.newSchwerpunkte}" id="schwerpunkte_new" styleClass="newtag" placeholder="Enter new tag here..."></h:inputText>
+                            </div>
+                            <rich:suggestionbox eventsQueue="powerstaff" id="suggestion_schwerpunkte" for="schwerpunkte_new"
+                                                frequency="0.2" requestDelay="200" ignoreDupResponses="true" width="290"
+                                                height="100" var="row"
+                                                suggestionAction="#{freelancerBackingBean.getTagSuggestionsSchwerpunkte}"
+                                                shadowOpacity="9">
+                                <h:column>
+                                    <h:outputText value="#{row.name}"/>
+                                </h:column>
+                                <a4j:support event="onselect" action="#{freelancerBackingBean.addTagSchwerpunkte}" onsubmit="markChanged()" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
+                                    <f:setPropertyActionListener value="#{row.id}" target="#{freelancerBackingBean.data.tagIdSchwerpunkt}"/>
+                                </a4j:support>
+                            </rich:suggestionbox>
+
+                        </a4j:outputPanel>
+                    </b:cell>
+
+                    <b:cell x="2" y="6">
+                        <b:label id="funktion_label" label="Funktionen"/>
+                    </b:cell>
+                    <b:cell x="4" y="6">
+                        <a4j:outputPanel id="tags_funktionen">
+                            <div class="tags">
+                                <a4j:repeat value="#{freelancerBackingBean.data.tagsFunktionen}" var="freelancertotag">
+                                    <div class="tag">
+                                        <pretty:link styleClass="text" mappingId="tagoverview" title="Zeige alle Freiberufler mit diesem Tag">
+                                            <f:param value="#{freelancertotag.tag.id}"/>
+                                            <h:outputText value="#{freelancertotag.tag.name}"/>
+                                        </pretty:link>
+                                        <a4j:commandLink styleClass="delete" action="#{freelancerBackingBean.removeTagFunktion}" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
+                                            <f:setPropertyActionListener value="#{freelancertotag.tag.id}" target="#{freelancerBackingBean.data.tagIdFunktion}"/>
+                                            <h:outputText value="X"/>
+                                        </a4j:commandLink>
+                                    </div>
+                                </a4j:repeat>
+
+                                <h:inputText value="#{freelancerBackingBean.data.newFunktion}" id="funktion_new" styleClass="newtag" placeholder="Enter new tag here..."></h:inputText>
+                            </div>
+                            <rich:suggestionbox eventsQueue="powerstaff" id="suggestion_funktion" for="funktion_new"
+                                                frequency="0.2" requestDelay="200" ignoreDupResponses="true" width="290"
+                                                height="100" var="row"
+                                                suggestionAction="#{freelancerBackingBean.getTagSuggestionsFunktionen}"
+                                                shadowOpacity="9">
+                                <h:column>
+                                    <h:outputText value="#{row.name}"/>
+                                </h:column>
+                                <a4j:support event="onselect" action="#{freelancerBackingBean.addTagFunktionen}" onsubmit="markChanged()" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
+                                    <f:setPropertyActionListener value="#{row.id}" target="#{freelancerBackingBean.data.tagIdFunktion}"/>
+                                </a4j:support>
+                            </rich:suggestionbox>
+
+                        </a4j:outputPanel>
+                    </b:cell>
+
+                    <b:cell x="2" y="8">
+                        <b:label id="Einsatzorttags_label" label="Einsatzorte"/>
+                    </b:cell>
+                    <b:cell x="4" y="8">
+                        <a4j:outputPanel id="tags_einsatzorte">
+                            <div class="tags">
+                                <a4j:repeat value="#{freelancerBackingBean.data.tagsEinsatzorte}" var="freelancertotag">
+                                    <div class="tag">
+                                        <pretty:link styleClass="text" mappingId="tagoverview" title="Zeige alle Freiberufler mit diesem Tag">
+                                            <f:param value="#{freelancertotag.tag.id}"/>
+                                            <h:outputText value="#{freelancertotag.tag.name}"/>
+                                        </pretty:link>
+                                        <a4j:commandLink styleClass="delete" action="#{freelancerBackingBean.removeTagEinsatzort}" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
+                                            <f:setPropertyActionListener value="#{freelancertotag.tag.id}" target="#{freelancerBackingBean.data.tagIdEinsatzOrt}"/>
+                                            <h:outputText value="X"/>
+                                        </a4j:commandLink>
+                                    </div>
+                                </a4j:repeat>
+
+                                <h:inputText value="#{freelancerBackingBean.data.newEinsatzOrt}" id="einsatzorte_new" styleClass="newtag" placeholder="Enter new tag here..."></h:inputText>
+                            </div>
+                            <rich:suggestionbox eventsQueue="powerstaff" id="suggestion_einsatzorte" for="einsatzorte_new"
+                                                frequency="0.2" requestDelay="200" ignoreDupResponses="true" width="290"
+                                                height="100" var="row"
+                                                suggestionAction="#{freelancerBackingBean.getTagSuggestionsEinsatzortte}"
+                                                shadowOpacity="9">
+                                <h:column>
+                                    <h:outputText value="#{row.name}"/>
+                                </h:column>
+                                <a4j:support event="onselect" action="#{freelancerBackingBean.addTagEinsatzorte}" onsubmit="markChanged()" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
+                                    <f:setPropertyActionListener value="#{row.id}" target="#{freelancerBackingBean.data.tagIdEinsatzOrt}"/>
+                                </a4j:support>
+                            </rich:suggestionbox>
+
+                        </a4j:outputPanel>
+                    </b:cell>
+
+                    <b:cell x="2" y="10">
+                        <b:label id="bemerkungentags_label" label="Bemerkungen"/>
+                    </b:cell>
+                    <b:cell x="4" y="10">
+                        <a4j:outputPanel id="tags_bemerkungen">
+                            <div class="tags">
+                                <a4j:repeat value="#{freelancerBackingBean.data.tagsBemerkungen}" var="freelancertotag">
+                                    <div class="tag">
+                                        <pretty:link styleClass="text" mappingId="tagoverview" title="Zeige alle Freiberufler mit diesem Tag">
+                                            <f:param value="#{freelancertotag.tag.id}"/>
+                                            <h:outputText value="#{freelancertotag.tag.name}"/>
+                                        </pretty:link>
+                                        <a4j:commandLink styleClass="delete" action="#{freelancerBackingBean.removeTagBemerkung}" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
+                                            <f:setPropertyActionListener value="#{freelancertotag.tag.id}" target="#{freelancerBackingBean.data.tagIdBemerkung}"/>
+                                            <h:outputText value="X"/>
+                                        </a4j:commandLink>
+                                    </div>
+                                </a4j:repeat>
+
+                                <h:inputText value="#{freelancerBackingBean.data.newBemerkung}" id="bemerkungen_new" styleClass="newtag" placeholder="Enter new tag here..."></h:inputText>
+                            </div>
+                            <rich:suggestionbox eventsQueue="powerstaff" id="suggestion_bemerkungen" for="bemerkungen_new"
+                                                frequency="0.2" requestDelay="200" ignoreDupResponses="true" width="290"
+                                                height="100" var="row"
+                                                suggestionAction="#{freelancerBackingBean.getTagSuggestionsBemerkungen}"
+                                                shadowOpacity="9">
+                                <h:column>
+                                    <h:outputText value="#{row.name}"/>
+                                </h:column>
+                                <a4j:support event="onselect" action="#{freelancerBackingBean.addTagBemerkungen}" onsubmit="markChanged()" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
+                                    <f:setPropertyActionListener value="#{row.id}" target="#{freelancerBackingBean.data.tagIdBemerkung}"/>
+                                </a4j:support>
+                            </rich:suggestionbox>
+
+                        </a4j:outputPanel>
+                    </b:cell>
+
+                    <b:cell x="2" y="12">
+                        <b:label id="debitor_label" label="Debitor"/>
+                    </b:cell>
+                    <b:cell x="4" y="12">
                         <b:inputfield
                                 value="#{freelancerBackingBean.data.entity.debitorNr}"
                                 id="debitor" labelComponentId="debitor_label"/>
                     </b:cell>
 
-                    <b:cell x="2" y="6">
+                    <b:cell x="2" y="14">
                         <b:label id="kreditor_label" label="Kreditor"/>
                     </b:cell>
-                    <b:cell x="4" y="6">
+                    <b:cell x="4" y="14">
                         <b:inputfield
                                 value="#{freelancerBackingBean.data.entity.kreditorNr}"
                                 id="kreditor" labelComponentId="kreditor_label"/>
                     </b:cell>
 
-                    <b:cell x="2" y="8">
+                    <b:cell x="2" y="16">
                         <b:label id="gulpid_label" label="Gulp ID"/>
                     </b:cell>
-                    <b:cell x="4" y="8">
+                    <b:cell x="4" y="16">
                         <b:inputfield
                                 value="#{freelancerBackingBean.data.entity.gulpID}"
                                 id="gulpid" labelComponentId="gulpid_label"/>
                     </b:cell>
 
-                    <b:cell x="2" y="10">
+                    <b:cell x="2" y="18">
                         <b:label id="skills_label" label="Skills"/>
                     </b:cell>
-                    <b:cell x="4" y="10">
+                    <b:cell x="4" y="18">
                         <b:textarea
                                 value="#{freelancerBackingBean.data.entity.skills}"
                                 id="skills" labelComponentId="skills_label"/>

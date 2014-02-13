@@ -22,19 +22,15 @@ import de.powerstaff.business.service.FreelancerFieldBridge;
 import org.hibernate.search.annotations.*;
 
 import javax.persistence.Column;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.Timestamp;
+import java.util.*;
 
 @Indexed
 @ClassBridge(name = "freelancer", impl = FreelancerFieldBridge.class)
 @Analyzer(impl = ProfileAnalyzer.class)
-public class Freelancer extends Person<FreelancerContact, FreelancerHistory>
-        implements UDFSupport {
+public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
 
     private static final long serialVersionUID = 3142067482465272515L;
-
-    private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
 
     private String workplace;
 
@@ -75,7 +71,13 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory>
 
     private Long sallaryPartnerPerDayLong;
 
+    private Set<FreelancerToTag> tags;
+    private List<? extends FreelancerToTag> bemerkungenTags;
+    private Collection<? extends FreelancerToTag> einsatzorteTags;
+    private Collection<? extends FreelancerToTag> schwerpunkteTags;
+
     public Freelancer() {
+        tags = new HashSet<FreelancerToTag>();
     }
 
     @Column(length = 255)
@@ -188,81 +190,83 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory>
         this.status = status;
     }
 
-    public Map<String, UserDefinedField> getUdf() {
-        return udf;
-    }
-
-    public void setUdf(Map<String, UserDefinedField> udf) {
-        this.udf = udf;
-    }
-
-    /**
-     * @return the availabilityAsDate
-     */
     public Date getAvailabilityAsDate() {
         return availabilityAsDate;
     }
 
-    /**
-     * @param availabilityAsDate the availabilityAsDate to set
-     */
     public void setAvailabilityAsDate(Date availabilityAsDate) {
         this.availabilityAsDate = availabilityAsDate;
     }
 
-    /**
-     * @return the sallaryPerDayLong
-     */
     public Long getSallaryPerDayLong() {
         return sallaryPerDayLong;
     }
 
-    /**
-     * @param sallaryPerDayLong the sallaryPerDayLong to set
-     */
     public void setSallaryPerDayLong(Long sallaryPerDayLong) {
         this.sallaryPerDayLong = sallaryPerDayLong;
     }
 
-    /**
-     * @return the sallaryPartnerLong
-     */
     public Long getSallaryPartnerLong() {
         return sallaryPartnerLong;
     }
 
-    /**
-     * @param sallaryPartnerLong the sallaryPartnerLong to set
-     */
     public void setSallaryPartnerLong(Long sallaryPartnerLong) {
         this.sallaryPartnerLong = sallaryPartnerLong;
     }
 
-    /**
-     * @return the sallaryPartnerPerDayLong
-     */
     public Long getSallaryPartnerPerDayLong() {
         return sallaryPartnerPerDayLong;
     }
 
-    /**
-     * @param sallaryPartnerPerDayLong the sallaryPartnerPerDayLong to set
-     */
     public void setSallaryPartnerPerDayLong(Long sallaryPartnerPerDayLong) {
         this.sallaryPartnerPerDayLong = sallaryPartnerPerDayLong;
     }
 
-    /**
-     * @return the sallaryLong
-     */
     public Long getSallaryLong() {
         return sallaryLong;
     }
 
-    /**
-     * @param sallaryLong the sallaryLong to set
-     */
     public void setSallaryLong(Long sallaryLong) {
         this.sallaryLong = sallaryLong;
+    }
+
+    public Set<FreelancerToTag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<FreelancerToTag> tags) {
+        this.tags = tags;
+    }
+
+    public List<FreelancerToTag> getBemerkungenTags() {
+        return getTagsByType(TagType.BEMERKUNG);
+    }
+
+    public List<FreelancerToTag> getEinsatzorteTags() {
+        return getTagsByType(TagType.EINSATZORT);
+    }
+
+    public List<FreelancerToTag> getFunktionenTags() {
+        return getTagsByType(TagType.FUNKTION);
+    }
+
+    public List<FreelancerToTag> getSchwerpunkteTags() {
+        return getTagsByType(TagType.SCHWERPUNKT);
+    }
+
+    protected List<FreelancerToTag> getTagsByType(TagType aTagType) {
+        List<FreelancerToTag> theResult = new ArrayList<FreelancerToTag>();
+        for (FreelancerToTag theTags : getTags()) {
+            if (theTags.getType() == aTagType) {
+                theResult.add(theTags);
+            }
+        }
+        Collections.sort(theResult, new Comparator<FreelancerToTag>() {
+            @Override
+            public int compare(FreelancerToTag o1, FreelancerToTag o2) {
+                return o1.getCreationDate().compareTo(o2.getCreationDate());
+            }
+        });
+        return theResult;
     }
 }

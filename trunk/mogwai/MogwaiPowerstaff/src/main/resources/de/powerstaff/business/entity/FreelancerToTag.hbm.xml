@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="de.powerstaff.business.entity" default-lazy="false">
+    <class name="FreelancerToTag" table="freelancer_tag">
+
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+
+        <property column="creationDate" name="creationDate"/>
+        <property column="creationUser" name="creationUserID"/>
+        <property column="changedDate" name="lastModificationDate"/>
+        <property column="changedUser" name="lastModificationUserID"/>
+
+        <property name="type" not-null="true">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">de.powerstaff.business.entity.TagType</param>
+            </type>
+        </property>
+
+        <many-to-one name="tag" class="Tag" not-null="true">
+            <column name="tag_id"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

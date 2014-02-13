@@ -20,16 +20,15 @@ package de.powerstaff.web.backingbean.freelancer;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.entity.*;
-import de.powerstaff.business.service.FreelancerService;
-import de.powerstaff.business.service.OptimisticLockException;
-import de.powerstaff.business.service.ProfileSearchService;
-import de.powerstaff.business.service.ProjectService;
+import de.powerstaff.business.service.*;
 import de.powerstaff.web.backingbean.ContextUtils;
 import de.powerstaff.web.backingbean.PersonEditorBackingBean;
 import de.powerstaff.web.backingbean.SocialInfo;
 import de.powerstaff.web.backingbean.XingConnectorBackingBean;
 import org.apache.commons.lang.StringUtils;
 
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -45,6 +44,12 @@ public class FreelancerBackingBean
     private ContextUtils contextUtils;
 
     private ProjectService projectService;
+
+    private TagService tagService;
+
+    public void setTagService(TagService tagService) {
+        this.tagService = tagService;
+    }
 
     public void setProjectService(ProjectService projectService) {
         this.projectService = projectService;
@@ -73,6 +78,165 @@ public class FreelancerBackingBean
         return entityService.getCodeSuggestions((String) aSuggest);
     }
 
+    private void initTagLists() {
+
+        Freelancer theFreelancer = getData().getEntity();
+
+        getData().getTagsBemerkungen().clear();
+        getData().getTagsBemerkungen().addAll(theFreelancer.getBemerkungenTags());
+
+        getData().getTagsEinsatzorte().clear();
+        getData().getTagsEinsatzorte().addAll(theFreelancer.getEinsatzorteTags());
+
+        getData().getTagsFunktionen().clear();
+        getData().getTagsFunktionen().addAll(theFreelancer.getFunktionenTags());
+
+        getData().getTagsSchwerpunkte().clear();
+        getData().getTagsSchwerpunkte().addAll(theFreelancer.getSchwerpunkteTags());
+    }
+
+    public List<Tag> getTagSuggestionsBemerkungen(Object aSuggest) {
+        return tagService.findTagsSuggestion((String) aSuggest, TagType.BEMERKUNG);
+    }
+
+    public List<Tag> getTagSuggestionsEinsatzortte(Object aSuggest) {
+        return tagService.findTagsSuggestion((String) aSuggest, TagType.EINSATZORT);
+    }
+
+    public List<Tag> getTagSuggestionsFunktionen(Object aSuggest) {
+        return tagService.findTagsSuggestion((String) aSuggest, TagType.FUNKTION);
+    }
+
+    public List<Tag> getTagSuggestionsSchwerpunkte(Object aSuggest) {
+        return tagService.findTagsSuggestion((String) aSuggest, TagType.SCHWERPUNKT);
+    }
+
+    public void addTagSchwerpunkte() {
+
+        Freelancer theFreelancer = getData().getEntity();
+
+        Tag theTag = tagService.getTagByID(getData().getTagIdSchwerpunkt());
+
+        FreelancerToTag theFreelancerToTag = new FreelancerToTag();
+        theFreelancerToTag.setTag(theTag);
+        theFreelancerToTag.setType(TagType.SCHWERPUNKT);
+        theFreelancer.getTags().add(theFreelancerToTag);
+
+        getData().setNewSchwerpunkte("");
+
+        initTagLists();
+    }
+
+    public void addTagFunktionen() {
+
+        Freelancer theFreelancer = getData().getEntity();
+
+        Tag theTag = tagService.getTagByID(getData().getTagIdFunktion());
+
+        FreelancerToTag theFreelancerToTag = new FreelancerToTag();
+        theFreelancerToTag.setTag(theTag);
+        theFreelancerToTag.setType(TagType.FUNKTION);
+        theFreelancer.getTags().add(theFreelancerToTag);
+
+        getData().setNewFunktion("");
+
+        initTagLists();
+    }
+
+    public void addTagEinsatzorte() {
+
+        Freelancer theFreelancer = getData().getEntity();
+
+        Tag theTag = tagService.getTagByID(getData().getTagIdEinsatzOrt());
+
+        FreelancerToTag theFreelancerToTag = new FreelancerToTag();
+        theFreelancerToTag.setTag(theTag);
+        theFreelancerToTag.setType(TagType.EINSATZORT);
+        theFreelancer.getTags().add(theFreelancerToTag);
+
+        getData().setNewEinsatzOrt("");
+
+        initTagLists();
+    }
+
+    public void addTagBemerkungen() {
+
+        Freelancer theFreelancer = getData().getEntity();
+
+        Tag theTag = tagService.getTagByID(getData().getTagIdBemerkung());
+
+        FreelancerToTag theFreelancerToTag = new FreelancerToTag();
+        theFreelancerToTag.setTag(theTag);
+        theFreelancerToTag.setType(TagType.BEMERKUNG);
+        theFreelancer.getTags().add(theFreelancerToTag);
+
+        getData().setNewBemerkung("");
+
+        initTagLists();
+    }
+
+    public void removeTagSchwerpunkt() {
+
+        Freelancer theFreelancer = getData().getEntity();
+
+        List<FreelancerToTag> theTagsToRemove = new ArrayList<FreelancerToTag>();
+        for (FreelancerToTag theFreelancerToTag : theFreelancer.getTags()) {
+            if (theFreelancerToTag.getTag().getId().equals(getData().getTagIdSchwerpunkt())) {
+                theTagsToRemove.add(theFreelancerToTag);
+            }
+        }
+        theFreelancer.getTags().removeAll(theTagsToRemove);
+
+        initTagLists();
+    }
+
+    public void removeTagFunktion() {
+
+        Freelancer theFreelancer = getData().getEntity();
+
+        List<FreelancerToTag> theTagsToRemove = new ArrayList<FreelancerToTag>();
+        for (FreelancerToTag theFreelancerToTag : theFreelancer.getTags()) {
+            if (theFreelancerToTag.getTag().getId().equals(getData().getTagIdFunktion())) {
+                theTagsToRemove.add(theFreelancerToTag);
+            }
+        }
+        theFreelancer.getTags().removeAll(theTagsToRemove);
+
+        initTagLists();
+    }
+
+    public void removeTagEinsatzort() {
+
+        Freelancer theFreelancer = getData().getEntity();
+
+        List<FreelancerToTag> theTagsToRemove = new ArrayList<FreelancerToTag>();
+        for (FreelancerToTag theFreelancerToTag : theFreelancer.getTags()) {
+            if (theFreelancerToTag.getTag().getId().equals(getData().getTagIdEinsatzOrt())) {
+                theTagsToRemove.add(theFreelancerToTag);
+            }
+        }
+        theFreelancer.getTags().removeAll(theTagsToRemove);
+
+        initTagLists();
+    }
+
+    public void removeTagBemerkung() {
+
+        Freelancer theFreelancer = getData().getEntity();
+
+        List<FreelancerToTag> theTagsToRemove = new ArrayList<FreelancerToTag>();
+        for (FreelancerToTag theFreelancerToTag : theFreelancer.getTags()) {
+            if (theFreelancerToTag.getTag().getId().equals(getData().getTagIdBemerkung())) {
+                theTagsToRemove.add(theFreelancerToTag);
+            }
+
+        }
+        theFreelancer.getTags().removeAll(theTagsToRemove);
+
+        initTagLists();
+    }
+
+
     @Override
     protected void afterNavigation() {
         super.afterNavigation();
@@ -96,6 +260,8 @@ public class FreelancerBackingBean
         } else {
             getData().getPositions().setWrappedData(new ArrayList<ProjectPosition>());
         }
+
+        initTagLists();
     }
 
     @Override

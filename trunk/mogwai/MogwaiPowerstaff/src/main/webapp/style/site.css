@@ -151,3 +151,36 @@ a {
 	color: black;
 	text-decoration: none;
 }
+
+.tags {
+	display: inline-block;
+	background-color: white;
+	border: 1px solid lightgray;
+	padding: 5px;
+	width: 280px;
+	overflow: hidden;
+    min-height: 30px;
+}
+.tags .newtag {
+	float: left;
+	width: 98%;
+    border: none;
+}
+.tags .tag {
+    margin-right: 5px;
+	margin-bottom: 5px;
+	float: left;
+	border: 1px solid rgb(220, 233, 250);
+	border-radius: 5px;
+	padding: 2px;
+	background-color: rgb(220, 233, 250);
+}
+.tags .tag .text {
+	text-decoration: none;
+	color: black;
+}
+.tags .tag .delete {
+	padding-left: 3px;
+	text-decoration: none;
+	color: black;
+}

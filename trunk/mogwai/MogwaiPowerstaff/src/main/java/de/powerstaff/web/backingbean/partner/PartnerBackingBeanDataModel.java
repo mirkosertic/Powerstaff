@@ -31,7 +31,6 @@ public class PartnerBackingBeanDataModel extends PersonEditorBackingBeanDataMode
     private String codeToAdd;
 
     public PartnerBackingBeanDataModel() {
-
     }
 
     @Override

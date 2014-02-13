@@ -58,19 +58,5 @@
             <index column="position"/>
             <one-to-many class="ProjectHistory"/>
         </list>
-
-        <map name="udf" table="project_udf" cascade="all-delete-orphan" fetch="select" lazy="true">
-            <key column="project_id" foreign-key="project_udf_fk1"/>
-            <map-key type="string" length="255" column="name"/>
-            <composite-element class="UserDefinedField">
-                <property name="booleanValue" column="booleanvalue"/>
-                <property name="dateValue" column="datevalue"/>
-                <property name="intValue" column="intvalue"/>
-                <property name="longValue" column="longvalue"/>
-                <property name="stringValue" column="stringValue" length="255"/>
-                <property name="longStringValue" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
-            </composite-element>
-        </map>
-
     </class>
 </hibernate-mapping>
