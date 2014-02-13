@@ -4,6 +4,7 @@ import de.mogwai.common.utils.KeyValuePair;
 import de.mogwai.common.web.utils.CollectionDataModel;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerProfile;
+import de.powerstaff.business.entity.FreelancerToTag;
 import de.powerstaff.business.entity.ProjectPosition;
 import de.powerstaff.web.backingbean.PersonEditorBackingBeanDataModel;
 
@@ -23,12 +24,22 @@ public class FreelancerBackingBeanDataModel extends
 
     private CollectionDataModel<ProjectPosition> positions = new CollectionDataModel<ProjectPosition>();
 
-    public FreelancerBackingBeanDataModel() {
-        init();
-    }
+    private List<FreelancerToTag> tagsSchwerpunkte = new ArrayList<FreelancerToTag>();
+    private List<FreelancerToTag> tagsFunktionen = new ArrayList<FreelancerToTag>();
+    private List<FreelancerToTag> tagsEinsatzorte = new ArrayList<FreelancerToTag>();
+    private List<FreelancerToTag> tagsBemerkungen = new ArrayList<FreelancerToTag>();
 
-    public FreelancerBackingBeanDataModel(Freelancer aFreelancer) {
-        super(aFreelancer);
+    private String newSchwerpunkte = "";
+    private String newFunktion = "";
+    private String newEinsatzOrt = "";
+    private String newBemerkung = "";
+
+    private Long tagIdSchwerpunkt = null;
+    private Long tagIdFunktion = null;
+    private Long tagIdEinsatzOrt = null;
+    private Long tagIdBemerkung = null;
+
+    public FreelancerBackingBeanDataModel() {
         init();
     }
 
@@ -63,16 +74,10 @@ public class FreelancerBackingBeanDataModel extends
         setEntity(new Freelancer());
     }
 
-    /**
-     * @return the profiles
-     */
     public CollectionDataModel<FreelancerProfile> getProfiles() {
         return profiles;
     }
 
-    /**
-     * @return the status
-     */
     public List getStatus() {
         return status;
     }
@@ -91,5 +96,85 @@ public class FreelancerBackingBeanDataModel extends
 
     public void setPositions(CollectionDataModel<ProjectPosition> positions) {
         this.positions = positions;
+    }
+
+    public List<FreelancerToTag> getTagsSchwerpunkte() {
+        return tagsSchwerpunkte;
+    }
+
+    public List<FreelancerToTag> getTagsFunktionen() {
+        return tagsFunktionen;
+    }
+
+    public List<FreelancerToTag> getTagsEinsatzorte() {
+        return tagsEinsatzorte;
+    }
+
+    public List<FreelancerToTag> getTagsBemerkungen() {
+        return tagsBemerkungen;
+    }
+
+    public String getNewSchwerpunkte() {
+        return newSchwerpunkte;
+    }
+
+    public void setNewSchwerpunkte(String newSchwerpunkte) {
+        this.newSchwerpunkte = newSchwerpunkte;
+    }
+
+    public String getNewFunktion() {
+        return newFunktion;
+    }
+
+    public void setNewFunktion(String newFunktion) {
+        this.newFunktion = newFunktion;
+    }
+
+    public String getNewEinsatzOrt() {
+        return newEinsatzOrt;
+    }
+
+    public void setNewEinsatzOrt(String newEinsatzOrt) {
+        this.newEinsatzOrt = newEinsatzOrt;
+    }
+
+    public String getNewBemerkung() {
+        return newBemerkung;
+    }
+
+    public void setNewBemerkung(String newBemerkung) {
+        this.newBemerkung = newBemerkung;
+    }
+
+    public Long getTagIdSchwerpunkt() {
+        return tagIdSchwerpunkt;
+    }
+
+    public void setTagIdSchwerpunkt(Long tagIdSchwerpunkt) {
+        this.tagIdSchwerpunkt = tagIdSchwerpunkt;
+    }
+
+    public Long getTagIdFunktion() {
+        return tagIdFunktion;
+    }
+
+    public void setTagIdFunktion(Long tagIdFunktion) {
+        this.tagIdFunktion = tagIdFunktion;
+    }
+
+    public Long getTagIdEinsatzOrt() {
+        return tagIdEinsatzOrt;
+    }
+
+    public void setTagIdEinsatzOrt(Long tagIdEinsatzOrt) {
+        this.tagIdEinsatzOrt = tagIdEinsatzOrt;
+    }
+
+    public Long getTagIdBemerkung() {
+        return tagIdBemerkung;
+    }
+
+    public void setTagIdBemerkung(Long tagIdBemerkung) {
+        this.tagIdBemerkung = tagIdBemerkung;
     }
 }

@@ -49,19 +49,5 @@
             <key column="partner_id"/>
             <one-to-many class="Freelancer"/>
         </set>
-
-        <map name="udf" table="partner_udf" cascade="all-delete-orphan" fetch="select" lazy="true">
-            <key column="partner_id" foreign-key="partner_udf_fk1"/>
-            <map-key type="string" length="255" column="name"/>
-            <composite-element class="UserDefinedField">
-                <property name="booleanValue" column="booleanvalue"/>
-                <property name="dateValue" column="datevalue"/>
-                <property name="intValue" column="intvalue"/>
-                <property name="longValue" column="longvalue"/>
-                <property name="stringValue" column="stringValue" length="255"/>
-                <property name="longStringValue" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
-            </composite-element>
-        </map>
-
     </class>
 </hibernate-mapping>

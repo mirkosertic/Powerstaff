@@ -17,21 +17,14 @@
  */
 package de.powerstaff.business.entity;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
-public class Partner extends Person<PartnerContact, PartnerHistory> implements UDFSupport {
+public class Partner extends Person<PartnerContact, PartnerHistory> {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 57927036856781913L;
 
     private Set<Freelancer> freelancer = new HashSet<Freelancer>();
-
-    private Map<String, UserDefinedField> udf = new HashMap<String, UserDefinedField>();
 
     public Partner() {
     }
@@ -42,13 +35,5 @@ public class Partner extends Person<PartnerContact, PartnerHistory> implements U
 
     public void setFreelancer(Set<Freelancer> freelancer) {
         this.freelancer = freelancer;
-    }
-
-    public Map<String, UserDefinedField> getUdf() {
-        return udf;
-    }
-
-    public void setUdf(Map<String, UserDefinedField> udf) {
-        this.udf = udf;
     }
 }

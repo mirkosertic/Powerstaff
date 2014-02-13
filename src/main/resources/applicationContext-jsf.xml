@@ -11,6 +11,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <property name="entityService" ref="freelancerService"/>
         <property name="contextUtils" ref="contextUtils"/>
         <property name="projectService" ref="projectService"/>
+        <property name="tagService" ref="tagService"/>
         <property name="xingConnectorBackingBean" ref="xingConnectorBackingBean"/>
     </bean>
 

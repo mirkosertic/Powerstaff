@@ -25,30 +25,6 @@ import org.hibernate.type.Type;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-/**
- * Interceptor für das Audit - Log von Entities.
- * <p/>
- * Sobald ein Entity die Eigenschaften
- * "creationUserID","creationDATE","lastModificationUserID" oder
- * "lastModificationDATE" hat, werden diese durch den Interceptor auf den
- * aktuell angemeldeten Benutzer bzw. das aktuelle Systemdatum gesetzt.
- * <p/>
- * Zusätzlich unterstützt dieser Interceptor das Schreiben eines Change - Logs
- * von best. Entitäten in sep. Tabellen. Zu diesem Zweck müssen diese Entitäten
- * die Schnittstelle "Historizable" implementieren. Der Interceptor erstellt
- * beim Ändern dieser Entitäten einen neuen Eintrag in der DB. Das Schreiben
- * erfolgt dabei über Hibernate nach folgender Logik:
- * <p/>
- * Entity - Name History - Entity KontaktPerson KontaktPersonHist Traegerschaft
- * TraegerschaftHist
- * <p/>
- * Es wird also immer ein "Hist" an den Klassennamen der Entität angehängt, und
- * eine neue Instanz dieser Klasse erzeugt und mittels Hibernate persistiert.
- * Diese "Hist" Klassen müssen unterklassen von "HistoryEntity" sein.
- *
- * @author $Author: mirkosertic $
- * @version $Date: 2008-09-04 18:25:24 $
- */
 public class AuditInterceptor extends EmptyInterceptor {
 
     private static final long serialVersionUID = 6801708632533685578L;
@@ -74,7 +50,9 @@ public class AuditInterceptor extends EmptyInterceptor {
 
                 String thePropertyName = aPropertyNames[i];
                 if ("creationDate".equals(thePropertyName)) {
-                    aStates[i] = new Timestamp(System.currentTimeMillis());
+                    if (aStates[i] != null) {
+                        aStates[i] = new Timestamp(System.currentTimeMillis());
+                    }
                 }
                 if ("creationUserID".equals(thePropertyName)) {
                     aStates[i] = theCurrentUser.getUsername();

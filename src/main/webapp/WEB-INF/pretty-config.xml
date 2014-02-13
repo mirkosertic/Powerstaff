@@ -85,4 +85,10 @@
         <view-id>/include/project/projectsimilar.faces</view-id>
         <action onPostback="false">#{projectBackingBean.loadEntity}</action>
     </url-mapping>
+    <url-mapping id="tagoverview">
+        <pattern>/tags/#{tagsBackingBean.data.currentTagId}/overview</pattern>
+        <view-id>/include/tags/tagsoverview.faces</view-id>
+        <action>#{tagsBackingBean.loadEntity}</action>
+    </url-mapping>
+
 </pretty-config>
