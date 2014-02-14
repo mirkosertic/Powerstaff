@@ -17,9 +17,7 @@
  */
 package de.powerstaff.business.service;
 
-import de.mogwai.common.business.service.Service;
-
-public interface ServiceLoggerService extends Service {
+public interface ServiceLoggerService {
 
     void logStart(String aServiceID, String aDescription);
 

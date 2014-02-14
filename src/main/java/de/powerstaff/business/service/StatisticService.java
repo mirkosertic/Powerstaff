@@ -17,14 +17,13 @@
  */
 package de.powerstaff.business.service;
 
-import de.mogwai.common.business.service.Service;
 import de.powerstaff.business.dto.KontakthistorieEntry;
 import de.powerstaff.business.entity.User;
 
 import java.util.Date;
 import java.util.List;
 
-public interface StatisticService extends Service {
+public interface StatisticService {
 
     List<KontakthistorieEntry> kontakthistorie(Date aDatumVon, Date aDatumBis, User aBenutzer);
 

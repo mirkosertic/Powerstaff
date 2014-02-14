@@ -16,10 +16,10 @@
  */
 package de.mogwai.common.business.service;
 
-import java.util.Map;
-
 import de.mogwai.common.business.entity.SystemParameter;
 import de.mogwai.common.business.enums.BaseEnumItemEnum;
+
+import java.util.Map;
 
 /**
  * Service Interface für Systemparameter.
@@ -27,7 +27,7 @@ import de.mogwai.common.business.enums.BaseEnumItemEnum;
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:28:04 $
  */
-public interface SystemParameterService extends Service {
+public interface SystemParameterService {
 
     /**
      * Liest eine Map aller Systemparameter. Key der Map ist

@@ -17,10 +17,7 @@
  */
 package de.powerstaff.business.service;
 
-import de.mogwai.common.business.service.Service;
-
-public interface ProfileIndexerService extends Service,
-        ProfileIndexerServicePublicInterface {
+public interface ProfileIndexerService extends ProfileIndexerServicePublicInterface {
 
     String NUM_PROFILES = "NUM_PROFILES";
 
