@@ -269,4 +269,15 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
         });
         return theResult;
     }
+
+    public List<FreelancerToTag> getAllTagsSorted() {
+        List<FreelancerToTag> theResult = new ArrayList<FreelancerToTag>(tags);
+        Collections.sort(theResult, new Comparator<FreelancerToTag>() {
+            @Override
+            public int compare(FreelancerToTag o1, FreelancerToTag o2) {
+                return o1.getCreationDate().compareTo(o2.getCreationDate());
+            }
+        });
+        return theResult;
+    }
 }

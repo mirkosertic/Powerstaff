@@ -87,8 +87,11 @@
     </url-mapping>
     <url-mapping id="tagoverview">
         <pattern>/tags/#{tagsBackingBean.data.currentTagId}/overview</pattern>
-        <view-id>/include/tags/tagsoverview.faces</view-id>
+        <view-id>/include/tags/tagsmain.faces</view-id>
         <action>#{tagsBackingBean.loadEntity}</action>
     </url-mapping>
-
+    <url-mapping id="alltags">
+        <pattern>/alltags/overview</pattern>
+        <view-id>/include/tags/tagsoverview.faces</view-id>
+    </url-mapping>
 </pretty-config>

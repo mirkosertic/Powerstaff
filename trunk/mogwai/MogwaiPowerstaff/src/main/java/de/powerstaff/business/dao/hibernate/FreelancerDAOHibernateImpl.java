@@ -20,10 +20,7 @@ package de.powerstaff.business.dao.hibernate;
 import de.powerstaff.business.dao.FreelancerDAO;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dto.ProfileSearchInfoDetail;
-import de.powerstaff.business.entity.ContactType;
-import de.powerstaff.business.entity.Freelancer;
-import de.powerstaff.business.entity.ProjectPosition;
-import de.powerstaff.business.entity.SavedProfileSearch;
+import de.powerstaff.business.entity.*;
 import de.powerstaff.business.service.OptimisticLockException;
 import de.powerstaff.business.service.ReferenceExistsException;
 import org.apache.commons.lang.StringUtils;
@@ -250,5 +247,27 @@ public class FreelancerDAOHibernateImpl extends
         }
 
         super.delete(aEntity);
+    }
+
+    @Override
+    public List<Freelancer> findByTag(final Tag aTag) {
+        return (List<Freelancer>) getHibernateTemplate().execute(
+                new HibernateCallback() {
+
+                    public Object doInHibernate(Session aSession)
+                            throws SQLException {
+                        List<Freelancer> theResult = new ArrayList<Freelancer>();
+
+                        Query theQuery = aSession
+                                .createQuery("select distinct f from Freelancer f left join f.tags t where t.tag.id = " + aTag.getId() + " order by f.name1, f.name2");
+                        for (Iterator theIterator = theQuery.iterate(); theIterator
+                                .hasNext(); ) {
+                            theResult.add((Freelancer) theIterator.next());
+                        }
+
+                        return theResult;
+                    }
+
+                });
     }
 }

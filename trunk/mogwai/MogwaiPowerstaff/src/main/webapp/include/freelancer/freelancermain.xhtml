@@ -538,7 +538,7 @@
                                             <f:param value="#{freelancertotag.tag.id}"/>
                                             <h:outputText value="#{freelancertotag.tag.name}"/>
                                         </pretty:link>
-                                        <a4j:commandLink styleClass="delete" action="#{freelancerBackingBean.removeTagSchwerpunkt}" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
+                                        <a4j:commandLink styleClass="delete" action="#{freelancerBackingBean.removeTagSchwerpunkt}" oncomplete="markChanged()"  reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
                                             <f:setPropertyActionListener value="#{freelancertotag.tag.id}" target="#{freelancerBackingBean.data.tagIdSchwerpunkt}"/>
                                             <h:outputText value="X"/>
                                         </a4j:commandLink>
@@ -575,7 +575,7 @@
                                             <f:param value="#{freelancertotag.tag.id}"/>
                                             <h:outputText value="#{freelancertotag.tag.name}"/>
                                         </pretty:link>
-                                        <a4j:commandLink styleClass="delete" action="#{freelancerBackingBean.removeTagFunktion}" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
+                                        <a4j:commandLink styleClass="delete" action="#{freelancerBackingBean.removeTagFunktion}" oncomplete="markChanged()" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
                                             <f:setPropertyActionListener value="#{freelancertotag.tag.id}" target="#{freelancerBackingBean.data.tagIdFunktion}"/>
                                             <h:outputText value="X"/>
                                         </a4j:commandLink>
@@ -612,7 +612,7 @@
                                             <f:param value="#{freelancertotag.tag.id}"/>
                                             <h:outputText value="#{freelancertotag.tag.name}"/>
                                         </pretty:link>
-                                        <a4j:commandLink styleClass="delete" action="#{freelancerBackingBean.removeTagEinsatzort}" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
+                                        <a4j:commandLink styleClass="delete" action="#{freelancerBackingBean.removeTagEinsatzort}" oncomplete="markChanged()" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
                                             <f:setPropertyActionListener value="#{freelancertotag.tag.id}" target="#{freelancerBackingBean.data.tagIdEinsatzOrt}"/>
                                             <h:outputText value="X"/>
                                         </a4j:commandLink>
@@ -649,7 +649,7 @@
                                             <f:param value="#{freelancertotag.tag.id}"/>
                                             <h:outputText value="#{freelancertotag.tag.name}"/>
                                         </pretty:link>
-                                        <a4j:commandLink styleClass="delete" action="#{freelancerBackingBean.removeTagBemerkung}" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
+                                        <a4j:commandLink styleClass="delete" action="#{freelancerBackingBean.removeTagBemerkung}" oncomplete="markChanged()" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
                                             <f:setPropertyActionListener value="#{freelancertotag.tag.id}" target="#{freelancerBackingBean.data.tagIdBemerkung}"/>
                                             <h:outputText value="X"/>
                                         </a4j:commandLink>

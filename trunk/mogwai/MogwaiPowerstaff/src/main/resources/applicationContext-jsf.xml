@@ -64,4 +64,10 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <property name="consumerSecret" value="f6f6762fd1a586ee39b2dfb3a4e68354946a42a9"/>
     </bean>
 
+    <bean name="tagsBackingBean" class="de.powerstaff.web.backingbean.tags.TagsBackingBean"
+          scope="request">
+        <property name="tagService" ref="tagService"/>
+        <property name="freelancerService" ref="freelancerService"/>
+    </bean>
+
 </beans>

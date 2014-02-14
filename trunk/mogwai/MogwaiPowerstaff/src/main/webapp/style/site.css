@@ -161,6 +161,11 @@ a {
 	overflow: hidden;
     min-height: 30px;
 }
+
+.tagsWide {
+    width: 380px;
+}
+
 .tags .newtag {
 	float: left;
 	width: 98%;

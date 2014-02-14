@@ -6,6 +6,7 @@ import de.powerstaff.business.entity.Tag;
 import de.powerstaff.business.entity.TagType;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
@@ -26,6 +27,26 @@ public class TagDAOHibernateImpl extends GenericDaoHibernateImpl implements TagD
                 Criteria theCriteria = aSession.createCriteria(Tag.class);
                 theCriteria.add(Restrictions.ilike("name", aSuggest.toLowerCase() + "%"));
                 theCriteria.add(Restrictions.eq("type", aTagType));
+                theCriteria.addOrder(Order.asc("name"));
+                theResult.addAll(theCriteria.list());
+
+                return theResult;
+            }
+
+        });
+    }
+
+    @Override
+    public List<Tag> findTagsBy(final TagType aTagType) {
+        return (List<Tag>) getHibernateTemplate().execute(new HibernateCallback() {
+
+            public Object doInHibernate(Session aSession) throws SQLException {
+
+                List<Tag> theResult = new ArrayList<Tag>();
+
+                Criteria theCriteria = aSession.createCriteria(Tag.class);
+                theCriteria.add(Restrictions.eq("type", aTagType));
+                theCriteria.addOrder(Order.asc("name"));
                 theResult.addAll(theCriteria.list());
 
                 return theResult;

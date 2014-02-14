@@ -10,4 +10,6 @@ public interface TagService {
     List<Tag> findTagsSuggestion(String aSuggest, TagType aTagType);
 
     Tag getTagByID(Long aTagID);
+
+    List<Tag> findTagsBy(TagType aTagType);
 }

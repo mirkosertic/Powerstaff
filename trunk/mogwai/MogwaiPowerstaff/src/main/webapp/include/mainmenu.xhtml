@@ -3,6 +3,11 @@
            xmlns:h="http://java.sun.com/jsf/html"
            xmlns:b="http://mogwai.sourceforge.net/layout"
            xmlns:a4j="http://richfaces.org/a4j" xmlns:pretty="http://ocpsoft.com/prettyfaces">
+    <pretty:link mappingId="alltags" styleClass="menuitem2"
+                     onclick="if (!checkForChangedData()) {return false;}" id="tagsmain">
+        <h:outputText value="Alle Tags"/>
+    </pretty:link>
+    <f:verbatim>|</f:verbatim>
     <pretty:link mappingId="freelancermain" styleClass="menuitem2"
                  onclick="if (!checkForChangedData()) {return false;}" id="freelancermain">
         <f:param value="new"/>
