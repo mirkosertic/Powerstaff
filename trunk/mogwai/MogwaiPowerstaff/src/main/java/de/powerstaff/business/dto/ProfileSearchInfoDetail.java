@@ -17,14 +17,14 @@
  */
 package de.powerstaff.business.dto;
 
-import de.mogwai.common.business.dto.DataTransferObject;
 import de.powerstaff.business.entity.FreelancerContact;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ProfileSearchInfoDetail extends DataTransferObject {
+public class ProfileSearchInfoDetail implements Serializable {
 
     private static final long serialVersionUID = -5622749387352518250L;
 

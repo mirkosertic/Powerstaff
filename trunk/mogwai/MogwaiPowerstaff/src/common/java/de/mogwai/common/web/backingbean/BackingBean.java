@@ -16,8 +16,6 @@
  */
 package de.mogwai.common.web.backingbean;
 
-import de.mogwai.common.utils.Navigatable;
-
 import java.io.Serializable;
 
 /**
@@ -26,7 +24,7 @@ import java.io.Serializable;
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:17:10 $
  */
-public abstract class BackingBean implements Navigatable, Serializable {
+public abstract class BackingBean implements Serializable {
 
     private static final long serialVersionUID = -6152673765217442475L;
 

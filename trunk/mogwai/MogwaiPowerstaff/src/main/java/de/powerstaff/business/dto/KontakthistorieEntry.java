@@ -17,16 +17,13 @@
  */
 package de.powerstaff.business.dto;
 
-import de.mogwai.common.business.dto.DataTransferObject;
 import de.powerstaff.business.entity.HistoryType;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class KontakthistorieEntry extends DataTransferObject {
+public class KontakthistorieEntry implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 5648351697219539516L;
 
     private Date datum;

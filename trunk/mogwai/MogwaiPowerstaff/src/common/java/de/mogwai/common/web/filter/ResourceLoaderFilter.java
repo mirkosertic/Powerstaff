@@ -16,17 +16,14 @@
  */
 package de.mogwai.common.web.filter;
 
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Filter, mit welchem Resourcen geladen werden können.
@@ -34,7 +31,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:19:06 $
  */
-public class ResourceLoaderFilter extends BaseFilter {
+public class ResourceLoaderFilter implements Filter {
+
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ResourceLoaderFilter.class);
 
     private static final String INIT_PARAM_BASE_RESOURCE_NAME = "baseResourceName";
 
@@ -52,7 +51,7 @@ public class ResourceLoaderFilter extends BaseFilter {
             baseResourceName += "/";
         }
 
-        logger.logDebug("Configured for " + baseResourceName);
+        LOGGER.info("Configured for " + baseResourceName);
     }
 
     public void doFilter(ServletRequest aRequest, ServletResponse aResponse, FilterChain aChain) throws IOException,
@@ -74,7 +73,7 @@ public class ResourceLoaderFilter extends BaseFilter {
 
         String theResource = baseResourceName + theRequestURI;
 
-        logger.logDebug("Trying to access resource " + theResource);
+        LOGGER.debug("Trying to access resource {}", theResource);
 
         InputStream theInputStream = getClass().getResourceAsStream(theResource);
         if (theInputStream != null) {
@@ -95,6 +94,6 @@ public class ResourceLoaderFilter extends BaseFilter {
     }
 
     public void destroy() {
-        logger.logDebug("Filter destroyed");
+        LOGGER.info("Filter destroyed");
     }
 }

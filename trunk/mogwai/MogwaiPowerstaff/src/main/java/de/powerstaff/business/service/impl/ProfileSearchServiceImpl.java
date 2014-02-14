@@ -17,9 +17,7 @@
  */
 package de.powerstaff.business.service.impl;
 
-import de.mogwai.common.business.service.impl.LogableService;
 import de.mogwai.common.usercontext.UserContextHolder;
-import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.dao.ProfileSearchDAO;
 import de.powerstaff.business.dto.DataPage;
 import de.powerstaff.business.dto.ProfileSearchEntry;
@@ -47,6 +45,7 @@ import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.SearchFactory;
 import org.hibernate.search.store.DirectoryProvider;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,8 +59,11 @@ import java.util.Set;
 /**
  * @author Mirko Sertic
  */
-public class ProfileSearchServiceImpl extends LogableService implements
+public class ProfileSearchServiceImpl implements
         ProfileSearchService {
+
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ProfileSearchServiceImpl.class);
+
     {
         BooleanQuery.setMaxClauseCount(8192);
     }
@@ -190,7 +192,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
 
         Query theQuery = getRealQuery(aRequest, theAnalyzer);
 
-        logger.logInfo("Search query is " + theQuery + " from " + startRow
+        LOGGER.info("Search query is " + theQuery + " from " + startRow
                 + " with pagesize " + pageSize);
 
         Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(
@@ -207,7 +209,7 @@ public class ProfileSearchServiceImpl extends LogableService implements
             }
         }
 
-        logger.logInfo("Query with ignore is " + theRealQuery);
+        LOGGER.info("Query with ignore is " + theRealQuery);
 
         Sort theSort = null;
         if (!StringUtils.isEmpty(aRequest.getSortierung())) {

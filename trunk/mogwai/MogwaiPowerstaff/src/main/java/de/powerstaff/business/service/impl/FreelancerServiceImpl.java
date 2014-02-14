@@ -27,7 +27,7 @@ import de.powerstaff.business.service.*;
 import java.util.Collection;
 import java.util.List;
 
-public class FreelancerServiceImpl extends LogableService implements
+public class FreelancerServiceImpl implements
         FreelancerService {
 
     private FreelancerDAO freelancerDAO;

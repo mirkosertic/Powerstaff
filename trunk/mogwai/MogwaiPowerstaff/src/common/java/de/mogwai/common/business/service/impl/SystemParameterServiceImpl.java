@@ -16,15 +16,15 @@
  */
 package de.mogwai.common.business.service.impl;
 
-import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import de.mogwai.common.business.entity.SystemParameter;
 import de.mogwai.common.business.enums.BaseEnumItemEnum;
 import de.mogwai.common.business.service.SystemParameterService;
 import de.mogwai.common.dao.SystemParameterDao;
+
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Service Implementation für Systemparameter. Die Systemparameter werden nicht
@@ -35,7 +35,7 @@ import de.mogwai.common.dao.SystemParameterDao;
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:27:35 $
  */
-public class SystemParameterServiceImpl extends LogableService implements SystemParameterService {
+public class SystemParameterServiceImpl implements SystemParameterService {
 
     private SystemParameterDao systemParameterDao;
 

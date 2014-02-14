@@ -17,7 +17,6 @@
  */
 package de.powerstaff.business.service.impl;
 
-import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dao.ProjectDAO;
 import de.powerstaff.business.entity.*;
@@ -26,7 +25,7 @@ import de.powerstaff.business.service.*;
 import java.util.Collection;
 import java.util.List;
 
-public class ProjectServiceImpl extends LogableService implements ProjectService {
+public class ProjectServiceImpl implements ProjectService {
 
     private ProjectDAO projectDAO;
 

@@ -17,7 +17,7 @@
  */
 package de.powerstaff.business.service;
 
-import de.mogwai.common.logging.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.io.File;
@@ -25,7 +25,7 @@ import java.util.*;
 
 public class FSCache implements InitializingBean {
 
-    private static final Logger LOGGER = new Logger(FSCache.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FSCache.class);
 
     private static final String PROFIL_PREFIX = "profil ";
     private static final int SLEEP_IN_MS = 1000 * 60 * 10; // 10 Minuten
@@ -48,12 +48,12 @@ public class FSCache implements InitializingBean {
         public void run() {
             while (!interrupted()) {
 
-                LOGGER.logInfo("Scanning directory " + directoriesToWatch);
+                LOGGER.info("Scanning directory {}", directoriesToWatch);
 
                 if (lastRunFiles != null) {
                     for (File theFile : lastRunFiles) {
                         if (!theFile.exists()) {
-                            LOGGER.logInfo("File was deleted in the meantime : " + theFile);
+                            LOGGER.info("File was deleted in the meantime : {}", theFile);
                             removeFromCache(theFile);
                         }
                     }
@@ -68,12 +68,12 @@ public class FSCache implements InitializingBean {
 
                 lastRunFiles = theCurrentContent;
 
-                LOGGER.logInfo("Scanning finished of " + directory);
+                LOGGER.info("Scanning finished of {}", directory);
 
                 try {
                     sleep(SLEEP_IN_MS);
                 } catch (Exception e) {
-                    LOGGER.logError("Error sleeping ", e);
+                    LOGGER.error("Error sleeping ", e);
                 }
             }
         }
@@ -132,7 +132,7 @@ public class FSCache implements InitializingBean {
                 fileCache.put(aCode, theFileSet);
             }
             if (!theFileSet.contains(aFile)) {
-                LOGGER.logInfo("Adding new file to cache " + aFile);
+                LOGGER.info("Adding new file to cache {}", aFile);
                 theFileSet.add(aFile);
             }
         }

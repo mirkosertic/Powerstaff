@@ -16,19 +16,20 @@
  */
 package de.mogwai.common.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.faces.application.Application;
 import javax.faces.application.ApplicationFactory;
 
-import de.mogwai.common.logging.Logger;
-
 public class MogwaiApplicationFactory extends ApplicationFactory {
 
-    private static final Logger LOGGER = new Logger(MogwaiApplicationFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MogwaiApplicationFactory.class);
 
     private Application application;
 
     public MogwaiApplicationFactory() {
-        LOGGER.logDebug("Initing ApplicationFactory");
+        LOGGER.debug("Initing ApplicationFactory");
         application = new MogwaiApplicationImpl();
     }
 

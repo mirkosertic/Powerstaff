@@ -16,18 +16,17 @@
  */
 package de.mogwai.common.web.component.renderkit.html.action;
 
-import java.io.IOException;
+import de.mogwai.common.web.component.action.AbstractCommandComponent;
+import de.mogwai.common.web.component.renderkit.html.BaseRenderer;
+import de.mogwai.common.web.utils.JSFJavaScriptFactory;
+import de.mogwai.common.web.utils.JSFJavaScriptUtilities;
+import org.slf4j.LoggerFactory;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.event.ActionEvent;
-
-import de.mogwai.common.logging.Logger;
-import de.mogwai.common.web.component.action.AbstractCommandComponent;
-import de.mogwai.common.web.component.renderkit.html.BaseRenderer;
-import de.mogwai.common.web.utils.JSFJavaScriptFactory;
-import de.mogwai.common.web.utils.JSFJavaScriptUtilities;
+import java.io.IOException;
 
 /**
  * Base class for action renderer.
@@ -37,7 +36,7 @@ import de.mogwai.common.web.utils.JSFJavaScriptUtilities;
  */
 public abstract class BaseCommandRenderer extends BaseRenderer {
 
-    private static final Logger LOGGER = new Logger(BaseCommandRenderer.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(BaseCommandRenderer.class);
 
     protected BaseCommandRenderer() {
     }
@@ -59,15 +58,14 @@ public abstract class BaseCommandRenderer extends BaseRenderer {
 
                 theUtilities.markGUIDAsUsed(aContext, theGUID);
 
-                LOGGER.logDebug("Invoking action method for component " + theComponent
-                        + " as it was the action source : " + theSource);
+                LOGGER.debug("Invoking action method for component {} as it was the action source : {}", theComponent, theSource);
 
                 ActionEvent theActionEvent = new ActionEvent(theComponent);
                 theComponent.queueEvent(theActionEvent);
 
             } else {
 
-                LOGGER.logDebug("Browser refresh detected. GUID " + theGUID + " already used");
+                LOGGER.debug("Browser refresh detected. GUID {} already used", theGUID);
 
             }
         }

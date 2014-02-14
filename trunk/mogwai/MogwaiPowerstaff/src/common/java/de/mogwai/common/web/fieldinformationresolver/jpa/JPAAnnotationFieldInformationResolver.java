@@ -16,21 +16,19 @@
  */
 package de.mogwai.common.web.fieldinformationresolver.jpa;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
+import de.mogwai.common.web.FieldInformationResolver;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.LoggerFactory;
 
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 import javax.persistence.Column;
-
-import org.apache.commons.beanutils.PropertyUtils;
-
-import de.mogwai.common.logging.Logger;
-import de.mogwai.common.web.FieldInformationResolver;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 
 public class JPAAnnotationFieldInformationResolver implements FieldInformationResolver {
 
-    private static final Logger LOGGER = new Logger(JPAAnnotationFieldInformationResolver.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(JPAAnnotationFieldInformationResolver.class);
 
     public Integer getMaxLengthInformationProvided(Application aApplication, FacesContext aContext, Object aBase,
             String aProperty) {
@@ -52,7 +50,7 @@ public class JPAAnnotationFieldInformationResolver implements FieldInformationRe
             return null;
 
         } catch (Exception e) {
-            LOGGER.logError("Error", e);
+            LOGGER.error("Error", e);
             return null;
         }
     }
@@ -76,7 +74,7 @@ public class JPAAnnotationFieldInformationResolver implements FieldInformationRe
             return null;
 
         } catch (Exception e) {
-            LOGGER.logError("Error", e);
+            LOGGER.error("Error", e);
             return null;
         }
     }

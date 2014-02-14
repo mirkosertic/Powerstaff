@@ -16,15 +16,14 @@
  */
 package de.mogwai.common.web;
 
-import javax.faces.context.FacesContext;
-
 import org.apache.myfaces.el.ValueBindingImpl;
+import org.slf4j.LoggerFactory;
 
-import de.mogwai.common.logging.Logger;
+import javax.faces.context.FacesContext;
 
 public class MogwaiValueBindingImpl extends ValueBindingImpl implements FieldInformationProvider {
 
-    private static final Logger LOGGER = new Logger(MogwaiValueBindingImpl.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MogwaiValueBindingImpl.class);
 
     public MogwaiValueBindingImpl(MogwaiApplicationImpl aApplication, String aExpression) {
         super(aApplication, aExpression);
@@ -70,7 +69,7 @@ public class MogwaiValueBindingImpl extends ValueBindingImpl implements FieldInf
         try {
             theValue = resolveToBaseAndProperty(getFacesContext());
         } catch (Exception e) {
-            LOGGER.logError("Cannot resolve " + getExpressionString(), e);
+            LOGGER.error("Cannot resolve " + getExpressionString(), e);
             return null;
         }
 

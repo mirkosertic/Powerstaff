@@ -4,6 +4,7 @@ import de.mogwai.common.usercontext.Authenticatable;
 import de.mogwai.common.usercontext.UserContext;
 import de.mogwai.common.usercontext.UserContextHolder;
 import org.apache.log4j.NDC;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import java.io.IOException;
@@ -14,25 +15,18 @@ import java.io.IOException;
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:19:08 $
  */
-public class PromoteUserIDToLog4JNDCFilter extends BaseFilter {
+public class PromoteUserIDToLog4JNDCFilter implements Filter {
 
-    /**
-     * {@inheritDoc}
-     */
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(PromoteUserIDToLog4JNDCFilter.class);
+
     public void init(FilterConfig aConfig) throws ServletException {
-        logger.logDebug("init");
+        LOGGER.info("init");
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public void destroy() {
-        logger.logDebug("destroy");
+        LOGGER.info("destroy");
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public void doFilter(ServletRequest aRequest, ServletResponse aResponse, FilterChain aChain) throws IOException,
             ServletException {
 

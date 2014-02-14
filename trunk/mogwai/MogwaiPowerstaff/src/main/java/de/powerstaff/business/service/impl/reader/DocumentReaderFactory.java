@@ -17,12 +17,12 @@
  */
 package de.powerstaff.business.service.impl.reader;
 
-import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.impl.reader.msword.DOCWordDocumentReader;
 import de.powerstaff.business.service.impl.reader.msword.DOCXWordDocumentReader;
 import de.powerstaff.business.service.impl.reader.pdf.PDFDocumentReader;
 import de.powerstaff.business.service.impl.reader.txt.TextDocumentReader;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.HashMap;
@@ -33,7 +33,9 @@ import java.util.Map;
  *
  * @author sertic
  */
-public class DocumentReaderFactory extends LogableService {
+public class DocumentReaderFactory {
+
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DocumentReaderFactory.class);
 
     private PowerstaffSystemParameterService systemParameterService;
 
@@ -62,7 +64,7 @@ public class DocumentReaderFactory extends LogableService {
 
             for (Map.Entry<String, DocumentReader> theEntry : availableReaders
                     .entrySet()) {
-                logger.logDebug("Supporting file format " + theEntry.getKey());
+                LOGGER.debug("Supporting file format " + theEntry.getKey());
             }
         }
     }

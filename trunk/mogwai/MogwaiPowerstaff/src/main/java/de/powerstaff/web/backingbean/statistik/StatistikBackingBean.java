@@ -17,13 +17,13 @@
  */
 package de.powerstaff.web.backingbean.statistik;
 
-import de.mogwai.common.logging.Logger;
 import de.mogwai.common.web.backingbean.WrappingBackingBean;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.dto.KontakthistorieEntry;
 import de.powerstaff.business.service.AdditionalDataService;
 import de.powerstaff.business.service.StatisticService;
 import de.powerstaff.web.backingbean.MessageConstants;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import javax.faces.component.StateHolder;
@@ -37,7 +37,7 @@ public class StatistikBackingBean extends
 
     private static final long serialVersionUID = -3411470666529912902L;
 
-    private static final Logger LOGGER = new Logger(StatistikBackingBean.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(StatistikBackingBean.class);
 
     private transient StatisticService statisticService;
 
@@ -100,7 +100,7 @@ public class StatistikBackingBean extends
         } catch (Exception e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERSUCHE, e
                     .getMessage());
-            LOGGER.logError("Fehler bei Suche", e);
+            LOGGER.error("Fehler bei Suche", e);
         }
     }
 }

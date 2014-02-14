@@ -1,6 +1,6 @@
 /**
  * Copyright 2002 - 2007 the Mogwai Project.
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -16,25 +16,24 @@
  */
 package de.mogwai.common.web.component.renderkit.html;
 
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.slf4j.LoggerFactory;
+
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Properties;
 
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-
-import de.mogwai.common.logging.Logger;
-
 /**
  * Renderer that supports velocity templates.
- * 
+ *
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:39:01 $
  */
 public class VelocityRenderer extends BaseRenderer {
 
-    private static final Logger LOGGER = new Logger(VelocityRenderer.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(VelocityRenderer.class);
 
     private VelocityEngine theEngine = new VelocityEngine();
 
@@ -51,14 +50,14 @@ public class VelocityRenderer extends BaseRenderer {
             theContext.put(theKey, aParams.get(theKey));
         }
 
-        LOGGER.logDebug("Rendering template " + aTemplateName);
+        LOGGER.debug("Rendering template {]", aTemplateName);
 
         Template theTemplate = theEngine.getTemplate(aTemplateName);
 
         try {
             theTemplate.merge(theContext, aWriter);
         } catch (Exception e) {
-            LOGGER.logError("Error during rendering", e);
+            LOGGER.error("Error during rendering", e);
             throw e;
         }
     }
@@ -73,7 +72,7 @@ public class VelocityRenderer extends BaseRenderer {
         try {
             theEngine.init(theProperies);
         } catch (Exception e) {
-            LOGGER.logError("Error initializing velocity engine", e);
+            LOGGER.error("Error initializing velocity engine", e);
             throw new RuntimeException(e);
         }
     }

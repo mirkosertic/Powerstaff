@@ -16,19 +16,17 @@
  */
 package de.mogwai.common.web;
 
-import java.util.Map;
-
-import javax.faces.el.ValueBinding;
-
+import de.mogwai.common.web.fieldinformationresolver.jpa.JPAAnnotationFieldInformationResolver;
 import org.apache.myfaces.application.ApplicationImpl;
 import org.apache.myfaces.shared_impl.util.BiLevelCacheMap;
+import org.slf4j.LoggerFactory;
 
-import de.mogwai.common.logging.Logger;
-import de.mogwai.common.web.fieldinformationresolver.jpa.JPAAnnotationFieldInformationResolver;
+import javax.faces.el.ValueBinding;
+import java.util.Map;
 
 public class MogwaiApplicationImpl extends ApplicationImpl {
 
-    private static final Logger LOGGER = new Logger(MogwaiApplicationImpl.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MogwaiApplicationImpl.class);
 
     private FieldInformationResolver fieldInformationResolver;
 
@@ -43,7 +41,7 @@ public class MogwaiApplicationImpl extends ApplicationImpl {
     @Override
     public ValueBinding createValueBinding(String reference) {
         if ((reference == null) || (reference.length() == 0)) {
-            LOGGER.logError("createValueBinding: reference = null is not allowed");
+            LOGGER.error("createValueBinding: reference = null is not allowed");
             throw new NullPointerException("createValueBinding: reference = null is not allowed");
         }
 

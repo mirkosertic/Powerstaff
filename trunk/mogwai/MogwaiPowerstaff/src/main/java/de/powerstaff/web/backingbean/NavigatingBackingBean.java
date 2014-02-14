@@ -1,19 +1,19 @@
 package de.powerstaff.web.backingbean;
 
 import de.mogwai.common.business.entity.Entity;
-import de.mogwai.common.logging.Logger;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.service.NavigatingService;
 import de.powerstaff.business.service.OptimisticLockException;
 import de.powerstaff.business.service.RecordInfo;
 import de.powerstaff.business.service.ReferenceExistsException;
+import org.slf4j.LoggerFactory;
 
 public abstract class NavigatingBackingBean<T extends Entity, V extends NavigatingBackingBeanDataModel, S extends NavigatingService<T>>
         extends EntityEditorBackingBean<V> {
 
     private static final long serialVersionUID = -7505086677065098879L;
 
-    private static final Logger LOGGER = new Logger(NavigatingBackingBean.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(NavigatingBackingBean.class);
 
     protected S entityService;
 
@@ -101,14 +101,14 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
 
         } catch (ReferenceExistsException e) {
 
-            LOGGER.logError("Fehler beim Löschen", e);
+            LOGGER.error("Fehler beim Löschen", e);
             JSFMessageUtils.addGlobalErrorMessage(MSG_ESEXISTIERENABHAENGIGEDATEN);
 
         } catch (OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         } catch (Exception e) {
 
-            LOGGER.logError("Fehler beim Löschen", e);
+            LOGGER.error("Fehler beim Löschen", e);
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMLOESCHEN);
         }
         return null;
@@ -126,7 +126,7 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         } catch (Exception e) {
 
-            LOGGER.logError("Fehler beim Speichern", e);
+            LOGGER.error("Fehler beim Speichern", e);
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMSPEICHERN, e.getMessage());
         }
         return null;

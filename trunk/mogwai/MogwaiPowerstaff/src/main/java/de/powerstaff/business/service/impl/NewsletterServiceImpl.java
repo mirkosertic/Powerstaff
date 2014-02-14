@@ -29,6 +29,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import javax.activation.DataHandler;
@@ -45,7 +46,9 @@ import java.util.Collection;
 import java.util.Properties;
 import java.util.Vector;
 
-public class NewsletterServiceImpl extends LogableService implements NewsletterService {
+public class NewsletterServiceImpl implements NewsletterService {
+
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(NewsletterServiceImpl.class);
 
     private static final String SERVICE_ID = "Newsletter";
 
@@ -96,11 +99,11 @@ public class NewsletterServiceImpl extends LogableService implements NewsletterS
     public void sendNewsletter(boolean aDebugMode, String aDebugAdress) {
 
         if (!systemParameterService.isNewsletterEnabled() && !aDebugMode) {
-            logger.logInfo("Newsletter wurde deaktiviert");
+            LOGGER.info("Newsletter wurde deaktiviert");
             return;
         }
 
-        logger.logDebug("Sending newsletter");
+        LOGGER.debug("Sending newsletter");
 
         Properties theMailProperties = new Properties();
         theMailProperties.put("mail.smtp.debug", Boolean.TRUE);
@@ -116,7 +119,7 @@ public class NewsletterServiceImpl extends LogableService implements NewsletterS
 
         Vector theProjects = new Vector();
 
-        logger.logDebug("Retrieving projects");
+        LOGGER.debug("Retrieving projects");
 
         for (WebProject theWebProject : websiteDAO.getCurrentProjects()) {
 
@@ -142,11 +145,11 @@ public class NewsletterServiceImpl extends LogableService implements NewsletterS
             }
         }
 
-        logger.logDebug("Retrieving emails");
+        LOGGER.debug("Retrieving emails");
 
         Collection<NewsletterMail> theReceiver = websiteDAO.getConfirmedMails();
 
-        logger.logDebug("Sending mails for " + theReceiver.size() + " receiver");
+        LOGGER.debug("Sending mails for " + theReceiver.size() + " receiver");
 
         final Vector<NewsletterMail> theErrors = new Vector<NewsletterMail>();
 
@@ -163,7 +166,7 @@ public class NewsletterServiceImpl extends LogableService implements NewsletterS
         try {
             theEngine.init(theProperties);
         } catch (Exception e2) {
-            logger.logError("Error initializing velocity", e2);
+            LOGGER.error("Error initializing velocity", e2);
             return;
         }
 
@@ -174,7 +177,7 @@ public class NewsletterServiceImpl extends LogableService implements NewsletterS
         try {
             theTemplate = theEngine.getTemplate(systemParameterService.getNewsletterTemplate());
         } catch (Exception e2) {
-            logger.logError("Error retrieving mail template", e2);
+            LOGGER.error("Error retrieving mail template", e2);
             return;
         }
 
@@ -196,10 +199,10 @@ public class NewsletterServiceImpl extends LogableService implements NewsletterS
 
                 theCounter++;
 
-                logger.logDebug("Processing mail " + theMail.getMail());
+                LOGGER.debug("Processing mail " + theMail.getMail());
 
                 if (theCounter % 10 == 0) {
-                    logger.logDebug(theCounter + " mails sent");
+                    LOGGER.debug(theCounter + " mails sent");
                 }
 
                 try {
@@ -249,11 +252,11 @@ public class NewsletterServiceImpl extends LogableService implements NewsletterS
                             try {
                                 theMailSender.send(theMessage);
 
-                                logger.logDebug("Mail to " + theFinalMail.getMail() + " successfully sent");
+                                LOGGER.debug("Mail to " + theFinalMail.getMail() + " successfully sent");
 
                             } catch (Exception e) {
 
-                                logger.logError("Error sending mail", e);
+                                LOGGER.debug("Error sending mail", e);
 
                                 theErrors.add(theFinalMail);
 
@@ -272,7 +275,7 @@ public class NewsletterServiceImpl extends LogableService implements NewsletterS
 
                         int theSleepInterval = systemParameterService.getNewsletterSleepIntervall();
 
-                        logger.logDebug("Going to sleep for " + theSleepInterval + "ms");
+                        LOGGER.debug("Going to sleep for " + theSleepInterval + "ms");
 
                         try {
                             Thread.sleep(theSleepInterval);
@@ -284,7 +287,7 @@ public class NewsletterServiceImpl extends LogableService implements NewsletterS
 
                 } catch (Exception e) {
 
-                    logger.logDebug("Error sending mail to " + theMail.getMail(), e);
+                    LOGGER.debug("Error sending mail to " + theMail.getMail(), e);
 
                 }
             }
@@ -293,7 +296,7 @@ public class NewsletterServiceImpl extends LogableService implements NewsletterS
 
         while (theQueue.isRunning()) {
 
-            logger.logDebug("Waiting for queue to finish. " + theQueue.size() + " entries left");
+            LOGGER.debug("Waiting for queue to finish. " + theQueue.size() + " entries left");
 
             try {
                 Thread.sleep(1000);
@@ -307,6 +310,6 @@ public class NewsletterServiceImpl extends LogableService implements NewsletterS
         serviceLogger.logEnd(SERVICE_ID, "" + theProjects.size() + " projects, " + theReceiver.size()
                 + " receiver, errors " + theErrors.size());
 
-        logger.logDebug("Completed");
+        LOGGER.debug("Completed");
     }
 }

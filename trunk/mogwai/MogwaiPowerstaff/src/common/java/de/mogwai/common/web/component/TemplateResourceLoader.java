@@ -16,14 +16,13 @@
  */
 package de.mogwai.common.web.component;
 
-import java.io.InputStream;
-
 import org.apache.commons.collections.ExtendedProperties;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.Resource;
 import org.apache.velocity.runtime.resource.loader.ResourceLoader;
+import org.slf4j.LoggerFactory;
 
-import de.mogwai.common.logging.Logger;
+import java.io.InputStream;
 
 /**
  * Velocity resource loader for templates.
@@ -33,7 +32,7 @@ import de.mogwai.common.logging.Logger;
  */
 public class TemplateResourceLoader extends ResourceLoader {
 
-    private static final Logger LOGGER = new Logger(TemplateResourceLoader.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(TemplateResourceLoader.class);
 
     @Override
     public void init(ExtendedProperties aProperties) {
@@ -45,13 +44,13 @@ public class TemplateResourceLoader extends ResourceLoader {
 
             String theName = "/templates/" + aTemplateName;
 
-            LOGGER.logDebug("Trying to resolve resource " + theName);
+            LOGGER.debug("Trying to resolve resource {}", theName);
 
             return getClass().getClassLoader().getResourceAsStream(theName);
 
         } catch (Exception e) {
 
-            LOGGER.logError("Error resolving resource", e);
+            LOGGER.error("Error resolving resource", e);
 
             throw new ResourceNotFoundException("Cannot load template " + aTemplateName);
         }

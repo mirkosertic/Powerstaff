@@ -30,6 +30,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.*;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -37,8 +38,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class WrongDataServiceImpl extends LogableService implements
+public class WrongDataServiceImpl implements
         WrongDataService {
+
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(WrongDataServiceImpl.class);
 
     private PowerstaffSystemParameterService systemParameterService;
 
@@ -289,12 +292,12 @@ public class WrongDataServiceImpl extends LogableService implements
                 }
 
                 if (counter % theLogCount == 0) {
-                    logger.logInfo("Processing record " + counter);
+                    LOGGER.info("Processing record " + counter);
                 }
 
                 if (counter % theFetchSize == 0) {
 
-                    logger.logDebug("Flushing session");
+                    LOGGER.debug("Flushing session");
                     theSession.clear();
                 }
                 counter++;
@@ -333,7 +336,7 @@ public class WrongDataServiceImpl extends LogableService implements
                 }
             }
         } catch (Exception e) {
-            logger.logError("Error processing freelancer", e);
+            LOGGER.error("Error processing freelancer", e);
         } finally {
             IOUtils.closeQuietly(theDBOhneProfilWriter);
             IOUtils.closeQuietly(theFreelancerOhneNewsletterWriter);
@@ -377,7 +380,7 @@ public class WrongDataServiceImpl extends LogableService implements
                             }
                             theFilesForHash.add(theFile);
                         } catch (Exception e) {
-                            logger.logError("Error scanning file " + theFile, e);
+                            LOGGER.error("Error scanning file " + theFile, e);
                         } finally {
                             IOUtils.closeQuietly(theStream);
                         }
@@ -399,7 +402,7 @@ public class WrongDataServiceImpl extends LogableService implements
             }
 
         } catch (Exception e) {
-            logger.logError("Error processing files", e);
+            LOGGER.error("Error processing files", e);
         } finally {
             IOUtils.closeQuietly(theProfileDoppelterInhaltWriter);
         }
@@ -408,7 +411,7 @@ public class WrongDataServiceImpl extends LogableService implements
     @Override
     public void run() throws Exception {
 
-        logger.logInfo("Starting reporting for wrong data");
+        LOGGER.info("Starting reporting for wrong data");
 
         File theReportFile = new File(systemParameterService
                 .getWrongDataReportDir());
@@ -416,6 +419,6 @@ public class WrongDataServiceImpl extends LogableService implements
         processFreelancer(theReportFile);
         processFiles(theReportFile);
 
-        logger.logInfo("Finished");
+        LOGGER.info("Finished");
     }
 }

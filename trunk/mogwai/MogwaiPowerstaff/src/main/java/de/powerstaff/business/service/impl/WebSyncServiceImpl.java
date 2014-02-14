@@ -17,7 +17,6 @@
  */
 package de.powerstaff.business.service.impl;
 
-import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.ProjectDAO;
 import de.powerstaff.business.dao.WebsiteDAO;
 import de.powerstaff.business.entity.Project;
@@ -25,11 +24,14 @@ import de.powerstaff.business.entity.WebProject;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
 import de.powerstaff.business.service.ServiceLoggerService;
 import de.powerstaff.business.service.WebSyncService;
+import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 
-public class WebSyncServiceImpl extends LogableService implements WebSyncService {
+public class WebSyncServiceImpl implements WebSyncService {
+
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ProfileSearchServiceImpl.class);
 
     private static final String SERVICE_ID = "WebProjectSync";
 
@@ -89,7 +91,7 @@ public class WebSyncServiceImpl extends LogableService implements WebSyncService
 
         if (!aForce) {
             if (!systemParameterService.isWebSyncEnabled()) {
-                logger.logInfo("WebSync wurde deaktiviert");
+                LOGGER.info("WebSync wurde deaktiviert");
                 return;
             }
         }
@@ -100,9 +102,9 @@ public class WebSyncServiceImpl extends LogableService implements WebSyncService
 
         try {
 
-            logger.logDebug("Starting synchronize with web");
+            LOGGER.debug("Starting synchronize with web");
 
-            logger.logDebug("Deleting inaktive projects from web");
+            LOGGER.debug("Deleting inaktive projects from web");
 
             Collection<WebProject> theWebProjects = websiteDAO.getCurrentProjects();
             for (WebProject theWebProject : theWebProjects) {
@@ -112,8 +114,8 @@ public class WebSyncServiceImpl extends LogableService implements WebSyncService
 
                     websiteDAO.delete(theWebProject);
 
-                    logger
-                            .logDebug("Deleting project " + theWebProject.getId()
+                    LOGGER
+                            .debug("Deleting project " + theWebProject.getId()
                                     + " from web as it is no longer active");
                 }
             }
@@ -165,10 +167,10 @@ public class WebSyncServiceImpl extends LogableService implements WebSyncService
 
             serviceLogger.logEnd(SERVICE_ID, "Failed with error " + e.getMessage());
 
-            logger.logError("Failed", e);
+            LOGGER.error("Failed", e);
         }
 
-        logger.logDebug("Finished");
+        LOGGER.debug("Finished");
     }
 
     public ServiceLoggerService getServiceLogger() {
