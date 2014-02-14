@@ -21,6 +21,7 @@ import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.ProjectPosition;
 import de.powerstaff.business.entity.SavedProfileSearch;
+import de.powerstaff.business.entity.Tag;
 
 import java.util.List;
 
@@ -35,4 +36,6 @@ public interface FreelancerDAO extends PersonDAO<Freelancer> {
     Freelancer findByCodeReal(String aCode);
 
     List<ProjectPosition> findPositionsFor(Freelancer aFreelancer);
+
+    List<Freelancer> findByTag(Tag aTag);
 }

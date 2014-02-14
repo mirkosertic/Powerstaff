@@ -26,9 +26,6 @@ import java.util.List;
 
 public class ProfileSearchInfoDetail extends DataTransferObject {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -5622749387352518250L;
 
     private Long id;

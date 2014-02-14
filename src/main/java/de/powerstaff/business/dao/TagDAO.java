@@ -9,4 +9,6 @@ import java.util.List;
 public interface TagDAO extends DAO {
 
     List<Tag> findTagSuggestion(String aSuggest, TagType aTagType);
+
+    List<Tag> findTagsBy(TagType aTagType);
 }

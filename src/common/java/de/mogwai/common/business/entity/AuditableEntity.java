@@ -37,7 +37,6 @@ public class AuditableEntity extends Entity {
 	private String lastModificationUserID;
 
     public AuditableEntity() {
-        creationDate = new Timestamp(System.currentTimeMillis());
     }
 
 	public Timestamp getCreationDate() {

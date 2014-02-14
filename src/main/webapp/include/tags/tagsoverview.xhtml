@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:b="http://mogwai.sourceforge.net/layout"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:pretty="http://ocpsoft.com/prettyfaces"
+                template="/template/powerstaff.xhtml">
+    <ui:define name="pagetitle">
+        <h:outputText
+                value="Aktuelle Tags"/>
+    </ui:define>
+    <ui:define name="mainmenu">
+        <ui:include src="/include/mainmenu.xhtml"/>
+    </ui:define>
+    <ui:define name="contextmenu">
+    </ui:define>
+    <ui:define name="content">
+
+        <b:saveState value="#{tagsBackingBean}"/>
+
+        <b:gridBagLayout id="x" rows="p,10" cols="100,p">
+            <b:cell y="1" x="1">
+                <h:outputText styleClass="title" value="Aktuelle Tags"/>
+            </b:cell>
+
+            <b:cell y="1" x="2">
+                <a4j:status>
+                    <f:facet name="start">
+                        <img src="${facesContext.externalContext.requestContextPath}/images/rotate2.gif" width="20"
+                             height="20"/>
+                    </f:facet>
+                </a4j:status>
+            </b:cell>
+        </b:gridBagLayout>
+
+        <b:gridBagLayout cols="400,10,400" rows="30,10,1,p,10,p">
+            <b:cell x="1" y="1" width="3">
+                <b:titledBox label="Menu">
+                    <b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,right:*"
+                                     rows="20">
+                    </b:gridBagLayout>
+                </b:titledBox>
+            </b:cell>
+
+            <b:cell x="1" y="3" width="3">
+                <ui:include src="/include/messages.xhtml"/>
+            </b:cell>
+
+            <b:cell x="1" y="4">
+                <b:titledBox label="Schwerpunkte">
+                    <div class="tags tagsWide">
+                        <a4j:repeat value="#{tagsBackingBean.tagsSchwerpunkte}" var="tag">
+                            <div class="tag">
+                                <pretty:link styleClass="text" mappingId="tagoverview" title="Zeige alle Freiberufler mit diesem Tag">
+                                    <f:param value="#{tag.id}"/>
+                                    <h:outputText value="#{tag.name}"/>
+                                </pretty:link>
+                            </div>
+                        </a4j:repeat>
+                    </div>
+                </b:titledBox>
+            </b:cell>
+
+            <b:cell x="3" y="4">
+                <b:titledBox label="Funktionen">
+                    <div class="tags tagsWide">
+                        <a4j:repeat value="#{tagsBackingBean.tagsFunktionen}" var="tag">
+                            <div class="tag">
+                                <pretty:link styleClass="text" mappingId="tagoverview" title="Zeige alle Freiberufler mit diesem Tag">
+                                    <f:param value="#{tag.id}"/>
+                                    <h:outputText value="#{tag.name}"/>
+                                </pretty:link>
+                            </div>
+                        </a4j:repeat>
+                    </div>
+                </b:titledBox>
+            </b:cell>
+
+            <b:cell x="1" y="6">
+                <b:titledBox label="Einsatzorte">
+                    <div class="tags tagsWide">
+                        <a4j:repeat value="#{tagsBackingBean.tagsEinsatzorte}" var="tag">
+                            <div class="tag">
+                                <pretty:link styleClass="text" mappingId="tagoverview" title="Zeige alle Freiberufler mit diesem Tag">
+                                    <f:param value="#{tag.id}"/>
+                                    <h:outputText value="#{tag.name}"/>
+                                </pretty:link>
+                            </div>
+                        </a4j:repeat>
+                    </div>
+                </b:titledBox>
+            </b:cell>
+
+            <b:cell x="3" y="6">
+                <b:titledBox label="Bemerkungen">
+                    <div class="tags tagsWide">
+                        <a4j:repeat value="#{tagsBackingBean.tagsBemerkungen}" var="tag">
+                            <div class="tag">
+                                <pretty:link styleClass="text" mappingId="tagoverview" title="Zeige alle Freiberufler mit diesem Tag">
+                                    <f:param value="#{tag.id}"/>
+                                    <h:outputText value="#{tag.name}"/>
+                                </pretty:link>
+                            </div>
+                        </a4j:repeat>
+                    </div>
+                </b:titledBox>
+            </b:cell>
+        </b:gridBagLayout>
+    </ui:define>
+</ui:composition>	

@@ -19,6 +19,7 @@ package de.powerstaff.business.service;
 
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.ProjectPosition;
+import de.powerstaff.business.entity.Tag;
 
 import java.util.List;
 
@@ -29,4 +30,6 @@ public interface FreelancerService extends PersonService<Freelancer> {
     Freelancer findRealFreelancerByCode(String aCode);
 
     List<ProjectPosition> findPositionsFor(Freelancer aFreelancer);
+
+    List<Freelancer> findFreelancerByTag(Tag aTag);
 }
