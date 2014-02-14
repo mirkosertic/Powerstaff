@@ -18,12 +18,11 @@
 package de.powerstaff.business.service;
 
 import de.mogwai.common.business.entity.Entity;
-import de.mogwai.common.business.service.Service;
 import de.powerstaff.business.dao.GenericSearchResult;
 
 import java.util.Collection;
 
-public interface NavigatingService<T extends Entity> extends Service {
+public interface NavigatingService<T extends Entity> {
 
     T findByPrimaryKey(Long id);
 

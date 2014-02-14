@@ -17,14 +17,13 @@
  */
 package de.powerstaff.business.service;
 
-import de.mogwai.common.business.service.Service;
 import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.HistoryType;
 import de.powerstaff.business.entity.User;
 
 import java.util.List;
 
-public interface AdditionalDataService extends Service {
+public interface AdditionalDataService {
 
     List<ContactType> getContactTypes();
 

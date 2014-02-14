@@ -17,7 +17,6 @@
  */
 package de.powerstaff.business.service;
 
-import de.mogwai.common.business.service.Service;
 import de.powerstaff.business.dto.DataPage;
 import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.entity.Freelancer;
@@ -27,7 +26,7 @@ import de.powerstaff.business.entity.SavedProfileSearch;
 
 import java.util.List;
 
-public interface ProfileSearchService extends Service {
+public interface ProfileSearchService {
 
     void saveSearchRequest(SavedProfileSearch searchRequest, boolean cleanup) throws OptimisticLockException;
 
