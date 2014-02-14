@@ -19,13 +19,13 @@ package de.powerstaff.web.backingbean.login;
 
 import de.mogwai.common.business.service.LoginException;
 import de.mogwai.common.business.service.LoginService;
-import de.mogwai.common.logging.Logger;
 import de.mogwai.common.web.backingbean.WrappingBackingBean;
-import de.powerstaff.web.backingbean.XingConnectorBackingBean;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.web.backingbean.EntityEditorBackingBeanDataModel;
 import de.powerstaff.web.backingbean.MessageConstants;
+import de.powerstaff.web.backingbean.XingConnectorBackingBean;
 import de.powerstaff.web.backingbean.freelancer.FreelancerBackingBean;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.ui.WebAuthenticationDetails;
 
 import javax.faces.context.FacesContext;
@@ -35,11 +35,11 @@ public class LoginBackingBean extends
         WrappingBackingBean<LoginBackingBeanDataModel> implements
         MessageConstants {
 
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(LoginBackingBean.class);
+
     private static final long serialVersionUID = -8961543903559963065L;
 
     private transient LoginService loginService;
-
-    private static final Logger LOGGER = new Logger(LoginBackingBean.class);
 
     private FreelancerBackingBean freelancerBackingBean;
 
@@ -81,7 +81,7 @@ public class LoginBackingBean extends
             // Redirect auf die leere Freelancer Seite
             return "pretty:freelancermain";
         } catch (LoginException e) {
-            LOGGER.logError("Fehler beim Login", e);
+            LOGGER.error("Fehler beim Login", e);
             JSFMessageUtils.addGlobalErrorMessage(MSG_FALSCHESLOGIN);
             return null;
         }

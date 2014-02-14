@@ -16,23 +16,21 @@
  */
 package de.mogwai.common.web.component.renderkit.html.input;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-
-import org.apache.commons.beanutils.BeanUtils;
-
-import de.mogwai.common.logging.Logger;
 import de.mogwai.common.utils.ObjectProvider;
 import de.mogwai.common.web.component.input.BaseInputComponent;
 import de.mogwai.common.web.component.input.ComboboxComponent;
 import de.mogwai.common.web.component.input.ModalComponentUtils;
 import de.mogwai.common.web.utils.JSFJavaScriptFactory;
 import de.mogwai.common.web.utils.JSFJavaScriptUtilities;
+import org.apache.commons.beanutils.BeanUtils;
+import org.slf4j.LoggerFactory;
+
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Combobox renderer.
@@ -51,7 +49,7 @@ import de.mogwai.common.web.utils.JSFJavaScriptUtilities;
  */
 public class ComboboxRenderer extends BaseInputRenderer {
 
-    private static final Logger LOGGER = new Logger(ComboboxRenderer.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ComboboxRenderer.class);
 
     public static final String ENABLED_CLASS = "mogwaiCombobox";
 
@@ -245,7 +243,7 @@ public class ComboboxRenderer extends BaseInputRenderer {
                     } catch (Exception e) {
 
                         String theMessage = "Invalid display property for combobox component :" + theDisplay;
-                        LOGGER.logError(theMessage, e);
+                        LOGGER.error(theMessage, e);
 
                         throw new RuntimeException(theMessage, e);
                     }

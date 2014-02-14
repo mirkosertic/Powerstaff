@@ -16,16 +16,15 @@
  */
 package de.mogwai.common.web.component.renderkit.html.action;
 
-import java.io.IOException;
+import de.mogwai.common.web.component.action.PageRefreshComponent;
+import de.mogwai.common.web.utils.JSFJavaScriptFactory;
+import de.mogwai.common.web.utils.JSFJavaScriptUtilities;
+import org.slf4j.LoggerFactory;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-
-import de.mogwai.common.logging.Logger;
-import de.mogwai.common.web.component.action.PageRefreshComponent;
-import de.mogwai.common.web.utils.JSFJavaScriptFactory;
-import de.mogwai.common.web.utils.JSFJavaScriptUtilities;
+import java.io.IOException;
 
 /**
  * Command button renderer.
@@ -35,7 +34,7 @@ import de.mogwai.common.web.utils.JSFJavaScriptUtilities;
  */
 public class PageRefreshRenderer extends BaseCommandRenderer {
 
-    private static final Logger LOGGER = new Logger(PageRefreshRenderer.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(PageRefreshRenderer.class);
 
     @Override
     public void encodeBegin(FacesContext aContext, UIComponent aComponent) throws IOException {
@@ -55,7 +54,7 @@ public class PageRefreshRenderer extends BaseCommandRenderer {
         String theGUID = theUtilities.getCurrentGUID(aContext);
         if (theUtilities.isGUIDAlreadyUsed(aContext, theGUID)) {
 
-            LOGGER.logDebug("Invoking action method for component " + theComponent + " as a page resubmit was caused");
+            LOGGER.debug("Invoking action method for component {} as a page resubmit was caused", theComponent);
 
             ActionEvent theActionEvent = new ActionEvent(theComponent);
             theComponent.queueEvent(theActionEvent);

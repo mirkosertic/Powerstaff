@@ -17,7 +17,6 @@
  */
 package de.powerstaff.business.service.impl;
 
-import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.CustomerDAO;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.entity.ContactType;
@@ -26,7 +25,7 @@ import de.powerstaff.business.service.*;
 
 import java.util.Collection;
 
-public class CustomerServiceImpl extends LogableService implements CustomerService {
+public class CustomerServiceImpl implements CustomerService {
 
     private CustomerDAO customerDAO;
 

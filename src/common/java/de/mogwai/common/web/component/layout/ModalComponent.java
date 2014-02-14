@@ -16,14 +16,13 @@
  */
 package de.mogwai.common.web.component.layout;
 
-import java.io.IOException;
+import de.mogwai.common.web.component.input.ModalComponentUtils;
+import org.slf4j.LoggerFactory;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.render.Renderer;
-
-import de.mogwai.common.logging.Logger;
-import de.mogwai.common.web.component.input.ModalComponentUtils;
+import java.io.IOException;
 
 /**
  * Modal component.
@@ -33,7 +32,7 @@ import de.mogwai.common.web.component.input.ModalComponentUtils;
  */
 public class ModalComponent extends ModalComponentBase {
 
-    private static final Logger LOGGER = new Logger(ModalComponent.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ModalComponent.class);
 
     private boolean switched = false;
 
@@ -120,7 +119,7 @@ public class ModalComponent extends ModalComponentBase {
         if (aComponent instanceof IncludeComponent) {
             IncludeComponent theIncludeComponent = (IncludeComponent) aComponent;
 
-            LOGGER.logDebug("Resetting LastIncludePage for Component " + aComponent.getId());
+            LOGGER.debug("Resetting LastIncludePage for Component {}", aComponent.getId());
             theIncludeComponent.setLastIncludedPage(null);
             theIncludeComponent.getChildren().clear();
 

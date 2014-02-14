@@ -16,9 +16,9 @@
  */
 package de.mogwai.common.web.component.layout;
 
-import javax.faces.component.UIComponent;
+import org.slf4j.LoggerFactory;
 
-import de.mogwai.common.logging.Logger;
+import javax.faces.component.UIComponent;
 
 /**
  * The GridbagLayout component.
@@ -28,13 +28,13 @@ import de.mogwai.common.logging.Logger;
  */
 public final class GridBagLayoutUtils {
 
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(GridBagLayoutUtils.class);
+
     public static final int PREFFERED_SIZE = 21;
 
     public static final String PREFFERED_SIZE_MARKER = "p";
 
     public static final String INHERITED_SIZE_MARKER = "*";
-
-    private static Logger logger = new Logger(GridBagLayoutUtils.class);
 
     private GridBagLayoutUtils() {
     }
@@ -82,7 +82,7 @@ public final class GridBagLayoutUtils {
                 int theTotalWidth = aCols.getTotalSizeWithoutStar();
                 theWidth = "" + (theSurroundingCell.computeWidth() - theTotalWidth);
             } else {
-                logger.logWarning("Gridbaglayout verwendet * ohne umgebende Gridbaglayout - Zelle");
+                LOGGER.warn("Gridbaglayout verwendet * ohne umgebende Gridbaglayout - Zelle");
             }
         }
 

@@ -16,8 +16,9 @@
  */
 package de.mogwai.common.web.validator;
 
-import java.text.MessageFormat;
-import java.util.ResourceBundle;
+import de.mogwai.common.web.ResourceBundleManager;
+import de.mogwai.common.web.component.input.BaseInputComponent;
+import org.slf4j.LoggerFactory;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.EditableValueHolder;
@@ -25,10 +26,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-
-import de.mogwai.common.logging.Logger;
-import de.mogwai.common.web.ResourceBundleManager;
-import de.mogwai.common.web.component.input.BaseInputComponent;
+import java.text.MessageFormat;
+import java.util.ResourceBundle;
 
 /**
  * Validator für Email-Adresse.
@@ -40,7 +39,7 @@ public class MailValidator implements Validator {
 
     private static final String VALIDATION_ERROR = "validator.invalidemail";
 
-    private static final Logger LOGGER = new Logger(MailValidator.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(MailValidator.class);
 
     public void validate(FacesContext context, UIComponent component, Object checkValue) {
 
@@ -49,7 +48,7 @@ public class MailValidator implements Validator {
             throw new NullPointerException();
         }
         if (!(component instanceof EditableValueHolder)) {
-            LOGGER.logDebug("Validator kann nur an EditableValueHolder-Komponente angebunden werden");
+            LOGGER.debug("Validator kann nur an EditableValueHolder-Komponente angebunden werden");
             return;
         }
 

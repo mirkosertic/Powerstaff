@@ -36,6 +36,7 @@ import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.MassIndexer;
 import org.hibernate.search.Search;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
@@ -45,8 +46,10 @@ import java.util.List;
  * @author Mirko Sertic
  */
 @Transactional
-public class ProfileIndexerServiceImpl extends LogableService implements
+public class ProfileIndexerServiceImpl implements
         ProfileIndexerService {
+
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ProfileIndexerServiceImpl.class);
 
     private static final String SERVICE_ID = "ProfileIndexer";
 
@@ -87,17 +90,17 @@ public class ProfileIndexerServiceImpl extends LogableService implements
     public void runIndexer() {
 
         if (!systemParameterService.isIndexingEnabled()) {
-            logger.logInfo("Indexing disabled");
+            LOGGER.info("Indexing disabled");
             return;
         }
 
         if (running) {
-            logger.logInfo("Indexing already running");
+            LOGGER.info("Indexing already running");
         }
 
         running = true;
 
-        logger.logInfo("Running indexing");
+        LOGGER.info("Running indexing");
 
         readerFactory.initialize();
 
@@ -137,7 +140,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements
                     long theNumberOfProfiles = Long.parseLong(theDocument.get(ProfileIndexerService.NUM_PROFILES));
                     List<FreelancerProfile> theProfiles = profileSearchService.loadProfilesFor(theFreelancer);
                     if (theNumberOfProfiles != theProfiles.size()) {
-                        logger.logInfo("Updating freelancer " + theFreelancer.getId() + " as the number of profiles changed from " + theNumberOfProfiles + " to " + theProfiles.size());
+                        LOGGER.info("Updating freelancer " + theFreelancer.getId() + " as the number of profiles changed from " + theNumberOfProfiles + " to " + theProfiles.size());
                         needsToUpdate = true;
                     } else {
                         for (int i = 1; i <= theNumberOfProfiles; i++) {
@@ -147,11 +150,11 @@ public class ProfileIndexerServiceImpl extends LogableService implements
                                 long theModification = Long.parseLong(theDocument.get(ProfileIndexerService.PROFILE_MODIFICATION_PREFIX + i));
                                 long theLastModified = theFileOnServer.lastModified() / 1000;
                                 if (theModification != theLastModified) {
-                                    logger.logInfo("Updating freelancer " + theFreelancer.getId() + " as profile " + theFileOnServer + " was modified");
+                                    LOGGER.info("Updating freelancer " + theFreelancer.getId() + " as profile " + theFileOnServer + " was modified");
                                     needsToUpdate = true;
                                 }
                             } else {
-                                logger.logInfo("Updating freelancer " + theFreelancer.getId() + " as profile " + theFileOnServer + " seems to be deleted");
+                                LOGGER.info("Updating freelancer " + theFreelancer.getId() + " as profile " + theFileOnServer + " seems to be deleted");
                                 needsToUpdate = true;
                             }
                         }
@@ -164,12 +167,12 @@ public class ProfileIndexerServiceImpl extends LogableService implements
                 }
 
                 if (counter % theLogCount == 0) {
-                    logger.logInfo("Processing record " + counter);
+                    LOGGER.info("Processing record " + counter);
                 }
 
                 if (counter % theFetchSize == 0) {
 
-                    logger.logDebug("Flushing session and index");
+                    LOGGER.debug("Flushing session and index");
                     theFT.flushToIndexes();
                     theFT.clear();
                     theHibernateSession.clear();
@@ -179,13 +182,13 @@ public class ProfileIndexerServiceImpl extends LogableService implements
 
         } catch (Exception ex) {
 
-            logger.logError("Error on indexing", ex);
+            LOGGER.error("Error on indexing", ex);
 
         } finally {
 
             theStartTime = System.currentTimeMillis() - theStartTime;
 
-            logger.logInfo("Indexing finished");
+            LOGGER.info("Indexing finished");
 
             serviceLogger.logEnd(SERVICE_ID, "Dauer = " + theStartTime + "ms");
 
@@ -200,7 +203,7 @@ public class ProfileIndexerServiceImpl extends LogableService implements
     @Transactional
     public void rebuildIndex() {
 
-        logger.logInfo("Rebuilding index");
+        LOGGER.info("Rebuilding index");
 
         Session theSession = sessionFactory.getCurrentSession();
         FullTextSession theFt = Search.getFullTextSession(theSession);
@@ -211,12 +214,12 @@ public class ProfileIndexerServiceImpl extends LogableService implements
             theIndexer.purgeAllOnStart(true);
             theIndexer.startAndWait();
         } catch (Exception e) {
-            logger.logError("Error creating index", e);
+            LOGGER.error("Error creating index", e);
         }
         theFt.flushToIndexes();
         theFt.flush();
         theSession.flush();
 
-        logger.logInfo("Rebuilding index finished");
+        LOGGER.info("Rebuilding index finished");
     }
 }

@@ -16,7 +16,7 @@
  */
 package de.mogwai.common.web.phaselistener;
 
-import de.mogwai.common.logging.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
@@ -25,9 +25,9 @@ import javax.servlet.ServletRequest;
 
 public class TrackerPhaseListener implements PhaseListener {
 
-    private static final long serialVersionUID = 4017505684182951105L;
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(TrackerPhaseListener.class);
 
-    private static final Logger LOGGER = new Logger(TrackerPhaseListener.class);
+    private static final long serialVersionUID = 4017505684182951105L;
 
     private ThreadLocal<Long> start = new ThreadLocal<Long>();
 
@@ -35,7 +35,7 @@ public class TrackerPhaseListener implements PhaseListener {
         long theDuration = System.currentTimeMillis() - start.get();
 
         ServletRequest theRequest = (ServletRequest) aEvent.getFacesContext().getExternalContext().getRequest();
-        LOGGER.logDebug(theRequest.getRemoteAddr() + " " + theRequest.getRemoteHost() + " Duration for Phase "
+        LOGGER.debug(theRequest.getRemoteAddr() + " " + theRequest.getRemoteHost() + " Duration for Phase "
                 + aEvent.getPhaseId() + " was " + theDuration);
 
     }

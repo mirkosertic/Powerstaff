@@ -1,26 +1,20 @@
 package de.mogwai.common.web.filter;
 
-import java.io.IOException;
-import java.util.Map;
-
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import de.mogwai.common.usercontext.Authenticatable;
+import de.mogwai.common.usercontext.UserContext;
+import de.mogwai.common.usercontext.UserContextHolder;
 import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContext;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;
 
-import de.mogwai.common.usercontext.Authenticatable;
-import de.mogwai.common.usercontext.UserContext;
-import de.mogwai.common.usercontext.UserContextHolder;
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.Map;
 
-public class SecurityContextToUserContextFilter extends BaseFilter {
+public class SecurityContextToUserContextFilter implements Filter {
 
     private static final String USERCONTEXT_ID = "MogwaiUserContext";
 

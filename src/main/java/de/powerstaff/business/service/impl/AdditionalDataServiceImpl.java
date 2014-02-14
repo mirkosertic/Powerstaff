@@ -17,7 +17,6 @@
  */
 package de.powerstaff.business.service.impl;
 
-import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.AdditionalDataDAO;
 import de.powerstaff.business.entity.ContactType;
 import de.powerstaff.business.entity.HistoryType;
@@ -26,7 +25,7 @@ import de.powerstaff.business.service.AdditionalDataService;
 
 import java.util.List;
 
-public class AdditionalDataServiceImpl extends LogableService implements AdditionalDataService {
+public class AdditionalDataServiceImpl implements AdditionalDataService {
 
     private AdditionalDataDAO additionalDataDAO;
 

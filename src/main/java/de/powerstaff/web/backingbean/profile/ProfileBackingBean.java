@@ -18,7 +18,6 @@
 package de.powerstaff.web.backingbean.profile;
 
 import com.ocpsoft.pretty.util.FacesStateUtils;
-import de.mogwai.common.logging.Logger;
 import de.mogwai.common.usercontext.UserContextHolder;
 import de.mogwai.common.web.backingbean.WrappingBackingBean;
 import de.mogwai.common.web.utils.JSFMessageUtils;
@@ -31,6 +30,7 @@ import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.web.backingbean.ContextUtils;
 import de.powerstaff.web.backingbean.MessageConstants;
 import de.powerstaff.web.utils.PagedListDataModel;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import javax.faces.component.StateHolder;
@@ -45,7 +45,7 @@ public class ProfileBackingBean extends
 
     private static final long serialVersionUID = -5802587658636877536L;
 
-    private static final Logger LOGGER = new Logger(ProfileBackingBean.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ProfileBackingBean.class);
 
     private transient ProfileSearchService profileSearchService;
 
@@ -94,7 +94,7 @@ public class ProfileBackingBean extends
                                     .addGlobalErrorMessage(
                                             MSG_FEHLERBEIDERPROFILSUCHE, e
                                             .getMessage());
-                            LOGGER.logError("Fehler bei Profilsuche", e);
+                            LOGGER.error("Fehler bei Profilsuche", e);
                         }
                         return new DataPage<ProfileSearchEntry>(0, 0,
                                 new ArrayList<ProfileSearchEntry>());
@@ -153,7 +153,7 @@ public class ProfileBackingBean extends
 
         } catch (Exception e) {
 
-            LOGGER.logError("Fehler beim Speichern", e);
+            LOGGER.error("Fehler beim Speichern", e);
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMSPEICHERN, e.getMessage());
         }
         return null;
@@ -169,7 +169,7 @@ public class ProfileBackingBean extends
         } catch (Exception e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE,
                     e.getMessage());
-            LOGGER.logError("Fehler bei Profilsuche", e);
+            LOGGER.error("Fehler bei Profilsuche", e);
         }
     }
 
@@ -346,7 +346,7 @@ public class ProfileBackingBean extends
         } catch (Exception e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE,
                     e.getMessage());
-            LOGGER.logError("Fehler bei Profilsuche", e);
+            LOGGER.error("Fehler bei Profilsuche", e);
         }
    }
 }

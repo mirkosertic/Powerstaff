@@ -17,13 +17,10 @@
  */
 package de.powerstaff.business.dto;
 
-import de.mogwai.common.business.dto.DataTransferObject;
+import java.io.Serializable;
 
-public class ProfileSearchEntry extends DataTransferObject {
+public class ProfileSearchEntry implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -5794367871287035425L;
 
     private String code;

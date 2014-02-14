@@ -16,8 +16,6 @@
  */
 package de.mogwai.common.business.service.impl;
 
-import de.mogwai.common.logging.Logger;
-
 /**
  * Basisklasse für Services. Stellt bereits einen Logger zur Verfügung.
  * 
@@ -25,7 +23,5 @@ import de.mogwai.common.logging.Logger;
  * @version $Date: 2008-09-04 18:27:34 $
  */
 public abstract class LogableService {
-
-    protected Logger logger = new Logger(getClass());
 
 }

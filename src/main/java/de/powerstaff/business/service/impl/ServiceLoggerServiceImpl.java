@@ -17,14 +17,13 @@
  */
 package de.powerstaff.business.service.impl;
 
-import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.ServiceLoggerDAO;
 import de.powerstaff.business.entity.JobInfo;
 import de.powerstaff.business.service.ServiceLoggerService;
 
 import java.sql.Timestamp;
 
-public class ServiceLoggerServiceImpl extends LogableService implements ServiceLoggerService {
+public class ServiceLoggerServiceImpl implements ServiceLoggerService {
 
     private ServiceLoggerDAO serviceLoggerDAO;
 

@@ -17,7 +17,6 @@
  */
 package de.powerstaff.business.service.impl;
 
-import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.GenericSearchResult;
 import de.powerstaff.business.dao.PartnerDAO;
 import de.powerstaff.business.entity.ContactType;
@@ -27,7 +26,7 @@ import de.powerstaff.business.service.*;
 
 import java.util.Collection;
 
-public class PartnerServiceImpl extends LogableService implements PartnerService {
+public class PartnerServiceImpl implements PartnerService {
 
     private PartnerDAO partnerDAO;
 
