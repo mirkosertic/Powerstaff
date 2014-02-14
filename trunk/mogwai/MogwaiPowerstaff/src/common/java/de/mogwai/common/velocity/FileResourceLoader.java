@@ -16,19 +16,20 @@
  */
 package de.mogwai.common.velocity;
 
+import org.apache.commons.collections.ExtendedProperties;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.runtime.resource.loader.ResourceLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import org.apache.commons.collections.ExtendedProperties;
-import org.apache.log4j.Logger;
-import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.runtime.resource.Resource;
-import org.apache.velocity.runtime.resource.loader.ResourceLoader;
-
 public class FileResourceLoader extends ResourceLoader {
 
-    private Logger logger = Logger.getLogger(getClass());
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileResourceLoader.class);
 
     @Override
     public long getLastModified(Resource aResource) {
@@ -46,7 +47,7 @@ public class FileResourceLoader extends ResourceLoader {
 
     @Override
     public void init(ExtendedProperties aProperties) {
-        logger.debug("Init");
+        LOGGER.info("Init");
     }
 
     @Override

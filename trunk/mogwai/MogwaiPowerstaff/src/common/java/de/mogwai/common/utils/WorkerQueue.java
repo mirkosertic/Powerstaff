@@ -16,13 +16,14 @@
  */
 package de.mogwai.common.utils;
 
-import java.util.LinkedList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.log4j.Logger;
+import java.util.LinkedList;
 
 public class WorkerQueue {
 
-    private Logger logger = Logger.getLogger(getClass());
+    private Logger LOGGER = LoggerFactory.getLogger(WorkerQueue.class);
 
     private int threadCount;
 
@@ -101,12 +102,12 @@ public class WorkerQueue {
                     theRunnable = queue.removeFirst();
                 }
 
-                logger.debug(getName() + " Processing payload");
+                LOGGER.debug(getName() + " Processing payload");
 
                 try {
                     theRunnable.run();
                 } catch (Exception e) {
-                    logger.error("Error executing payload", e);
+                    LOGGER.error("Error executing payload", e);
                 }
 
             }
