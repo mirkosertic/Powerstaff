@@ -69,9 +69,19 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <servlet>
+        <servlet-name>TaggedFreelancerDownload</servlet-name>
+        <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>FacesServlet</servlet-name>
         <url-pattern>*.faces</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>TaggedFreelancerDownload</servlet-name>
+        <url-pattern>/FreelancerTagList</url-pattern>
     </servlet-mapping>
 
     <session-config>
