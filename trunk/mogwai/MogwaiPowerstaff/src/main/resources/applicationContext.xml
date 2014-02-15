@@ -463,6 +463,11 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
         </property>
     </bean>
 
+    <bean id="TaggedFreelancerDownload" class="de.powerstaff.web.servlet.TaggedFreelancerDownloadServlet">
+        <property name="freelancerService" ref="freelancerService"/>
+        <property name="tagService" ref="tagService"/>
+    </bean>
+
     <import resource="applicationContext-security.xml"/>
     <import resource="applicationContext-jsf.xml"/>
 </beans>

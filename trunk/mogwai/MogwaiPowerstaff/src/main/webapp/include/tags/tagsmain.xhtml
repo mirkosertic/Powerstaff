@@ -40,6 +40,12 @@
                 <b:titledBox label="Menu">
                     <b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,right:*"
                                      rows="20">
+                        <b:cell x="1" y="1">
+                            <pretty:link mappingId="tagexcellist" title="Export der Liste nach Excel">
+                                <f:param value="#{tagsBackingBean.data.tag.id}"/>
+                                <img src="${facesContext.externalContext.requestContextPath}/images/excel.png"/>
+                            </pretty:link>
+                        </b:cell>
                     </b:gridBagLayout>
                 </b:titledBox>
             </b:cell>

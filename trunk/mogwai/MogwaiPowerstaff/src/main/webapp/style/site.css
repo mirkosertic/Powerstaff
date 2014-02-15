@@ -178,6 +178,7 @@ a {
 	border-radius: 5px;
 	padding: 2px;
 	background-color: rgb(220, 233, 250);
+    vertical-align: middle;
 }
 .tags .tag .text {
 	text-decoration: none;

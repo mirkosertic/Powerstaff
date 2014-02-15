@@ -57,6 +57,10 @@
                                     <f:param value="#{tag.id}"/>
                                     <h:outputText value="#{tag.name}"/>
                                 </pretty:link>
+                                <pretty:link mappingId="tagexcellist" title="Export der Liste nach Excel">
+                                    <f:param value="#{tag.id}"/>
+                                    <img src="${facesContext.externalContext.requestContextPath}/images/excel.png"/>
+                                </pretty:link>
                             </div>
                         </a4j:repeat>
                     </div>
@@ -71,6 +75,10 @@
                                 <pretty:link styleClass="text" mappingId="tagoverview" title="Zeige alle Freiberufler mit diesem Tag">
                                     <f:param value="#{tag.id}"/>
                                     <h:outputText value="#{tag.name}"/>
+                                </pretty:link>
+                                <pretty:link mappingId="tagexcellist" title="Export der Liste nach Excel">
+                                    <f:param value="#{tag.id}"/>
+                                    <img src="${facesContext.externalContext.requestContextPath}/images/excel.png"/>
                                 </pretty:link>
                             </div>
                         </a4j:repeat>
@@ -87,6 +95,10 @@
                                     <f:param value="#{tag.id}"/>
                                     <h:outputText value="#{tag.name}"/>
                                 </pretty:link>
+                                <pretty:link mappingId="tagexcellist" title="Export der Liste nach Excel">
+                                    <f:param value="#{tag.id}"/>
+                                    <img src="${facesContext.externalContext.requestContextPath}/images/excel.png"/>
+                                </pretty:link>
                             </div>
                         </a4j:repeat>
                     </div>
@@ -101,6 +113,10 @@
                                 <pretty:link styleClass="text" mappingId="tagoverview" title="Zeige alle Freiberufler mit diesem Tag">
                                     <f:param value="#{tag.id}"/>
                                     <h:outputText value="#{tag.name}"/>
+                                </pretty:link>
+                                <pretty:link mappingId="tagexcellist" title="Export der Liste nach Excel">
+                                    <f:param value="#{tag.id}"/>
+                                    <img src="${facesContext.externalContext.requestContextPath}/images/excel.png"/>
                                 </pretty:link>
                             </div>
                         </a4j:repeat>
