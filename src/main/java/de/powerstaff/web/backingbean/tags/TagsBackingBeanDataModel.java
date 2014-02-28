@@ -5,25 +5,21 @@ import de.mogwai.common.web.utils.CollectionDataModel;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.Tag;
 
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TagsBackingBeanDataModel extends BackingBeanDataModel {
 
-    private long currentTagId;
+    private String currentTagId;
     private CollectionDataModel<Freelancer> freelancer;
     private Tag tag;
 
     public TagsBackingBeanDataModel() {
         freelancer = new CollectionDataModel<Freelancer>(new ArrayList<Freelancer>());
-    }
-
-    public long getCurrentTagId() {
-        return currentTagId;
-    }
-
-    public void setCurrentTagId(long currentTagId) {
-        this.currentTagId = currentTagId;
     }
 
     public CollectionDataModel<Freelancer> getFreelancer() {
@@ -44,5 +40,18 @@ public class TagsBackingBeanDataModel extends BackingBeanDataModel {
 
     public void setTag(Tag tag) {
         this.tag = tag;
+    }
+
+    public String getCurrentTagId() {
+        return currentTagId;
+    }
+
+    public void setCurrentTagId(String currentTagId) {
+        HttpServletRequest theRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        try {
+            this.currentTagId = URLDecoder.decode(currentTagId, theRequest.getCharacterEncoding());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

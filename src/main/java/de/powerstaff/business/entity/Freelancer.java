@@ -75,6 +75,7 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
     private List<? extends FreelancerToTag> bemerkungenTags;
     private Collection<? extends FreelancerToTag> einsatzorteTags;
     private Collection<? extends FreelancerToTag> schwerpunkteTags;
+    private Object firstContactEMail;
 
     public Freelancer() {
         tags = new HashSet<FreelancerToTag>();
@@ -279,5 +280,13 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
             }
         });
         return theResult;
+    }
+
+    public boolean hasAllTags(Set<Long> aTagIDs) {
+        Set<Long> theCurrentIDs = new HashSet<Long>();
+        for (FreelancerToTag theTag : getTags()) {
+            theCurrentIDs.add(theTag.getTag().getId());
+        }
+        return theCurrentIDs.containsAll(aTagIDs);
     }
 }

@@ -24,6 +24,7 @@ import de.powerstaff.business.entity.SavedProfileSearch;
 import de.powerstaff.business.entity.Tag;
 
 import java.util.List;
+import java.util.Set;
 
 public interface FreelancerDAO extends PersonDAO<Freelancer> {
 
@@ -38,4 +39,6 @@ public interface FreelancerDAO extends PersonDAO<Freelancer> {
     List<ProjectPosition> findPositionsFor(Freelancer aFreelancer);
 
     List<Freelancer> findByTag(Tag aTag);
+
+    List<Freelancer> findFreelancerByTagIDs(Set<Long> aTagIDs);
 }

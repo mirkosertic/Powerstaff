@@ -22,6 +22,7 @@ import de.powerstaff.business.entity.ProjectPosition;
 import de.powerstaff.business.entity.Tag;
 
 import java.util.List;
+import java.util.Set;
 
 public interface FreelancerService extends PersonService<Freelancer> {
 
@@ -32,4 +33,6 @@ public interface FreelancerService extends PersonService<Freelancer> {
     List<ProjectPosition> findPositionsFor(Freelancer aFreelancer);
 
     List<Freelancer> findFreelancerByTag(Tag aTag);
+
+    List<Freelancer> findFreelancerByTagIDs(Set<Long> aTagIDs);
 }

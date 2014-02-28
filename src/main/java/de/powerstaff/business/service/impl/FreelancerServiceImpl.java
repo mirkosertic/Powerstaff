@@ -26,6 +26,7 @@ import de.powerstaff.business.service.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 public class FreelancerServiceImpl implements
         FreelancerService {
@@ -127,5 +128,10 @@ public class FreelancerServiceImpl implements
     @Override
     public List<Freelancer> findFreelancerByTag(Tag aTag) {
         return freelancerDAO.findByTag(aTag);
+    }
+
+    @Override
+    public List<Freelancer> findFreelancerByTagIDs(Set<Long> aTagIDs) {
+        return freelancerDAO.findFreelancerByTagIDs(aTagIDs);
     }
 }
