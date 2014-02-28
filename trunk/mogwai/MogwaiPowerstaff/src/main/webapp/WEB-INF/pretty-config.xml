@@ -88,7 +88,7 @@
     <url-mapping id="tagoverview">
         <pattern>/tags/#{tagsBackingBean.data.currentTagId}/overview</pattern>
         <view-id>/include/tags/tagsmain.faces</view-id>
-        <action>#{tagsBackingBean.loadEntity}</action>
+        <action>#{tagsBackingBean.load}</action>
     </url-mapping>
     <url-mapping id="tagexcellist">
         <pattern>/tags/#{tagid}/excel</pattern>
@@ -97,5 +97,10 @@
     <url-mapping id="alltags">
         <pattern>/alltags/overview</pattern>
         <view-id>/include/tags/tagsoverview.faces</view-id>
+    </url-mapping>
+    <url-mapping id="tagsearch">
+        <pattern>/tags/#{tagsBackingBean.data.currentTagId}/search</pattern>
+        <view-id>/include/tags/tagsmain.faces</view-id>
+        <action>#{tagsBackingBean.load}</action>
     </url-mapping>
 </pretty-config>

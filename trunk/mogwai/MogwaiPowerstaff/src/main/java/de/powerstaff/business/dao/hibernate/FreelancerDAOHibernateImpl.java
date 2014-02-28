@@ -270,4 +270,36 @@ public class FreelancerDAOHibernateImpl extends
 
                 });
     }
+
+    @Override
+    public List<Freelancer> findFreelancerByTagIDs(final Set<Long> aTagIDs) {
+        final StringBuilder theTagInClause = new StringBuilder();
+        for (Long theTagID : aTagIDs) {
+            if (theTagInClause.length() > 0) {
+                theTagInClause.append(",");
+            }
+            theTagInClause.append(theTagID);
+        }
+        return (List<Freelancer>) getHibernateTemplate().execute(
+                new HibernateCallback() {
+
+                    public Object doInHibernate(Session aSession)
+                            throws SQLException {
+                        List<Freelancer> theResult = new ArrayList<Freelancer>();
+
+                        Query theQuery = aSession
+                                .createQuery("select distinct f from Freelancer f left join f.tags t where t.tag.id in ( " + theTagInClause.toString() + ") order by f.name1, f.name2");
+                        for (Iterator theIterator = theQuery.iterate(); theIterator
+                                .hasNext(); ) {
+                            Freelancer theFreelancer = (Freelancer) theIterator.next();
+                            if (theFreelancer.hasAllTags(aTagIDs)) {
+                                theResult.add(theFreelancer);
+                            }
+                        }
+
+                        return theResult;
+                    }
+
+                });
+    }
 }

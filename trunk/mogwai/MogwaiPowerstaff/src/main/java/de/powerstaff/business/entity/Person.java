@@ -261,4 +261,12 @@ public class Person<T extends Contact, H extends HistoryEntity> extends
         return theResult;
     }
 
+    public String getFirstContactEMail() {
+        for (Contact theContact : getContacts()) {
+            if (theContact.getType().isEmail() && "eMail".equals(theContact.getType().getDescription())) {
+                return theContact.getValue();
+            }
+        }
+        return null;
+    }
 }

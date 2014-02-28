@@ -40,6 +40,11 @@
                 <b:titledBox label="Menu">
                     <b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,right:*"
                                      rows="20">
+                        <b:cell x="1" y="1">
+                            <h:commandLink title="Suchen" action="#{tagsBackingBean.commandSearch}" id="searchRecord">
+                                <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
+                            </h:commandLink>
+                        </b:cell>
                     </b:gridBagLayout>
                 </b:titledBox>
             </b:cell>
@@ -57,6 +62,7 @@
                                     <f:param value="#{tag.id}"/>
                                     <h:outputText value="#{tag.name}"/>
                                 </pretty:link>
+                                <input type="checkbox" name="selectedtag" value="#{tag.id}"/>
                                 <pretty:link mappingId="tagexcellist" title="Export der Liste nach Excel">
                                     <f:param value="#{tag.id}"/>
                                     <img src="${facesContext.externalContext.requestContextPath}/images/excel.png"/>
@@ -76,6 +82,7 @@
                                     <f:param value="#{tag.id}"/>
                                     <h:outputText value="#{tag.name}"/>
                                 </pretty:link>
+                                <input type="checkbox" name="selectedtag" value="#{tag.id}"/>
                                 <pretty:link mappingId="tagexcellist" title="Export der Liste nach Excel">
                                     <f:param value="#{tag.id}"/>
                                     <img src="${facesContext.externalContext.requestContextPath}/images/excel.png"/>
@@ -95,6 +102,7 @@
                                     <f:param value="#{tag.id}"/>
                                     <h:outputText value="#{tag.name}"/>
                                 </pretty:link>
+                                <input type="checkbox" name="selectedtag" value="#{tag.id}"/>
                                 <pretty:link mappingId="tagexcellist" title="Export der Liste nach Excel">
                                     <f:param value="#{tag.id}"/>
                                     <img src="${facesContext.externalContext.requestContextPath}/images/excel.png"/>
@@ -114,6 +122,7 @@
                                     <f:param value="#{tag.id}"/>
                                     <h:outputText value="#{tag.name}"/>
                                 </pretty:link>
+                                <input type="checkbox" name="selectedtag" value="#{tag.id}"/>
                                 <pretty:link mappingId="tagexcellist" title="Export der Liste nach Excel">
                                     <f:param value="#{tag.id}"/>
                                     <img src="${facesContext.externalContext.requestContextPath}/images/excel.png"/>
