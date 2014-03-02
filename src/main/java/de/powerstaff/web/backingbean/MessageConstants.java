@@ -52,4 +52,6 @@ public interface MessageConstants {
     String DATE_FORMAT = "global.dateformat.short";
 
     String MSG_CONCURRENTMODIFICATION = "message.concurrentmodification";
+
+    String MSG_KEINETAGSAUSGEWAEHLT = "message.keinetagsausgewaehlt";
 }

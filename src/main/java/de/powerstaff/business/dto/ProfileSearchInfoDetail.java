@@ -18,11 +18,10 @@
 package de.powerstaff.business.dto;
 
 import de.powerstaff.business.entity.FreelancerContact;
+import de.powerstaff.business.entity.Tag;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class ProfileSearchInfoDetail implements Serializable {
 
@@ -42,7 +41,34 @@ public class ProfileSearchInfoDetail implements Serializable {
 
     private boolean contactforbidden;
 
-    private List<FreelancerContact> contacts = new ArrayList<FreelancerContact>();
+    private List<FreelancerContact> contacts;
+
+    private Set<Tag> tags;
+
+    public ProfileSearchInfoDetail() {
+        contacts = new ArrayList<FreelancerContact>();
+        tags = new HashSet<Tag>();
+    }
+
+    public List<Tag> getSortedTags() {
+        List<Tag> theResult = new ArrayList<Tag>();
+        theResult.addAll(tags);
+        Collections.sort(theResult, new Comparator<Tag>() {
+            @Override
+            public int compare(Tag o1, Tag o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+        return theResult;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
 
     /**
      * @return the availability

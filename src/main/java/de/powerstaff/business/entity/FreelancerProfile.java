@@ -43,10 +43,6 @@ public class FreelancerProfile implements Serializable {
     public FreelancerProfile() {
     }
 
-    public FreelancerProfile(String aName) {
-        name = aName;
-    }
-
     public String getName() {
         return name;
     }

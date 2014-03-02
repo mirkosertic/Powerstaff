@@ -289,4 +289,13 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
         }
         return theCurrentIDs.containsAll(aTagIDs);
     }
+
+    public boolean hasTag(Tag aTag) {
+        for (FreelancerToTag theTag : getTags()) {
+            if (theTag.getTag().equals(aTag)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

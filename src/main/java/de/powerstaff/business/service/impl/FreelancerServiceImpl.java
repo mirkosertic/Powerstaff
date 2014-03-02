@@ -17,11 +17,11 @@
  */
 package de.powerstaff.business.service.impl;
 
-import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.FreelancerDAO;
 import de.powerstaff.business.dao.GenericSearchResult;
-import de.powerstaff.business.dto.ProfileSearchInfoDetail;
-import de.powerstaff.business.entity.*;
+import de.powerstaff.business.entity.ContactType;
+import de.powerstaff.business.entity.Freelancer;
+import de.powerstaff.business.entity.ProjectPosition;
 import de.powerstaff.business.service.*;
 
 import java.util.Collection;
@@ -42,10 +42,6 @@ public class FreelancerServiceImpl implements
     public void setSystemParameterService(
             PowerstaffSystemParameterService systemParameterService) {
         this.systemParameterService = systemParameterService;
-    }
-
-    public ProfileSearchInfoDetail findFreelancerByCode(String code) {
-        return freelancerDAO.findByCode(code);
     }
 
     public void delete(Freelancer aEntity) throws ReferenceExistsException, OptimisticLockException {
@@ -99,11 +95,6 @@ public class FreelancerServiceImpl implements
         return freelancerDAO.findByRecordNumber(aNumber);
     }
 
-    public List<String> findFreelancerCodesByExtended(
-            SavedProfileSearch request) {
-        return freelancerDAO.findCodesBy(request);
-    }
-
     public Freelancer findRealFreelancerByCode(String aCode) {
         return freelancerDAO.findByCodeReal(aCode);
     }
@@ -123,11 +114,6 @@ public class FreelancerServiceImpl implements
     @Override
     public List<ProjectPosition> findPositionsFor(Freelancer aFreelancer) {
         return freelancerDAO.findPositionsFor(aFreelancer);
-    }
-
-    @Override
-    public List<Freelancer> findFreelancerByTag(Tag aTag) {
-        return freelancerDAO.findByTag(aTag);
     }
 
     @Override

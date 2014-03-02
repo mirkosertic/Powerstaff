@@ -16,8 +16,9 @@
  */
 package de.mogwai.common.business.entity;
 
-import java.io.Serializable;
 import org.hibernate.search.annotations.DocumentId;
+
+import java.io.Serializable;
 
 /**
  * Basisklasse für Geschäftobjekte (Entities).

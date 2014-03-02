@@ -165,15 +165,9 @@ a {
     width: 380px;
 }
 
-.tags .newtag {
-	float: left;
-	width: 98%;
-    border: none;
-}
 .tags .tag {
     margin-right: 5px;
 	margin-bottom: 5px;
-	float: left;
 	border: 1px solid rgb(220, 233, 250);
 	border-radius: 5px;
 	padding: 2px;
@@ -188,4 +182,8 @@ a {
 	padding-left: 3px;
 	text-decoration: none;
 	color: black;
+    float: right;
+}
+.tags select {
+    width: 100px;
 }
