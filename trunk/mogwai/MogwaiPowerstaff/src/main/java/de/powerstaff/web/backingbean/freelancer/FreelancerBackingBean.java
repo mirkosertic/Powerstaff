@@ -23,12 +23,8 @@ import de.powerstaff.business.entity.*;
 import de.powerstaff.business.service.*;
 import de.powerstaff.web.backingbean.ContextUtils;
 import de.powerstaff.web.backingbean.PersonEditorBackingBean;
-import de.powerstaff.web.backingbean.SocialInfo;
-import de.powerstaff.web.backingbean.XingConnectorBackingBean;
 import org.apache.commons.lang.StringUtils;
 
-import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -95,34 +91,36 @@ public class FreelancerBackingBean
         getData().getTagsSchwerpunkte().addAll(theFreelancer.getSchwerpunkteTags());
     }
 
-    public List<Tag> getTagSuggestionsBemerkungen(Object aSuggest) {
-        return tagService.findTagsSuggestion((String) aSuggest, TagType.BEMERKUNG);
+    public List<Tag> getAvailableTagsBemerkungen() {
+        return tagService.findTagsBy(TagType.BEMERKUNG);
     }
 
-    public List<Tag> getTagSuggestionsEinsatzortte(Object aSuggest) {
-        return tagService.findTagsSuggestion((String) aSuggest, TagType.EINSATZORT);
+    public List<Tag> getAvailableTagsEinsatzorte() {
+        return tagService.findTagsBy(TagType.EINSATZORT);
     }
 
-    public List<Tag> getTagSuggestionsFunktionen(Object aSuggest) {
-        return tagService.findTagsSuggestion((String) aSuggest, TagType.FUNKTION);
+    public List<Tag> getAvailableTagsFunktionen() {
+        return tagService.findTagsBy(TagType.FUNKTION);
     }
 
-    public List<Tag> getTagSuggestionsSchwerpunkte(Object aSuggest) {
-        return tagService.findTagsSuggestion((String) aSuggest, TagType.SCHWERPUNKT);
+    public List<Tag> getAvailableTagsSchwerpunkte() {
+        return tagService.findTagsBy(TagType.SCHWERPUNKT);
     }
 
     public void addTagSchwerpunkte() {
 
         Freelancer theFreelancer = getData().getEntity();
 
-        Tag theTag = tagService.getTagByID(getData().getTagIdSchwerpunkt());
+        Tag theTag = getData().getNewSchwerpunkte();
+        if (!theFreelancer.hasTag(theTag)) {
 
-        FreelancerToTag theFreelancerToTag = new FreelancerToTag();
-        theFreelancerToTag.setTag(theTag);
-        theFreelancerToTag.setType(TagType.SCHWERPUNKT);
-        theFreelancer.getTags().add(theFreelancerToTag);
+            FreelancerToTag theFreelancerToTag = new FreelancerToTag();
+            theFreelancerToTag.setTag(theTag);
+            theFreelancerToTag.setType(TagType.SCHWERPUNKT);
+            theFreelancer.getTags().add(theFreelancerToTag);
 
-        getData().setNewSchwerpunkte("");
+            getData().setNewSchwerpunkte(null);
+        }
 
         initTagLists();
     }
@@ -131,14 +129,16 @@ public class FreelancerBackingBean
 
         Freelancer theFreelancer = getData().getEntity();
 
-        Tag theTag = tagService.getTagByID(getData().getTagIdFunktion());
+        Tag theTag = getData().getNewFunktion();
+        if (!theFreelancer.hasTag(theTag)) {
 
-        FreelancerToTag theFreelancerToTag = new FreelancerToTag();
-        theFreelancerToTag.setTag(theTag);
-        theFreelancerToTag.setType(TagType.FUNKTION);
-        theFreelancer.getTags().add(theFreelancerToTag);
+            FreelancerToTag theFreelancerToTag = new FreelancerToTag();
+            theFreelancerToTag.setTag(theTag);
+            theFreelancerToTag.setType(TagType.FUNKTION);
+            theFreelancer.getTags().add(theFreelancerToTag);
 
-        getData().setNewFunktion("");
+            getData().setNewFunktion(null);
+        }
 
         initTagLists();
     }
@@ -147,14 +147,16 @@ public class FreelancerBackingBean
 
         Freelancer theFreelancer = getData().getEntity();
 
-        Tag theTag = tagService.getTagByID(getData().getTagIdEinsatzOrt());
+        Tag theTag = getData().getNewEinsatzOrt();
+        if (!theFreelancer.hasTag(theTag)) {
 
-        FreelancerToTag theFreelancerToTag = new FreelancerToTag();
-        theFreelancerToTag.setTag(theTag);
-        theFreelancerToTag.setType(TagType.EINSATZORT);
-        theFreelancer.getTags().add(theFreelancerToTag);
+            FreelancerToTag theFreelancerToTag = new FreelancerToTag();
+            theFreelancerToTag.setTag(theTag);
+            theFreelancerToTag.setType(TagType.EINSATZORT);
+            theFreelancer.getTags().add(theFreelancerToTag);
 
-        getData().setNewEinsatzOrt("");
+            getData().setNewEinsatzOrt(null);
+        }
 
         initTagLists();
     }
@@ -163,14 +165,16 @@ public class FreelancerBackingBean
 
         Freelancer theFreelancer = getData().getEntity();
 
-        Tag theTag = tagService.getTagByID(getData().getTagIdBemerkung());
+        Tag theTag = getData().getNewBemerkung();
+        if (!theFreelancer.hasTag(theTag)) {
 
-        FreelancerToTag theFreelancerToTag = new FreelancerToTag();
-        theFreelancerToTag.setTag(theTag);
-        theFreelancerToTag.setType(TagType.BEMERKUNG);
-        theFreelancer.getTags().add(theFreelancerToTag);
+            FreelancerToTag theFreelancerToTag = new FreelancerToTag();
+            theFreelancerToTag.setTag(theTag);
+            theFreelancerToTag.setType(TagType.BEMERKUNG);
+            theFreelancer.getTags().add(theFreelancerToTag);
 
-        getData().setNewBemerkung("");
+            getData().setNewBemerkung(null);
+        }
 
         initTagLists();
     }

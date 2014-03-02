@@ -1,11 +1,13 @@
 package de.powerstaff.web.backingbean.tags;
 
 import de.mogwai.common.web.backingbean.WrappingBackingBean;
+import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.Tag;
 import de.powerstaff.business.entity.TagType;
 import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.TagService;
+import de.powerstaff.web.backingbean.MessageConstants;
 import org.apache.commons.lang.StringUtils;
 
 import javax.faces.component.StateHolder;
@@ -17,7 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class TagsBackingBean extends WrappingBackingBean<TagsBackingBeanDataModel> implements StateHolder {
+public class TagsBackingBean extends WrappingBackingBean<TagsBackingBeanDataModel> implements StateHolder, MessageConstants {
 
     private TagService tagService;
 
@@ -83,6 +85,8 @@ public class TagsBackingBean extends WrappingBackingBean<TagsBackingBeanDataMode
             return "pretty:tagsearch";
 
         }
+
+        JSFMessageUtils.addGlobalErrorMessage(MSG_KEINETAGSAUSGEWAEHLT);
         return null;
     }
 

@@ -287,12 +287,16 @@ public class ProfileSearchServiceImpl implements
                 .isContactforbidden());
         theDetail.setContacts(new ArrayList<FreelancerContact>(
                 aFreelancer.getContacts()));
+        for (FreelancerToTag theTag : aFreelancer.getTags()) {
+            theDetail.getTags().add(theTag.getTag());
+        }
 
         String theContent = aDocument.get(ProfileIndexerService.ORIG_CONTENT);
         theEntry.setHighlightResult(getHighlightedSearchResult(aAnalyzer,
                 aHighlighter, theContent, aQuery));
 
         theEntry.setFreelancer(theDetail);
+
         return theEntry;
     }
 

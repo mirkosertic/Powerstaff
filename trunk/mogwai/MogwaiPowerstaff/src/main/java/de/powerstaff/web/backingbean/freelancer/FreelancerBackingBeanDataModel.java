@@ -2,10 +2,7 @@ package de.powerstaff.web.backingbean.freelancer;
 
 import de.mogwai.common.utils.KeyValuePair;
 import de.mogwai.common.web.utils.CollectionDataModel;
-import de.powerstaff.business.entity.Freelancer;
-import de.powerstaff.business.entity.FreelancerProfile;
-import de.powerstaff.business.entity.FreelancerToTag;
-import de.powerstaff.business.entity.ProjectPosition;
+import de.powerstaff.business.entity.*;
 import de.powerstaff.web.backingbean.PersonEditorBackingBeanDataModel;
 
 import java.util.ArrayList;
@@ -29,10 +26,10 @@ public class FreelancerBackingBeanDataModel extends
     private List<FreelancerToTag> tagsEinsatzorte = new ArrayList<FreelancerToTag>();
     private List<FreelancerToTag> tagsBemerkungen = new ArrayList<FreelancerToTag>();
 
-    private String newSchwerpunkte = "";
-    private String newFunktion = "";
-    private String newEinsatzOrt = "";
-    private String newBemerkung = "";
+    private Tag newSchwerpunkte;
+    private Tag newFunktion;
+    private Tag newEinsatzOrt;
+    private Tag newBemerkung;
 
     private Long tagIdSchwerpunkt = null;
     private Long tagIdFunktion = null;
@@ -114,35 +111,35 @@ public class FreelancerBackingBeanDataModel extends
         return tagsBemerkungen;
     }
 
-    public String getNewSchwerpunkte() {
+    public Tag getNewSchwerpunkte() {
         return newSchwerpunkte;
     }
 
-    public void setNewSchwerpunkte(String newSchwerpunkte) {
+    public void setNewSchwerpunkte(Tag newSchwerpunkte) {
         this.newSchwerpunkte = newSchwerpunkte;
     }
 
-    public String getNewFunktion() {
+    public Tag getNewFunktion() {
         return newFunktion;
     }
 
-    public void setNewFunktion(String newFunktion) {
+    public void setNewFunktion(Tag newFunktion) {
         this.newFunktion = newFunktion;
     }
 
-    public String getNewEinsatzOrt() {
+    public Tag getNewEinsatzOrt() {
         return newEinsatzOrt;
     }
 
-    public void setNewEinsatzOrt(String newEinsatzOrt) {
+    public void setNewEinsatzOrt(Tag newEinsatzOrt) {
         this.newEinsatzOrt = newEinsatzOrt;
     }
 
-    public String getNewBemerkung() {
+    public Tag getNewBemerkung() {
         return newBemerkung;
     }
 
-    public void setNewBemerkung(String newBemerkung) {
+    public void setNewBemerkung(Tag newBemerkung) {
         this.newBemerkung = newBemerkung;
     }
 

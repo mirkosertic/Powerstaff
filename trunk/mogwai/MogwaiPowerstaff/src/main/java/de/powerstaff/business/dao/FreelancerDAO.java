@@ -17,28 +17,19 @@
  */
 package de.powerstaff.business.dao;
 
-import de.powerstaff.business.dto.ProfileSearchInfoDetail;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.ProjectPosition;
-import de.powerstaff.business.entity.SavedProfileSearch;
-import de.powerstaff.business.entity.Tag;
 
 import java.util.List;
 import java.util.Set;
 
 public interface FreelancerDAO extends PersonDAO<Freelancer> {
 
-    ProfileSearchInfoDetail findByCode(String aCode);
-
-    List<String> findCodesBy(SavedProfileSearch request);
-
     List<String> getCodeSuggestions(String aSuggest);
 
     Freelancer findByCodeReal(String aCode);
 
     List<ProjectPosition> findPositionsFor(Freelancer aFreelancer);
-
-    List<Freelancer> findByTag(Tag aTag);
 
     List<Freelancer> findFreelancerByTagIDs(Set<Long> aTagIDs);
 }

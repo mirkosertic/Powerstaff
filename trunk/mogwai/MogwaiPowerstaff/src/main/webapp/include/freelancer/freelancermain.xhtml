@@ -515,6 +515,7 @@
                                 value="#{freelancerBackingBean.data.entity.code}"
                                 id="kodierung" labelComponentId="kodierung_label"/>
 
+
                         <rich:suggestionbox eventsQueue="powerstaff" id="codesuggestion" for="kodierung_value"
                                             frequency="0.2" requestDelay="200" ignoreDupResponses="true" width="290"
                                             height="100" var="row"
@@ -538,28 +539,25 @@
                                             <f:param value="#{freelancertotag.tag.id}"/>
                                             <h:outputText value="#{freelancertotag.tag.name}"/>
                                         </pretty:link>
-                                        <a4j:commandLink styleClass="delete" action="#{freelancerBackingBean.removeTagSchwerpunkt}" oncomplete="markChanged()"  reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
+                                        <a4j:commandLink styleClass="delete" action="#{freelancerBackingBean.removeTagSchwerpunkt}" oncomplete="markChanged()" reRender="tags_schwerpunkte">
                                             <f:setPropertyActionListener value="#{freelancertotag.tag.id}" target="#{freelancerBackingBean.data.tagIdSchwerpunkt}"/>
                                             <h:outputText value="X"/>
                                         </a4j:commandLink>
                                     </div>
                                 </a4j:repeat>
 
-                                <h:inputText value="#{freelancerBackingBean.data.newSchwerpunkte}" id="schwerpunkte_new" styleClass="newtag" placeholder="Enter new tag here..."></h:inputText>
-                            </div>
-                            <rich:suggestionbox eventsQueue="powerstaff" id="suggestion_schwerpunkte" for="schwerpunkte_new"
-                                                frequency="0.2" requestDelay="200" ignoreDupResponses="true" width="290"
-                                                height="100" var="row"
-                                                suggestionAction="#{freelancerBackingBean.getTagSuggestionsSchwerpunkte}"
-                                                shadowOpacity="9">
-                                <h:column>
-                                    <h:outputText value="#{row.name}"/>
-                                </h:column>
-                                <a4j:support event="onselect" action="#{freelancerBackingBean.addTagSchwerpunkte}" onsubmit="markChanged()" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
-                                    <f:setPropertyActionListener value="#{row.id}" target="#{freelancerBackingBean.data.tagIdSchwerpunkt}"/>
-                                </a4j:support>
-                            </rich:suggestionbox>
+                                <b:combobox value="#{freelancerBackingBean.data.newSchwerpunkte}"
+                                            values="#{freelancerBackingBean.availableTagsSchwerpunkte}"
+                                            nullable="false">
+                                    <f:converter converterId="tagConverter"/>
+                                </b:combobox>
 
+                                <b:commandLink title="Tag hinzufügen"
+                                               action="#{freelancerBackingBean.addTagSchwerpunkte}">
+                                    <img src="${facesContext.externalContext.requestContextPath}/images/add.gif"/>
+                                    <a4j:support eventsQueue="powerstaff" event="onclick" onsubmit="markChanged()" reRender="tags_schwerpunkte"/>
+                                </b:commandLink>
+                            </div>
                         </a4j:outputPanel>
                     </b:cell>
 
@@ -567,7 +565,7 @@
                         <b:label id="funktion_label" label="Funktionen"/>
                     </b:cell>
                     <b:cell x="4" y="6">
-                        <a4j:outputPanel id="tags_funktionen">
+                        <a4j:outputPanel id="tags_funktionen" ajaxRendered="true">
                             <div class="tags">
                                 <a4j:repeat value="#{freelancerBackingBean.data.tagsFunktionen}" var="freelancertotag">
                                     <div class="tag">
@@ -582,21 +580,18 @@
                                     </div>
                                 </a4j:repeat>
 
-                                <h:inputText value="#{freelancerBackingBean.data.newFunktion}" id="funktion_new" styleClass="newtag" placeholder="Enter new tag here..."></h:inputText>
-                            </div>
-                            <rich:suggestionbox eventsQueue="powerstaff" id="suggestion_funktion" for="funktion_new"
-                                                frequency="0.2" requestDelay="200" ignoreDupResponses="true" width="290"
-                                                height="100" var="row"
-                                                suggestionAction="#{freelancerBackingBean.getTagSuggestionsFunktionen}"
-                                                shadowOpacity="9">
-                                <h:column>
-                                    <h:outputText value="#{row.name}"/>
-                                </h:column>
-                                <a4j:support event="onselect" action="#{freelancerBackingBean.addTagFunktionen}" onsubmit="markChanged()" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
-                                    <f:setPropertyActionListener value="#{row.id}" target="#{freelancerBackingBean.data.tagIdFunktion}"/>
-                                </a4j:support>
-                            </rich:suggestionbox>
+                                <b:combobox value="#{freelancerBackingBean.data.newFunktion}"
+                                            values="#{freelancerBackingBean.availableTagsFunktionen}"
+                                            nullable="false">
+                                    <f:converter converterId="tagConverter"/>
+                                </b:combobox>
 
+                                <b:commandLink title="Tag hinzufügen"
+                                               action="#{freelancerBackingBean.addTagFunktionen}">
+                                    <img src="${facesContext.externalContext.requestContextPath}/images/add.gif"/>
+                                    <a4j:support eventsQueue="powerstaff" event="onclick" onsubmit="markChanged()"/>
+                                </b:commandLink>
+                            </div>
                         </a4j:outputPanel>
                     </b:cell>
 
@@ -604,7 +599,7 @@
                         <b:label id="Einsatzorttags_label" label="Einsatzorte"/>
                     </b:cell>
                     <b:cell x="4" y="8">
-                        <a4j:outputPanel id="tags_einsatzorte">
+                        <a4j:outputPanel id="tags_einsatzorte" ajaxRendered="true">
                             <div class="tags">
                                 <a4j:repeat value="#{freelancerBackingBean.data.tagsEinsatzorte}" var="freelancertotag">
                                     <div class="tag">
@@ -619,21 +614,18 @@
                                     </div>
                                 </a4j:repeat>
 
-                                <h:inputText value="#{freelancerBackingBean.data.newEinsatzOrt}" id="einsatzorte_new" styleClass="newtag" placeholder="Enter new tag here..."></h:inputText>
-                            </div>
-                            <rich:suggestionbox eventsQueue="powerstaff" id="suggestion_einsatzorte" for="einsatzorte_new"
-                                                frequency="0.2" requestDelay="200" ignoreDupResponses="true" width="290"
-                                                height="100" var="row"
-                                                suggestionAction="#{freelancerBackingBean.getTagSuggestionsEinsatzortte}"
-                                                shadowOpacity="9">
-                                <h:column>
-                                    <h:outputText value="#{row.name}"/>
-                                </h:column>
-                                <a4j:support event="onselect" action="#{freelancerBackingBean.addTagEinsatzorte}" onsubmit="markChanged()" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
-                                    <f:setPropertyActionListener value="#{row.id}" target="#{freelancerBackingBean.data.tagIdEinsatzOrt}"/>
-                                </a4j:support>
-                            </rich:suggestionbox>
+                                <b:combobox value="#{freelancerBackingBean.data.newEinsatzOrt}"
+                                            values="#{freelancerBackingBean.availableTagsEinsatzorte}"
+                                            nullable="false">
+                                    <f:converter converterId="tagConverter"/>
+                                </b:combobox>
 
+                                <b:commandLink title="Tag hinzufügen"
+                                               action="#{freelancerBackingBean.addTagEinsatzorte}">
+                                    <img src="${facesContext.externalContext.requestContextPath}/images/add.gif"/>
+                                    <a4j:support eventsQueue="powerstaff" event="onclick" onsubmit="markChanged()"/>
+                                </b:commandLink>
+                            </div>
                         </a4j:outputPanel>
                     </b:cell>
 
@@ -641,7 +633,7 @@
                         <b:label id="bemerkungentags_label" label="Bemerkungen"/>
                     </b:cell>
                     <b:cell x="4" y="10">
-                        <a4j:outputPanel id="tags_bemerkungen">
+                        <a4j:outputPanel id="tags_bemerkungen" ajaxRendered="true">
                             <div class="tags">
                                 <a4j:repeat value="#{freelancerBackingBean.data.tagsBemerkungen}" var="freelancertotag">
                                     <div class="tag">
@@ -656,21 +648,18 @@
                                     </div>
                                 </a4j:repeat>
 
-                                <h:inputText value="#{freelancerBackingBean.data.newBemerkung}" id="bemerkungen_new" styleClass="newtag" placeholder="Enter new tag here..."></h:inputText>
-                            </div>
-                            <rich:suggestionbox eventsQueue="powerstaff" id="suggestion_bemerkungen" for="bemerkungen_new"
-                                                frequency="0.2" requestDelay="200" ignoreDupResponses="true" width="290"
-                                                height="100" var="row"
-                                                suggestionAction="#{freelancerBackingBean.getTagSuggestionsBemerkungen}"
-                                                shadowOpacity="9">
-                                <h:column>
-                                    <h:outputText value="#{row.name}"/>
-                                </h:column>
-                                <a4j:support event="onselect" action="#{freelancerBackingBean.addTagBemerkungen}" onsubmit="markChanged()" reRender="tags_schwerpunkte,tags_funktionen,tags_einsatzorte,tags_bemerkungen">
-                                    <f:setPropertyActionListener value="#{row.id}" target="#{freelancerBackingBean.data.tagIdBemerkung}"/>
-                                </a4j:support>
-                            </rich:suggestionbox>
+                                <b:combobox value="#{freelancerBackingBean.data.newBemerkung}"
+                                            values="#{freelancerBackingBean.availableTagsBemerkungen}"
+                                            nullable="false">
+                                    <f:converter converterId="tagConverter"/>
+                                </b:combobox>
 
+                                <b:commandLink title="Tag hinzufügen"
+                                               action="#{freelancerBackingBean.addTagBemerkungen}">
+                                    <img src="${facesContext.externalContext.requestContextPath}/images/add.gif"/>
+                                    <a4j:support eventsQueue="powerstaff" event="onclick" onsubmit="markChanged()"/>
+                                </b:commandLink>
+                            </div>
                         </a4j:outputPanel>
                     </b:cell>
 

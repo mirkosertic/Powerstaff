@@ -24,6 +24,14 @@
     </converter>
 
     <converter>
+        <converter-id>tagConverter</converter-id>
+        <converter-class>
+            de.powerstaff.web.converter.TagConverter
+        </converter-class>
+    </converter>
+
+
+    <converter>
         <converter-id>projectFirstContactConverter</converter-id>
         <converter-class>
             de.powerstaff.web.converter.ProjectFirstContactConverter
