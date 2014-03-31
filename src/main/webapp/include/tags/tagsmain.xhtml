@@ -67,25 +67,37 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value="Name1"/>
+                            <pretty:link styleClass="text" mappingId="tagoverview_sortname1" title="Sortieren">
+                                <f:param value="#{tagsBackingBean.data.currentTagId}"/>
+                                <h:outputText value="Name1"/>
+                            </pretty:link>
                         </f:facet>
                         <h:outputText value="#{row.name1}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value="Name2"/>
+                            <pretty:link styleClass="text" mappingId="tagoverview_sortname2" title="Sortieren">
+                                <f:param value="#{tagsBackingBean.data.currentTagId}"/>
+                                <h:outputText value="Name2"/>
+                            </pretty:link>
                         </f:facet>
                         <h:outputText value="#{row.name2}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value="Code"/>
+                            <pretty:link styleClass="text" mappingId="tagoverview_sortcode" title="Sortieren">
+                                <f:param value="#{tagsBackingBean.data.currentTagId}"/>
+                                <h:outputText value="Code"/>
+                            </pretty:link>
                         </f:facet>
                         <h:outputText value="#{row.code}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value="Verf."/>
+                            <pretty:link styleClass="text" mappingId="tagoverview_sortavailability" title="Sortieren">
+                                <f:param value="#{tagsBackingBean.data.currentTagId}"/>
+                                <h:outputText value="Verf."/>
+                            </pretty:link>
                         </f:facet>
                         <h:outputText value="#{row.availabilityAsDate}">
                             <f:converter converterId="dateConverter"/>
@@ -93,19 +105,28 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value="Satz"/>
+                            <pretty:link styleClass="text" mappingId="tagoverview_sortsallary" title="Sortieren">
+                                <f:param value="#{tagsBackingBean.data.currentTagId}"/>
+                                <h:outputText value="Satz"/>
+                            </pretty:link>
                         </f:facet>
                         <h:outputText value="#{row.sallaryLong}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value="Plz"/>
+                            <pretty:link styleClass="text" mappingId="tagoverview_sortplz" title="Sortieren">
+                                <f:param value="#{tagsBackingBean.data.currentTagId}"/>
+                                <h:outputText value="Plz"/>
+                            </pretty:link>
                         </f:facet>
                         <h:outputText value="#{row.plz}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            <h:outputText value="Letzter Kontakt"/>
+                            <pretty:link styleClass="text" mappingId="tagoverview_sortlastcontact" title="Sortieren">
+                                <f:param value="#{tagsBackingBean.data.currentTagId}"/>
+                                <h:outputText value="Letzter Kontakt"/>
+                            </pretty:link>
                         </f:facet>
                         <h:outputText value="#{row.lastContact}"/>
                     </h:column>

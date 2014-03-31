@@ -33,4 +33,18 @@ public interface FreelancerService extends PersonService<Freelancer> {
     List<ProjectPosition> findPositionsFor(Freelancer aFreelancer);
 
     List<Freelancer> findFreelancerByTagIDs(Set<Long> aTagIDs);
+
+    List<Freelancer> findFreelancerByTagIDsSortByName1(Set<Long> aTagIDs);
+
+    List<Freelancer> findFreelancerByTagIDsSortByName2(Set<Long> aTagIDs);
+
+    List<Freelancer> findFreelancerByTagIDsSortByCode(Set<Long> aTagIDs);
+
+    List<Freelancer> findFreelancerByTagIDsSortByAvailability(Set<Long> aTagIDs);
+
+    List<Freelancer> findFreelancerByTagIDsSortBySallary(Set<Long> aTagIDs);
+
+    List<Freelancer> findFreelancerByTagIDsSortByPlz(Set<Long> aTagIDs);
+
+    List<Freelancer> findFreelancerByTagIDsSortByLastContact(Set<Long> aTagIDs);
 }
