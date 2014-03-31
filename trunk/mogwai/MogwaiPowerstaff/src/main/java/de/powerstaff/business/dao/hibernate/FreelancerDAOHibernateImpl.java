@@ -63,8 +63,15 @@ public class FreelancerDAOHibernateImpl extends
     public List<GenericSearchResult> performQBESearch(Freelancer aObject,
                                                       int aMaxSearchResult) {
 
-        return performQBESearch(aObject, DISPLAYPROPERTIES, SEARCHPROPERTIES,
+        List<GenericSearchResult> theSearchResult = performQBESearch(aObject, DISPLAYPROPERTIES, SEARCHPROPERTIES,
                 ORDERBYPROPERTIES, MATCH_LIKE, aMaxSearchResult);
+        // Tags nachladen...
+        for (GenericSearchResult theRow : theSearchResult) {
+            Long theID = (Long) theRow.get(GenericSearchResult.OBJECT_ID_KEY);
+            theRow.put("tags", findById(theID).getAllTagsSorted());
+        }
+
+        return theSearchResult;
     }
 
     public List<String> getCodeSuggestions(final String aSuggest) {
@@ -159,8 +166,7 @@ public class FreelancerDAOHibernateImpl extends
         super.delete(aEntity);
     }
 
-    @Override
-    public List<Freelancer> findFreelancerByTagIDs(final Set<Long> aTagIDs) {
+    private List<Freelancer> internalFindFreelancerByTagIDs(final Set<Long> aTagIDs, final String aSortByFieldName) {
         final StringBuilder theTagInClause = new StringBuilder();
         for (Long theTagID : aTagIDs) {
             if (theTagInClause.length() > 0) {
@@ -176,7 +182,7 @@ public class FreelancerDAOHibernateImpl extends
                         List<Freelancer> theResult = new ArrayList<Freelancer>();
 
                         Query theQuery = aSession
-                                .createQuery("select distinct f from Freelancer f left join f.tags t where t.tag.id in ( " + theTagInClause.toString() + ") order by f.name1, f.name2");
+                                .createQuery("select distinct f from Freelancer f left join f.tags t where t.tag.id in ( " + theTagInClause.toString() + ") order by f."+aSortByFieldName);
                         for (Iterator theIterator = theQuery.iterate(); theIterator
                                 .hasNext(); ) {
                             Freelancer theFreelancer = (Freelancer) theIterator.next();
@@ -189,5 +195,45 @@ public class FreelancerDAOHibernateImpl extends
                     }
 
                 });
+    }
+
+    @Override
+    public List<Freelancer> findFreelancerByTagIDs(final Set<Long> aTagIDs) {
+        return internalFindFreelancerByTagIDs(aTagIDs, "name1");
+    }
+
+    @Override
+    public List<Freelancer> findFreelancerByTagIDsSortByName1(Set<Long> aTagIDs) {
+        return internalFindFreelancerByTagIDs(aTagIDs, "name1");
+    }
+
+    @Override
+    public List<Freelancer> findFreelancerByTagIDsSortByName2(Set<Long> aTagIDs) {
+        return internalFindFreelancerByTagIDs(aTagIDs, "name2");
+    }
+
+    @Override
+    public List<Freelancer> findFreelancerByTagIDsSortByCode(Set<Long> aTagIDs) {
+        return internalFindFreelancerByTagIDs(aTagIDs, "code");
+    }
+
+    @Override
+    public List<Freelancer> findFreelancerByTagIDsSortByAvailability(Set<Long> aTagIDs) {
+        return internalFindFreelancerByTagIDs(aTagIDs, "availabilityAsDate");
+    }
+
+    @Override
+    public List<Freelancer> findFreelancerByTagIDsSortBySallary(Set<Long> aTagIDs) {
+        return internalFindFreelancerByTagIDs(aTagIDs, "sallaryLong");
+    }
+
+    @Override
+    public List<Freelancer> findFreelancerByTagIDsSortByPlz(Set<Long> aTagIDs) {
+        return internalFindFreelancerByTagIDs(aTagIDs, "plz");
+    }
+
+    @Override
+    public List<Freelancer> findFreelancerByTagIDsSortByLastContact(Set<Long> aTagIDs) {
+        return internalFindFreelancerByTagIDs(aTagIDs, "lastContact");
     }
 }

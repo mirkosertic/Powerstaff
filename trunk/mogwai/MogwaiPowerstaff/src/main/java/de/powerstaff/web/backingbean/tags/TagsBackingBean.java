@@ -54,15 +54,44 @@ public class TagsBackingBean extends WrappingBackingBean<TagsBackingBeanDataMode
         return new TagsBackingBeanDataModel();
     }
 
-    public void load() {
-
+    private Set<Long> computeTagIDs() {
         Set<Long> theTagsIDs = new HashSet();
         for (String theID : StringUtils.split(getData().getCurrentTagId(), ',')) {
             theTagsIDs.add(Long.valueOf(theID));
         }
+        return theTagsIDs;
+    }
 
-        List<Freelancer> theFreelancer = freelancerService.findFreelancerByTagIDs(theTagsIDs);
-        getData().initFreelancerList(theFreelancer);
+    public void load() {
+        loadAndSortByName1();
+    }
+
+    public void loadAndSortByName1() {
+        getData().initFreelancerList(freelancerService.findFreelancerByTagIDsSortByName1(computeTagIDs()));
+    }
+
+    public void loadAndSortByName2() {
+        getData().initFreelancerList(freelancerService.findFreelancerByTagIDsSortByName2(computeTagIDs()));
+    }
+
+    public void loadAndSortByCode() {
+        getData().initFreelancerList(freelancerService.findFreelancerByTagIDsSortByCode(computeTagIDs()));
+    }
+
+    public void loadAndSortByAvailability() {
+        getData().initFreelancerList(freelancerService.findFreelancerByTagIDsSortByAvailability(computeTagIDs()));
+    }
+
+    public void loadAndSortBySallary() {
+        getData().initFreelancerList(freelancerService.findFreelancerByTagIDsSortBySallary(computeTagIDs()));
+    }
+
+    public void loadAndSortByPlz() {
+        getData().initFreelancerList(freelancerService.findFreelancerByTagIDsSortByPlz(computeTagIDs()));
+    }
+
+    public void loadAndSortByLastContact() {
+        getData().initFreelancerList(freelancerService.findFreelancerByTagIDsSortByLastContact(computeTagIDs()));
     }
 
     public String commandSearch() throws IOException {

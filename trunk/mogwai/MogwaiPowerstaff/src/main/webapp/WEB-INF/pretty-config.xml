@@ -90,6 +90,41 @@
         <view-id>/include/tags/tagsmain.faces</view-id>
         <action>#{tagsBackingBean.load}</action>
     </url-mapping>
+    <url-mapping id="tagoverview_sortname1">
+        <pattern>/tags/#{tagsBackingBean.data.currentTagId}/sortedbyname1</pattern>
+        <view-id>/include/tags/tagsmain.faces</view-id>
+        <action>#{tagsBackingBean.loadAndSortByName1}</action>
+    </url-mapping>
+    <url-mapping id="tagoverview_sortname2">
+        <pattern>/tags/#{tagsBackingBean.data.currentTagId}/sortedbyname2</pattern>
+        <view-id>/include/tags/tagsmain.faces</view-id>
+        <action>#{tagsBackingBean.loadAndSortByName2}</action>
+    </url-mapping>
+    <url-mapping id="tagoverview_sortcode">
+        <pattern>/tags/#{tagsBackingBean.data.currentTagId}/sortedbycode</pattern>
+        <view-id>/include/tags/tagsmain.faces</view-id>
+        <action>#{tagsBackingBean.loadAndSortByCode}</action>
+    </url-mapping>
+    <url-mapping id="tagoverview_sortavailability">
+        <pattern>/tags/#{tagsBackingBean.data.currentTagId}/sortedbyavailability</pattern>
+        <view-id>/include/tags/tagsmain.faces</view-id>
+        <action>#{tagsBackingBean.loadAndSortByAvailability}</action>
+    </url-mapping>
+    <url-mapping id="tagoverview_sortsallary">
+        <pattern>/tags/#{tagsBackingBean.data.currentTagId}/sortedbysallary</pattern>
+        <view-id>/include/tags/tagsmain.faces</view-id>
+        <action>#{tagsBackingBean.loadAndSortBySallary}</action>
+    </url-mapping>
+    <url-mapping id="tagoverview_sortplz">
+        <pattern>/tags/#{tagsBackingBean.data.currentTagId}/sortedbyplz</pattern>
+        <view-id>/include/tags/tagsmain.faces</view-id>
+        <action>#{tagsBackingBean.loadAndSortByPlz}</action>
+    </url-mapping>
+    <url-mapping id="tagoverview_sortlastcontact">
+        <pattern>/tags/#{tagsBackingBean.data.currentTagId}/sortedbylastcontact</pattern>
+        <view-id>/include/tags/tagsmain.faces</view-id>
+        <action>#{tagsBackingBean.loadAndSortByLastContact}</action>
+    </url-mapping>
     <url-mapping id="tagexcellist">
         <pattern>/tags/#{tagid}/excel</pattern>
         <view-id>/FreelancerTagList</view-id>

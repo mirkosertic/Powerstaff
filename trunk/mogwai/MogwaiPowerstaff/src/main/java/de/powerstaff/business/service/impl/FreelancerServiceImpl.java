@@ -120,4 +120,39 @@ public class FreelancerServiceImpl implements
     public List<Freelancer> findFreelancerByTagIDs(Set<Long> aTagIDs) {
         return freelancerDAO.findFreelancerByTagIDs(aTagIDs);
     }
+
+    @Override
+    public List<Freelancer> findFreelancerByTagIDsSortByName1(Set<Long> aTagIDs) {
+        return freelancerDAO.findFreelancerByTagIDsSortByName1(aTagIDs);
+    }
+
+    @Override
+    public List<Freelancer> findFreelancerByTagIDsSortByName2(Set<Long> aTagIDs) {
+        return freelancerDAO.findFreelancerByTagIDsSortByName2(aTagIDs);
+    }
+
+    @Override
+    public List<Freelancer> findFreelancerByTagIDsSortByCode(Set<Long> aTagIDs) {
+        return freelancerDAO.findFreelancerByTagIDsSortByCode(aTagIDs);
+    }
+
+    @Override
+    public List<Freelancer> findFreelancerByTagIDsSortByAvailability(Set<Long> aTagIDs) {
+        return freelancerDAO.findFreelancerByTagIDsSortByAvailability(aTagIDs);
+    }
+
+    @Override
+    public List<Freelancer> findFreelancerByTagIDsSortBySallary(Set<Long> aTagIDs) {
+        return freelancerDAO.findFreelancerByTagIDsSortBySallary(aTagIDs);
+    }
+
+    @Override
+    public List<Freelancer> findFreelancerByTagIDsSortByPlz(Set<Long> aTagIDs) {
+        return freelancerDAO.findFreelancerByTagIDsSortByPlz(aTagIDs);
+    }
+
+    @Override
+    public List<Freelancer> findFreelancerByTagIDsSortByLastContact(Set<Long> aTagIDs) {
+        return freelancerDAO.findFreelancerByTagIDsSortByLastContact(aTagIDs);
+    }
 }

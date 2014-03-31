@@ -103,6 +103,18 @@
                             <h:outputText value="Skills"/>
                         </f:facet>
                         <h:outputText value="#{row.skills}"/>
+                        <h:panelGroup rendered="#{!empty row.tags}">
+                            <div class="tags tagsWide">
+                                <a4j:repeat value="#{row.tags}" var="tag">
+                                    <div class="tag">
+                                        <pretty:link styleClass="text" mappingId="tagoverview" title="Zeige alle Freiberufler mit diesem Tag">
+                                            <f:param value="#{tag.tag.id}"/>
+                                            <h:outputText value="#{tag.tag.name}"/>
+                                        </pretty:link>
+                                    </div>
+                                </a4j:repeat>
+                            </div>
+                        </h:panelGroup>
                     </h:column>
                 </b:table>
             </b:cell>
