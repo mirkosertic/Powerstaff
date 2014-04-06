@@ -4,10 +4,7 @@ import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerToTag;
 import de.powerstaff.business.service.FreelancerService;
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.*;
 import org.springframework.web.HttpRequestHandler;
 
 import javax.servlet.ServletException;
@@ -17,6 +14,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
@@ -41,6 +39,26 @@ public class TaggedFreelancerDownloadServlet implements HttpRequestHandler {
         return aValue.toString();
     }
 
+    private Object safeDateFormat(String aValue) {
+        if (aValue.length() == 10) {
+            SimpleDateFormat theFormat = new SimpleDateFormat("dd.MM.yyyy");
+            try {
+                return theFormat.parse(aValue);
+            } catch (ParseException e) {
+                return aValue;
+            }
+        }
+        if (aValue.length() == 8) {
+            SimpleDateFormat theFormat = new SimpleDateFormat("dd.MM.yy");
+            try {
+                return theFormat.parse(aValue);
+            } catch (ParseException e) {
+                return aValue;
+            }
+        }
+        return aValue;
+    }
+
     @Override
     public void handleRequest(HttpServletRequest aRequest, HttpServletResponse aResponse) throws ServletException, IOException {
 
@@ -48,6 +66,9 @@ public class TaggedFreelancerDownloadServlet implements HttpRequestHandler {
 
         HSSFWorkbook theWorkbook = new HSSFWorkbook();
         HSSFSheet theWorkSheet = theWorkbook.createSheet("GetaggteFreiberufler");
+
+        HSSFCellStyle theDateStyle = theWorkbook.createCellStyle();
+        theDateStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("d/m/jj"));
 
         int aRow = 0;
         // Header
@@ -91,10 +112,10 @@ public class TaggedFreelancerDownloadServlet implements HttpRequestHandler {
             addCellToRow(theFreelancerRow, 2, saveObject(theFreelancer.getName2()));
             addCellToRow(theFreelancerRow, 3, saveObject(theFreelancer.getFirstContactEMail())); // eMail
             addCellToRow(theFreelancerRow, 4, saveObject(theFreelancer.getCode()));
-            addCellToRow(theFreelancerRow, 5, saveObject(theFreelancer.getAvailabilityAsDate()));
+            addCellToRow(theFreelancerRow, 5, saveObject(theFreelancer.getAvailabilityAsDate()), theDateStyle);
             addCellToRow(theFreelancerRow, 6, saveObject(theFreelancer.getSallaryLong()));
             addCellToRow(theFreelancerRow, 7, saveObject(theFreelancer.getPlz()));
-            addCellToRow(theFreelancerRow, 8, saveObject(theFreelancer.getLastContact()));
+            addCellToRow(theFreelancerRow, 8, saveObject(safeDateFormat(theFreelancer.getLastContact())));
             addCellToRow(theFreelancerRow, 9, saveObject(theSkills));
             addCellToRow(theFreelancerRow, 10, theTagList.toString());
         }
@@ -107,8 +128,15 @@ public class TaggedFreelancerDownloadServlet implements HttpRequestHandler {
         theOutput.flush();
     }
 
-    private void addCellToRow(HSSFRow theRow, int aColumn, String aValue) {
-        HSSFCell theCell1 = theRow.createCell(aColumn);
+    private HSSFCell addCellToRow(HSSFRow aRow, int aColumn, String aValue) {
+        HSSFCell theCell1 = aRow.createCell(aColumn);
+        theCell1.setCellValue(aValue);
+        return theCell1;
+    }
+
+    private void addCellToRow(HSSFRow aRow, int aColumn, String aValue, HSSFCellStyle aFormat) {
+        HSSFCell theCell1 = addCellToRow(aRow, aColumn, aValue);
+        theCell1.setCellStyle(aFormat);
         theCell1.setCellValue(aValue);
     }
 }

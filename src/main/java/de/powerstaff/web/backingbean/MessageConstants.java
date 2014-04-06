@@ -54,4 +54,6 @@ public interface MessageConstants {
     String MSG_CONCURRENTMODIFICATION = "message.concurrentmodification";
 
     String MSG_KEINETAGSAUSGEWAEHLT = "message.keinetagsausgewaehlt";
+
+    String MSG_KEINTAGAUSGEWAEHLT = "message.keintagausgewaehlt";
 }

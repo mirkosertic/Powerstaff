@@ -112,17 +112,22 @@ public class FreelancerBackingBean
         Freelancer theFreelancer = getData().getEntity();
 
         Tag theTag = getData().getNewSchwerpunkte();
-        if (!theFreelancer.hasTag(theTag)) {
+        if (theTag != null) {
+            if (!theFreelancer.hasTag(theTag)) {
 
-            FreelancerToTag theFreelancerToTag = new FreelancerToTag();
-            theFreelancerToTag.setTag(theTag);
-            theFreelancerToTag.setType(TagType.SCHWERPUNKT);
-            theFreelancer.getTags().add(theFreelancerToTag);
+                FreelancerToTag theFreelancerToTag = new FreelancerToTag();
+                theFreelancerToTag.setTag(theTag);
+                theFreelancerToTag.setType(TagType.SCHWERPUNKT);
+                theFreelancer.getTags().add(theFreelancerToTag);
 
-            getData().setNewSchwerpunkte(null);
+                getData().setNewSchwerpunkte(null);
+            }
+
+            initTagLists();
+        } else {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_KEINTAGAUSGEWAEHLT);
         }
 
-        initTagLists();
     }
 
     public void addTagFunktionen() {
@@ -130,17 +135,22 @@ public class FreelancerBackingBean
         Freelancer theFreelancer = getData().getEntity();
 
         Tag theTag = getData().getNewFunktion();
-        if (!theFreelancer.hasTag(theTag)) {
+        if (theTag != null) {
+            if (!theFreelancer.hasTag(theTag)) {
 
-            FreelancerToTag theFreelancerToTag = new FreelancerToTag();
-            theFreelancerToTag.setTag(theTag);
-            theFreelancerToTag.setType(TagType.FUNKTION);
-            theFreelancer.getTags().add(theFreelancerToTag);
+                FreelancerToTag theFreelancerToTag = new FreelancerToTag();
+                theFreelancerToTag.setTag(theTag);
+                theFreelancerToTag.setType(TagType.FUNKTION);
+                theFreelancer.getTags().add(theFreelancerToTag);
 
-            getData().setNewFunktion(null);
+                getData().setNewFunktion(null);
+            }
+
+            initTagLists();
+        } else {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_KEINTAGAUSGEWAEHLT);
         }
 
-        initTagLists();
     }
 
     public void addTagEinsatzorte() {
@@ -148,17 +158,22 @@ public class FreelancerBackingBean
         Freelancer theFreelancer = getData().getEntity();
 
         Tag theTag = getData().getNewEinsatzOrt();
-        if (!theFreelancer.hasTag(theTag)) {
+        if (theTag != null) {
+            if (!theFreelancer.hasTag(theTag)) {
 
-            FreelancerToTag theFreelancerToTag = new FreelancerToTag();
-            theFreelancerToTag.setTag(theTag);
-            theFreelancerToTag.setType(TagType.EINSATZORT);
-            theFreelancer.getTags().add(theFreelancerToTag);
+                FreelancerToTag theFreelancerToTag = new FreelancerToTag();
+                theFreelancerToTag.setTag(theTag);
+                theFreelancerToTag.setType(TagType.EINSATZORT);
+                theFreelancer.getTags().add(theFreelancerToTag);
 
-            getData().setNewEinsatzOrt(null);
+                getData().setNewEinsatzOrt(null);
+            }
+
+            initTagLists();
+        } else {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_KEINTAGAUSGEWAEHLT);
         }
 
-        initTagLists();
     }
 
     public void addTagBemerkungen() {
@@ -166,17 +181,21 @@ public class FreelancerBackingBean
         Freelancer theFreelancer = getData().getEntity();
 
         Tag theTag = getData().getNewBemerkung();
-        if (!theFreelancer.hasTag(theTag)) {
+        if (theTag != null) {
+            if (!theFreelancer.hasTag(theTag)) {
 
-            FreelancerToTag theFreelancerToTag = new FreelancerToTag();
-            theFreelancerToTag.setTag(theTag);
-            theFreelancerToTag.setType(TagType.BEMERKUNG);
-            theFreelancer.getTags().add(theFreelancerToTag);
+                FreelancerToTag theFreelancerToTag = new FreelancerToTag();
+                theFreelancerToTag.setTag(theTag);
+                theFreelancerToTag.setType(TagType.BEMERKUNG);
+                theFreelancer.getTags().add(theFreelancerToTag);
 
-            getData().setNewBemerkung(null);
+                getData().setNewBemerkung(null);
+            }
+
+            initTagLists();
+        } else {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_KEINTAGAUSGEWAEHLT);
         }
-
-        initTagLists();
     }
 
     public void removeTagSchwerpunkt() {
