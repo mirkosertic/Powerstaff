@@ -45,6 +45,8 @@ public class ProfileSearchInfoDetail implements Serializable {
 
     private Set<Tag> tags;
 
+    private Date lastContact;
+
     public ProfileSearchInfoDetail() {
         contacts = new ArrayList<FreelancerContact>();
         tags = new HashSet<Tag>();
@@ -183,5 +185,13 @@ public class ProfileSearchInfoDetail implements Serializable {
             }
         }
         return null;
+    }
+
+    public Date getLastContact() {
+        return lastContact;
+    }
+
+    public void setLastContact(Date lastContact) {
+        this.lastContact = lastContact;
     }
 }

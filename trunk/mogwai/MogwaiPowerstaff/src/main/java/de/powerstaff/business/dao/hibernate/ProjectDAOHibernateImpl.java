@@ -22,7 +22,6 @@ import de.powerstaff.business.dao.ProjectDAO;
 import de.powerstaff.business.entity.*;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.HibernateCallback;
@@ -58,7 +57,7 @@ public class ProjectDAOHibernateImpl extends NavigatingDAOHibernateImpl<Project>
     }
 
     public Project findByPrimaryKey(Long aProjectID) {
-        return (Project) getHibernateTemplate().get(Project.class, aProjectID);
+        return getHibernateTemplate().get(Project.class, aProjectID);
     }
 
     public List<Project> getActiveProjects() {
@@ -69,7 +68,7 @@ public class ProjectDAOHibernateImpl extends NavigatingDAOHibernateImpl<Project>
                 List<Project> theResult = new Vector<Project>();
 
                 Criteria theCriteria = aSession.createCriteria(Project.class);
-                theCriteria.add(Expression.eq("visibleOnWebSite", Boolean.TRUE));
+                theCriteria.add(Restrictions.eq("visibleOnWebSite", Boolean.TRUE));
                 theResult.addAll(theCriteria.list());
 
                 return theResult;

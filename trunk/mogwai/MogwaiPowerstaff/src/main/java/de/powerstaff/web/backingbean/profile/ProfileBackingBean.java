@@ -24,17 +24,22 @@ import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.dto.DataPage;
 import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.entity.*;
+import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.OptimisticLockException;
 import de.powerstaff.business.service.ProfileIndexerService;
 import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.web.backingbean.ContextUtils;
 import de.powerstaff.web.backingbean.MessageConstants;
+import de.powerstaff.web.utils.ExcelUtils;
 import de.powerstaff.web.utils.PagedListDataModel;
+import org.apache.poi.hssf.usermodel.*;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import javax.faces.component.StateHolder;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,6 +55,12 @@ public class ProfileBackingBean extends
     private transient ProfileSearchService profileSearchService;
 
     private ContextUtils contextUtils;
+    
+    private transient FreelancerService freelancerService;
+
+    public void setFreelancerService(FreelancerService aService) {
+        freelancerService = aService;
+    }
 
     public void setContextUtils(ContextUtils contextUtils) {
         this.contextUtils = contextUtils;
@@ -68,12 +79,6 @@ public class ProfileBackingBean extends
     public void setProfileSearchService(
             ProfileSearchService profileSearchService) {
         this.profileSearchService = profileSearchService;
-    }
-
-    public void resetPagination() {
-        if (getData().getDataScroller() != null) {
-            getData().getDataScroller().setFirstRow(0);
-        }
     }
 
     public void initializeDataModel() {
@@ -173,6 +178,82 @@ public class ProfileBackingBean extends
         }
     }
 
+    public void commandSearchExportExcel() {
+        try {
+            FacesContext theContext = FacesContext.getCurrentInstance();
+
+            ExternalContext externalContext = theContext.getExternalContext();
+            HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
+
+            response.reset(); // Some JSF component library or some Filter might have set some headers in the buffer beforehand. We want to get rid of them, else it may collide.
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-disposition", "attachment; filename=\"ExportSuche.xls\"");
+
+            HSSFWorkbook theWorkbook = new HSSFWorkbook();
+            HSSFSheet theWorkSheet = theWorkbook.createSheet("ExportSuche");
+
+            HSSFCellStyle theDateStyle = theWorkbook.createCellStyle();
+            theDateStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("d/m/jj"));
+
+            int aRow = 0;
+            // Header
+            HSSFRow theRow = theWorkSheet.createRow(aRow++);
+            ExcelUtils.addCellToRow(theRow, 0, "Anrede");
+            ExcelUtils.addCellToRow(theRow, 1, "Name1");
+            ExcelUtils.addCellToRow(theRow, 2, "Name2");
+            ExcelUtils.addCellToRow(theRow, 3, "eMail");
+            ExcelUtils.addCellToRow(theRow, 4, "Code");
+            ExcelUtils.addCellToRow(theRow, 5, "Verfügbarkeit");
+            ExcelUtils.addCellToRow(theRow, 6, "Satz");
+            ExcelUtils.addCellToRow(theRow, 7, "Plz");
+            ExcelUtils.addCellToRow(theRow, 8, "Letzter Kontakt");
+            ExcelUtils.addCellToRow(theRow, 9, "Skills");
+            ExcelUtils.addCellToRow(theRow, 10, "Tags");
+
+            // Rows
+            PagedListDataModel<ProfileSearchEntry> theData = getData().getSearchResult();
+            for (int i=0;i<theData.getRowCount();i++) {
+                theData.setRowIndex(i);
+
+                ProfileSearchEntry theDataRow = (ProfileSearchEntry) theData.getRowData();
+
+                Freelancer theFreelancer = freelancerService.findByPrimaryKey(theDataRow.getFreelancer().getId());
+
+                String theSkills  = ExcelUtils.saveObject(theFreelancer.getSkills().replace("\f", "").replace("\n", "").replace("\t", ""));
+
+                StringBuilder theTagList = new StringBuilder();
+                for (FreelancerToTag theTagAssignment : theFreelancer.getTags()) {
+                    if (theTagList.length() > 0) {
+                        theTagList.append(" ");
+                    }
+                    theTagList.append(theTagAssignment.getTag().getName());
+                }
+
+                HSSFRow theFreelancerRow = theWorkSheet.createRow(aRow++);
+                ExcelUtils.addCellToRow(theFreelancerRow, 0, ExcelUtils.saveObject(theFreelancer.getTitel()));
+                ExcelUtils.addCellToRow(theFreelancerRow, 1, ExcelUtils.saveObject(theFreelancer.getName1()));
+                ExcelUtils.addCellToRow(theFreelancerRow, 2, ExcelUtils.saveObject(theFreelancer.getName2()));
+                ExcelUtils.addCellToRow(theFreelancerRow, 3, ExcelUtils.saveObject(theFreelancer.getFirstContactEMail())); // eMail
+                ExcelUtils.addCellToRow(theFreelancerRow, 4, ExcelUtils.saveObject(theFreelancer.getCode()));
+                ExcelUtils.addCellToRow(theFreelancerRow, 5, ExcelUtils.saveObject(theFreelancer.getAvailabilityAsDate()), theDateStyle);
+                ExcelUtils.addCellToRow(theFreelancerRow, 6, ExcelUtils.saveObject(theFreelancer.getSallaryLong()));
+                ExcelUtils.addCellToRow(theFreelancerRow, 7, ExcelUtils.saveObject(theFreelancer.getPlz()));
+                ExcelUtils.addCellToRow(theFreelancerRow, 8, ExcelUtils.saveObject(theFreelancer.getLastContactDate()), theDateStyle);
+                ExcelUtils.addCellToRow(theFreelancerRow, 9, ExcelUtils.saveObject(theSkills));
+                ExcelUtils.addCellToRow(theFreelancerRow, 10, theTagList.toString());
+            }
+
+            theWorkbook.write(response.getOutputStream());
+
+            theContext.responseComplete(); // Important!
+
+        } catch (Exception e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE,
+                    e.getMessage());
+            LOGGER.error("Fehler bei Profilsuche", e);
+        }
+    }
+
     public void commandDeleteSearchEntry() {
 
         ProfileSearchEntry theEntry = (ProfileSearchEntry) getData()
@@ -216,8 +297,6 @@ public class ProfileBackingBean extends
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
 
-            resetPagination();
-
         } catch (OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
@@ -230,8 +309,6 @@ public class ProfileBackingBean extends
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
 
-            resetPagination();
-
         } catch (OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
@@ -243,8 +320,6 @@ public class ProfileBackingBean extends
         try {
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
-
-            resetPagination();
 
         } catch (OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
@@ -259,7 +334,17 @@ public class ProfileBackingBean extends
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
 
-            resetPagination();
+        } catch (OptimisticLockException e) {
+            JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
+        }
+    }
+
+    public void commandSortByLastContact() {
+        getData().getSearchRequest().setSortierung(
+                ProfileIndexerService.LETZTERKONTAKT);
+        try {
+            profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
+            initializeDataModel();
 
         } catch (OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
@@ -274,8 +359,6 @@ public class ProfileBackingBean extends
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
 
-            resetPagination();
-
         } catch (OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
@@ -288,7 +371,6 @@ public class ProfileBackingBean extends
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
 
-            resetPagination();
         } catch (OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }

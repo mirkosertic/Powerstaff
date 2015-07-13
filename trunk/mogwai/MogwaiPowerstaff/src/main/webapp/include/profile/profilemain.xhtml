@@ -46,7 +46,7 @@
         <b:gridBagLayout cols="400,10,400" rows="30,10,1,p" id="menu">
             <b:cell x="1" y="1" width="3">
                 <b:titledBox label="Profilsuche">
-                    <b:gridBagLayout cols="1,150,2,*,2,20,40,20,2"
+                    <b:gridBagLayout cols="1,150,2,*,2,20,40,20,2,20,2"
                                      rows="2,p,2">
                         <b:cell x="2" y="2">
                             <b:label id="labelsuche" label="Profilinhalt"/>
@@ -70,6 +70,11 @@
                                            actionKey="13"
                                            keySensitive="true" id="search">
                                 <img src="${facesContext.externalContext.requestContextPath}/images/search.gif"/>
+                            </h:commandLink>
+                        </b:cell>
+                        <b:cell x="10" y="2">
+                            <h:commandLink title="Aktuelles Ergebnis nach Excel exportieren" action="#{profileBackingBean.commandSearchExportExcel}" id="searchAndExport">
+                                <img src="${facesContext.externalContext.requestContextPath}/images/excel.png"/>
                             </h:commandLink>
                         </b:cell>
                     </b:gridBagLayout>
@@ -108,7 +113,7 @@
             <b:cell x="1" y="4" width="3">
                <a4j:outputPanel ajaxRendered="true">
                     <b:table id="datatable" rendered="#{profileBackingBean.data.searchResultSize > 0}" var="row"
-                             value="#{profileBackingBean.data.searchResult}" cols="20,130,70,50,30,70,60,360,20"
+                             value="#{profileBackingBean.data.searchResult}" cols="20,130,70,50,30,70,70,60,360,20"
                              rows="#{profileBackingBean.pageSize}"
                              rowStyle="#{profileBackingBean.rowStyleForProfile}">
                         <h:column>
@@ -145,6 +150,14 @@
                                 <a4j:commandLink value="Plz" action="#{profileBackingBean.commandSortByPLZ}" id="sortbyplz"/>
                             </f:facet>
                             <h:outputText value="#{row.freelancer.plz}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <a4j:commandLink value="Letzter Kontakt" action="#{profileBackingBean.commandSortByLastContact}" id="sortbylastcontact"/>
+                            </f:facet>
+                            <h:outputText value="#{row.freelancer.lastContact}">
+                                <f:converter converterId="dateConverter"/>
+                            </h:outputText>
                         </h:column>
                         <h:column>
                             <f:facet name="header">
@@ -191,12 +204,6 @@
                             </h:commandLink>
                         </h:column>
                     </b:table>
-                    <rich:datascroller for="datatable" id="datascroller" maxPages="8" pageIndexVar="pageIndex"
-                                       pagesVar="pages" binding="#{profileBackingBean.data.dataScroller}" limitToList="datatable">
-                        <f:facet name="pages">
-                            <h:outputText value="#{pageIndex} / #{pages}"/>
-                        </f:facet>
-                    </rich:datascroller>
                 </a4j:outputPanel>
             </b:cell>
 

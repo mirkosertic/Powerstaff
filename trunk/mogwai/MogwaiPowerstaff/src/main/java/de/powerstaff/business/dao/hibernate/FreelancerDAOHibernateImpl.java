@@ -44,7 +44,7 @@ public class FreelancerDAOHibernateImpl extends
     private static final String[] SEARCHPROPERTIES = new String[]{"name1",
             "name2", "company", "street", "country", "plz", "city", "comments",
             "workplace", "sallaryLong", "code", "contactPerson", "contactType",
-            "contactReason", "lastContact", "skills", "gulpID", "code",
+            "contactReason", "skills", "gulpID", "code",
             "kreditorNr", "debitorNr", "titel", "nationalitaet"};
 
     private static final String[] ORDERBYPROPERTIES = new String[]{"name1",
@@ -146,7 +146,7 @@ public class FreelancerDAOHibernateImpl extends
     @Override
     public void delete(final Object aEntity) throws ReferenceExistsException, OptimisticLockException {
 
-        // Freiberufler dürfen nicht gelöscht werden, wenn sie bereits einem Projekt zugewiesen sind.
+        // Freiberufler dï¿½rfen nicht gelï¿½scht werden, wenn sie bereits einem Projekt zugewiesen sind.
         boolean exists = getHibernateTemplate().execute(new HibernateCallback<Boolean>() {
             @Override
             public Boolean doInHibernate(Session aSession) throws HibernateException, SQLException {
@@ -167,6 +167,10 @@ public class FreelancerDAOHibernateImpl extends
     }
 
     private List<Freelancer> internalFindFreelancerByTagIDs(final Set<Long> aTagIDs, final String aSortByFieldName) {
+        return internalFindFreelancerByTagIDs(aTagIDs, aSortByFieldName, false);
+    }
+
+    private List<Freelancer> internalFindFreelancerByTagIDs(final Set<Long> aTagIDs, final String aSortByFieldName, final boolean aInverse) {
         final StringBuilder theTagInClause = new StringBuilder();
         for (Long theTagID : aTagIDs) {
             if (theTagInClause.length() > 0) {
@@ -181,8 +185,14 @@ public class FreelancerDAOHibernateImpl extends
                             throws SQLException {
                         List<Freelancer> theResult = new ArrayList<Freelancer>();
 
-                        Query theQuery = aSession
-                                .createQuery("select distinct f from Freelancer f left join f.tags t where t.tag.id in ( " + theTagInClause.toString() + ") order by f."+aSortByFieldName);
+                        Query theQuery;
+                        if (aInverse) {
+                            theQuery = aSession
+                                    .createQuery("select distinct f from Freelancer f left join f.tags t where t.tag.id in ( " + theTagInClause.toString() + ") order by f." + aSortByFieldName+" desc");
+                        } else {
+                            theQuery = aSession
+                                    .createQuery("select distinct f from Freelancer f left join f.tags t where t.tag.id in ( " + theTagInClause.toString() + ") order by f." + aSortByFieldName);
+                        }
                         for (Iterator theIterator = theQuery.iterate(); theIterator
                                 .hasNext(); ) {
                             Freelancer theFreelancer = (Freelancer) theIterator.next();
@@ -219,7 +229,7 @@ public class FreelancerDAOHibernateImpl extends
 
     @Override
     public List<Freelancer> findFreelancerByTagIDsSortByAvailability(Set<Long> aTagIDs) {
-        return internalFindFreelancerByTagIDs(aTagIDs, "availabilityAsDate");
+        return internalFindFreelancerByTagIDs(aTagIDs, "availabilityAsDate", true);
     }
 
     @Override
@@ -234,6 +244,6 @@ public class FreelancerDAOHibernateImpl extends
 
     @Override
     public List<Freelancer> findFreelancerByTagIDsSortByLastContact(Set<Long> aTagIDs) {
-        return internalFindFreelancerByTagIDs(aTagIDs, "lastContact");
+        return internalFindFreelancerByTagIDs(aTagIDs, "lastContactDate", true);
     }
 }

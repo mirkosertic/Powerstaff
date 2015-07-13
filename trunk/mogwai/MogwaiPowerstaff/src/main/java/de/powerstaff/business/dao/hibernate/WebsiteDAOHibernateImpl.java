@@ -7,7 +7,7 @@ import de.powerstaff.business.entity.WebProject;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
 import java.sql.SQLException;
@@ -52,7 +52,7 @@ public class WebsiteDAOHibernateImpl extends GenericDaoHibernateImpl implements
                             throws HibernateException, SQLException {
                         Criteria theCriteria = aSession
                                 .createCriteria(NewsletterMail.class);
-                        theCriteria.add(Expression.eq("confirmed", 1));
+                        theCriteria.add(Restrictions.eq("confirmed", 1));
                         return theCriteria.list();
                     }
                 });
