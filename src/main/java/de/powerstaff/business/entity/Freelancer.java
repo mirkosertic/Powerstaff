@@ -22,7 +22,6 @@ import de.powerstaff.business.service.FreelancerFieldBridge;
 import org.hibernate.search.annotations.*;
 
 import javax.persistence.Column;
-import java.sql.Timestamp;
 import java.util.*;
 
 @Indexed
@@ -51,7 +50,11 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
 
     private String contactReason;
 
-    private String lastContact;
+//    private String lastContact;
+
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
+    @DateBridge(resolution = Resolution.DAY)
+    private Date lastContactDate;
 
     private String skills;
 
@@ -132,13 +135,21 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
         this.gulpID = gulpID;
     }
 
-    @Column(length = 255)
+/*    @Column(length = 255)
     public String getLastContact() {
         return lastContact;
     }
 
     public void setLastContact(String lastContact) {
         this.lastContact = lastContact;
+    }*/
+
+    public Date getLastContactDate() {
+        return lastContactDate;
+    }
+
+    public void setLastContactDate(Date lastContactDate) {
+        this.lastContactDate = lastContactDate;
     }
 
     public boolean isShowAgain() {

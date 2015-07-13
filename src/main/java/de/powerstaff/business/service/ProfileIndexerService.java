@@ -44,4 +44,6 @@ public interface ProfileIndexerService extends ProfileIndexerServicePublicInterf
     String VERFUEGBARKEIT = "availabilityAsDate";
 
     String STUNDENSATZ = "sallaryLong";
+
+    String LETZTERKONTAKT = "lastContactDate";
 }

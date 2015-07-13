@@ -128,7 +128,9 @@
                                 <h:outputText value="Letzter Kontakt"/>
                             </pretty:link>
                         </f:facet>
-                        <h:outputText value="#{row.lastContact}"/>
+                        <h:outputText value="#{row.lastContactDate}">
+                            <f:converter converterId="dateConverter"/>
+                        </h:outputText>
                     </h:column>
                     <h:column>
                         <f:facet name="header">

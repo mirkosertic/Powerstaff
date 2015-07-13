@@ -33,7 +33,8 @@
         <property name="contactPerson"/>
         <property name="contactType"/>
         <property name="contactReason"/>
-        <property name="lastContact"/>
+        <!--<property name="lastContact"/> -->
+        <property name="lastContactDate"/>
         <property name="skills" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
         <property name="gulpID"/>
         <property name="showAgain"/>

@@ -57,7 +57,7 @@
             </b:cell>
             <b:cell x="2" y="1">
                 <h:commandLink title="Vorheriger Datensatz" action="#{freelancerBackingBean.commandPrior}"
-                               onclick="if (!checkForChangedData()) {return false;};" id="previousrecord">
+                               onclick="if (!checkForChangedData()) {return false;}" id="previousrecord">
                     <img src="${facesContext.externalContext.requestContextPath}/images/prior.gif"/>
                 </h:commandLink>
             </b:cell>
@@ -347,9 +347,13 @@
                 <b:label id="letzter_kontakt_label" label="Letzter Kontakt"/>
             </b:cell>
             <b:cell x="4" y="8">
-                <b:inputfield
-                        value="#{freelancerBackingBean.data.entity.lastContact}"
-                        id="letzter_kontakt" labelComponentId="letzter_kontakt_label"/>
+                <rich:calendar value="#{freelancerBackingBean.data.entity.lastContactDate}"
+                               datePattern="dd.MM.yyyy"
+                               inputStyle="width:270px;"
+                               cellWidth="34px"
+                               onchanged="markChanged()"
+                               eventsQueue="powerstaff">
+                </rich:calendar>
             </b:cell>
 
             <b:cell x="4" y="10">

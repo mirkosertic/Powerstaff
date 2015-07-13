@@ -21,7 +21,6 @@ import de.mogwai.common.web.backingbean.BackingBeanDataModel;
 import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.entity.SavedProfileSearch;
 import de.powerstaff.web.utils.PagedListDataModel;
-import org.richfaces.component.UIDatascroller;
 
 public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 
@@ -36,8 +35,6 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
     private SavedProfileSearch searchRequest = new SavedProfileSearch();
 
     private transient PagedListDataModel<ProfileSearchEntry> searchResult;
-
-    private transient UIDatascroller dataScroller;
 
     private String type;
 
@@ -76,14 +73,6 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
             return 0;
         }
         return searchResult.getRowCount();
-    }
-
-    public UIDatascroller getDataScroller() {
-        return dataScroller;
-    }
-
-    public void setDataScroller(UIDatascroller dataScroller) {
-        this.dataScroller = dataScroller;
     }
 
     public String getType() {

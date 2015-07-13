@@ -64,7 +64,7 @@ public class ProfileSearchServiceImpl implements
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ProfileSearchServiceImpl.class);
 
-    {
+    static {
         BooleanQuery.setMaxClauseCount(8192);
     }
 
@@ -163,7 +163,7 @@ public class ProfileSearchServiceImpl implements
             theSearchForUser.getProfilesToIgnore().addAll(searchRequest.getProfilesToIgnore());
 
             if (isNew) {
-                // Auf keinen Fall die bereits existierende Id vom SavedSearchRequest pro projekt übernehmen!
+                // Auf keinen Fall die bereits existierende Id vom SavedSearchRequest pro projekt ï¿½bernehmen!
                 theSearchForUser.setId(null);
             }
 
@@ -214,11 +214,18 @@ public class ProfileSearchServiceImpl implements
         Sort theSort = null;
         if (!StringUtils.isEmpty(aRequest.getSortierung())) {
             int theSortType = SortField.STRING;
+            boolean theReverse = false;
             if (ProfileIndexerService.STUNDENSATZ.equals(aRequest.getSortierung())) {
                 theSortType = SortField.LONG;
             }
+            if (ProfileIndexerService.VERFUEGBARKEIT.equals(aRequest.getSortierung())) {
+                theReverse = true;
+            }
+            if (ProfileIndexerService.LETZTERKONTAKT.equals(aRequest.getSortierung())) {
+                theReverse = true;
+            }
             theSort = new Sort(new SortField(aRequest.getSortierung(),
-                    theSortType));
+                    theSortType, theReverse));
         }
 
         Filter theFilter = null;
@@ -238,10 +245,9 @@ public class ProfileSearchServiceImpl implements
                         .getStundensatzBis(), true, true));
             }
             theFilter = new ChainedFilter(theFilterList
-                    .toArray(new Filter[]{}), ChainedFilter.AND);
+                    .toArray(new Filter[theFilterList.size()]), ChainedFilter.AND);
         }
 
-        int theStart = startRow;
         int theEnd = startRow + pageSize;
 
         FullTextQuery theHibernateQuery = theSession.createFullTextQuery(theRealQuery, Freelancer.class);
@@ -251,8 +257,8 @@ public class ProfileSearchServiceImpl implements
         if (theSort != null) {
             theHibernateQuery.setSort(theSort);
         }
-        theHibernateQuery.setFirstResult(theStart);
-        theHibernateQuery.setMaxResults(theEnd - theStart);
+        theHibernateQuery.setFirstResult(startRow);
+        theHibernateQuery.setMaxResults(theEnd - startRow);
         theHibernateQuery.setProjection(FullTextQuery.THIS, FullTextQuery.DOCUMENT);
 
         List<ProfileSearchEntry> theResult = new ArrayList<ProfileSearchEntry>();
@@ -266,7 +272,7 @@ public class ProfileSearchServiceImpl implements
             theResult.add(theEntry);
         }
 
-        return new DataPage<ProfileSearchEntry>(theHibernateQuery.getResultSize(), theStart,
+        return new DataPage<ProfileSearchEntry>(theHibernateQuery.getResultSize(), startRow,
                 theResult);
     }
 
@@ -287,6 +293,7 @@ public class ProfileSearchServiceImpl implements
                 .isContactforbidden());
         theDetail.setContacts(new ArrayList<FreelancerContact>(
                 aFreelancer.getContacts()));
+        theDetail.setLastContact(aFreelancer.getLastContactDate());
         for (FreelancerToTag theTag : aFreelancer.getTags()) {
             theDetail.getTags().add(theTag.getTag());
         }

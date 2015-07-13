@@ -19,7 +19,6 @@ package de.powerstaff.business.service;
 
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.ProjectPosition;
-import de.powerstaff.business.entity.Tag;
 
 import java.util.List;
 import java.util.Set;

@@ -39,6 +39,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     </bean>
 
     <bean name="profileBackingBean" class="de.powerstaff.web.backingbean.profile.ProfileBackingBean" scope="request">
+        <property name="freelancerService" ref="freelancerService"/>
         <property name="profileSearchService" ref="profileSearchService"/>
         <property name="contextUtils" ref="contextUtils"/>
     </bean>

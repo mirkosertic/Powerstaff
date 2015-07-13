@@ -17,7 +17,6 @@
  */
 package de.powerstaff.business.service.impl;
 
-import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.dao.WebsiteDAO;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerContact;
@@ -68,6 +67,14 @@ public class WrongDataServiceImpl implements
         this.websiteDao = websiteDao;
     }
 
+    private String saveString(Date aValue) {
+        if (aValue == null) {
+            return "";
+        }
+        SimpleDateFormat theFormat = new SimpleDateFormat("dd.MM.yyyy");
+        return theFormat.format(aValue);
+    }
+
     private String saveString(String aValue) {
         if (aValue == null) {
             return "";
@@ -84,7 +91,7 @@ public class WrongDataServiceImpl implements
         File theFreelancerMitHomepageOhneKontakt = new File(aReportFile,
                 "Freiberufler_mit_Homepage_ohne_Kontakt.csv");
         File theFreelancerForNewsletter = new File(aReportFile,
-                "Freiberufler_für_Newsletter.csv");
+                "Freiberufler_fï¿½r_Newsletter.csv");
         File theProfileOhneDB = new File(aReportFile,
                 "Profile_ohne_Datenbankeintrag.csv");
         File theProfileDoppelterCode = new File(aReportFile,
@@ -118,7 +125,7 @@ public class WrongDataServiceImpl implements
                     .println("Kodierung;Name;Vorname;Mail");
             theFreelancerMitHomepageOhneKontaktWriter
                     .println("Kodierung;Name;Vorname;Homepage");
-            theFreelancerForNewsletterWriter.println("Kürzel;Name;Vorname;Titel;eMail;Eintrag in Kreditor;Verfügbarkeit;Homepage;letzter Kontakt;Status;Xing;Gulp");
+            theFreelancerForNewsletterWriter.println("Kï¿½rzel;Name;Vorname;Titel;eMail;Eintrag in Kreditor;Verfï¿½gbarkeit;Homepage;letzter Kontakt;Status;Xing;Gulp");
             theProfileOhneDBWriter.println("Kodierung;Dateinamen");
             theProfileDoppelterCodeWriter.println("Kodierung;Dateinamen");
 
@@ -166,10 +173,10 @@ public class WrongDataServiceImpl implements
                     }
                 }
 
-                String theLastContact = theFreelancer.getLastContact();
-
                 List<FreelancerContact> theMailContacts = theFreelancer.getEMailContacts();
                 List<FreelancerContact> theWebContacts = theFreelancer.getWebContacts();
+
+                Date theLastContact = theFreelancer.getLastContactDate();
 
                 if (!theFreelancer.isContactforbidden()) {
 
@@ -222,7 +229,7 @@ public class WrongDataServiceImpl implements
                     theFreelancerForNewsletterWriter.print(";");
                     theFreelancerForNewsletterWriter.print(saveString(theWeb));
                     theFreelancerForNewsletterWriter.print(";");
-                    theFreelancerForNewsletterWriter.print(saveString(theFreelancer.getLastContact()));
+                    theFreelancerForNewsletterWriter.print(saveString(theLastContact));
                     theFreelancerForNewsletterWriter.print(";");
                     theFreelancerForNewsletterWriter.print(saveString(theModel.getStatusAsString(theFreelancer.getStatus())));
                     theFreelancerForNewsletterWriter.print(";");
@@ -233,46 +240,33 @@ public class WrongDataServiceImpl implements
                 }
 
                 if (newsletterEnabled) {
-                    if (!StringUtils.isEmpty(theLastContact)
-                            && !theFreelancer.isContactforbidden()) {
 
-                        boolean validDate = true;
-                        try {
-                            Date theDate = theDateFormat.parse(theLastContact);
-                            if (!theDate.after(theStartDate)) {
-                                validDate = false;
-                            }
-                        } catch (Exception e) {
-                            validDate = false;
-                        }
+                    if (theLastContact != null
+                            && !theFreelancer.isContactforbidden()) {
 
                         String theMail = "";
 
-                        if (validDate) {
-                            boolean hasMail = false;
-                            for (FreelancerContact theContact : theMailContacts) {
-                                theMail = theContact.getValue();
-                                if (theMails
-                                        .contains(theMail.toLowerCase())) {
-                                    hasMail = true;
-                                }
+                        boolean hasMail = false;
+                        for (FreelancerContact theContact : theMailContacts) {
+                            theMail = theContact.getValue();
+                            if (theMails
+                                    .contains(theMail.toLowerCase())) {
+                                hasMail = true;
                             }
+                        }
 
-                            if (!hasMail) {
-                                theFreelancerOhneNewsletterWriter
-                                        .println(theFreelancer.getCode() + ";"
-                                                + theFreelancer.getName1()
-                                                + ";"
-                                                + theFreelancer.getName2()
-                                                + ";" + theMail);
-                            }
+                        if (!hasMail) {
+                            theFreelancerOhneNewsletterWriter
+                                    .println(theFreelancer.getCode() + ";"
+                                            + theFreelancer.getName1()
+                                            + ";"
+                                            + theFreelancer.getName2()
+                                            + ";" + theMail);
                         }
                     }
                 }
 
-                if (StringUtils.isEmpty(theLastContact)
-                        || "kein kontakt".equals(theLastContact.trim()
-                        .toLowerCase())) {
+                if (theLastContact == null) {
 
                     boolean hasHomepage = false;
                     String theHomepage = null;
