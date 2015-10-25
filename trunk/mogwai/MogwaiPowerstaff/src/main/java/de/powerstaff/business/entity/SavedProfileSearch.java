@@ -122,8 +122,34 @@ public class SavedProfileSearch extends AuditableEntity implements
         return sortierung;
     }
 
-    public void setSortierung(String sortierung) {
-        this.sortierung = sortierung;
+    public String getSortierungField() {
+        if (sortierung != null) {
+            if (sortierung.startsWith("+") || sortierung.startsWith("-")) {
+                return sortierung.substring(1);
+            }
+        }
+        return sortierung;
+    }
+
+    public boolean isSortierungReverse() {
+        return sortierung != null && sortierung.startsWith("-");
+    }
+
+    public void setSortierung(String aSortierung) {
+        if (aSortierung != null && (aSortierung.startsWith("+") || aSortierung.startsWith("-"))) {
+            // HIbernate or clone access
+            sortierung = aSortierung;
+            return;
+        }
+        if (sortierung!= null && sortierung.contains(aSortierung)) {
+            if (sortierung.startsWith("+")) {
+                sortierung = "-" + aSortierung;
+            } else {
+                sortierung = "+" + aSortierung;
+            }
+        } else {
+            this.sortierung = "+" + aSortierung;
+        }
     }
 
     public Set<String> getProfilesToIgnore() {

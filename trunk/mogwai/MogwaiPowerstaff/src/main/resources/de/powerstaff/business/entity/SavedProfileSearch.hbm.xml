@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="de.powerstaff.business.entity" default-lazy="false">
+<hibernate-mapping package="de.powerstaff.business.entity" default-lazy="false" >
     <class name="SavedProfileSearch" table="savedprofilesearch">
 
         <id name="id" column="id">
