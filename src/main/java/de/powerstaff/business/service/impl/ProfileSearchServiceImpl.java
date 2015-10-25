@@ -215,16 +215,24 @@ public class ProfileSearchServiceImpl implements
         if (!StringUtils.isEmpty(aRequest.getSortierung())) {
             int theSortType = SortField.STRING;
             boolean theReverse = false;
-            if (ProfileIndexerService.STUNDENSATZ.equals(aRequest.getSortierung())) {
+
+            String theSortField = aRequest.getSortierungField();
+
+            if (ProfileIndexerService.STUNDENSATZ.equals(theSortField)) {
                 theSortType = SortField.LONG;
             }
-            if (ProfileIndexerService.VERFUEGBARKEIT.equals(aRequest.getSortierung())) {
+            if (ProfileIndexerService.VERFUEGBARKEIT.equals(theSortField)) {
                 theReverse = true;
             }
-            if (ProfileIndexerService.LETZTERKONTAKT.equals(aRequest.getSortierung())) {
+            if (ProfileIndexerService.LETZTERKONTAKT.equals(theSortField)) {
                 theReverse = true;
             }
-            theSort = new Sort(new SortField(aRequest.getSortierung(),
+
+            if (aRequest.isSortierungReverse()) {
+                theReverse = !theReverse;
+            }
+
+            theSort = new Sort(new SortField(theSortField,
                     theSortType, theReverse));
         }
 
