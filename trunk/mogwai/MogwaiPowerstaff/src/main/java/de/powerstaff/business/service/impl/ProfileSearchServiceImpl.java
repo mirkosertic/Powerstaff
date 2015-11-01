@@ -236,11 +236,13 @@ public class ProfileSearchServiceImpl implements
                     theSortType, theReverse));
         }
 
-        Filter theFilter = null;
+        List<Filter> theFilterList = new ArrayList<Filter>();
+        TermsFilter theContactForbidden = new TermsFilter();
+        theContactForbidden.addTerm(new Term(ProfileIndexerService.KONTAKTSPERRE, "false"));
+        theFilterList.add(theContactForbidden);
 
         if (aRequest.getStundensatzVon() != null
                 || aRequest.getStundensatzBis() != null) {
-            List<Filter> theFilterList = new ArrayList<Filter>();
             if (aRequest.getStundensatzVon() != null) {
                 theFilterList.add(NumericRangeFilter.newLongRange(
                         ProfileIndexerService.STUNDENSATZ, aRequest
@@ -252,9 +254,11 @@ public class ProfileSearchServiceImpl implements
                         ProfileIndexerService.STUNDENSATZ, 0l, aRequest
                         .getStundensatzBis(), true, true));
             }
-            theFilter = new ChainedFilter(theFilterList
-                    .toArray(new Filter[theFilterList.size()]), ChainedFilter.AND);
         }
+
+        Filter theFilter = new ChainedFilter(theFilterList
+                .toArray(new Filter[theFilterList.size()]), ChainedFilter.AND);
+
 
         int theEnd = startRow + pageSize;
 

@@ -45,5 +45,7 @@ public interface ProfileIndexerService extends ProfileIndexerServicePublicInterf
 
     String STUNDENSATZ = "sallaryLong";
 
+    String KONTAKTSPERRE = "contactforbidden";
+
     String LETZTERKONTAKT = "lastContactDate";
 }
