@@ -212,7 +212,7 @@ public class ProfileBackingBean extends
 
             // Rows
             PagedListDataModel<ProfileSearchEntry> theData = getData().getSearchResult();
-            for (int i=0;i<theData.getRowCount();i++) {
+            for (int i=0;i<theData.getRowCount() && i<profileSearchService.getPageSize();i++) {
                 theData.setRowIndex(i);
 
                 ProfileSearchEntry theDataRow = (ProfileSearchEntry) theData.getRowData();
