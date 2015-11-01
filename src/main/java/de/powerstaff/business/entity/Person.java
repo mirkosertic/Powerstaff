@@ -58,6 +58,7 @@ public class Person<T extends Contact, H extends HistoryEntity> extends
 
     private String comments;
 
+    @Field(index = Index.UN_TOKENIZED, store = Store.YES)
     private boolean contactforbidden;
 
     private Set<T> contacts = new HashSet<T>();
