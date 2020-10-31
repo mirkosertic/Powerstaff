@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" build-on-make="true" name="Powerstaff exploded">
+    <output-path>$PROJECT_DIR$/out/powerstaff_exploded</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="main" />
+          <element id="module-output" name="common" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Web Libraries" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="main/web/Web" />
+    </root>
+  </artifact>
+</component>
