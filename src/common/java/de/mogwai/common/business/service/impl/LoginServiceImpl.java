@@ -24,7 +24,7 @@ public class LoginServiceImpl implements LoginService {
      * Setzt den Wert des Attributs <code>authenticationManager</code>.
      * 
      * @param authenticationManager
-     *                Wert für das Attribut authenticationManager.
+     *                Wert fÃ¼r das Attribut authenticationManager.
      */
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;

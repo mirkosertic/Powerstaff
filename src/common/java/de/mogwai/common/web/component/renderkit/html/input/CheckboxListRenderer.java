@@ -105,8 +105,8 @@ public class CheckboxListRenderer extends BaseInputRenderer {
                     theCompareValue = ((ObjectProvider) theCompareValue).getProvidedObject();
                 }
 
-                // Wenn die aktuelle Collection diesen Wert enth‰lt, so wird es
-                // ausgew‰hlt
+                // Wenn die aktuelle Collection diesen Wert enth√§lt, so wird es
+                // ausgew√§hlt
                 if ((theSelectedItems != null) && (theSelectedItems.contains(theCompareValue))) {
                     theStringResponseWriter.writeAttribute("checked", "checked", null);
                 }
@@ -119,14 +119,14 @@ public class CheckboxListRenderer extends BaseInputRenderer {
 
                 theWriter.write(theStringWriter.toString().trim());
 
-                String theDisplayValue = null;
+                String theDisplayValue;
                 if (theDisplay == null) {
 
                     theDisplayValue = getStringValue(aContext, theComponent, theEntry);
 
                 } else {
 
-                    Object theValue = null;
+                    Object theValue;
 
                     try {
                         theValue = BeanUtils.getProperty(theEntry, theDisplay);

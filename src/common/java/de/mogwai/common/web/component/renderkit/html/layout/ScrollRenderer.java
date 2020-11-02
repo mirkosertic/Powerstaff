@@ -27,7 +27,7 @@ import de.mogwai.common.web.component.layout.ScrollComponent;
 import de.mogwai.common.web.component.renderkit.html.BaseRenderer;
 
 /**
- * Renderer für eine Scrollbox.
+ * Renderer fÃ¼r eine Scrollbox.
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:35:44 $

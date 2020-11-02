@@ -17,16 +17,17 @@
 package de.mogwai.common.usercontext;
 
 /**
- * Marker Interface für Dinge, die als Authentifizierung im UserContext
- * gespeichert werden können.
+ * Marker Interface fÃ¼r Dinge, die als Authentifizierung im UserContext
+ * gespeichert werden kÃ¶nnen.
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:33:54 $
  */
+@FunctionalInterface
 public interface Authenticatable {
 
     /**
-     * Getter für die BenutzerID.
+     * Getter fÃ¼r die BenutzerID.
      * 
      * @return die BenutzerID
      */

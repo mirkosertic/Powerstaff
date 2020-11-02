@@ -91,7 +91,7 @@ public class WrongDataServiceImpl implements
         File theFreelancerMitHomepageOhneKontakt = new File(aReportFile,
                 "Freiberufler_mit_Homepage_ohne_Kontakt.csv");
         File theFreelancerForNewsletter = new File(aReportFile,
-                "Freiberufler_f�r_Newsletter.csv");
+                "Freiberufler_fär_Newsletter.csv");
         File theProfileOhneDB = new File(aReportFile,
                 "Profile_ohne_Datenbankeintrag.csv");
         File theProfileDoppelterCode = new File(aReportFile,
@@ -125,13 +125,13 @@ public class WrongDataServiceImpl implements
                     .println("Kodierung;Name;Vorname;Mail");
             theFreelancerMitHomepageOhneKontaktWriter
                     .println("Kodierung;Name;Vorname;Homepage");
-            theFreelancerForNewsletterWriter.println("K�rzel;Name;Vorname;Titel;eMail;Eintrag in Kreditor;Verf�gbarkeit;Homepage;letzter Kontakt;Status;Xing;Gulp");
+            theFreelancerForNewsletterWriter.println("Kärzel;Name;Vorname;Titel;eMail;Eintrag in Kreditor;Verfägbarkeit;Homepage;letzter Kontakt;Status;Xing;Gulp");
             theProfileOhneDBWriter.println("Kodierung;Dateinamen");
             theProfileDoppelterCodeWriter.println("Kodierung;Dateinamen");
 
             boolean newsletterEnabled = systemParameterService
                     .isNewsletterEnabled();
-            Set<String> theMails = new HashSet<String>();
+            Set<String> theMails = new HashSet<>();
             Date theStartDate = null;
 
             DateFormat theDateFormat = new SimpleDateFormat("dd.MM.yyyy");
@@ -155,7 +155,7 @@ public class WrongDataServiceImpl implements
             ScrollableResults theResults = theQuery.scroll(ScrollMode.FORWARD_ONLY);
             int counter = 0;
 
-            Set<String> theKnownCodes = new HashSet<String>();
+            Set<String> theKnownCodes = new HashSet<>();
 
             while (theResults.next()) {
                 Freelancer theFreelancer = (Freelancer) theResults.get(0);
@@ -297,8 +297,7 @@ public class WrongDataServiceImpl implements
                 counter++;
             }
 
-            Set<String> theCodesFromFiles = new HashSet<String>();
-            theCodesFromFiles.addAll(fsCache.getKnownCodes());
+            Set<String> theCodesFromFiles = new HashSet<>(fsCache.getKnownCodes());
             for (String theCode : theCodesFromFiles) {
                 Set<File> theFiles = fsCache.getFilesForCode(theCode);
                 if (theFiles != null && theFiles.size() > 1) {
@@ -353,10 +352,9 @@ public class WrongDataServiceImpl implements
 
             theProfileDoppelterInhaltWriter.println("Dateinamen");
 
-            Map<String, Set<File>> theHashes = new HashMap<String, Set<File>>();
+            Map<String, Set<File>> theHashes = new HashMap<>();
 
-            Set<String> theCodesFromFiles = new HashSet<String>();
-            theCodesFromFiles.addAll(fsCache.getKnownCodes());
+            Set<String> theCodesFromFiles = new HashSet<>(fsCache.getKnownCodes());
 
             for (String theCode : theCodesFromFiles) {
                 Set<File> theFiles = fsCache.getFilesForCode(theCode);
@@ -367,11 +365,7 @@ public class WrongDataServiceImpl implements
                             theStream = new FileInputStream(theFile);
                             String theHash = DigestUtils.sha256Hex(theStream);
 
-                            Set<File> theFilesForHash = theHashes.get(theHash);
-                            if (theFilesForHash == null) {
-                                theFilesForHash = new HashSet<File>();
-                                theHashes.put(theHash, theFilesForHash);
-                            }
+                            Set<File> theFilesForHash = theHashes.computeIfAbsent(theHash, k -> new HashSet<>());
                             theFilesForHash.add(theFile);
                         } catch (Exception e) {
                             LOGGER.error("Error scanning file " + theFile, e);

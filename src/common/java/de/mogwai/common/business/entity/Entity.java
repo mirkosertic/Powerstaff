@@ -21,7 +21,7 @@ import org.hibernate.search.annotations.DocumentId;
 import java.io.Serializable;
 
 /**
- * Basisklasse für Geschäftobjekte (Entities).
+ * Basisklasse fÃ¼r GeschÃ¤ftobjekte (Entities).
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:16:30 $
@@ -36,16 +36,16 @@ public abstract class Entity implements Serializable {
 	private Long version;
 
 	/**
-	 * Ermitteln der Id der Entität.
+	 * Ermitteln der Id der EntitÃ¤t.
 	 * 
-	 * @return die Id der Entität
+	 * @return die Id der EntitÃ¤t
 	 */
 	public final Long getId() {
 		return id;
 	}
 
 	/**
-	 * Setzen der Id der Entität.
+	 * Setzen der Id der EntitÃ¤t.
 	 * 
 	 * @param id
 	 *            die Id
@@ -55,7 +55,7 @@ public abstract class Entity implements Serializable {
 	}
 
 	/**
-	 * Setzen der Id der Entität.
+	 * Setzen der Id der EntitÃ¤t.
 	 * 
 	 * @param id
 	 *            die Id
@@ -65,7 +65,7 @@ public abstract class Entity implements Serializable {
 	}
 
 	/**
-	 * Gibt den Wert des Attributs <code>version</code> zurück.
+	 * Gibt den Wert des Attributs <code>version</code> zurÃ¼ck.
 	 * 
 	 * @return Wert des Attributs version.
 	 */
@@ -77,7 +77,7 @@ public abstract class Entity implements Serializable {
 	 * Setzt den Wert des Attributs <code>version</code>.
 	 * 
 	 * @param version
-	 *            Wert für das Attribut version.
+	 *            Wert fÃ¼r das Attribut version.
 	 */
 	public void setVersion(Long version) {
 		this.version = version;
@@ -86,10 +86,10 @@ public abstract class Entity implements Serializable {
 	/**
 	 * Objekte sind dann gleich, wenn entweder die Referenz identisch ist oder
 	 * beide persistenten Objekte die selbe ID haben und der selben Klasse
-	 * angehören.
+	 * angehÃ¶ren.
 	 * 
-	 * Kann bei Bedarf durch ein fachliches Equal überschrieben werden, dann
-	 * muss jedoch auch hashCode überschrieben werden !!!!!!!
+	 * Kann bei Bedarf durch ein fachliches Equal Ã¼berschrieben werden, dann
+	 * muss jedoch auch hashCode Ã¼berschrieben werden !!!!!!!
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 * @param o
@@ -122,8 +122,8 @@ public abstract class Entity implements Serializable {
 	 * Siehe Bug 538.
 	 * 
 	 * Per Default ist der Hashcode immer 0. Dieses kann jedoch von einer
-	 * Unterklasse überschrieben werden, sobald ein immutable natürlicher
-	 * Schlüssel verfügbar ist.
+	 * Unterklasse Ã¼berschrieben werden, sobald ein immutable natÃ¼rlicher
+	 * SchlÃ¼ssel verfÃ¼gbar ist.
 	 * 
 	 * @see java.lang.Object#hashCode()
 	 */

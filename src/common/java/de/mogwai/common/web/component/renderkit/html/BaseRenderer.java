@@ -46,7 +46,7 @@ import de.mogwai.common.web.component.layout.GridbagLayoutCellComponent;
  */
 public class BaseRenderer extends Renderer {
 
-	protected boolean rendersChildren;
+	protected final boolean rendersChildren;
 
 	protected BaseRenderer() {
 		rendersChildren = true;
@@ -74,7 +74,7 @@ public class BaseRenderer extends Renderer {
 	}
 
 	/**
-	 * Ermittlung der String - Darstellung für einen Wert.
+	 * Ermittlung der String - Darstellung fÃ¼r einen Wert.
 	 * 
 	 * Falls die Komponente einen Converter hat, wird der Converter benutzt, um
 	 * die String - Darstellung zu generieren.
@@ -82,9 +82,9 @@ public class BaseRenderer extends Renderer {
 	 * Falls der Wert ein StringPresentationProvider ist, so wird dieses
 	 * Interface benutzt, um die String - Darstellung zu generieren.
 	 * 
-	 * Wenn der Wert null ist, wird ein Leerstring zurückgegeben.
+	 * Wenn der Wert null ist, wird ein Leerstring zurÃ¼ckgegeben.
 	 * 
-	 * In allen anderen Fällen wird die toString() Methode benutzt.
+	 * In allen anderen FÃ¤llen wird die toString() Methode benutzt.
 	 * 
 	 * @param aContext
 	 *            der Context
@@ -154,7 +154,7 @@ public class BaseRenderer extends Renderer {
 					.computeWidth();
 
 			if (aAdditionalStyles == null) {
-				aAdditionalStyles = new HashMap<String, String>();
+				aAdditionalStyles = new HashMap<>();
 			}
 
 			aAdditionalStyles.put("width", "" + (theWidth) + "px;");
@@ -185,7 +185,7 @@ public class BaseRenderer extends Renderer {
 			int theHeight = ((GridbagLayoutCellComponent) aComponent
 					.getParent()).computeHeight();
 
-			HashMap<String, String> theResult = new HashMap<String, String>();
+			HashMap<String, String> theResult = new HashMap<>();
 			theResult.put("height", theHeight + "px");
 
 			return theResult;
@@ -230,14 +230,14 @@ public class BaseRenderer extends Renderer {
 			aUrlRelativeToContext = aUrlRelativeToContext.substring(1);
 		}
 
-		String theRealUrl = aUrlRelativeToContext;
+		StringBuilder theRealUrl = new StringBuilder(aUrlRelativeToContext);
 		int p = theApplicationURI.indexOf("/");
 		while (p >= 0) {
-			theRealUrl = "../" + theRealUrl;
+			theRealUrl.insert(0, "../");
 			p = theApplicationURI.indexOf("/", p + 1);
 		}
 
-		return theRealUrl;
+		return theRealUrl.toString();
 	}
 
 	/**
@@ -262,7 +262,7 @@ public class BaseRenderer extends Renderer {
 	}
 
 	/**
-	 * Ermittlung des Renderers für eine Komponente.
+	 * Ermittlung des Renderers fÃ¼r eine Komponente.
 	 * 
 	 * @param aContext
 	 *            der Kontext

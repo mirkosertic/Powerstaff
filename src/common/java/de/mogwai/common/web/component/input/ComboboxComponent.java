@@ -58,12 +58,12 @@ public class ComboboxComponent extends ComboboxComponentBase {
     @Override
     protected Object getConvertedValue(FacesContext aContext, Object aSubmittedValue) {
 
-        // Wenn die Komponente ein Pflichtfeld ist, diese überprüfen
+        // Wenn die Komponente ein Pflichtfeld ist, diese Ã¼berprÃ¼fen
         if (isRequired()) {
 
             if ((aSubmittedValue == null) || ("".equals(aSubmittedValue))) {
 
-                // Sie ist nicht gefüllt, also ist diese Komponente Invalid
+                // Sie ist nicht gefÃ¼llt, also ist diese Komponente Invalid
                 addMissingRequiredFieldMessage(aContext);
 
                 setValid(false);

@@ -17,13 +17,13 @@
 package de.mogwai.common.web.backingbean;
 
 /**
- * Basisklasse für eine MVC - Struktur innerhalb der JSF - Anwendung.
+ * Basisklasse fÃ¼r eine MVC - Struktur innerhalb der JSF - Anwendung.
  * <p/>
  * Ein Backing - Bean ist der Controller, er reagiert auf Benutzerereignisse.
  * Ein WrappingBackingBean erweitert den Controller um ein Datenmodell, welches
  * die Daten und den aktuellen Zustand der View speichert. Die View sind die JSP -
- * Seiten, welche über das WrappingBackingBean und die Methode getData() auf das
- * Datenmodell zugreifen können und die Daten somit darstellen.
+ * Seiten, welche Ã¼ber das WrappingBackingBean und die Methode getData() auf das
+ * Datenmodell zugreifen kÃ¶nnen und die Daten somit darstellen.
  *
  * @param <T> Typ des Datenmodells, welches and die BackingBean gebunden
  *            wird
@@ -42,8 +42,8 @@ public abstract class WrappingBackingBean<T extends BackingBeanDataModel> extend
      * Constructor.
      * <p/>
      * Dieser Constructor ruft die abstrakte Methode createDataModel auf, welche
-     * von Unterklassen des WrappingBackingBean implementiert werden müssen. Das
-     * Datenmodell wird über diesen Aufruf somit auf einen Default
+     * von Unterklassen des WrappingBackingBean implementiert werden mÃ¤ssen. Das
+     * Datenmodell wird Ã¤ber diesen Aufruf somit auf einen Default
      * vorinitialisiert.
      */
     public WrappingBackingBean() {

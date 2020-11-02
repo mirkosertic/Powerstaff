@@ -55,14 +55,14 @@ public final class ModalComponentUtils {
     }
 
     /**
-     * Überprüfung, falls sich eine Komponente innerhalb eines modalen Dialoges
+     * ÃœberprÃ¼fung, falls sich eine Komponente innerhalb eines modalen Dialoges
      * bedindet oder nicht.
      * 
      * Beim Rendern des Dialoges setzt dieser einen Marker als Request -
      * Parameter, um allen Kind - Komponenten mitzuteilen, dass sich diese
-     * innerhalb des Dialoges befindet. Über die Komponentenhierarchie kann dies
+     * innerhalb des Dialoges befindet. Ã¼ber die Komponentenhierarchie kann dies
      * nicht ermittelt werden, da das jsp:include nur subviews erzeugt, die die
-     * Hierarchie verfälschen. Der sicherste Weg sind die Request - Parameter.
+     * Hierarchie verfÃ¤lschen. Der sicherste Weg sind die Request - Parameter.
      * 
      * @param aComponent
      *                die aufrufende Kopmponente
@@ -76,7 +76,7 @@ public final class ModalComponentUtils {
     }
 
     /**
-     * Setzen des Markers für Modale Dialoge.
+     * Setzen des Markers fÃ¼r Modale Dialoge.
      * 
      * @param aComponent
      *                die aufrufende Kopmponente
@@ -88,7 +88,7 @@ public final class ModalComponentUtils {
     }
 
     /**
-     * Entfernen des Markers für Modale Dialoge.
+     * Entfernen des Markers fÃ¼r Modale Dialoge.
      * 
      * @param aComponent
      *                die aufrufende Kopmponente
@@ -100,20 +100,20 @@ public final class ModalComponentUtils {
     }
 
     /**
-     * Überprüfung, ob die aktuelle Komponente nicht von einem modalen Dialog
-     * überdekt wird.
+     * ÃœberprÃ¼fung, ob die aktuelle Komponente nicht von einem modalen Dialog
+     * Ã¼berdekt wird.
      * 
-     * Wärend des Renders und des Component - Lifecycles wird von der Modal -
+     * WÃ¤rend des Renders und des Component - Lifecycles wird von der Modal -
      * Komponente ein Marker mittels der Methoden setInModalComponent und
-     * removeInModalComponent gesetzt. Abhängig von diesem Marker und der
+     * removeInModalComponent gesetzt. AbhÃ¤ngig von diesem Marker und der
      * Struktur innerhalb des Komponentenbaumes wird entschieden, ob die
-     * Komponente von einem modalen Dialog überdeckt wird, oder nicht.
+     * Komponente von einem modalen Dialog Ã¼berdeckt wird, oder nicht.
      * 
      * @param aComponent
      *                die aufrufende Kopmponente
      * @param aContext
      *                der aktuelle Context
-     * @return true, wenn die Komponente von einem Modalen Dialog überdeckt
+     * @return true, wenn die Komponente von einem Modalen Dialog Ã¼berdeckt
      *         wird, sonst false
      */
     public static boolean isNotOverlayedByModalDialog(UIComponent aComponent, FacesContext aContext) {
@@ -153,7 +153,7 @@ public final class ModalComponentUtils {
     }
 
     /**
-     * Überprüfung, ob die Komponente nicht von einem Modalen Dialog überdeckt
+     * ÃœberprÃ¼fung, ob die Komponente nicht von einem Modalen Dialog Ã¼berdeckt
      * wird.
      * 
      * @param aContext
@@ -161,7 +161,7 @@ public final class ModalComponentUtils {
      * @param aComponent
      *                die Komponente
      * @return true, wenn die Komponente nicht von einem Modalen Dialog
-     *         überdeckt wird
+     *         Ã¼berdeckt wird
      */
     public static boolean isInModalDialogOrOnSimplePage(FacesContext aContext, UIComponent aComponent) {
 

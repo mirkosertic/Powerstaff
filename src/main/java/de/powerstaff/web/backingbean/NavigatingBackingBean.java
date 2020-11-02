@@ -101,14 +101,14 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
 
         } catch (ReferenceExistsException e) {
 
-            LOGGER.error("Fehler beim Löschen", e);
+            LOGGER.error("Fehler beim LÃ¤schen", e);
             JSFMessageUtils.addGlobalErrorMessage(MSG_ESEXISTIERENABHAENGIGEDATEN);
 
         } catch (OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         } catch (Exception e) {
 
-            LOGGER.error("Fehler beim Löschen", e);
+            LOGGER.error("Fehler beim LÃ¤schen", e);
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMLOESCHEN);
         }
         return null;
@@ -151,9 +151,9 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
     }
 
     /**
-     * Wird von PrettyFaces aufgerufen, wenn die BackingBean mit den Werten aus der REST-URL befüllt wurde.
+     * Wird von PrettyFaces aufgerufen, wenn die BackingBean mit den Werten aus der REST-URL befÃ¤llt wurde.
      * <p/>
-     * Ist also eine PageAction, um die Initialbefüllung der BackingBean vorzunehmen.
+     * Ist also eine PageAction, um die InitialbefÃ¤llung der BackingBean vorzunehmen.
      */
     public void loadEntity() {
         if (EntityEditorBackingBeanDataModel.NEW_ENTITY_ID.equals(getData().getCurrentEntityId())) {

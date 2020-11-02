@@ -17,8 +17,9 @@
 package de.mogwai.common.web.component.input;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Vector;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UICommand;
@@ -95,14 +96,14 @@ public class BaseInputComponent extends UIInput implements DynamicContentCompone
     }
 
     /**
-     * Ermittlung des Beschreibenden Labels für diese Komponente.
+     * Ermittlung des Beschreibenden Labels fÃ¼r diese Komponente.
      * 
      * Wenn die labelComponentID gesetzt ist, wird die Komponente mit dieser ID
      * innerhalb des aktuellen NamingContainers gesucht. Wenn die Komponente
      * gefunde wurde, und sie das Interface LabelProvider implementiert, wird
      * mittels getLabel() das Label ermittelt.
      * 
-     * Wenn nichts gefunden wurde, wird ein Leerstring zurückgegeben.
+     * Wenn nichts gefunden wurde, wird ein Leerstring zurÃ¼ckgegeben.
      * 
      * @return das Label
      */
@@ -123,13 +124,13 @@ public class BaseInputComponent extends UIInput implements DynamicContentCompone
 
     protected void addMissingRequiredFieldMessage(FacesContext aContext) {
 
-        // Sie ist nicht gefüllt, also ist diese Komponente Invalid
+        // Sie ist nicht gefÃ¼llt, also ist diese Komponente Invalid
         ResourceBundle theBundle = ResourceBundleManager.getBundle();
 
         String theLabel = getDescribingLabel();
 
         String theMessage = MessageFormat.format(theBundle.getString(MISSING_REQUIRED_FIELD_KEY),
-                new Object[] { theLabel });
+                theLabel);
         FacesMessage theFacesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, theMessage, "");
 
         aContext.addMessage(getClientId(aContext), theFacesMessage);
@@ -142,12 +143,12 @@ public class BaseInputComponent extends UIInput implements DynamicContentCompone
     @Override
     protected Object getConvertedValue(FacesContext aContext, Object aSubmittedValue) {
 
-        // Wenn die Komponente ein Pflichtfeld ist, diese überprüfen
+        // Wenn die Komponente ein Pflichtfeld ist, diese Ã¼berprÃ¼fen
         if (isRequired()) {
 
             if ((aSubmittedValue == null) || (NO_VALUE.equals(aSubmittedValue))) {
 
-                // Sie ist nicht gefüllt, also ist diese Komponente Invalid
+                // Sie ist nicht gefÃ¼llt, also ist diese Komponente Invalid
                 addMissingRequiredFieldMessage(aContext);
 
                 setValid(false);
@@ -173,7 +174,7 @@ public class BaseInputComponent extends UIInput implements DynamicContentCompone
             FieldInformationProvider theProvider = (FieldInformationProvider) theBinding;
             Boolean theRequiredInfo = theProvider.isRequired(getFacesContext());
             if (theRequiredInfo != null) {
-                return theRequiredInfo.booleanValue();
+                return theRequiredInfo;
             }
         }
         return required;
@@ -189,7 +190,7 @@ public class BaseInputComponent extends UIInput implements DynamicContentCompone
         ValueBinding theBinding = getValueBinding("disabled");
         if (theBinding != null) {
 
-            return ((Boolean) theBinding.getValue(FacesContext.getCurrentInstance())).booleanValue();
+            return (Boolean) theBinding.getValue(FacesContext.getCurrentInstance());
         }
 
         return disabled;
@@ -235,7 +236,7 @@ public class BaseInputComponent extends UIInput implements DynamicContentCompone
             FieldInformationProvider theProvider = (FieldInformationProvider) theBinding;
             Integer theMaxLength = theProvider.getMaxLength(getFacesContext());
             if (theMaxLength != null) {
-                return theMaxLength.intValue();
+                return theMaxLength;
             }
         }
         return maxLength;
@@ -246,7 +247,7 @@ public class BaseInputComponent extends UIInput implements DynamicContentCompone
     }
 
     /**
-     * Gibt den Wert des Attributs <code>redisplay</code> zurück.
+     * Gibt den Wert des Attributs <code>redisplay</code> zurÃ¼ck.
      * 
      * @return Wert des Attributs redisplay.
      */
@@ -258,7 +259,7 @@ public class BaseInputComponent extends UIInput implements DynamicContentCompone
      * Setzt den Wert des Attributs <code>redisplay</code>.
      * 
      * @param redisplay
-     *                Wert für das Attribut redisplay.
+     *                Wert fÃ¼r das Attribut redisplay.
      */
     public void setRedisplay(boolean redisplay) {
         this.redisplay = redisplay;
@@ -272,9 +273,9 @@ public class BaseInputComponent extends UIInput implements DynamicContentCompone
         super.restoreState(aContext, theValues[0]);
 
         type = (String) theValues[1];
-        required = ((Boolean) theValues[2]).booleanValue();
+        required = (Boolean) theValues[2];
         labelComponentId = (String) theValues[3];
-        submitOnChange = ((Boolean) theValues[4]).booleanValue();
+        submitOnChange = (Boolean) theValues[4];
         submitEvent = (String) theValues[5];
         disabled = (Boolean) theValues[6];
         maxLength = (Integer) theValues[7];
@@ -284,7 +285,7 @@ public class BaseInputComponent extends UIInput implements DynamicContentCompone
     @Override
     public Object saveState(FacesContext aContext) {
 
-        Vector<Object> theState = new Vector<Object>();
+        final List<Object> theState = new ArrayList<>();
         theState.add(super.saveState(aContext));
         theState.add(type);
         theState.add(required);

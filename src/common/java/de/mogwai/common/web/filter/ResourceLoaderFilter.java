@@ -26,7 +26,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Filter, mit welchem Resourcen geladen werden können.
+ * Filter, mit welchem Resourcen geladen werden kÃ¶nnen.
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:19:06 $

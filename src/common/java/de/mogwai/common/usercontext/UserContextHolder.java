@@ -21,7 +21,7 @@ package de.mogwai.common.usercontext;
  * 
  * Der UserContext dient zum Zugriff auf den aktuell angemeldeten Benutzer, wie
  * auch zum Zugriff auf den aktuellen Zustand der Applikation. Er bietet eine
- * Art Session Mechanismus an, ähnlich wie die HttpSession. Es wird nicht direkt
+ * Art Session Mechanismus an, Ã¤hnlich wie die HttpSession. Es wird nicht direkt
  * die HttpSession verwendet, da der UserContext auch von BackEnd Logik
  * verwendet wird, und die View - Logik nicht direkt mit der Anwendungslogik
  * vermischt werden soll.
@@ -31,7 +31,7 @@ package de.mogwai.common.usercontext;
  */
 public final class UserContextHolder {
 
-    private static ThreadLocal<UserContext> userContext = new ThreadLocal<UserContext>();
+    private static final ThreadLocal<UserContext> userContext = new ThreadLocal<>();
 
     /**
      * Private Konstruktor, da statischer Zugriff.
@@ -72,7 +72,7 @@ public final class UserContextHolder {
     }
 
     /**
-     * Löschen der aktuellen Anmeldeinformationen.
+     * LÃ¤schen der aktuellen Anmeldeinformationen.
      */
     public static void clean() {
         userContext.set(null);

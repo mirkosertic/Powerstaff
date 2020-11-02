@@ -27,7 +27,7 @@ import javax.faces.context.ResponseWriter;
 import de.mogwai.common.web.utils.JSFJavaScriptUtilities;
 
 /**
- * Implementierung der JSF JavaScriptUtilities für ADF.
+ * Implementierung der JSF JavaScriptUtilities fÃ¼r ADF.
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:39:07 $

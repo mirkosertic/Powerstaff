@@ -30,7 +30,7 @@ import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
 /**
- * Validator für Email-Adresse.
+ * Validator fÃ¼r Email-Adresse.
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:34:38 $
@@ -82,7 +82,7 @@ public class MailValidator implements Validator {
             }
 
             ResourceBundle theBundle = ResourceBundleManager.getBundle();
-            String theMessage = MessageFormat.format(theBundle.getString(VALIDATION_ERROR), new Object[] { theLabel });
+            String theMessage = MessageFormat.format(theBundle.getString(VALIDATION_ERROR), theLabel);
             FacesMessage theFacesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, theMessage, "");
 
             throw new ValidatorException(theFacesMessage);

@@ -19,8 +19,8 @@ package de.mogwai.common.web.backingbean;
 import java.io.Serializable;
 
 /**
- * Basisklasse für Datenmodelle, die an ein WrappingBackingBean gebunden werden
- * können.
+ * Basisklasse fÃ¼r Datenmodelle, die an ein WrappingBackingBean gebunden werden
+ * kÃ¤nnen.
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:17:11 $

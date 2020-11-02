@@ -17,7 +17,7 @@
 package de.mogwai.common.web.component.action;
 
 /**
- * Basisklasse für Command - Komponenten.
+ * Basisklasse fÃ¼r Command - Komponenten.
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:24:51 $

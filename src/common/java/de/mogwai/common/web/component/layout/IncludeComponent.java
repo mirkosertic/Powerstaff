@@ -18,10 +18,8 @@ package de.mogwai.common.web.component.layout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
@@ -46,8 +44,8 @@ public class IncludeComponent extends IncludeComponentBase implements NamingCont
             return null;
         }
         Map facetMap = null;
-        for (Iterator it = getFacets().entrySet().iterator(); it.hasNext();) {
-            Map.Entry entry = (Map.Entry) it.next();
+        for (Object value : getFacets().entrySet()) {
+            Map.Entry entry = (Map.Entry) value;
             if (facetMap == null) {
                 facetMap = new HashMap();
             }
@@ -60,8 +58,8 @@ public class IncludeComponent extends IncludeComponentBase implements NamingCont
         if ((getPage() != null)) {
 
             if ((getChildCount() > 0) && (getPage().equals(getLastIncludedPage()))) {
-                for (Iterator it = getChildren().iterator(); it.hasNext();) {
-                    UIComponent child = (UIComponent) it.next();
+                for (Object o : getChildren()) {
+                    UIComponent child = (UIComponent) o;
                     if (childrenList == null) {
                         childrenList = new ArrayList(getChildCount());
                     }
@@ -81,8 +79,8 @@ public class IncludeComponent extends IncludeComponentBase implements NamingCont
         Map facetMap = (Map) ((Object[]) aState)[1];
         List childrenList = (List) ((Object[]) aState)[2];
         if (facetMap != null) {
-            for (Iterator it = getFacets().entrySet().iterator(); it.hasNext();) {
-                Map.Entry entry = (Map.Entry) it.next();
+            for (Object o : getFacets().entrySet()) {
+                Map.Entry entry = (Map.Entry) o;
                 Object facetState = facetMap.get(entry.getKey());
                 if (facetState != null) {
                     UIComponent component = (UIComponent) entry.getValue();
@@ -97,8 +95,8 @@ public class IncludeComponent extends IncludeComponentBase implements NamingCont
 
             if (childrenList != null && getChildCount() > 0 && getPage().equals(getLastIncludedPage())) {
                 int idx = 0;
-                for (Iterator it = getChildren().iterator(); it.hasNext();) {
-                    UIComponent child = (UIComponent) it.next();
+                for (Object o : getChildren()) {
+                    UIComponent child = (UIComponent) o;
                     if (!child.isTransient()) {
                         Object childState = childrenList.get(idx++);
                         if (childState != null) {
@@ -125,7 +123,7 @@ public class IncludeComponent extends IncludeComponentBase implements NamingCont
     @Override
     public Object saveState(FacesContext aContext) {
 
-        Vector<Object> theState = new Vector<Object>();
+        final List<Object> theState = new ArrayList<>();
         theState.add(super.saveState(aContext));
         theState.add(lastIncludedPage);
         return theState.toArray();
@@ -151,7 +149,7 @@ public class IncludeComponent extends IncludeComponentBase implements NamingCont
     }
 
     /**
-     * Gibt den Wert des Attributs <code>lastIncludedPage</code> zurück.
+     * Gibt den Wert des Attributs <code>lastIncludedPage</code> zurÃ¼ck.
      * 
      * @return Wert des Attributs lastIncludedPage.
      */
@@ -163,7 +161,7 @@ public class IncludeComponent extends IncludeComponentBase implements NamingCont
      * Setzt den Wert des Attributs <code>lastIncludedPage</code>.
      * 
      * @param lastIncludedPage
-     *                Wert für das Attribut lastIncludedPage.
+     *                Wert fÃ¼r das Attribut lastIncludedPage.
      */
     public void setLastIncludedPage(String lastIncludedPage) {
         this.lastIncludedPage = lastIncludedPage;

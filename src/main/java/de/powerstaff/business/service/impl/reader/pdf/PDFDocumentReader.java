@@ -8,7 +8,7 @@ import org.apache.pdfbox.util.PDFTextStripper;
 import java.io.File;
 
 /**
- * Reader für Text Dokumente.
+ * Reader fÃ¤r Text Dokumente.
  *
  * @author msertic
  */

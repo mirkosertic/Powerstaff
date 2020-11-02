@@ -16,27 +16,25 @@
  */
 package de.mogwai.common.web.utils;
 
+import javax.faces.model.ListDataModel;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
-
-import javax.faces.model.ListDataModel;
 
 /**
- * DataModel, welches Collections als Datenquelle unterstützt.
+ * DataModel, welches Collections als Datenquelle unterstÃ¼tzt.
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:15:56 $
  * @param <T>
- *            Typ, für den die Collection spezialisiert wird
+ *            Typ, fÃ¼r den die Collection spezialisiert wird
  */
 public class CollectionDataModel<T> extends ListDataModel implements
 		Collection<T>, Externalizable {
@@ -48,7 +46,7 @@ public class CollectionDataModel<T> extends ListDataModel implements
 	}
 
 	public CollectionDataModel(Set<T> aSet) {
-		super(new Vector<T>(aSet));
+		super(new ArrayList(aSet));
 
 		wrappedSet = aSet;
 	}
@@ -135,7 +133,7 @@ public class CollectionDataModel<T> extends ListDataModel implements
 
 	@SuppressWarnings("unchecked")
 	public void sort(Comparator aComparator) {
-		Collections.sort((List) getWrappedData(), aComparator);
+		((List) getWrappedData()).sort(aComparator);
 	}
 
 	public int size() {

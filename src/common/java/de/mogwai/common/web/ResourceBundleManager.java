@@ -29,7 +29,7 @@ import javax.faces.context.FacesContext;
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:18:50 $
  */
-public class ResourceBundleManager {
+public final class ResourceBundleManager {
     private static final String BUNDLE_BASE_NAME = "messages";
 
     /**
@@ -73,9 +73,9 @@ public class ResourceBundleManager {
      * Platzhalter aus der Resource mit den Werten aus aValues ersetzt.
      * 
      * @param aKey
-     *                der Resourcenschlüssel
+     *                der ResourcenschlÃ¼ssel
      * @param aValues
-     *                die Werte für die Platzhalter
+     *                die Werte fÃ¼r die Platzhalter
      * @return das formatierte Ergebnis
      */
     public static String getFormattedResource(String aKey, Object[] aValues) {
@@ -92,9 +92,9 @@ public class ResourceBundleManager {
      * @param aLocale
      *                das Locale
      * @param aKey
-     *                der Resourcenschlüssel
+     *                der ResourcenschlÃ¼ssel
      * @param aValues
-     *                die Werte für die Platzhalter
+     *                die Werte fÃ¼r die Platzhalter
      * @return das formatierte Ergebnis
      */
     public static String getFormattedResource(Locale aLocale, String aKey, Object[] aValues) {

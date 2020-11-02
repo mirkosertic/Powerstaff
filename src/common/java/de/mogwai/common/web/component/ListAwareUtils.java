@@ -16,25 +16,25 @@
  */
 package de.mogwai.common.web.component;
 
-import java.util.Vector;
+import de.mogwai.common.web.component.common.FacetComponent;
 
 import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
-
-import de.mogwai.common.web.component.common.FacetComponent;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Hilfsklasse für den Umgabe mit UIData Komponenten.
+ * Hilfsklasse fÃ¼r den Umgabe mit UIData Komponenten.
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:35:58 $
  */
-public class ListAwareUtils {
+public final class ListAwareUtils {
 
-    public static Vector<UIColumn> getColumns(UIData aComponent) {
+    public static List<UIColumn> getColumns(UIData aComponent) {
 
-        Vector<UIColumn> theColumns = new Vector<UIColumn>();
+        List<UIColumn> theColumns = new ArrayList<>();
         for (int i = 0; i < aComponent.getChildCount(); i++) {
             UIComponent theComponent = (UIComponent) aComponent.getChildren().get(i);
             if ((theComponent instanceof UIColumn) && (!(theComponent instanceof FacetComponent))) {

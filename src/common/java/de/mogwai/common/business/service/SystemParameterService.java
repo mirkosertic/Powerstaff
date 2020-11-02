@@ -22,7 +22,7 @@ import de.mogwai.common.business.enums.BaseEnumItemEnum;
 import java.util.Map;
 
 /**
- * Service Interface für Systemparameter.
+ * Service Interface fÃ¼r Systemparameter.
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:28:04 $

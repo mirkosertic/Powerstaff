@@ -17,7 +17,7 @@
 package de.mogwai.common.business.enums;
 
 /**
- * Marker - Interface für EnumItem Enums.
+ * Marker - Interface fÃ¼r EnumItem Enums.
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:35:22 $

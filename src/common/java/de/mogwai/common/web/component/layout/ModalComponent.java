@@ -100,7 +100,7 @@ public class ModalComponent extends ModalComponentBase {
 
             // Wenn diese Komponente nicht gerendert wird, so wird
             // Die Include - Komponente, welche eingebettet ist, auf null
-            // Zurückgesetzt, damit beim nächsten mal auf jeden Fall
+            // ZurÃ¼ckgesetzt, damit beim nÃ¤chsten mal auf jeden Fall
             // ein neuer Komponentenbaum erzeugt wird
             updateIncludeComponents(this);
 

@@ -28,28 +28,28 @@ import de.powerstaff.business.service.ReferenceExistsException;
 public interface DAO {
 
     /**
-     * Liest eine Gesch‰ftsobjekt per ID.
+     * Liest eine Gesch√§ftsobjekt per ID.
      *
-     * @param entityClass Typ des Gesch‰ftsobjektes.
-     * @param id          ID des zu lesenden Gesch‰ftsobjektes.
-     * @return Gesch‰ftsobjekt oder null, falls kein Gesch‰ftsobjekt mit dieser
+     * @param entityClass Typ des Gesch√§ftsobjektes.
+     * @param id          ID des zu lesenden Gesch√§ftsobjektes.
+     * @return Gesch√§ftsobjekt oder null, falls kein Gesch√§ftsobjekt mit dieser
      *         ID vorhanden ist.
      */
     Object getById(Class entityClass, Long id);
 
     /**
-     * Speichert ein Gesch‰ftsobjekt.
+     * Speichert ein Gesch√§ftsobjekt.
      *
-     * @param entity zu speicherndes Gesch‰ftsobjekt.
+     * @param entity zu speicherndes Gesch√§ftsobjekt.
      */
     void save(Object entity) throws OptimisticLockException;
 
     /**
-     * Lˆscht ein Gesch‰ftsobjekt.
+     * L√∂scht ein Gesch√§ftsobjekt.
      *
-     * @param entity zu lˆschendes Gesch‰ftsobjekt.
-     * @throws ReferenceExistsException wird geworfen, falls abh‰ngige Daten existieren sollten.
-     * @throws OptimisticLockException wird geworfen, falls der Datensatz zwischenzeitlich ge‰ndert wurde.
+     * @param entity zu l√∂schendes Gesch√§ftsobjekt.
+     * @throws ReferenceExistsException wird geworfen, falls abh√§ngige Daten existieren sollten.
+     * @throws OptimisticLockException wird geworfen, falls der Datensatz zwischenzeitlich ge√§ndert wurde.
      */
     void delete(Object entity) throws ReferenceExistsException, OptimisticLockException;
 }

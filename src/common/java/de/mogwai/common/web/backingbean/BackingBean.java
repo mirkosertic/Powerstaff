@@ -19,7 +19,7 @@ package de.mogwai.common.web.backingbean;
 import java.io.Serializable;
 
 /**
- * Oberklasse für alle Backing Beans.
+ * Oberklasse fÃ¼r alle Backing Beans.
  *
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:17:10 $

@@ -22,7 +22,7 @@ import de.mogwai.common.web.utils.adf.ADFJSFJavaScriptUtilities;
 import de.mogwai.common.web.utils.myfaces.MyFacesJSFJavaScriptUtilities;
 
 /**
- * Factory - Klasse für die erstellung der Konkreten JavaScript - Bib.
+ * Factory - Klasse fÃ¼r die erstellung der Konkreten JavaScript - Bib.
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:16:22 $
@@ -39,12 +39,12 @@ public final class JSFJavaScriptFactory {
     /**
      * Ermittlung der aktuellen JSF JavaScript Utilities.
      * 
-     * Abhängig vom aktuellen RenderKit wird eine andere Utility - Instanz
-     * zurückgegeben.
+     * AbhÃ¤ngig vom aktuellen RenderKit wird eine andere Utility - Instanz
+     * zurÃ¤ckgegeben.
      * 
      * @param aContext
      *                der Context
-     * @return die Utility - Instanz für das aktuelle RenderKit
+     * @return die Utility - Instanz fÃ¤r das aktuelle RenderKit
      */
     public static JSFJavaScriptUtilities getJavaScriptUtilities(FacesContext aContext) {
 

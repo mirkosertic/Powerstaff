@@ -25,20 +25,20 @@ import javax.faces.context.ResponseWriter;
  * Hilfsklasse zur Generierung von Mehrspaltigen Tabellen.
  * 
  * Es ist eine Kapselung um einen Responsewriter. Sollte eine Mehrspaltige
- * Ausgabe gewünscht sein, wird automatisch eine HTML - Tabelle erzeugt.
+ * Ausgabe gewÃ¼nscht sein, wird automatisch eine HTML - Tabelle erzeugt.
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:35:54 $
  */
 public class TableBuilder {
 
-    private ResponseWriter responseWriter;
+    private final ResponseWriter responseWriter;
 
-    private int columns;
+    private final int columns;
 
     private int currentColumn = 0;
 
-    private UIComponent component;
+    private final UIComponent component;
 
     public TableBuilder(ResponseWriter aResponseWriter, int aColumns, UIComponent aComponent) {
         responseWriter = aResponseWriter;

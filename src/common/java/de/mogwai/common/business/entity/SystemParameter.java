@@ -17,7 +17,7 @@
 package de.mogwai.common.business.entity;
 
 /**
- * Geschäftsobjekt für einen Systemparameter (z.B. Adresse Mailserver)
+ * GeschÃ¤ftsobjekt fÃ¼r einen Systemparameter (z.B. Adresse Mailserver)
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:16:36 $
@@ -34,7 +34,7 @@ public class SystemParameter extends Entity {
     private String value;
 
     /**
-     * Gibt den Wert des Attributs <code>name</code> zurück.
+     * Gibt den Wert des Attributs <code>name</code> zurÃ¼ck.
      * 
      * @return Wert des Attributs name.
      */
@@ -46,14 +46,14 @@ public class SystemParameter extends Entity {
      * Setzt den Wert des Attributs <code>name</code>.
      * 
      * @param name
-     *                Wert für das Attribut name.
+     *                Wert fÃ¼r das Attribut name.
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * Gibt den Wert des Attributs <code>value</code> zurück.
+     * Gibt den Wert des Attributs <code>value</code> zurÃ¼ck.
      * 
      * @return Wert des Attributs value.
      */
@@ -65,17 +65,17 @@ public class SystemParameter extends Entity {
      * Setzt den Wert des Attributs <code>value</code>.
      * 
      * @param value
-     *                Wert für das Attribut value.
+     *                Wert fÃ¼r das Attribut value.
      */
     public void setValue(String value) {
         this.value = value;
     }
 
     /**
-     * Convenience Methode für Zugriff auf "int-Value".
+     * Convenience Methode fÃ¼r Zugriff auf "int-Value".
      * 
      * @param defaultValue
-     *                Wert, der zurück gegeben wird, falls <code>value</code>
+     *                Wert, der zurÃ¼ck gegeben wird, falls <code>value</code>
      *                nicht zu int geparst werden kann.
      * @return int Wert von <code>value</code> oder defaultValue, falls
      *         <code>value</code> nicht zu int geparst werden kann.

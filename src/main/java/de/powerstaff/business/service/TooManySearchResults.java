@@ -22,7 +22,7 @@ import de.powerstaff.business.dao.GenericSearchResult;
 import java.util.Collection;
 
 /**
- * Esception für zu viele Suchergebnisse.
+ * Esception fÃ¤r zu viele Suchergebnisse.
  *
  * @author msertic
  */
@@ -32,7 +32,7 @@ public class TooManySearchResults extends Exception {
      *
      */
     private static final long serialVersionUID = 4386760675569924915L;
-    private Collection<GenericSearchResult> result;
+    private final Collection<GenericSearchResult> result;
 
     public TooManySearchResults(Collection<GenericSearchResult> aResult) {
         result = aResult;

@@ -118,7 +118,7 @@ public class NumberInputfieldRenderer extends BaseInputRenderer {
                     NumberFormat theFormat = theComponent.createNumberFormat();
                     try {
 
-                        // Formatierung wieder zurück, damit überflüssige
+                        // Formatierung wieder zurÃ¼ck, damit Ã¼berflÃ¼ssige
                         // Nachkommastellen abgeschnitten werden
                         Number theNumber = theFormat.parse((String) aSubmittedValue);
                         aSubmittedValue = theFormat.format(theNumber);
@@ -134,7 +134,7 @@ public class NumberInputfieldRenderer extends BaseInputRenderer {
                             return theNumber.doubleValue();
                         }
                         if (theType.equals(BigDecimal.class)) {
-                            return new BigDecimal(theNumber.doubleValue());
+                            return BigDecimal.valueOf(theNumber.doubleValue());
                         }
 
                         throw new IllegalArgumentException(
@@ -149,7 +149,7 @@ public class NumberInputfieldRenderer extends BaseInputRenderer {
                         String theLabel = theComponent.getDescribingLabel();
 
                         String theMessage = MessageFormat.format(theBundle.getString(VALIDATION_ERROR),
-                                new Object[] { theLabel });
+                                theLabel);
                         FacesMessage theFacesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, theMessage, "");
 
                         throw new ConverterException(theFacesMessage);
@@ -169,7 +169,7 @@ public class NumberInputfieldRenderer extends BaseInputRenderer {
 
             String theLabel = theComponent.getDescribingLabel();
 
-            String theMessage = MessageFormat.format(theBundle.getString(VALIDATION_ERROR), new Object[] { theLabel });
+            String theMessage = MessageFormat.format(theBundle.getString(VALIDATION_ERROR), theLabel);
             FacesMessage theFacesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, theMessage, "");
 
             throw new ConverterException(theFacesMessage);

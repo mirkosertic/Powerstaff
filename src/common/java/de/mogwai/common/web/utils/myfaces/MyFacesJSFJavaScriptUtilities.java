@@ -30,7 +30,7 @@ import org.apache.myfaces.shared_impl.renderkit.html.HtmlRendererUtils;
 import de.mogwai.common.web.utils.JSFJavaScriptUtilities;
 
 /**
- * Implementierung der JSF JavaScriptUtilities für MyFaces.
+ * Implementierung der JSF JavaScriptUtilities fÃ¼r MyFaces.
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:37:10 $

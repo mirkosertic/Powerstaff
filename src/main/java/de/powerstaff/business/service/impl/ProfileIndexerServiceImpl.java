@@ -17,7 +17,6 @@
  */
 package de.powerstaff.business.service.impl;
 
-import de.mogwai.common.business.service.impl.LogableService;
 import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.FreelancerProfile;
 import de.powerstaff.business.service.PowerstaffSystemParameterService;
@@ -106,7 +105,7 @@ public class ProfileIndexerServiceImpl implements
 
         serviceLogger.logStart(SERVICE_ID, "");
 
-        // Jetzt l‰uft er
+        // Jetzt l√§uft er
 
         long theStartTime = System.currentTimeMillis();
 

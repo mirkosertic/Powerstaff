@@ -31,9 +31,9 @@ public class UserContext {
 
     public static final String LOCALE = "locale";
 
-    private Authenticatable authenticatable;
+    private final Authenticatable authenticatable;
 
-    private HashMap<Object, Object> sessionValues = new HashMap<Object, Object>();
+    private final HashMap<Object, Object> sessionValues = new HashMap<>();
 
     private boolean logout;
 
@@ -51,7 +51,7 @@ public class UserContext {
     }
 
     /**
-     * Getter für den aktuellen Benutzer.
+     * Getter fÃ¼r den aktuellen Benutzer.
      * 
      * @return der aktuelle Benutzer
      */
@@ -61,10 +61,10 @@ public class UserContext {
     }
 
     /**
-     * Getter für einen Wert aus der aktuellen Session.
+     * Getter fÃ¼r einen Wert aus der aktuellen Session.
      * 
      * @param aKey
-     *                der Schlüssel
+     *                der SchlÃ¼ssel
      * @return der Wert
      */
     public Object getSessionValue(Object aKey) {
@@ -75,7 +75,7 @@ public class UserContext {
      * Setzen eines Wertes in der aktuellen Session.
      * 
      * @param aKey
-     *                der Schlüssel
+     *                der SchlÃ¼ssel
      * @param aValue
      *                der Wert
      */
@@ -84,7 +84,7 @@ public class UserContext {
     }
 
     /**
-     * Getter für die aktuelle Session ID.
+     * Getter fÃ¼r die aktuelle Session ID.
      * 
      * @return die Session ID
      */
@@ -93,7 +93,7 @@ public class UserContext {
     }
 
     /**
-     * Getter für die aktuelle Locale.
+     * Getter fÃ¼r die aktuelle Locale.
      * 
      * @return die Locale.
      */
@@ -102,7 +102,7 @@ public class UserContext {
     }
 
     /**
-     * Gibt den Wert des Attributs <code>logout</code> zurück.
+     * Gibt den Wert des Attributs <code>logout</code> zurÃ¼ck.
      * 
      * @return Wert des Attributs logout.
      */
@@ -114,7 +114,7 @@ public class UserContext {
      * Setzt den Wert des Attributs <code>logout</code>.
      * 
      * @param logout
-     *                Wert für das Attribut logout.
+     *                Wert fÃ¼r das Attribut logout.
      */
     public void setLogout(boolean logout) {
         this.logout = logout;

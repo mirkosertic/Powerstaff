@@ -92,7 +92,7 @@ public class DatepickerRenderer extends BaseInputRenderer {
 				}
 			} else {
 				// Wenn es einen Converter gibt, so soll dieser den Job
-				// übernehmen
+				// Ã¼bernehmen
 				theValue = theConverter.getAsString(aContext, aComponent,
 						theObjectValue);
 			}
@@ -105,7 +105,7 @@ public class DatepickerRenderer extends BaseInputRenderer {
 
 		theWriter.startElement("div", aComponent);
 
-		HashMap<String, String> theStyles = new HashMap<String, String>();
+		HashMap<String, String> theStyles = new HashMap<>();
 		theStyles.put("position", "relative");
 
 		setWidthIfInGridBag(theWriter, aComponent, theStyles);
@@ -190,7 +190,7 @@ public class DatepickerRenderer extends BaseInputRenderer {
 
 			} else {
 
-				// Sonst übernimmt der Converter den Job
+				// Sonst Ã¼bernimmt der Converter den Job
 				theComponent.setValid(true);
 				return theConverter.getAsObject(context, component,
 						(String) submittedValue);
@@ -203,7 +203,7 @@ public class DatepickerRenderer extends BaseInputRenderer {
 			String theLabel = theComponent.getDescribingLabel();
 
 			String theMessage = MessageFormat.format(theBundle
-					.getString(VALIDATION_ERROR), new Object[] { theLabel });
+					.getString(VALIDATION_ERROR), theLabel);
 			FacesMessage theFacesMessage = new FacesMessage(
 					FacesMessage.SEVERITY_ERROR, theMessage, "");
 

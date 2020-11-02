@@ -57,7 +57,7 @@ public class SecurityContextToUserContextFilter implements Filter {
         try {
 
             UserContext theOldUserContext = (UserContext) theSession.getAttribute(USERCONTEXT_ID);
-            UserContext theUserContext = null;
+            UserContext theUserContext;
             
             SecurityContext theSecContext = SecurityContextHolder.getContext();
             Authentication theAuth = theSecContext.getAuthentication();
@@ -72,7 +72,7 @@ public class SecurityContextToUserContextFilter implements Filter {
                 theUserContext = UserContextHolder.initContextWithAuthenticatable(AUTHWRAPPER);
             }
 
-            // Alte Session Variablen in neuen UserContext übernehmen
+            // Alte Session Variablen in neuen UserContext Ã¼bernehmen
             if (theOldUserContext != null) {
                 for (Map.Entry<Object, Object> theEntry : theOldUserContext.getSessionValues().entrySet()) {
                     theUserContext.setSessionValue(theEntry.getKey(), theEntry.getValue());

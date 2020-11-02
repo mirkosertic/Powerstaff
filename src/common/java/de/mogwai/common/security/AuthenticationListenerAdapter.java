@@ -10,9 +10,9 @@ import org.springframework.security.userdetails.UserDetails;
 
 
 /**
- * Adapter für den AuthenticationListener.
+ * Adapter fÃ¼r den AuthenticationListener.
  * 
- * Dies sollte die Basisklasse für alle AuthenticationListener sein !!
+ * Dies sollte die Basisklasse fÃ¼r alle AuthenticationListener sein !!
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:35:38 $

@@ -16,10 +16,7 @@
  */
 package de.mogwai.common.web.utils;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
-import java.util.Vector;
+import de.mogwai.common.web.Configuration;
 
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UICommand;
@@ -28,8 +25,10 @@ import javax.faces.component.UIForm;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.servlet.http.HttpSession;
-
-import de.mogwai.common.web.Configuration;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Utility - Klasse zum Umgang mit JSF und JavaScript.
@@ -123,7 +122,7 @@ public abstract class JSFJavaScriptUtilities {
     public abstract String getJavaScriptSubmitCommand(FacesContext aContext, UICommand aCommandComponent, String aEvent);
 
     /**
-     * Ermittlung der ID der Komponente, die das FormSubmit ausgelöst hat.
+     * Ermittlung der ID der Komponente, die das FormSubmit ausgelÃ¶st hat.
      * 
      * @param aContext
      *                der FacesContext
@@ -138,7 +137,7 @@ public abstract class JSFJavaScriptUtilities {
      * Komponente.
      * 
      * Alle Komponenten, die eine action haben, sollten im encodeEnd() diese
-     * Methode aufrufen, um abschliessend noch eventuell benötigtes HTML oder
+     * Methode aufrufen, um abschliessend noch eventuell benÃ¶tigtes HTML oder
      * JavaScript zu generieren.
      * 
      * @param aContext
@@ -159,7 +158,7 @@ public abstract class JSFJavaScriptUtilities {
      * @param aContext
      *                der FacesContext
      * @param aPrefix
-     *                das Prefix für den Namen
+     *                das Prefix fÃ¼r den Namen
      * @param aComponent
      *                die Componente, dessen ID verwendet wird
      * @return der eindeutige Funktionsname
@@ -213,7 +212,7 @@ public abstract class JSFJavaScriptUtilities {
         HttpSession theSession = (HttpSession) aContext.getExternalContext().getSession(false);
         List<String> theGUIS = (List<String>) theSession.getAttribute(GUIDS_SESSION_ATTRIBUTE_NAME);
         if (theGUIS == null) {
-            theGUIS = new Vector<String>();
+            theGUIS = new ArrayList<>();
             theSession.setAttribute(GUIDS_SESSION_ATTRIBUTE_NAME, theGUIS);
         }
 
@@ -221,7 +220,7 @@ public abstract class JSFJavaScriptUtilities {
     }
 
     /**
-     * Überprüfung, ob eine GUID bereits genutzt wurde.
+     * ÃœberprÃ¼fung, ob eine GUID bereits genutzt wurde.
      * 
      * @param aContext
      *                der Context

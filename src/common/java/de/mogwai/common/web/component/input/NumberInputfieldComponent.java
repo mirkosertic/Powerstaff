@@ -36,7 +36,7 @@ public class NumberInputfieldComponent extends NumberInputfieldComponentBase {
 	/**
 	 * Erstellung eines NumberFormat - Objektes, mit dem eine formatierte Ein -
 	 * und Ausgabe anhand des aktuellen numberFormatResourceKey erzeugt wird.
-	 * Ist kein numberFormatResourceKey verfügbar, gibt die Methode null zurück.
+	 * Ist kein numberFormatResourceKey verfÃ¼gbar, gibt die Methode null zurÃ¼ck.
 	 * 
 	 * @return das NumberFormat
 	 */

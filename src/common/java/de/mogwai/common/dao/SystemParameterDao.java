@@ -21,7 +21,7 @@ import java.util.List;
 import de.mogwai.common.business.enums.BaseEnumItemEnum;
 
 /**
- * Data Access Object (DAO) Interface für Systemparameter.
+ * Data Access Object (DAO) Interface fÃ¼r Systemparameter.
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:32:27 $

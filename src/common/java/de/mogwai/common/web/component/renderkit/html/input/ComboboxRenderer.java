@@ -37,7 +37,7 @@ import java.util.Map;
  * 
  * Durch einen BrowserBug in IE<7 werden Select - Elemente als Windowed -
  * Elemente dargestellt. Falls nun ein Modaler Dialog auf dieser Seite
- * erscheint, werden die Select - Elemente immer über dem modalen Dialog
+ * erscheint, werden die Select - Elemente immer Ã¼ber dem modalen Dialog
  * angezeigt. Aus diesem Grunde werden alle Select - Elemente, sobald ein
  * sichtbarer modaler Dialog angezeigt wird, nur noch als disabled Textfelder
  * gerendert, um diesen Bug zu umgehen.
@@ -103,9 +103,7 @@ public class ComboboxRenderer extends BaseInputRenderer {
 
         List theValues = theComponent.getValues();
         if (theValues != null) {
-            for (int count = 0; count < theValues.size(); count++) {
-                Object theEntry = theValues.get(count);
-
+            for (Object theEntry : theValues) {
                 Object theCompareValue = theEntry;
                 if (theCompareValue instanceof ObjectProvider) {
                     theCompareValue = ((ObjectProvider) theCompareValue).getProvidedObject();

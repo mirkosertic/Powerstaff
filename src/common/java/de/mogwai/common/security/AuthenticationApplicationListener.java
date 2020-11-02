@@ -9,7 +9,7 @@ import org.springframework.security.event.authorization.AuthorizationFailureEven
 
 
 /**
- * ApplicationListener für Authentifizierungsmeldungen
+ * ApplicationListener fÃ¼r Authentifizierungsmeldungen
  * <p/>
  * Authentifizierungmeldungen werden hier abgefangen, und an einen
  * AuthenticationListener delegiert.

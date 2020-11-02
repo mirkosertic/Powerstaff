@@ -163,7 +163,7 @@ public class ProfileSearchServiceImpl implements
             theSearchForUser.getProfilesToIgnore().addAll(searchRequest.getProfilesToIgnore());
 
             if (isNew) {
-                // Auf keinen Fall die bereits existierende Id vom SavedSearchRequest pro projekt �bernehmen!
+                // Auf keinen Fall die bereits existierende Id vom SavedSearchRequest pro projekt äbernehmen!
                 theSearchForUser.setId(null);
             }
 
@@ -183,7 +183,7 @@ public class ProfileSearchServiceImpl implements
 
         if (aRequest.getId() == null) {
             // Kann passieren, wenn die Suche das erste mal aufgerufen wird
-            return new DataPage<ProfileSearchEntry>(0, 0, new ArrayList<ProfileSearchEntry>());
+            return new DataPage<>(0, 0, new ArrayList<>());
         }
 
         Analyzer theAnalyzer = ProfileAnalyzerFactory.createAnalyzer();
@@ -236,7 +236,7 @@ public class ProfileSearchServiceImpl implements
                     theSortType, theReverse));
         }
 
-        List<Filter> theFilterList = new ArrayList<Filter>();
+        List<Filter> theFilterList = new ArrayList<>();
         TermsFilter theContactForbidden = new TermsFilter();
         theContactForbidden.addTerm(new Term(ProfileIndexerService.KONTAKTSPERRE, "false"));
         theFilterList.add(theContactForbidden);
@@ -251,13 +251,13 @@ public class ProfileSearchServiceImpl implements
             }
             if (aRequest.getStundensatzBis() != null) {
                 theFilterList.add(NumericRangeFilter.newLongRange(
-                        ProfileIndexerService.STUNDENSATZ, 0l, aRequest
+                        ProfileIndexerService.STUNDENSATZ, 0L, aRequest
                         .getStundensatzBis(), true, true));
             }
         }
 
         Filter theFilter = new ChainedFilter(theFilterList
-                .toArray(new Filter[theFilterList.size()]), ChainedFilter.AND);
+                .toArray(new Filter[0]), ChainedFilter.AND);
 
 
         int theEnd = startRow + pageSize;
@@ -273,7 +273,7 @@ public class ProfileSearchServiceImpl implements
         theHibernateQuery.setMaxResults(theEnd - startRow);
         theHibernateQuery.setProjection(FullTextQuery.THIS, FullTextQuery.DOCUMENT);
 
-        List<ProfileSearchEntry> theResult = new ArrayList<ProfileSearchEntry>();
+        List<ProfileSearchEntry> theResult = new ArrayList<>();
 
         for (Object theSingleEntity : theHibernateQuery.list()) {
             Object[] theRow = (Object[]) theSingleEntity;
@@ -284,7 +284,7 @@ public class ProfileSearchServiceImpl implements
             theResult.add(theEntry);
         }
 
-        return new DataPage<ProfileSearchEntry>(theHibernateQuery.getResultSize(), startRow,
+        return new DataPage<>(theHibernateQuery.getResultSize(), startRow,
                 theResult);
     }
 
@@ -303,7 +303,7 @@ public class ProfileSearchServiceImpl implements
         theDetail.setStundensatz(aFreelancer.getSallaryLong());
         theDetail.setContactforbidden(aFreelancer
                 .isContactforbidden());
-        theDetail.setContacts(new ArrayList<FreelancerContact>(
+        theDetail.setContacts(new ArrayList<>(
                 aFreelancer.getContacts()));
         theDetail.setLastContact(aFreelancer.getLastContactDate());
         for (FreelancerToTag theTag : aFreelancer.getTags()) {
@@ -337,7 +337,7 @@ public class ProfileSearchServiceImpl implements
 
     @Override
     public synchronized List<FreelancerProfile> loadProfilesFor(Freelancer aFreelancer) {
-        List<FreelancerProfile> theProfiles = new ArrayList<FreelancerProfile>();
+        List<FreelancerProfile> theProfiles = new ArrayList<>();
 
         if (aFreelancer != null && aFreelancer.getCode() != null) {
 
@@ -377,7 +377,7 @@ public class ProfileSearchServiceImpl implements
 
     @Override
     public List<ProfileSearchEntry> getSimilarFreelancer(Freelancer aFreelancer) {
-        List<ProfileSearchEntry> theResult = new ArrayList<ProfileSearchEntry>();
+        List<ProfileSearchEntry> theResult = new ArrayList<>();
         if (aFreelancer != null && aFreelancer.getId() != null) {
 
             FullTextSession theSession = Search.getFullTextSession(sessionFactory.getCurrentSession());
@@ -445,7 +445,7 @@ public class ProfileSearchServiceImpl implements
 
     @Override
     public List<ProfileSearchEntry> getSimilarFreelancer(Project aProject) {
-        List<ProfileSearchEntry> theResult = new ArrayList<ProfileSearchEntry>();
+        List<ProfileSearchEntry> theResult = new ArrayList<>();
         if (aProject != null && aProject.getId() != null) {
 
             FullTextSession theSession = Search.getFullTextSession(sessionFactory.getCurrentSession());

@@ -32,7 +32,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Vector;
+import java.util.List;
 
 /**
  * Table renderer.
@@ -105,7 +105,7 @@ public class TableRenderer extends BaseRenderer {
         theWriter.writeAttribute("border", "0", null);
         theWriter.writeAttribute("class", "mogwaiTable", null);
 
-        Vector<UIColumn> theColumns = ListAwareUtils
+        final List<UIColumn> theColumns = ListAwareUtils
                 .getColumns(theTableComponent);
         GridbagLayoutSizeDefinitionVector theCols = theTableComponent.getCols();
 
@@ -126,7 +126,7 @@ public class TableRenderer extends BaseRenderer {
     }
 
     protected void renderHeader(FacesContext aContext, UIComponent aComponent,
-                                Vector<UIColumn> aColumns, Object aGroupObject) throws IOException {
+                                List<UIColumn> aColumns, Object aGroupObject) throws IOException {
 
         TableComponent theTableComponent = (TableComponent) aComponent;
 
@@ -197,7 +197,7 @@ public class TableRenderer extends BaseRenderer {
     }
 
     protected void renderFooter(FacesContext aContext, ResponseWriter aWriter,
-                                TableComponent aComponent, Vector<UIColumn> aColumns)
+                                TableComponent aComponent, List<UIColumn> aColumns)
             throws IOException {
 
         if (!aComponent.isShowFooter()) {
@@ -249,7 +249,7 @@ public class TableRenderer extends BaseRenderer {
 
         UIData theData = (UIData) aComponent;
 
-        Vector<UIColumn> theColumns = ListAwareUtils
+        final List<UIColumn> theColumns = ListAwareUtils
                 .getColumns(theTableComponent);
 
         int theFirstRow = theData.getFirst();
@@ -374,7 +374,7 @@ public class TableRenderer extends BaseRenderer {
 
         if (theTableComponent.isFillupRows()) {
 
-            // Es sollen noch Leerzeilen angeh‰ngt werden
+            // Es sollen noch Leerzeilen angeh√§ngt werden
             while (theRowCounter < theRows) {
 
                 theWriter.startElement("tr", aComponent);
@@ -403,7 +403,7 @@ public class TableRenderer extends BaseRenderer {
                                 theEmptyCellFacet);
                     } else {
                         // Alt 255 Hack !!
-                        theWriter.write("†");
+                        theWriter.write("√§");
                     }
 
                     theWriter.endElement("td");
@@ -423,7 +423,7 @@ public class TableRenderer extends BaseRenderer {
         TableComponent theTableComponent = (TableComponent) aComponent;
         ResponseWriter theWriter = aContext.getResponseWriter();
 
-        Vector<UIColumn> theColumns = ListAwareUtils
+        final List<UIColumn> theColumns = ListAwareUtils
                 .getColumns(theTableComponent);
         renderFooter(aContext, theWriter, theTableComponent, theColumns);
 

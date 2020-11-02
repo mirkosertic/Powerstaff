@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Service Implementation für Systemparameter. Die Systemparameter werden nicht
- * gecached, damit Änderungen in der Datenbank sofort übernommen werden.
+ * Service Implementation fÃ¼r Systemparameter. Die Systemparameter werden nicht
+ * gecached, damit Ã„nderungen in der Datenbank sofort Ã¼bernommen werden.
  * 
  * Hinweis: Spring instanziiert den Service genau einmal.
  * 
@@ -43,7 +43,7 @@ public class SystemParameterServiceImpl implements SystemParameterService {
      * Setzt den Wert des Attributs <code>systemParameterDao</code>.
      * 
      * @param systemParameterDao
-     *                Wert für das Attribut systemParameterDao.
+     *                Wert fÃ¤r das Attribut systemParameterDao.
      */
     public void setSystemParameterDao(SystemParameterDao systemParameterDao) {
         this.systemParameterDao = systemParameterDao;
@@ -54,7 +54,7 @@ public class SystemParameterServiceImpl implements SystemParameterService {
      */
     public Map<Long, SystemParameter> getSystemParameterMap() {
 
-        Map<Long, SystemParameter> parameterMap = new HashMap<Long, SystemParameter>();
+        Map<Long, SystemParameter> parameterMap = new HashMap<>();
         List parameterList = this.systemParameterDao.getAll();
 
         for (Object parameter : parameterList) {

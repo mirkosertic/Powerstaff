@@ -17,7 +17,6 @@
  */
 package de.powerstaff.business.service.impl;
 
-import de.mogwai.common.business.service.impl.LogableService;
 import de.mogwai.common.utils.WorkerQueue;
 import de.powerstaff.business.dao.WebsiteDAO;
 import de.powerstaff.business.entity.NewsletterMail;
@@ -43,8 +42,8 @@ import java.io.File;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
-import java.util.Vector;
 
 public class NewsletterServiceImpl implements NewsletterService {
 
@@ -117,7 +116,7 @@ public class NewsletterServiceImpl implements NewsletterService {
 
         serviceLogger.logStart(SERVICE_ID, "");
 
-        Vector theProjects = new Vector();
+        final List theProjects = new ArrayList<>();
 
         LOGGER.debug("Retrieving projects");
 
@@ -151,7 +150,7 @@ public class NewsletterServiceImpl implements NewsletterService {
 
         LOGGER.debug("Sending mails for " + theReceiver.size() + " receiver");
 
-        final Vector<NewsletterMail> theErrors = new Vector<NewsletterMail>();
+        final List<NewsletterMail> theErrors = new ArrayList<>();
 
         // Initialize velocity
         Properties theProperties = new Properties();
@@ -173,7 +172,7 @@ public class NewsletterServiceImpl implements NewsletterService {
         File theTemplateFileName = new File(systemParameterService.getNewsletterTemplate());
         File theTemplateDir = theTemplateFileName.getParentFile();
 
-        Template theTemplate = null;
+        Template theTemplate;
         try {
             theTemplate = theEngine.getTemplate(systemParameterService.getNewsletterTemplate());
         } catch (Exception e2) {
@@ -181,9 +180,9 @@ public class NewsletterServiceImpl implements NewsletterService {
             return;
         }
 
-        // Nur für Debug - Zwecke !!!
+        // Nur fÃ¤r Debug - Zwecke !!!
         if (aDebugMode) {
-            theReceiver = new ArrayList<NewsletterMail>();
+            theReceiver = new ArrayList<>();
             NewsletterMail theTempMail = new NewsletterMail();
             theTempMail.setMail(aDebugAdress);
             theReceiver.add(theTempMail);
@@ -229,8 +228,7 @@ public class NewsletterServiceImpl implements NewsletterService {
 
                     // Add the content to the mail
                     File[] theFiles = theTemplateDir.listFiles();
-                    for (int i = 0; i < theFiles.length; i++) {
-                        File theFile = theFiles[i];
+                    for (File theFile : theFiles) {
                         if ((!theFile.getName().endsWith(".html")) && (!theFile.isDirectory())) {
 
                             theBodyPart = new MimeBodyPart();
@@ -246,28 +244,26 @@ public class NewsletterServiceImpl implements NewsletterService {
 
                     final NewsletterMail theFinalMail = theMail;
 
-                    theQueue.execute(new Runnable() {
-                        public void run() {
+                    theQueue.execute(() -> {
 
+                        try {
+                            theMailSender.send(theMessage);
+
+                            LOGGER.debug("Mail to " + theFinalMail.getMail() + " successfully sent");
+
+                        } catch (Exception e) {
+
+                            LOGGER.debug("Error sending mail", e);
+
+                            theErrors.add(theFinalMail);
+
+                            theFinalMail.setErrorcounter(theFinalMail.getErrorcounter() + 1);
                             try {
-                                theMailSender.send(theMessage);
-
-                                LOGGER.debug("Mail to " + theFinalMail.getMail() + " successfully sent");
-
-                            } catch (Exception e) {
-
-                                LOGGER.debug("Error sending mail", e);
-
-                                theErrors.add(theFinalMail);
-
-                                theFinalMail.setErrorcounter(theFinalMail.getErrorcounter() + 1);
-                                try {
-                                    websiteDAO.saveOrUpdate(theFinalMail);
-                                } catch (Exception e1) {
-                                    // Nothing will happen here
-                                }
-
+                                websiteDAO.saveOrUpdate(theFinalMail);
+                            } catch (Exception e1) {
+                                // Nothing will happen here
                             }
+
                         }
                     });
 

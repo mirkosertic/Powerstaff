@@ -17,7 +17,7 @@
 package de.mogwai.common.business.service.impl;
 
 /**
- * Basisklasse für Services. Stellt bereits einen Logger zur Verfügung.
+ * Basisklasse fÃ¼r Services. Stellt bereits einen Logger zur VerfÃ¼gung.
  * 
  * @author $Author: mirkosertic $
  * @version $Date: 2008-09-04 18:27:34 $

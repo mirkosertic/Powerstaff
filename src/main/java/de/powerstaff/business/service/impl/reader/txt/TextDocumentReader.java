@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.FileReader;
 
 /**
- * Reader für Text Dokumente.
+ * Reader fÃ¤r Text Dokumente.
  *
  * @author msertic
  */
