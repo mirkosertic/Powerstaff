@@ -1,19 +1,19 @@
-/**
- * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+/*
+  Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
+
+  This library is free software; you can redistribute it and/or modify it under
+  the terms of the GNU Lesser General Public License as published by the Free
+  Software Foundation; either version 2.1 of the License, or (at your option)
+  any later version.
+
+  This library is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+  details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this library; if not, write to the Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 package de.powerstaff.web.backingbean.profile;
 
@@ -23,22 +23,37 @@ import de.mogwai.common.web.backingbean.WrappingBackingBean;
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.dto.DataPage;
 import de.powerstaff.business.dto.ProfileSearchEntry;
-import de.powerstaff.business.entity.*;
+import de.powerstaff.business.entity.Freelancer;
+import de.powerstaff.business.entity.FreelancerToTag;
+import de.powerstaff.business.entity.Project;
+import de.powerstaff.business.entity.ProjectPosition;
+import de.powerstaff.business.entity.ProjectPositionStatus;
+import de.powerstaff.business.entity.SavedProfileSearch;
+import de.powerstaff.business.entity.Tag;
+import de.powerstaff.business.entity.TagType;
+import de.powerstaff.business.entity.User;
 import de.powerstaff.business.service.FreelancerService;
 import de.powerstaff.business.service.OptimisticLockException;
 import de.powerstaff.business.service.ProfileIndexerService;
 import de.powerstaff.business.service.ProfileSearchService;
+import de.powerstaff.business.service.TagService;
 import de.powerstaff.web.backingbean.ContextUtils;
 import de.powerstaff.web.backingbean.MessageConstants;
 import de.powerstaff.web.utils.ExcelUtils;
 import de.powerstaff.web.utils.PagedListDataModel;
-import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import javax.faces.component.StateHolder;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,19 +65,21 @@ public class ProfileBackingBean extends
 
     private static final long serialVersionUID = -5802587658636877536L;
 
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(ProfileBackingBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProfileBackingBean.class);
 
     private transient ProfileSearchService profileSearchService;
+
+    private transient TagService tagService;
 
     private ContextUtils contextUtils;
     
     private transient FreelancerService freelancerService;
 
-    public void setFreelancerService(FreelancerService aService) {
+    public void setFreelancerService(final FreelancerService aService) {
         freelancerService = aService;
     }
 
-    public void setContextUtils(ContextUtils contextUtils) {
+    public void setContextUtils(final ContextUtils contextUtils) {
         this.contextUtils = contextUtils;
     }
 
@@ -77,44 +94,59 @@ public class ProfileBackingBean extends
     }
 
     public void setProfileSearchService(
-            ProfileSearchService profileSearchService) {
+            final ProfileSearchService profileSearchService) {
         this.profileSearchService = profileSearchService;
     }
 
+    public void setTagService(final TagService tagService) {
+        this.tagService = tagService;
+    }
+
     public void initializeDataModel() {
+
+        final SavedProfileSearch savedProfileSearch = getData().getSearchRequest();
+        getData().getTagSelection().clear();
+        for (final Tag tag : tagService.findTagsBy(TagType.SEARCHABLE)) {
+            if (savedProfileSearch.getSelectedTags() == null) {
+                getData().getTagSelection().add(new TagSelectionState(tag, false));
+            } else {
+                getData().getTagSelection().add(new TagSelectionState(tag, savedProfileSearch.getSelectedTags().contains(tag.getId() + ";")));
+            }
+        }
+
         getData().setSearchResult(
                 new PagedListDataModel<ProfileSearchEntry>(getPageSize()) {
 
                     private static final long serialVersionUID = 1L;
 
                     @Override
-                    public DataPage<ProfileSearchEntry> fetchPage(int startRow,
-                                                                  int pageSize) {
+                    public DataPage<ProfileSearchEntry> fetchPage(final int startRow,
+                                                                  final int pageSize) {
                         try {
                             return profileSearchService.findProfileDataPage(
                                     getData().getSearchRequest(), startRow,
                                     pageSize);
-                        } catch (Exception e) {
+                        } catch (final Exception e) {
                             JSFMessageUtils
                                     .addGlobalErrorMessage(
                                             MSG_FEHLERBEIDERPROFILSUCHE, e
                                             .getMessage());
                             LOGGER.error("Fehler bei Profilsuche", e);
                         }
-                        return new DataPage<ProfileSearchEntry>(0, 0,
-                                new ArrayList<ProfileSearchEntry>());
+                        return new DataPage<>(0, 0,
+                                new ArrayList<>());
                     }
                 });
     }
 
-    private void initializeFor(SavedProfileSearch aRequest, boolean aIsInit) throws OptimisticLockException {
+    private void initializeFor(final SavedProfileSearch aRequest, final boolean aIsInit) throws OptimisticLockException {
         if (aRequest != null) {
             getData().setSearchRequest(aRequest);
 
             initializeDataModel();
 
             if (!aIsInit || (aIsInit && !new FacesStateUtils().isPostback())) {
-                int theTotalResult = getData().getSearchResult().getRowCount();
+                final int theTotalResult = getData().getSearchResult().getRowCount();
 
                 if (theTotalResult == 0) {
                     JSFMessageUtils
@@ -126,7 +158,7 @@ public class ProfileBackingBean extends
             }
         } else {
 
-            SavedProfileSearch theSearch = new SavedProfileSearch();
+            final SavedProfileSearch theSearch = new SavedProfileSearch();
             theSearch.setUser((User) UserContextHolder.getUserContext().getAuthenticatable());
             getData().setSearchRequest(theSearch);
 
@@ -156,7 +188,7 @@ public class ProfileBackingBean extends
             // Redirect auf die URL des neuen Eintrags
             return "pretty:profilemain";
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
 
             LOGGER.error("Fehler beim Speichern", e);
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMSPEICHERN, e.getMessage());
@@ -164,14 +196,33 @@ public class ProfileBackingBean extends
         return null;
     }
 
+    private void updateSelectedTags(final SavedProfileSearch savedProfileSearch) {
+        final FacesContext context = FacesContext.getCurrentInstance();
+        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        final String[] selectedTags = request.getParameterValues("selectedtag");
+        if (selectedTags != null) {
+            final StringBuilder result = new StringBuilder();
+            for (final String element : selectedTags) {
+                result.append(element).append(";");
+            }
+            savedProfileSearch.setSelectedTags(result.toString());
+        } else {
+            savedProfileSearch.setSelectedTags("");
+        }
+    }
+
     public void commandSearch() {
         try {
+            final SavedProfileSearch savedProfileSearch = getData().getSearchRequest();
+
+            updateSelectedTags(savedProfileSearch);
+
             profileSearchService
-                    .saveSearchRequest(getData().getSearchRequest(), true);
+                    .saveSearchRequest(savedProfileSearch, true);
 
-            initializeFor(getData().getSearchRequest(), false);
+            initializeFor(savedProfileSearch, false);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE,
                     e.getMessage());
             LOGGER.error("Fehler bei Profilsuche", e);
@@ -180,24 +231,24 @@ public class ProfileBackingBean extends
 
     public void commandSearchExportExcel() {
         try {
-            FacesContext theContext = FacesContext.getCurrentInstance();
+            final FacesContext theContext = FacesContext.getCurrentInstance();
 
-            ExternalContext externalContext = theContext.getExternalContext();
-            HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
+            final ExternalContext externalContext = theContext.getExternalContext();
+            final HttpServletResponse response = (HttpServletResponse) externalContext.getResponse();
 
             response.reset(); // Some JSF component library or some Filter might have set some headers in the buffer beforehand. We want to get rid of them, else it may collide.
             response.setContentType("application/vnd.ms-excel");
             response.setHeader("Content-disposition", "attachment; filename=\"ExportSuche.xls\"");
 
-            HSSFWorkbook theWorkbook = new HSSFWorkbook();
-            HSSFSheet theWorkSheet = theWorkbook.createSheet("ExportSuche");
+            final HSSFWorkbook theWorkbook = new HSSFWorkbook();
+            final HSSFSheet theWorkSheet = theWorkbook.createSheet("ExportSuche");
 
-            HSSFCellStyle theDateStyle = theWorkbook.createCellStyle();
+            final HSSFCellStyle theDateStyle = theWorkbook.createCellStyle();
             theDateStyle.setDataFormat(HSSFDataFormat.getBuiltinFormat("d/m/jj"));
 
             int aRow = 0;
             // Header
-            HSSFRow theRow = theWorkSheet.createRow(aRow++);
+            final HSSFRow theRow = theWorkSheet.createRow(aRow++);
             ExcelUtils.addCellToRow(theRow, 0, "Anrede");
             ExcelUtils.addCellToRow(theRow, 1, "Name1");
             ExcelUtils.addCellToRow(theRow, 2, "Name2");
@@ -211,25 +262,25 @@ public class ProfileBackingBean extends
             ExcelUtils.addCellToRow(theRow, 10, "Tags");
 
             // Rows
-            PagedListDataModel<ProfileSearchEntry> theData = getData().getSearchResult();
+            final PagedListDataModel<ProfileSearchEntry> theData = getData().getSearchResult();
             for (int i=0;i<theData.getRowCount() && i<profileSearchService.getPageSize();i++) {
                 theData.setRowIndex(i);
 
-                ProfileSearchEntry theDataRow = (ProfileSearchEntry) theData.getRowData();
+                final ProfileSearchEntry theDataRow = (ProfileSearchEntry) theData.getRowData();
 
-                Freelancer theFreelancer = freelancerService.findByPrimaryKey(theDataRow.getFreelancer().getId());
+                final Freelancer theFreelancer = freelancerService.findByPrimaryKey(theDataRow.getFreelancer().getId());
 
-                String theSkills  = ExcelUtils.saveObject(theFreelancer.getSkills().replace("\f", "").replace("\n", "").replace("\t", ""));
+                final String theSkills  = ExcelUtils.saveObject(theFreelancer.getSkills().replace("\f", "").replace("\n", "").replace("\t", ""));
 
-                StringBuilder theTagList = new StringBuilder();
-                for (FreelancerToTag theTagAssignment : theFreelancer.getTags()) {
+                final StringBuilder theTagList = new StringBuilder();
+                for (final FreelancerToTag theTagAssignment : theFreelancer.getTags()) {
                     if (theTagList.length() > 0) {
                         theTagList.append(" ");
                     }
                     theTagList.append(theTagAssignment.getTag().getName());
                 }
 
-                HSSFRow theFreelancerRow = theWorkSheet.createRow(aRow++);
+                final HSSFRow theFreelancerRow = theWorkSheet.createRow(aRow++);
                 ExcelUtils.addCellToRow(theFreelancerRow, 0, ExcelUtils.saveObject(theFreelancer.getTitel()));
                 ExcelUtils.addCellToRow(theFreelancerRow, 1, ExcelUtils.saveObject(theFreelancer.getName1()));
                 ExcelUtils.addCellToRow(theFreelancerRow, 2, ExcelUtils.saveObject(theFreelancer.getName2()));
@@ -247,7 +298,7 @@ public class ProfileBackingBean extends
 
             theContext.responseComplete(); // Important!
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE,
                     e.getMessage());
             LOGGER.error("Fehler bei Profilsuche", e);
@@ -256,7 +307,7 @@ public class ProfileBackingBean extends
 
     public void commandDeleteSearchEntry() {
 
-        ProfileSearchEntry theEntry = (ProfileSearchEntry) getData()
+        final ProfileSearchEntry theEntry = (ProfileSearchEntry) getData()
                 .getSearchResult().getRowData();
 
         try {
@@ -265,7 +316,7 @@ public class ProfileBackingBean extends
             initializeDataModel();
 
             JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
-        } catch (OptimisticLockException e) {
+        } catch (final OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
     }
@@ -274,20 +325,18 @@ public class ProfileBackingBean extends
         return false;
     }
 
-    public void setTransient(boolean aValue) {
+    public void setTransient(final boolean aValue) {
     }
 
-    public void restoreState(FacesContext aContext, Object aValue) {
-        Object[] theData = (Object[]) aValue;
+    public void restoreState(final FacesContext aContext, final Object aValue) {
+        final Object[] theData = (Object[]) aValue;
         setData((ProfileBackingBeanDataModel) theData[0]);
 
         initializeDataModel();
     }
 
-    public Object saveState(FacesContext aContext) {
-        ArrayList theData = new ArrayList();
-        theData.add(getData());
-        return theData.toArray();
+    public Object saveState(final FacesContext aContext) {
+        return new Object[] {getData()};
     }
 
     public void commandSortByName1() {
@@ -297,7 +346,7 @@ public class ProfileBackingBean extends
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
 
-        } catch (OptimisticLockException e) {
+        } catch (final OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
     }
@@ -309,7 +358,7 @@ public class ProfileBackingBean extends
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
 
-        } catch (OptimisticLockException e) {
+        } catch (final OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
     }
@@ -321,7 +370,7 @@ public class ProfileBackingBean extends
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
 
-        } catch (OptimisticLockException e) {
+        } catch (final OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
     }
@@ -334,7 +383,7 @@ public class ProfileBackingBean extends
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
 
-        } catch (OptimisticLockException e) {
+        } catch (final OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
     }
@@ -346,7 +395,7 @@ public class ProfileBackingBean extends
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
 
-        } catch (OptimisticLockException e) {
+        } catch (final OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
     }
@@ -359,7 +408,7 @@ public class ProfileBackingBean extends
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
 
-        } catch (OptimisticLockException e) {
+        } catch (final OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
     }
@@ -371,7 +420,7 @@ public class ProfileBackingBean extends
             profileSearchService.saveSearchRequest(getData().getSearchRequest(), false);
             initializeDataModel();
 
-        } catch (OptimisticLockException e) {
+        } catch (final OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
     }
@@ -382,12 +431,12 @@ public class ProfileBackingBean extends
 
     private static final String POSITION_CACHE_ID = "PositionCache";
 
-    public ProjectPositionStatus findStatusFor(long aFreelancerId, Project aProject) {
+    public ProjectPositionStatus findStatusFor(final long aFreelancerId, final Project aProject) {
 
         Map<Long, ProjectPositionStatus> theStatusCache = (Map<Long, ProjectPositionStatus>) ContextUtils.getCurrentCache().get(POSITION_CACHE_ID);
         if (theStatusCache == null) {
-            theStatusCache = new HashMap<Long, ProjectPositionStatus>();
-            for (ProjectPosition thePosition : aProject.getPositions()) {
+            theStatusCache = new HashMap<>();
+            for (final ProjectPosition thePosition : aProject.getPositions()) {
                 theStatusCache.put(thePosition.getFreelancerId(), thePosition.getStatus());
             }
             ContextUtils.getCurrentCache().put(POSITION_CACHE_ID, theStatusCache);
@@ -398,10 +447,10 @@ public class ProfileBackingBean extends
 
 
     public String getRowStyleForProfile() {
-        ProfileSearchEntry theEntry = (ProfileSearchEntry) getData().getSearchResult().getRowData();
-        Project theCurrentProject = contextUtils.getCurrentProject();
+        final ProfileSearchEntry theEntry = (ProfileSearchEntry) getData().getSearchResult().getRowData();
+        final Project theCurrentProject = contextUtils.getCurrentProject();
         if (theCurrentProject != null) {
-            ProjectPositionStatus theStatus = findStatusFor(theEntry.getFreelancer().getId(), theCurrentProject);
+            final ProjectPositionStatus theStatus = findStatusFor(theEntry.getFreelancer().getId(), theCurrentProject);
             if (theStatus != null) {
                 return "background-color:" + theStatus.getColor();
             }
@@ -410,22 +459,21 @@ public class ProfileBackingBean extends
     }
 
     public void loadData() {
-
         try {
             if (ProfileBackingBeanDataModel.TYPE_USER.equals(getData().getType())) {
 
-                SavedProfileSearch theResult = profileSearchService
+                final SavedProfileSearch theResult = profileSearchService
                         .getSearchRequestForUser(getData().getId());
 
                 initializeFor(theResult, true);
             }
             if (ProfileBackingBeanDataModel.TYPE_SEARCH.equals(getData().getType())) {
-                SavedProfileSearch theResult = profileSearchService.getSearchRequest(Long.parseLong(getData().getId()));
+                final SavedProfileSearch theResult = profileSearchService.getSearchRequest(Long.parseLong(getData().getId()));
                 initializeFor(theResult, true);
             }
-        } catch (OptimisticLockException e) {
+        } catch (final OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIDERPROFILSUCHE,
                     e.getMessage());
             LOGGER.error("Fehler bei Profilsuche", e);

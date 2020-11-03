@@ -42,6 +42,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <property name="freelancerService" ref="freelancerService"/>
         <property name="profileSearchService" ref="profileSearchService"/>
         <property name="contextUtils" ref="contextUtils"/>
+        <property name="tagService" ref="tagService"/>
     </bean>
 
     <bean name="loginBackingBean" class="de.powerstaff.web.backingbean.login.LoginBackingBean" scope="request">

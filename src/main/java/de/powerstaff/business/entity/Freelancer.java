@@ -1,22 +1,23 @@
-/**
- * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+/*
+  Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
+
+  This library is free software; you can redistribute it and/or modify it under
+  the terms of the GNU Lesser General Public License as published by the Free
+  Software Foundation; either version 2.1 of the License, or (at your option)
+  any later version.
+
+  This library is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+  details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this library; if not, write to the Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 package de.powerstaff.business.entity;
 
+import de.mogwai.common.business.entity.AuditableEntity;
 import de.powerstaff.business.lucene.analysis.ProfileAnalyzer;
 import de.powerstaff.business.service.FreelancerFieldBridge;
 import org.hibernate.search.annotations.*;
@@ -75,16 +76,17 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
     private Long sallaryPartnerPerDayLong;
 
     private Set<FreelancerToTag> tags;
+
     private List<? extends FreelancerToTag> bemerkungenTags;
     private Collection<? extends FreelancerToTag> einsatzorteTags;
     private Collection<? extends FreelancerToTag> schwerpunkteTags;
     private Object firstContactEMail;
 
     public Freelancer() {
-        tags = new HashSet<FreelancerToTag>();
+        tags = new HashSet<>();
     }
 
-    @Column(length = 255)
+    @Column()
     public String getCode() {
         if (code != null) {
             code = code.trim();
@@ -99,39 +101,39 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
         this.code = code;
     }
 
-    @Column(length = 255)
+    @Column()
     public String getContactPerson() {
         return contactPerson;
     }
 
-    public void setContactPerson(String contactPerson) {
+    public void setContactPerson(final String contactPerson) {
         this.contactPerson = contactPerson;
     }
 
-    @Column(length = 255)
+    @Column()
     public String getContactReason() {
         return contactReason;
     }
 
-    public void setContactReason(String contactReason) {
+    public void setContactReason(final String contactReason) {
         this.contactReason = contactReason;
     }
 
-    @Column(length = 255)
+    @Column()
     public String getContactType() {
         return contactType;
     }
 
-    public void setContactType(String contactType) {
+    public void setContactType(final String contactType) {
         this.contactType = contactType;
     }
 
-    @Column(length = 255)
+    @Column()
     public String getGulpID() {
         return gulpID;
     }
 
-    public void setGulpID(String gulpID) {
+    public void setGulpID(final String gulpID) {
         this.gulpID = gulpID;
     }
 
@@ -148,7 +150,7 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
         return lastContactDate;
     }
 
-    public void setLastContactDate(Date lastContactDate) {
+    public void setLastContactDate(final Date lastContactDate) {
         this.lastContactDate = lastContactDate;
     }
 
@@ -156,7 +158,7 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
         return showAgain;
     }
 
-    public void setShowAgain(boolean showAgain) {
+    public void setShowAgain(final boolean showAgain) {
         this.showAgain = showAgain;
     }
 
@@ -164,16 +166,16 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
         return skills;
     }
 
-    public void setSkills(String skills) {
+    public void setSkills(final String skills) {
         this.skills = skills;
     }
 
-    @Column(length = 255)
+    @Column()
     public String getWorkplace() {
         return workplace;
     }
 
-    public void setWorkplace(String workplace) {
+    public void setWorkplace(final String workplace) {
         this.workplace = workplace;
     }
 
@@ -181,16 +183,16 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
         return partner;
     }
 
-    public void setPartner(Partner partner) {
+    public void setPartner(final Partner partner) {
         this.partner = partner;
     }
 
-    @Column(length = 255)
+    @Column()
     public String getSallaryComment() {
         return sallaryComment;
     }
 
-    public void setSallaryComment(String sallaryComment) {
+    public void setSallaryComment(final String sallaryComment) {
         this.sallaryComment = sallaryComment;
     }
 
@@ -198,7 +200,7 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(final Integer status) {
         this.status = status;
     }
 
@@ -206,7 +208,7 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
         return availabilityAsDate;
     }
 
-    public void setAvailabilityAsDate(Date availabilityAsDate) {
+    public void setAvailabilityAsDate(final Date availabilityAsDate) {
         this.availabilityAsDate = availabilityAsDate;
     }
 
@@ -214,7 +216,7 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
         return sallaryPerDayLong;
     }
 
-    public void setSallaryPerDayLong(Long sallaryPerDayLong) {
+    public void setSallaryPerDayLong(final Long sallaryPerDayLong) {
         this.sallaryPerDayLong = sallaryPerDayLong;
     }
 
@@ -222,7 +224,7 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
         return sallaryPartnerLong;
     }
 
-    public void setSallaryPartnerLong(Long sallaryPartnerLong) {
+    public void setSallaryPartnerLong(final Long sallaryPartnerLong) {
         this.sallaryPartnerLong = sallaryPartnerLong;
     }
 
@@ -230,7 +232,7 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
         return sallaryPartnerPerDayLong;
     }
 
-    public void setSallaryPartnerPerDayLong(Long sallaryPartnerPerDayLong) {
+    public void setSallaryPartnerPerDayLong(final Long sallaryPartnerPerDayLong) {
         this.sallaryPartnerPerDayLong = sallaryPartnerPerDayLong;
     }
 
@@ -238,7 +240,7 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
         return sallaryLong;
     }
 
-    public void setSallaryLong(Long sallaryLong) {
+    public void setSallaryLong(final Long sallaryLong) {
         this.sallaryLong = sallaryLong;
     }
 
@@ -246,7 +248,7 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
         return tags;
     }
 
-    public void setTags(Set<FreelancerToTag> tags) {
+    public void setTags(final Set<FreelancerToTag> tags) {
         this.tags = tags;
     }
 
@@ -266,43 +268,33 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
         return getTagsByType(TagType.SCHWERPUNKT);
     }
 
-    protected List<FreelancerToTag> getTagsByType(TagType aTagType) {
-        List<FreelancerToTag> theResult = new ArrayList<FreelancerToTag>();
-        for (FreelancerToTag theTags : getTags()) {
+    protected List<FreelancerToTag> getTagsByType(final TagType aTagType) {
+        final List<FreelancerToTag> theResult = new ArrayList<>();
+        for (final FreelancerToTag theTags : getTags()) {
             if (theTags.getType() == aTagType) {
                 theResult.add(theTags);
             }
         }
-        Collections.sort(theResult, new Comparator<FreelancerToTag>() {
-            @Override
-            public int compare(FreelancerToTag o1, FreelancerToTag o2) {
-                return o1.getCreationDate().compareTo(o2.getCreationDate());
-            }
-        });
+        theResult.sort(Comparator.comparing(AuditableEntity::getCreationDate));
         return theResult;
     }
 
     public List<FreelancerToTag> getAllTagsSorted() {
-        List<FreelancerToTag> theResult = new ArrayList<FreelancerToTag>(tags);
-        Collections.sort(theResult, new Comparator<FreelancerToTag>() {
-            @Override
-            public int compare(FreelancerToTag o1, FreelancerToTag o2) {
-                return o1.getCreationDate().compareTo(o2.getCreationDate());
-            }
-        });
+        final List<FreelancerToTag> theResult = new ArrayList<>(tags);
+        theResult.sort(Comparator.comparing(AuditableEntity::getCreationDate));
         return theResult;
     }
 
-    public boolean hasAllTags(Set<Long> aTagIDs) {
-        Set<Long> theCurrentIDs = new HashSet<Long>();
-        for (FreelancerToTag theTag : getTags()) {
+    public boolean hasAllTags(final Set<Long> aTagIDs) {
+        final Set<Long> theCurrentIDs = new HashSet<>();
+        for (final FreelancerToTag theTag : getTags()) {
             theCurrentIDs.add(theTag.getTag().getId());
         }
         return theCurrentIDs.containsAll(aTagIDs);
     }
 
-    public boolean hasTag(Tag aTag) {
-        for (FreelancerToTag theTag : getTags()) {
+    public boolean hasTag(final Tag aTag) {
+        for (final FreelancerToTag theTag : getTags()) {
             if (theTag.getTag().equals(aTag)) {
                 return true;
             }

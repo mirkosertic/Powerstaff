@@ -29,8 +29,10 @@
         <property name="sortierung"/>
 
         <set name="profilesToIgnore" table="savedprofilesearchignore">
-            <key column="savedprofilesearch_id" not-null="true"></key>
-            <element column="documentid" type="string"></element>
+            <key column="savedprofilesearch_id" not-null="true"/>
+            <element column="documentid" type="string"/>
         </set>
+
+        <property name="selectedTags"/>
     </class>
 </hibernate-mapping>

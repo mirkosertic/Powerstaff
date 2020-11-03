@@ -1,19 +1,19 @@
-/**
- * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+/*
+  Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
+
+  This library is free software; you can redistribute it and/or modify it under
+  the terms of the GNU Lesser General Public License as published by the Free
+  Software Foundation; either version 2.1 of the License, or (at your option)
+  any later version.
+
+  This library is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+  details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this library; if not, write to the Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 package de.powerstaff.web.backingbean.profile;
 
@@ -21,6 +21,9 @@ import de.mogwai.common.web.backingbean.BackingBeanDataModel;
 import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.entity.SavedProfileSearch;
 import de.powerstaff.web.utils.PagedListDataModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 
@@ -40,11 +43,13 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 
     private String id;
 
+    private List<TagSelectionState> tagSelection = new ArrayList<>();
+
     public SavedProfileSearch getSearchRequest() {
         return searchRequest;
     }
 
-    public void setSearchRequest(SavedProfileSearch searchRequest) {
+    public void setSearchRequest(final SavedProfileSearch searchRequest) {
         this.searchRequest = searchRequest;
         if (searchRequest.getProject() != null) {
             type = TYPE_SEARCH;
@@ -64,7 +69,7 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
     }
 
     public void setSearchResult(
-            PagedListDataModel<ProfileSearchEntry> searchResult) {
+            final PagedListDataModel<ProfileSearchEntry> searchResult) {
         this.searchResult = searchResult;
     }
 
@@ -79,7 +84,7 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 
@@ -87,7 +92,11 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(final String id) {
         this.id = id;
+    }
+
+    public List<TagSelectionState> getTagSelection() {
+        return tagSelection;
     }
 }

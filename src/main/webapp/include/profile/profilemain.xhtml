@@ -78,7 +78,7 @@
                             </h:commandLink>
                         </b:cell>
                     </b:gridBagLayout>
-                    <b:gridBagLayout cols="1,148,2,50,30,50,2" rows="10,p,2,p">
+                    <b:gridBagLayout cols="1,148,2,50,30,50,2,200" rows="10,p,2,p,2,p,2,p,2">
                         <b:cell x="2" y="2">
                             <b:label id="labelStundensatz" label="Stundensatz"/>
                         </b:cell>
@@ -101,7 +101,17 @@
                             <b:inputfield labelComponentId="labelStundensatz"
                                           value="#{profileBackingBean.data.searchRequest.plz}"/>
                         </b:cell>
-
+                        <b:cell x="8" y="2" height="8">
+                            <ui:repeat value="#{profileBackingBean.data.tagSelection}" var="tagSelection">
+                                <label style="display: block">
+                                <ui:fragment rendered="#{tagSelection.selected}">
+                                    <input type="checkbox" name="selectedtag" value="#{tagSelection.tag.id}" checked="checked"/>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{!tagSelection.selected}">
+                                    <input type="checkbox" name="selectedtag" value="#{tagSelection.tag.id}" />
+                                </ui:fragment>${tagSelection.tag.name}</label>
+                            </ui:repeat>
+                        </b:cell>
                     </b:gridBagLayout>
                 </b:titledBox>
             </b:cell>
