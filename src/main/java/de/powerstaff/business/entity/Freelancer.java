@@ -82,6 +82,9 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
     private Collection<? extends FreelancerToTag> schwerpunkteTags;
     private Object firstContactEMail;
 
+    private String einsatzdetails;
+    private boolean datenschutz;
+
     public Freelancer() {
         tags = new HashSet<>();
     }
@@ -300,5 +303,21 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
             }
         }
         return false;
+    }
+
+    public String getEinsatzdetails() {
+        return einsatzdetails;
+    }
+
+    public void setEinsatzdetails(final String einsatzdetails) {
+        this.einsatzdetails = einsatzdetails;
+    }
+
+    public boolean isDatenschutz() {
+        return datenschutz;
+    }
+
+    public void setDatenschutz(final boolean datenschutz) {
+        this.datenschutz = datenschutz;
     }
 }

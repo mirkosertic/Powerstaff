@@ -1,4 +1,4 @@
-package de.powerstaff.web.backingbean.profile;
+package de.powerstaff.web.backingbean;
 
 import de.powerstaff.business.entity.Tag;
 

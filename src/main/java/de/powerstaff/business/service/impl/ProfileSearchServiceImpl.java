@@ -1,19 +1,19 @@
-/**
- * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+/*
+  Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
+
+  This library is free software; you can redistribute it and/or modify it under
+  the terms of the GNU Lesser General Public License as published by the Free
+  Software Foundation; either version 2.1 of the License, or (at your option)
+  any later version.
+
+  This library is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+  details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this library; if not, write to the Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 package de.powerstaff.business.service.impl;
 
@@ -76,29 +76,29 @@ public class ProfileSearchServiceImpl implements
 
     private FSCache fileSystemCache;
 
-    public void setFileSystemCache(FSCache fileSystemCache) {
+    public void setFileSystemCache(final FSCache fileSystemCache) {
         this.fileSystemCache = fileSystemCache;
     }
 
     public void setSystemParameterService(
-            PowerstaffSystemParameterService systemParameterService) {
+            final PowerstaffSystemParameterService systemParameterService) {
         this.systemParameterService = systemParameterService;
     }
 
-    public void setProfileSearchDAO(ProfileSearchDAO profileSearchDAO) {
+    public void setProfileSearchDAO(final ProfileSearchDAO profileSearchDAO) {
         this.profileSearchDAO = profileSearchDAO;
     }
 
-    public void setSessionFactory(SessionFactory sessionFactory) {
+    public void setSessionFactory(final SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    private Query getRealQuery(SavedProfileSearch aRequest, Analyzer aAnalyzer)
+    private Query getRealQuery(final SavedProfileSearch aRequest, final Analyzer aAnalyzer)
             throws IOException, ParseException {
 
-        BooleanQuery theQuery = new BooleanQuery();
+        final BooleanQuery theQuery = new BooleanQuery();
 
-        GoogleStyleQueryParser theParser = new GoogleStyleQueryParser(null);
+        final GoogleStyleQueryParser theParser = new GoogleStyleQueryParser(null);
 
         theQuery.add(theParser.parseQuery(aRequest.getProfileContent(),
                 aAnalyzer, ProfileIndexerService.CONTENT), Occur.MUST);
@@ -111,11 +111,11 @@ public class ProfileSearchServiceImpl implements
         return theQuery;
     }
 
-    protected String getHighlightedSearchResult(Analyzer aAnalyzer,
-                                                Highlighter aHighlighter, String aContent, Query aQuery)
+    protected String getHighlightedSearchResult(final Analyzer aAnalyzer,
+                                                final Highlighter aHighlighter, final String aContent, final Query aQuery)
             throws IOException, InvalidTokenOffsetsException {
 
-        CachingTokenFilter tokenStream = new CachingTokenFilter(aAnalyzer
+        final CachingTokenFilter tokenStream = new CachingTokenFilter(aAnalyzer
                 .tokenStream(ProfileIndexerService.CONTENT, new StringReader(
                         aContent)));
 
@@ -123,18 +123,18 @@ public class ProfileSearchServiceImpl implements
                 "&nbsp;...&nbsp;");
     }
 
-    public SavedProfileSearch getSearchRequestForUser(String aUserId) {
+    public SavedProfileSearch getSearchRequestForUser(final String aUserId) {
         return profileSearchDAO.getSavedSearchForUser(aUserId);
     }
 
-    public SavedProfileSearch getSearchRequest(long aSearchRequestId) {
+    public SavedProfileSearch getSearchRequest(final long aSearchRequestId) {
         return profileSearchDAO.getSavedSearchById(aSearchRequestId);
     }
 
     @Override
-    public void saveSearchRequest(SavedProfileSearch searchRequest, boolean cleanup) throws OptimisticLockException {
+    public void saveSearchRequest(final SavedProfileSearch searchRequest, final boolean cleanup) throws OptimisticLockException {
 
-        User theUser = (User) UserContextHolder.getUserContext().getAuthenticatable();
+        final User theUser = (User) UserContextHolder.getUserContext().getAuthenticatable();
 
         if (cleanup) {
             searchRequest.getProfilesToIgnore().clear();
@@ -161,6 +161,7 @@ public class ProfileSearchServiceImpl implements
             theSearchForUser.setStundensatzVon(searchRequest.getStundensatzVon());
             theSearchForUser.setStundensatzBis(searchRequest.getStundensatzBis());
             theSearchForUser.getProfilesToIgnore().addAll(searchRequest.getProfilesToIgnore());
+            theSearchForUser.setSelectedTags(searchRequest.getSelectedTags());
 
             if (isNew) {
                 // Auf keinen Fall die bereits existierende Id vom SavedSearchRequest pro projekt äbernehmen!
@@ -178,7 +179,7 @@ public class ProfileSearchServiceImpl implements
 
     @Override
     public DataPage<ProfileSearchEntry> findProfileDataPage(
-            SavedProfileSearch aRequest, int startRow, int pageSize)
+            final SavedProfileSearch aRequest, final int startRow, final int pageSize)
             throws Exception {
 
         if (aRequest.getId() == null) {
@@ -186,26 +187,40 @@ public class ProfileSearchServiceImpl implements
             return new DataPage<>(0, 0, new ArrayList<>());
         }
 
-        Analyzer theAnalyzer = ProfileAnalyzerFactory.createAnalyzer();
+        final Analyzer theAnalyzer = ProfileAnalyzerFactory.createAnalyzer();
 
-        FullTextSession theSession = Search.getFullTextSession(sessionFactory.getCurrentSession());
+        final FullTextSession theSession = Search.getFullTextSession(sessionFactory.getCurrentSession());
 
-        Query theQuery = getRealQuery(aRequest, theAnalyzer);
+        final Query theQuery = getRealQuery(aRequest, theAnalyzer);
 
         LOGGER.info("Search query is " + theQuery + " from " + startRow
                 + " with pagesize " + pageSize);
 
-        Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(
+        final Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(
                 1, "#000000", "#0000FF", null, null), new QueryScorer(theQuery));
 
-        BooleanQuery theRealQuery = new BooleanQuery();
+        final BooleanQuery theRealQuery = new BooleanQuery();
         theRealQuery.add(theQuery, Occur.MUST);
 
-        if (aRequest != null) {
-            for (String theId : aRequest.getProfilesToIgnore()) {
-                theRealQuery.add(new TermQuery(new Term(
-                        ProfileIndexerService.UNIQUE_ID, theId)),
-                        Occur.MUST_NOT);
+        for (final String theId : aRequest.getProfilesToIgnore()) {
+            theRealQuery.add(new TermQuery(new Term(
+                ProfileIndexerService.UNIQUE_ID, theId)),
+                Occur.MUST_NOT);
+        }
+
+        if (aRequest.getSelectedTags() != null) {
+            final String[] tags = aRequest.getSelectedTags().split(";");
+            BooleanQuery orQuery = null;
+            for (final String tag : tags) {
+                if (!StringUtils.isEmpty(tag)) {
+                    if (orQuery == null) {
+                        orQuery = new BooleanQuery();
+                    }
+                    orQuery.add(new TermQuery(new Term(ProfileIndexerService.TAGS, tag)), Occur.SHOULD);
+                }
+            }
+            if (orQuery != null) {
+                theRealQuery.add(orQuery, Occur.MUST);
             }
         }
 
@@ -216,7 +231,7 @@ public class ProfileSearchServiceImpl implements
             int theSortType = SortField.STRING;
             boolean theReverse = false;
 
-            String theSortField = aRequest.getSortierungField();
+            final String theSortField = aRequest.getSortierungField();
 
             if (ProfileIndexerService.STUNDENSATZ.equals(theSortField)) {
                 theSortType = SortField.LONG;
@@ -236,8 +251,8 @@ public class ProfileSearchServiceImpl implements
                     theSortType, theReverse));
         }
 
-        List<Filter> theFilterList = new ArrayList<>();
-        TermsFilter theContactForbidden = new TermsFilter();
+        final List<Filter> theFilterList = new ArrayList<>();
+        final TermsFilter theContactForbidden = new TermsFilter();
         theContactForbidden.addTerm(new Term(ProfileIndexerService.KONTAKTSPERRE, "false"));
         theFilterList.add(theContactForbidden);
 
@@ -256,16 +271,15 @@ public class ProfileSearchServiceImpl implements
             }
         }
 
-        Filter theFilter = new ChainedFilter(theFilterList
+        final Filter theFilter = new ChainedFilter(theFilterList
                 .toArray(new Filter[0]), ChainedFilter.AND);
 
 
-        int theEnd = startRow + pageSize;
+        final int theEnd = startRow + pageSize;
 
-        FullTextQuery theHibernateQuery = theSession.createFullTextQuery(theRealQuery, Freelancer.class);
-        if (theFilter != null) {
-            theHibernateQuery.setFilter(theFilter);
-        }
+        final FullTextQuery theHibernateQuery = theSession.createFullTextQuery(theRealQuery, Freelancer.class);
+        theHibernateQuery.setFilter(theFilter);
+
         if (theSort != null) {
             theHibernateQuery.setSort(theSort);
         }
@@ -273,13 +287,13 @@ public class ProfileSearchServiceImpl implements
         theHibernateQuery.setMaxResults(theEnd - startRow);
         theHibernateQuery.setProjection(FullTextQuery.THIS, FullTextQuery.DOCUMENT);
 
-        List<ProfileSearchEntry> theResult = new ArrayList<>();
+        final List<ProfileSearchEntry> theResult = new ArrayList<>();
 
-        for (Object theSingleEntity : theHibernateQuery.list()) {
-            Object[] theRow = (Object[]) theSingleEntity;
-            Freelancer theFreelancer = (Freelancer) theRow[0];
-            Document theDocument = (Document) theRow[1];
-            ProfileSearchEntry theEntry = createResultEntry(theAnalyzer, theQuery, theHighlighter, theFreelancer, theDocument);
+        for (final Object theSingleEntity : theHibernateQuery.list()) {
+            final Object[] theRow = (Object[]) theSingleEntity;
+            final Freelancer theFreelancer = (Freelancer) theRow[0];
+            final Document theDocument = (Document) theRow[1];
+            final ProfileSearchEntry theEntry = createResultEntry(theAnalyzer, theQuery, theHighlighter, theFreelancer, theDocument);
 
             theResult.add(theEntry);
         }
@@ -288,12 +302,12 @@ public class ProfileSearchServiceImpl implements
                 theResult);
     }
 
-    private ProfileSearchEntry createResultEntry(Analyzer aAnalyzer, Query aQuery, Highlighter aHighlighter, Freelancer aFreelancer, Document aDocument) throws IOException, InvalidTokenOffsetsException {
-        ProfileSearchEntry theEntry = new ProfileSearchEntry();
+    private ProfileSearchEntry createResultEntry(final Analyzer aAnalyzer, final Query aQuery, final Highlighter aHighlighter, final Freelancer aFreelancer, final Document aDocument) throws IOException, InvalidTokenOffsetsException {
+        final ProfileSearchEntry theEntry = new ProfileSearchEntry();
         theEntry.setCode(aFreelancer.getCode());
         theEntry.setDocumentId("" + aFreelancer.getId());
 
-        ProfileSearchInfoDetail theDetail = new ProfileSearchInfoDetail();
+        final ProfileSearchInfoDetail theDetail = new ProfileSearchInfoDetail();
         theDetail.setId(aFreelancer.getId());
         theDetail.setName1(aFreelancer.getName1());
         theDetail.setName2(aFreelancer.getName2());
@@ -306,11 +320,11 @@ public class ProfileSearchServiceImpl implements
         theDetail.setContacts(new ArrayList<>(
                 aFreelancer.getContacts()));
         theDetail.setLastContact(aFreelancer.getLastContactDate());
-        for (FreelancerToTag theTag : aFreelancer.getTags()) {
+        for (final FreelancerToTag theTag : aFreelancer.getTags()) {
             theDetail.getTags().add(theTag.getTag());
         }
 
-        String theContent = aDocument.get(ProfileIndexerService.ORIG_CONTENT);
+        final String theContent = aDocument.get(ProfileIndexerService.ORIG_CONTENT);
         theEntry.setHighlightResult(getHighlightedSearchResult(aAnalyzer,
                 aHighlighter, theContent, aQuery));
 
@@ -320,9 +334,9 @@ public class ProfileSearchServiceImpl implements
     }
 
     @Override
-    public void removeSavedSearchEntry(SavedProfileSearch searchRequest, String aDocumentId) throws OptimisticLockException {
+    public void removeSavedSearchEntry(final SavedProfileSearch searchRequest, final String aDocumentId) throws OptimisticLockException {
 
-        SavedProfileSearch theSearch = profileSearchDAO.getSavedSearchById(searchRequest.getId());
+        final SavedProfileSearch theSearch = profileSearchDAO.getSavedSearchById(searchRequest.getId());
 
         theSearch.getProfilesToIgnore().add(aDocumentId);
 
@@ -336,13 +350,13 @@ public class ProfileSearchServiceImpl implements
 
 
     @Override
-    public synchronized List<FreelancerProfile> loadProfilesFor(Freelancer aFreelancer) {
-        List<FreelancerProfile> theProfiles = new ArrayList<>();
+    public synchronized List<FreelancerProfile> loadProfilesFor(final Freelancer aFreelancer) {
+        final List<FreelancerProfile> theProfiles = new ArrayList<>();
 
         if (aFreelancer != null && aFreelancer.getCode() != null) {
 
-            String theCode = aFreelancer.getCode().trim().toLowerCase();
-            Set<File> theFilesForCode = fileSystemCache.getFilesForCode(theCode);
+            final String theCode = aFreelancer.getCode().trim().toLowerCase();
+            final Set<File> theFilesForCode = fileSystemCache.getFilesForCode(theCode);
 
             if (theFilesForCode != null) {
 
@@ -355,15 +369,15 @@ public class ProfileSearchServiceImpl implements
                     theServerBaseDir += "\\";
                 }
 
-                SimpleDateFormat theFormat = new SimpleDateFormat("dd.MM.yyyy");
+                final SimpleDateFormat theFormat = new SimpleDateFormat("dd.MM.yyyy");
 
-                for (File theFile : theFilesForCode) {
-                    FreelancerProfile theProfile = new FreelancerProfile();
+                for (final File theFile : theFilesForCode) {
+                    final FreelancerProfile theProfile = new FreelancerProfile();
                     theProfile.setName(theFile.getName());
                     theProfile.setInfotext("Aktualisiert : " + theFormat.format(new Date(theFile.lastModified())));
                     theProfile.setFileOnserver(theFile);
 
-                    String theStrippedPath = theFile.toString().substring(
+                    final String theStrippedPath = theFile.toString().substring(
                             theServerBaseDir.length());
                     theProfile.setFileName(theClientBaseDir + theStrippedPath);
 
@@ -376,62 +390,62 @@ public class ProfileSearchServiceImpl implements
     }
 
     @Override
-    public List<ProfileSearchEntry> getSimilarFreelancer(Freelancer aFreelancer) {
-        List<ProfileSearchEntry> theResult = new ArrayList<>();
+    public List<ProfileSearchEntry> getSimilarFreelancer(final Freelancer aFreelancer) {
+        final List<ProfileSearchEntry> theResult = new ArrayList<>();
         if (aFreelancer != null && aFreelancer.getId() != null) {
 
-            FullTextSession theSession = Search.getFullTextSession(sessionFactory.getCurrentSession());
-            SearchFactory theSearchFactory = theSession.getSearchFactory();
+            final FullTextSession theSession = Search.getFullTextSession(sessionFactory.getCurrentSession());
+            final SearchFactory theSearchFactory = theSession.getSearchFactory();
 
-            Analyzer theAnalyzer = ProfileAnalyzerFactory.createAnalyzer();
+            final Analyzer theAnalyzer = ProfileAnalyzerFactory.createAnalyzer();
 
-            DirectoryProvider theFreeelancerProvider = theSearchFactory.getDirectoryProviders(Freelancer.class)[0];
+            final DirectoryProvider<?> theFreeelancerProvider = theSearchFactory.getDirectoryProviders(Freelancer.class)[0];
 
             IndexReader theIndexReader = null;
 
             try {
                 theIndexReader = theSearchFactory.getReaderProvider().openReader(theFreeelancerProvider);
 
-                MoreLikeThis theMoreLikeThis = new MoreLikeThis(theIndexReader);
+                final MoreLikeThis theMoreLikeThis = new MoreLikeThis(theIndexReader);
 
                 // Zuerst den Freiberufler raussuchen
-                Query theQuery = new TermQuery(new Term(ProfileIndexerService.UNIQUE_ID, aFreelancer.getId().toString()));
-                FullTextQuery theHibernateQuery = theSession.createFullTextQuery(theQuery, Freelancer.class);
+                final Query theQuery = new TermQuery(new Term(ProfileIndexerService.UNIQUE_ID, aFreelancer.getId().toString()));
+                final FullTextQuery theHibernateQuery = theSession.createFullTextQuery(theQuery, Freelancer.class);
                 theHibernateQuery.setProjection(FullTextQuery.THIS, FullTextQuery.DOCUMENT);
 
-                for (Object theSingleEntity : theHibernateQuery.list()) {
-                    Object[] theRow = (Object[]) theSingleEntity;
-                    Freelancer theFreelancer = (Freelancer) theRow[0];
-                    Document theDocument = (Document) theRow[1];
+                for (final Object theSingleEntity : theHibernateQuery.list()) {
+                    final Object[] theRow = (Object[]) theSingleEntity;
+                    final Freelancer theFreelancer = (Freelancer) theRow[0];
+                    final Document theDocument = (Document) theRow[1];
 
                     theMoreLikeThis.setMinDocFreq(1);
                     theMoreLikeThis.setMinTermFreq(1);
                     theMoreLikeThis.setAnalyzer(theAnalyzer);
                     theMoreLikeThis.setFieldNames(new String[]{ProfileIndexerService.CONTENT});
-                    Query theMltQuery = theMoreLikeThis.like(new StringReader(theDocument.get(ProfileIndexerService.ORIG_CONTENT)));
+                    final Query theMltQuery = theMoreLikeThis.like(new StringReader(theDocument.get(ProfileIndexerService.ORIG_CONTENT)));
 
-                    FullTextQuery theMoreLikeThisQuery = theSession.createFullTextQuery(theMltQuery, Freelancer.class);
+                    final FullTextQuery theMoreLikeThisQuery = theSession.createFullTextQuery(theMltQuery, Freelancer.class);
                     theMoreLikeThisQuery.setProjection(FullTextQuery.THIS, FullTextQuery.DOCUMENT, FullTextQuery.SCORE);
                     theMoreLikeThisQuery.setMaxResults(50);
 
-                    Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(
+                    final Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(
                             1, "#000000", "#0000FF", null, null), new QueryScorer(theMltQuery));
 
-                    for (Object theSingleMltEntry : theMoreLikeThisQuery.list()) {
-                        Object[] theMltRow = (Object[]) theSingleMltEntry;
-                        Freelancer theMltFreelancer = (Freelancer) theMltRow[0];
-                        Document theMltDocument = (Document) theMltRow[1];
-                        Float theMltScore = (Float) theMltRow[2];
+                    for (final Object theSingleMltEntry : theMoreLikeThisQuery.list()) {
+                        final Object[] theMltRow = (Object[]) theSingleMltEntry;
+                        final Freelancer theMltFreelancer = (Freelancer) theMltRow[0];
+                        final Document theMltDocument = (Document) theMltRow[1];
+                        final Float theMltScore = (Float) theMltRow[2];
 
                         if (theMltFreelancer != theFreelancer) {
                             // Einen gefunden
-                            ProfileSearchEntry theEntry = createResultEntry(theAnalyzer, theMltQuery, theHighlighter, theMltFreelancer, theMltDocument);
+                            final ProfileSearchEntry theEntry = createResultEntry(theAnalyzer, theMltQuery, theHighlighter, theMltFreelancer, theMltDocument);
                             theResult.add(theEntry);
                         }
                     }
 
                 }
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 throw new RuntimeException(e);
             } finally {
                 if (theIndexReader != null) {
@@ -444,48 +458,48 @@ public class ProfileSearchServiceImpl implements
     }
 
     @Override
-    public List<ProfileSearchEntry> getSimilarFreelancer(Project aProject) {
-        List<ProfileSearchEntry> theResult = new ArrayList<>();
+    public List<ProfileSearchEntry> getSimilarFreelancer(final Project aProject) {
+        final List<ProfileSearchEntry> theResult = new ArrayList<>();
         if (aProject != null && aProject.getId() != null) {
 
-            FullTextSession theSession = Search.getFullTextSession(sessionFactory.getCurrentSession());
-            SearchFactory theSearchFactory = theSession.getSearchFactory();
+            final FullTextSession theSession = Search.getFullTextSession(sessionFactory.getCurrentSession());
+            final SearchFactory theSearchFactory = theSession.getSearchFactory();
 
-            Analyzer theAnalyzer = ProfileAnalyzerFactory.createAnalyzer();
+            final Analyzer theAnalyzer = ProfileAnalyzerFactory.createAnalyzer();
 
-            DirectoryProvider theFreeelancerProvider = theSearchFactory.getDirectoryProviders(Freelancer.class)[0];
+            final DirectoryProvider<?> theFreeelancerProvider = theSearchFactory.getDirectoryProviders(Freelancer.class)[0];
 
             IndexReader theIndexReader = null;
 
             try {
                 theIndexReader = theSearchFactory.getReaderProvider().openReader(theFreeelancerProvider);
 
-                MoreLikeThis theMoreLikeThis = new MoreLikeThis(theIndexReader);
+                final MoreLikeThis theMoreLikeThis = new MoreLikeThis(theIndexReader);
 
                 theMoreLikeThis.setMinDocFreq(1);
                 theMoreLikeThis.setMinTermFreq(1);
                 theMoreLikeThis.setAnalyzer(theAnalyzer);
                 theMoreLikeThis.setFieldNames(new String[]{ProfileIndexerService.CONTENT});
-                Query theMltQuery = theMoreLikeThis.like(new StringReader(aProject.getDescriptionShort() + " " + aProject.getDescriptionLong() + " " + aProject.getSkills()));
+                final Query theMltQuery = theMoreLikeThis.like(new StringReader(aProject.getDescriptionShort() + " " + aProject.getDescriptionLong() + " " + aProject.getSkills()));
 
-                FullTextQuery theMoreLikeThisQuery = theSession.createFullTextQuery(theMltQuery, Freelancer.class);
+                final FullTextQuery theMoreLikeThisQuery = theSession.createFullTextQuery(theMltQuery, Freelancer.class);
                 theMoreLikeThisQuery.setProjection(FullTextQuery.THIS, FullTextQuery.DOCUMENT, FullTextQuery.SCORE);
                 theMoreLikeThisQuery.setMaxResults(50);
 
-                Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(
+                final Highlighter theHighlighter = new Highlighter(new SpanGradientFormatter(
                         1, "#000000", "#0000FF", null, null), new QueryScorer(theMltQuery));
 
-                for (Object theSingleMltEntry : theMoreLikeThisQuery.list()) {
-                    Object[] theMltRow = (Object[]) theSingleMltEntry;
-                    Freelancer theMltFreelancer = (Freelancer) theMltRow[0];
-                    Document theMltDocument = (Document) theMltRow[1];
-                    Float theMltScore = (Float) theMltRow[2];
+                for (final Object theSingleMltEntry : theMoreLikeThisQuery.list()) {
+                    final Object[] theMltRow = (Object[]) theSingleMltEntry;
+                    final Freelancer theMltFreelancer = (Freelancer) theMltRow[0];
+                    final Document theMltDocument = (Document) theMltRow[1];
+                    final Float theMltScore = (Float) theMltRow[2];
 
-                    ProfileSearchEntry theEntry = createResultEntry(theAnalyzer, theMltQuery, theHighlighter, theMltFreelancer, theMltDocument);
+                    final ProfileSearchEntry theEntry = createResultEntry(theAnalyzer, theMltQuery, theHighlighter, theMltFreelancer, theMltDocument);
                     theResult.add(theEntry);
                 }
 
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 throw new RuntimeException(e);
             } finally {
                 if (theIndexReader != null) {

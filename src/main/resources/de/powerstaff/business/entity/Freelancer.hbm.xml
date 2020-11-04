@@ -26,7 +26,9 @@
         <property name="plz"/>
         <property name="city"/>
         <property name="comments" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
-        <property name="contactforbidden"/>
+        <property name="contactforbidden">
+            <column name="contactforbidden" default="false"/>
+        </property>
         <property name="workplace"/>
         <property name="availabilityAsDate"/>
         <property name="code"/>
@@ -48,6 +50,11 @@
         <property name="titel"/>
         <property name="nationalitaet"/>
         <property name="geburtsdatum"/>
+
+        <property name="einsatzdetails" type="org.springframework.orm.hibernate3.support.ClobStringType"/>
+        <property name="datenschutz">
+            <column name="datenschutz" default="false"/>
+        </property>
 
         <set name="contacts" cascade="all-delete-orphan" order-by="value" fetch="select" lazy="true">
             <key column="freelancer_id"/>

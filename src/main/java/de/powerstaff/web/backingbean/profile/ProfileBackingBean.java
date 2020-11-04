@@ -39,6 +39,7 @@ import de.powerstaff.business.service.ProfileSearchService;
 import de.powerstaff.business.service.TagService;
 import de.powerstaff.web.backingbean.ContextUtils;
 import de.powerstaff.web.backingbean.MessageConstants;
+import de.powerstaff.web.backingbean.TagSelectionState;
 import de.powerstaff.web.utils.ExcelUtils;
 import de.powerstaff.web.utils.PagedListDataModel;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -145,7 +146,7 @@ public class ProfileBackingBean extends
 
             initializeDataModel();
 
-            if (!aIsInit || (aIsInit && !new FacesStateUtils().isPostback())) {
+            if (!aIsInit || (!new FacesStateUtils().isPostback())) {
                 final int theTotalResult = getData().getSearchResult().getRowCount();
 
                 if (theTotalResult == 0) {

@@ -20,6 +20,7 @@ package de.powerstaff.web.backingbean.profile;
 import de.mogwai.common.web.backingbean.BackingBeanDataModel;
 import de.powerstaff.business.dto.ProfileSearchEntry;
 import de.powerstaff.business.entity.SavedProfileSearch;
+import de.powerstaff.web.backingbean.TagSelectionState;
 import de.powerstaff.web.utils.PagedListDataModel;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class ProfileBackingBeanDataModel extends BackingBeanDataModel {
 
     private String id;
 
-    private List<TagSelectionState> tagSelection = new ArrayList<>();
+    private final List<TagSelectionState> tagSelection = new ArrayList<>();
 
     public SavedProfileSearch getSearchRequest() {
         return searchRequest;

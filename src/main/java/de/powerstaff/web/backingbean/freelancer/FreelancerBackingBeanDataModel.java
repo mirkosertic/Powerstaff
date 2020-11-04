@@ -4,6 +4,7 @@ import de.mogwai.common.utils.KeyValuePair;
 import de.mogwai.common.web.utils.CollectionDataModel;
 import de.powerstaff.business.entity.*;
 import de.powerstaff.web.backingbean.PersonEditorBackingBeanDataModel;
+import de.powerstaff.web.backingbean.TagSelectionState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,18 +14,18 @@ public class FreelancerBackingBeanDataModel extends
 
     private static final long serialVersionUID = 686254367960000233L;
 
-    private CollectionDataModel<FreelancerProfile> profiles = new CollectionDataModel<FreelancerProfile>();
+    private final CollectionDataModel<FreelancerProfile> profiles = new CollectionDataModel<>();
 
-    private List<KeyValuePair<Integer, String>> status = new ArrayList<KeyValuePair<Integer, String>>();
+    private final List<KeyValuePair<Integer, String>> status = new ArrayList<>();
 
     private ProjectPosition currentProjectPosition = new ProjectPosition();
 
-    private CollectionDataModel<ProjectPosition> positions = new CollectionDataModel<ProjectPosition>();
+    private CollectionDataModel<ProjectPosition> positions = new CollectionDataModel<>();
 
-    private List<FreelancerToTag> tagsSchwerpunkte = new ArrayList<FreelancerToTag>();
-    private List<FreelancerToTag> tagsFunktionen = new ArrayList<FreelancerToTag>();
-    private List<FreelancerToTag> tagsEinsatzorte = new ArrayList<FreelancerToTag>();
-    private List<FreelancerToTag> tagsBemerkungen = new ArrayList<FreelancerToTag>();
+    private final List<FreelancerToTag> tagsSchwerpunkte = new ArrayList<>();
+    private final List<FreelancerToTag> tagsFunktionen = new ArrayList<>();
+    private final List<FreelancerToTag> tagsEinsatzorte = new ArrayList<>();
+    private final List<FreelancerToTag> tagsBemerkungen = new ArrayList<>();
 
     private Tag newSchwerpunkte;
     private Tag newFunktion;
@@ -36,12 +37,14 @@ public class FreelancerBackingBeanDataModel extends
     private Long tagIdEinsatzOrt = null;
     private Long tagIdBemerkung = null;
 
+    private List<TagSelectionState> tagSelection = new ArrayList<>();
+
     public FreelancerBackingBeanDataModel() {
         init();
     }
 
-    public String getStatusAsString(Integer aStatus) {
-        for (KeyValuePair<Integer, String> theStatus : status) {
+    public String getStatusAsString(final Integer aStatus) {
+        for (final KeyValuePair<Integer, String> theStatus : status) {
             if (aStatus == null) {
                 if (theStatus.getKey() == null) {
                     return theStatus.getValue();
@@ -54,16 +57,16 @@ public class FreelancerBackingBeanDataModel extends
     }
 
     private void init() {
-        status.add(new KeyValuePair<Integer, String>(1, "Angestellter"));
-        status.add(new KeyValuePair<Integer, String>(2, "Freiberufler"));
-        status.add(new KeyValuePair<Integer, String>(3,
+        status.add(new KeyValuePair<>(1, "Angestellter"));
+        status.add(new KeyValuePair<>(2, "Freiberufler"));
+        status.add(new KeyValuePair<>(3,
                 "Freiberufler + Festanstellung"));
-        status.add(new KeyValuePair<Integer, String>(4, "ANÜ"));
-        status.add(new KeyValuePair<Integer, String>(5, "Angestellter + ANÜ"));
-        status.add(new KeyValuePair<Integer, String>(6, "Freiberufler + ANÜ"));
-        status.add(new KeyValuePair<Integer, String>(7,
+        status.add(new KeyValuePair<>(4, "ANÜ"));
+        status.add(new KeyValuePair<>(5, "Angestellter + ANÜ"));
+        status.add(new KeyValuePair<>(6, "Freiberufler + ANÜ"));
+        status.add(new KeyValuePair<>(7,
                 "Freiberufler + Festanstellung + ANÜ"));
-        status.add(new KeyValuePair<Integer, String>(null, "Undefiniert"));
+        status.add(new KeyValuePair<>(null, "Undefiniert"));
     }
 
     @Override
@@ -75,7 +78,7 @@ public class FreelancerBackingBeanDataModel extends
         return profiles;
     }
 
-    public List getStatus() {
+    public List<KeyValuePair<Integer, String>> getStatus() {
         return status;
     }
 
@@ -83,7 +86,7 @@ public class FreelancerBackingBeanDataModel extends
         return currentProjectPosition;
     }
 
-    public void setCurrentProjectPosition(ProjectPosition currentProjectPosition) {
+    public void setCurrentProjectPosition(final ProjectPosition currentProjectPosition) {
         this.currentProjectPosition = currentProjectPosition;
     }
 
@@ -91,7 +94,7 @@ public class FreelancerBackingBeanDataModel extends
         return positions;
     }
 
-    public void setPositions(CollectionDataModel<ProjectPosition> positions) {
+    public void setPositions(final CollectionDataModel<ProjectPosition> positions) {
         this.positions = positions;
     }
 
@@ -115,7 +118,7 @@ public class FreelancerBackingBeanDataModel extends
         return newSchwerpunkte;
     }
 
-    public void setNewSchwerpunkte(Tag newSchwerpunkte) {
+    public void setNewSchwerpunkte(final Tag newSchwerpunkte) {
         this.newSchwerpunkte = newSchwerpunkte;
     }
 
@@ -123,7 +126,7 @@ public class FreelancerBackingBeanDataModel extends
         return newFunktion;
     }
 
-    public void setNewFunktion(Tag newFunktion) {
+    public void setNewFunktion(final Tag newFunktion) {
         this.newFunktion = newFunktion;
     }
 
@@ -131,7 +134,7 @@ public class FreelancerBackingBeanDataModel extends
         return newEinsatzOrt;
     }
 
-    public void setNewEinsatzOrt(Tag newEinsatzOrt) {
+    public void setNewEinsatzOrt(final Tag newEinsatzOrt) {
         this.newEinsatzOrt = newEinsatzOrt;
     }
 
@@ -139,7 +142,7 @@ public class FreelancerBackingBeanDataModel extends
         return newBemerkung;
     }
 
-    public void setNewBemerkung(Tag newBemerkung) {
+    public void setNewBemerkung(final Tag newBemerkung) {
         this.newBemerkung = newBemerkung;
     }
 
@@ -147,7 +150,7 @@ public class FreelancerBackingBeanDataModel extends
         return tagIdSchwerpunkt;
     }
 
-    public void setTagIdSchwerpunkt(Long tagIdSchwerpunkt) {
+    public void setTagIdSchwerpunkt(final Long tagIdSchwerpunkt) {
         this.tagIdSchwerpunkt = tagIdSchwerpunkt;
     }
 
@@ -155,7 +158,7 @@ public class FreelancerBackingBeanDataModel extends
         return tagIdFunktion;
     }
 
-    public void setTagIdFunktion(Long tagIdFunktion) {
+    public void setTagIdFunktion(final Long tagIdFunktion) {
         this.tagIdFunktion = tagIdFunktion;
     }
 
@@ -163,7 +166,7 @@ public class FreelancerBackingBeanDataModel extends
         return tagIdEinsatzOrt;
     }
 
-    public void setTagIdEinsatzOrt(Long tagIdEinsatzOrt) {
+    public void setTagIdEinsatzOrt(final Long tagIdEinsatzOrt) {
         this.tagIdEinsatzOrt = tagIdEinsatzOrt;
     }
 
@@ -171,7 +174,15 @@ public class FreelancerBackingBeanDataModel extends
         return tagIdBemerkung;
     }
 
-    public void setTagIdBemerkung(Long tagIdBemerkung) {
+    public void setTagIdBemerkung(final Long tagIdBemerkung) {
         this.tagIdBemerkung = tagIdBemerkung;
+    }
+
+    public List<TagSelectionState> getTagSelection() {
+        return tagSelection;
+    }
+
+    public void setTagSelection(final List<TagSelectionState> tagSelection) {
+        this.tagSelection = tagSelection;
     }
 }
