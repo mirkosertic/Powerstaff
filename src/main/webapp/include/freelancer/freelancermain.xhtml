@@ -684,9 +684,11 @@
                         <b:label id="kreditor_label" label="Kreditor"/>
                     </b:cell>
                     <b:cell x="4" y="14">
-                        <b:inputfield
-                                value="#{freelancerBackingBean.data.entity.kreditorNr}"
-                                id="kreditor" labelComponentId="kreditor_label"/>
+                        <b:combobox
+                                value="#{freelancerBackingBean.data.entity.kreditorNeu}" id="kreditornr"
+                                values="#{freelancerBackingBean.data.kreditorNr}"
+                                labelComponentId="typ_kreditor"
+                        />
                     </b:cell>
 
                     <b:cell x="2" y="16">

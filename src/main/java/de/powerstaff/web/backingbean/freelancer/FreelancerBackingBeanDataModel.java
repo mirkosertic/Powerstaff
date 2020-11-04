@@ -2,7 +2,11 @@ package de.powerstaff.web.backingbean.freelancer;
 
 import de.mogwai.common.utils.KeyValuePair;
 import de.mogwai.common.web.utils.CollectionDataModel;
-import de.powerstaff.business.entity.*;
+import de.powerstaff.business.entity.Freelancer;
+import de.powerstaff.business.entity.FreelancerProfile;
+import de.powerstaff.business.entity.FreelancerToTag;
+import de.powerstaff.business.entity.ProjectPosition;
+import de.powerstaff.business.entity.Tag;
 import de.powerstaff.web.backingbean.PersonEditorBackingBeanDataModel;
 import de.powerstaff.web.backingbean.TagSelectionState;
 
@@ -16,7 +20,7 @@ public class FreelancerBackingBeanDataModel extends
 
     private final CollectionDataModel<FreelancerProfile> profiles = new CollectionDataModel<>();
 
-    private final List<KeyValuePair<Integer, String>> status = new ArrayList<>();
+    private final List<KeyValuePair<String, String>> kreditorNr = new ArrayList<>();
 
     private ProjectPosition currentProjectPosition = new ProjectPosition();
 
@@ -43,30 +47,13 @@ public class FreelancerBackingBeanDataModel extends
         init();
     }
 
-    public String getStatusAsString(final Integer aStatus) {
-        for (final KeyValuePair<Integer, String> theStatus : status) {
-            if (aStatus == null) {
-                if (theStatus.getKey() == null) {
-                    return theStatus.getValue();
-                }
-            } else if (aStatus.equals(theStatus.getKey())) {
-                return theStatus.getValue();
-            }
-        }
-        return "";
-    }
-
     private void init() {
-        status.add(new KeyValuePair<>(1, "Angestellter"));
-        status.add(new KeyValuePair<>(2, "Freiberufler"));
-        status.add(new KeyValuePair<>(3,
-                "Freiberufler + Festanstellung"));
-        status.add(new KeyValuePair<>(4, "ANÜ"));
-        status.add(new KeyValuePair<>(5, "Angestellter + ANÜ"));
-        status.add(new KeyValuePair<>(6, "Freiberufler + ANÜ"));
-        status.add(new KeyValuePair<>(7,
-                "Freiberufler + Festanstellung + ANÜ"));
-        status.add(new KeyValuePair<>(null, "Undefiniert"));
+        kreditorNr.add(new KeyValuePair<>("NL", "NL"));
+        kreditorNr.add(new KeyValuePair<>("NL1", "NL1"));
+        kreditorNr.add(new KeyValuePair<>("NL2","NL2"));
+        kreditorNr.add(new KeyValuePair<>("X", "X"));
+        kreditorNr.add(new KeyValuePair<>("NO", "NO"));
+        kreditorNr.add(new KeyValuePair<>("LL", "LL"));
     }
 
     @Override
@@ -78,8 +65,8 @@ public class FreelancerBackingBeanDataModel extends
         return profiles;
     }
 
-    public List<KeyValuePair<Integer, String>> getStatus() {
-        return status;
+    public List<KeyValuePair<String, String>> getKreditorNr() {
+        return kreditorNr;
     }
 
     public ProjectPosition getCurrentProjectPosition() {

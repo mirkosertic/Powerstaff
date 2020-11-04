@@ -20,10 +20,24 @@ package de.powerstaff.business.entity;
 import de.mogwai.common.business.entity.AuditableEntity;
 import de.powerstaff.business.lucene.analysis.ProfileAnalyzer;
 import de.powerstaff.business.service.FreelancerFieldBridge;
-import org.hibernate.search.annotations.*;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.ClassBridge;
+import org.hibernate.search.annotations.DateBridge;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.NumericField;
+import org.hibernate.search.annotations.Resolution;
+import org.hibernate.search.annotations.Store;
 
 import javax.persistence.Column;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Indexed
 @ClassBridge(name = "freelancer", impl = FreelancerFieldBridge.class)
@@ -84,6 +98,7 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
 
     private String einsatzdetails;
     private boolean datenschutz;
+    private String kreditorNeu;
 
     public Freelancer() {
         tags = new HashSet<>();
@@ -319,5 +334,13 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
 
     public void setDatenschutz(final boolean datenschutz) {
         this.datenschutz = datenschutz;
+    }
+
+    public String getKreditorNeu() {
+        return kreditorNeu;
+    }
+
+    public void setKreditorNeu(final String kreditorNeu) {
+        this.kreditorNeu = kreditorNeu;
     }
 }
