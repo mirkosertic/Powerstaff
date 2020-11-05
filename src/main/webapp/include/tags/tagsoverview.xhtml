@@ -35,7 +35,7 @@
             </b:cell>
         </b:gridBagLayout>
 
-        <b:gridBagLayout cols="400,10,400" rows="30,10,1,p,10,p">
+        <b:gridBagLayout cols="400,10,400" rows="30,10,1,p,10">
             <b:cell x="1" y="1" width="3">
                 <b:titledBox label="Menu">
                     <b:gridBagLayout cols="20,20,20,20,20,20,20,20,20,20,20,right:*"
@@ -71,6 +71,26 @@
                         </a4j:repeat>
                     </div>
                 </b:titledBox>
+
+                <div style="display:block; min-height: 10px;"> </div>
+
+                <b:titledBox label="Einsatzorte">
+                    <div class="tags tagsWide">
+                        <a4j:repeat value="#{tagsBackingBean.tagsEinsatzorte}" var="tag">
+                            <div class="tag">
+                                <pretty:link styleClass="text" mappingId="tagoverview" title="Zeige alle Freiberufler mit diesem Tag">
+                                    <f:param value="#{tag.id}"/>
+                                    <h:outputText value="#{tag.name}"/>
+                                </pretty:link>
+                                <input type="checkbox" name="selectedtag" value="#{tag.id}"/>
+                                <pretty:link mappingId="tagexcellist" title="Export der Liste nach Excel">
+                                    <f:param value="#{tag.id}"/>
+                                    <img src="${facesContext.externalContext.requestContextPath}/images/excel.png"/>
+                                </pretty:link>
+                            </div>
+                        </a4j:repeat>
+                    </div>
+                </b:titledBox>
             </b:cell>
 
             <b:cell x="3" y="4">
@@ -91,12 +111,12 @@
                         </a4j:repeat>
                     </div>
                 </b:titledBox>
-            </b:cell>
 
-            <b:cell x="1" y="6">
-                <b:titledBox label="Einsatzorte">
+                <div style="display:block; min-height: 10px;"> </div>
+
+                <b:titledBox label="Typ">
                     <div class="tags tagsWide">
-                        <a4j:repeat value="#{tagsBackingBean.tagsEinsatzorte}" var="tag">
+                        <a4j:repeat value="#{tagsBackingBean.tagsTyp}" var="tag">
                             <div class="tag">
                                 <pretty:link styleClass="text" mappingId="tagoverview" title="Zeige alle Freiberufler mit diesem Tag">
                                     <f:param value="#{tag.id}"/>
@@ -111,9 +131,9 @@
                         </a4j:repeat>
                     </div>
                 </b:titledBox>
-            </b:cell>
 
-            <b:cell x="3" y="6">
+                <div style="display:block; min-height: 10px;"> </div>
+
                 <b:titledBox label="Bemerkungen">
                     <div class="tags tagsWide">
                         <a4j:repeat value="#{tagsBackingBean.tagsBemerkungen}" var="tag">
@@ -132,6 +152,7 @@
                     </div>
                 </b:titledBox>
             </b:cell>
+
         </b:gridBagLayout>
     </ui:define>
 </ui:composition>	

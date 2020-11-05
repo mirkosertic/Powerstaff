@@ -19,16 +19,33 @@ package de.powerstaff.web.backingbean.freelancer;
 
 import de.mogwai.common.web.utils.JSFMessageUtils;
 import de.powerstaff.business.dto.ProfileSearchEntry;
-import de.powerstaff.business.entity.*;
-import de.powerstaff.business.service.*;
+import de.powerstaff.business.entity.Freelancer;
+import de.powerstaff.business.entity.FreelancerContact;
+import de.powerstaff.business.entity.FreelancerHistory;
+import de.powerstaff.business.entity.FreelancerProfile;
+import de.powerstaff.business.entity.FreelancerToTag;
+import de.powerstaff.business.entity.Project;
+import de.powerstaff.business.entity.ProjectPosition;
+import de.powerstaff.business.entity.ProjectPositionStatus;
+import de.powerstaff.business.entity.Tag;
+import de.powerstaff.business.entity.TagType;
+import de.powerstaff.business.service.FreelancerService;
+import de.powerstaff.business.service.OptimisticLockException;
+import de.powerstaff.business.service.ProfileSearchService;
+import de.powerstaff.business.service.ProjectService;
+import de.powerstaff.business.service.TagService;
 import de.powerstaff.web.backingbean.ContextUtils;
 import de.powerstaff.web.backingbean.PersonEditorBackingBean;
 import de.powerstaff.web.backingbean.TagSelectionState;
 import org.apache.commons.lang.StringUtils;
 
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class FreelancerBackingBean
         extends
@@ -92,7 +109,7 @@ public class FreelancerBackingBean
         getData().getTagsSchwerpunkte().addAll(theFreelancer.getSchwerpunkteTags());
 
         getData().getTagSelection().clear();
-        for (final Tag tag : tagService.findTagsBy(TagType.SEARCHABLE)) {
+        for (final Tag tag : tagService.findTagsBy(TagType.TYP)) {
             getData().getTagSelection().add(new TagSelectionState(tag, theFreelancer.hasTag(tag)));
         }
     }
@@ -298,6 +315,24 @@ public class FreelancerBackingBean
         return new Freelancer();
     }
 
+    private void updateSelectedTags(final Freelancer freelancer) {
+        final FacesContext context = FacesContext.getCurrentInstance();
+        final HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        final String[] selectedTags = request.getParameterValues("selectedtag");
+        final Set<FreelancerToTag> tagsToRemove = freelancer.getTags().stream().filter(tag -> tag.getType() == TagType.TYP).collect(Collectors.toSet());
+        freelancer.getTags().removeAll(tagsToRemove);
+        if (selectedTags != null) {
+            for (final String element : selectedTags) {
+                final Tag tag = tagService.getTagByID(Long.valueOf(element));
+
+                final FreelancerToTag theFreelancerToTag = new FreelancerToTag();
+                theFreelancerToTag.setTag(tag);
+                theFreelancerToTag.setType(TagType.TYP);
+                freelancer.getTags().add(theFreelancerToTag);
+            }
+        }
+    }
+
     @Override
     public String commandSave() {
         try {
@@ -323,12 +358,20 @@ public class FreelancerBackingBean
                 projectService.save(theCurrentProject);
             }
 
+            updateSelectedTags(getData().getEntity());
+
             return super.commandSave();
 
         } catch (final OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
             return null;
         }
+    }
+
+    @Override
+    public String commandSearch() {
+        updateSelectedTags(getData().getEntity());
+        return super.commandSearch();
     }
 
     public List<ProjectPositionStatus> getPositionStatus() {

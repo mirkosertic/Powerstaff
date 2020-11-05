@@ -1,19 +1,19 @@
-/**
- * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+/*
+  Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
+
+  This library is free software; you can redistribute it and/or modify it under
+  the terms of the GNU Lesser General Public License as published by the Free
+  Software Foundation; either version 2.1 of the License, or (at your option)
+  any later version.
+
+  This library is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+  details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this library; if not, write to the Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 package de.powerstaff.business.dao.hibernate;
 
@@ -42,7 +42,7 @@ public class FreelancerDAOHibernateImpl extends
             "name2", "company", "street", "country", "plz", "city", "comments",
             "workplace", "sallaryLong", "code", "contactPerson", "contactType",
             "contactReason", "skills", "gulpID", "code",
-            "kreditorNr", "debitorNr", "titel", "nationalitaet"};
+            "kreditorNeu", "titel", "nationalitaet"};
 
     private static final String[] ORDERBYPROPERTIES = new String[]{"name1",
             "name2"};
@@ -57,14 +57,14 @@ public class FreelancerDAOHibernateImpl extends
         return Freelancer.class;
     }
 
-    public List<GenericSearchResult> performQBESearch(Freelancer aObject,
-                                                      int aMaxSearchResult) {
+    public List<GenericSearchResult> performQBESearch(final Freelancer aObject,
+                                                      final int aMaxSearchResult) {
 
-        List<GenericSearchResult> theSearchResult = performQBESearch(aObject, DISPLAYPROPERTIES, SEARCHPROPERTIES,
+        final List<GenericSearchResult> theSearchResult = performQBESearch(aObject, DISPLAYPROPERTIES, SEARCHPROPERTIES,
                 ORDERBYPROPERTIES, MATCH_LIKE, aMaxSearchResult);
         // Tags nachladen...
-        for (GenericSearchResult theRow : theSearchResult) {
-            Long theID = (Long) theRow.get(GenericSearchResult.OBJECT_ID_KEY);
+        for (final GenericSearchResult theRow : theSearchResult) {
+            final Long theID = (Long) theRow.get(GenericSearchResult.OBJECT_ID_KEY);
             theRow.put("tags", findById(theID).getAllTagsSorted());
         }
 
@@ -74,15 +74,15 @@ public class FreelancerDAOHibernateImpl extends
     public List<String> getCodeSuggestions(final String aSuggest) {
         return (List<String>) getHibernateTemplate().execute(
                 (HibernateCallback) aSession -> {
-                    List<String> theResult = new ArrayList<>();
+                    final List<String> theResult = new ArrayList<>();
 
-                    Query theQuery = aSession
+                    final Query theQuery = aSession
                             .createQuery("select item.code from Freelancer item where item.code like '"
                                     + aSuggest.trim()
                                     + "%') order by item.code");
-                    for (Iterator theIterator = theQuery.iterate(); theIterator
+                    for (final Iterator theIterator = theQuery.iterate(); theIterator
                             .hasNext(); ) {
-                        String theCode = (String) theIterator.next();
+                        final String theCode = (String) theIterator.next();
                         if (!theResult.contains(theCode)) {
                             theResult.add(theCode);
                         }
@@ -95,10 +95,10 @@ public class FreelancerDAOHibernateImpl extends
     public Freelancer findByCodeReal(final String aCode) {
         return (Freelancer) getHibernateTemplate().execute(
                 (HibernateCallback) aSession -> {
-                    Query theQuery = aSession
+                    final Query theQuery = aSession
                             .createQuery("from Freelancer item where item.code = :code");
                     theQuery.setString("code", aCode);
-                    for (Iterator theIt = theQuery.iterate(); theIt
+                    for (final Iterator theIt = theQuery.iterate(); theIt
                             .hasNext(); ) {
                         return theIt.next();
                     }
@@ -107,7 +107,7 @@ public class FreelancerDAOHibernateImpl extends
     }
 
     public Collection<GenericSearchResult> performSearchByContact(
-            String aContact, ContactType aContactType, int aMax) {
+            final String aContact, final ContactType aContactType, final int aMax) {
         return performSearchByContact(aContact, aContactType,
                 DISPLAYPROPERTIES, ORDERBYPROPERTIES, aMax);
     }
@@ -116,10 +116,10 @@ public class FreelancerDAOHibernateImpl extends
     public List<ProjectPosition> findPositionsFor(final Freelancer aFreelancer) {
         return (List<ProjectPosition>) getHibernateTemplate().execute((HibernateCallback<Object>) aSession -> {
 
-            Criteria theCriteria = aSession.createCriteria(ProjectPosition.class);
+            final Criteria theCriteria = aSession.createCriteria(ProjectPosition.class);
             theCriteria.add(Restrictions.eq("freelancerId", aFreelancer.getId()));
             theCriteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-            ArrayList<ProjectPosition> theResult = new ArrayList<>(theCriteria.list());
+            final ArrayList<ProjectPosition> theResult = new ArrayList<>(theCriteria.list());
 
             Collections.sort(theResult);
 
@@ -131,12 +131,12 @@ public class FreelancerDAOHibernateImpl extends
     public void delete(final Object aEntity) throws ReferenceExistsException, OptimisticLockException {
 
         // Freiberufler därfen nicht geläscht werden, wenn sie bereits einem Projekt zugewiesen sind.
-        boolean exists = getHibernateTemplate().execute(aSession -> {
-            Freelancer theFreelancer = (Freelancer) aEntity;
-            Criteria theCriteria = aSession.createCriteria(ProjectPosition.class);
+        final boolean exists = getHibernateTemplate().execute(aSession -> {
+            final Freelancer theFreelancer = (Freelancer) aEntity;
+            final Criteria theCriteria = aSession.createCriteria(ProjectPosition.class);
             theCriteria.add(Restrictions.eq("freelancerId", theFreelancer.getId()));
             theCriteria.setProjection(Projections.count("id"));
-            Long theCount = (Long) theCriteria.uniqueResult();
+            final Long theCount = (Long) theCriteria.uniqueResult();
             return theCount != 0;
         });
 
@@ -153,7 +153,7 @@ public class FreelancerDAOHibernateImpl extends
 
     private List<Freelancer> internalFindFreelancerByTagIDs(final Set<Long> aTagIDs, final String aSortByFieldName, final boolean aInverse) {
         final StringBuilder theTagInClause = new StringBuilder();
-        for (Long theTagID : aTagIDs) {
+        for (final Long theTagID : aTagIDs) {
             if (theTagInClause.length() > 0) {
                 theTagInClause.append(",");
             }
@@ -161,9 +161,9 @@ public class FreelancerDAOHibernateImpl extends
         }
         return (List<Freelancer>) getHibernateTemplate().execute(
                 (HibernateCallback) aSession -> {
-                    List<Freelancer> theResult = new ArrayList<>();
+                    final List<Freelancer> theResult = new ArrayList<>();
 
-                    Query theQuery;
+                    final Query theQuery;
                     if (aInverse) {
                         theQuery = aSession
                                 .createQuery("select distinct f from Freelancer f left join f.tags t where t.tag.id in ( " + theTagInClause.toString() + ") order by f." + aSortByFieldName+" desc");
@@ -171,9 +171,9 @@ public class FreelancerDAOHibernateImpl extends
                         theQuery = aSession
                                 .createQuery("select distinct f from Freelancer f left join f.tags t where t.tag.id in ( " + theTagInClause.toString() + ") order by f." + aSortByFieldName);
                     }
-                    for (Iterator theIterator = theQuery.iterate(); theIterator
+                    for (final Iterator theIterator = theQuery.iterate(); theIterator
                             .hasNext(); ) {
-                        Freelancer theFreelancer = (Freelancer) theIterator.next();
+                        final Freelancer theFreelancer = (Freelancer) theIterator.next();
                         if (theFreelancer.hasAllTags(aTagIDs)) {
                             theResult.add(theFreelancer);
                         }
@@ -189,37 +189,37 @@ public class FreelancerDAOHibernateImpl extends
     }
 
     @Override
-    public List<Freelancer> findFreelancerByTagIDsSortByName1(Set<Long> aTagIDs) {
+    public List<Freelancer> findFreelancerByTagIDsSortByName1(final Set<Long> aTagIDs) {
         return internalFindFreelancerByTagIDs(aTagIDs, "name1");
     }
 
     @Override
-    public List<Freelancer> findFreelancerByTagIDsSortByName2(Set<Long> aTagIDs) {
+    public List<Freelancer> findFreelancerByTagIDsSortByName2(final Set<Long> aTagIDs) {
         return internalFindFreelancerByTagIDs(aTagIDs, "name2");
     }
 
     @Override
-    public List<Freelancer> findFreelancerByTagIDsSortByCode(Set<Long> aTagIDs) {
+    public List<Freelancer> findFreelancerByTagIDsSortByCode(final Set<Long> aTagIDs) {
         return internalFindFreelancerByTagIDs(aTagIDs, "code");
     }
 
     @Override
-    public List<Freelancer> findFreelancerByTagIDsSortByAvailability(Set<Long> aTagIDs) {
+    public List<Freelancer> findFreelancerByTagIDsSortByAvailability(final Set<Long> aTagIDs) {
         return internalFindFreelancerByTagIDs(aTagIDs, "availabilityAsDate", true);
     }
 
     @Override
-    public List<Freelancer> findFreelancerByTagIDsSortBySallary(Set<Long> aTagIDs) {
+    public List<Freelancer> findFreelancerByTagIDsSortBySallary(final Set<Long> aTagIDs) {
         return internalFindFreelancerByTagIDs(aTagIDs, "sallaryLong");
     }
 
     @Override
-    public List<Freelancer> findFreelancerByTagIDsSortByPlz(Set<Long> aTagIDs) {
+    public List<Freelancer> findFreelancerByTagIDsSortByPlz(final Set<Long> aTagIDs) {
         return internalFindFreelancerByTagIDs(aTagIDs, "plz");
     }
 
     @Override
-    public List<Freelancer> findFreelancerByTagIDsSortByLastContact(Set<Long> aTagIDs) {
+    public List<Freelancer> findFreelancerByTagIDsSortByLastContact(final Set<Long> aTagIDs) {
         return internalFindFreelancerByTagIDs(aTagIDs, "lastContactDate", true);
     }
 }

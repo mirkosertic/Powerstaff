@@ -107,7 +107,7 @@ public class ProfileBackingBean extends
 
         final SavedProfileSearch savedProfileSearch = getData().getSearchRequest();
         getData().getTagSelection().clear();
-        for (final Tag tag : tagService.findTagsBy(TagType.SEARCHABLE)) {
+        for (final Tag tag : tagService.findTagsBy(TagType.TYP)) {
             if (savedProfileSearch.getSelectedTags() == null) {
                 getData().getTagSelection().add(new TagSelectionState(tag, false));
             } else {

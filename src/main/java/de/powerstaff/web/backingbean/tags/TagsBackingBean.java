@@ -2,7 +2,6 @@ package de.powerstaff.web.backingbean.tags;
 
 import de.mogwai.common.web.backingbean.WrappingBackingBean;
 import de.mogwai.common.web.utils.JSFMessageUtils;
-import de.powerstaff.business.entity.Freelancer;
 import de.powerstaff.business.entity.Tag;
 import de.powerstaff.business.entity.TagType;
 import de.powerstaff.business.service.FreelancerService;
@@ -25,11 +24,11 @@ public class TagsBackingBean extends WrappingBackingBean<TagsBackingBeanDataMode
 
     private FreelancerService freelancerService;
 
-    public void setTagService(TagService tagService) {
+    public void setTagService(final TagService tagService) {
         this.tagService = tagService;
     }
 
-    public void setFreelancerService(FreelancerService freelancerService) {
+    public void setFreelancerService(final FreelancerService freelancerService) {
         this.freelancerService = freelancerService;
     }
 
@@ -49,14 +48,18 @@ public class TagsBackingBean extends WrappingBackingBean<TagsBackingBeanDataMode
         return tagService.findTagsBy(TagType.BEMERKUNG);
     }
 
+    public List<Tag> getTagsTyp() {
+        return tagService.findTagsBy(TagType.TYP);
+    }
+
     @Override
     protected TagsBackingBeanDataModel createDataModel() {
         return new TagsBackingBeanDataModel();
     }
 
     private Set<Long> computeTagIDs() {
-        Set<Long> theTagsIDs = new HashSet();
-        for (String theID : StringUtils.split(getData().getCurrentTagId(), ',')) {
+        final Set<Long> theTagsIDs = new HashSet();
+        for (final String theID : StringUtils.split(getData().getCurrentTagId(), ',')) {
             theTagsIDs.add(Long.valueOf(theID));
         }
         return theTagsIDs;
@@ -96,13 +99,13 @@ public class TagsBackingBean extends WrappingBackingBean<TagsBackingBeanDataMode
 
     public String commandSearch() throws IOException {
 
-        FacesContext theContext = FacesContext.getCurrentInstance();
-        HttpServletRequest theRequest = (HttpServletRequest) theContext.getExternalContext().getRequest();
+        final FacesContext theContext = FacesContext.getCurrentInstance();
+        final HttpServletRequest theRequest = (HttpServletRequest) theContext.getExternalContext().getRequest();
 
-        StringBuilder theSearchTags = new StringBuilder();
-        String[] theSelectedTags = theRequest.getParameterValues("selectedtag");
+        final StringBuilder theSearchTags = new StringBuilder();
+        final String[] theSelectedTags = theRequest.getParameterValues("selectedtag");
         if (theSelectedTags != null) {
-            for (String theValue : theSelectedTags) {
+            for (final String theValue : theSelectedTags) {
                 if (theSearchTags.length() > 0) {
                     theSearchTags.append(",");
                 }
@@ -119,13 +122,13 @@ public class TagsBackingBean extends WrappingBackingBean<TagsBackingBeanDataMode
         return null;
     }
 
-    public void restoreState(FacesContext aContext, Object aValue) {
-        Object[] theData = (Object[]) aValue;
+    public void restoreState(final FacesContext aContext, final Object aValue) {
+        final Object[] theData = (Object[]) aValue;
         setData((TagsBackingBeanDataModel) theData[0]);
     }
 
-    public Object saveState(FacesContext aContext) {
-        ArrayList theData = new ArrayList();
+    public Object saveState(final FacesContext aContext) {
+        final ArrayList theData = new ArrayList();
         theData.add(getData());
         return theData.toArray();
     }
@@ -136,6 +139,6 @@ public class TagsBackingBean extends WrappingBackingBean<TagsBackingBeanDataMode
     }
 
     @Override
-    public void setTransient(boolean b) {
+    public void setTransient(final boolean b) {
     }
 }

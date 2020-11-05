@@ -1,19 +1,19 @@
-/**
- * Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+/*
+  Mogwai PowerStaff. Copyright (C) 2002 The Mogwai Project.
+
+  This library is free software; you can redistribute it and/or modify it under
+  the terms of the GNU Lesser General Public License as published by the Free
+  Software Foundation; either version 2.1 of the License, or (at your option)
+  any later version.
+
+  This library is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+  details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this library; if not, write to the Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 package de.powerstaff.web.backingbean;
 
@@ -42,11 +42,11 @@ public abstract class PersonEditorBackingBean<T extends Person, V extends Person
     private XingConnectorBackingBean xingConnectorBackingBean;
 
     public void setAdditinalDataService(
-            AdditionalDataService additinalDataService) {
+            final AdditionalDataService additinalDataService) {
         this.additinalDataService = additinalDataService;
     }
 
-    public void setXingConnectorBackingBean(XingConnectorBackingBean xingConnectorBackingBean) {
+    public void setXingConnectorBackingBean(final XingConnectorBackingBean xingConnectorBackingBean) {
         this.xingConnectorBackingBean = xingConnectorBackingBean;
     }
 
@@ -74,8 +74,8 @@ public abstract class PersonEditorBackingBean<T extends Person, V extends Person
 
         Collection<GenericSearchResult> theResult;
         try {
-            String theContactValue = getData().getNewContactValue();
-            ContactType theContactType = getData().getNewContactType();
+            final String theContactValue = getData().getNewContactValue();
+            final ContactType theContactType = getData().getNewContactType();
             if (!StringUtils.isEmpty(theContactValue)
                     && (theContactType != null)) {
                 theResult = entityService.performSearchByContact(
@@ -84,7 +84,7 @@ public abstract class PersonEditorBackingBean<T extends Person, V extends Person
                 theResult = entityService.performQBESearch(getData()
                         .getEntity());
             }
-        } catch (TooManySearchResults e) {
+        } catch (final TooManySearchResults e) {
             theResult = e.getResult();
             JSFMessageUtils.addGlobalErrorMessage(MSG_ZUVIELESUCHERGEBNISSE);
         }
@@ -96,7 +96,7 @@ public abstract class PersonEditorBackingBean<T extends Person, V extends Person
 
         if (theResult.size() == 1) {
 
-            GenericSearchResult theResult2 = (GenericSearchResult) theResult
+            final GenericSearchResult theResult2 = theResult
                     .iterator().next();
             getData().setEntity(
                     entityService.findByPrimaryKey((Long) theResult2
@@ -122,11 +122,11 @@ public abstract class PersonEditorBackingBean<T extends Person, V extends Person
             return;
         }
 
-        PersonEditorBackingBeanDataModel<T> theModel = getData();
+        final PersonEditorBackingBeanDataModel<T> theModel = getData();
 
-        T thePerson = theModel.getEntity();
+        final T thePerson = theModel.getEntity();
 
-        Contact theContact = createNewContact();
+        final Contact theContact = createNewContact();
         theContact.setType(theModel.getNewContactType());
         theContact.setValue(theModel.getNewContactValue());
 
@@ -137,11 +137,11 @@ public abstract class PersonEditorBackingBean<T extends Person, V extends Person
 
     public void commandDeleteContact() {
 
-        PersonEditorBackingBeanDataModel<T> theModel = getData();
+        final PersonEditorBackingBeanDataModel<T> theModel = getData();
 
-        T thePerson = theModel.getEntity();
+        final T thePerson = theModel.getEntity();
 
-        Contact theContact = (Contact) theModel.getContacts().getRowData();
+        final Contact theContact = (Contact) theModel.getContacts().getRowData();
         thePerson.getContacts().remove(theContact);
 
         theModel.setEntity(thePerson);
@@ -149,11 +149,11 @@ public abstract class PersonEditorBackingBean<T extends Person, V extends Person
 
     public void commandAddNewHistoryEntry() {
 
-        HistoryEntity theHistory = createNewHistory();
+        final HistoryEntity theHistory = createNewHistory();
         theHistory.setDescription(getData().getNewHistoryEntry());
         theHistory.setType(getData().getNewHistoryType());
 
-        T thePerson = getData().getEntity();
+        final T thePerson = getData().getEntity();
         thePerson.getHistory().add(theHistory);
 
         try {
@@ -163,18 +163,18 @@ public abstract class PersonEditorBackingBean<T extends Person, V extends Person
             getData().setEntity(thePerson);
 
             JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGESPEICHERT);
-        } catch (OptimisticLockException e) {
+        } catch (final OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
     }
 
     public void commandDeleteHistoryEntry() {
 
-        HistoryEntity theHistory = (HistoryEntity) getData().getHistory()
+        final HistoryEntity theHistory = (HistoryEntity) getData().getHistory()
                 .getRowData();
         getData().getHistory().remove(theHistory);
 
-        T thePerson = getData().getEntity();
+        final T thePerson = getData().getEntity();
         try {
             entityService.save(thePerson);
 
@@ -182,7 +182,7 @@ public abstract class PersonEditorBackingBean<T extends Person, V extends Person
             getData().getHistory().sort(Comparators.INVERSECREATIONDATECOMPARATOR);
 
             JSFMessageUtils.addGlobalInfoMessage(MSG_ERFOLGREICHGELOESCHT);
-        } catch (OptimisticLockException e) {
+        } catch (final OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         }
     }
