@@ -380,16 +380,11 @@ public class FreelancerBackingBean
         return theResult;
     }
 
-
-    public String getProfileOpenCommand() {
+    public String getProfileOpenLink() {
         final FreelancerProfile theProfile = (FreelancerProfile) getData()
                 .getProfiles().getRowData();
-        if (theProfile.isWordProfile()) {
-            return "return openWordFile('"
-                    + theProfile.getFileName().replace("\\", "\\\\") + "')";
-        }
-        return "return openTextFile('"
-                + theProfile.getFileName().replace("\\", "\\\\") + "')";
+        return "file:///"
+                + theProfile.getFileName().replace("\\", "/");
     }
 
     @Override
