@@ -91,7 +91,7 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-orm:3.0.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-tx:3.0.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-web:3.0.5.RELEASE" />
-          <element id="library" level="project" name="Maven: org.apache.pdfbox:pdfbox:1.1.0" />
+          <element id="library" level="project" name="Maven: org.apache.pdfbox:pdfbox:1.8.16" />
           <element id="library" level="project" name="Maven: org.apache.poi:poi:3.7" />
           <element id="library" level="project" name="Maven: org.apache.poi:poi-ooxml:3.7" />
           <element id="library" level="project" name="Maven: org.apache.poi:poi-scratchpad:3.7" />
