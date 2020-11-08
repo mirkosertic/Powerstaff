@@ -2,7 +2,7 @@
   <configuration default="false" name="Tomcat 6.0.30" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 6.0.30" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
     <option name="UPDATING_POLICY" value="restart-server" />
     <deployment>
-      <artifact name="Powerstaff exploded">
+      <artifact name="powerstaff:war exploded">
         <settings>
           <option name="CONTEXT_PATH" value="/powerstaff" />
         </settings>
@@ -82,7 +82,7 @@
     <method v="2">
       <option name="Make" enabled="true" />
       <option name="BuildArtifacts" enabled="true">
-        <artifact name="Powerstaff exploded" />
+        <artifact name="powerstaff:war exploded" />
       </option>
     </method>
   </configuration>

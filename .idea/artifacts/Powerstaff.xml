@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" build-on-make="true" name="Powerstaff">
-    <output-path>$PROJECT_DIR$/out/artifacts/Powerstaff</output-path>
-    <root id="archive" name="Powerstaff.war">
-      <element id="artifact" artifact-name="Powerstaff exploded" />
-    </root>
-  </artifact>
-</component>

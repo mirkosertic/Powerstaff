@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/src/common/common.iml" filepath="$PROJECT_DIR$/src/common/common.iml" />
-      <module fileurl="file://$PROJECT_DIR$/src/main/main.iml" filepath="$PROJECT_DIR$/src/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/powerstaff.iml" filepath="$PROJECT_DIR$/powerstaff.iml" />
     </modules>
   </component>
 </project>
