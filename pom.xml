@@ -20,7 +20,7 @@
         <poi.version>3.7</poi.version>
         <richfaces.version>3.1.6.GA</richfaces.version>
         <slf4j.version>1.6.1</slf4j.version>
-        <bouncycastle.version>1.45</bouncycastle.version>
+        <bouncycastle.version>1.46</bouncycastle.version>
         <jackson.version>2.11.3</jackson.version>     
     </properties>
 
