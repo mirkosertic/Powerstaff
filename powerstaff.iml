@@ -22,6 +22,12 @@
         <webroots>
           <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
         </webroots>
+        <sourceRoots>
+          <root url="file://$MODULE_DIR$/src/common/java" />
+          <root url="file://$MODULE_DIR$/src/common/resources" />
+          <root url="file://$MODULE_DIR$/src/main/java" />
+          <root url="file://$MODULE_DIR$/src/main/resources" />
+        </sourceRoots>
       </configuration>
     </facet>
   </component>
@@ -33,6 +39,8 @@
       <sourceFolder url="file://$MODULE_DIR$/src/common/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -66,7 +74,7 @@
     <orderEntry type="library" name="Maven: xml-apis:xml-apis:1.0.b2" level="project" />
     <orderEntry type="library" name="Maven: javax.el:el-api:1.0" level="project" />
     <orderEntry type="library" name="Maven: el-impl:el-impl:1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.pdfbox:fontbox:1.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.pdfbox:fontbox:2.0.21" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-commons-annotations:3.2.0.Final" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-core:3.6.7.Final" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.0.Final" level="project" />
@@ -86,7 +94,7 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.11.3" level="project" />
     <orderEntry type="library" name="Maven: jaxen:jaxen:1.2.0" level="project" />
     <orderEntry type="library" name="Maven: jboss:jboss-serialization:1.0.3.GA" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.pdfbox:jempbox:1.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.pdfbox:jempbox:1.8.16" level="project" />
     <orderEntry type="library" name="Maven: jgroups:jgroups:2.8.0.GA" level="project" />
     <orderEntry type="library" name="Maven: com.sun.facelets:jsf-facelets:1.1.13" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet:jstl:1.1.0" level="project" />
@@ -117,7 +125,7 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-orm:3.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:3.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-web:3.0.5.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.pdfbox:pdfbox:1.8.16" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.pdfbox:pdfbox:2.0.21" level="project" />
     <orderEntry type="library" name="Maven: org.apache.poi:poi:4.1.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-collections4:4.4" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-math3:3.6.1" level="project" />
@@ -142,7 +150,7 @@
     <orderEntry type="library" name="Maven: com.google.code.tomahawk:tomahawk-facelets-taglib:1.1.6.2" level="project" />
     <orderEntry type="library" name="Maven: trove:trove:1.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.velocity:velocity:1.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.xmlbeans:xmlbeans:2.3.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.xmlbeans:xmlbeans:4.0.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet.jsp:jsp-api:2.2" level="project" />
   </component>

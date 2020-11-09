@@ -21,7 +21,8 @@
         <richfaces.version>3.1.6.GA</richfaces.version>
         <slf4j.version>1.6.1</slf4j.version>
         <bouncycastle.version>1.46</bouncycastle.version>
-        <jackson.version>2.11.3</jackson.version>     
+        <jackson.version>2.11.3</jackson.version>
+        <pdfbox.version>2.0.21</pdfbox.version>
     </properties>
 
     <repositories>
@@ -194,7 +195,7 @@
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>fontbox</artifactId>
-            <version>1.1.0</version>
+            <version>${pdfbox.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -266,7 +267,7 @@
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>jempbox</artifactId>
-            <version>1.1.0</version>
+            <version>1.8.16</version>
         </dependency>
         <dependency>
             <groupId>jgroups</groupId>
@@ -417,7 +418,7 @@
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
-            <version>1.8.16</version>
+            <version>${pdfbox.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
@@ -475,7 +476,7 @@
             <version>${richfaces.version}</version>
             <exclusions>
                 <exclusion>
-                    <groupId> javax.faces</groupId>
+                    <groupId>javax.faces</groupId>
                     <artifactId>jsf-api</artifactId>
                 </exclusion>
                 <exclusion>
@@ -522,13 +523,7 @@
         <dependency>
             <groupId>org.apache.xmlbeans</groupId>
             <artifactId>xmlbeans</artifactId>
-            <version>2.3.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>stax</groupId>
-                    <artifactId>stax-api</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>4.0.0</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>

@@ -3,7 +3,7 @@ package de.powerstaff.business.service.impl.reader.pdf;
 import de.powerstaff.business.service.impl.reader.AbstractDocumentReader;
 import de.powerstaff.business.service.impl.reader.ReadResult;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.util.PDFTextStripper;
+import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.io.File;
 
@@ -14,19 +14,12 @@ import java.io.File;
  */
 public class PDFDocumentReader extends AbstractDocumentReader {
 
-    public ReadResult getContent(File aAnputFile) throws Exception {
+    public ReadResult getContent(final File aAnputFile) throws Exception {
 
-        PDDocument theDocument = null;
-        try {
-            theDocument = PDDocument.load(aAnputFile);
-            PDFTextStripper theStripper = new PDFTextStripper();
-            String theText = theStripper.getText(theDocument);
+        try (PDDocument theDocument = PDDocument.load(aAnputFile)) {
+            final PDFTextStripper theStripper = new PDFTextStripper();
+            final String theText = theStripper.getText(theDocument);
             return new ReadResult(theText);
-        } finally {
-            if (theDocument != null) {
-                theDocument.close();
-            }
         }
     }
-
 }
