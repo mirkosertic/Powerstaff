@@ -61,7 +61,7 @@
     <orderEntry type="library" name="Maven: org.bouncycastle:bcpg-jdk16:1.46" level="project" />
     <orderEntry type="library" name="Maven: org.bouncycastle:bcmail-jdk16:1.46" level="project" />
     <orderEntry type="library" name="Maven: org.bouncycastle:bctsp-jdk16:1.46" level="project" />
-    <orderEntry type="library" name="Maven: cglib:cglib-nodep:2.1_3" level="project" />
+    <orderEntry type="library" name="Maven: cglib:cglib-nodep:3.3.0" level="project" />
     <orderEntry type="library" name="Maven: commons-beanutils:commons-beanutils:1.9.4" level="project" />
     <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.4" level="project" />
     <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.2.2" level="project" />
@@ -97,7 +97,7 @@
     <orderEntry type="library" name="Maven: jaxen:jaxen:1.2.0" level="project" />
     <orderEntry type="library" name="Maven: jboss:jboss-serialization:1.0.3.GA" level="project" />
     <orderEntry type="library" name="Maven: org.apache.pdfbox:jempbox:1.8.16" level="project" />
-    <orderEntry type="library" name="Maven: jgroups:jgroups:2.8.0.GA" level="project" />
+    <orderEntry type="library" name="Maven: jgroups:jgroups:2.9.0.GA" level="project" />
     <orderEntry type="library" name="Maven: com.sun.facelets:jsf-facelets:1.1.13" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet:jstl:1.1.2" level="project" />
     <orderEntry type="library" name="Maven: javax.transaction:jta:1.1" level="project" />
@@ -111,8 +111,8 @@
     <orderEntry type="library" name="Maven: org.apache.lucene:lucene-queries:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: jakarta-regexp:jakarta-regexp:1.4" level="project" />
     <orderEntry type="library" name="Maven: javax.mail:mail:1.4.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.myfaces.core:myfaces-api:1.1.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.myfaces.core:myfaces-impl:1.1.5" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.myfaces.core:myfaces-api:1.1.10" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.myfaces.core:myfaces-impl:1.1.10" level="project" />
     <orderEntry type="library" name="Maven: net.oauth.core:oauth:20100601" level="project" />
     <orderEntry type="library" name="Maven: net.oauth.core:oauth-consumer:20100601" level="project" />
     <orderEntry type="library" name="Maven: net.oauth.core:oauth-httpclient3:20100601" level="project" />

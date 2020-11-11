@@ -23,7 +23,7 @@
           <element id="library" level="project" name="Maven: org.bouncycastle:bcpg-jdk16:1.46" />
           <element id="library" level="project" name="Maven: org.bouncycastle:bcmail-jdk16:1.46" />
           <element id="library" level="project" name="Maven: org.bouncycastle:bctsp-jdk16:1.46" />
-          <element id="library" level="project" name="Maven: cglib:cglib-nodep:2.1_3" />
+          <element id="library" level="project" name="Maven: cglib:cglib-nodep:3.3.0" />
           <element id="library" level="project" name="Maven: commons-beanutils:commons-beanutils:1.9.4" />
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.4" />
           <element id="library" level="project" name="Maven: commons-collections:commons-collections:3.2.2" />
@@ -59,7 +59,7 @@
           <element id="library" level="project" name="Maven: jaxen:jaxen:1.2.0" />
           <element id="library" level="project" name="Maven: jboss:jboss-serialization:1.0.3.GA" />
           <element id="library" level="project" name="Maven: org.apache.pdfbox:jempbox:1.8.16" />
-          <element id="library" level="project" name="Maven: jgroups:jgroups:2.8.0.GA" />
+          <element id="library" level="project" name="Maven: jgroups:jgroups:2.9.0.GA" />
           <element id="library" level="project" name="Maven: com.sun.facelets:jsf-facelets:1.1.13" />
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.1.2" />
           <element id="library" level="project" name="Maven: javax.transaction:jta:1.1" />
@@ -72,8 +72,8 @@
           <element id="library" level="project" name="Maven: org.apache.lucene:lucene-queries:3.1.0" />
           <element id="library" level="project" name="Maven: jakarta-regexp:jakarta-regexp:1.4" />
           <element id="library" level="project" name="Maven: javax.mail:mail:1.4.2" />
-          <element id="library" level="project" name="Maven: org.apache.myfaces.core:myfaces-api:1.1.5" />
-          <element id="library" level="project" name="Maven: org.apache.myfaces.core:myfaces-impl:1.1.5" />
+          <element id="library" level="project" name="Maven: org.apache.myfaces.core:myfaces-api:1.1.10" />
+          <element id="library" level="project" name="Maven: org.apache.myfaces.core:myfaces-impl:1.1.10" />
           <element id="library" level="project" name="Maven: net.oauth.core:oauth:20100601" />
           <element id="library" level="project" name="Maven: net.oauth.core:oauth-consumer:20100601" />
           <element id="library" level="project" name="Maven: net.oauth.core:oauth-httpclient3:20100601" />
