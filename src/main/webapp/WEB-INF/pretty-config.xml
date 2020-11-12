@@ -6,124 +6,124 @@
 	http://ocpsoft.com/xml/ns/prettyfaces/pretty-1.0.xsd">
     <url-mapping id="login">
         <pattern>/login</pattern>
-        <view-id>/login.faces</view-id>
+        <view-id>/faces/login.xhtml</view-id>
     </url-mapping>
     <url-mapping id="xingcallback">
         <pattern>/xingcallback</pattern>
-        <view-id>/login.faces</view-id>
+        <view-id>/faces/login.xhtml</view-id>
         <action>#{xingConnectorBackingBean.performCallback}</action>
     </url-mapping>
     <url-mapping id="profilemain">
         <pattern>/profilesearch/#{profileBackingBean.data.type}/#{profileBackingBean.data.id}/main</pattern>
-        <view-id>/include/profile/profilemain.faces</view-id>
+        <view-id>/faces/include/profile/profilemain.xhtml</view-id>
         <action>#{profileBackingBean.loadData}</action>
     </url-mapping>
     <url-mapping id="statisticmain">
         <pattern>/statistic/</pattern>
-        <view-id>/include/statistic/statisticmain.faces</view-id>
+        <view-id>/faces/include/statistic/statisticmain.xhtml</view-id>
     </url-mapping>
     <url-mapping id="freelancermain">
         <pattern>/freelancer/#{freelancerBackingBean.data.currentEntityId}/main</pattern>
-        <view-id>/include/freelancer/freelancermain.faces</view-id>
+        <view-id>/faces/include/freelancer/freelancermain.xhtml</view-id>
         <action onPostback="false">#{freelancerBackingBean.loadEntity}</action>
     </url-mapping>
     <url-mapping id="freelancersimilar">
         <pattern>/freelancer/#{freelancerBackingBean.data.currentEntityId}/similar</pattern>
-        <view-id>/include/freelancer/freelancersimilar.faces</view-id>
+        <view-id>/faces/include/freelancer/freelancersimilar.xhtml</view-id>
         <action onPostback="false">#{freelancerBackingBean.loadEntity}</action>
     </url-mapping>
     <url-mapping id="freelancerhistory">
         <pattern>/freelancer/#{freelancerBackingBean.data.currentEntityId}/history</pattern>
-        <view-id>/include/freelancer/freelancerhistory.faces</view-id>
+        <view-id>/faces/include/freelancer/freelancerhistory.xhtml</view-id>
         <action>#{freelancerBackingBean.loadEntity}</action>
     </url-mapping>
     <url-mapping id="partnermain">
         <pattern>/partner/#{partnerBackingBean.data.currentEntityId}/main</pattern>
-        <view-id>/include/partner/partnermain.faces</view-id>
+        <view-id>/faces/include/partner/partnermain.xhtml</view-id>
         <action onPostback="false">#{partnerBackingBean.loadEntity}</action>
     </url-mapping>
     <url-mapping id="partnerhistory">
         <pattern>/partner/#{partnerBackingBean.data.currentEntityId}/history</pattern>
-        <view-id>/include/partner/partnerhistory.faces</view-id>
+        <view-id>/faces/include/partner/partnerhistory.xhtml</view-id>
         <action>#{partnerBackingBean.loadEntity}</action>
     </url-mapping>
     <url-mapping id="partnerfreelancer">
         <pattern>/partner/#{partnerBackingBean.data.currentEntityId}/freelancer</pattern>
-        <view-id>/include/partner/partnerfreelancer.faces</view-id>
+        <view-id>/faces/include/partner/partnerfreelancer.xhtml</view-id>
         <action>#{partnerBackingBean.loadEntity}</action>
     </url-mapping>
     <url-mapping id="partnerproject">
         <pattern>/partner/#{partnerBackingBean.data.currentEntityId}/projects</pattern>
-        <view-id>/include/partner/partnerprojects.faces</view-id>
+        <view-id>/faces/include/partner/partnerprojects.xhtml</view-id>
         <action>#{partnerBackingBean.loadEntity}</action>
     </url-mapping>
     <url-mapping id="customermain">
         <pattern>/customer/#{customerBackingBean.data.currentEntityId}/main</pattern>
-        <view-id>/include/customer/customermain.faces</view-id>
+        <view-id>/faces/include/customer/customermain.xhtml</view-id>
         <action onPostback="false">#{customerBackingBean.loadEntity}</action>
     </url-mapping>
     <url-mapping id="customerhistory">
         <pattern>/customer/#{customerBackingBean.data.currentEntityId}/history</pattern>
-        <view-id>/include/customer/customerhistory.faces</view-id>
+        <view-id>/faces/include/customer/customerhistory.xhtml</view-id>
         <action>#{customerBackingBean.loadEntity}</action>
     </url-mapping>
     <url-mapping id="customerproject">
         <pattern>/customer/#{customerBackingBean.data.currentEntityId}/projects</pattern>
-        <view-id>/include/customer/customerprojects.faces</view-id>
+        <view-id>/faces/include/customer/customerprojects.xhtml</view-id>
         <action>#{customerBackingBean.loadEntity}</action>
     </url-mapping>
     <url-mapping id="projectmain">
         <pattern>
             /project/#{projectBackingBean.data.currentType}/#{projectBackingBean.data.currentTypeId}/#{projectBackingBean.data.currentEntityId}/main
         </pattern>
-        <view-id>/include/project/projectmain.faces</view-id>
+        <view-id>/faces/include/project/projectmain.xhtml</view-id>
         <action onPostback="false">#{projectBackingBean.loadEntity}</action>
     </url-mapping>
     <url-mapping id="projectsimilar">
         <pattern>
             /project/#{projectBackingBean.data.currentType}/#{projectBackingBean.data.currentTypeId}/#{projectBackingBean.data.currentEntityId}/similar
         </pattern>
-        <view-id>/include/project/projectsimilar.faces</view-id>
+        <view-id>/faces/include/project/projectsimilar.xhtml</view-id>
         <action onPostback="false">#{projectBackingBean.loadEntity}</action>
     </url-mapping>
     <url-mapping id="tagoverview">
         <pattern>/tags/#{tagsBackingBean.data.currentTagId}/overview</pattern>
-        <view-id>/include/tags/tagsmain.faces</view-id>
+        <view-id>/faces/include/tags/tagsmain.xhtml</view-id>
         <action>#{tagsBackingBean.load}</action>
     </url-mapping>
     <url-mapping id="tagoverview_sortname1">
         <pattern>/tags/#{tagsBackingBean.data.currentTagId}/sortedbyname1</pattern>
-        <view-id>/include/tags/tagsmain.faces</view-id>
+        <view-id>/faces/include/tags/tagsmain.xhtml</view-id>
         <action>#{tagsBackingBean.loadAndSortByName1}</action>
     </url-mapping>
     <url-mapping id="tagoverview_sortname2">
         <pattern>/tags/#{tagsBackingBean.data.currentTagId}/sortedbyname2</pattern>
-        <view-id>/include/tags/tagsmain.faces</view-id>
+        <view-id>/faces/include/tags/tagsmain.xhtml</view-id>
         <action>#{tagsBackingBean.loadAndSortByName2}</action>
     </url-mapping>
     <url-mapping id="tagoverview_sortcode">
         <pattern>/tags/#{tagsBackingBean.data.currentTagId}/sortedbycode</pattern>
-        <view-id>/include/tags/tagsmain.faces</view-id>
+        <view-id>/faces/include/tags/tagsmain.xhtml</view-id>
         <action>#{tagsBackingBean.loadAndSortByCode}</action>
     </url-mapping>
     <url-mapping id="tagoverview_sortavailability">
         <pattern>/tags/#{tagsBackingBean.data.currentTagId}/sortedbyavailability</pattern>
-        <view-id>/include/tags/tagsmain.faces</view-id>
+        <view-id>/faces/include/tags/tagsmain.xhtml</view-id>
         <action>#{tagsBackingBean.loadAndSortByAvailability}</action>
     </url-mapping>
     <url-mapping id="tagoverview_sortsallary">
         <pattern>/tags/#{tagsBackingBean.data.currentTagId}/sortedbysallary</pattern>
-        <view-id>/include/tags/tagsmain.faces</view-id>
+        <view-id>/faces/include/tags/tagsmain.xhtml</view-id>
         <action>#{tagsBackingBean.loadAndSortBySallary}</action>
     </url-mapping>
     <url-mapping id="tagoverview_sortplz">
         <pattern>/tags/#{tagsBackingBean.data.currentTagId}/sortedbyplz</pattern>
-        <view-id>/include/tags/tagsmain.faces</view-id>
+        <view-id>/faces/include/tags/tagsmain.xhtml</view-id>
         <action>#{tagsBackingBean.loadAndSortByPlz}</action>
     </url-mapping>
     <url-mapping id="tagoverview_sortlastcontact">
         <pattern>/tags/#{tagsBackingBean.data.currentTagId}/sortedbylastcontact</pattern>
-        <view-id>/include/tags/tagsmain.faces</view-id>
+        <view-id>/faces/include/tags/tagsmain.xhtml</view-id>
         <action>#{tagsBackingBean.loadAndSortByLastContact}</action>
     </url-mapping>
     <url-mapping id="tagexcellist">
@@ -132,11 +132,11 @@
     </url-mapping>
     <url-mapping id="alltags">
         <pattern>/alltags/overview</pattern>
-        <view-id>/include/tags/tagsoverview.faces</view-id>
+        <view-id>/faces/include/tags/tagsoverview.xhtml</view-id>
     </url-mapping>
     <url-mapping id="tagsearch">
         <pattern>/tags/#{tagsBackingBean.data.currentTagId}/search</pattern>
-        <view-id>/include/tags/tagsmain.faces</view-id>
+        <view-id>/faces/include/tags/tagsmain.xhtml</view-id>
         <action>#{tagsBackingBean.load}</action>
     </url-mapping>
 </pretty-config>

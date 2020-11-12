@@ -19,10 +19,6 @@
         <param-value>false</param-value>
     </context-param>
     <context-param>
-        <param-name>facelets.BUILD_BEFORE_RESTORE</param-name>
-        <param-value>true</param-value>
-    </context-param>
-    <context-param>
         <param-name>mogwaicomponents.disable_guid_check</param-name>
         <param-value>true</param-value>
     </context-param>
@@ -58,6 +54,10 @@
         <param-name>javax.faces.FACELETS_BUFFER_SIZE</param-name>
         <param-value>500000</param-value>
     </context-param>
+    <context-param>
+        <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>
+        <param-value>com.sun.facelets.FaceletViewHandler</param-value>
+    </context-param>
 
     <listener>
         <listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>
@@ -88,7 +88,7 @@
 
     <servlet-mapping>
         <servlet-name>FacesServlet</servlet-name>
-        <url-pattern>*.faces</url-pattern>
+        <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
