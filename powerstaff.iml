@@ -140,9 +140,9 @@
     <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml-schemas:4.1.2" level="project" />
     <orderEntry type="library" name="Maven: com.ocpsoft:prettyfaces-jsf12:3.3.3" level="project" />
     <orderEntry type="library" name="Maven: opensymphony:quartz-all:1.6.0" level="project" />
-    <orderEntry type="library" name="Maven: org.richfaces.framework:richfaces-api:3.1.6.GA" level="project" />
-    <orderEntry type="library" name="Maven: org.richfaces.framework:richfaces-impl:3.1.6.GA" level="project" />
-    <orderEntry type="library" name="Maven: org.richfaces.ui:richfaces-ui:3.1.6.GA" level="project" />
+    <orderEntry type="library" name="Maven: org.richfaces.framework:richfaces-api:3.3.3.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.richfaces.framework:richfaces-impl:3.3.3.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.richfaces.ui:richfaces-ui:3.3.3.Final" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-log4j12:1.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:2.0.3" level="project" />
