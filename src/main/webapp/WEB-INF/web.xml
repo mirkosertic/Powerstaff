@@ -19,6 +19,10 @@
         <param-value>false</param-value>
     </context-param>
     <context-param>
+        <param-name>facelets.BUILD_BEFORE_RESTORE</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
         <param-name>mogwaicomponents.disable_guid_check</param-name>
         <param-value>true</param-value>
     </context-param>
