@@ -98,7 +98,7 @@
     <orderEntry type="library" name="Maven: jboss:jboss-serialization:1.0.3.GA" level="project" />
     <orderEntry type="library" name="Maven: org.apache.pdfbox:jempbox:1.8.16" level="project" />
     <orderEntry type="library" name="Maven: jgroups:jgroups:2.9.0.GA" level="project" />
-    <orderEntry type="library" name="Maven: com.sun.facelets:jsf-facelets:1.1.13" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.facelets:jsf-facelets:1.1.14" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet:jstl:1.1.2" level="project" />
     <orderEntry type="library" name="Maven: javax.transaction:jta:1.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />

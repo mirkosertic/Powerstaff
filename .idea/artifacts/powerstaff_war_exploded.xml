@@ -60,7 +60,7 @@
           <element id="library" level="project" name="Maven: jboss:jboss-serialization:1.0.3.GA" />
           <element id="library" level="project" name="Maven: org.apache.pdfbox:jempbox:1.8.16" />
           <element id="library" level="project" name="Maven: jgroups:jgroups:2.9.0.GA" />
-          <element id="library" level="project" name="Maven: com.sun.facelets:jsf-facelets:1.1.13" />
+          <element id="library" level="project" name="Maven: com.sun.facelets:jsf-facelets:1.1.14" />
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.1.2" />
           <element id="library" level="project" name="Maven: javax.transaction:jta:1.1" />
           <element id="library" level="project" name="Maven: log4j:log4j:1.2.14" />
