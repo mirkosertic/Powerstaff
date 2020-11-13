@@ -233,7 +233,7 @@ public class WrongDataServiceImpl implements
                     theFreelancerForNewsletterWriter.print(";");
                     theFreelancerForNewsletterWriter.print(saveString(theMail));
                     theFreelancerForNewsletterWriter.print(";");
-                    theFreelancerForNewsletterWriter.print(saveString(theFreelancer.getKreditorNeu()));
+                    theFreelancerForNewsletterWriter.print(saveString(theFreelancer.getKreditorNr()));
                     theFreelancerForNewsletterWriter.print(";");
                     theFreelancerForNewsletterWriter.print(saveString(theAvailable));
                     theFreelancerForNewsletterWriter.print(";");
