@@ -18,7 +18,7 @@
         <oauth.version>20100601</oauth.version>
         <spring.version>3.0.5.RELEASE</spring.version>
         <poi.version>4.1.2</poi.version>
-        <richfaces.version>3.3.3.Final</richfaces.version>
+        <richfaces.version>3.3.4.Final</richfaces.version>
         <slf4j.version>1.6.1</slf4j.version>
         <bouncycastle.version>1.46</bouncycastle.version>
         <jackson.version>2.11.3</jackson.version>
