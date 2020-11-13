@@ -335,12 +335,4 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
     public void setDatenschutz(final boolean datenschutz) {
         this.datenschutz = datenschutz;
     }
-
-    public String getKreditorNeu() {
-        return kreditorNeu;
-    }
-
-    public void setKreditorNeu(final String kreditorNeu) {
-        this.kreditorNeu = kreditorNeu;
-    }
 }
