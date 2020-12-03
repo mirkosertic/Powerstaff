@@ -98,7 +98,6 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
 
     private String einsatzdetails;
     private boolean datenschutz;
-    private String kreditorNeu;
 
     public Freelancer() {
         tags = new HashSet<>();
@@ -335,4 +334,6 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
     public void setDatenschutz(final boolean datenschutz) {
         this.datenschutz = datenschutz;
     }
+
+
 }
