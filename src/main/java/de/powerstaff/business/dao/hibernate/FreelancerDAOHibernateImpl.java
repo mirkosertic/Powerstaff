@@ -42,7 +42,7 @@ public class FreelancerDAOHibernateImpl extends
             "name2", "company", "street", "country", "plz", "city", "comments",
             "workplace", "sallaryLong", "code", "contactPerson", "contactType",
             "contactReason", "skills", "gulpID", "code",
-            "kreditorNeu", "titel", "nationalitaet"};
+            "kreditorNr", "titel", "nationalitaet"};
 
     private static final String[] ORDERBYPROPERTIES = new String[]{"name1",
             "name2"};
