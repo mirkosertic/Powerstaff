@@ -103,7 +103,7 @@ public class WrongDataServiceImpl implements
         final File theFreelancerMitHomepageOhneKontakt = new File(aReportFile,
                 "Freiberufler_mit_Homepage_ohne_Kontakt.csv");
         final File theFreelancerForNewsletter = new File(aReportFile,
-                "Freiberufler_fär_Newsletter.csv");
+                "Freiberufler_für_Newsletter.csv");
         final File theProfileOhneDB = new File(aReportFile,
                 "Profile_ohne_Datenbankeintrag.csv");
         final File theProfileDoppelterCode = new File(aReportFile,
