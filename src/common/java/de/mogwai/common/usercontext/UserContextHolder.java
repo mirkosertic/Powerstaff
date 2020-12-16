@@ -72,7 +72,7 @@ public final class UserContextHolder {
     }
 
     /**
-     * Läschen der aktuellen Anmeldeinformationen.
+     * Löschen der aktuellen Anmeldeinformationen.
      */
     public static void clean() {
         userContext.set(null);

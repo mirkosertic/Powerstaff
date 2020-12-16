@@ -101,14 +101,14 @@ public abstract class NavigatingBackingBean<T extends Entity, V extends Navigati
 
         } catch (ReferenceExistsException e) {
 
-            LOGGER.error("Fehler beim Läschen", e);
+            LOGGER.error("Fehler beim Löschen", e);
             JSFMessageUtils.addGlobalErrorMessage(MSG_ESEXISTIERENABHAENGIGEDATEN);
 
         } catch (OptimisticLockException e) {
             JSFMessageUtils.addGlobalErrorMessage(MSG_CONCURRENTMODIFICATION);
         } catch (Exception e) {
 
-            LOGGER.error("Fehler beim Läschen", e);
+            LOGGER.error("Fehler beim Löschen", e);
             JSFMessageUtils.addGlobalErrorMessage(MSG_FEHLERBEIMLOESCHEN);
         }
         return null;

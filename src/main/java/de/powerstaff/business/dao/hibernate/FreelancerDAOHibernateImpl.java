@@ -130,7 +130,7 @@ public class FreelancerDAOHibernateImpl extends
     @Override
     public void delete(final Object aEntity) throws ReferenceExistsException, OptimisticLockException {
 
-        // Freiberufler därfen nicht geläscht werden, wenn sie bereits einem Projekt zugewiesen sind.
+        // Freiberufler dürfen nicht gelöscht werden, wenn sie bereits einem Projekt zugewiesen sind.
         final boolean exists = getHibernateTemplate().execute(aSession -> {
             final Freelancer theFreelancer = (Freelancer) aEntity;
             final Criteria theCriteria = aSession.createCriteria(ProjectPosition.class);
