@@ -135,7 +135,7 @@ public class WrongDataServiceImpl implements
                     .println("Kodierung;Name;Vorname;Mail");
             theFreelancerMitHomepageOhneKontaktWriter
                     .println("Kodierung;Name;Vorname;Homepage");
-            theFreelancerForNewsletterWriter.println("Kürzel;Name;Vorname;Titel;eMail;Eintrag in Kreditor;Verfügbarkeit;Homepage;letzter Kontakt;Xing;Gulp");
+            theFreelancerForNewsletterWriter.println("Kürzel;Name;Vorname;Titel;eMail;Eintrag in Kreditor;Eintrag in Debitor;Verfügbarkeit;Homepage;letzter Kontakt;Xing;Gulp;Datenschutz");
             theProfileOhneDBWriter.println("Kodierung;Dateinamen");
             theProfileDoppelterCodeWriter.println("Kodierung;Dateinamen");
 
@@ -235,6 +235,8 @@ public class WrongDataServiceImpl implements
                     theFreelancerForNewsletterWriter.print(";");
                     theFreelancerForNewsletterWriter.print(saveString(theFreelancer.getKreditorNr()));
                     theFreelancerForNewsletterWriter.print(";");
+                    theFreelancerForNewsletterWriter.print(saveString(theFreelancer.getDebitorNr()));
+                    theFreelancerForNewsletterWriter.print(";");
                     theFreelancerForNewsletterWriter.print(saveString(theAvailable));
                     theFreelancerForNewsletterWriter.print(";");
                     theFreelancerForNewsletterWriter.print(saveString(theWeb));
@@ -244,6 +246,8 @@ public class WrongDataServiceImpl implements
                     theFreelancerForNewsletterWriter.print(saveString(theXing));
                     theFreelancerForNewsletterWriter.print(";");
                     theFreelancerForNewsletterWriter.print(saveString(theGulp));
+                    theFreelancerForNewsletterWriter.print(";");
+                    theFreelancerForNewsletterWriter.print(saveString(theFreelancer.isDatenschutz() ? "ja" : "nein"));
                     theFreelancerForNewsletterWriter.println();
                 }
 
