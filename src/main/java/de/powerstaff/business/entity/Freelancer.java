@@ -98,6 +98,7 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
 
     private String einsatzdetails;
     private boolean datenschutz;
+    private Long sallaryRemote;
 
     public Freelancer() {
         tags = new HashSet<>();
@@ -335,5 +336,11 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
         this.datenschutz = datenschutz;
     }
 
+    public Long getSallaryRemote() {
+        return sallaryRemote;
+    }
 
+    public void setSallaryRemote(final Long sallaryRemote) {
+        this.sallaryRemote = sallaryRemote;
+    }
 }

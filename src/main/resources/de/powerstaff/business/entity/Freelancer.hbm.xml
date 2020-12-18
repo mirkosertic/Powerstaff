@@ -77,6 +77,6 @@
 
         <property name="debitorNr"/>
         <property name="kreditorNr"/>
-
+        <property name="sallaryRemote"/>
     </class>
 </hibernate-mapping>

@@ -427,7 +427,7 @@
             <b:titledBox label="Verfügbarkeit">
 
                 <b:gridBagLayout cols="2,100,2,*,2,20,2"
-                                 rows="2,p,2,p,2,p,2,p,2,p,2,p,2,p,2">
+                                 rows="2,p,2,p,2,p,2,p,2,p,2,p,2,p,2,p,2">
 
                     <b:cell x="2" y="2">
                         <b:label id="verfuegbarkeit_label" label="Verfügbarkeit"/>
@@ -452,23 +452,32 @@
                     </b:cell>
 
                     <b:cell x="2" y="6">
-                        <b:label id="tagessatz_label" label="Tagessatz"/>
+                        <b:label id="stundensatz_r_label" label="Stds. Remote"/>
                     </b:cell>
                     <b:cell x="4" y="6" width="3">
+                        <b:numberinputfield
+                                value="#{freelancerBackingBean.data.entity.sallaryRemote}"
+                                id="stundensatz_r" labelComponentId="stundensatz_r_label"/>
+                    </b:cell>
+
+                    <b:cell x="2" y="8">
+                        <b:label id="tagessatz_label" label="Tagessatz"/>
+                    </b:cell>
+                    <b:cell x="4" y="8" width="3">
                         <b:numberinputfield
                                 value="#{freelancerBackingBean.data.entity.sallaryPerDayLong}"
                                 id="tagessatz" labelComponentId="tagessatz_label"/>
                     </b:cell>
 
-                    <b:cell x="2" y="8">
+                    <b:cell x="2" y="10">
                         <b:label id="partner_label" label="Ges.P."/>
                     </b:cell>
-                    <b:cell x="4" y="8">
+                    <b:cell x="4" y="10">
                         <h:outputText value="#{freelancerBackingBean.data.entity.partner}">
                             <f:converter converterId="personConverter"/>
                         </h:outputText>
                     </b:cell>
-                    <b:cell x="6" y="8">
+                    <b:cell x="6" y="10">
                         <f:subview id="partnernav" rendered="#{!empty freelancerBackingBean.data.entity.partner}">
                             <pretty:link mappingId="partnermain" title="Springe zur Partner - Ansicht" id="partnerlink">
                                 <f:param value="#{freelancerBackingBean.data.entity.partner.id}"/>
@@ -477,28 +486,28 @@
                         </f:subview>
                     </b:cell>
 
-                    <b:cell x="2" y="10">
+                    <b:cell x="2" y="12">
                         <b:label id="stdsatz_p_label" label="Stds. verhandelt"/>
                     </b:cell>
-                    <b:cell x="4" y="10" width="3">
+                    <b:cell x="4" y="12" width="3">
                         <b:numberinputfield
                                 value="#{freelancerBackingBean.data.entity.sallaryPartnerLong}"
                                 id="stdsatz_p" labelComponentId="stdsatz_p_label"/>
                     </b:cell>
 
-                    <b:cell x="2" y="12">
+                    <b:cell x="2" y="14">
                         <b:label id="tgssatz_p_label" label="Tgs. Partner"/>
                     </b:cell>
-                    <b:cell x="4" y="12" width="3">
+                    <b:cell x="4" y="14" width="3">
                         <b:numberinputfield
                                 value="#{freelancerBackingBean.data.entity.sallaryPartnerPerDayLong}"
                                 id="tgssatz_p" labelComponentId="tgssatz_p_label"/>
                     </b:cell>
 
-                    <b:cell x="2" y="14">
+                    <b:cell x="2" y="16">
                         <b:label id="typ_label" label="Typ"/>
                     </b:cell>
-                    <b:cell x="4" y="14" width="3">
+                    <b:cell x="4" y="16" width="3">
                         <ui:repeat value="#{freelancerBackingBean.data.tagSelection}" var="tagSelection">
                             <label style="display: block">
                                 <ui:fragment rendered="#{tagSelection.selected}">
