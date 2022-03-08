@@ -17,7 +17,7 @@
         <myfaces.version>1.2.12</myfaces.version>
         <oauth.version>20100601</oauth.version>
         <spring.version>3.0.5.RELEASE</spring.version>
-        <poi.version>4.1.2</poi.version>
+        <poi.version>5.2.1</poi.version>
         <richfaces.version>3.3.3.Final</richfaces.version>
         <slf4j.version>1.6.1</slf4j.version>
         <bouncycastle.version>1.46</bouncycastle.version>
