@@ -16,7 +16,7 @@
         <lucene.version>3.1.0</lucene.version>
         <myfaces.version>1.2.12</myfaces.version>
         <oauth.version>20100601</oauth.version>
-        <spring.version>3.0.5.RELEASE</spring.version>
+        <spring.version>5.3.19</spring.version>
         <poi.version>4.1.2</poi.version>
         <richfaces.version>3.3.3.Final</richfaces.version>
         <slf4j.version>1.6.1</slf4j.version>
