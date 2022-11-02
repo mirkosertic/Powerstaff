@@ -78,5 +78,8 @@
         <property name="debitorNr"/>
         <property name="kreditorNr"/>
         <property name="sallaryRemote"/>
+
+        <property name="education"/>
+        <property name="experienceSince"/>
     </class>
 </hibernate-mapping>

@@ -100,6 +100,9 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
     private boolean datenschutz;
     private Long sallaryRemote;
 
+    private String education;
+    private String experienceSince;
+
     public Freelancer() {
         tags = new HashSet<>();
     }
@@ -342,5 +345,21 @@ public class Freelancer extends Person<FreelancerContact, FreelancerHistory> {
 
     public void setSallaryRemote(final Long sallaryRemote) {
         this.sallaryRemote = sallaryRemote;
+    }
+
+    public String getEducation() {
+        return education;
+    }
+
+    public void setEducation(final String education) {
+        this.education = education;
+    }
+
+    public String getExperienceSince() {
+        return experienceSince;
+    }
+
+    public void setExperienceSince(final String experienceSince) {
+        this.experienceSince = experienceSince;
     }
 }
