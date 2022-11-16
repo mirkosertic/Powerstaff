@@ -19,6 +19,8 @@ package de.powerstaff.business.service.impl.reader.msword;
 
 import de.powerstaff.business.service.impl.reader.AbstractDocumentReader;
 import de.powerstaff.business.service.impl.reader.ReadResult;
+import org.apache.poi.hwpf.OldWordFileFormatException;
+import org.apache.poi.hwpf.extractor.Word6Extractor;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 
 import java.io.File;
@@ -31,11 +33,18 @@ import java.io.FileInputStream;
  */
 public class DOCWordDocumentReader extends AbstractDocumentReader {
 
-    public ReadResult getContent(File inputFile) throws Exception {
+    public ReadResult getContent(final File inputFile) throws Exception {
 
-        WordExtractor theExtractor = new WordExtractor(new FileInputStream(inputFile));
-        String theText = theExtractor.getText();
-        theText = theText.replace('|', ' ');
-        return new ReadResult(toFlatString(theText));
+        try {
+            final WordExtractor theExtractor = new WordExtractor(new FileInputStream(inputFile));
+            String theText = theExtractor.getText();
+            theText = theText.replace('|', ' ');
+            return new ReadResult(toFlatString(theText));
+        } catch (final OldWordFileFormatException e) {
+            final Word6Extractor theExtractor = new Word6Extractor(new FileInputStream(inputFile));
+            String theText = theExtractor.getText();
+            theText = theText.replace('|', ' ');
+            return new ReadResult(toFlatString(theText));
+        }
     }
 }
