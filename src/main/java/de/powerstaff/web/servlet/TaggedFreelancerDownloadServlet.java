@@ -78,7 +78,10 @@ public class TaggedFreelancerDownloadServlet implements HttpRequestHandler {
 
             for (Freelancer theFreelancer : freelancerService.findFreelancerByTagIDs(theTagsIDs)) {
 
-                String theSkills = ExcelUtils.saveObject(theFreelancer.getSkills().replace("\f", "").replace("\n", "").replace("\t", ""));
+                String theSkills = "";
+                if (!StringUtils.isEmpty(theFreelancer.getSkills())) {
+                    theSkills = ExcelUtils.saveObject(theFreelancer.getSkills().replace("\f", "").replace("\n", "").replace("\t", ""));
+                }
 
                 StringBuilder theTagList = new StringBuilder();
                 for (FreelancerToTag theTagAssignment : theFreelancer.getTags()) {
