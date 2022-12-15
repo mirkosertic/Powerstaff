@@ -17,6 +17,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TaggedFreelancerDownloadServlet implements HttpRequestHandler {
 
@@ -30,6 +32,18 @@ public class TaggedFreelancerDownloadServlet implements HttpRequestHandler {
     public void handleRequest(HttpServletRequest aRequest, HttpServletResponse aResponse) throws ServletException, IOException {
 
         String theTagID = (String) aRequest.getAttribute("tagid");
+        if (StringUtils.isEmpty(theTagID)) {
+            final String forwardPath = (String) aRequest.getAttribute("javax.servlet.forward.servlet_path");
+            if (!StringUtils.isEmpty(forwardPath)) {
+                final Pattern p = Pattern.compile("/tags/(?<tagid>.*)/excel");
+                final Matcher m = p.matcher(forwardPath);
+                if (m.matches()) {
+                    theTagID = m.group("tagid");
+                }
+            } else {
+                theTagID = null;
+            }
+        }
 
         HSSFWorkbook theWorkbook = new HSSFWorkbook();
         HSSFSheet theWorkSheet = theWorkbook.createSheet("GetaggteFreiberufler");
@@ -52,39 +66,41 @@ public class TaggedFreelancerDownloadServlet implements HttpRequestHandler {
         addCellToRow(theRow, 9, "Skills");
         addCellToRow(theRow, 10, "Tags");
 
-        Set<Long> theTagsIDs = new HashSet();
-        try {
-            for (String theID : StringUtils.split(URLDecoder.decode(theTagID, aRequest.getCharacterEncoding()), ',')) {
-                theTagsIDs.add(Long.valueOf(theID));
-            }
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
-
-        for (Freelancer theFreelancer : freelancerService.findFreelancerByTagIDs(theTagsIDs)) {
-
-            String theSkills  = ExcelUtils.saveObject(theFreelancer.getSkills().replace("\f", "").replace("\n", "").replace("\t", ""));
-
-            StringBuilder theTagList = new StringBuilder();
-            for (FreelancerToTag theTagAssignment : theFreelancer.getTags()) {
-                if (theTagList.length() > 0) {
-                    theTagList.append(" ");
+        if (!StringUtils.isEmpty(theTagID)) {
+            Set<Long> theTagsIDs = new HashSet();
+            try {
+                for (String theID : StringUtils.split(URLDecoder.decode(theTagID, "utf-8"), ',')) {
+                    theTagsIDs.add(Long.valueOf(theID));
                 }
-                theTagList.append(theTagAssignment.getTag().getName());
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
             }
 
-            HSSFRow theFreelancerRow = theWorkSheet.createRow(aRow++);
-            addCellToRow(theFreelancerRow, 0, ExcelUtils.saveObject(theFreelancer.getTitel()));
-            addCellToRow(theFreelancerRow, 1, ExcelUtils.saveObject(theFreelancer.getName1()));
-            addCellToRow(theFreelancerRow, 2, ExcelUtils.saveObject(theFreelancer.getName2()));
-            addCellToRow(theFreelancerRow, 3, ExcelUtils.saveObject(theFreelancer.getFirstContactEMail())); // eMail
-            addCellToRow(theFreelancerRow, 4, ExcelUtils.saveObject(theFreelancer.getCode()));
-            addCellToRow(theFreelancerRow, 5, ExcelUtils.saveObject(theFreelancer.getAvailabilityAsDate()), theDateStyle);
-            addCellToRow(theFreelancerRow, 6, ExcelUtils.saveObject(theFreelancer.getSallaryLong()));
-            addCellToRow(theFreelancerRow, 7, ExcelUtils.saveObject(theFreelancer.getPlz()));
-            addCellToRow(theFreelancerRow, 8, ExcelUtils.saveObject(theFreelancer.getLastContactDate()), theDateStyle);
-            addCellToRow(theFreelancerRow, 9, ExcelUtils.saveObject(theSkills));
-            addCellToRow(theFreelancerRow, 10, theTagList.toString());
+            for (Freelancer theFreelancer : freelancerService.findFreelancerByTagIDs(theTagsIDs)) {
+
+                String theSkills = ExcelUtils.saveObject(theFreelancer.getSkills().replace("\f", "").replace("\n", "").replace("\t", ""));
+
+                StringBuilder theTagList = new StringBuilder();
+                for (FreelancerToTag theTagAssignment : theFreelancer.getTags()) {
+                    if (theTagList.length() > 0) {
+                        theTagList.append(" ");
+                    }
+                    theTagList.append(theTagAssignment.getTag().getName());
+                }
+
+                HSSFRow theFreelancerRow = theWorkSheet.createRow(aRow++);
+                addCellToRow(theFreelancerRow, 0, ExcelUtils.saveObject(theFreelancer.getTitel()));
+                addCellToRow(theFreelancerRow, 1, ExcelUtils.saveObject(theFreelancer.getName1()));
+                addCellToRow(theFreelancerRow, 2, ExcelUtils.saveObject(theFreelancer.getName2()));
+                addCellToRow(theFreelancerRow, 3, ExcelUtils.saveObject(theFreelancer.getFirstContactEMail())); // eMail
+                addCellToRow(theFreelancerRow, 4, ExcelUtils.saveObject(theFreelancer.getCode()));
+                addCellToRow(theFreelancerRow, 5, ExcelUtils.saveObject(theFreelancer.getAvailabilityAsDate()), theDateStyle);
+                addCellToRow(theFreelancerRow, 6, ExcelUtils.saveObject(theFreelancer.getSallaryLong()));
+                addCellToRow(theFreelancerRow, 7, ExcelUtils.saveObject(theFreelancer.getPlz()));
+                addCellToRow(theFreelancerRow, 8, ExcelUtils.saveObject(theFreelancer.getLastContactDate()), theDateStyle);
+                addCellToRow(theFreelancerRow, 9, ExcelUtils.saveObject(theSkills));
+                addCellToRow(theFreelancerRow, 10, theTagList.toString());
+            }
         }
 
         aResponse.setHeader("Content-disposition", "attachment; filename=GetaggteFreiberufler.xls");
