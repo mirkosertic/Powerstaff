@@ -523,7 +523,7 @@
         <b:cell x="1" y="3">
             <b:titledBox label="Kodierung">
 
-                <b:gridBagLayout cols="2,100,2,*,2" rows="2,p,2,p,2,p,2,p,2,p,2,p,2,p,2,110,2">
+                <b:gridBagLayout cols="2,100,2,*,2" rows="2,p,2,p,2,p,2,p,2,p,2,p,2,p,2,p,2,p,2,110,2">
 
                     <b:cell x="2" y="2">
                         <b:label id="kodierung_label" label="Kodierung"/>
@@ -546,9 +546,27 @@
                     </b:cell>
 
                     <b:cell x="2" y="4">
-                        <b:label id="schwerpunkte_label" label="Schwerpunkte"/>
+                        <b:label id="debitor_label" label="Debitor" />
                     </b:cell>
                     <b:cell x="4" y="4">
+                        <b:inputfield
+                                value="#{freelancerBackingBean.data.entity.debitorNr}"
+                                id="debitor" labelComponentId="debitor_label" />
+                    </b:cell>
+
+                    <b:cell x="2" y="6">
+                        <b:label id="kreditor_label" label="Kreditor" />
+                    </b:cell>
+                    <b:cell x="4" y="6">
+                        <b:inputfield
+                                value="#{freelancerBackingBean.data.entity.kreditorNr}"
+                                id="kreditor" labelComponentId="kreditor_label" />
+                    </b:cell>
+
+                    <b:cell x="2" y="8">
+                        <b:label id="schwerpunkte_label" label="Schwerpunkte"/>
+                    </b:cell>
+                    <b:cell x="4" y="8">
                         <a4j:outputPanel id="tags_schwerpunkte">
                             <div class="tags">
                                 <a4j:repeat value="#{freelancerBackingBean.data.tagsSchwerpunkte}" var="freelancertotag">
@@ -579,10 +597,10 @@
                         </a4j:outputPanel>
                     </b:cell>
 
-                    <b:cell x="2" y="6">
+                    <b:cell x="2" y="10">
                         <b:label id="funktion_label" label="Funktionen"/>
                     </b:cell>
-                    <b:cell x="4" y="6">
+                    <b:cell x="4" y="10">
                         <a4j:outputPanel id="tags_funktionen" ajaxRendered="true">
                             <div class="tags">
                                 <a4j:repeat value="#{freelancerBackingBean.data.tagsFunktionen}" var="freelancertotag">
@@ -613,10 +631,10 @@
                         </a4j:outputPanel>
                     </b:cell>
 
-                    <b:cell x="2" y="8">
+                    <b:cell x="2" y="12">
                         <b:label id="Einsatzorttags_label" label="Einsatzorte"/>
                     </b:cell>
-                    <b:cell x="4" y="8">
+                    <b:cell x="4" y="12">
                         <a4j:outputPanel id="tags_einsatzorte" ajaxRendered="true">
                             <div class="tags">
                                 <a4j:repeat value="#{freelancerBackingBean.data.tagsEinsatzorte}" var="freelancertotag">
@@ -647,10 +665,10 @@
                         </a4j:outputPanel>
                     </b:cell>
 
-                    <b:cell x="2" y="10">
+                    <b:cell x="2" y="14">
                         <b:label id="bemerkungentags_label" label="Bemerkungen"/>
                     </b:cell>
-                    <b:cell x="4" y="10">
+                    <b:cell x="4" y="14">
                         <a4j:outputPanel id="tags_bemerkungen" ajaxRendered="true">
                             <div class="tags">
                                 <a4j:repeat value="#{freelancerBackingBean.data.tagsBemerkungen}" var="freelancertotag">
@@ -681,25 +699,25 @@
                         </a4j:outputPanel>
                     </b:cell>
 
-                    <b:cell x="4" y="12">
+                    <b:cell x="4" y="16">
                         <b:checkbox
                                 value="#{freelancerBackingBean.data.entity.datenschutz}"
                                 id="datenschutz" label="Datenschutz"/>
                     </b:cell>
 
-                    <b:cell x="2" y="14">
+                    <b:cell x="2" y="18">
                         <b:label id="gulpid_label" label="Gulp ID"/>
                     </b:cell>
-                    <b:cell x="4" y="14">
+                    <b:cell x="4" y="18">
                         <b:inputfield
                                 value="#{freelancerBackingBean.data.entity.gulpID}"
                                 id="gulpid" labelComponentId="gulpid_label"/>
                     </b:cell>
 
-                    <b:cell x="2" y="16">
+                    <b:cell x="2" y="20">
                         <b:label id="skills_label" label="Skills"/>
                     </b:cell>
-                    <b:cell x="4" y="16">
+                    <b:cell x="4" y="20">
                         <b:textarea
                                 value="#{freelancerBackingBean.data.entity.skills}"
                                 id="skills" labelComponentId="skills_label"/>
